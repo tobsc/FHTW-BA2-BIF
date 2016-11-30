@@ -1,0 +1,16 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/HwInf/bin
+/HwInf/obj/Debug
+/HwInf/wwwroot/out-tsc
+/HwInf/wwwroot
+/HwInf.Angular/bin
+/HwInf.Angular/node_modules
+/HwInf.Angular/obj/Debug
+/HwInf.Common/bin/Debug
+/HwInf.Common/obj/Debug
+/packages
+/typings

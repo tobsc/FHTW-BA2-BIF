@@ -1,0 +1,16 @@
+* {
+  text-align: center;
+}
+
+.thumbnail {
+  margin-bottom: 10px;
+/*  -webkit-box-shadow: 0 0 2px 0 rgba(0,0,0,0.2);
+  box-shadow: 0 0 2px 0 rgba(0,0,0,0.2);*/
+}
+
+.truncate {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

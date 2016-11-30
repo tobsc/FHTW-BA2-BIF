@@ -1,0 +1,20 @@
+/* You can add global styles to this file, and also import other style files */
+
+
+.gutter-10.row {
+  margin-right: -5px;
+  margin-left: -5px;
+}
+.gutter-10 [class^="col-"], .gutter-10  [class^=" col-"] {
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+.gutter-5.row {
+  margin-right: -2.5px;
+  margin-left: -2.5px;
+}
+.gutter-5 [class^="col-"], .gutter-10  [class^=" col-"] {
+  padding-right: 2.5px;
+  padding-left: 2.5px;
+}
