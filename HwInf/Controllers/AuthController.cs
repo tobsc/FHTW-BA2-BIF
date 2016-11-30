@@ -27,7 +27,7 @@ namespace HwInf.Controllers
             if (LDAPAuthenticator.Authenticate(uid, pass).IsAuthenticated)
             {
                 FormsAuthentication.SetAuthCookie(uid, true);
-                return Ok("Login successful");
+                return Ok(LDAPAuthenticator.Authenticate(uid, pass));
             }
             else
             {

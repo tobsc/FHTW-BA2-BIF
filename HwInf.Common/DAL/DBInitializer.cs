@@ -24,9 +24,9 @@ namespace HwInf.Common.DAL
 
             var dev = new List<DBDevice>
            {
-            new DBDevice { Name = "Lenovo Notebook", Status = 0, InvNum = "a123", Type = type.Single(i => i.Name == "Notebook")},
-            new DBDevice { Name = "Acer PC", Status = 0 , InvNum = "a5123", Type = type.Single(i => i.Name == "PC")},
-            new DBDevice { Name = "Benq Monitor", Status = 0, InvNum = "a6123", Type = type.Single(i => i.Name == "Monitor")}
+            new DBDevice { Name = "Lenovo Notebook", Hersteller = "Lenovo", Status = 0, InvNum = "a123", Type = type.Single(i => i.Name == "Notebook")},
+            new DBDevice { Name = "Acer PC", Hersteller = "Acer", Status = 0 , InvNum = "a5123", Type = type.Single(i => i.Name == "PC")},
+            new DBDevice { Name = "Benq Monitor", Hersteller = "Benq", Status = 0, InvNum = "a6123", Type = type.Single(i => i.Name == "Monitor")}
            };
 
             dev.ForEach(s => context.Devices.Add(s));

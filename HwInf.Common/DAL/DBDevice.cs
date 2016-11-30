@@ -13,11 +13,13 @@ namespace HwInf.Common.DAL
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int DeviceId { get; set; }
-
+        [Required]
         public string Name { get; set; }
 
         public string InvNum { get; set; }
 
+        public string Hersteller { get; set; }
+        [Required]
         public int Status { get; set; }
 
     

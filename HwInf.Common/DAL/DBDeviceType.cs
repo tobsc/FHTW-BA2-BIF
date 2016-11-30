@@ -13,7 +13,7 @@ namespace HwInf.Common.DAL
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int TypeId { get; set; }
-
+        [Required]
         public string Name { get; set; }
     }
 }
