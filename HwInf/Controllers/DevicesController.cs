@@ -162,5 +162,21 @@ namespace HwInf.Controllers
         {
             return db.Devices.Count(e => e.DeviceId == id) > 0;
         }
+
+        // GET: api/Devices
+        [Route("types")]
+        public IEnumerable<string> GetTypes()
+        {
+
+            var devices = db.DeviceTypes;
+
+            var json = devices
+                .Where(i => i.TypeId > 0)
+                .Select(i => i.Name)
+                .ToList(); // execl SQL
+
+            return json;
+        }
     }
+
 }
