@@ -34,7 +34,7 @@ namespace HwInf.Controllers
 
             return json;
         }
-        [Authorize]
+       // [Authorize]
         [Route("filter/{type}/{filters?}")]
         public IEnumerable<DeviceViewModel> GetFilter(string type, string filters = "all")
         {
@@ -118,7 +118,7 @@ namespace HwInf.Controllers
         }
 
         // POST
-        [Authorize]
+        //[Authorize]
         [Route("create")]
         [ResponseType(typeof(DBDevice))]
         public IHttpActionResult PostDevice([FromBody]DeviceViewModel vmdl)
@@ -162,5 +162,21 @@ namespace HwInf.Controllers
         {
             return db.Devices.Count(e => e.DeviceId == id) > 0;
         }
+
+        // GET: api/Devices
+        [Route("types")]
+        public IEnumerable<string> GetTypes()
+        {
+
+            var devices = db.DeviceTypes;
+
+            var json = devices
+                .Where(i => i.TypeId > 0)
+                .Select(i => i.Name)
+                .ToList(); // execl SQL
+
+            return json;
+        }
     }
+
 }
