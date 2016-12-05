@@ -9,7 +9,7 @@ namespace HwInf.Common.DAL
     {
         public HwInfContext() : base("HwInfContext")
         {
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<HwInfContext, Configuration>("HwInfContext"));
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<HwInfContext, Configuration>());
         }
 
         public DbSet<DBDevice> Devices { get; set; }

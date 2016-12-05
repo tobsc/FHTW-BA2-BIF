@@ -16,6 +16,15 @@ namespace HwInf.Common.Migrations
 
         protected override void Seed(HwInf.Common.DAL.HwInfContext context)
         {
+
+            var count = context.Devices.Count();
+
+            if(count > 0)
+            {
+                return;
+            }
+
+
             var type = new List<DBDeviceType>
             {
                 new DBDeviceType { Name = "Notebook" },
