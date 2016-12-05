@@ -41,20 +41,22 @@ namespace HwInf.Controllers
 
             var devices = db.Devices.Include(x => x.Type);
 
-            var json = devices
+            var data = devices
                 .Where(i => i.Type.Name.Contains(type))
                 .Take(10000)
                 .ToList() // execl SQL
                 .Select(i => new DeviceViewModel(i).loadMeta(db)) // Convert to viewmodel
                 .ToList();
 
+            var json = new List<DeviceViewModel>();
+            json = data.ToList();
             if (filters != "all")
             {
-                var parameters = filters.Split(',');
-
+                var parameters = filters.Split('|');
+                json.Clear();
                 foreach (var m in parameters)
                 {
-                    json = json.Where(i => i.DeviceMetaData.Values.Any(v => v.ToLower().Contains(m))).ToList();
+                    json = new List<DeviceViewModel>(json.Union(data.Where(i => i.DeviceMetaData.Values.Any(v => v.ToLower().Contains(m))).ToList()));
                 }
             }
 

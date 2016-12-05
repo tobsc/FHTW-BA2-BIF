@@ -3,7 +3,7 @@ namespace HwInf.Common.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitalCreate : DbMigration
+    public partial class Initial_Create : DbMigration
     {
         public override void Up()
         {
@@ -12,14 +12,14 @@ namespace HwInf.Common.Migrations
                 c => new
                     {
                         MetaId = c.Int(nullable: false, identity: true),
-                        MetaKey = c.String(),
-                        MetaValue = c.String(),
-                        Device_DeviceId = c.Int(),
-                        DeviceType_TypeId = c.Int(),
+                        MetaKey = c.String(nullable: false),
+                        MetaValue = c.String(nullable: false),
+                        Device_DeviceId = c.Int(nullable: false),
+                        DeviceType_TypeId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.MetaId)
-                .ForeignKey("public.Device", t => t.Device_DeviceId)
-                .ForeignKey("public.DeviceType", t => t.DeviceType_TypeId)
+                .ForeignKey("public.Device", t => t.Device_DeviceId, cascadeDelete: true)
+                .ForeignKey("public.DeviceType", t => t.DeviceType_TypeId, cascadeDelete: true)
                 .Index(t => t.Device_DeviceId)
                 .Index(t => t.DeviceType_TypeId);
             
@@ -28,8 +28,9 @@ namespace HwInf.Common.Migrations
                 c => new
                     {
                         DeviceId = c.Int(nullable: false, identity: true),
-                        Name = c.String(),
+                        Name = c.String(nullable: false),
                         InvNum = c.String(),
+                        Hersteller = c.String(),
                         Status = c.Int(nullable: false),
                         Type_TypeId = c.Int(),
                     })
@@ -42,7 +43,7 @@ namespace HwInf.Common.Migrations
                 c => new
                     {
                         TypeId = c.Int(nullable: false, identity: true),
-                        Name = c.String(),
+                        Name = c.String(nullable: false),
                     })
                 .PrimaryKey(t => t.TypeId);
             

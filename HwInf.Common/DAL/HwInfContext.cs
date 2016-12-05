@@ -9,12 +9,13 @@ namespace HwInf.Common.DAL
     {
         public HwInfContext() : base("HwInfContext")
         {
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<HwInfContext, Configuration>("HwInfContext"));
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<HwInfContext, Configuration>());
         }
 
         public DbSet<DBDevice> Devices { get; set; }
         public DbSet<DBDeviceType> DeviceTypes { get; set; }
         public DbSet<DBDeviceMeta> DeviceMeta { get; set; }
+        public DbSet<DBPerson> Persons { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
