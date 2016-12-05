@@ -34,7 +34,7 @@ namespace HwInf.Controllers
 
             return json;
         }
-        [Authorize]
+       // [Authorize]
         [Route("filter/{type}/{filters?}")]
         public IEnumerable<DeviceViewModel> GetFilter(string type, string filters = "all")
         {
@@ -118,7 +118,7 @@ namespace HwInf.Controllers
         }
 
         // POST
-        [Authorize]
+        //[Authorize]
         [Route("create")]
         [ResponseType(typeof(DBDevice))]
         public IHttpActionResult PostDevice([FromBody]DeviceViewModel vmdl)

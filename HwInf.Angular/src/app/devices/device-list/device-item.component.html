@@ -1,17 +1,9 @@
-<div class="thumbnail">
-  <div class="caption">
-    <h4>{{device.getName()}}</h4>
-    <p class="text-muted">
-      {{device.getInvNum()}}<br>
-      {{device.getType()}}
-    </p>
-    <ul class="list-unstyled">
-      <li *ngFor='let attr of device.getAttributes() | keys, let i = index'>
-        <div *ngIf="i<1" class="truncate">
-         {{attr.key}}: {{attr.value}}
-        </div>
-      </li>
-    </ul>
-    <p><a class="btn btn-success" role="button">Ausleihen</a> <a class="btn btn-primary" role="button">Details</a></p>
-  </div>
-</div>
+<span class="label label-success pull-right">Verfügbar</span>
+<span>{{device.getName()}}</span>
+<br>
+<span style="font-size: 0.9em" class="text-muted">
+    <span *ngFor='let attr of device.getAttributes() | keys, let i = index'>
+        {{attr.key}}: {{attr.value}}, 
+    </span>
+</span>
+

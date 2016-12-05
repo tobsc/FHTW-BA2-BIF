@@ -10,6 +10,7 @@
 /HwInf.Angular/bin
 /HwInf.Angular/node_modules
 /HwInf.Angular/obj/Debug
+/HwInf.Angular/.idea/
 /HwInf.Common/bin/Debug
 /HwInf.Common/obj/Debug
 /packages
