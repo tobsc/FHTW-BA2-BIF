@@ -17,16 +17,16 @@ export class DeviceListComponent implements OnInit {
             .subscribe(
                 (data: Device[]) => {
                     this.devices = data;
-                    console.log(data);gi
+                    console.log(data);
                 }
             );
 
         this.deviceService.getDevice(1)
             .subscribe(
-                (data: Device) => {
-                    this.currentDevice = data;
-                }
-            )
+            (data: Device) => {
+                this.currentDevice = data;
+            }
+            );
     }
 
 }
