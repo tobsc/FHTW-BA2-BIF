@@ -18,7 +18,7 @@ namespace HwInf.Common.DAL
 
         public string InvNum { get; set; }
 
-        public string Hersteller { get; set; }
+        public string Brand { get; set; }
         [Required]
         public int Status { get; set; }
 
