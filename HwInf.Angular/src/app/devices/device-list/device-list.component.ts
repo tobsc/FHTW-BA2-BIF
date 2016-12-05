@@ -8,8 +8,7 @@ import {Dictionary} from "../../shared/Dictionary";
     templateUrl: './device-list.component.html',
 })
 export class DeviceListComponent implements OnInit {
-    devices: Device[] = [];
-    currentDevice: Device;
+    private devices: Device[] = [];
     constructor(private deviceService: DeviceService) { }
 
     ngOnInit() {
@@ -17,7 +16,6 @@ export class DeviceListComponent implements OnInit {
             .subscribe(
                 (data: Device[]) => {
                     this.devices = data;
-                    console.log(data);
                 }
             );
     }
