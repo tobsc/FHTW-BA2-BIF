@@ -4,35 +4,29 @@ import {Device} from "../device";
 import {Dictionary} from "../../shared/Dictionary";
 
 @Component({
-  selector: 'hw-inf-device-list',
-  templateUrl: './device-list.component.html',
+    selector: 'hw-inf-device-list',
+    templateUrl: './device-list.component.html',
 })
 export class DeviceListComponent implements OnInit {
-  devices: Device[] = [];
-  devicesDictionary: Dictionary<Device> = new Dictionary<Device>();
+    devices: Device[] = [];
+    currentDevice: Device;
+    constructor(private deviceService: DeviceService) { }
 
-  constructor(private deviceService: DeviceService) { }
+    ngOnInit() {
+        this.deviceService.getDevices()
+            .subscribe(
+                (data: Device[]) => {
+                    this.devices = data;
+                    console.log(data);gi
+                }
+            );
 
-  ngOnInit() {
-  this.deviceService.getDevices()
-    .subscribe(
-      (data: any) => {
-        for (let device of data) {
-          this.devicesDictionary.add(
-            String(device.DeviceId),
-            new Device(
-              device.DeviceId,
-              device.Name,
-              device.InvNum,
-              device.Status,
-              device.TypeName,
-              device.DeviceMetaData
+        this.deviceService.getDevice(1)
+            .subscribe(
+                (data: Device) => {
+                    this.currentDevice = data;
+                }
             )
-          );
-        }
-        this.devices = this.devicesDictionary.values();
-      }
-    );
-  }
+    }
 
 }

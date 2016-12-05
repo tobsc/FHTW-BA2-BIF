@@ -62,7 +62,7 @@ namespace HwInf.Controllers
         }
 
         // GET: api/Devicee/5
-        [Authorize]
+        //[Authorize]
         [ResponseType(typeof(DBDevice))]
         public IHttpActionResult GetDevice(int id)
         {
