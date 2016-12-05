@@ -20,13 +20,6 @@ export class DeviceListComponent implements OnInit {
                     console.log(data);
                 }
             );
-
-        this.deviceService.getDevice(1)
-            .subscribe(
-            (data: Device) => {
-                this.currentDevice = data;
-            }
-            );
     }
 
 }

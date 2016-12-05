@@ -84,7 +84,7 @@ namespace HwInf.Controllers
         }
 
         // PUT: api/Devicee/5
-        [Authorize]
+        //[Authorize]
         [ResponseType(typeof(void))]
         public IHttpActionResult PutDevice(int id, DBDevice Dev)
         {
