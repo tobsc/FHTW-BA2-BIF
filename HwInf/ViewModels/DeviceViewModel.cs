@@ -62,28 +62,5 @@ namespace HwInf.Models
 
             return this; // fluent interface
         }
-
-        public void createDevice(HwInfContext db)
-        {
-            DBDevice dev = new DBDevice();
-            dev.Name = Name;
-            dev.InvNum = InvNum;
-            dev.Status = Status;
-            dev.Type = db.DeviceTypes.Single(i => i.TypeId == TypeId);
-
-            db.Devices.Add(dev);
-
-            foreach(var m in DeviceMetaData)
-            {
-                db.DeviceMeta.Add(new DBDeviceMeta{
-                    MetaKey = m.Key,
-                    MetaValue = m.Value,
-                    Device = dev,
-                    DeviceType = dev.Type
-                });
-            }
-
-            db.SaveChanges();
-        }
     }
 }
