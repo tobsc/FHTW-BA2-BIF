@@ -26,8 +26,12 @@
     <Content Include="protractor.conf.js" />
     <Content Include="src\app\app.component.css" />
     <Content Include="src\app\app.component.html" />
+    <Content Include="src\app\dashboard\dashboard.component.css" />
+    <Content Include="src\app\dashboard\dashboard.component.html" />
     <Content Include="src\app\devices\device-details\device-details.component.css" />
     <Content Include="src\app\devices\device-details\device-details.component.html" />
+    <Content Include="src\app\devices\device-list\device-filter.component.css" />
+    <Content Include="src\app\devices\device-list\device-filter.component.html" />
     <Content Include="src\app\devices\device-list\device-item.component.css" />
     <Content Include="src\app\devices\device-list\device-item.component.html" />
     <Content Include="src\app\devices\device-list\device-list.component.html" />
@@ -55,7 +59,10 @@
     <TypeScriptCompile Include="src\app\app.component.spec.ts" />
     <TypeScriptCompile Include="src\app\app.component.ts" />
     <TypeScriptCompile Include="src\app\app.module.ts" />
+    <TypeScriptCompile Include="src\app\app.routing.ts" />
+    <TypeScriptCompile Include="src\app\dashboard\dashboard.component.ts" />
     <TypeScriptCompile Include="src\app\devices\device-details\device-details.component.ts" />
+    <TypeScriptCompile Include="src\app\devices\device-list\device-filter.component.ts" />
     <TypeScriptCompile Include="src\app\devices\device-list\device-item.component.ts" />
     <TypeScriptCompile Include="src\app\devices\device-list\device-list.component.ts" />
     <TypeScriptCompile Include="src\app\devices\device.service.ts" />
