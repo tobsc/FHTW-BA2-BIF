@@ -9,15 +9,14 @@ using System.Threading.Tasks;
 namespace HwInf.Common.DAL
 {
     [Table("DeviceStatus")]
-    class DeviceStatus
+    public class DeviceStatus
     {
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int StatusId { get; set; }
         [Required]
-        public string Status { get; set; }
-
+        public string Description { get; set; }
 
     }
 }

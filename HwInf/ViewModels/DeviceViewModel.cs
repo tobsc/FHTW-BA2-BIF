@@ -12,7 +12,7 @@ namespace HwInf.Models
         public string Name { get; set; }
         public string InvNum { get; set; }
         public string Brand { get; set; }
-        public int Status { get; set; }
+        public string Status { get; set; }
         public string TypeName { get; set; }
         public int TypeId { get; set; }
         public IDictionary<string,string> DeviceMetaData { get; set; }
@@ -33,12 +33,12 @@ namespace HwInf.Models
             var source = obj;
 
             target.DeviceId = source.DeviceId;
-            target.Name = source.Name;
+            target.Name = source.Description;
             target.InvNum = source.InvNum;
             target.Brand = source.Brand;
-            target.Status = source.Status;
+            target.Status = source.Status.Description;
             target.TypeId = source.Type.TypeId;
-            target.TypeName = source.Type.Name;
+            target.TypeName = source.Type.Description;
         }
 
         public void ApplyChanges(Device obj, HwInfContext db)
@@ -46,10 +46,10 @@ namespace HwInf.Models
             var target = obj;
             var source = this;
 
-            target.Name = source.Name;
+            target.Description = source.Name;
             target.InvNum = source.InvNum;
             target.Brand = source.Brand;
-            target.Status = source.Status;
+            target.Status.Description = source.Status;
             target.Type = db.DeviceTypes.Single(i => i.TypeId == source.TypeId);
         }
 
