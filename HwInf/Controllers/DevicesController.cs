@@ -195,7 +195,7 @@ namespace HwInf.Controllers
         /// <returns></returns>
         //[Authorize]
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutDevice(int id, DBDevice Dev)
+        public IHttpActionResult PutDevice(int id, Device Dev)
         {
             if (!ModelState.IsValid)
             {
@@ -236,7 +236,7 @@ namespace HwInf.Controllers
         /// <returns></returns>
         //[Authorize]
         [Route("create")]
-        [ResponseType(typeof(DBDevice))]
+        [ResponseType(typeof(Device))]
         public IHttpActionResult PostDevice([FromBody]DeviceViewModel vmdl)
         {
             if (!ModelState.IsValid)
@@ -249,7 +249,7 @@ namespace HwInf.Controllers
                 return BadRequest("Device already exists!");
             }
 
-            DBDevice dev = new DBDevice();
+            Device dev = new Device();
             dev.Name = vmdl.Name;
             dev.InvNum = vmdl.InvNum;
             dev.Status = vmdl.Status;
@@ -259,7 +259,7 @@ namespace HwInf.Controllers
 
             foreach (var m in vmdl.DeviceMetaData)
             {
-                db.DeviceMeta.Add(new DBDeviceMeta
+                db.DeviceMeta.Add(new DeviceMeta
                 {
                     MetaKey = m.Key,
                     MetaValue = m.Value,
@@ -279,10 +279,10 @@ namespace HwInf.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [ResponseType(typeof(DBDevice))]
+        [ResponseType(typeof(Device))]
         public IHttpActionResult DeleteDevice(int id)
         {
-            DBDevice Dev = db.Devices.Find(id);
+            Device Dev = db.Devices.Find(id);
             if (Dev == null)
             {
                 return NotFound();

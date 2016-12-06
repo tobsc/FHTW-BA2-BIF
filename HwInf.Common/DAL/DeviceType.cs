@@ -7,22 +7,13 @@ using System.Web;
 
 namespace HwInf.Common.DAL
 {
-    [Table("Device")]
-    public class DBDevice
+    [Table("DeviceType")]
+    public class DeviceType
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int DeviceId { get; set; }
+        public int TypeId { get; set; }
         [Required]
         public string Name { get; set; }
-
-        public string InvNum { get; set; }
-
-        public string Brand { get; set; }
-        [Required]
-        public int Status { get; set; }
-
-    
-        public virtual DBDeviceType Type { get; set; }
     }
 }

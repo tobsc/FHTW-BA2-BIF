@@ -8,15 +8,15 @@ using System.Web;
 namespace HwInf.Common.DAL
 {
     [Table("DeviceMeta")]
-    public class DBDeviceMeta
+    public class DeviceMeta
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int MetaId { get; set; }
         [Required]
-        public virtual DBDevice Device { get; set; }
+        public virtual Device Device { get; set; }
         [Required]
-        public virtual DBDeviceType DeviceType { get; set; }
+        public virtual DeviceType DeviceType { get; set; }
         [Required]
         public string MetaKey { get; set; }
         [Required]

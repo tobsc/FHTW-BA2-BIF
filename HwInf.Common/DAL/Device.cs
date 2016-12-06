@@ -3,24 +3,26 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
 namespace HwInf.Common.DAL
 {
-
-    [Table("Persons")]
-    public class DBPerson
+    [Table("Device")]
+    public class Device
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int PersId { get; set; }
+        public int DeviceId { get; set; }
         [Required]
         public string Name { get; set; }
+
+        public string InvNum { get; set; }
+
+        public string Brand { get; set; }
         [Required]
-        public string Email { get; set; }
-        public string Phone { get; set; }
-        [Required]
-        public string uid { get; set; }
+        public int Status { get; set; }
+
+    
+        public virtual DeviceType Type { get; set; }
     }
 }
