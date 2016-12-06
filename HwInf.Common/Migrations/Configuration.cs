@@ -28,23 +28,30 @@ namespace HwInf.Common.Migrations
 
             var type = new List<DeviceType>
             {
-                new DeviceType { Name = "Notebook" },
-                new DeviceType { Name = "PC" },
-                new DeviceType { Name = "Monitor" }
+                new DeviceType { Description = "Notebook" },
+                new DeviceType { Description = "PC" },
+                new DeviceType { Description = "Monitor" }
 
             };
 
             type.ForEach(s => context.DeviceTypes.Add(s));
             context.SaveChanges();
 
+            var status = new List<DeviceStatus>
+            {
+                new DeviceStatus { Description = "Verfügbar" },
+                new DeviceStatus { Description = "Ausgeliehen" },
+                new DeviceStatus { Description = "In Reparatur" }
+            };
+
             var dev = new List<Device>
            {
-            new Device { Name = "Lenovo Notebook", Brand = "Lenovo", Status = 0, InvNum = "a123", Type = type.Single(i => i.Name == "Notebook")},
-            new Device { Name = "Acer PC", Brand = "Acer", Status = 0 , InvNum = "a5123", Type = type.Single(i => i.Name == "PC")},
-            new Device { Name = "Benq Monitor", Brand = "Benq", Status = 0, InvNum = "a6123", Type = type.Single(i => i.Name == "Monitor")},
-            new Device { Name = "Medion PC", Brand = "Medion", Status = 0 , InvNum = "a57123", Type = type.Single(i => i.Name == "PC")},
-            new Device { Name = "HP PC", Brand = "HP", Status = 0 , InvNum = "a985123", Type = type.Single(i => i.Name == "PC")},
-            new Device { Name = "Acer PC", Brand = "Acer", Status = 0 , InvNum = "a512683", Type = type.Single(i => i.Name == "PC")}
+            new Device { Description = "Lenovo Notebook", Brand = "Lenovo", Status = status.Single(i => i.Description == "Verfügbar"), InvNum = "a123", Type = type.Single(i => i.Description == "Notebook")},
+            new Device { Description = "Acer PC", Brand = "Acer", Status = status.Single(i => i.Description == "Verfügbar"), InvNum = "a5123", Type = type.Single(i => i.Description == "PC")},
+            new Device { Description = "Benq Monitor", Brand = "Benq", Status = status.Single(i => i.Description == "Verfügbar"), InvNum = "a6123", Type = type.Single(i => i.Description == "Monitor")},
+            new Device { Description = "Medion PC", Brand = "Medion", Status = status.Single(i => i.Description == "Verfügbar"), InvNum = "a57123", Type = type.Single(i => i.Description == "PC")},
+            new Device { Description = "HP PC", Brand = "HP", Status = status.Single(i => i.Description == "Verfügbar"), InvNum = "a985123", Type = type.Single(i => i.Description == "PC")},
+            new Device { Description = "Acer PC", Brand = "Acer", Status = status.Single(i => i.Description == "Verfügbar"), InvNum = "a512683", Type = type.Single(i => i.Description == "PC")}
            };
 
             dev.ForEach(s => context.Devices.Add(s));
@@ -53,20 +60,20 @@ namespace HwInf.Common.Migrations
 
             var devMeta = new List<DeviceMeta>
             {
-                new DeviceMeta { Device = dev.Single(i => i.InvNum == "a123"), DeviceType = type.Single(i => i.Name == "Notebook"), MetaKey = "Prozessor", MetaValue = "Intel Core i7-6500U" },
-                new DeviceMeta { Device= dev.Single(i => i.InvNum == "a123"), DeviceType = type.Single(i => i.Name == "Notebook"), MetaKey = "Bildschirmdiagonale", MetaValue = "13 Zoll" },
-                new DeviceMeta { Device= dev.Single(i => i.InvNum == "a5123"), DeviceType = type.Single(i => i.Name == "PC"), MetaKey = "Prozessor", MetaValue = "Intel Core i5-3550" },
-                new DeviceMeta { Device= dev.Single(i => i.InvNum == "a6123"), DeviceType = type.Single(i => i.Name == "Monitor"), MetaKey = "Farbe", MetaValue = "Schwarz" },
+                new DeviceMeta { Device = dev.Single(i => i.InvNum == "a123"), DeviceType = type.Single(i => i.Description == "Notebook"), MetaKey = "Prozessor", MetaValue = "Intel Core i7-6500U" },
+                new DeviceMeta { Device= dev.Single(i => i.InvNum == "a123"), DeviceType = type.Single(i => i.Description == "Notebook"), MetaKey = "Bildschirmdiagonale", MetaValue = "13 Zoll" },
+                new DeviceMeta { Device= dev.Single(i => i.InvNum == "a5123"), DeviceType = type.Single(i => i.Description == "PC"), MetaKey = "Prozessor", MetaValue = "Intel Core i5-3550" },
+                new DeviceMeta { Device= dev.Single(i => i.InvNum == "a6123"), DeviceType = type.Single(i => i.Description == "Monitor"), MetaKey = "Farbe", MetaValue = "Schwarz" },
 
-                new DeviceMeta { Device = dev.Single(i => i.InvNum == "a57123"), DeviceType = type.Single(i => i.Name == "PC"), MetaKey = "Prozessor", MetaValue = "Intel Core i7-6500" },
-                new DeviceMeta { Device = dev.Single(i => i.InvNum == "a57123"), DeviceType = type.Single(i => i.Name == "PC"), MetaKey = "Arbeitsspeicher", MetaValue = "16GB" },
-                new DeviceMeta { Device = dev.Single(i => i.InvNum == "a57123"), DeviceType = type.Single(i => i.Name == "PC"), MetaKey = "Netzteil", MetaValue = "800W" },
-                new DeviceMeta { Device = dev.Single(i => i.InvNum == "a985123"), DeviceType = type.Single(i => i.Name == "PC"), MetaKey = "Prozessor", MetaValue = "Intel Core i3-1234" },
-                new DeviceMeta { Device = dev.Single(i => i.InvNum == "a985123"), DeviceType = type.Single(i => i.Name == "PC"), MetaKey = "Arbeitsspeicher", MetaValue = "8GB" },
-                new DeviceMeta { Device = dev.Single(i => i.InvNum == "a512683"), DeviceType = type.Single(i => i.Name == "PC"), MetaKey = "Prozessor", MetaValue = "AMD FX-1234" },
-                new DeviceMeta { Device = dev.Single(i => i.InvNum == "a512683"), DeviceType = type.Single(i => i.Name == "PC"), MetaKey = "Arbeitsspeicher", MetaValue = "32GB" },
-                new DeviceMeta { Device = dev.Single(i => i.InvNum == "a512683"), DeviceType = type.Single(i => i.Name == "PC"), MetaKey = "Netzteil", MetaValue = "1400W" },
-                new DeviceMeta { Device = dev.Single(i => i.InvNum == "a512683"), DeviceType = type.Single(i => i.Name == "PC"), MetaKey = "Grafikkarte", MetaValue = "Nvidia Geforce GTX-1080" }
+                new DeviceMeta { Device = dev.Single(i => i.InvNum == "a57123"), DeviceType = type.Single(i => i.Description == "PC"), MetaKey = "Prozessor", MetaValue = "Intel Core i7-6500" },
+                new DeviceMeta { Device = dev.Single(i => i.InvNum == "a57123"), DeviceType = type.Single(i => i.Description == "PC"), MetaKey = "Arbeitsspeicher", MetaValue = "16GB" },
+                new DeviceMeta { Device = dev.Single(i => i.InvNum == "a57123"), DeviceType = type.Single(i => i.Description == "PC"), MetaKey = "Netzteil", MetaValue = "800W" },
+                new DeviceMeta { Device = dev.Single(i => i.InvNum == "a985123"), DeviceType = type.Single(i => i.Description == "PC"), MetaKey = "Prozessor", MetaValue = "Intel Core i3-1234" },
+                new DeviceMeta { Device = dev.Single(i => i.InvNum == "a985123"), DeviceType = type.Single(i => i.Description == "PC"), MetaKey = "Arbeitsspeicher", MetaValue = "8GB" },
+                new DeviceMeta { Device = dev.Single(i => i.InvNum == "a512683"), DeviceType = type.Single(i => i.Description == "PC"), MetaKey = "Prozessor", MetaValue = "AMD FX-1234" },
+                new DeviceMeta { Device = dev.Single(i => i.InvNum == "a512683"), DeviceType = type.Single(i => i.Description == "PC"), MetaKey = "Arbeitsspeicher", MetaValue = "32GB" },
+                new DeviceMeta { Device = dev.Single(i => i.InvNum == "a512683"), DeviceType = type.Single(i => i.Description == "PC"), MetaKey = "Netzteil", MetaValue = "1400W" },
+                new DeviceMeta { Device = dev.Single(i => i.InvNum == "a512683"), DeviceType = type.Single(i => i.Description == "PC"), MetaKey = "Grafikkarte", MetaValue = "Nvidia Geforce GTX-1080" }
             };
 
             devMeta.ForEach(s => context.DeviceMeta.Add(s));

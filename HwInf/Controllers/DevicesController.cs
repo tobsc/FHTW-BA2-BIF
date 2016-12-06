@@ -83,7 +83,7 @@ namespace HwInf.Controllers
             var devices = db.Devices.Include(x => x.Type);
 
             var data = devices
-                .Where(i => i.Type.Name.ToLower().Contains(type.ToLower()))
+                .Where(i => i.Type.Description.ToLower().Contains(type.ToLower()))
                 .Take(10000)
                 .ToList() // execl SQL
                 .Select(i => new DeviceViewModel(i).loadMeta(db)) // Convert to viewmodel
@@ -117,7 +117,7 @@ namespace HwInf.Controllers
 
 
             var typesList = deviceTypes
-                .Select(i => i.Name)
+                .Select(i => i.Description)
                 .ToList();
 
             return typesList;
@@ -140,7 +140,7 @@ namespace HwInf.Controllers
 
             deviceFilters = new List<string>(deviceFilters
                 .Union(meta
-                    .Where(i => i.DeviceType.Name.ToLower() == type.ToLower())
+                    .Where(i => i.DeviceType.Description.ToLower() == type.ToLower())
                     .Select(i => i.MetaKey)
                     .Distinct()
                     .ToList()
@@ -158,14 +158,14 @@ namespace HwInf.Controllers
         /// <param name="component">Device Compontent</param>
         /// <returns></returns>
         [Route("components/{type}/{component}")]
-        public IEnumerable<string> GetComponentValues(string type, string component)
+        public IDictionary<string, object> GetComponentValues(string type, string component)
         {
-            var componentValues = new List<string>();
+            List<string> componentValues = new List<string>();
             if (component.ToLower() == "marke")
             {
                 var devices = db.Devices.Include(x => x.Type);
                 componentValues = devices
-                    .Where(i => i.Type.Name.ToLower() == type.ToLower())
+                    .Where(i => i.Type.Description.ToLower() == type.ToLower())
                     .OrderBy(i => i.Brand)
                     .Select(i => i.Brand)
                     .Distinct()
@@ -176,7 +176,7 @@ namespace HwInf.Controllers
             {
                 var meta = db.DeviceMeta.Include(x => x.DeviceType);
                 componentValues = meta
-                    .Where(i => i.DeviceType.Name.ToLower() == type.ToLower())
+                    .Where(i => i.DeviceType.Description.ToLower() == type.ToLower())
                     .Where(i => i.MetaKey.ToLower() == component.ToLower())
                     .OrderBy(i => i.MetaValue)
                     .Select(i => i.MetaValue)
@@ -186,7 +186,12 @@ namespace HwInf.Controllers
                 componentValues.Sort();
             }
 
-            return componentValues;
+            IDictionary<string, object> json = new Dictionary<string, object>();
+          
+            json.Add("component", component);
+            json.Add("values", componentValues); 
+
+            return json;
         }
 
 
@@ -213,9 +218,9 @@ namespace HwInf.Controllers
             }
 
             Device dev = new Device();
-            dev.Name = vmdl.Name;
+            dev.Description = vmdl.Name;
             dev.InvNum = vmdl.InvNum;
-            dev.Status = vmdl.Status;
+            dev.Status.Description = vmdl.Status;
             dev.Type = db.DeviceTypes.Single(i => i.TypeId == vmdl.TypeId);
 
             db.Devices.Add(dev);

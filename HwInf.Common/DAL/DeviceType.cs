@@ -14,6 +14,6 @@ namespace HwInf.Common.DAL
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int TypeId { get; set; }
         [Required]
-        public string Name { get; set; }
+        public string Description { get; set; }
     }
 }

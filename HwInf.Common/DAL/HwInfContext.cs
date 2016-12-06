@@ -15,6 +15,7 @@ namespace HwInf.Common.DAL
         public DbSet<Device> Devices { get; set; }
         public DbSet<DeviceType> DeviceTypes { get; set; }
         public DbSet<DeviceMeta> DeviceMeta { get; set; }
+        public DbSet<DeviceStatus> Status { get; set; }
         public DbSet<Person> Persons { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
