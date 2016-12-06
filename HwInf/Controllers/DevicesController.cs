@@ -20,7 +20,7 @@ namespace HwInf.Controllers
 
         // GET: api/devices/all
         // Returns a List of all Devices
-        [Route("all")]
+        [Route("")]
         public IEnumerable<DeviceViewModel> GetAll()
         {
 
@@ -39,14 +39,14 @@ namespace HwInf.Controllers
         // GET: api/devices/filter/{type}/{filters?}
         // Filters the Devices with given Parameters
         // [Authorize]
-        [Route("filter/{type}/{filters?}")]
+        [Route("{type}/{filters?}")]
         public IEnumerable<DeviceViewModel> GetFilter(string type, string filters = "all")
         {
 
             var devices = db.Devices.Include(x => x.Type);
 
             var data = devices
-                .Where(i => i.Type.Name.Contains(type))
+                .Where(i => i.Type.Name.ToLower().Contains(type.ToLower()))
                 .Take(10000)
                 .ToList() // execl SQL
                 .Select(i => new DeviceViewModel(i).loadMeta(db)) // Convert to viewmodel
@@ -69,7 +69,7 @@ namespace HwInf.Controllers
 
         // GET: api/devices/filter/types
         // Returns all DeviceTypes
-        [Route("filter/types/all")]
+        [Route("types/all")]
         public IEnumerable<string> GetDeviceTypes()
         {
             var deviceTypes = db.DeviceTypes;
@@ -83,7 +83,7 @@ namespace HwInf.Controllers
 
         // GET: api/devices/filter/types/{type}
         // Returns all MetaKeys of a DeviceType
-        [Route("filter/types/{type}")]
+        [Route("types/{type}")]
         public IEnumerable<string> GetFilters(string type)
         {
             var devices = db.Devices.Include(x => x.Type);
@@ -112,7 +112,7 @@ namespace HwInf.Controllers
 
         // GET: api/devices/filter/types/{type}/{filterKey}
         // Returns all MetaValues of a Filter
-        [Route("filter/types/{type}/{filterKey}")]
+        [Route("types/{type}/{filterKey}")]
         public IEnumerable<string> GetFiltersValues(string type, string filterKey)
         {
             var filterValues = new List<string>();
@@ -147,7 +147,7 @@ namespace HwInf.Controllers
         // GET: api/devices/{id}
         // Returns device of given id
         //[Authorize]
-        [ResponseType(typeof(DBDevice))]
+        [Route("id/{id}")]
         public IHttpActionResult GetDevice(int id)
         {
             var devices = db.Devices.Include(x => x.Type);

@@ -11,17 +11,17 @@ export class DeviceService {
   constructor(private http: Http) {}
 
   getDevices() {
-      return this.http.get('http://localhost:14373/api/devices/all')
+      return this.http.get('http://localhost:14373/api/devices/')
       .map((response: Response) => response.json());
   }
 
   getDevice(id: number) {
-    return this.http.get('http://localhost:14373/api/devices/' + id)
+    return this.http.get('http://localhost:14373/api/devices/id/' + id)
         .map((response: Response) => response.json());
   }
 
   getTypes() {
-    return this.http.get('http://localhost:14373/api/devices/filter/types/all')
+    return this.http.get('http://localhost:14373/api/devices/types/')
         .map((response: Response) => response.json());
   }
 }
