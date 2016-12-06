@@ -11,6 +11,9 @@ import { DeviceListComponent } from './devices/device-list/device-list.component
 import { DeviceService } from "./devices/device.service";
 import { KeysPipe } from './pipes/keys.pipe';
 import { DeviceDetailsComponent } from './devices/device-details/device-details.component';
+import {routing} from "./app.routing";
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { DeviceFilterComponent } from './devices/device-list/device-filter.component';
 
 @NgModule({
     declarations: [
@@ -20,12 +23,15 @@ import { DeviceDetailsComponent } from './devices/device-details/device-details.
         DeviceItemComponent,
         DeviceListComponent,
         KeysPipe,
-        DeviceDetailsComponent
+        DeviceDetailsComponent,
+        DashboardComponent,
+        DeviceFilterComponent,
     ],
     imports: [
         BrowserModule,
         FormsModule,
-        HttpModule
+        HttpModule,
+        routing
     ],
     providers: [DeviceService],
     bootstrap: [AppComponent]

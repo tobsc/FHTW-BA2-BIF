@@ -10,39 +10,18 @@ export class DeviceService {
 
   constructor(private http: Http) {}
 
-  fetchData() {
-    this.http.get('api/devices/all')
-      .map((response: Response) => response.json())
-      .subscribe(
-        (data: any) => {
-          for (let device of data) {
-            this.devices.add(
-              String(device.DeviceId),
-              new Device(
-                device.DeviceId,
-                device.Name,
-                device.InvNum,
-                device.Status,
-                device.TypeName,
-                device.DeviceMetaData
-              )
-            );
-          }
-          console.log(this.devices.values());
-        }
-      );
-
-    return this.devices;
-  }
-
   getDevices() {
-      return this.http.get('api/devices/all')
+      return this.http.get('http://localhost:14373/api/devices/all')
       .map((response: Response) => response.json());
   }
 
-  getDevice(id: number): Device {
-    return null;
+  getDevice(id: number) {
+    return this.http.get('http://localhost:14373/api/devices/' + id)
+        .map((response: Response) => response.json());
   }
 
-
+  getTypes() {
+    return this.http.get('http://localhost:14373/api/devices/filter/types/all')
+        .map((response: Response) => response.json());
+  }
 }

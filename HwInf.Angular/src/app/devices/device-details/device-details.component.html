@@ -1,3 +1,7 @@
-<p>
-  device-details works!
-</p>
+<h1>{{currentDevice?.Name}}</h1>
+
+<ul>
+  <li *ngFor='let attr of currentDevice?.DeviceMetaData | keys'>
+    {{attr.key}}: {{attr.value}}
+  </li>
+</ul>

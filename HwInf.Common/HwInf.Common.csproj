@@ -64,7 +64,7 @@
     <Compile Include="DAL\DBDevice.cs" />
     <Compile Include="DAL\DBDeviceMeta.cs" />
     <Compile Include="DAL\DBDeviceType.cs" />
-    <Compile Include="DAL\DBInitializer.cs" />
+    <Compile Include="DAL\DBPerson.cs" />
     <Compile Include="DAL\HwInfContext.cs" />
     <Compile Include="LDAPAuthenticator.cs" />
     <Compile Include="Migrations\201611302111289_Initial_Create.cs" />

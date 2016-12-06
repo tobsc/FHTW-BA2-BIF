@@ -1,9 +1,16 @@
-﻿<span class="label label-success pull-right">Verfügbar</span>
-<span>{{device.getName()}}</span>
-<br>
-<span style="font-size: 0.9em" class="text-muted">
-    <span *ngFor='let attr of device.getAttributes() | keys, let i = index'>
-        {{attr.key}}: {{attr.value}}, 
+
+<span class="label label-success pull-right" [ngSwitch]="device.Status">
+    <span *ngSwitchCase="0">
+        Verfügbar
     </span>
 </span>
+
+{{device.Name}}
+
+<br>
+<ul class="text-muted list-inline">
+    <li *ngFor='let attr of device.DeviceMetaData | keys, let i = index'>
+        {{attr.key}}: {{attr.value}}
+    </li>
+</ul>
 
