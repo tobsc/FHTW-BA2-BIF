@@ -130,24 +130,54 @@ namespace HwInf.Controllers
         /// <param name="type">Device Type</param>
         /// <returns></returns>
         [Route("components/{type}")]
-        public IEnumerable<string> GetComponents(string type)
+        public IEnumerable<object> GetComponents(string type)
         {
             var devices = db.Devices.Include(x => x.Type);
             var meta = db.DeviceMeta.Include(x => x.DeviceType);
+            List<object> json = new List<object>();
 
-            var deviceFilters = new List<string>();
-            deviceFilters.Add("Marke");
+            var brands = devices
+                .Where(i => i.Type.Description.ToLower() == type.ToLower())
+                .Select(i => i.Brand)
+                .Distinct()
+                .ToList();
 
-            deviceFilters = new List<string>(deviceFilters
-                .Union(meta
+            brands.Sort();
+
+            IDictionary<string, object> brandList = new Dictionary<string, object>();
+            brandList.Add("component", "Marke");
+            brandList.Add("values", brands);
+
+            json.Add(brandList);
+
+            var deviceComponents = meta
                     .Where(i => i.DeviceType.Description.ToLower() == type.ToLower())
                     .Select(i => i.MetaKey)
                     .Distinct()
-                    .ToList()
-                    )
-                );
+                    .ToList();
 
-            return deviceFilters;
+            deviceComponents.Sort();
+
+            
+            foreach (var c in deviceComponents)
+            {
+                var componentValues = meta
+                    .Where(i => i.DeviceType.Description.ToLower() == type.ToLower())
+                    .Where(i => i.MetaKey.ToLower() == c.ToLower())
+                    .OrderBy(i => i.MetaValue)
+                    .Select(i => i.MetaValue)
+                    .Distinct()
+                    .ToList();
+
+                componentValues.Sort();
+                IDictionary<string, object> componentList = new Dictionary<string, object>();
+                componentList.Add("component", c);
+                componentList.Add("values", componentValues);
+                json.Add(componentList);
+
+            }
+
+            return json;
         }
 
         // GET: api/devices/types/{type}/{component}
