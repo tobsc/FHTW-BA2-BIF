@@ -4,7 +4,7 @@
     </div>
     <div class="col-sm-10">
         <ul class="list-group">
-            <a class="list-group-item" routerLink="{{device.DeviceId}}" *ngFor="let device of devices, let i = index">
+            <a class="list-group-item" routerLink="id/{{device.DeviceId}}" *ngFor="let device of devices, let i = index">
                 <hw-inf-device-item [device]="device"></hw-inf-device-item>
             </a>
         </ul>

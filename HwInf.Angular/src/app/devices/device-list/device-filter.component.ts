@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {DeviceService} from "../device.service";
 
 @Component({
   selector: 'hw-inf-device-filter',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DeviceFilterComponent implements OnInit {
 
-  constructor() { }
+  private types: string[] = [];
+
+  constructor(private deviceService: DeviceService) {}
 
   ngOnInit() {
+    this.deviceService.getTypes()
+        .subscribe(
+            (data: string[]) => {
+              this.types = data;
+              console.log(data);
+            }
+        );
   }
 
 }

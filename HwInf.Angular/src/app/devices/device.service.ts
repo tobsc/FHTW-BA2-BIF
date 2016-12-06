@@ -20,5 +20,8 @@ export class DeviceService {
         .map((response: Response) => response.json());
   }
 
-
+  getTypes() {
+    return this.http.get('http://localhost:14373/api/devices/filter/types/all')
+        .map((response: Response) => response.json());
+  }
 }
