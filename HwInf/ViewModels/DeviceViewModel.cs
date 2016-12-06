@@ -11,6 +11,7 @@ namespace HwInf.Models
         public int DeviceId { get; set; }
         public string Name { get; set; }
         public string InvNum { get; set; }
+        public string Brand { get; set; }
         public int Status { get; set; }
         public string TypeName { get; set; }
         public int TypeId { get; set; }
@@ -34,6 +35,7 @@ namespace HwInf.Models
             target.DeviceId = source.DeviceId;
             target.Name = source.Name;
             target.InvNum = source.InvNum;
+            target.Brand = source.Brand;
             target.Status = source.Status;
             target.TypeId = source.Type.TypeId;
             target.TypeName = source.Type.Name;
@@ -46,6 +48,7 @@ namespace HwInf.Models
 
             target.Name = source.Name;
             target.InvNum = source.InvNum;
+            target.Brand = source.Brand;
             target.Status = source.Status;
             target.Type = db.DeviceTypes.Single(i => i.TypeId == source.TypeId);
         }
