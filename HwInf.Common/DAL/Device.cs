@@ -21,8 +21,7 @@ namespace HwInf.Common.DAL
         public string Brand { get; set; }
         [Required]
         public int Status { get; set; }
-
-    
+        [Required]
         public virtual DeviceType Type { get; set; }
     }
 }
