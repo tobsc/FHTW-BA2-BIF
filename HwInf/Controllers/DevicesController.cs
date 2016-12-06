@@ -90,13 +90,7 @@ namespace HwInf.Controllers
             var meta = db.DeviceMeta.Include(x => x.DeviceType);
 
             var deviceFilters = new List<string>();
-            deviceFilters = new List<string>(deviceFilters
-                .Union(devices
-                    .Where(i => i.Type.Name.ToLower() == type.ToLower())
-                    .Select(i => i.Brand).Distinct()
-                    .ToList()
-                    )
-                );
+            deviceFilters.Add("Marke");
 
             deviceFilters = new List<string>(deviceFilters
                 .Union(meta
