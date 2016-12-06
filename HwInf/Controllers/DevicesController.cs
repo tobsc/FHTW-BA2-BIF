@@ -158,9 +158,9 @@ namespace HwInf.Controllers
         /// <param name="component">Device Compontent</param>
         /// <returns></returns>
         [Route("components/{type}/{component}")]
-        public IEnumerable<string> GetComponentValues(string type, string component)
+        public IDictionary<string, object> GetComponentValues(string type, string component)
         {
-            var componentValues = new List<string>();
+            List<string> componentValues = new List<string>();
             if (component.ToLower() == "marke")
             {
                 var devices = db.Devices.Include(x => x.Type);
@@ -186,7 +186,12 @@ namespace HwInf.Controllers
                 componentValues.Sort();
             }
 
-            return componentValues;
+            IDictionary<string, object> json = new Dictionary<string, object>();
+          
+            json.Add("component", component);
+            json.Add("values", componentValues); 
+
+            return json;
         }
 
 
