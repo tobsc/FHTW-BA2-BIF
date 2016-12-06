@@ -19,7 +19,10 @@ namespace HwInf.Controllers
         private HwInfContext db = new HwInfContext();
 
         // GET: api/devices/all
-        // Returns a List of all Devices
+        /// <summary>
+        /// Returns a List of all Devices
+        /// </summary>
+        /// <returns></returns>
         [Route("")]
         public IEnumerable<DeviceViewModel> GetAll()
         {
@@ -37,7 +40,13 @@ namespace HwInf.Controllers
         }
 
         // GET: api/devices/filter/{type}/{filters?}
-        // Filters the Devices with given Parameters
+        /// <summary>
+        /// Filters the Devices with given Parameters
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="filters"></param>
+        /// <returns></returns>
+
         // [Authorize]
         [Route("{type}/{filters?}")]
         public IEnumerable<DeviceViewModel> GetFilter(string type, string filters = "all")
@@ -69,21 +78,29 @@ namespace HwInf.Controllers
         }
 
         // GET: api/devices/filter/types
-        // Returns all DeviceTypes
-        [Route("types/all")]
+        /// <summary>
+        /// Returns all DeviceTypes
+        /// </summary>
+        /// <returns></returns>
+        [Route("types")]
         public IEnumerable<string> GetDeviceTypes()
         {
             var deviceTypes = db.DeviceTypes;
 
 
-            var typesList = new List<string>();
-            typesList = deviceTypes.Select(i => i.Name).ToList();
+            var typesList = deviceTypes
+                .Select(i => i.Name)
+                .ToList();
 
             return typesList;
         }
 
         // GET: api/devices/filter/types/{type}
-        // Returns all MetaKeys of a DeviceType
+        /// <summary>
+        /// Returns all MetaKeys of a DeviceType
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
         [Route("types/{type}")]
         public IEnumerable<string> GetFilters(string type)
         {
@@ -106,7 +123,12 @@ namespace HwInf.Controllers
         }
 
         // GET: api/devices/filter/types/{type}/{filterKey}
-        // Returns all MetaValues of a Filter
+        /// <summary>
+        /// Returns all MetaValues of a Filter
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="filterKey"></param>
+        /// <returns></returns>
         [Route("types/{type}/{filterKey}")]
         public IEnumerable<string> GetFiltersValues(string type, string filterKey)
         {
@@ -140,7 +162,11 @@ namespace HwInf.Controllers
         }
 
         // GET: api/devices/{id}
-        // Returns device of given id
+        /// <summary>
+        /// Returns device of given id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         //[Authorize]
         [Route("id/{id}")]
         public IHttpActionResult GetDevice(int id)
@@ -161,6 +187,12 @@ namespace HwInf.Controllers
         }
 
         // PUT: api/Devicee/5
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="Dev"></param>
+        /// <returns></returns>
         //[Authorize]
         [ResponseType(typeof(void))]
         public IHttpActionResult PutDevice(int id, DBDevice Dev)
@@ -197,7 +229,11 @@ namespace HwInf.Controllers
         }
 
         // POST: api/devices/create
-        // Creates a new Device in Database
+        /// <summary>
+        /// Creates a new Device in Database
+        /// </summary>
+        /// <param name="vmdl"></param>
+        /// <returns></returns>
         //[Authorize]
         [Route("create")]
         [ResponseType(typeof(DBDevice))]
@@ -238,7 +274,11 @@ namespace HwInf.Controllers
         }
 
         // DELETE: api/devicee/{id}
-        // Deletes the device with the given id
+        /// <summary>
+        /// Deletes the device with the given id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [ResponseType(typeof(DBDevice))]
         public IHttpActionResult DeleteDevice(int id)
         {
@@ -266,21 +306,6 @@ namespace HwInf.Controllers
         private bool DeviceExists(int id)
         {
             return db.Devices.Count(e => e.DeviceId == id) > 0;
-        }
-
-        // GET: api/Devices
-        [Route("types")]
-        public IEnumerable<string> GetTypes()
-        {
-
-            var devices = db.DeviceTypes;
-
-            var json = devices
-                .Where(i => i.TypeId > 0)
-                .Select(i => i.Name)
-                .ToList(); // execl SQL
-
-            return json;
         }
     }
 
