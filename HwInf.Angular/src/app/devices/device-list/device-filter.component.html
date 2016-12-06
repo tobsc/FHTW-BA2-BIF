@@ -3,8 +3,13 @@
     <div class="panel-heading">{{component}}</div>
     <!-- List group -->
     <ul class="list-group">
-        <!--<li class="list-group-item" *ngFor="let val of getComponentValues(currentType, component)">
-            {{val}}
-        </li>-->
+        <li class="list-group-item" *ngFor="let val of getComponentValues(currentType, component) | async">
+            {{val}} test
+        </li>
     </ul>
+</div>
+
+test
+<div *ngFor="let val of test">
+    {{ val }}
 </div>
