@@ -61,6 +61,7 @@ namespace HwInf.Controllers
                 foreach (var m in parameters)
                 {
                     json = new List<DeviceViewModel>(json.Union(data.Where(i => i.DeviceMetaData.Values.Any(v => v.ToLower().Contains(m.ToLower()))).ToList()));
+                    json = new List<DeviceViewModel>(json.Union(data.Where(i => i.Brand.ToLower() == m.ToLower()))); 
                 }
             }
 
@@ -110,7 +111,7 @@ namespace HwInf.Controllers
         public IEnumerable<string> GetFiltersValues(string type, string filterKey)
         {
             var filterValues = new List<string>();
-            if (filterKey.ToLower() == "brand")
+            if (filterKey.ToLower() == "marke")
             {
                 var devices = db.Devices.Include(x => x.Type);
                 filterValues = devices
