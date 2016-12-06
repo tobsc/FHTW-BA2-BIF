@@ -26,12 +26,12 @@ export class DeviceService {
     }
 
     getComponents(type: string) {
-        return this.http.get('http://localhost:14373/api/devices/types/' + type)
+        return this.http.get('http://localhost:14373/api/devices/components/' + type)
             .map((response: Response) => response.json());
     }
 
     getComponentValues(type: string, component: string) {
-        return this.http.get('http://localhost:14373/api/devices/types/' + type + '/' + component)
+        return this.http.get('http://localhost:14373/api/devices/components/' + type + '/' + component)
             .map((response: Response) => response.json());
     }
 }
