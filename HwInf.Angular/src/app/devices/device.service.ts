@@ -24,4 +24,9 @@ export class DeviceService {
     return this.http.get('http://localhost:14373/api/devices/types/')
         .map((response: Response) => response.json());
   }
+
+  getComponents(type: string) {
+    return this.http.get('http://localhost:14373/api/devices/types/' + type)
+        .map((response: Response) => response.json());
+  }
 }
