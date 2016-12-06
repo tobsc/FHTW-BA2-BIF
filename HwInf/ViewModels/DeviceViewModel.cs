@@ -13,6 +13,7 @@ namespace HwInf.Models
         public string InvNum { get; set; }
         public string Brand { get; set; }
         public string Status { get; set; }
+        public int StatusId { get; set; }
         public string TypeName { get; set; }
         public int TypeId { get; set; }
         public IDictionary<string,string> DeviceMetaData { get; set; }
@@ -37,6 +38,7 @@ namespace HwInf.Models
             target.InvNum = source.InvNum;
             target.Brand = source.Brand;
             target.Status = source.Status.Description;
+            target.StatusId = source.Status.StatusId;
             target.TypeId = source.Type.TypeId;
             target.TypeName = source.Type.Description;
         }
@@ -50,6 +52,7 @@ namespace HwInf.Models
             target.InvNum = source.InvNum;
             target.Brand = source.Brand;
             target.Status.Description = source.Status;
+            target.Status.StatusId = source.StatusId;
             target.Type = db.DeviceTypes.Single(i => i.TypeId == source.TypeId);
         }
 
