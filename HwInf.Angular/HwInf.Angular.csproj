@@ -68,7 +68,7 @@
     <TypeScriptCompile Include="src\app\devices\device.service.ts" />
     <TypeScriptCompile Include="src\app\devices\device.ts" />
     <TypeScriptCompile Include="src\app\devices\devices.component.ts" />
-    <TypeScriptCompile Include="src\app\devices\devices.routes.ts" />
+    <TypeScriptCompile Include="src\app\devices\devices.routing.ts" />
     <TypeScriptCompile Include="src\app\index.ts" />
     <TypeScriptCompile Include="src\app\nav.component.ts" />
     <TypeScriptCompile Include="src\app\pipes\keys.pipe.ts" />

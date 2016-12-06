@@ -14,6 +14,7 @@ import { DeviceDetailsComponent } from './devices/device-details/device-details.
 import {routing} from "./app.routing";
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DeviceFilterComponent } from './devices/device-list/device-filter.component';
+import { DevicesStartComponent } from './devices/devices-start.component';
 
 @NgModule({
     declarations: [
@@ -26,6 +27,7 @@ import { DeviceFilterComponent } from './devices/device-list/device-filter.compo
         DeviceDetailsComponent,
         DashboardComponent,
         DeviceFilterComponent,
+        DevicesStartComponent,
     ],
     imports: [
         BrowserModule,
