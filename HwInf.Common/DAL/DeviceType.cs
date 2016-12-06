@@ -8,7 +8,7 @@ using System.Web;
 namespace HwInf.Common.DAL
 {
     [Table("DeviceType")]
-    public class DBDeviceType
+    public class DeviceType
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

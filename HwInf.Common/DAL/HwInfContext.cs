@@ -12,10 +12,10 @@ namespace HwInf.Common.DAL
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<HwInfContext, Configuration>());
         }
 
-        public DbSet<DBDevice> Devices { get; set; }
-        public DbSet<DBDeviceType> DeviceTypes { get; set; }
-        public DbSet<DBDeviceMeta> DeviceMeta { get; set; }
-        public DbSet<DBPerson> Persons { get; set; }
+        public DbSet<Device> Devices { get; set; }
+        public DbSet<DeviceType> DeviceTypes { get; set; }
+        public DbSet<DeviceMeta> DeviceMeta { get; set; }
+        public DbSet<Person> Persons { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

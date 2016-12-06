@@ -22,12 +22,12 @@ namespace HwInf.Models
 
         }
 
-        public DeviceViewModel(DBDevice obj)
+        public DeviceViewModel(Device obj)
         {
             Refresh(obj);
         }
 
-        public void Refresh(DBDevice obj)
+        public void Refresh(Device obj)
         {
             var target = this;
             var source = obj;
@@ -41,7 +41,7 @@ namespace HwInf.Models
             target.TypeName = source.Type.Name;
         }
 
-        public void ApplyChanges(DBDevice obj, HwInfContext db)
+        public void ApplyChanges(Device obj, HwInfContext db)
         {
             var target = obj;
             var source = this;
@@ -58,7 +58,7 @@ namespace HwInf.Models
             var deviceMeta = db.DeviceMeta;
             DeviceMetaData = new Dictionary<string, string>();
 
-            foreach (DBDeviceMeta m in deviceMeta.Include("Device").Where(i => i.Device.DeviceId == DeviceId))
+            foreach (DeviceMeta m in deviceMeta.Include("Device").Where(i => i.Device.DeviceId == DeviceId))
             {
                     DeviceMetaData.Add(m.MetaKey, m.MetaValue);
             }

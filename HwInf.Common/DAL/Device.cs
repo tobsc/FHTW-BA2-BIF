@@ -7,19 +7,21 @@ using System.Web;
 
 namespace HwInf.Common.DAL
 {
-    [Table("DeviceMeta")]
-    public class DBDeviceMeta
+    [Table("Device")]
+    public class Device
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int MetaId { get; set; }
+        public int DeviceId { get; set; }
         [Required]
-        public virtual DBDevice Device { get; set; }
+        public string Name { get; set; }
+
+        public string InvNum { get; set; }
+
+        public string Brand { get; set; }
         [Required]
-        public virtual DBDeviceType DeviceType { get; set; }
+        public int Status { get; set; }
         [Required]
-        public string MetaKey { get; set; }
-        [Required]
-        public string MetaValue { get; set; }
+        public virtual DeviceType Type { get; set; }
     }
 }

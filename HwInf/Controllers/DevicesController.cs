@@ -39,12 +39,40 @@ namespace HwInf.Controllers
             return json;
         }
 
-        // GET: api/devices/filter/{type}/{filters?}
+
+        // GET: api/devices/{id}
+        /// <summary>
+        /// Returns device of given id
+        /// </summary>
+        /// <param name="id">Device ID</param>
+        /// <returns></returns>
+        //[Authorize]
+        [Route("id/{id}")]
+        public IHttpActionResult GetDevice(int id)
+        {
+            var devices = db.Devices.Include(x => x.Type);
+            var json = devices
+             .Where(i => i.DeviceId == id)
+             .ToList() // execl SQL
+             .Select(i => new DeviceViewModel(i).loadMeta(db)) // Convert to viewmodel
+             .ToList();
+
+            if (json == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(json);
+        }
+
+
+
+        // GET: api/devices/{type}/{filters?}
         /// <summary>
         /// Filters the Devices with given Parameters
         /// </summary>
-        /// <param name="type"></param>
-        /// <param name="filters"></param>
+        /// <param name="type">Device Type</param>
+        /// <param name="filters">Filter Values</param>
         /// <returns></returns>
 
         // [Authorize]
@@ -77,13 +105,13 @@ namespace HwInf.Controllers
             return json;
         }
 
-        // GET: api/devices/filter/types
+        // GET: api/devices/types
         /// <summary>
-        /// Returns all DeviceTypes
+        /// Returns all device types
         /// </summary>
         /// <returns></returns>
         [Route("types")]
-        public IEnumerable<string> GetDeviceTypes()
+        public IEnumerable<string> GetDeviceComponents()
         {
             var deviceTypes = db.DeviceTypes;
 
@@ -95,14 +123,14 @@ namespace HwInf.Controllers
             return typesList;
         }
 
-        // GET: api/devices/filter/types/{type}
+        // GET: api/devices/filter/components/{type}
         /// <summary>
-        /// Returns all MetaKeys of a DeviceType
+        /// Returns all components of a device type
         /// </summary>
-        /// <param name="type"></param>
+        /// <param name="type">Device Type</param>
         /// <returns></returns>
-        [Route("types/{type}")]
-        public IEnumerable<string> GetFilters(string type)
+        [Route("components/{type}")]
+        public IEnumerable<string> GetComponents(string type)
         {
             var devices = db.Devices.Include(x => x.Type);
             var meta = db.DeviceMeta.Include(x => x.DeviceType);
@@ -122,80 +150,103 @@ namespace HwInf.Controllers
             return deviceFilters;
         }
 
-        // GET: api/devices/filter/types/{type}/{filterKey}
+        // GET: api/devices/types/{type}/{component}
         /// <summary>
-        /// Returns all MetaValues of a Filter
+        /// Returns all values of a component of a device
         /// </summary>
-        /// <param name="type"></param>
-        /// <param name="filterKey"></param>
+        /// <param name="type">Device Type</param>
+        /// <param name="component">Device Compontent</param>
         /// <returns></returns>
-        [Route("types/{type}/{filterKey}")]
-        public IEnumerable<string> GetFiltersValues(string type, string filterKey)
+        [Route("components/{type}/{component}")]
+        public IEnumerable<string> GetComponentValues(string type, string component)
         {
-            var filterValues = new List<string>();
-            if (filterKey.ToLower() == "marke")
+            var componentValues = new List<string>();
+            if (component.ToLower() == "marke")
             {
                 var devices = db.Devices.Include(x => x.Type);
-                filterValues = devices
+                componentValues = devices
                     .Where(i => i.Type.Name.ToLower() == type.ToLower())
                     .OrderBy(i => i.Brand)
                     .Select(i => i.Brand)
                     .Distinct()
                     .ToList();
 
-                filterValues.Sort();
+                componentValues.Sort();
             } else
             {
                 var meta = db.DeviceMeta.Include(x => x.DeviceType);
-                filterValues = meta
+                componentValues = meta
                     .Where(i => i.DeviceType.Name.ToLower() == type.ToLower())
-                    .Where(i => i.MetaKey.ToLower() == filterKey.ToLower())
+                    .Where(i => i.MetaKey.ToLower() == component.ToLower())
                     .OrderBy(i => i.MetaValue)
                     .Select(i => i.MetaValue)
                     .Distinct()
                     .ToList();
 
-                filterValues.Sort();
+                componentValues.Sort();
             }
 
-            return filterValues;
+            return componentValues;
         }
 
-        // GET: api/devices/{id}
+
+
+        // POST: api/devices/create
         /// <summary>
-        /// Returns device of given id
+        /// Creates a new Device in Database
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="vmdl">Device View Model</param>
         /// <returns></returns>
         //[Authorize]
-        [Route("id/{id}")]
-        public IHttpActionResult GetDevice(int id)
+        [Route("create")]
+        [ResponseType(typeof(Device))]
+        public IHttpActionResult PostDevice([FromBody]DeviceViewModel vmdl)
         {
-            var devices = db.Devices.Include(x => x.Type);
-            var json = devices
-             .Where(i => i.DeviceId == id)
-             .ToList() // execl SQL
-             .Select(i => new DeviceViewModel(i).loadMeta(db)) // Convert to viewmodel
-             .ToList();
-
-            if (json == null)
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                return BadRequest(ModelState);
             }
 
-            return Ok(json);
+            if(db.Devices.Count(i => i.InvNum == vmdl.InvNum) > 0)
+            {
+                return BadRequest("Device already exists!");
+            }
+
+            Device dev = new Device();
+            dev.Name = vmdl.Name;
+            dev.InvNum = vmdl.InvNum;
+            dev.Status = vmdl.Status;
+            dev.Type = db.DeviceTypes.Single(i => i.TypeId == vmdl.TypeId);
+
+            db.Devices.Add(dev);
+
+            foreach (var m in vmdl.DeviceMetaData)
+            {
+                db.DeviceMeta.Add(new DeviceMeta
+                {
+                    MetaKey = m.Key,
+                    MetaValue = m.Value,
+                    Device = dev,
+                    DeviceType = dev.Type
+                });
+            }
+
+            db.SaveChanges();
+
+            return Ok(vmdl);
         }
+
 
         // PUT: api/Devicee/5
         /// <summary>
-        /// 
+        /// NOT IMPLEMENTED!
         /// </summary>
         /// <param name="id"></param>
         /// <param name="Dev"></param>
         /// <returns></returns>
         //[Authorize]
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutDevice(int id, DBDevice Dev)
+        public IHttpActionResult PutDevice(int id, Device Dev)
         {
             if (!ModelState.IsValid)
             {
@@ -228,61 +279,16 @@ namespace HwInf.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/devices/create
-        /// <summary>
-        /// Creates a new Device in Database
-        /// </summary>
-        /// <param name="vmdl"></param>
-        /// <returns></returns>
-        //[Authorize]
-        [Route("create")]
-        [ResponseType(typeof(DBDevice))]
-        public IHttpActionResult PostDevice([FromBody]DeviceViewModel vmdl)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if(db.Devices.Count(i => i.InvNum == vmdl.InvNum) > 0)
-            {
-                return BadRequest("Device already exists!");
-            }
-
-            DBDevice dev = new DBDevice();
-            dev.Name = vmdl.Name;
-            dev.InvNum = vmdl.InvNum;
-            dev.Status = vmdl.Status;
-            dev.Type = db.DeviceTypes.Single(i => i.TypeId == vmdl.TypeId);
-
-            db.Devices.Add(dev);
-
-            foreach (var m in vmdl.DeviceMetaData)
-            {
-                db.DeviceMeta.Add(new DBDeviceMeta
-                {
-                    MetaKey = m.Key,
-                    MetaValue = m.Value,
-                    Device = dev,
-                    DeviceType = dev.Type
-                });
-            }
-
-            db.SaveChanges();
-
-            return Ok(vmdl);
-        }
-
         // DELETE: api/devicee/{id}
         /// <summary>
         /// Deletes the device with the given id
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Device ID</param>
         /// <returns></returns>
-        [ResponseType(typeof(DBDevice))]
+        [ResponseType(typeof(Device))]
         public IHttpActionResult DeleteDevice(int id)
         {
-            DBDevice Dev = db.Devices.Find(id);
+            Device Dev = db.Devices.Find(id);
             if (Dev == null)
             {
                 return NotFound();

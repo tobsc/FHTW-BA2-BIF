@@ -61,11 +61,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DAL\DBDevice.cs" />
-    <Compile Include="DAL\DBDeviceMeta.cs" />
-    <Compile Include="DAL\DBDeviceType.cs" />
-    <Compile Include="DAL\DBPerson.cs" />
+    <Compile Include="DAL\Device.cs" />
+    <Compile Include="DAL\DeviceMeta.cs" />
+    <Compile Include="DAL\DeviceStatus.cs" />
+    <Compile Include="DAL\DeviceType.cs" />
     <Compile Include="DAL\HwInfContext.cs" />
+    <Compile Include="DAL\Person.cs" />
     <Compile Include="LDAPAuthenticator.cs" />
     <Compile Include="Migrations\201611302111289_Initial_Create.cs" />
     <Compile Include="Migrations\201611302111289_Initial_Create.Designer.cs">

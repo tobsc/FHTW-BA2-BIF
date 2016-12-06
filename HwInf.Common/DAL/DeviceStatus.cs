@@ -8,19 +8,16 @@ using System.Threading.Tasks;
 
 namespace HwInf.Common.DAL
 {
-
-    [Table("Persons")]
-    public class DBPerson
+    [Table("DeviceStatus")]
+    class DeviceStatus
     {
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int PersId { get; set; }
+        public int StatusId { get; set; }
         [Required]
-        public string Name { get; set; }
-        [Required]
-        public string Email { get; set; }
-        public string Phone { get; set; }
-        [Required]
-        public string uid { get; set; }
+        public string Status { get; set; }
+
+
     }
 }
