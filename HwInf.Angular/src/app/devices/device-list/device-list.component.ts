@@ -11,7 +11,7 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class DeviceListComponent implements OnInit, OnDestroy {
     private subscription: Subscription;
-    private currentType: string = "";
+    private currentType: string;
 
     private devices: Device[] = [];
     constructor(private deviceService: DeviceService, private route: ActivatedRoute) { }
@@ -24,6 +24,25 @@ export class DeviceListComponent implements OnInit, OnDestroy {
                 }
             );
         this.deviceService.getDevices(this.currentType)
+            .subscribe(
+                (data: Device[]) => {
+                    this.devices = data;
+                }
+            );
+    }
+
+    private updateList(filterParams: string) {
+        this.deviceService.getDevices(this.currentType, filterParams)
+            .subscribe(
+                (data: Device[]) => {
+                    this.devices = data;
+                }
+            );
+    }
+
+    clicked(event) {
+        event.preventDefault();
+        this.deviceService.getDevices(this.currentType, "intel")
             .subscribe(
                 (data: Device[]) => {
                     this.devices = data;

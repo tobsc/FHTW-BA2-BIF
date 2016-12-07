@@ -11,8 +11,8 @@ export class DeviceService {
 
     constructor(private http: Http) {}
 
-    getDevices(type: string = ""): Observable<Device[]> {
-        return this.http.get('http://localhost:14373/api/devices/' + type)
+    getDevices(type: string = "", filter: string = ""): Observable<Device[]> {
+        return this.http.get('http://localhost:14373/api/devices/' + type + '/' + filter)
             .map((response: Response) => response.json());
     }
 

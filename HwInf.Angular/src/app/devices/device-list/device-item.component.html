@@ -1,7 +1,7 @@
 
-<span class="label label-success pull-right" [ngSwitch]="device.Status">
-    <span *ngSwitchCase="0">
-        Verfügbar
+<span class="label label-success pull-right" [ngSwitch]="device.StatusId">
+    <span *ngSwitchCase="1">
+        {{device.Status}}
     </span>
 </span>
 
