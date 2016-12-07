@@ -30,8 +30,11 @@ export class DeviceFilterComponent implements OnInit, OnDestroy {
     }
 
     private updateChecked(event) {
+
+        console.log(event);
+
         let value: string = event.target.value.toLowerCase();
-        if (event.srcElement.checked) {
+        if (event.target.checked) {
             this.addItem(value);
         }
         else {
