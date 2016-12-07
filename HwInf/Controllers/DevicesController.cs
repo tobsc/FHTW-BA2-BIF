@@ -20,7 +20,7 @@ namespace HwInf.Controllers
 
         // GET: api/devices/all
         /// <summary>
-        /// Returns a List of all Devices
+        /// Returns a list of all devices
         /// </summary>
         /// <returns></returns>
         [Route("")]
@@ -69,7 +69,7 @@ namespace HwInf.Controllers
 
         // GET: api/devices/{type}/{filters?}
         /// <summary>
-        /// Filters the Devices with given Parameters
+        /// Filters the devices with given parameters
         /// </summary>
         /// <param name="type">Device Type</param>
         /// <param name="filters">Filter Values</param>
@@ -125,7 +125,7 @@ namespace HwInf.Controllers
 
         // GET: api/devices/filter/components/{type}
         /// <summary>
-        /// Returns all components of a device type
+        /// Returns all components of a device with their values
         /// </summary>
         /// <param name="type">Device Type</param>
         /// <returns></returns>
@@ -180,55 +180,10 @@ namespace HwInf.Controllers
             return json;
         }
 
-        // GET: api/devices/types/{type}/{component}
-        /// <summary>
-        /// Returns all values of a component of a device
-        /// </summary>
-        /// <param name="type">Device Type</param>
-        /// <param name="component">Device Compontent</param>
-        /// <returns></returns>
-        [Route("components/{type}/{component}")]
-        public IDictionary<string, object> GetComponentValues(string type, string component)
-        {
-            List<string> componentValues = new List<string>();
-            if (component.ToLower() == "marke")
-            {
-                var devices = db.Devices.Include(x => x.Type);
-                componentValues = devices
-                    .Where(i => i.Type.Description.ToLower() == type.ToLower())
-                    .OrderBy(i => i.Brand)
-                    .Select(i => i.Brand)
-                    .Distinct()
-                    .ToList();
-
-                componentValues.Sort();
-            } else
-            {
-                var meta = db.DeviceMeta.Include(x => x.DeviceType);
-                componentValues = meta
-                    .Where(i => i.DeviceType.Description.ToLower() == type.ToLower())
-                    .Where(i => i.MetaKey.ToLower() == component.ToLower())
-                    .OrderBy(i => i.MetaValue)
-                    .Select(i => i.MetaValue)
-                    .Distinct()
-                    .ToList();
-
-                componentValues.Sort();
-            }
-
-            IDictionary<string, object> json = new Dictionary<string, object>();
-          
-            json.Add("component", component);
-            json.Add("values", componentValues); 
-
-            return json;
-        }
-
-
 
         // POST: api/devices/create
         /// <summary>
-        /// Creates a new Device in Database
+        /// Creates a new device
         /// </summary>
         /// <param name="vmdl">Device View Model</param>
         /// <returns></returns>

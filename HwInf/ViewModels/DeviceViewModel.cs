@@ -14,7 +14,7 @@ namespace HwInf.Models
         public string Brand { get; set; }
         public string Status { get; set; }
         public int StatusId { get; set; }
-        public string TypeName { get; set; }
+        public string Type { get; set; }
         public int TypeId { get; set; }
         public IDictionary<string,string> DeviceMetaData { get; set; }
 
@@ -40,7 +40,7 @@ namespace HwInf.Models
             target.Status = source.Status.Description;
             target.StatusId = source.Status.StatusId;
             target.TypeId = source.Type.TypeId;
-            target.TypeName = source.Type.Description;
+            target.Type= source.Type.Description;
         }
 
         public void ApplyChanges(Device obj, HwInfContext db)
