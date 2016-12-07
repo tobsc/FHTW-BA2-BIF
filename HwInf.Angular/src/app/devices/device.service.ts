@@ -26,7 +26,7 @@ export class DeviceService {
             .map((response: Response) => response.json());
     }
 
-    getComponents(type: string): Observable<string[]> {
+    getComponents(type: string): Observable<any[]> {
         return this.http.get('http://localhost:14373/api/devices/components/' + type)
             .map((response: Response) => response.json());
     }

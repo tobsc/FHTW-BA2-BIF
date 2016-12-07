@@ -13,7 +13,7 @@ import {Response} from "@angular/http";
 })
 export class DeviceFilterComponent implements OnInit, OnDestroy {
     private subscription: Subscription;
-    private components: string[] = [];
+    private components: any[] = [];
     private currentType: string;
 
     constructor(private deviceService: DeviceService, private route: ActivatedRoute) {}
@@ -26,6 +26,7 @@ export class DeviceFilterComponent implements OnInit, OnDestroy {
                     this.deviceService.getComponents(this.currentType).subscribe(
                         (data: string[]) => {
                             this.components = data;
+                            console.log(data);
                         }
                     );
                 }
