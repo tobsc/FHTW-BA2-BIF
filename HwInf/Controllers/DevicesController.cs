@@ -72,14 +72,14 @@ namespace HwInf.Controllers
         /// Filters the devices with given parameters
         /// </summary>
         /// <param name="type">Device Type</param>
-        /// <param name="filters">Filter Values</param>
         /// <returns></returns>
 
         // [Authorize]
-        [Route("{type}/{filters?}")]
-        public IEnumerable<DeviceViewModel> GetFilter(string type, string filters = "all")
+        [Route("{type}")]
+        public IEnumerable<DeviceViewModel> GetFilter(string type)
         {
 
+            var parameterQuery = Request.GetQueryNameValuePairs();
             var devices = db.Devices.Include(x => x.Type);
 
             var data = devices
@@ -91,17 +91,28 @@ namespace HwInf.Controllers
 
             var json = new List<DeviceViewModel>();
             json = data.ToList();
-            if (filters != "all")
+
+            if (parameterQuery.Count() != 0)
             {
-                var parameters = filters.Split('|');
                 json.Clear();
-                foreach (var m in parameters)
+
+                var searchData = data.ToList();
+
+
+                foreach (var p in parameterQuery)
                 {
-                    json = new List<DeviceViewModel>(json.Union(data.Where(i => i.DeviceMetaData.Values.Any(v => v.ToLower().Contains(m.ToLower()))).ToList()));
-                    json = new List<DeviceViewModel>(json.Union(data.Where(i => i.Brand.ToLower() == m.ToLower()))); 
+                    json.Clear();
+                    var paramValues = p.Value.Split('|');
+
+                    foreach (var m in paramValues)
+                    {
+                        json = new List<DeviceViewModel>(json.Union(searchData.Where(i => i.DeviceMetaData.Values.Any(v => v.ToLower().Contains(m.ToLower()))).ToList()));
+                        json = new List<DeviceViewModel>(json.Union(searchData.Where(i => i.Brand.ToLower() == m.ToLower())));
+                    }
+
+                    searchData = json.ToList();
                 }
             }
-
             return json;
         }
 
