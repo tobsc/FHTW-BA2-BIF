@@ -1,10 +1,8 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnDestroy, Output, EventEmitter} from '@angular/core';
 import {DeviceService} from "../device.service";
 import {ActivatedRoute} from "@angular/router";
 import {Subscription, Observable} from "rxjs";
-import {IDictionary} from "../../shared/IDictionary";
-import {Dictionary} from "../../shared/Dictionary";
-import {Response} from "@angular/http";
+import {DeviceComponent} from "../DeviceComponent.class";
 
 @Component({
     selector: 'hw-inf-device-filter',
@@ -13,8 +11,11 @@ import {Response} from "@angular/http";
 })
 export class DeviceFilterComponent implements OnInit, OnDestroy {
     private subscription: Subscription;
-    private components: any[] = [];
+    private components: Observable<DeviceComponent[]>;
     private currentType: string;
+    private checkedValues: string[] = [];
+
+    @Output() deviceListUpdated = new EventEmitter<string[]>();
 
     constructor(private deviceService: DeviceService, private route: ActivatedRoute) {}
 
@@ -23,17 +24,32 @@ export class DeviceFilterComponent implements OnInit, OnDestroy {
             .subscribe(
                 (params: any) => {
                     this.currentType = params['type'];
-                    this.deviceService.getComponents(this.currentType).subscribe(
-                        (data: string[]) => {
-                            this.components = data;
-                            console.log(data);
-                        }
-                    );
+                    this.components = this.deviceService.getComponents(this.currentType);
                 }
             );
     }
 
-    getComponentValues(type: string, component: string) {
+    private updateChecked(event) {
+        let value: string = event.target.value.toLowerCase();
+        if (event.srcElement.checked) {
+            this.addItem(value);
+        }
+        else {
+            this.deleteItem(value);
+        }
+        console.log(this.checkedValues);
+        this.deviceListUpdated.emit(this.checkedValues);
+    }
+
+    private addItem(value: string) {
+        this.checkedValues.push(value);
+    }
+
+    private deleteItem(value: string) {
+        this.checkedValues.splice(this.checkedValues.indexOf(value), 1);
+    }
+
+    private getComponentValues(type: string, component: string) {
         return this.deviceService.getComponentValues(type, component);
     }
 

@@ -1,7 +1,7 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
-import {Device} from "../device";
+import {Device} from "../Device.class";
 import {DeviceService} from "../device.service";
-import {Subscription} from "rxjs";
+import {Subscription, Observable} from "rxjs";
 import {ActivatedRoute} from "@angular/router";
 
 @Component({
@@ -12,8 +12,7 @@ import {ActivatedRoute} from "@angular/router";
 export class DeviceListComponent implements OnInit, OnDestroy {
     private subscription: Subscription;
     private currentType: string;
-
-    private devices: Device[] = [];
+    private devices: Observable<Device[]>;
     constructor(private deviceService: DeviceService, private route: ActivatedRoute) { }
 
     ngOnInit() {
@@ -21,35 +20,14 @@ export class DeviceListComponent implements OnInit, OnDestroy {
             .subscribe(
                 (params: any) => {
                    this.currentType = params['type'];
-                }
-            );
-        this.deviceService.getDevices(this.currentType)
-            .subscribe(
-                (data: Device[]) => {
-                    this.devices = data;
+                   this.devices = this.deviceService.getDevices(this.currentType);
                 }
             );
     }
 
-    private updateList(filterParams: string) {
-        this.deviceService.getDevices(this.currentType, filterParams)
-            .subscribe(
-                (data: Device[]) => {
-                    this.devices = data;
-                }
-            );
+    private updateList(filterParams: string[]) {
+        this.devices = this.deviceService.getDevices(this.currentType, filterParams);
     }
-
-    clicked(event) {
-        event.preventDefault();
-        this.deviceService.getDevices(this.currentType, "intel")
-            .subscribe(
-                (data: Device[]) => {
-                    this.devices = data;
-                }
-            );
-    }
-
 
     ngOnDestroy() {
         this.subscription.unsubscribe();

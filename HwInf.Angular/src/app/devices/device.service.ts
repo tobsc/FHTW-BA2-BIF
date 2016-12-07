@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import {Device} from "./device";
+import {Device} from "./Device.class";
 import {Http, Response} from "@angular/http";
 import 'rxjs/Rx';
 import {Dictionary} from "../shared/Dictionary";
 import {Observable} from "rxjs";
+import {DeviceComponent} from "./DeviceComponent.class";
 
 @Injectable()
 export class DeviceService {
@@ -11,8 +12,9 @@ export class DeviceService {
 
     constructor(private http: Http) {}
 
-    getDevices(type: string = "", filter: string = ""): Observable<Device[]> {
-        return this.http.get('http://localhost:14373/api/devices/' + type + '/' + filter)
+    getDevices(type: string = "", filter: string[] = []): Observable<Device[]> {
+        let filterString: string =  filter.join('|');
+        return this.http.get('http://localhost:14373/api/devices/' + type + '/' + filterString)
             .map((response: Response) => response.json());
     }
 
@@ -26,7 +28,7 @@ export class DeviceService {
             .map((response: Response) => response.json());
     }
 
-    getComponents(type: string): Observable<any[]> {
+    getComponents(type: string): Observable<DeviceComponent[]> {
         return this.http.get('http://localhost:14373/api/devices/components/' + type)
             .map((response: Response) => response.json());
     }

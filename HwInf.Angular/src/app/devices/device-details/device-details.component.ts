@@ -2,7 +2,7 @@ import {Component, OnInit, OnDestroy} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {DeviceService} from "../device.service";
 import {Subscription} from "rxjs";
-import {Device} from "../device";
+import {Device} from "../Device.class";
 
 @Component({
     selector: 'hw-inf-device-details',
