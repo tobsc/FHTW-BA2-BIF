@@ -156,7 +156,7 @@ namespace HwInf.Controllers
             brands.Sort();
 
             IDictionary<string, object> brandList = new Dictionary<string, object>();
-            brandList.Add("component", "Marke");
+            brandList.Add("component", "Brand");
             brandList.Add("values", brands);
 
             json.Add(brandList);

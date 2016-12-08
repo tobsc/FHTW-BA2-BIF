@@ -3,6 +3,9 @@ import {DeviceService} from "../device.service";
 import {ActivatedRoute} from "@angular/router";
 import {Subscription, Observable} from "rxjs";
 import {DeviceComponent} from "../DeviceComponent.class";
+import {NgForm} from "@angular/forms";
+import {IDictionary} from "../../shared/IDictionary";
+import {Dictionary} from "../../shared/Dictionary";
 
 @Component({
     selector: 'hw-inf-device-filter',
@@ -11,10 +14,9 @@ import {DeviceComponent} from "../DeviceComponent.class";
 })
 export class DeviceFilterComponent implements OnInit, OnDestroy {
     private subscription: Subscription;
-    private components: Observable<DeviceComponent[]>;
+    private components: DeviceComponent[];
     private currentType: string;
-    private checkedValues: string[] = [];
-
+    private checkedValues: IDictionary<string[]> = new Dictionary<string[]>();
     @Output() deviceListUpdated = new EventEmitter<string[]>();
 
     constructor(private deviceService: DeviceService, private route: ActivatedRoute) {}
@@ -24,32 +26,37 @@ export class DeviceFilterComponent implements OnInit, OnDestroy {
             .subscribe(
                 (params: any) => {
                     this.currentType = params['type'];
-                    this.components = this.deviceService.getComponents(this.currentType);
+                    this.deviceService.getComponents(this.currentType)
+                        .subscribe((data: DeviceComponent[]) => {
+                            this.components = data;
+                            for (let c of data) {
+                                this.checkedValues.add(c.component.toLowerCase(), []);
+                            }
+                        });
                 }
             );
     }
 
-    private updateChecked(event) {
+    private updateList(event) {
 
-        console.log(event);
+        if(event.target.checked) {
 
-        let value: string = event.target.value.toLowerCase();
-        if (event.target.checked) {
-            this.addItem(value);
+            this.addItem(this.checkedValues.get(event.target.value), event.target.name);
         }
         else {
-            this.deleteItem(value);
+            this.deleteItem(this.checkedValues.get(event.target.value), event.target.name);
         }
+
         console.log(this.checkedValues);
-        this.deviceListUpdated.emit(this.checkedValues);
+        //this.deviceListUpdated.emit(this.checkedValues);
     }
 
-    private addItem(value: string) {
-        this.checkedValues.push(value);
+    private addItem(array: string[], value: string) {
+        array.push(value);
     }
 
-    private deleteItem(value: string) {
-        this.checkedValues.splice(this.checkedValues.indexOf(value), 1);
+    private deleteItem(array: string[], value: string) {
+        array.splice(array.indexOf(value), 1);
     }
 
     private getComponentValues(type: string, component: string) {

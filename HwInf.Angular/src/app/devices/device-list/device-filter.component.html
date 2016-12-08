@@ -1,15 +1,13 @@
-<div class="panel panel-default" *ngFor="let component of components | async">
-    <!-- Default panel contents -->
-    <div class="panel-heading">{{component.component}}</div>
-    <!-- List group -->
-    <ul class="list-group">
-        <li class="list-group-item" *ngFor="let value of component.values">
-            <div>
-
-                <span class="pull-left"><input type="checkbox" (change)="updateChecked($event)" value="{{value}}"></span>
-                <span>{{value}}</span>
-            </div>
-
-        </li>
-    </ul>
-</div>
+    <div class="panel panel-default" *ngFor="let component of components">
+        <!-- Default panel contents -->
+        <div class="panel-heading">{{component.component}}</div>
+        <!-- List group -->
+        <ul class="list-group">
+            <li class="list-group-item" *ngFor="let value of component.values">
+                <div>
+                    <span class="pull-left"><input type="checkbox" class="filter-checkbox" value="{{component.component | lowercase}}" (change)="updateList($event)"/></span>
+                    <label htmlFor='{{value}}'>{{value}}</label>
+                </div>
+            </li>
+        </ul>
+    </div>
