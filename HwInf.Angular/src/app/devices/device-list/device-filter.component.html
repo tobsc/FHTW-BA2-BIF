@@ -5,8 +5,8 @@
         <ul class="list-group">
             <li class="list-group-item" *ngFor="let value of component.values">
                 <div>
-                    <span class="pull-left"><input type="checkbox" class="filter-checkbox" value="{{component.component | lowercase}}" (change)="updateList($event)"/></span>
-                    <label htmlFor='{{value}}'>{{value}}</label>
+                    <span class="pull-left"><input type="checkbox" name="{{value | lowercase}}" value="{{component.component | lowercase}}" (change)="updateList($event)"/></span>
+                    <label  htmlFor='{{value}}'>{{value}}</label>
                 </div>
             </li>
         </ul>

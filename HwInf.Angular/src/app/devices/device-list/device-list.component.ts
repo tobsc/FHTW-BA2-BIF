@@ -3,6 +3,7 @@ import {Device} from "../Device.class";
 import {DeviceService} from "../device.service";
 import {Subscription, Observable} from "rxjs";
 import {ActivatedRoute} from "@angular/router";
+import {URLSearchParams} from "@angular/http";
 
 @Component({
     selector: 'hw-inf-device-list',
@@ -13,6 +14,7 @@ export class DeviceListComponent implements OnInit, OnDestroy {
     private subscription: Subscription;
     private currentType: string;
     private devices: Observable<Device[]>;
+
     constructor(private deviceService: DeviceService, private route: ActivatedRoute) { }
 
     ngOnInit() {
@@ -25,8 +27,8 @@ export class DeviceListComponent implements OnInit, OnDestroy {
             );
     }
 
-    private updateList(filterParams: string[]) {
-        this.devices = this.deviceService.getDevices(this.currentType, filterParams);
+    private updateList(params: URLSearchParams) {
+        this.devices = this.deviceService.getDevices(this.currentType, params);
     }
 
     ngOnDestroy() {

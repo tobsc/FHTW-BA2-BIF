@@ -6,6 +6,7 @@ import {DeviceComponent} from "../DeviceComponent.class";
 import {NgForm} from "@angular/forms";
 import {IDictionary} from "../../shared/IDictionary";
 import {Dictionary} from "../../shared/Dictionary";
+import {URLSearchParams} from "@angular/http";
 
 @Component({
     selector: 'hw-inf-device-filter',
@@ -17,7 +18,7 @@ export class DeviceFilterComponent implements OnInit, OnDestroy {
     private components: DeviceComponent[];
     private currentType: string;
     private checkedValues: IDictionary<string[]> = new Dictionary<string[]>();
-    @Output() deviceListUpdated = new EventEmitter<string[]>();
+    @Output() deviceListUpdated = new EventEmitter<URLSearchParams>();
 
     constructor(private deviceService: DeviceService, private route: ActivatedRoute) {}
 
@@ -38,29 +39,34 @@ export class DeviceFilterComponent implements OnInit, OnDestroy {
     }
 
     private updateList(event) {
-
         if(event.target.checked) {
-
             this.addItem(this.checkedValues.get(event.target.value), event.target.name);
         }
         else {
             this.deleteItem(this.checkedValues.get(event.target.value), event.target.name);
         }
 
-        console.log(this.checkedValues);
-        //this.deviceListUpdated.emit(this.checkedValues);
+        console.log(this.searchParams().toString());
+        this.deviceListUpdated.emit(this.searchParams());
     }
 
-    private addItem(array: string[], value: string) {
+    private searchParams(): URLSearchParams {
+        let result = new URLSearchParams();
+        for (let key of this.checkedValues.keys()) {
+            let arr: string[] = this.checkedValues.get(key);
+            for (let value of arr) {
+                result.append(key, value);
+            }
+        }
+        return result;
+    }
+
+    private addItem(array: string[], value: string): void {
         array.push(value);
     }
 
-    private deleteItem(array: string[], value: string) {
+    private deleteItem(array: string[], value: string): void {
         array.splice(array.indexOf(value), 1);
-    }
-
-    private getComponentValues(type: string, component: string) {
-        return this.deviceService.getComponentValues(type, component);
     }
 
     ngOnDestroy() {
