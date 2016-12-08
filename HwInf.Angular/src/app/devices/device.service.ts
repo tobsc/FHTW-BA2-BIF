@@ -13,27 +13,27 @@ export class DeviceService {
     constructor(private http: Http) {}
 
     getDevices(type: string = "", params: URLSearchParams = null): Observable<Device[]> {
-        return this.http.get('http://localhost:14373/api/devices/' + type + '/', { search: params })
+        return this.http.get('/api/devices/' + type + '/', { search: params })
             .map((response: Response) => response.json());
     }
 
     getDevice(id: number): Observable<Device[]> {
-        return this.http.get('http://localhost:14373/api/devices/id/' + id)
+        return this.http.get('/api/devices/id/' + id)
             .map((response: Response) => response.json());
     }
 
     getTypes(): Observable<string[]> {
-        return this.http.get('http://localhost:14373/api/devices/types/')
+        return this.http.get('/api/devices/types/')
             .map((response: Response) => response.json());
     }
 
     getComponents(type: string): Observable<DeviceComponent[]> {
-        return this.http.get('http://localhost:14373/api/devices/components/' + type)
+        return this.http.get('/api/devices/components/' + type)
             .map((response: Response) => response.json());
     }
 
     getComponentValues(type: string, component: string): Observable<string[]> {
-        return this.http.get('http://localhost:14373/api/devices/components/' + type + '/' + component.toLowerCase())
+        return this.http.get('/api/devices/components/' + type + '/' + component.toLowerCase())
             .map((response: Response) => response.json());
     }
 }
