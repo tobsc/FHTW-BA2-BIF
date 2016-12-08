@@ -24,19 +24,25 @@ namespace HwInf.Controllers
         /// </summary>
         /// <returns></returns>
         [Route("")]
-        public IEnumerable<DeviceViewModel> GetAll()
+        public IHttpActionResult GetAll()
         {
+            try
+            {
+                var devices = db.Devices.Include(x => x.Type);
 
-            var devices = db.Devices.Include(x => x.Type);
+                var json = devices
+                    .Where(i => i.DeviceId > 0)
+                    .Take(10000)
+                    .ToList() // execl SQL
+                    .Select(i => new DeviceViewModel(i).loadMeta(db)) // Convert to viewmodel
+                    .ToList();
 
-            var json = devices
-                .Where(i => i.DeviceId > 0)
-                .Take(10000)
-                .ToList() // execl SQL
-                .Select(i => new DeviceViewModel(i).loadMeta(db)) // Convert to viewmodel
-                .ToList();
+                return Ok(json);
 
-            return json;
+            } catch
+            {
+                return InternalServerError() ;
+            }
         }
 
 
@@ -50,19 +56,26 @@ namespace HwInf.Controllers
         [Route("id/{id}")]
         public IHttpActionResult GetDevice(int id)
         {
-            var devices = db.Devices.Include(x => x.Type);
-            var json = devices
-             .Where(i => i.DeviceId == id)
-             .ToList() // execl SQL
-             .Select(i => new DeviceViewModel(i).loadMeta(db)) // Convert to viewmodel
-             .ToList();
-
-            if (json == null)
+            try
             {
-                return NotFound();
-            }
+                var devices = db.Devices.Include(x => x.Type);
+                var json = devices
+                 .Where(i => i.DeviceId == id)
+                 .ToList() // execl SQL
+                 .Select(i => new DeviceViewModel(i).loadMeta(db)) // Convert to viewmodel
+                 .ToList();
 
-            return Ok(json);
+                if (json == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(json);
+            } catch
+            {
+                return InternalServerError();
+            }
+            
         }
 
 
@@ -76,44 +89,51 @@ namespace HwInf.Controllers
 
         // [Authorize]
         [Route("{type}")]
-        public IEnumerable<DeviceViewModel> GetFilter(string type)
+        public IHttpActionResult GetFilter(string type)
         {
-
-            var parameterQuery = Request.GetQueryNameValuePairs();
-            var devices = db.Devices.Include(x => x.Type);
-
-            var data = devices
-                .Where(i => i.Type.Description.ToLower().Contains(type.ToLower()))
-                .Take(10000)
-                .ToList() // execl SQL
-                .Select(i => new DeviceViewModel(i).loadMeta(db)) // Convert to viewmodel
-                .ToList();
-
-            var json = new List<DeviceViewModel>();
-            json = data.ToList();
-
-            if (parameterQuery.Count() != 0)
+            try
             {
-                json.Clear();
+                var parameterQuery = Request.GetQueryNameValuePairs();
+                var devices = db.Devices.Include(x => x.Type);
 
-                var searchData = data.ToList();
 
+                var data = devices
+                    .Where(i => i.Type.Description.ToLower().Contains(type.ToLower()))
+                    .Take(10000)
+                    .ToList() // execl SQL
+                    .Select(i => new DeviceViewModel(i).loadMeta(db)) // Convert to viewmodel
+                    .ToList();
 
-                foreach (var p in parameterQuery)
+                var json = new List<DeviceViewModel>();
+                json = data.ToList();
+
+                if (parameterQuery.Count() != 0)
                 {
                     json.Clear();
-                    var paramValues = p.Value.Split('|');
 
-                    foreach (var m in paramValues)
+                    var searchData = data.ToList();
+
+                    foreach (var p in parameterQuery)
                     {
-                        json = new List<DeviceViewModel>(json.Union(searchData.Where(i => i.DeviceMetaData.Values.Any(v => v.ToLower().Contains(m.ToLower()))).ToList()));
-                        json = new List<DeviceViewModel>(json.Union(searchData.Where(i => i.Brand.ToLower() == m.ToLower())));
+                        json.Clear();
+                        var parameters = parameterQuery.Where(i => i.Key == p.Key).Select(i => i.Value).ToList();
+
+                        foreach (var m in parameters)
+                        {
+                            json = new List<DeviceViewModel>(json.Union(searchData.Where(i => i.DeviceMetaData.Values.Any(v => v.ToLower().Contains(m.ToLower()))).ToList()));
+                            json = new List<DeviceViewModel>(json.Union(searchData.Where(i => i.Brand.ToLower() == m.ToLower())));
+                        }
+
+                        searchData = json.ToList();
                     }
 
-                    searchData = json.ToList();
                 }
+                return Ok(json);
+            } catch
+            {
+                return InternalServerError();
             }
-            return json;
+           
         }
 
         // GET: api/devices/types
@@ -122,16 +142,23 @@ namespace HwInf.Controllers
         /// </summary>
         /// <returns></returns>
         [Route("types")]
-        public IEnumerable<string> GetDeviceComponents()
+        public IHttpActionResult GetDeviceComponents()
         {
-            var deviceTypes = db.DeviceTypes;
+            try
+            {
+                var deviceTypes = db.DeviceTypes;
 
 
-            var typesList = deviceTypes
-                .Select(i => i.Description)
-                .ToList();
+                var typesList = deviceTypes
+                    .Select(i => i.Description)
+                    .ToList();
 
-            return typesList;
+                return Ok(typesList);
+            } catch
+            {
+                return InternalServerError();
+            }
+           
         }
 
         // GET: api/devices/filter/components/{type}
@@ -141,54 +168,61 @@ namespace HwInf.Controllers
         /// <param name="type">Device Type</param>
         /// <returns></returns>
         [Route("components/{type}")]
-        public IEnumerable<object> GetComponents(string type)
+        public IHttpActionResult GetComponents(string type)
         {
-            var devices = db.Devices.Include(x => x.Type);
-            var meta = db.DeviceMeta.Include(x => x.DeviceType);
-            List<object> json = new List<object>();
-
-            var brands = devices
-                .Where(i => i.Type.Description.ToLower() == type.ToLower())
-                .Select(i => i.Brand)
-                .Distinct()
-                .ToList();
-
-            brands.Sort();
-
-            IDictionary<string, object> brandList = new Dictionary<string, object>();
-            brandList.Add("component", "Marke");
-            brandList.Add("values", brands);
-
-            json.Add(brandList);
-
-            var deviceComponents = meta
-                    .Where(i => i.DeviceType.Description.ToLower() == type.ToLower())
-                    .Select(i => i.MetaKey)
-                    .Distinct()
-                    .ToList();
-
-            deviceComponents.Sort();
-
-            
-            foreach (var c in deviceComponents)
+            try
             {
-                var componentValues = meta
-                    .Where(i => i.DeviceType.Description.ToLower() == type.ToLower())
-                    .Where(i => i.MetaKey.ToLower() == c.ToLower())
-                    .OrderBy(i => i.MetaValue)
-                    .Select(i => i.MetaValue)
+                var devices = db.Devices.Include(x => x.Type);
+                var meta = db.DeviceMeta.Include(x => x.DeviceType);
+                List<object> json = new List<object>();
+
+                var brands = devices
+                    .Where(i => i.Type.Description.ToLower() == type.ToLower())
+                    .Select(i => i.Brand)
                     .Distinct()
                     .ToList();
 
-                componentValues.Sort();
-                IDictionary<string, object> componentList = new Dictionary<string, object>();
-                componentList.Add("component", c);
-                componentList.Add("values", componentValues);
-                json.Add(componentList);
+                brands.Sort();
 
+                IDictionary<string, object> brandList = new Dictionary<string, object>();
+                brandList.Add("component", "Marke");
+                brandList.Add("values", brands);
+
+                json.Add(brandList);
+
+                var deviceComponents = meta
+                        .Where(i => i.DeviceType.Description.ToLower() == type.ToLower())
+                        .Select(i => i.MetaKey)
+                        .Distinct()
+                        .ToList();
+
+                deviceComponents.Sort();
+
+
+                foreach (var c in deviceComponents)
+                {
+                    var componentValues = meta
+                        .Where(i => i.DeviceType.Description.ToLower() == type.ToLower())
+                        .Where(i => i.MetaKey.ToLower() == c.ToLower())
+                        .OrderBy(i => i.MetaValue)
+                        .Select(i => i.MetaValue)
+                        .Distinct()
+                        .ToList();
+
+                    componentValues.Sort();
+                    IDictionary<string, object> componentList = new Dictionary<string, object>();
+                    componentList.Add("component", c);
+                    componentList.Add("values", componentValues);
+                    json.Add(componentList);
+
+                }
+
+                return Ok(json);
+            } catch
+            {
+                return InternalServerError();
             }
-
-            return json;
+           
         }
 
 
@@ -203,38 +237,44 @@ namespace HwInf.Controllers
         [ResponseType(typeof(Device))]
         public IHttpActionResult PostDevice([FromBody]DeviceViewModel vmdl)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
-            }
-
-            if(db.Devices.Count(i => i.InvNum == vmdl.InvNum) > 0)
-            {
-                return BadRequest("Device already exists!");
-            }
-
-            Device dev = new Device();
-            dev.Description = vmdl.Name;
-            dev.InvNum = vmdl.InvNum;
-            dev.Status.Description = vmdl.Status;
-            dev.Type = db.DeviceTypes.Single(i => i.TypeId == vmdl.TypeId);
-
-            db.Devices.Add(dev);
-
-            foreach (var m in vmdl.DeviceMetaData)
-            {
-                db.DeviceMeta.Add(new DeviceMeta
+                if (!ModelState.IsValid)
                 {
-                    MetaKey = m.Key,
-                    MetaValue = m.Value,
-                    Device = dev,
-                    DeviceType = dev.Type
-                });
+                    return BadRequest(ModelState);
+                }
+
+                if (db.Devices.Count(i => i.InvNum == vmdl.InvNum) > 0)
+                {
+                    return BadRequest("Device already exists!");
+                }
+
+                Device dev = new Device();
+                dev.Description = vmdl.Name;
+                dev.InvNum = vmdl.InvNum;
+                dev.Status.Description = vmdl.Status;
+                dev.Type = db.DeviceTypes.Single(i => i.TypeId == vmdl.TypeId);
+
+                db.Devices.Add(dev);
+
+                foreach (var m in vmdl.DeviceMetaData)
+                {
+                    db.DeviceMeta.Add(new DeviceMeta
+                    {
+                        MetaKey = m.Key,
+                        MetaValue = m.Value,
+                        Device = dev,
+                        DeviceType = dev.Type
+                    });
+                }
+
+                db.SaveChanges();
+
+                return Ok(vmdl);
+            } catch
+            {
+                return InternalServerError();
             }
-
-            db.SaveChanges();
-
-            return Ok(vmdl);
         }
 
 
