@@ -6,7 +6,7 @@
   "apps": [
     {
       "root": "src",
-      "outDir": "../HwInf/wwwroot",
+      "outDir": "dist",
       "assets": [
         "assets",
         "favicon.ico"
@@ -18,10 +18,9 @@
       "prefix": "hw-inf",
       "mobile": false,
       "styles": [
-        "styles.css"
+        "styles.scss"
       ],
-      "scripts": [
-      ],
+      "scripts": [],
       "environments": {
         "source": "environments/environment.ts",
         "dev": "environments/environment.ts",
@@ -29,10 +28,8 @@
       }
     }
   ],
-  "addons": [
-  ],
-  "packages": [
-  ],
+  "addons": [],
+  "packages": [],
   "e2e": {
     "protractor": {
       "config": "./protractor.conf.js"
