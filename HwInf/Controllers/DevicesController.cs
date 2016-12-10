@@ -253,8 +253,9 @@ namespace HwInf.Controllers
                 Device dev = new Device();
                 dev.Description = vmdl.Name;
                 dev.InvNum = vmdl.InvNum;
-                dev.Status.Description = vmdl.Status;
+                dev.Brand = vmdl.Brand;
                 dev.Type = db.DeviceTypes.Single(i => i.TypeId == vmdl.TypeId);
+                dev.Status = db.Status.Single(i => i.StatusId == vmdl.StatusId);
 
                 db.Devices.Add(dev);
 
