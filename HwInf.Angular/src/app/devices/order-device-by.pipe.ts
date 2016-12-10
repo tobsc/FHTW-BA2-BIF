@@ -22,8 +22,8 @@ export class OrderDeviceByPipe implements PipeTransform {
         value.sort((a: Device, b: Device) => {
             let x,y;
             if (args === 'name') {
-                x = a.Name;
-                y = b.Name;
+                x = a.Description;
+                y = b.Description;
             }
             else if (args === 'status') {
                 x = a.StatusId;
