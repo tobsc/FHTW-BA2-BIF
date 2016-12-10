@@ -14,7 +14,7 @@ export class DeviceListComponent implements OnInit, OnDestroy {
     private subscription: Subscription;
     private currentType: string;
     private devices: Observable<Device[]>;
-    private orderByVal: string = 'status';
+    private orderByVal: string = 'name';
 
     constructor(private deviceService: DeviceService, private route: ActivatedRoute) { }
 

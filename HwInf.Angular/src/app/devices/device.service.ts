@@ -26,6 +26,7 @@ export class DeviceService {
         if ( this.types === null) {
             this.types = this.http.get(this.url + 'types/')
                 .map((response: Response) => response.json());
+            console.log("stored in cache");
         }
         return this.types;
     }
