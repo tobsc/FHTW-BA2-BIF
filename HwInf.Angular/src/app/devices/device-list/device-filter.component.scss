@@ -3,12 +3,17 @@
   margin-bottom: 10px;
 }
 
-input {
-  margin-right: 5px;
-}
-
 .panel-heading,
 .list-group-item {
   padding-top: 2px;
   padding-bottom: 2px;
+}
+
+input[type="checkbox"] {
+  margin: 3px 4px 0 0;
+}
+
+label {
+  display: inline;
+  font-weight: 400;
 }

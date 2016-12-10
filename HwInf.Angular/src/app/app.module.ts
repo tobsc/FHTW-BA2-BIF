@@ -15,6 +15,8 @@ import {routing} from "./app.routing";
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DeviceFilterComponent } from './devices/device-list/device-filter.component';
 import { DevicesStartComponent } from './devices/devices-start.component';
+import { OrderDeviceByPipe } from './devices/order-device-by.pipe';
+import { DeviceAddComponent } from './devices/device-add/device-add.component';
 
 @NgModule({
     declarations: [
@@ -28,6 +30,8 @@ import { DevicesStartComponent } from './devices/devices-start.component';
         DashboardComponent,
         DeviceFilterComponent,
         DevicesStartComponent,
+        OrderDeviceByPipe,
+        DeviceAddComponent,
     ],
     imports: [
         BrowserModule,

@@ -1,5 +1,5 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
-import {Device} from "../Device.class";
+import {Device} from "../device.class";
 import {DeviceService} from "../device.service";
 import {Subscription, Observable} from "rxjs";
 import {ActivatedRoute} from "@angular/router";
@@ -14,6 +14,7 @@ export class DeviceListComponent implements OnInit, OnDestroy {
     private subscription: Subscription;
     private currentType: string;
     private devices: Observable<Device[]>;
+    private orderByVal: string = 'status';
 
     constructor(private deviceService: DeviceService, private route: ActivatedRoute) { }
 
@@ -27,8 +28,18 @@ export class DeviceListComponent implements OnInit, OnDestroy {
             );
     }
 
+    /**
+     * Update device list with given search params
+     * which is executed if deviceListUpdated event is emitted
+     * @param params GET params
+     */
     private updateList(params: URLSearchParams) {
         this.devices = this.deviceService.getDevices(this.currentType, params);
+    }
+
+    private updateOrderByValue(event) {
+        this.orderByVal = event.target.value;
+        console.log(this.orderByVal);
     }
 
     ngOnDestroy() {

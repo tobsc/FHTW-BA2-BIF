@@ -120,15 +120,16 @@ namespace HwInf.Controllers
 
                         foreach (var m in parameters)
                         {
-                            json = new List<DeviceViewModel>(json.Union(searchData.Where(i => i.DeviceMetaData.Values.Any(v => v.ToLower().Contains(m.ToLower()))).ToList()));
+                            json = new List<DeviceViewModel>(json.Union(searchData.Where(i => i.DeviceMetaData.Values.Any(v => v.ToLower() == m.ToLower())).ToList()));
                             json = new List<DeviceViewModel>(json.Union(searchData.Where(i => i.Brand.ToLower() == m.ToLower())));
+                            json = new List<DeviceViewModel>(json.Union(searchData.Where(i => i.Name.ToLower().Contains(m.ToLower()))));
                         }
 
                         searchData = json.ToList();
                     }
 
                 }
-                return Ok(json);
+                return Ok(json.OrderBy(o => o.Brand).ToList());
             } catch
             {
                 return InternalServerError();

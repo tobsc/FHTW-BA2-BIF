@@ -47,11 +47,11 @@ namespace HwInf.Common.Migrations
             var dev = new List<Device>
            {
             new Device { Description = "Lenovo Notebook", Brand = "Lenovo", Status = status.Single(i => i.Description == "Verfügbar"), InvNum = "a123", Type = type.Single(i => i.Description == "Notebook")},
-            new Device { Description = "Acer PC", Brand = "Acer", Status = status.Single(i => i.Description == "Verfügbar"), InvNum = "a5123", Type = type.Single(i => i.Description == "PC")},
+            new Device { Description = "Acer PC", Brand = "Acer", Status = status.Single(i => i.Description == "Ausgeliehen"), InvNum = "a5123", Type = type.Single(i => i.Description == "PC")},
             new Device { Description = "Benq Monitor", Brand = "Benq", Status = status.Single(i => i.Description == "Verfügbar"), InvNum = "a6123", Type = type.Single(i => i.Description == "Monitor")},
-            new Device { Description = "Medion PC", Brand = "Medion", Status = status.Single(i => i.Description == "Verfügbar"), InvNum = "a57123", Type = type.Single(i => i.Description == "PC")},
+            new Device { Description = "Medion PC", Brand = "Medion", Status = status.Single(i => i.Description == "In Reparatur"), InvNum = "a57123", Type = type.Single(i => i.Description == "PC")},
             new Device { Description = "HP PC", Brand = "HP", Status = status.Single(i => i.Description == "Verfügbar"), InvNum = "a985123", Type = type.Single(i => i.Description == "PC")},
-            new Device { Description = "Acer PC", Brand = "Acer", Status = status.Single(i => i.Description == "Verfügbar"), InvNum = "a512683", Type = type.Single(i => i.Description == "PC")}
+            new Device { Description = "Acer PC", Brand = "Acer", Status = status.Single(i => i.Description == "Ausgeliehen"), InvNum = "a512683", Type = type.Single(i => i.Description == "PC")}
            };
 
             dev.ForEach(s => context.Devices.Add(s));

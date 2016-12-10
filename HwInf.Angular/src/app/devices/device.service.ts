@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import {Device} from "./Device.class";
+import {Device} from "./device.class";
 import {Http, Response, URLSearchParams} from "@angular/http";
 import 'rxjs/Rx';
 import {Dictionary} from "../shared/Dictionary";
 import {Observable} from "rxjs";
-import {DeviceComponent} from "./DeviceComponent.class";
+import {DeviceComponent} from "./device-component.class";
 
 @Injectable()
 export class DeviceService {

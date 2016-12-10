@@ -1,16 +1,13 @@
-
 <span class="label label-success pull-right" [ngSwitch]="device.StatusId">
-    <span *ngSwitchCase="1">
         {{device.Status}}
-    </span>
 </span>
 
-{{device.Name}}
-
+<strong>{{device.Name}}</strong>
+<br>
+Inventarnummer: {{device.InvNum}}
 <br>
 <ul class="text-muted list-inline">
     <li *ngFor='let attr of device.DeviceMetaData | keys, let i = index'>
-        {{attr.key}}: {{attr.value}}
+        {{attr.key}}:&nbsp;{{attr.value}}
     </li>
 </ul>
-

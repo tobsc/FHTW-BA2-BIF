@@ -28,10 +28,12 @@
     <Content Include="src\app\app.component.html" />
     <Content Include="src\app\dashboard\dashboard.component.css" />
     <Content Include="src\app\dashboard\dashboard.component.html" />
+    <Content Include="src\app\devices\device-add\device-add.component.html" />
     <Content Include="src\app\devices\device-details\device-details.component.css" />
     <Content Include="src\app\devices\device-details\device-details.component.html" />
     <Content Include="src\app\devices\device-list\device-filter.component.css" />
     <Content Include="src\app\devices\device-list\device-filter.component.html" />
+    <Content Include="src\app\devices\device-add\device-add.component.scss" />
     <None Include="src\app\devices\device-list\device-item.component.scss" />
     <Content Include="src\app\devices\device-list\device-item.component.html" />
     <Content Include="src\app\devices\device-list\device-list.component.html" />
@@ -57,20 +59,21 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="src\app\app.component.spec.ts" />
-    <TypeScriptCompile Include="src\app\app.DeviceComponent.class.ts" />
+    <TypeScriptCompile Include="src\app\app.device-component.class.ts" />
     <TypeScriptCompile Include="src\app\app.module.ts" />
     <TypeScriptCompile Include="src\app\app.routing.ts" />
-    <TypeScriptCompile Include="src\app\dashboard\dashboard.DeviceComponent.class.ts" />
-    <TypeScriptCompile Include="src\app\devices\device-details\device-details.DeviceComponent.class.ts" />
-    <TypeScriptCompile Include="src\app\devices\device-list\device-filter.DeviceComponent.class.ts" />
-    <TypeScriptCompile Include="src\app\devices\device-list\device-item.DeviceComponent.class.ts" />
-    <TypeScriptCompile Include="src\app\devices\device-list\device-list.DeviceComponent.class.ts" />
+    <TypeScriptCompile Include="src\app\dashboard\dashboard.device-component.class.ts" />
+    <TypeScriptCompile Include="src\app\devices\device-add\device-add.component.ts" />
+    <TypeScriptCompile Include="src\app\devices\device-details\device-details.device-component.class.ts" />
+    <TypeScriptCompile Include="src\app\devices\device-list\device-filter.device-component.class.ts" />
+    <TypeScriptCompile Include="src\app\devices\device-list\device-item.device-component.class.ts" />
+    <TypeScriptCompile Include="src\app\devices\device-list\device-list.device-component.class.ts" />
     <TypeScriptCompile Include="src\app\devices\device.service.ts" />
-    <TypeScriptCompile Include="src\app\devices\Device.class.ts" />
-    <TypeScriptCompile Include="src\app\devices\devices.DeviceComponent.class.ts" />
+    <TypeScriptCompile Include="src\app\devices\device.class.ts" />
+    <TypeScriptCompile Include="src\app\devices\devices.device-component.class.ts" />
     <TypeScriptCompile Include="src\app\devices\devices.routing.ts" />
     <TypeScriptCompile Include="src\app\index.ts" />
-    <TypeScriptCompile Include="src\app\nav.DeviceComponent.class.ts" />
+    <TypeScriptCompile Include="src\app\nav.device-component.class.ts" />
     <TypeScriptCompile Include="src\app\pipes\keys.pipe.ts" />
     <TypeScriptCompile Include="src\app\polyfills.ts" />
     <TypeScriptCompile Include="src\app\shared\Dictionary.ts" />

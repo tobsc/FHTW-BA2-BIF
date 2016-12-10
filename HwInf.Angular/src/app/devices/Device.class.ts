@@ -3,7 +3,7 @@ export class Device {
     public DeviceId: number,
     public Name: string,
     public InvNum: string,
-    public StatusId: number,
+    public StatusId: string,
     public Status: string,
     public TypeId: string,
     public DeviceMetaData: string[]

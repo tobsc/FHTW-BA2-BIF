@@ -2,7 +2,7 @@ import {Component, OnInit, OnDestroy} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {DeviceService} from "../device.service";
 import {Subscription} from "rxjs";
-import {Device} from "../Device.class";
+import {Device} from "../device.class";
 
 @Component({
     selector: 'hw-inf-device-details',
@@ -24,7 +24,6 @@ export class DeviceDetailsComponent implements OnInit, OnDestroy {
                     this.deviceService.getDevice(deviceId).subscribe(
                         (data: Device[]) => {
                             this.currentDevice = data[0];
-                            console.log(this.currentDevice);
                         }
                     );;
                 }
