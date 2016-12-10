@@ -9,7 +9,7 @@ namespace HwInf.Models
     public class DeviceViewModel
     {
         public int DeviceId { get; set; }
-        public string Name { get; set; }
+        public string Description { get; set; }
         public string InvNum { get; set; }
         public string Brand { get; set; }
         public string Status { get; set; }
@@ -34,7 +34,7 @@ namespace HwInf.Models
             var source = obj;
 
             target.DeviceId = source.DeviceId;
-            target.Name = source.Description;
+            target.Description = source.Description;
             target.InvNum = source.InvNum;
             target.Brand = source.Brand;
             target.Status = source.Status.Description;
@@ -48,7 +48,7 @@ namespace HwInf.Models
             var target = obj;
             var source = this;
 
-            target.Description = source.Name;
+            target.Description = source.Description;
             target.InvNum = source.InvNum;
             target.Brand = source.Brand;
             target.Status.Description = source.Status;

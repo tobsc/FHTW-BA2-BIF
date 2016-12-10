@@ -122,7 +122,7 @@ namespace HwInf.Controllers
                         {
                             json = new List<DeviceViewModel>(json.Union(searchData.Where(i => i.DeviceMetaData.Values.Any(v => v.ToLower() == m.ToLower())).ToList()));
                             json = new List<DeviceViewModel>(json.Union(searchData.Where(i => i.Brand.ToLower() == m.ToLower())));
-                            json = new List<DeviceViewModel>(json.Union(searchData.Where(i => i.Name.ToLower().Contains(m.ToLower()))));
+                            json = new List<DeviceViewModel>(json.Union(searchData.Where(i => i.Description.ToLower().Contains(m.ToLower()))));
                         }
 
                         searchData = json.ToList();
@@ -251,7 +251,7 @@ namespace HwInf.Controllers
                 }
 
                 Device dev = new Device();
-                dev.Description = vmdl.Name;
+                dev.Description = vmdl.Description;
                 dev.InvNum = vmdl.InvNum;
                 dev.Brand = vmdl.Brand;
                 dev.Type = db.DeviceTypes.Single(i => i.TypeId == vmdl.TypeId);
