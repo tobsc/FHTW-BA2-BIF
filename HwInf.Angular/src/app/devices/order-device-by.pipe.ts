@@ -26,14 +26,16 @@ export class OrderDeviceByPipe implements PipeTransform {
                 y = b.Name;
             }
             else if (args === 'status') {
-                x = a.StatusId;
-                y = b.StatusId;
+                x = a.StatusId.toString();
+                y = b.StatusId.toString();
             }
             return this.compare(x,y);
         });
     }
 
-    private compare(x: string, y: string): number {
+    private compare(a: string, b: string): number {
+        let x: string = a.toLowerCase();
+        let y: string = b.toLowerCase();
         return (x < y) ? -1 : (x > y) ? 1 : 0;
     }
 

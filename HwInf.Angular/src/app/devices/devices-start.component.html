@@ -1,1 +1,1 @@
-<button class="btn btn-default btn-lg" routerLink="type/{{type | lowercase}}" *ngFor="let type of types">{{type}}</button>
+<button class="btn btn-default btn-lg" routerLink="type/{{type | lowercase}}" *ngFor="let type of types | async">{{type}}</button>

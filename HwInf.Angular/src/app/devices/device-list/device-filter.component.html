@@ -4,9 +4,16 @@
     <!-- List group -->
     <div class="panel-collapse">
         <ul class="list-group">
-            <li class="list-group-item" *ngFor="let value of component.values; let i = index;">
+            <li class="list-group-item" *ngFor="let value of (component.values); let i = index;">
                 <div>
-                    <span class="pull-left"><input type="checkbox" id="filter-checkbox-{{component.component | lowercase}}-{{i}}" name="{{value | lowercase}}" value="{{component.component | lowercase}}" (change)="updateCheckedList($event)"/></span>
+                    <span class="pull-left">
+                        <input
+                                type="checkbox"
+                                id="filter-checkbox-{{component.component | lowercase}}-{{i}}"
+                                name="{{value | lowercase}}" value="{{component.component | lowercase}}"
+                                (change)="updateCheckedList($event)"
+                        />
+                    </span>
                     <label  htmlFor="filter-checkbox-{{component.component | lowercase}}-{{i}}" class="text-muted">{{value}}</label>
                 </div>
             </li>

@@ -17,6 +17,7 @@ import { DeviceFilterComponent } from './devices/device-list/device-filter.compo
 import { DevicesStartComponent } from './devices/devices-start.component';
 import { OrderDeviceByPipe } from './devices/order-device-by.pipe';
 import { DeviceAddComponent } from './devices/device-add/device-add.component';
+import { SortPipe } from './pipes/sort.pipe';
 
 @NgModule({
     declarations: [
@@ -32,6 +33,7 @@ import { DeviceAddComponent } from './devices/device-add/device-add.component';
         DevicesStartComponent,
         OrderDeviceByPipe,
         DeviceAddComponent,
+        SortPipe,
     ],
     imports: [
         BrowserModule,

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {DeviceService} from "./device.service";
+import {Observable} from "rxjs";
 
 @Component({
     selector: 'hw-inf-devices-start',
@@ -8,17 +9,12 @@ import {DeviceService} from "./device.service";
 })
 export class DevicesStartComponent implements OnInit {
 
-    private types: string[] = [];
+    private types: Observable<string[]>;
 
     constructor(private deviceService: DeviceService) { }
 
     ngOnInit() {
-        this.deviceService.getTypes()
-            .subscribe(
-                (data: string[]) => {
-                    this.types = data;
-                }
-            );
+        this.types = this.deviceService.getTypes();
     }
 
 }
