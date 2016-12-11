@@ -121,15 +121,15 @@ namespace HwInf.Controllers
                         foreach (var m in parameters)
                         {
                             json = new List<DeviceViewModel>(json.Union(searchData.Where(i => i.DeviceMetaData.Values.Any(v => v.ToLower() == m.ToLower())).ToList()));
-                            json = new List<DeviceViewModel>(json.Union(searchData.Where(i => i.Brand.ToLower() == m.ToLower())));
-                            json = new List<DeviceViewModel>(json.Union(searchData.Where(i => i.Description.ToLower().Contains(m.ToLower()))));
+                            json = new List<DeviceViewModel>(json.Union(searchData.Where(i => i.Marke.ToLower() == m.ToLower())));
+                            json = new List<DeviceViewModel>(json.Union(searchData.Where(i => i.Name.ToLower().Contains(m.ToLower()))));
                         }
 
                         searchData = json.ToList();
                     }
 
                 }
-                return Ok(json.OrderBy(o => o.Brand).ToList());
+                return Ok(json.OrderBy(o => o.Marke).ToList());
             } catch
             {
                 return InternalServerError();
@@ -251,9 +251,9 @@ namespace HwInf.Controllers
                 }
 
                 Device dev = new Device();
-                dev.Description = vmdl.Description;
+                dev.Description = vmdl.Name;
                 dev.InvNum = vmdl.InvNum;
-                dev.Brand = vmdl.Brand;
+                dev.Brand = vmdl.Marke;
                 dev.Type = db.DeviceTypes.Single(i => i.TypeId == vmdl.TypeId);
                 dev.Status = db.Status.Single(i => i.StatusId == vmdl.StatusId);
 

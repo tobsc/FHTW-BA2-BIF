@@ -9,9 +9,9 @@ namespace HwInf.Models
     public class DeviceViewModel
     {
         public int DeviceId { get; set; }
-        public string Description { get; set; }
+        public string Name { get; set; }
         public string InvNum { get; set; }
-        public string Brand { get; set; }
+        public string Marke { get; set; }
         public string Status { get; set; }
         public int StatusId { get; set; }
         public string Type { get; set; }
@@ -34,9 +34,9 @@ namespace HwInf.Models
             var source = obj;
 
             target.DeviceId = source.DeviceId;
-            target.Description = source.Description;
+            target.Name = source.Description;
             target.InvNum = source.InvNum;
-            target.Brand = source.Brand;
+            target.Marke = source.Brand;
             target.Status = source.Status.Description;
             target.StatusId = source.Status.StatusId;
             target.TypeId = source.Type.TypeId;
@@ -48,9 +48,9 @@ namespace HwInf.Models
             var target = obj;
             var source = this;
 
-            target.Description = source.Description;
+            target.Description = source.Name;
             target.InvNum = source.InvNum;
-            target.Brand = source.Brand;
+            target.Brand = source.Marke;
             target.Status.Description = source.Status;
             target.Status.StatusId = source.StatusId;
             target.Type = db.DeviceTypes.Single(i => i.TypeId == source.TypeId);
