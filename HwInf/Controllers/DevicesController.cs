@@ -186,7 +186,7 @@ namespace HwInf.Controllers
                 brands.Sort();
 
             IDictionary<string, object> brandList = new Dictionary<string, object>();
-            brandList.Add("component", "Brand");
+            brandList.Add("component", "Marke");
             brandList.Add("values", brands);
 
                 json.Add(brandList);
@@ -225,7 +225,6 @@ namespace HwInf.Controllers
             }
            
         }
-
 
         // POST: api/devices/create
         /// <summary>
