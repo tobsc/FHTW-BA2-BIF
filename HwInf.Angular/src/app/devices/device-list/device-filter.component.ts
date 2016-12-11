@@ -17,6 +17,7 @@ export class DeviceFilterComponent implements OnInit, OnDestroy {
     private subscription: Subscription;
     private components: DeviceComponent[];
     private currentType: string;
+    private deviceTypes: Observable<string[]>;
     private checkedValues: IDictionary<string[]> = new Dictionary<string[]>();
     @Output() deviceListUpdated = new EventEmitter<URLSearchParams>();
     private term: FormControl = new FormControl();
@@ -24,6 +25,7 @@ export class DeviceFilterComponent implements OnInit, OnDestroy {
     constructor(private deviceService: DeviceService, private route: ActivatedRoute) {}
 
     ngOnInit() {
+        this.deviceTypes = this.deviceService.getTypes();
         this.subscription = this.route.params
             .subscribe(
                 (params: any) => {
