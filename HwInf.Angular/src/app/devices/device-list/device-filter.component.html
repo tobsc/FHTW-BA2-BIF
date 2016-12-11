@@ -1,7 +1,7 @@
 
 <ul class="list-unstyled">
   <li *ngFor="let type of deviceTypes | async">
-    <button class="btn btn-default btn-xs" routerLinkActive="active" routerLink="/devices/type/{{type | lowercase}}">{{type}}</button>
+    <button class="btn btn-default btn-xs full-width" routerLinkActive="active" routerLink="/devices/type/{{type | lowercase}}">{{type}}</button>
   </li>
 </ul>
 

@@ -51,4 +51,9 @@ export class DeviceService {
       return this.http.post(this.url + 'create/', bodyString, options)
         .map((response: Response) => response.json());
     }
+    //http://localhost:14373/api/devices/components/pc/prozessor/In
+    getComponentValues(type: string, component: string, term: string) {
+      return this.http.get(this.url + 'components/' + type + '/' + term)
+        .map((response: Response) => response.json());
+    }
 }
