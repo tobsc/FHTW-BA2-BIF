@@ -33,7 +33,6 @@ export class DeviceAddComponent implements OnInit {
   private onSubmit(form: NgForm) {
     let tmpDevice: Device = form.form.value;
     tmpDevice.StatusId = '1';
-
     console.log(JSON.stringify(tmpDevice));
     this.deviceService.addDevice(tmpDevice)
       .subscribe(
