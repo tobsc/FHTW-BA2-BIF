@@ -226,6 +226,66 @@ namespace HwInf.Controllers
            
         }
 
+        /// <summary>
+        /// Returns component values filtered by device type, component and user input
+        /// </summary>
+        /// <param name="type">Device Type</param>
+        /// <param name="component">Device Component (e.g. Marke, Name, Prozessor, etc)</param>
+        /// <param name="input">Input string</param>
+        /// <returns></returns>
+
+        [Route("components/{type}/{component}/{input}")]
+        public IHttpActionResult GetComponentValues(string type, string component, string input)
+        {
+            try
+            {
+                var devices = db.Devices.Include(x => x.Type);
+                var meta = db.DeviceMeta.Include(x => x.DeviceType);
+
+                if (component.ToLower() == "name")
+                {
+                    var componentNameValues = devices
+                        .Where(i => i.Type.Description.ToLower() == type.ToLower())
+                        .Where(i => i.Description.ToLower().Contains(input.ToLower()))
+                        .OrderBy(i => i.Description)
+                        .Select(i => i.Description)
+                        .Distinct();
+
+                    return Ok(componentNameValues);
+
+                } else if (component.ToLower() == "marke" || component.ToLower() == "brand") {
+
+                    var componentBrandValues = devices
+                        .Where(i => i.Type.Description.ToLower() == type.ToLower())
+                        .Where(i => i.Brand.ToLower().Contains(input.ToLower()))
+                        .OrderBy(i => i.Brand)
+                        .Select(i => i.Brand)
+                        .Distinct();
+
+                    return Ok(componentBrandValues);
+
+                } else
+                {
+                    var componentMetaValues = meta
+                        .Where(i => i.DeviceType.Description.ToLower() == type.ToLower())
+                        .Where(i => i.MetaKey.ToLower() == component.ToLower())
+                        .Where(i => i.MetaValue.ToLower().Contains(input.ToLower()))
+                        .OrderBy(i => i.MetaValue)
+                        .Select(i => i.MetaValue)
+                        .Distinct();
+
+                    return Ok(componentMetaValues);
+                }
+
+
+            }
+            catch
+            {
+                return InternalServerError();
+            }
+
+        }
+
         // POST: api/devices/create
         /// <summary>
         /// Creates a new device
