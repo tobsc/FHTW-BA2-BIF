@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {DeviceComponent} from "../device-component.class";
 import {NgForm} from "@angular/forms";
 import {Device} from "../device.class";
+import {error} from "util";
 
 @Component({
   selector: 'hw-inf-device-add',
@@ -11,10 +12,12 @@ import {Device} from "../device.class";
   styleUrls: ['./device-add.component.scss']
 })
 export class DeviceAddComponent implements OnInit {
-  private bla: Observable<Device>;
   private deviceTypes: string[] = [];
   private deviceComponents: Observable<DeviceComponent[]>;
   private selectedType: number = 1;
+
+  private data;
+  private error;
 
   constructor(private deviceService: DeviceService) { }
 
@@ -32,7 +35,16 @@ export class DeviceAddComponent implements OnInit {
     tmpDevice.StatusId = '1';
 
     console.log(JSON.stringify(tmpDevice));
-    this.bla = this.deviceService.addDevice(tmpDevice);
+    this.deviceService.addDevice(tmpDevice)
+      .subscribe(
+        (data) => {
+          this.data = data;
+          console.log(data)
+        },
+        (error) => {
+          this.error = error;
+          console.log(error);
+        });
   }
 
   private onSelectedTypeChange(value): void {
