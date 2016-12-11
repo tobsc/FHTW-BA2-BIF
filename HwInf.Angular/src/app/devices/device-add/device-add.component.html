@@ -1,9 +1,61 @@
-
-
-
-<div class="form-group">
-    <label for="sel1">Select list:</label>
-    <select class="form-control" id="sel1">
-        <option *ngFor="let type of deviceTypes | async">{{type}}</option>
+<form (ngSubmit)="onSubmit(f)" #f="ngForm">
+  <div class="form-group">
+    <label htmlFor="Description">Bezeichnung:</label>
+    <input
+      type="text"
+      class="form-control"
+      id="Description"
+      name="Description"
+      placeholder="Bezeichnung"
+      ngModel
+      required>
+  </div>
+  <div class="form-group">
+    <label htmlFor="InvNum">Inventarnummer:</label>
+    <input
+      type="text"
+      class="form-control"
+      id="InvNum"
+      name="InvNum"
+      placeholder="Inventarnummer"
+      ngModel>
+  </div>
+  <div class="form-group">
+    <label htmlFor="TypeId">Typ:</label>
+    <select
+      class="form-control"
+      id="TypeId"
+      name="TypeId"
+      [(ngModel)]="selectedType"
+      #item
+      (change)="onSelectedTypeChange(item.value)"
+      ngModel
+      required>
+      <option value="{{i+1}}" *ngFor="let type of deviceTypes; let i = index;">{{type}}</option>
     </select>
-</div>
+  </div>
+
+  <div class="form-group">
+    <label htmlFor="Brand">Brand:</label>
+    <input type="password" class="form-control" id="Brand" name="Brand" placeholder="Brand" ngModel>
+  </div>
+  <div ngModelGroup="DeviceMetaData">
+    <div class="form-group" *ngFor="let component of deviceComponents | async">
+      <div *ngIf="component.component.toLowerCase() !== 'brand'">
+        <label htmlFor="{{component.component}}">{{component.component}}</label>
+        <input
+          type="text"
+          class="form-control"
+          id="{{component.component}}"
+          name="{{component.component}}"
+          placeholder="{{component.component}}"
+          ngModel>
+      </div>
+    </div>
+  </div>
+  <input type="hidden" name="StatusId" value="1" ngModel>
+  <button class="btn btn-primary" type="submit">Geräte hinzufügen</button>
+</form>
+
+
+
