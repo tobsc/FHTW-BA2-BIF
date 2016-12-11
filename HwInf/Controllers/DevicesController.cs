@@ -279,6 +279,27 @@ namespace HwInf.Controllers
             }
         }
 
+        // DELETE: api/devicee/{id}
+        /// <summary>
+        /// Deletes the device with the given id
+        /// </summary>
+        /// <param name="id">Device ID</param>
+        /// <returns></returns>
+        [Route("delete/{id}")]
+        public IHttpActionResult DeleteDevice(int id)
+        {
+            Device dev = db.Devices.Find(id);
+            if (dev == null)
+            {
+                return NotFound();
+            }
+
+            db.Devices.Remove(dev);
+            db.SaveChanges();
+
+            return Ok();
+        }
+
 
         // PUT: api/Devicee/5
         /// <summary>
@@ -320,27 +341,6 @@ namespace HwInf.Controllers
             }
 
             return StatusCode(HttpStatusCode.NoContent);
-        }
-
-        // DELETE: api/devicee/{id}
-        /// <summary>
-        /// Deletes the device with the given id
-        /// </summary>
-        /// <param name="id">Device ID</param>
-        /// <returns></returns>
-        [ResponseType(typeof(Device))]
-        public IHttpActionResult DeleteDevice(int id)
-        {
-            Device Dev = db.Devices.Find(id);
-            if (Dev == null)
-            {
-                return NotFound();
-            }
-
-            db.Devices.Remove(Dev);
-            db.SaveChanges();
-
-            return Ok(Dev);
         }
 
         protected override void Dispose(bool disposing)
