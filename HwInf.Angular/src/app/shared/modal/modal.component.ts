@@ -15,7 +15,7 @@ export class ModalComponent {
   public show(text: string = null): void {
     this.modalText = text;
     this.visible = true;
-    setTimeout(() => this.visibleAnimate = true);
+    setTimeout(() => this.visibleAnimate = true, 100);
   }
 
   public hide(): void {

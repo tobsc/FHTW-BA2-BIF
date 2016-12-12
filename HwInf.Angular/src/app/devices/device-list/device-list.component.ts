@@ -1,6 +1,6 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
-import {Device} from "../device.class";
-import {DeviceService} from "../device.service";
+import {Device} from "../shared/device.class";
+import {DeviceService} from "../shared/device.service";
 import {Subscription, Observable} from "rxjs";
 import {ActivatedRoute} from "@angular/router";
 import {URLSearchParams} from "@angular/http";
@@ -22,8 +22,8 @@ export class DeviceListComponent implements OnInit, OnDestroy {
         this.subscription = this.route.params
             .subscribe(
                 (params: any) => {
-                   this.currentType = params['type'];
-                   this.devices = this.deviceService.getDevices(this.currentType);
+                    this.currentType = params['type'];
+                    this.devices = this.deviceService.getDevices(this.currentType);
                 }
             );
     }

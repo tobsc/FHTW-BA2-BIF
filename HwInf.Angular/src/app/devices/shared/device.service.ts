@@ -4,8 +4,8 @@ import {Http, Response, URLSearchParams, Headers, RequestOptions} from "@angular
 import 'rxjs/Rx';
 import {Observable} from "rxjs";
 import {DeviceComponent} from "./device-component.class";
-import {IDictionary} from "../common/dictionary.interface";
-import {Dictionary} from "../common/dictionary.class";
+import {IDictionary} from "../../shared/dictionary.interface";
+import {Dictionary} from "../../shared/dictionary.class";
 
 @Injectable()
 export class DeviceService {

@@ -1,10 +1,10 @@
 import {Component, OnInit, AfterViewInit, Input, ViewChild, OnDestroy} from '@angular/core';
-import {DeviceService} from "../device.service";
+import {DeviceService} from "../shared/device.service";
 import {Observable, Subscription} from "rxjs";
-import {DeviceComponent} from "../device-component.class";
+import {DeviceComponent} from "../shared/device-component.class";
 import {NgForm} from "@angular/forms";
-import {Device} from "../device.class";
-import {ModalComponent} from "../../common/modal/modal.component";
+import {Device} from "../shared/device.class";
+import {ModalComponent} from "../../shared/modal/modal.component";
 import {Router} from "@angular/router";
 
 @Component({
@@ -20,7 +20,6 @@ export class DeviceAddComponent implements OnInit, OnDestroy {
   private deviceComponents: Observable<DeviceComponent[]>;
   private selectedType: number = 1;
   private data;
-  private subscription: Subscription;
 
   constructor(private deviceService: DeviceService, private router: Router) { }
 
@@ -35,13 +34,13 @@ export class DeviceAddComponent implements OnInit, OnDestroy {
   }
 
   private onSubmit(form: NgForm) {
-    this.confirmModal.show();
+    this.confirmModal.show('Sind Sie sicher, dass Sie <strong>' + form.form.value.Name + '</strong> hinzufügen wollen?');
   }
 
   private addDevice(form: NgForm) {
     let tmpDevice: Device = form.form.value;
     tmpDevice.StatusId = '1';
-    this.subscription = this.deviceService.addDevice(tmpDevice)
+    this.deviceService.addDevice(tmpDevice)
       .subscribe(
         (data) => {
           this.data = data;
@@ -54,7 +53,6 @@ export class DeviceAddComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
   }
 
   private onSelectedTypeChange(value): void {
