@@ -331,7 +331,7 @@ namespace HwInf.Controllers
 
                 db.SaveChanges();
 
-                return Ok(vmdl);
+                return Ok(dev.DeviceId);
             } catch
             {
                 return InternalServerError();
