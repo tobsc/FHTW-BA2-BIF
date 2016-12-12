@@ -1,11 +1,11 @@
 import {Component, OnInit, OnDestroy, Output, EventEmitter} from '@angular/core';
-import {DeviceService} from "../device.service";
+import {DeviceService} from "../shared/device.service";
 import {ActivatedRoute} from "@angular/router";
 import {Subscription, Observable} from "rxjs";
-import {DeviceComponent} from "../device-component.class";
+import {DeviceComponent} from "../shared/device-component.class";
 import {NgForm, FormControl} from "@angular/forms";
-import {IDictionary} from "../../common/dictionary.interface";
-import {Dictionary} from "../../common/dictionary.class";
+import {IDictionary} from "../../shared/dictionary.interface";
+import {Dictionary} from "../../shared/dictionary.class";
 import {URLSearchParams} from "@angular/http";
 
 @Component({

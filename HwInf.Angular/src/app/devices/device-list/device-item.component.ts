@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {Device} from "../device.class";
+import {Device} from "../shared/device.class";
 
 @Component({
   selector: 'hw-inf-device-item',

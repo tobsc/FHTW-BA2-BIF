@@ -1,0 +1,13 @@
+.modal {
+  background: rgba(0,0,0,0.6);
+}
+.modal-dialog {
+  @media screen and (min-width: 768px) {
+    width: 600px;
+    margin: 10% auto;
+  }
+}
+.modal-footer,
+.modal-header {
+  padding: 10px 15px;
+}

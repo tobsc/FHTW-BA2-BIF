@@ -1,25 +1,28 @@
-import {Component, OnInit, AfterViewInit, Input} from '@angular/core';
-import {DeviceService} from "../device.service";
-import {Observable} from "rxjs";
-import {DeviceComponent} from "../device-component.class";
+import {Component, OnInit, AfterViewInit, Input, ViewChild, OnDestroy} from '@angular/core';
+import {DeviceService} from "../shared/device.service";
+import {Observable, Subscription} from "rxjs";
+import {DeviceComponent} from "../shared/device-component.class";
 import {NgForm} from "@angular/forms";
-import {Device} from "../device.class";
-import {error} from "util";
+import {Device} from "../shared/device.class";
+import {ModalComponent} from "../../shared/modal/modal.component";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'hw-inf-device-add',
   templateUrl: './device-add.component.html',
   styleUrls: ['./device-add.component.scss']
 })
-export class DeviceAddComponent implements OnInit {
+export class DeviceAddComponent implements OnInit, OnDestroy {
+
+  @ViewChild('confirmModal') private readonly confirmModal: ModalComponent;
+  @ViewChild('errorModal') private readonly errorModal: ModalComponent;
   private deviceTypes: string[] = [];
   private deviceComponents: Observable<DeviceComponent[]>;
   private selectedType: number = 1;
-
   private data;
-  private error;
 
-  constructor(private deviceService: DeviceService) { }
+  constructor(private deviceService: DeviceService, private router: Router) { }
+
 
   ngOnInit() {
     this.deviceService.getTypes()
@@ -31,19 +34,25 @@ export class DeviceAddComponent implements OnInit {
   }
 
   private onSubmit(form: NgForm) {
+    this.confirmModal.show('Sind Sie sicher, dass Sie <strong>' + form.form.value.Name + '</strong> hinzufügen wollen?');
+  }
+
+  private addDevice(form: NgForm) {
     let tmpDevice: Device = form.form.value;
     tmpDevice.StatusId = '1';
-    console.log(JSON.stringify(tmpDevice));
     this.deviceService.addDevice(tmpDevice)
       .subscribe(
         (data) => {
           this.data = data;
-          console.log(data)
+          console.log(data);
+          this.router.navigate(['/devices']);
         },
         (error) => {
-          this.error = error;
-          console.log(error);
+          this.errorModal.show(error);
         });
+  }
+
+  ngOnDestroy() {
   }
 
   private onSelectedTypeChange(value): void {

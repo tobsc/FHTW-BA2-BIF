@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {DeviceService} from "./device.service";
+import {DeviceService} from "./shared/device.service";
 import {Response} from "@angular/http";
 
 @Component({
