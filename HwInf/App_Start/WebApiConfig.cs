@@ -28,6 +28,8 @@ namespace HwInf
                 );
 
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
+
+            config.MessageHandlers.Add(new AuthHandler());
         }
     }
 }

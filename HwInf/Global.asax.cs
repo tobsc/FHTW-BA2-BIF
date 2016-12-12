@@ -14,50 +14,11 @@ namespace HwInf
     {
         public override void Init()
         {
-            base.Init();
-            this.AuthorizeRequest += MvcApplication_AuthorizeRequest;
-        }
+            base.Init();        }
 
         protected void Application_Start()
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
-        }
-
-        void MvcApplication_AuthorizeRequest(object sender, EventArgs e)
-        {
-            var user = HttpContext.Current.User.Identity;
-            if (user.IsAuthenticated)
-            {
-                IPrincipal principal = null;
-
-                if (user.Name.EndsWith(",admin"))
-                {
-                    // Handle impersonation
-                    principal = new GenericPrincipal(new GenericIdentity(user.Name.Split(',').First()), new string[] { "Admin" });
-                }
-                else
-                {
-                    var key = string.Format("roles-{0}", user.Name);
-                    var roles = HttpRuntime.Cache.Get(key) as string[];
-                    if (roles == null)
-                    {
-                        var userModel = LDAPAuthenticator.GetUserParameter(user.Name);
-                        if (userModel.PersonalType == "Teacher")
-                        {
-                            roles = new string[] { "Admin" };
-                        }
-                        else
-                        {
-                            roles = new string[] { };
-                        }
-                        HttpRuntime.Cache.Insert(key, roles, null, Cache.NoAbsoluteExpiration, TimeSpan.FromHours(1));
-                    }
-                    principal = new GenericPrincipal(user, roles);
-                }
-
-                System.Threading.Thread.CurrentPrincipal = principal;
-                HttpContext.Current.User = principal;
-            }
         }
     }
 }
