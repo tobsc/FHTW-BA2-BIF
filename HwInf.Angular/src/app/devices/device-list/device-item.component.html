@@ -1,4 +1,4 @@
-<span class="label pull-right" [ngSwitch]="device.StatusId" [ngClass]="getStatusLabelClass(device.StatusId)">
+<span class="label pull-right" [ngSwitch]="device.StatusId" [statusId]="device.StatusId" hwInfDeviceStatus>
         {{device.Status}}
 </span>
 <strong>{{device.Name}}</strong>

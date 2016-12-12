@@ -22,7 +22,8 @@ export class DeviceService {
    * @returns {Observable<Device[]>}
    */
   getDevices(type: string = "", params: URLSearchParams = null): Observable<Device[]> {
-    return this.http.get(this.url + type + '/', { search: params })
+    let options = new RequestOptions({search: params});
+    return this.http.get(this.url + type + '/', options)
       .map((response: Response) => response.json());
   }
 
