@@ -5,6 +5,7 @@ import {DeviceComponent} from "../device-component.class";
 import {NgForm} from "@angular/forms";
 import {Device} from "../device.class";
 import {ModalComponent} from "../../common/modal/modal.component";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'hw-inf-device-add',
@@ -21,7 +22,7 @@ export class DeviceAddComponent implements OnInit, OnDestroy {
   private data;
   private subscription: Subscription;
 
-  constructor(private deviceService: DeviceService) { }
+  constructor(private deviceService: DeviceService, private router: Router) { }
 
 
   ngOnInit() {
@@ -44,7 +45,8 @@ export class DeviceAddComponent implements OnInit, OnDestroy {
       .subscribe(
         (data) => {
           this.data = data;
-          console.log(data)
+          console.log(data);
+          this.router.navigate(['/devices']);
         },
         (error) => {
           this.errorModal.show(error);
