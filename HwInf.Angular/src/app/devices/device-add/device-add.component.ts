@@ -25,7 +25,7 @@ export class DeviceAddComponent implements OnInit {
     this.deviceService.getTypes()
       .subscribe((data: string[]) => {
         this.deviceTypes = data;
-        this.deviceComponents = this.deviceService.getComponents(this.deviceTypes[this.selectedType-1]);
+        this.deviceComponents = this.deviceService.getComponentsAndValues(this.deviceTypes[this.selectedType-1]);
       });
 
   }
@@ -47,6 +47,6 @@ export class DeviceAddComponent implements OnInit {
   }
 
   private onSelectedTypeChange(value): void {
-    this.deviceComponents = this.deviceService.getComponents(this.deviceTypes[value-1]);
+    this.deviceComponents = this.deviceService.getComponentsAndValues(this.deviceTypes[value-1]);
   }
 }

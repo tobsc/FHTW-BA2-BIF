@@ -8,4 +8,17 @@ import {Device} from "../device.class";
 })
 export class DeviceItemComponent {
   @Input() device: Device;
+
+  /**
+   * @param statusId status of device
+   * @returns the appropriate bootstrap 3 class according to the status id
+   */
+  getStatusLabelClass(statusId: number): string {
+    switch(statusId) {
+      case 1: return 'label-success';
+      case 2: return 'label-warning';
+      case 3: return 'label-danger';
+      default: return 'label-default';
+    }
+  }
 }

@@ -1,7 +1,6 @@
-<span class="label label-success pull-right" [ngSwitch]="device.StatusId">
+<span class="label pull-right" [ngSwitch]="device.StatusId" [ngClass]="getStatusLabelClass(device.StatusId)">
         {{device.Status}}
 </span>
-
 <strong>{{device.Name}}</strong>
 <br>
 Inventarnummer: {{device.InvNum}}

@@ -37,9 +37,12 @@ export class DeviceListComponent implements OnInit, OnDestroy {
         this.devices = this.deviceService.getDevices(this.currentType, params);
     }
 
+    /**
+     * defaults to name
+     * @param event change of order by dropdown
+     */
     private updateOrderByValue(event) {
-        this.orderByVal = event.target.value;
-        console.log(this.orderByVal);
+          this.orderByVal = event.target.value;
     }
 
     ngOnDestroy() {

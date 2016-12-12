@@ -1,11 +1,11 @@
-import {Component, OnInit, OnDestroy, Output, EventEmitter, ViewChild} from '@angular/core';
+import {Component, OnInit, OnDestroy, Output, EventEmitter} from '@angular/core';
 import {DeviceService} from "../device.service";
 import {ActivatedRoute} from "@angular/router";
 import {Subscription, Observable} from "rxjs";
 import {DeviceComponent} from "../device-component.class";
 import {NgForm, FormControl} from "@angular/forms";
-import {IDictionary} from "../../shared/IDictionary";
-import {Dictionary} from "../../shared/Dictionary";
+import {IDictionary} from "../../common/dictionary.interface";
+import {Dictionary} from "../../common/dictionary.class";
 import {URLSearchParams} from "@angular/http";
 
 @Component({
@@ -30,7 +30,7 @@ export class DeviceFilterComponent implements OnInit, OnDestroy {
             .subscribe(
                 (params: any) => {
                     this.currentType = params['type'];
-                    this.deviceService.getComponents(this.currentType)
+                    this.deviceService.getComponentsAndValues(this.currentType)
                         .subscribe((data: DeviceComponent[]) => {
                             this.components = data;
                             // initialize this.checkedValues with keys and empty arrays

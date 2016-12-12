@@ -76,8 +76,8 @@
     <TypeScriptCompile Include="src\app\nav.device-component.class.ts" />
     <TypeScriptCompile Include="src\app\pipes\keys.pipe.ts" />
     <TypeScriptCompile Include="src\app\polyfills.ts" />
-    <TypeScriptCompile Include="src\app\shared\Dictionary.ts" />
-    <TypeScriptCompile Include="src\app\shared\IDictionary.ts" />
+    <TypeScriptCompile Include="src\app\shared\dictionary.class.ts" />
+    <TypeScriptCompile Include="src\app\shared\dictionary.interface.ts" />
     <TypeScriptCompile Include="src\app\test.ts" />
     <TypeScriptCompile Include="src\app\typings.d.ts" />
     <TypeScriptCompile Include="src\environments\environment.prod.ts" />
