@@ -21,6 +21,7 @@ import { SortPipe } from './pipes/sort.pipe';
 import { PanelCollapseDirective } from './shared/panel-collapse.directive';
 import { ModalComponent } from './shared/modal/modal.component';
 import { DeviceStatusDirective } from './devices/shared/device-status.directive';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
     declarations: [
@@ -40,6 +41,7 @@ import { DeviceStatusDirective } from './devices/shared/device-status.directive'
         PanelCollapseDirective,
         ModalComponent,
         DeviceStatusDirective,
+        LoginComponent,
     ],
     imports: [
         BrowserModule,
