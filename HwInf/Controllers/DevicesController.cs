@@ -306,7 +306,7 @@ namespace HwInf.Controllers
 
                 if (db.Devices.Count(i => i.InvNum == vmdl.InvNum) > 0)
                 {
-                    return BadRequest("Device already exists!");
+                    return BadRequest("Es existiert bereits ein Gerät mit dieser Inventarnummer!");
                 }
 
                 Device dev = new Device();
@@ -334,7 +334,7 @@ namespace HwInf.Controllers
                 return Ok(dev.DeviceId);
             } catch
             {
-                return InternalServerError();
+               return InternalServerError(new Exception("Fehler beim erstellen!"));
             }
         }
 
