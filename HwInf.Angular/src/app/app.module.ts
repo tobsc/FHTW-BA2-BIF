@@ -19,6 +19,7 @@ import { OrderDeviceByPipe } from './devices/order-device-by.pipe';
 import { DeviceAddComponent } from './devices/device-add/device-add.component';
 import { SortPipe } from './pipes/sort.pipe';
 import { PanelCollapseDirective } from './common/panel-collapse.directive';
+import { ModalComponent } from './common/modal/modal.component';
 
 @NgModule({
     declarations: [
@@ -36,6 +37,7 @@ import { PanelCollapseDirective } from './common/panel-collapse.directive';
         DeviceAddComponent,
         SortPipe,
         PanelCollapseDirective,
+        ModalComponent,
     ],
     imports: [
         BrowserModule,

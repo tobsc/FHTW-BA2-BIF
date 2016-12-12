@@ -55,6 +55,30 @@
   </div>
   <input type="hidden" name="StatusId" value="1" ngModel>
   <button class="btn btn-primary" type="submit">Geräte hinzufügen</button>
+  <hw-inf-modal #confirmModal>
+    <div class="app-modal-header">
+      header
+    </div>
+    <div class="app-modal-body">
+      Sind Sie sicher, dass Sie dieses Gerät hinzufügen wollen?
+    </div>
+    <div class="app-modal-footer">
+      <button type="button" class="btn btn-default btn-sm" (click)="confirmModal.hide()">Abbrechen</button>
+      <button type="button" class="btn btn-primary btn-sm" (click)="addDevice(f)">Hinzufügen</button>
+    </div>
+  </hw-inf-modal>
+
+  <hw-inf-modal #errorModal>
+    <div class="app-modal-header">
+      Fehler
+    </div>
+    <div class="app-modal-body">
+      Sind Sie sicher, dass Sie dieses Gerät hinzufügen wollen?
+    </div>
+    <div class="app-modal-footer">
+      <button type="button" class="btn btn-default btn-sm" (click)="errorModal.hide()">Schließen</button>
+    </div>
+  </hw-inf-modal>
 </form>
 
 

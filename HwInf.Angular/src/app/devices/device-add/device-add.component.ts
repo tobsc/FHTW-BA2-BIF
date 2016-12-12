@@ -1,25 +1,28 @@
-import {Component, OnInit, AfterViewInit, Input} from '@angular/core';
+import {Component, OnInit, AfterViewInit, Input, ViewChild, OnDestroy} from '@angular/core';
 import {DeviceService} from "../device.service";
-import {Observable} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import {DeviceComponent} from "../device-component.class";
 import {NgForm} from "@angular/forms";
 import {Device} from "../device.class";
-import {error} from "util";
+import {ModalComponent} from "../../common/modal/modal.component";
 
 @Component({
   selector: 'hw-inf-device-add',
   templateUrl: './device-add.component.html',
   styleUrls: ['./device-add.component.scss']
 })
-export class DeviceAddComponent implements OnInit {
+export class DeviceAddComponent implements OnInit, OnDestroy {
+
+  @ViewChild('confirmModal') private readonly confirmModal: ModalComponent;
+  @ViewChild('errorModal') private readonly errorModal: ModalComponent;
   private deviceTypes: string[] = [];
   private deviceComponents: Observable<DeviceComponent[]>;
   private selectedType: number = 1;
-
   private data;
-  private error;
+  private subscription: Subscription;
 
   constructor(private deviceService: DeviceService) { }
+
 
   ngOnInit() {
     this.deviceService.getTypes()
@@ -31,19 +34,25 @@ export class DeviceAddComponent implements OnInit {
   }
 
   private onSubmit(form: NgForm) {
+    this.confirmModal.show();
+  }
+
+  private addDevice(form: NgForm) {
     let tmpDevice: Device = form.form.value;
     tmpDevice.StatusId = '1';
-    console.log(JSON.stringify(tmpDevice));
-    this.deviceService.addDevice(tmpDevice)
+    this.subscription = this.deviceService.addDevice(tmpDevice)
       .subscribe(
         (data) => {
           this.data = data;
           console.log(data)
         },
         (error) => {
-          this.error = error;
-          console.log(error);
+          this.errorModal.show(error);
         });
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   private onSelectedTypeChange(value): void {
