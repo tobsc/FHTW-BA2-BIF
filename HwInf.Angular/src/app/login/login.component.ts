@@ -30,7 +30,6 @@ export class LoginComponent implements OnInit {
         (result: boolean) => {
           if (result) {
             this.router.navigate(['/dashboard']);
-            console.log('yes');
           }
         },
         (error) => {

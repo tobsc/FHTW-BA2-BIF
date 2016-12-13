@@ -45,7 +45,7 @@ export class DeviceAddComponent implements OnInit, OnDestroy {
         (data) => {
           this.data = data;
           console.log(data);
-          this.router.navigate(['/devices']);
+          this.router.navigate(['/devices/id', data]);
         },
         (error) => {
           this.errorModal.show(error);
