@@ -5,13 +5,15 @@ import {User} from "./user.model";
 
 @Injectable()
 export class AuthService {
-
+  private token: string;
   private loggedIn: boolean = false;
-
   private url: string = '/api/Auth/';
 
   constructor(private http: Http) {
     this.loggedIn = !!localStorage.getItem('auth_token');
+    if (this.isLoggedIn()) {
+      this.token = localStorage.getItem('auth_token');
+    }
   }
 
   public login(user: User): Observable<boolean> {
@@ -22,6 +24,7 @@ export class AuthService {
       .map((response: Response) => {
         let token = response.json() && response.json().token;
         if(token) {
+          this.token = token;
           this.loggedIn = true;
           localStorage.setItem('auth_token', token);
           return true;
@@ -35,7 +38,12 @@ export class AuthService {
     return this.loggedIn;
   }
 
+  public getToken(): string {
+    return this.token;
+  }
+
   public logout(): void {
+    this.token = null;
     localStorage.removeItem('auth_token');
     this.loggedIn = false;
   }
