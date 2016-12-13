@@ -14,6 +14,7 @@ using HwInf.Common.DAL;
 namespace HwInf.Controllers
 {
     [RoutePrefix("api/devices")]
+    [Authorize]
     public class DevicesController : ApiController
     {
         private HwInfContext db = new HwInfContext();
