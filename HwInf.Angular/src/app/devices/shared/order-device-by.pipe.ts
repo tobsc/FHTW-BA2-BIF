@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {Device} from "./device.class";
+import {Device} from "./device.model";
 
 @Pipe({
     name: 'orderDeviceBy'

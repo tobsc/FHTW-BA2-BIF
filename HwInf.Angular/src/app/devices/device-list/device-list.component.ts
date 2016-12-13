@@ -1,5 +1,5 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
-import {Device} from "../shared/device.class";
+import {Device} from "../shared/device.model";
 import {DeviceService} from "../shared/device.service";
 import {Subscription, Observable} from "rxjs";
 import {ActivatedRoute} from "@angular/router";

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {DeviceService} from "../devices/shared/device.service";
-import {Device} from "../devices/shared/device.class";
+import {Device} from "../devices/shared/device.model";
 import {Observable} from "rxjs";
 
 @Component({

@@ -22,6 +22,8 @@ import { PanelCollapseDirective } from './shared/panel-collapse.directive';
 import { ModalComponent } from './shared/modal/modal.component';
 import { DeviceStatusDirective } from './devices/shared/device-status.directive';
 import { LoginComponent } from './login/login.component';
+import {AuthService} from "./shared/auth.service";
+import {AuthGuard} from "./shared/auth.guard";
 
 @NgModule({
     declarations: [
@@ -49,7 +51,7 @@ import { LoginComponent } from './login/login.component';
         HttpModule,
         routing
     ],
-    providers: [DeviceService],
+    providers: [DeviceService, AuthService, AuthGuard],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

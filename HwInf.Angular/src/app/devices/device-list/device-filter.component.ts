@@ -2,7 +2,7 @@ import {Component, OnInit, OnDestroy, Output, EventEmitter} from '@angular/core'
 import {DeviceService} from "../shared/device.service";
 import {ActivatedRoute} from "@angular/router";
 import {Subscription, Observable} from "rxjs";
-import {DeviceComponent} from "../shared/device-component.class";
+import {DeviceComponent} from "../shared/device-component.model";
 import {NgForm, FormControl} from "@angular/forms";
 import {IDictionary} from "../../shared/dictionary.interface";
 import {Dictionary} from "../../shared/dictionary.class";

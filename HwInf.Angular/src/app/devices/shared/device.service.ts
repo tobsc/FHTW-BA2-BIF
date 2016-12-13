@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import {Device} from "./device.class";
+import {Device} from "./device.model";
 import {Http, Response, URLSearchParams, Headers, RequestOptions} from "@angular/http";
 import 'rxjs/Rx';
 import {Observable} from "rxjs";
-import {DeviceComponent} from "./device-component.class";
+import {DeviceComponent} from "./device-component.model";
 import {IDictionary} from "../../shared/dictionary.interface";
 import {Dictionary} from "../../shared/dictionary.class";
 

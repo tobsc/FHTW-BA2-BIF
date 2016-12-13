@@ -6,13 +6,13 @@
           <h3 class="panel-title">Please sign in</h3>
         </div>
         <div class="panel-body">
-          <form accept-charset="UTF-8" role="form">
+          <form (ngSubmit)="login(f)" #f="ngForm">
             <fieldset>
               <div class="form-group">
-                <input class="form-control" placeholder="E-mail" name="email" type="text">
+                <input class="form-control" placeholder="UID" name="Uid" type="text" ngModel>
               </div>
               <div class="form-group">
-                <input class="form-control" placeholder="Password" name="password" type="password" value="">
+                <input class="form-control" placeholder="Password" name="Password" type="password" ngModel>
               </div>
               <div class="checkbox">
                 <label>
@@ -27,3 +27,5 @@
     </div>
   </div>
 </div>
+
+<button routerLink="/dashboard">test</button>

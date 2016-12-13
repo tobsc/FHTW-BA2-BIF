@@ -1,9 +1,9 @@
 import {Component, OnInit, AfterViewInit, Input, ViewChild, OnDestroy} from '@angular/core';
 import {DeviceService} from "../shared/device.service";
 import {Observable, Subscription} from "rxjs";
-import {DeviceComponent} from "../shared/device-component.class";
+import {DeviceComponent} from "../shared/device-component.model";
 import {NgForm} from "@angular/forms";
-import {Device} from "../shared/device.class";
+import {Device} from "../shared/device.model";
 import {ModalComponent} from "../../shared/modal/modal.component";
 import {Router} from "@angular/router";
 
