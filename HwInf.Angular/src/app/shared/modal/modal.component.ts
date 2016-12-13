@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Modal} from "./modal.model";
 
 @Component({
   selector: 'hw-inf-modal',
@@ -7,13 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ModalComponent {
 
-  private modalText: string;
+  private modal: Modal = new Modal(null,null,null);
 
   public visible = false;
   private visibleAnimate = false;
 
-  public show(text: string = null): void {
-    this.modalText = text;
+  public show(modal: Modal): void {
+    this.modal = modal;
     this.visible = true;
     setTimeout(() => this.visibleAnimate = true, 100);
   }

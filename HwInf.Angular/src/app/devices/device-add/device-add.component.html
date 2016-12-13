@@ -62,24 +62,15 @@
     <button class="btn btn-primary " type="submit">Gerät hinzufügen</button>
   </div>
   <hw-inf-modal #confirmModal>
-    <div class="app-modal-header">
+    <div class="hw-inf-modal-header">
       Gerät hinzufügen
     </div>
-    <div class="app-modal-body">
+    <div class="hw-inf-modal-body">
       Sind Sie sicher, dass Sie dieses Gerät hinzufügen wollen?
     </div>
-    <div class="app-modal-footer">
+    <div class="hw-inf-modal-footer">
       <button type="button" class="btn btn-default btn-sm" (click)="confirmModal.hide()">Abbrechen</button>
       <button type="button" class="btn btn-primary btn-sm" (click)="addDevice(f)">Hinzufügen</button>
-    </div>
-  </hw-inf-modal>
-
-  <hw-inf-modal #errorModal>
-    <div class="app-modal-header">
-      <strong>Uppss! Es ist ein Fehler aufgetreten:</strong>
-    </div>
-    <div class="app-modal-footer">
-      <button type="button" class="btn btn-default btn-sm" (click)="errorModal.hide()">Schließen</button>
     </div>
   </hw-inf-modal>
 </form>

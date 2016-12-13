@@ -4,20 +4,26 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" (click)="hide()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <ng-content select=".app-modal-header"></ng-content>
+        <ng-content select=".hw-inf-modal-header"></ng-content>
       </div>
       <div class="modal-body">
-        <span [ngSwitch]="modalText">
-          <span *ngSwitchCase="null">
-            <ng-content select=".app-modal-body"></ng-content>
+        <span [ngSwitch]="modal.body">
+          <span *ngSwitchCase="'undefined'">
+            <ng-content select=".hw-inf-modal-body"></ng-content>
           </span>
-          <span *ngSwitchDefault [innerHtml]="modalText"></span>
+          <span *ngSwitchDefault [innerHtml]="modal.body"></span>
         </span>
+      </div>
+
+      <div class="modal-footer">
+
+            <ng-content select=".hw-inf-modal-footer"></ng-content>
 
       </div>
-      <div class="modal-footer">
-        <ng-content select=".app-modal-footer"></ng-content>
-      </div>
+
+      <!--<div class="modal-footer">
+        <ng-content select=".hw-inf-modal-footer"></ng-content>
+      </div>-->
     </div>
   </div>
 </div>

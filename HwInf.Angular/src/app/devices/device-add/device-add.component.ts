@@ -6,6 +6,8 @@ import {NgForm} from "@angular/forms";
 import {Device} from "../shared/device.model";
 import {ModalComponent} from "../../shared/modal/modal.component";
 import {Router} from "@angular/router";
+import {Modal} from "../../shared/modal/modal.model";
+import {ErrorMessageService} from "../../shared/error-message/error-message.service";
 
 @Component({
   selector: 'hw-inf-device-add',
@@ -14,14 +16,17 @@ import {Router} from "@angular/router";
 })
 export class DeviceAddComponent implements OnInit, OnDestroy {
 
-  @ViewChild('confirmModal') private readonly confirmModal: ModalComponent;
-  @ViewChild('errorModal') private readonly errorModal: ModalComponent;
+  @ViewChild(ModalComponent) private readonly confirmModal: ModalComponent;
   private deviceTypes: string[] = [];
   private deviceComponents: Observable<DeviceComponent[]>;
   private selectedType: number = 1;
   private data;
 
-  constructor(private deviceService: DeviceService, private router: Router) { }
+  constructor(
+    private deviceService: DeviceService,
+    private router: Router,
+    private errorMessageService: ErrorMessageService
+  ) { }
 
 
   ngOnInit() {
@@ -34,7 +39,9 @@ export class DeviceAddComponent implements OnInit, OnDestroy {
   }
 
   private onSubmit(form: NgForm) {
-    this.confirmModal.show('Sind Sie sicher, dass Sie <strong>' + form.form.value.Name + '</strong> hinzufügen wollen?');
+    this.confirmModal.show(<Modal>{
+      body: 'Sind Sie sicher, dass Sie <strong>' + form.form.value.Name + '</strong> hinzufügen wollen?'
+    });
   }
 
   private addDevice(form: NgForm) {
@@ -44,11 +51,10 @@ export class DeviceAddComponent implements OnInit, OnDestroy {
       .subscribe(
         (data) => {
           this.data = data;
-          console.log(data);
           this.router.navigate(['/devices/id', data]);
         },
         (error) => {
-          this.errorModal.show(error);
+          this.errorMessageService.showErrorMessage(<Modal>{body:error._body});
         });
   }
 

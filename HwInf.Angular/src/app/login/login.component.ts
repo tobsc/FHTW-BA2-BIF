@@ -5,6 +5,8 @@ import {NgForm} from "@angular/forms";
 import {User} from "../shared/user.model";
 import {ModalComponent} from "../shared/modal/modal.component";
 import {AuthGuard} from "../shared/auth.guard";
+import {ErrorMessageService} from "../shared/error-message/error-message.service";
+import {Modal} from "../shared/modal/modal.model";
 
 @Component({
   selector: 'hw-inf-login',
@@ -13,9 +15,12 @@ import {AuthGuard} from "../shared/auth.guard";
 })
 export class LoginComponent implements OnInit {
 
-  @ViewChild(ModalComponent) errorMessage: ModalComponent;
-
-  constructor(private authService: AuthService, private router: Router, private authGuard: AuthGuard) { }
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private authGuard: AuthGuard,
+    private errorMessageService: ErrorMessageService
+  ) { }
 
   ngOnInit() {
     if (this.authGuard.canActivate()) {
@@ -33,7 +38,10 @@ export class LoginComponent implements OnInit {
           }
         },
         (error) => {
-          this.errorMessage.show('UID oder Password falsch.');
+          this.errorMessageService.showErrorMessage(<Modal>{
+            header: 'Loginfehler:',
+            body: 'UID oder Passwort ist falsch',
+          });
         }
 
       );

@@ -12,9 +12,6 @@ export class SortPipe implements PipeTransform {
     result.sort((a: string, b: string) => {
       return this.ascCompare(a,b);
     });
-
-      console.log(result);
-
       return result;
   }
 

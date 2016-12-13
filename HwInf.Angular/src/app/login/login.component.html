@@ -9,10 +9,10 @@
           <form (ngSubmit)="login(f)" #f="ngForm">
             <fieldset>
               <div class="form-group">
-                <input class="form-control" placeholder="UID" name="Uid" type="text" ngModel>
+                <input class="form-control" placeholder="UID" name="Uid" type="text" ngModel required>
               </div>
               <div class="form-group">
-                <input class="form-control" placeholder="Password" name="Password" type="password" ngModel>
+                <input class="form-control" placeholder="Password" name="Password" type="password" ngModel required>
               </div>
               <div class="checkbox">
                 <label>
@@ -27,9 +27,3 @@
     </div>
   </div>
 </div>
-
-<hw-inf-modal>
-  <div class="app-modal-footer">
-    <button class="btn btn-default btn-sm" type="button" (click)="errorMessage.hide()">Okay</button>
-  </div>
-</hw-inf-modal>
