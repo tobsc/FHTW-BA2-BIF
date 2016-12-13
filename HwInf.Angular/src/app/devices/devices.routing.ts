@@ -7,7 +7,7 @@ import {DevicesComponent} from "./devices.component";
 import {AuthGuard} from "../shared/auth.guard";
 
 const DEVICES_ROUTES: Routes = [
-    { path: '', component: DevicesComponent, canActivate: [AuthGuard], children: [
+    { path: 'devices', component: DevicesComponent, canActivate: [AuthGuard], children: [
       { path: '', component: DevicesStartComponent },
       { path: 'id/:id', component: DeviceDetailsComponent },
       { path: 'type/:type', component: DeviceListComponent },
