@@ -22,6 +22,7 @@ export class AuthService {
       .map((response: Response) => {
         let token = response.json() && response.json().token;
         if(token) {
+          this.loggedIn = true;
           localStorage.setItem('auth_token', token);
           return true;
         } else {
