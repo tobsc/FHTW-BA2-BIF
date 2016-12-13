@@ -5,51 +5,34 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav.component';
-import { DevicesComponent } from './devices/devices.component';
-import { DeviceItemComponent } from './devices/device-list/device-item.component';
-import { DeviceListComponent } from './devices/device-list/device-list.component';
+
 import { DeviceService } from "./devices/shared/device.service";
-import { KeysPipe } from './pipes/keys.pipe';
-import { DeviceDetailsComponent } from './devices/device-details/device-details.component';
+
 import {routing} from "./app.routing";
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { DeviceFilterComponent } from './devices/device-list/device-filter.component';
-import { DevicesStartComponent } from './devices/devices-start.component';
-import { OrderDeviceByPipe } from './devices/shared/order-device-by.pipe';
-import { DeviceAddComponent } from './devices/device-add/device-add.component';
+
 import { SortPipe } from './pipes/sort.pipe';
 import { PanelCollapseDirective } from './shared/panel-collapse.directive';
-import { ModalComponent } from './shared/modal/modal.component';
-import { DeviceStatusDirective } from './devices/shared/device-status.directive';
+
 import { LoginComponent } from './login/login.component';
 import {AuthService} from "./shared/auth.service";
 import {AuthGuard} from "./shared/auth.guard";
+import {DevicesModule} from "./devices/devices.module";
+import {SharedModule} from "./shared/shared.module";
 
 @NgModule({
     declarations: [
         AppComponent,
-        NavComponent,
-        DevicesComponent,
-        DeviceItemComponent,
-        DeviceListComponent,
-        KeysPipe,
-        DeviceDetailsComponent,
         DashboardComponent,
-        DeviceFilterComponent,
-        DevicesStartComponent,
-        OrderDeviceByPipe,
-        DeviceAddComponent,
-        SortPipe,
-        PanelCollapseDirective,
-        ModalComponent,
-        DeviceStatusDirective,
         LoginComponent,
     ],
     imports: [
         BrowserModule,
         FormsModule,
         HttpModule,
-        routing
+        routing,
+        DevicesModule,
+        SharedModule
     ],
     providers: [DeviceService, AuthService, AuthGuard],
     bootstrap: [AppComponent]
