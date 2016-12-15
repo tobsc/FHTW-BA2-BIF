@@ -26,6 +26,7 @@ export class PanelCollapseDirective implements AfterViewInit {
   }
 
   @HostListener('click') toggleClass() {
+
     this.isCollapsed = !this.isCollapsed;
 
     this.renderer.setElementStyle(

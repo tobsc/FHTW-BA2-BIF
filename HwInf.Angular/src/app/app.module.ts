@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import {HttpModule, XHRBackend, RequestOptions} from '@angular/http';
 
 import { AppComponent } from './app.component';
 
@@ -16,6 +16,8 @@ import {AuthGuard} from "./shared/auth.guard";
 import {DevicesModule} from "./devices/devices.module";
 import {SharedModule} from "./shared/shared.module";
 import {ErrorMessageService} from "./shared/error-message/error-message.service";
+import {JwtHttpService} from "./shared/jwt-http.service";
+import {Router} from "@angular/router";
 
 @NgModule({
     declarations: [
@@ -31,7 +33,11 @@ import {ErrorMessageService} from "./shared/error-message/error-message.service"
         DevicesModule,
         SharedModule
     ],
-    providers: [ErrorMessageService, DeviceService, AuthService, AuthGuard],
+    providers: [
+      ErrorMessageService,
+      DeviceService,
+      AuthService,
+      AuthGuard],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

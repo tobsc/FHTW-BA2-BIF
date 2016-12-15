@@ -5,6 +5,7 @@ import {PanelCollapseDirective} from "./panel-collapse.directive";
 import {SortPipe} from "../pipes/sort.pipe";
 import {NavComponent} from "../nav.component";
 import { ErrorMessageComponent } from './error-message/error-message.component';
+import {RouterModule} from "@angular/router";
 @NgModule({
   declarations: [
     ModalComponent,
@@ -15,13 +16,14 @@ import { ErrorMessageComponent } from './error-message/error-message.component';
   ],
   imports: [
     CommonModule,
+    RouterModule,
   ],
   exports: [
     ErrorMessageComponent,
     ModalComponent,
     PanelCollapseDirective,
     SortPipe,
-    NavComponent
+    NavComponent,
   ]
 })
 export class SharedModule {}

@@ -14,6 +14,10 @@ import {KeysPipe} from "../pipes/keys.pipe";
 import {OrderDeviceByPipe} from "./shared/order-device-by.pipe";
 import {SharedModule} from "../shared/shared.module";
 import {NavComponent} from "../nav.component";
+import {Router} from "@angular/router";
+import {AuthService} from "../shared/auth.service";
+import {RequestOptions, XHRBackend} from "@angular/http";
+import {JwtHttpService} from "../shared/jwt-http.service";
 @NgModule({
   declarations: [
     DevicesComponent,
@@ -32,6 +36,15 @@ import {NavComponent} from "../nav.component";
     SharedModule,
     FormsModule,
     devicesRouting
+  ],
+  providers: [
+    {
+      provide: JwtHttpService,
+      useFactory: (backend: XHRBackend, options: RequestOptions, auth: AuthService, router: Router) => {
+        return new JwtHttpService(backend, options, auth, router);
+      },
+      deps: [XHRBackend, RequestOptions, AuthService, Router]
+    }
   ]
 })
 export class DevicesModule { }

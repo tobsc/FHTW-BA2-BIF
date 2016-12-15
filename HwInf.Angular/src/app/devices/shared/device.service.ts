@@ -7,6 +7,7 @@ import {DeviceComponent} from "./device-component.model";
 import {IDictionary} from "../../shared/dictionary.interface";
 import {Dictionary} from "../../shared/dictionary.class";
 import {AuthService} from "../../shared/auth.service";
+import {JwtHttpService} from "../../shared/jwt-http.service";
 
 @Injectable()
 export class DeviceService {
@@ -14,7 +15,7 @@ export class DeviceService {
   private deviceTypes: Observable<string[]> = null;
   private deviceComponents: IDictionary<Observable<DeviceComponent[]>> = new Dictionary<Observable<DeviceComponent[]>>();
 
-  constructor(private http: Http, private authService: AuthService) {}
+  constructor(private http: JwtHttpService, private authService: AuthService) {}
 
   /**
    * Get devices of given type with given search params
@@ -23,10 +24,8 @@ export class DeviceService {
    * @returns {Observable<Device[]>}
    */
   getDevices(type: string = "", params: URLSearchParams = null): Observable<Device[]> {
-    let headers = new Headers({'Authorization': 'Bearer ' + this.authService.getToken()});
     let options = new RequestOptions({
       search: params,
-      headers: headers
     });
     return this.http.get(this.url + type + '/', options)
       .map((response: Response) => response.json());
@@ -38,11 +37,7 @@ export class DeviceService {
    * @returns {Observable<Device[]>} should return an array of size 1
    */
   getDevice(id: number): Observable<Device[]> {
-    let headers = new Headers({'Authorization': 'Bearer ' + this.authService.getToken()});
-    let options = new RequestOptions({
-      headers: headers
-    });
-    return this.http.get(this.url + 'id/' + id, options)
+    return this.http.get(this.url + 'id/' + id)
       .map((response: Response) => response.json());
   }
 
@@ -51,11 +46,7 @@ export class DeviceService {
    */
   getTypes(): Observable<string[]> {
     if ( this.deviceTypes === null) {
-      let headers = new Headers({'Authorization': 'Bearer ' + this.authService.getToken()});
-      let options = new RequestOptions({
-        headers: headers
-      });
-      this.deviceTypes = this.http.get(this.url + 'types/', options)
+      this.deviceTypes = this.http.get(this.url + 'types/')
         .map((response: Response) => response.json())
         .cache();
     }
@@ -70,15 +61,9 @@ export class DeviceService {
    */
   getComponentsAndValues(type: string): Observable<DeviceComponent[]> {
     if (!this.deviceComponents.containsKey(type)) {
-      let headers = new Headers({'Authorization': 'Bearer ' + this.authService.getToken()});
-      let options = new RequestOptions({
-        headers: headers
-      });
-
-
       this.deviceComponents.add(
         type,
-        this.http.get(this.url +'components/' + type, options)
+        this.http.get(this.url +'components/' + type)
           .map((response: Response) => response.json())
           .cache()
       );
@@ -95,7 +80,6 @@ export class DeviceService {
     let bodyString = JSON.stringify(body);
     let headers = new Headers({
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + this.authService.getToken()
     });
     let options = new RequestOptions({headers: headers});
     return this.http.post(this.url + 'create/', bodyString, options)

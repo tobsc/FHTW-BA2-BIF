@@ -11,7 +11,8 @@
       placeholder="Name"
       ngModel
       required
-      autocomplete="nope">
+      autocomplete="nope"
+      autofocus>
   </div>
   <div class="form-group">
     <label htmlFor="InvNum">Inventarnummer:</label>
@@ -70,7 +71,7 @@
     </div>
     <div class="hw-inf-modal-footer">
       <button type="button" class="btn btn-default btn-sm" (click)="confirmModal.hide()">Abbrechen</button>
-      <button type="button" class="btn btn-primary btn-sm" (click)="addDevice(f)">Hinzufügen</button>
+      <button type="submit" class="btn btn-primary btn-sm" (click)="addDevice(f)" autofocus>Hinzufügen</button>
     </div>
   </hw-inf-modal>
 </form>

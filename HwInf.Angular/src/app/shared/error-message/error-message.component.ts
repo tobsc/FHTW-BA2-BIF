@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild, HostListener} from '@angular/core';
 import {ModalComponent} from "../modal/modal.component";
 import {ErrorMessageService} from "./error-message.service";
 import {Modal} from "../modal/modal.model";
