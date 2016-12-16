@@ -18,11 +18,11 @@ import {SharedModule} from "./shared/shared.module";
 import {ErrorMessageService} from "./shared/error-message/error-message.service";
 import {JwtHttpService} from "./shared/jwt-http.service";
 import {Router} from "@angular/router";
+import {DashboardModule} from "./dashboard/dashboard.module";
 
 @NgModule({
     declarations: [
         AppComponent,
-        DashboardComponent,
         LoginComponent,
     ],
     imports: [
@@ -31,13 +31,22 @@ import {Router} from "@angular/router";
         HttpModule,
         routing,
         DevicesModule,
-        SharedModule
+        SharedModule,
+        DashboardModule,
     ],
     providers: [
+      {
+        provide: JwtHttpService,
+        useFactory: (backend: XHRBackend, options: RequestOptions, auth: AuthService, router: Router) => {
+          return new JwtHttpService(backend, options, auth, router);
+        },
+        deps: [XHRBackend, RequestOptions, AuthService, Router]
+      },
       ErrorMessageService,
       DeviceService,
       AuthService,
-      AuthGuard],
+      AuthGuard
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

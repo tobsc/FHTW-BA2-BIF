@@ -4,9 +4,9 @@ import {LoginComponent} from "./login/login.component";
 import {AuthGuard} from "./shared/auth.guard";
 
 const APP_ROUTES: Routes = [
-    { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+    { path: '', redirectTo: '/login', pathMatch: 'full' },
     { path: 'login', component: LoginComponent },
-    { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
+    { path: 'dashboard', loadChildren: 'app/dashboard/dashboard.module#DashboardModule'},
     { path: 'devices', loadChildren: 'app/devices/devices.module#DevicesModule' },
 ];
 
