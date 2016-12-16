@@ -8,15 +8,13 @@ using System.Threading.Tasks;
 
 namespace HwInf.Common.DAL
 {
-    [Table("DeviceStatus")]
-    public class DeviceStatus
+    [Table("Components")]
+    public class Component
     {
-
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int StatusId { get; set; }
-        [Required]
-        public string Description { get; set; }
-
+        public int CompId { get; set; }
+        public string Name { get; set; }
+        public virtual DeviceType DeviceType { get; set; }
     }
 }

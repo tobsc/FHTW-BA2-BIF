@@ -7,21 +7,27 @@ using System.Web;
 
 namespace HwInf.Common.DAL
 {
-    [Table("Device")]
+    [Table("Devices")]
     public class Device
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int DeviceId { get; set; }
         [Required]
-        public string Description { get; set; }
+        public string Name { get; set; }
 
         public string InvNum { get; set; }
-
+        [Required]
         public string Brand { get; set; }
         [Required]
-        public virtual DeviceStatus Status { get; set; }
+        public virtual Person Person { get; set; }
+
+        public virtual Room Room { get; set; }
+        [Required]
+        public virtual Status Status { get; set; }
         [Required]
         public virtual DeviceType Type { get; set; }
+        [Required]
+        public DateTime CreateDate { get; set; }
     }
 }

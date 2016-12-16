@@ -8,25 +8,23 @@ using System.Threading.Tasks;
 
 namespace HwInf.Common.DAL
 {
-
-    [Table("Persons")]
-    public class Person
+    [Table("Orders")]
+   public class Order
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int PersId { get; set; }
+        public int OrderId { get; set; }
         [Required]
-        public string Name { get; set; }
+        public virtual Status Status { get; set; }
         [Required]
-        public string LastName { get; set; }
+        public DateTime Date { get; set; }
         [Required]
-        public string Email { get; set; }
-        public string Tel { get; set; }
+        public DateTime From { get; set; }
         [Required]
-        public string uid { get; set; }
+        public DateTime To { get; set; }
         [Required]
-        public virtual Role Role { get; set; }
-
-        public virtual Room Room { get; set; }
+        public virtual Person Person { get; set; }
+        [Required]
+        public virtual Person Owner { get; set; }
     }
 }

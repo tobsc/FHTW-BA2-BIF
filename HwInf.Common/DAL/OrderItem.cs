@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Web;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace HwInf.Common.DAL
 {
-    [Table("DeviceTypes")]
-    public class DeviceType
+    [Table("OrderItems")]
+    public class OrderItem
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int TypeId { get; set; }
+        public int ItemId { get; set; }
         [Required]
-        public string Description { get; set; }
+        public virtual Device Device { get; set; }
+        [Required]
+        public virtual Order Order { get; set; }
     }
 }

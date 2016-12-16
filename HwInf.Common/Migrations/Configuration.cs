@@ -17,7 +17,7 @@ namespace HwInf.Common.Migrations
 
         protected override void Seed(HwInf.Common.DAL.HwInfContext context)
         {
-
+            /**
             var count = context.Devices.Count();
 
             if(count > 0)
@@ -37,11 +37,11 @@ namespace HwInf.Common.Migrations
             type.ForEach(s => context.DeviceTypes.Add(s));
             context.SaveChanges();
 
-            var status = new List<DeviceStatus>
+            var status = new List<Status>
             {
-                new DeviceStatus { Description = "Verfügbar" },
-                new DeviceStatus { Description = "Ausgeliehen" },
-                new DeviceStatus { Description = "In Reparatur" }
+                new Status { Description = "Verfügbar" },
+                new Status { Description = "Ausgeliehen" },
+                new Status { Description = "In Reparatur" }
             };
 
             var dev = new List<Device>
@@ -78,6 +78,7 @@ namespace HwInf.Common.Migrations
 
             devMeta.ForEach(s => context.DeviceMeta.Add(s));
             context.SaveChanges();
+    **/
             base.Seed(context);
         }
     }
