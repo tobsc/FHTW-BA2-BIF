@@ -8,7 +8,6 @@ import { AppComponent } from './app.component';
 import { DeviceService } from "./devices/shared/device.service";
 
 import {routing} from "./app.routing";
-import { DashboardComponent } from './dashboard/dashboard.component';
 
 import { LoginComponent } from './login/login.component';
 import {AuthService} from "./shared/auth.service";
