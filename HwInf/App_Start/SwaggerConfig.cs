@@ -4,6 +4,11 @@ using HwInf;
 using Swashbuckle.Application;
 using System;
 using System.Xml.XPath;
+using Swashbuckle.Swagger;
+using System.Web.Http.Description;
+using System.Linq;
+using System.Web.Http.Filters;
+using System.Collections.Generic;
 
 [assembly: PreApplicationStartMethod(typeof(SwaggerConfig), "Register")]
 
@@ -35,6 +40,7 @@ namespace HwInf
                         // additional fields by chaining methods off SingleApiVersion.
                         //
                         c.SingleApiVersion("v1", "HwInf");
+                        c.OperationFilter<AddAuthorizationHeaderParameterOperationFilter>();
 
                         // If your API has multiple versions, use "MultipleApiVersions" instead of "SingleApiVersion".
                         // In this case, you must provide a lambda that tells Swashbuckle which actions should be
@@ -59,10 +65,10 @@ namespace HwInf
                         //c.BasicAuth("basic")
                         //    .Description("Basic HTTP Authentication");
                         //
-						// NOTE: You must also configure 'EnableApiKeySupport' below in the SwaggerUI section
+                        // NOTE: You must also configure 'EnableApiKeySupport' below in the SwaggerUI section
                         //c.ApiKey("apiKey")
-                        //    .Description("API Key Authentication")
-                        //    .Name("apiKey")
+                        //    .Description("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJTd2FnZ2VyIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNDk3ODEwOTQ2LCJpYXQiOjE0ODIwODYxNDYsImV4cCI6MTQ4NzM0MjE0Nn0.bRnxLuEqYe_m3Gv3Qno0jcKqja00niKyMg3Tr0ukSdc")
+                        //    .Name("Authorization")
                         //    .In("header");
                         //
                         //c.OAuth2("oauth2")
@@ -241,13 +247,44 @@ namespace HwInf
                         // If your API supports ApiKey, you can override the default values.
                         // "apiKeyIn" can either be "query" or "header"                                                
                         //
-                        //c.EnableApiKeySupport("apiKey", "header");
+                        //c.EnableApiKeySupport("Authorization", "header");
                     });
         }
 
         private static string GetXmlCommentsPath()
         {
             return string.Format(@"{0}\bin\hwinf.xml", AppDomain.CurrentDomain.BaseDirectory);
+        }
+
+    }
+
+    public class AddAuthorizationHeaderParameterOperationFilter : IOperationFilter
+    {
+        public void Apply(Operation operation, SchemaRegistry schemaRegistry, ApiDescription apiDescription)
+        {
+            var filterPipeline = apiDescription.ActionDescriptor.GetFilterPipeline();
+            var isAuthorized = filterPipeline
+                                             .Select(filterInfo => filterInfo.Instance)
+                                             .Any(filter => filter is IAuthorizationFilter);
+
+            var allowAnonymous = apiDescription.ActionDescriptor.GetCustomAttributes<AllowAnonymousAttribute>().Any();
+
+            if (isAuthorized && !allowAnonymous)
+            {
+
+                if (operation.parameters == null)
+                    operation.parameters = new List<Parameter>();
+
+                operation.parameters.Add(new Parameter
+                {
+                    name = "Authorization",
+                    @in = "header",
+                    description = "access token",
+                    required = true,
+                    type = "string"    
+                });
+
+            }
         }
     }
 }

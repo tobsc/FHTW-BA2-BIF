@@ -16,6 +16,7 @@ using System.Web;
 
 namespace HwInf.Controllers
 {
+    [Authorize]
     [RoutePrefix("api/users")]
     public class UsersController : ApiController
     {

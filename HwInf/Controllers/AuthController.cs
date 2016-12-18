@@ -81,36 +81,6 @@ namespace HwInf.Controllers
             return token;
         }
 
-        /// <summary>
-        ///     Creates a random salt to be used for encrypting a password
-        /// </summary>
-        /// <returns></returns>
-        public static string CreateSalt()
-        {
-            var data = new byte[0x10];
-            using (var cryptoServiceProvider = new RNGCryptoServiceProvider())
-            {
-                cryptoServiceProvider.GetBytes(data);
-                return Convert.ToBase64String(data);
-            }
-        }
-
-        /// <summary>
-        ///     Encrypts a password using the given salt
-        /// </summary>
-        /// <param name="password"></param>
-        /// <param name="salt"></param>
-        /// <returns></returns>
-        public static string EncryptPassword(string password, string salt)
-        {
-            using (var sha256 = SHA256.Create())
-            {
-                var saltedPassword = string.Format("{0}{1}", salt, password);
-                var saltedPasswordAsBytes = Encoding.UTF8.GetBytes(saltedPassword);
-                return Convert.ToBase64String(sha256.ComputeHash(saltedPasswordAsBytes));
-            }
-        }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)

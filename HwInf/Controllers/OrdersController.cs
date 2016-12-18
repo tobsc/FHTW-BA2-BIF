@@ -13,6 +13,7 @@ using HwInf.ViewModels;
 
 namespace HwInf.Controllers
 {
+    [Authorize]
     [RoutePrefix("api/orders")]
     public class OrdersController : ApiController
     {
