@@ -21,6 +21,11 @@ namespace HwInf.Controllers
     {
         private HwInfContext db = new HwInfContext();
 
+        /// <summary>
+        /// Returns UserViewModel of given id.
+        /// </summary>
+        /// <param name="id">User ID</param>
+        /// <returns></returns>
         [Route("id/{id}")]
         public IHttpActionResult GetPersonById(int id)
         {
@@ -37,6 +42,11 @@ namespace HwInf.Controllers
             return Unauthorized();
         }
 
+        /// <summary>
+        /// Returns UserViewModel of given uid.
+        /// </summary>
+        /// <param name="uid">User Uid</param>
+        /// <returns></returns>
         [Route("uid/{uid}")]
         public IHttpActionResult GetPersonByUid(string uid)
         {
@@ -53,6 +63,11 @@ namespace HwInf.Controllers
            
         }
 
+        /// <summary>
+        /// Update User Data. Only Tel if not Admin.
+        /// </summary>
+        /// <param name="vmdl"></param>
+        /// <returns></returns>
         [Route("update")]
         public IHttpActionResult PostUpdateUser([FromBody] UserViewModel vmdl)
         {

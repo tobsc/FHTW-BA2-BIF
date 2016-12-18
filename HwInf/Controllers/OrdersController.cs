@@ -19,6 +19,12 @@ namespace HwInf.Controllers
         private HwInfContext db = new HwInfContext();
 
 
+        /// <summary>
+        /// Returns Order by given id.
+        /// </summary>
+        /// <param name="id">Order ID</param>
+        /// <param name="act">NOT IMPLEMENTED.</param>
+        /// <returns></returns>
         [Route("id/{id}/{act?}")]
         public IHttpActionResult GetById(int id, string act = null)
         {
@@ -45,6 +51,11 @@ namespace HwInf.Controllers
 
         }
 
+        /// <summary>
+        /// Returns all orders from a user.
+        /// </summary>
+        /// <param name="uid">User ID</param>
+        /// <returns></returns>
         [Route("uid/{uid}")]
         public IHttpActionResult GetByUid(string uid)
         {
@@ -69,6 +80,11 @@ namespace HwInf.Controllers
 
         }
 
+        /// <summary>
+        /// Creates a new order.
+        /// </summary>
+        /// <param name="vmdl">OrderViewModel</param>
+        /// <returns></returns>
         [RouteAttribute("create")]
         public IHttpActionResult PostOrder([FromBody] OrderViewModel vmdl)
         {
