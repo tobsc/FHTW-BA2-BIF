@@ -37,14 +37,5 @@ import {JwtHttpService} from "../shared/jwt-http.service";
     FormsModule,
     devicesRouting
   ],
-  providers: [
-    {
-      provide: JwtHttpService,
-      useFactory: (backend: XHRBackend, options: RequestOptions, auth: AuthService, router: Router) => {
-        return new JwtHttpService(backend, options, auth, router);
-      },
-      deps: [XHRBackend, RequestOptions, AuthService, Router]
-    }
-  ]
 })
 export class DevicesModule { }
