@@ -14,7 +14,7 @@ using HwInf.Common.DAL;
 namespace HwInf.Controllers
 {
     [RoutePrefix("api/devices")]
-    [Authorize]
+    //[Authorize]
     public class DevicesController : ApiController
     {
         private HwInfContext db = new HwInfContext();
@@ -219,6 +219,11 @@ namespace HwInf.Controllers
 
                 }
 
+                if(json.Count < 2)
+                {
+                    return NotFound();
+                }
+
                 return Ok(json);
             } catch
             {
@@ -247,9 +252,9 @@ namespace HwInf.Controllers
                 {
                     var componentNameValues = devices
                         .Where(i => i.Type.Description.ToLower() == type.ToLower())
-                        .Where(i => i.Description.ToLower().Contains(input.ToLower()))
-                        .OrderBy(i => i.Description)
-                        .Select(i => i.Description)
+                        .Where(i => i.Name.ToLower().Contains(input.ToLower()))
+                        .OrderBy(i => i.Name)
+                        .Select(i => i.Name)
                         .Distinct();
 
                     return Ok(componentNameValues);
@@ -298,8 +303,7 @@ namespace HwInf.Controllers
         [ResponseType(typeof(Device))]
         public IHttpActionResult PostDevice([FromBody]DeviceViewModel vmdl)
         {
-            try
-            {
+
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
@@ -310,8 +314,18 @@ namespace HwInf.Controllers
                     return BadRequest("Es existiert bereits ein Gerät mit dieser Inventarnummer!");
                 }
 
+                if(db.DeviceTypes.Count(i => i.TypeId == vmdl.TypeId) == 0)
+                {
+                    return BadRequest("Type nicht vorhanden!");
+                }
+
+                if (db.Status.Count(i => i.StatusId == vmdl.StatusId) == 0)
+                {
+                    return BadRequest("Status nicht vorhanden!");
+                }
+
                 Device dev = new Device();
-                dev.Description = vmdl.Name;
+                dev.Name = vmdl.Name;
                 dev.InvNum = vmdl.InvNum;
                 dev.Brand = vmdl.Marke;
                 dev.Type = db.DeviceTypes.Single(i => i.TypeId == vmdl.TypeId);
@@ -319,24 +333,24 @@ namespace HwInf.Controllers
 
                 db.Devices.Add(dev);
 
-                foreach (var m in vmdl.DeviceMetaData)
+
+                if (vmdl.DeviceMetaData.Count != 0)
                 {
-                    db.DeviceMeta.Add(new DeviceMeta
+                    foreach (var m in vmdl.DeviceMetaData)
                     {
-                        MetaKey = m.Key,
-                        MetaValue = m.Value,
-                        Device = dev,
-                        DeviceType = dev.Type
-                    });
+                        db.DeviceMeta.Add(new DeviceMeta
+                        {
+                            MetaKey = m.Key,
+                            MetaValue = m.Value,
+                            Device = dev,
+                            DeviceType = dev.Type
+                        });
+                    }
                 }
 
                 db.SaveChanges();
 
                 return Ok(dev.DeviceId);
-            } catch
-            {
-               return InternalServerError(new Exception("Fehler beim erstellen!"));
-            }
         }
 
         // DELETE: api/devicee/{id}

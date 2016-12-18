@@ -34,7 +34,7 @@ namespace HwInf.Models
             var source = obj;
 
             target.DeviceId = source.DeviceId;
-            target.Name = source.Description;
+            target.Name = source.Name;
             target.InvNum = source.InvNum;
             target.Marke = source.Brand;
             target.Status = source.Status.Description;
@@ -48,7 +48,7 @@ namespace HwInf.Models
             var target = obj;
             var source = this;
 
-            target.Description = source.Name;
+            target.Name = source.Name;
             target.InvNum = source.InvNum;
             target.Brand = source.Marke;
             target.Status.Description = source.Status;
