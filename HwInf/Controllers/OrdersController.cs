@@ -26,6 +26,7 @@ namespace HwInf.Controllers
         /// <param name="id">Order ID</param>
         /// <param name="act">NOT IMPLEMENTED.</param>
         /// <returns></returns>
+        [ResponseType(typeof(OrderViewModel))]
         [Route("id/{id}/{act?}")]
         public IHttpActionResult GetById(int id, string act = null)
         {
@@ -57,6 +58,7 @@ namespace HwInf.Controllers
         /// </summary>
         /// <param name="uid">User ID</param>
         /// <returns></returns>
+        [ResponseType(typeof(OrderViewModel))]
         [Route("uid/{uid}")]
         public IHttpActionResult GetByUid(string uid)
         {
@@ -86,7 +88,7 @@ namespace HwInf.Controllers
         /// </summary>
         /// <param name="vmdl">OrderViewModel</param>
         /// <returns></returns>
-        [RouteAttribute("create")]
+                [RouteAttribute("create")]
         public IHttpActionResult PostOrder([FromBody] OrderViewModel vmdl)
         {
             if (!IsCurrentUser(vmdl.PersonUid) && !IsAdmin())

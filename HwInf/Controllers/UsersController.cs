@@ -27,6 +27,7 @@ namespace HwInf.Controllers
         /// </summary>
         /// <param name="id">User ID</param>
         /// <returns></returns>
+        [ResponseType(typeof(UserViewModel))]
         [Route("id/{id}")]
         public IHttpActionResult GetPersonById(int id)
         {
@@ -48,6 +49,7 @@ namespace HwInf.Controllers
         /// </summary>
         /// <param name="uid">User Uid</param>
         /// <returns></returns>
+        [ResponseType(typeof(UserViewModel))]
         [Route("uid/{uid}")]
         public IHttpActionResult GetPersonByUid(string uid)
         {

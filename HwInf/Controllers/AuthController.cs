@@ -11,6 +11,7 @@ using JWT;
 using System.Security.Cryptography;
 using System.Text;
 using HwInf.Common.DAL;
+using System.Web.Http.Description;
 
 namespace HwInf.Controllers
 {
@@ -21,6 +22,7 @@ namespace HwInf.Controllers
         private HwInfContext db = new HwInfContext();
 
         [AllowAnonymous]
+        [ResponseType(typeof(string))]
         [Route("login")]
         [HttpPost]
         public IHttpActionResult SignIn(UserViewModel vmdl)

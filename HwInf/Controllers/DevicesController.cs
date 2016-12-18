@@ -24,6 +24,7 @@ namespace HwInf.Controllers
         /// Returns a list of all devices
         /// </summary>
         /// <returns></returns>
+        [ResponseType(typeof(DeviceViewModel))]
         [Route("")]
         public IHttpActionResult GetAll()
         {
@@ -31,14 +32,14 @@ namespace HwInf.Controllers
             {
                 var devices = db.Devices.Include(x => x.Type);
 
-                var json = devices
+                var vmdl = devices
                     .Where(i => i.DeviceId > 0)
                     .Take(10000)
                     .ToList() // execl SQL
                     .Select(i => new DeviceViewModel(i).loadMeta(db)) // Convert to viewmodel
                     .ToList();
 
-                return Ok(json);
+                return Ok(vmdl);
 
             } catch
             {
@@ -53,25 +54,25 @@ namespace HwInf.Controllers
         /// </summary>
         /// <param name="id">Device ID</param>
         /// <returns></returns>
-        //[Authorize]
+        [ResponseType(typeof(DeviceViewModel))]
         [Route("id/{id}")]
         public IHttpActionResult GetDevice(int id)
         {
             try
             {
                 var devices = db.Devices.Include(x => x.Type);
-                var json = devices
+                var vmdl = devices
                  .Where(i => i.DeviceId == id)
                  .ToList() // execl SQL
                  .Select(i => new DeviceViewModel(i).loadMeta(db)) // Convert to viewmodel
                  .ToList();
 
-                if (json == null)
+                if (vmdl == null)
                 {
                     return NotFound();
                 }
 
-                return Ok(json);
+                return Ok(vmdl);
             } catch
             {
                 return InternalServerError();
@@ -88,7 +89,7 @@ namespace HwInf.Controllers
         /// <param name="type">Device Type</param>
         /// <returns></returns>
 
-        // [Authorize]
+        [ResponseType(typeof(List<DeviceViewModel>))]
         [Route("{type}")]
         public IHttpActionResult GetFilter(string type)
         {
@@ -105,32 +106,32 @@ namespace HwInf.Controllers
                     .Select(i => new DeviceViewModel(i).loadMeta(db)) // Convert to viewmodel
                     .ToList();
 
-                var json = new List<DeviceViewModel>();
-                json = data.ToList();
+                var response = new List<DeviceViewModel>();
+                response = data.ToList();
 
                 if (parameterQuery.Count() != 0)
                 {
-                    json.Clear();
+                    response.Clear();
 
                     var searchData = data.ToList();
 
                     foreach (var p in parameterQuery)
                     {
-                        json.Clear();
+                        response.Clear();
                         var parameters = parameterQuery.Where(i => i.Key == p.Key).Select(i => i.Value).ToList();
 
                         foreach (var m in parameters)
                         {
-                            json = new List<DeviceViewModel>(json.Union(searchData.Where(i => i.DeviceMetaData.Values.Any(v => v.ToLower() == m.ToLower())).ToList()));
-                            json = new List<DeviceViewModel>(json.Union(searchData.Where(i => i.Marke.ToLower() == m.ToLower())));
-                            json = new List<DeviceViewModel>(json.Union(searchData.Where(i => i.Name.ToLower().Contains(m.ToLower()))));
+                            response = new List<DeviceViewModel>(response.Union(searchData.Where(i => i.DeviceMetaData.Values.Any(v => v.ToLower() == m.ToLower())).ToList()));
+                            response = new List<DeviceViewModel>(response.Union(searchData.Where(i => i.Marke.ToLower() == m.ToLower())));
+                            response = new List<DeviceViewModel>(response.Union(searchData.Where(i => i.Name.ToLower().Contains(m.ToLower()))));
                         }
 
-                        searchData = json.ToList();
+                        searchData = response.ToList();
                     }
 
                 }
-                return Ok(json.OrderBy(o => o.Marke).ToList());
+                return Ok(response.OrderBy(o => o.Marke).ToList());
             } catch
             {
                 return InternalServerError();
@@ -143,6 +144,7 @@ namespace HwInf.Controllers
         /// Returns all device types
         /// </summary>
         /// <returns></returns>
+        [ResponseType(typeof(List<string>))]
         [Route("types")]
         public IHttpActionResult GetDeviceComponents()
         {
@@ -169,6 +171,7 @@ namespace HwInf.Controllers
         /// </summary>
         /// <param name="type">Device Type</param>
         /// <returns></returns>
+        [ResponseType(typeof(List<DeviceViewModel>))]
         [Route("components/{type}")]
         public IHttpActionResult GetComponents(string type)
         {
@@ -176,7 +179,7 @@ namespace HwInf.Controllers
             {
                 var devices = db.Devices.Include(x => x.Type);
                 var meta = db.DeviceMeta.Include(x => x.DeviceType);
-                List<object> json = new List<object>();
+                List<object> response = new List<object>();
 
                 var brands = devices
                     .Where(i => i.Type.Description.ToLower() == type.ToLower())
@@ -190,7 +193,7 @@ namespace HwInf.Controllers
             brandList.Add("component", "Marke");
             brandList.Add("values", brands);
 
-                json.Add(brandList);
+                response.Add(brandList);
 
                 var deviceComponents = meta
                         .Where(i => i.DeviceType.Description.ToLower() == type.ToLower())
@@ -215,16 +218,16 @@ namespace HwInf.Controllers
                     IDictionary<string, object> componentList = new Dictionary<string, object>();
                     componentList.Add("component", c);
                     componentList.Add("values", componentValues);
-                    json.Add(componentList);
+                    response.Add(componentList);
 
                 }
 
-                if(json.Count < 2)
+                if(response.Count < 2)
                 {
                     return NotFound();
                 }
 
-                return Ok(json);
+                return Ok(response);
             } catch
             {
                 return InternalServerError();
@@ -239,7 +242,7 @@ namespace HwInf.Controllers
         /// <param name="component">Device Component (e.g. Marke, Name, Prozessor, etc)</param>
         /// <param name="input">Input string</param>
         /// <returns></returns>
-
+        [ResponseType(typeof(IQueryable<string>))]
         [Route("components/{type}/{component}/{input}")]
         public IHttpActionResult GetComponentValues(string type, string component, string input)
         {
@@ -300,7 +303,7 @@ namespace HwInf.Controllers
         /// <returns></returns>
         //[Authorize]
         [Route("create")]
-        [ResponseType(typeof(Device))]
+        [ResponseType(typeof(int))]
         public IHttpActionResult PostDevice([FromBody]DeviceViewModel vmdl)
         {
 
