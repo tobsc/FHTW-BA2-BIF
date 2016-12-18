@@ -10,26 +10,40 @@ using HwInf.ViewModels;
 using JWT;
 using System.Security.Cryptography;
 using System.Text;
+using HwInf.Common.DAL;
 
 namespace HwInf.Controllers
 {
-
+    [RoutePrefix("api/auth")]
     public class AuthController : ApiController
     {
-    
+
+        private HwInfContext db = new HwInfContext();
+
         [AllowAnonymous]
+        [Route("login")]
         [HttpPost]
-        public IHttpActionResult SignIn(LoginViewModel model)
+        public IHttpActionResult SignIn(UserViewModel vmdl)
         {
             
             if (ModelState.IsValid)
             {
-
-
-                if (LDAPAuthenticator.Authenticate(model.Uid, model.Password).IsAuthenticated)
+                if (LDAPAuthenticator.Authenticate(vmdl.Uid, vmdl.Password).IsAuthenticated)
                 {
-                    object dbUser;
-                    var token = CreateToken(model, out dbUser);
+                    Person p;
+
+                    if(db.Persons.Where(i => i.uid == vmdl.Uid).Count() > 0)
+                    {
+                        p = db.Persons.Single(i => i.uid == vmdl.Uid);
+                    } else
+                    {
+                        //Noch nix. LDAP/SOAP UserDaten.
+                        p = new Person();
+                    }
+
+                    vmdl.Refresh(p);
+                    var token = CreateToken(p);
+
                     return Ok(new { token });
                 } else
                 {
@@ -42,7 +56,7 @@ namespace HwInf.Controllers
         }
 
 
-        private static string CreateToken(LoginViewModel vmdl, out object dbUser)
+        private static string CreateToken(Person p)
         {
             var unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             var expiry = Math.Round((DateTime.UtcNow.AddHours(2) - unixEpoch).TotalSeconds);
@@ -52,8 +66,8 @@ namespace HwInf.Controllers
 
             var payload = new Dictionary<string, object>
             {
-                {"uid", vmdl.Uid},
-                {"role", "User"  },
+                {"uid", p.uid},
+                {"role", p.Role.Name  },
                 {"nbf", notBefore},
                 {"iat", issuedAt},
                 {"exp", expiry}
@@ -64,7 +78,6 @@ namespace HwInf.Controllers
 
             var token = JsonWebToken.Encode(payload, apikey, JwtHashAlgorithm.HS256);
 
-            dbUser = new { vmdl.Uid };
             return token;
         }
 
@@ -96,6 +109,15 @@ namespace HwInf.Controllers
                 var saltedPasswordAsBytes = Encoding.UTF8.GetBytes(saltedPassword);
                 return Convert.ToBase64String(sha256.ComputeHash(saltedPasswordAsBytes));
             }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
         }
 
 
