@@ -41,7 +41,11 @@ namespace HwInf.Common.Migrations
             {
                 new Status { Description = "Verfügbar" },
                 new Status { Description = "Ausgeliehen" },
-                new Status { Description = "In Reparatur" }
+                new Status { Description = "In Reparatur" },
+                new Status { Description = "Offen" },
+                new Status { Description = "Akzeptiert" },
+                new Status { Description = "Abgelehnt" },
+                new DAL.Status { Description = "Abgeschlossen" }
             };
 
             status.ForEach(s => context.Status.Add(s));

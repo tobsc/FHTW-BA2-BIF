@@ -22,6 +22,7 @@ namespace HwInf.Common.DAL
         public DateTime From { get; set; }
         [Required]
         public DateTime To { get; set; }
+        public DateTime ReturnDate { get; set; }
         [Required]
         public virtual Person Person { get; set; }
         [Required]
