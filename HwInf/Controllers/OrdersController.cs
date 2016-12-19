@@ -118,13 +118,19 @@ namespace HwInf.Controllers
         }
 
 
+        [Route("rooms")]
+        public IHttpActionResult GetRooms()
+        {
+            return Ok(db.Rooms.ToList());
+        }
+
 
         /// <summary>
         /// Creates a new order.
         /// </summary>
         /// <param name="vmdl">OrderViewModel</param>
         /// <returns></returns>
-        [RouteAttribute("create")]
+        [Route("create")]
         public IHttpActionResult PostOrder([FromBody] OrderViewModel vmdl)
         {
             if (!IsAllowed(vmdl.PersonUid) && !IsAdmin())
