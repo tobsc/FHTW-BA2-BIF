@@ -327,6 +327,7 @@ namespace HwInf.Controllers
                 return BadRequest("Status nicht vorhanden!");
             }
 
+
             if (db.Rooms.Count(i => i.Name == vmdl.Room) == 0)
             {
                 return BadRequest("Raum nicht vorhanden!");
@@ -340,7 +341,7 @@ namespace HwInf.Controllers
             Device dev = new Device();
 
             vmdl.CreateDevice(dev, db);
-            db.Devices.Add(dev);
+            db.Devices.Add(dev); 
 
             db.SaveChanges();
 
