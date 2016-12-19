@@ -24,16 +24,15 @@ namespace HwInf.Controllers
         /// Returns Order by given id.
         /// </summary>
         /// <param name="id">Order ID</param>
-        /// <param name="act">NOT IMPLEMENTED.</param>
         /// <returns></returns>
         [ResponseType(typeof(OrderViewModel))]
-        [Route("id/{id}/{act?}")]
-        public IHttpActionResult GetById(int id, string act = null)
+        [Route("id/{id}")]
+        public IHttpActionResult GetById(int id)
         {
             var uid = db.Orders.Where(i => i.OrderId == id).Select(i => i.Person.uid).SingleOrDefault();
 
 
-            if(!IsCurrentUser(uid) && !IsAdmin())
+            if(!IsAllowed(uid) && !IsAdmin())
             {
                 return Unauthorized();
             }
@@ -63,7 +62,7 @@ namespace HwInf.Controllers
         public IHttpActionResult GetByUid(string uid)
         {
 
-            if (!IsCurrentUser(uid) && !IsAdmin())
+            if (!IsAllowed(uid) && !IsAdmin())
             {
                 return Unauthorized();
             }
@@ -84,20 +83,58 @@ namespace HwInf.Controllers
         }
 
         /// <summary>
+        /// Change Order Status
+        /// </summary>
+        /// <param name="id">Order ID</param>
+        /// <param name="act">Action: accept, decline, return</param>
+        /// <returns></returns>
+        [Route("id/{id}/{act}")]
+        public IHttpActionResult GetChangeOrderStatus(int id, string act)
+        {
+            var uid = db.Orders.Where(i => i.OrderId == id).Select(i => i.Owner.uid).SingleOrDefault();
+
+            if (!IsAllowed(uid) && !IsAdmin())
+            {
+                return Unauthorized();
+            }
+
+            if(!act.Equals("accept") && !act.Equals("decline") && !act.Equals("return"))
+            {
+                return BadRequest("Wrong action!");
+            }
+  
+            var o = db.Orders.Single(i => i.OrderId == id);
+
+            var order = new OrderViewModel(o);
+
+            order.changeStatus(o, db, act);
+
+
+            db.SaveChanges();
+
+
+            return Ok();
+
+        }
+
+
+
+        /// <summary>
         /// Creates a new order.
         /// </summary>
         /// <param name="vmdl">OrderViewModel</param>
         /// <returns></returns>
-                [RouteAttribute("create")]
+        [RouteAttribute("create")]
         public IHttpActionResult PostOrder([FromBody] OrderViewModel vmdl)
         {
-            if (!IsCurrentUser(vmdl.PersonUid) && !IsAdmin())
+            if (!IsAllowed(vmdl.PersonUid) && !IsAdmin())
             {
                 return Unauthorized();
             }
 
             Order o = new Order();
-            vmdl.ApplyChanges(o, db);
+            vmdl.Status = db.Status.Where(i => i.Description == "Offen").Select(i => i.Description).FirstOrDefault();
+            vmdl.ApplyChanges(o, db); 
             db.Orders.Add(o);
             db.SaveChanges();
 
@@ -123,7 +160,7 @@ namespace HwInf.Controllers
             return db.Orders.Count(e => e.OrderId == id) > 0;
         }
 
-        private bool IsCurrentUser(string uid)
+        private bool IsAllowed(string uid)
         {
             return User.Identity.Name == uid ? true : false;
         }

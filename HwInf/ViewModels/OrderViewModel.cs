@@ -32,7 +32,7 @@ namespace HwInf.ViewModels
 
         public string OwnerUid { get; set; }
 
-        public List<Device> OrderItems { get; set; }
+        public List<int> OrderItems { get; set; }
 
 
 
@@ -76,13 +76,13 @@ namespace HwInf.ViewModels
         public OrderViewModel loadOrderItems(HwInfContext db)
         {
             var oItems = db.OrderItems.Include("Order").Where(i => i.Order.OrderId == OrderId).Select(i => i.Device);
-            OrderItems = new List<Device>();
+            OrderItems = new List<int>();
 
             if(oItems.Count() > 0)
             {
                 foreach (var o in oItems)
                 {
-                    OrderItems.Add(o);
+                    OrderItems.Add(o.DeviceId);
                 }
             }
 
@@ -94,17 +94,62 @@ namespace HwInf.ViewModels
         {
 
             List<OrderItem> oi = new List<OrderItem>();
-            foreach(var ois in OrderItems)
+            if (OrderItems != null)
             {
-                OrderItem tmp = new OrderItem();
-                tmp.Device = db.Devices.Single(i => i.DeviceId == ois.DeviceId);
-                tmp.Order = db.Orders.Single(i => i.OrderId == o.OrderId);
+                foreach (var ois in OrderItems)
+                {
+                    OrderItem tmp = new OrderItem();
+                    tmp.Device = db.Devices.Single(i => i.DeviceId == ois);
+                    tmp.Order = db.Orders.Single(i => i.OrderId == o.OrderId);
 
-                oi.Add(tmp);
+                    oi.Add(tmp);
+                }
             }
-            
 
             return oi;
+        }
+
+        public void changeStatus(Order obj, HwInfContext db, string action)
+        {
+            var target = obj;
+            var source = this;
+            var st = "";
+
+            if (action == "decline")
+            {
+                target.Status = db.Status.Single(i => i.Description == "Abgelehnt");
+                return;
+            }
+
+
+            if (action == "accept")
+            {
+                target.Status = db.Status.Single(i => i.Description == "Akzeptiert");
+                st = "Ausgeliehen";
+            }
+
+            if(action == "return")
+            {
+                target.Status = db.Status.Single(i => i.Description == "Abgeschlossen");
+                st = "Verfügbar";
+            }
+
+            var orderItems = loadOrderItems(db);
+
+            foreach (var id in orderItems.OrderItems)
+            {
+
+                Device dev = db.Devices.Single(i => i.DeviceId == id);
+                dev.Status = db.Status.Single(i => i.Description == st);
+            }
+        }
+
+        public void declineOrder(Order obj, HwInfContext db)
+        {
+            var target = obj;
+            var source = this;
+
+            target.Status = db.Status.Single(i => i.Description == "Abgelehnt");
         }
     }
 }
