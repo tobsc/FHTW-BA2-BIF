@@ -307,53 +307,66 @@ namespace HwInf.Controllers
         public IHttpActionResult PostDevice([FromBody]DeviceViewModel vmdl)
         {
 
-                if (!ModelState.IsValid)
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (db.Devices.Count(i => i.InvNum == vmdl.InvNum) > 0)
+            {
+                return BadRequest("Es existiert bereits ein Gerät mit dieser Inventarnummer!");
+            }
+
+            if(db.DeviceTypes.Count(i => i.TypeId == vmdl.TypeId) == 0)
+            {
+                return BadRequest("Type nicht vorhanden!");
+            }
+
+            if (db.Status.Count(i => i.StatusId == vmdl.StatusId) == 0)
+            {
+                return BadRequest("Status nicht vorhanden!");
+            }
+
+            if (db.Rooms.Count(i => i.Name == vmdl.Room) == 0)
+            {
+                return BadRequest("Raum nicht vorhanden!");
+            }
+
+            if(db.Persons.Count(i => i.uid == vmdl.OwnerUid) == 0)
+            {
+                return BadRequest("Person nicht vorhanden!");
+            }
+
+            Device dev = new Device();
+            dev.Name = vmdl.Name;
+            dev.InvNum = vmdl.InvNum;
+            dev.Brand = vmdl.Marke;
+            dev.Type = db.DeviceTypes.Single(i => i.TypeId == vmdl.TypeId);
+            dev.Status = db.Status.Single(i => i.StatusId == vmdl.StatusId);
+            dev.CreateDate = DateTime.Now;
+            dev.Room = db.Rooms.Single(i => i.Name == vmdl.Room);
+            dev.Person = db.Persons.Single(i => i.uid == vmdl.OwnerUid);
+
+            db.Devices.Add(dev);
+
+
+            if (vmdl.DeviceMetaData.Count != 0)
+            {
+                foreach (var m in vmdl.DeviceMetaData)
                 {
-                    return BadRequest(ModelState);
-                }
-
-                if (db.Devices.Count(i => i.InvNum == vmdl.InvNum) > 0)
-                {
-                    return BadRequest("Es existiert bereits ein Gerät mit dieser Inventarnummer!");
-                }
-
-                if(db.DeviceTypes.Count(i => i.TypeId == vmdl.TypeId) == 0)
-                {
-                    return BadRequest("Type nicht vorhanden!");
-                }
-
-                if (db.Status.Count(i => i.StatusId == vmdl.StatusId) == 0)
-                {
-                    return BadRequest("Status nicht vorhanden!");
-                }
-
-                Device dev = new Device();
-                dev.Name = vmdl.Name;
-                dev.InvNum = vmdl.InvNum;
-                dev.Brand = vmdl.Marke;
-                dev.Type = db.DeviceTypes.Single(i => i.TypeId == vmdl.TypeId);
-                dev.Status = db.Status.Single(i => i.StatusId == vmdl.StatusId);
-
-                db.Devices.Add(dev);
-
-
-                if (vmdl.DeviceMetaData.Count != 0)
-                {
-                    foreach (var m in vmdl.DeviceMetaData)
+                    db.DeviceMeta.Add(new DeviceMeta
                     {
-                        db.DeviceMeta.Add(new DeviceMeta
-                        {
-                            MetaKey = m.Key,
-                            MetaValue = m.Value,
-                            Device = dev,
-                            DeviceType = dev.Type
-                        });
-                    }
+                        MetaKey = m.Key,
+                        MetaValue = m.Value,
+                        Device = dev,
+                        DeviceType = dev.Type
+                    });
                 }
+            }
 
-                db.SaveChanges();
+            db.SaveChanges();
 
-                return Ok(dev.DeviceId);
+            return Ok(dev.DeviceId);
         }
 
         // DELETE: api/devicee/{id}

@@ -16,6 +16,10 @@ namespace HwInf.Models
         public int StatusId { get; set; }
         public string Type { get; set; }
         public int TypeId { get; set; }
+        public string Room { get; set; }
+        public int RoomId { get; set; }
+        public string Owner { get; set; }
+        public string OwnerUid { get; set; }
         public IDictionary<string,string> DeviceMetaData { get; set; }
 
         public DeviceViewModel()
@@ -41,6 +45,10 @@ namespace HwInf.Models
             target.StatusId = source.Status.StatusId;
             target.TypeId = source.Type.TypeId;
             target.Type= source.Type.Description;
+            target.Room = source.Room.Name;
+            target.RoomId = source.Room.RoomId;
+            target.Owner = source.Person.Name + " " + source.Person.LastName;
+            target.OwnerUid = source.Person.uid;
         }
 
         public void ApplyChanges(Device obj, HwInfContext db)
@@ -54,6 +62,8 @@ namespace HwInf.Models
             target.Status.Description = source.Status;
             target.Status.StatusId = source.StatusId;
             target.Type = db.DeviceTypes.Single(i => i.TypeId == source.TypeId);
+            target.Person = db.Persons.Single(i => i.uid == source.OwnerUid);
+            target.Room = db.Rooms.Single(i => i.Name == source.Room);
         }
 
         public DeviceViewModel loadMeta(HwInfContext db)
