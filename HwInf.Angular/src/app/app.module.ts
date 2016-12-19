@@ -18,6 +18,8 @@ import {ErrorMessageService} from "./shared/error-message/error-message.service"
 import {JwtHttpService} from "./shared/jwt-http.service";
 import {Router} from "@angular/router";
 import {DashboardModule} from "./dashboard/dashboard.module";
+import {CartModule} from "./cart/cart.module";
+import {CartService} from "./cart/cart.service";
 
 @NgModule({
     declarations: [
@@ -32,6 +34,7 @@ import {DashboardModule} from "./dashboard/dashboard.module";
         DevicesModule,
         SharedModule,
         DashboardModule,
+        CartModule,
     ],
     providers: [
       {
@@ -44,6 +47,7 @@ import {DashboardModule} from "./dashboard/dashboard.module";
       ErrorMessageService,
       DeviceService,
       AuthService,
+      CartService,
       AuthGuard
     ],
     bootstrap: [AppComponent]

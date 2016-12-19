@@ -23,9 +23,9 @@
           <em>Keine Geräte gefunden.</em>
         </div>
         <ul class="list-group">
-          <a class="list-group-item" routerLink="/devices/id/{{device.DeviceId}}" *ngFor="let device of devices | async | orderDeviceBy:orderByVal">
+          <li class="list-group-item" *ngFor="let device of devices | async | orderDeviceBy:orderByVal">
             <hw-inf-device-item [device]="device"></hw-inf-device-item>
-          </a>
+          </li>
         </ul>
       </div>
     </div>
