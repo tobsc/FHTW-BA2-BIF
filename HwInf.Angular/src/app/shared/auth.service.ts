@@ -7,7 +7,7 @@ import {User} from "./user.model";
 export class AuthService {
   private token: string;
   private loggedIn: boolean = false;
-  private url: string = '/api/Auth/';
+  private url: string = '/api/auth/';
 
   constructor(private http: Http) {
     this.loggedIn = !!localStorage.getItem('auth_token');
@@ -20,7 +20,7 @@ export class AuthService {
     let bodyString = JSON.stringify(user);
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers: headers});
-    return this.http.post(this.url + 'SignIn/', bodyString, options)
+    return this.http.post(this.url + 'login/', bodyString, options)
       .map((response: Response) => {
         let token = response.json() && response.json().token;
         if(token) {
