@@ -10,12 +10,12 @@ import {DeviceAddComponent} from "./device-add/device-add.component";
 import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {devicesRouting} from "./devices.routing";
-import {KeysPipe} from "../pipes/keys.pipe";
+import {KeysPipe} from "../shared/pipes/keys.pipe";
 import {OrderDeviceByPipe} from "./shared/order-device-by.pipe";
 import {SharedModule} from "../shared/shared.module";
 import {NavComponent} from "../nav.component";
 import {Router} from "@angular/router";
-import {AuthService} from "../shared/auth.service";
+import {AuthService} from "../authentication/auth.service";
 import {RequestOptions, XHRBackend} from "@angular/http";
 import {JwtHttpService} from "../shared/jwt-http.service";
 @NgModule({

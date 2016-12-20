@@ -9,9 +9,9 @@ import { DeviceService } from "./devices/shared/device.service";
 
 import {routing} from "./app.routing";
 
-import { LoginComponent } from './login/login.component';
-import {AuthService} from "./shared/auth.service";
-import {AuthGuard} from "./shared/auth.guard";
+import { LoginComponent } from './authentication/login.component';
+import {AuthService} from "./authentication/auth.service";
+import {AuthGuard} from "./authentication/auth.guard";
 import {DevicesModule} from "./devices/devices.module";
 import {SharedModule} from "./shared/shared.module";
 import {ErrorMessageService} from "./shared/error-message/error-message.service";

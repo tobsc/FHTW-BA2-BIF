@@ -4,7 +4,7 @@ import {Observable} from "rxjs";
 import {ErrorMessageService} from "./error-message/error-message.service";
 import {Modal} from "./modal/modal.model";
 import {Router} from "@angular/router";
-import {AuthService} from "./auth.service";
+import {AuthService} from "../authentication/auth.service";
 /**
  * http://www.adonespitogo.com/articles/angular-2-extending-http-provider/
  */

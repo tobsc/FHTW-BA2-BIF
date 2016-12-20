@@ -1,6 +1,6 @@
 import {Routes, RouterModule} from "@angular/router";
 import {DashboardComponent} from "./dashboard.component";
-import {AuthGuard} from "../shared/auth.guard";
+import {AuthGuard} from "../authentication/auth.guard";
 const DASHBOARD_ROUTES: Routes = [
   { path: '', component: DashboardComponent, canActivate: [AuthGuard] }
 ];

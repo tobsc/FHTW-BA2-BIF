@@ -4,7 +4,7 @@ import {DeviceDetailsComponent} from "./device-details/device-details.component"
 import {DeviceAddComponent} from "./device-add/device-add.component";
 import {DevicesStartComponent} from "./devices-start.component";
 import {DevicesComponent} from "./devices.component";
-import {AuthGuard} from "../shared/auth.guard";
+import {AuthGuard} from "../authentication/auth.guard";
 
 const DEVICES_ROUTES: Routes = [
     { path: 'devices', component: DevicesComponent, canActivate: [AuthGuard], children: [
