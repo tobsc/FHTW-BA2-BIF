@@ -9,7 +9,6 @@ import { DeviceService } from "./devices/shared/device.service";
 
 import {routing} from "./app.routing";
 
-import { LoginComponent } from './authentication/login.component';
 import {AuthService} from "./authentication/auth.service";
 import {AuthGuard} from "./authentication/auth.guard";
 import {DevicesModule} from "./devices/devices.module";
@@ -21,11 +20,11 @@ import {DashboardModule} from "./dashboard/dashboard.module";
 import {CartModule} from "./cart/cart.module";
 import {CartService} from "./cart/cart.service";
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import {AuthenticationModule} from "./authentication/authentication.module";
 
 @NgModule({
     declarations: [
         AppComponent,
-        LoginComponent,
         PageNotFoundComponent,
     ],
     imports: [
@@ -37,6 +36,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
         SharedModule,
         DashboardModule,
         CartModule,
+        AuthenticationModule
     ],
     providers: [
       {
