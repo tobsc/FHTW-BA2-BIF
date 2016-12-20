@@ -20,11 +20,13 @@ import {Router} from "@angular/router";
 import {DashboardModule} from "./dashboard/dashboard.module";
 import {CartModule} from "./cart/cart.module";
 import {CartService} from "./cart/cart.service";
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         LoginComponent,
+        PageNotFoundComponent,
     ],
     imports: [
         BrowserModule,
