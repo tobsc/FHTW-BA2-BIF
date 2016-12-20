@@ -1,5 +1,8 @@
-<ul>
-  <li (click)="removeItem(device)" *ngFor="let device of items, let i = index">
-    {{device.Name}}
+<ul class="list-group">
+  <li class="list-group-item clearfix" *ngFor="let device of items, let i = index">
+    <span class="pull-right">
+          <button (click)="removeItem(i)" type="button" class="close"><span aria-hidden="true">&times;</span></button>
+    </span>
+    {{device.Name}} <span class="text-muted">{{device.InvNum}}</span>
   </li>
 </ul>
