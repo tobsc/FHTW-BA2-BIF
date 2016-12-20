@@ -52,7 +52,7 @@ namespace HwInf
             }
             catch (Exception ex)
             {
-                errorResponse = request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+                errorResponse = request.CreateErrorResponse(HttpStatusCode.Unauthorized, ex.Message);
             }
 
 
