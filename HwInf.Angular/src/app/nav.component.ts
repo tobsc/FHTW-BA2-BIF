@@ -1,17 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, AfterViewInit} from '@angular/core';
 import {AuthService} from "./authentication/auth.service";
 import {Router} from "@angular/router";
+import {CartService} from "./cart/cart.service";
 
 @Component({
   selector: 'hw-inf-nav',
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.scss'],
 })
-export class NavComponent implements OnInit {
+export class NavComponent implements AfterViewInit {
 
-  constructor(private authService: AuthService, private router: Router) { }
+  private cartAmount: number = 0;
 
-  ngOnInit() {
+  constructor(private authService: AuthService,
+              private router: Router,
+              private cartService: CartService) { }
+
+  ngAfterViewInit() {
+
+    this.cartService.getAmount().subscribe((data: number) => {
+      this.cartAmount = data;
+    });
+
+    this.cartService.updateAmount();
   }
 
   logout(): void {
