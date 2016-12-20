@@ -57,6 +57,38 @@ namespace HwInf.Controllers
             return BadRequest(ModelState);
         }
 
+        /// <summary>
+        /// Returns a test token.
+        /// </summary>
+        /// <param name="minutes">Minutes</param>
+        /// <param name="role">Admin, User</param>
+        /// <returns></returns>
+        [Route("testToken/{minutes}/{role}")]
+        public IHttpActionResult CreateTestToken(int minutes = 1, string role = "User")
+        {
+            var unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            var expiry = Math.Round((DateTime.UtcNow.AddMinutes(minutes) - unixEpoch).TotalSeconds);
+            var issuedAt = Math.Round((DateTime.UtcNow - unixEpoch).TotalSeconds);
+            var notBefore = Math.Round((DateTime.UtcNow.AddMonths(6) - unixEpoch).TotalSeconds);
+
+
+            var payload = new Dictionary<string, object>
+            {
+                {"uid", "Test"},
+                {"role", role  },
+                {"nbf", notBefore},
+                {"iat", issuedAt},
+                {"exp", expiry}
+            };
+
+            //var secret = ConfigurationManager.AppSettings.Get("jwtKey");
+            const string apikey = "secretKey";
+
+            var token = JsonWebToken.Encode(payload, apikey, JwtHashAlgorithm.HS256);
+
+            return Ok(new { token });
+        }
+
 
         private static string CreateToken(Person p)
         {
