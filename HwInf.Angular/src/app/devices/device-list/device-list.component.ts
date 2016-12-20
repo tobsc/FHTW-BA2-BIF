@@ -16,7 +16,10 @@ export class DeviceListComponent implements OnInit, OnDestroy {
     private devices: Observable<Device[]>;
     private orderByVal: string = 'name';
 
-    constructor(private deviceService: DeviceService, private route: ActivatedRoute) { }
+    constructor(private deviceService: DeviceService,
+                private route: ActivatedRoute) { }
+
+
 
     ngOnInit() {
         this.subscription = this.route.params
@@ -27,6 +30,7 @@ export class DeviceListComponent implements OnInit, OnDestroy {
                 }
             );
     }
+
 
     /**
      * Update device list with given search params

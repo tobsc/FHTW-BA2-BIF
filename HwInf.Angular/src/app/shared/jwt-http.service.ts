@@ -4,7 +4,7 @@ import {Observable} from "rxjs";
 import {ErrorMessageService} from "./error-message/error-message.service";
 import {Modal} from "./modal/modal.model";
 import {Router} from "@angular/router";
-import {AuthService} from "./auth.service";
+import {AuthService} from "../authentication/auth.service";
 /**
  * http://www.adonespitogo.com/articles/angular-2-extending-http-provider/
  */
@@ -39,7 +39,6 @@ export class JwtHttpService extends Http {
   private catchAuthError (self: JwtHttpService) {
     // we have to pass HttpService's own instance here as `self`
     return (res: Response) => {
-      console.log(res);
       if (res.status === 401 || res.status === 403) {
         // if not authenticated
         this.authService.logout();

@@ -6,7 +6,7 @@ import {Observable} from "rxjs";
 import {DeviceComponent} from "./device-component.model";
 import {IDictionary} from "../../shared/dictionary.interface";
 import {Dictionary} from "../../shared/dictionary.class";
-import {AuthService} from "../../shared/auth.service";
+import {AuthService} from "../../authentication/auth.service";
 import {JwtHttpService} from "../../shared/jwt-http.service";
 
 @Injectable()

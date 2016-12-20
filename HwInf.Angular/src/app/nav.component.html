@@ -24,13 +24,13 @@
                     </div>
                     <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
                 </form>
-                <li><a (click)="logout()"><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">if15b042 <span class="caret"></span></a>
+                <li><a routerLink="/cart" ><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
+                <li class="dropdown" bs3Dropdown>
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">if15b042 <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="#">Meine Geräte</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="#">Logout</a></li>
+                        <li><a (click)="logout()">Logout</a></li>
                     </ul>
                 </li>
             </ul>

@@ -1,10 +1,10 @@
 import {Component, OnInit, NgZone, ViewChild} from '@angular/core';
-import {AuthService} from "../shared/auth.service";
+import {AuthService} from "./auth.service";
 import {Router} from "@angular/router";
 import {NgForm} from "@angular/forms";
 import {User} from "../shared/user.model";
 import {ModalComponent} from "../shared/modal/modal.component";
-import {AuthGuard} from "../shared/auth.guard";
+import {AuthGuard} from "./auth.guard";
 import {ErrorMessageService} from "../shared/error-message/error-message.service";
 import {Modal} from "../shared/modal/modal.model";
 
@@ -25,6 +25,9 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     if (this.authGuard.canActivate()) {
       this.router.navigate(['/dashboard']);
+    }
+    else {
+      this.authService.logout();
     }
   }
 

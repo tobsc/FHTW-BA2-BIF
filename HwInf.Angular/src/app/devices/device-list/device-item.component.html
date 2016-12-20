@@ -1,7 +1,7 @@
 <span class="label pull-right" [ngSwitch]="device.StatusId" [statusId]="device.StatusId" hwInfDeviceStatus>
         {{device.Status}}
 </span>
-<strong>{{device.Name}}</strong>
+<a routerLink="/devices/id/{{device.DeviceId}}"><strong>{{device.Name}}</strong></a>
 <br>
 Inventarnummer: {{device.InvNum}}
 <br>
@@ -10,3 +10,6 @@ Inventarnummer: {{device.InvNum}}
         {{attr.key}}:&nbsp;{{attr.value}}
     </li>
 </ul>
+
+<button (click)="onAddToCartClick(device)" class="btn btn-default btn-xs"><i class="fa fa-plus-circle" aria-hidden="true"></i>
+  Auf die Liste</button>

@@ -9,20 +9,23 @@ import { DeviceService } from "./devices/shared/device.service";
 
 import {routing} from "./app.routing";
 
-import { LoginComponent } from './login/login.component';
-import {AuthService} from "./shared/auth.service";
-import {AuthGuard} from "./shared/auth.guard";
+import {AuthService} from "./authentication/auth.service";
+import {AuthGuard} from "./authentication/auth.guard";
 import {DevicesModule} from "./devices/devices.module";
 import {SharedModule} from "./shared/shared.module";
 import {ErrorMessageService} from "./shared/error-message/error-message.service";
 import {JwtHttpService} from "./shared/jwt-http.service";
 import {Router} from "@angular/router";
 import {DashboardModule} from "./dashboard/dashboard.module";
+import {CartModule} from "./cart/cart.module";
+import {CartService} from "./cart/cart.service";
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import {AuthenticationModule} from "./authentication/authentication.module";
 
 @NgModule({
     declarations: [
         AppComponent,
-        LoginComponent,
+        PageNotFoundComponent,
     ],
     imports: [
         BrowserModule,
@@ -32,6 +35,8 @@ import {DashboardModule} from "./dashboard/dashboard.module";
         DevicesModule,
         SharedModule,
         DashboardModule,
+        CartModule,
+        AuthenticationModule
     ],
     providers: [
       {
@@ -44,6 +49,7 @@ import {DashboardModule} from "./dashboard/dashboard.module";
       ErrorMessageService,
       DeviceService,
       AuthService,
+      CartService,
       AuthGuard
     ],
     bootstrap: [AppComponent]
