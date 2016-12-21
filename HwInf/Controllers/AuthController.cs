@@ -66,7 +66,7 @@ namespace HwInf.Controllers
         /// Returns a test token.
         /// </summary>
         /// <param name="minutes">Minutes</param>
-        /// <param name="role">Admin, User</param>
+        /// <param name="role">Admin, User, Verwalter</param>
         /// <param name="uid">UID</param>
         /// <returns></returns>
         [Route("testToken/{minutes}/{role}")]
