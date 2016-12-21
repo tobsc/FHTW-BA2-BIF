@@ -72,28 +72,51 @@ namespace HwInf.Controllers
                 uid = User.Identity.Name;
             }
 
+            var orders = db.Orders
+                .Include(i => i.Person)
+                .Include(i => i.Owner);
 
+            var vmdl = orders
+                .Where(i => i.Person.uid == uid)
+                .ToList()
+                .Select(i => new OrderViewModel(i).loadOrderItems(db))
+                .ToList();
+
+            return Ok(vmdl);
+
+        }
+
+        /// <summary>
+        /// Returns all orders.
+        /// </summary>
+        /// <returns></returns>
+        [ResponseType(typeof(OrderViewModel))]
+        [Route("all")]
+        public IHttpActionResult GetOwnerOrders()
+        {
             var orders = db.Orders
                 .Include(i => i.Person)
                 .Include(i => i.Owner);
 
             List<OrderViewModel> vmdl = new List<OrderViewModel>();
 
-            if (!String.IsNullOrWhiteSpace(uid) && IsAdmin())
+            if (IsAdmin())
             {
                 vmdl = orders
-                    .Where(i => i.Owner.uid == uid)
                     .ToList()
                     .Select(i => new OrderViewModel(i).loadOrderItems(db))
                     .ToList();
             } else
             {
+                string uid = User.Identity.Name;
+
                 vmdl = orders
-                    .Where(i => i.Person.uid == uid)
+                    .Where(i => i.Owner.uid == uid)
                     .ToList()
                     .Select(i => new OrderViewModel(i).loadOrderItems(db))
                     .ToList();
             }
+
 
             return Ok(vmdl);
 
