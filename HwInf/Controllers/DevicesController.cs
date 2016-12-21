@@ -399,6 +399,7 @@ namespace HwInf.Controllers
         /// </summary>
         /// <param name="id">Device ID</param>
         /// <returns></returns>
+        [Authorize(Roles = "Admin"]
         [Route("delete/{id}")]
         public IHttpActionResult DeleteDevice(int id)
         {
@@ -411,7 +412,7 @@ namespace HwInf.Controllers
             db.Devices.Remove(dev);
             db.SaveChanges();
 
-            return Ok();
+            return Ok("Device " + id + " wurde gelöscht");
         }
 
 
