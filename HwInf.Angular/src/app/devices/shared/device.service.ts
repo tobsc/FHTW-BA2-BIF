@@ -23,7 +23,7 @@ export class DeviceService {
    * @param params  components of devices e.g. processor, ram, etc.
    * @returns {Observable<Device[]>}
    */
-  getDevices(type: string = "", params: URLSearchParams = null): Observable<Device[]> {
+  public getDevices(type: string = "", params: URLSearchParams = null): Observable<Device[]> {
     let options = new RequestOptions({
       search: params,
     });
@@ -36,7 +36,7 @@ export class DeviceService {
    * @param id ID of device in database
    * @returns {Observable<Device[]>} should return an array of size 1
    */
-  getDevice(id: number): Observable<Device[]> {
+  public getDevice(id: number): Observable<Device[]> {
     return this.http.get(this.url + 'id/' + id)
       .map((response: Response) => response.json());
   }
@@ -44,7 +44,7 @@ export class DeviceService {
   /**
    * @returns {Observable<string[]>} all device types
    */
-  getTypes(): Observable<string[]> {
+  public getTypes(): Observable<string[]> {
     if ( this.deviceTypes === null) {
       this.deviceTypes = this.http.get(this.url + 'types/')
         .map((response: Response) => response.json())
@@ -59,7 +59,7 @@ export class DeviceService {
    * @param type
    * @returns {Observable<DeviceComponent[]>}
    */
-  getComponentsAndValues(type: string): Observable<DeviceComponent[]> {
+  public getComponentsAndValues(type: string): Observable<DeviceComponent[]> {
     if (!this.deviceComponents.containsKey(type)) {
       this.deviceComponents.add(
         type,
@@ -76,7 +76,7 @@ export class DeviceService {
    * @param body object of type Device
    * @returns {Observable<Device>}
    */
-  addDevice(body: Device): Observable<Device> {
+  public addDevice(body: Device): Observable<Device> {
     let bodyString = JSON.stringify(body);
     let headers = new Headers({
       'Content-Type': 'application/json',
@@ -86,8 +86,13 @@ export class DeviceService {
       .map((response: Response) => response.json());
   }
   //http://localhost:14373/api/devices/components/pc/prozessor/In
-  getComponentValues(type: string, component: string, term: string): Observable<string[]> {
+  public getComponentValues(type: string, component: string, term: string): Observable<string[]> {
     return this.http.get(this.url + 'components/' + type + '/' + term)
       .map((response: Response) => response.json());
+  }
+
+  public clearCache(): void {
+    this.deviceTypes = null;
+    this.deviceComponents= new Dictionary<Observable<DeviceComponent[]>>();
   }
 }

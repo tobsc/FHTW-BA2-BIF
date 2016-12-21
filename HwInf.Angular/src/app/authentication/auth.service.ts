@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Http, Headers, RequestOptions, Response} from "@angular/http";
 import {Observable} from "rxjs";
-import {User} from "../shared/user.model";
+import {UserCredentials} from "../shared/user-credentials.model";
 
 @Injectable()
 export class AuthService {
@@ -16,7 +16,7 @@ export class AuthService {
     }
   }
 
-  public login(user: User): Observable<boolean> {
+  public login(user: UserCredentials): Observable<boolean> {
     let bodyString = JSON.stringify(user);
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers: headers});
