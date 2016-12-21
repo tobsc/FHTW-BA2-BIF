@@ -83,6 +83,7 @@ namespace HwInf.Controllers
         /// </summary>
         /// <returns></returns>
         [ResponseType(typeof(OrderViewModel))]
+        [Authorize(Roles = "Admin,Verwalter")]
         [Route("incoming")]
         public IHttpActionResult GetOwnerOrders()
         {
@@ -179,10 +180,10 @@ namespace HwInf.Controllers
                 return BadRequest("Ein Gerät kann nur einmal ausgewählt werden.");
             }
 
-            //if(vmdl.containsLentItems(db))
-            //{
-            //    return BadRequest("Nicht alle Geräte sind zum Ausleihen verfügbar.");
-            //}
+            if (vmdl.containsLentItems(db))
+            {
+                return BadRequest("Nicht alle Geräte sind zum Ausleihen verfügbar.");
+            }
 
             var allOrders = CreateAllOrders(vmdl);
             vmdl.PersonUid = User.Identity.Name;
@@ -191,7 +192,7 @@ namespace HwInf.Controllers
 
             db.SaveChanges();    
 
-            return Ok();
+            return Ok("Anfrage war erfolgreich!");
         }
 
 
