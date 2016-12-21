@@ -2,6 +2,7 @@ import {Component, OnInit, AfterViewInit} from '@angular/core';
 import {AuthService} from "./authentication/auth.service";
 import {Router} from "@angular/router";
 import {CartService} from "./cart/cart.service";
+import {AuthGuard} from "./authentication/auth.guard";
 
 @Component({
   selector: 'hw-inf-nav',
