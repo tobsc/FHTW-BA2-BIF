@@ -3,6 +3,9 @@ import {AuthService} from "./authentication/auth.service";
 import {Router} from "@angular/router";
 import {CartService} from "./cart/cart.service";
 import {AuthGuard} from "./authentication/auth.guard";
+import {UserService} from "./shared/user.service";
+import {User} from "./shared/user.model";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'hw-inf-nav',
@@ -12,10 +15,12 @@ import {AuthGuard} from "./authentication/auth.guard";
 export class NavComponent implements OnInit {
 
   private cartAmount: number = 0;
+  private user: Observable<User>;
 
   constructor(private authService: AuthService,
               private router: Router,
-              private cartService: CartService) { }
+              private cartService: CartService,
+              private userService: UserService) { }
 
   ngOnInit() {
     this.cartService.getAmount().subscribe((data: number) => {
@@ -23,6 +28,7 @@ export class NavComponent implements OnInit {
     });
     this.cartService.updateAmount();
 
+    this.user = this.userService.getUser();
   }
 
   logout(): void {

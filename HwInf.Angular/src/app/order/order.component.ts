@@ -7,6 +7,7 @@ import {Observable} from "rxjs";
 import {NgForm} from "@angular/forms";
 import {OrderService} from "./order.service";
 import {Order} from "./order.model";
+import {_finally} from "rxjs/operator/finally";
 
 @Component({
   selector: 'hw-inf-order',
@@ -35,14 +36,20 @@ export class OrderComponent implements OnInit {
   public onAcceptOrder(id: number) {
     this.orderService.acceptOrder(id)
       .subscribe(
-        (success) => {console.log(success); this.fetchData();},
-        (error)   => {console.log(error)}
+        (success) => {
+          console.log(success);
+          this.fetchData();
+        },
+        (error)   => {console.log(error)},
       );
   }
   public onDeclineOrder(id: number) {
     this.orderService.declineOrder(id)
       .subscribe(
-        (success) => {console.log(success); this.fetchData();},
+        (success) => {
+          console.log(success);
+          this.fetchData();
+        },
         (error)   => {console.log(error)}
       );
   }

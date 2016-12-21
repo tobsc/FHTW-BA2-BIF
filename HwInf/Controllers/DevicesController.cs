@@ -10,7 +10,6 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using HwInf.Models;
 using HwInf.Common.DAL;
-using HwInf.Common;
 
 namespace HwInf.Controllers
 {
@@ -29,36 +28,23 @@ namespace HwInf.Controllers
         [Route("")]
         public IHttpActionResult GetAll()
         {
-                var parameterQuery = Request.GetQueryNameValuePairs();
-
+            try
+            {
                 var devices = db.Devices.Include(x => x.Type);
 
-                List<DeviceViewModel> vmdl = new List<DeviceViewModel>();
-
-                if(parameterQuery.Count() > 0)
-                {
-                    foreach (var m in parameterQuery)
-                    {
-
-                    var devId = Int32.Parse(m.Value);
-                    vmdl = new List<DeviceViewModel>(vmdl.Union(devices
-                            .Where(i => i.DeviceId == devId)
-                            .Take(10000)
-                            .ToList() // execl SQL
-                            .Select(i => new DeviceViewModel(i)) // Convert to viewmodel
-                            .ToList()));
-                    }
-                } else
-                {
-                    vmdl = devices
-                            .Where(i => i.DeviceId > 0)
-                            .Take(10000)
-                            .ToList() // execl SQL
-                            .Select(i => new DeviceViewModel(i).loadMeta(db)) // Convert to viewmodel
-                            .ToList();
-                }
+                var vmdl = devices
+                    .Where(i => i.DeviceId > 0)
+                    .Take(10000)
+                    .ToList() // execl SQL
+                    .Select(i => new DeviceViewModel(i).loadMeta(db)) // Convert to viewmodel
+                    .ToList();
 
                 return Ok(vmdl);
+
+            } catch
+            {
+                return InternalServerError() ;
+            }
         }
 
 
@@ -327,7 +313,6 @@ namespace HwInf.Controllers
         /// <returns></returns>
         //[Authorize]
         [Route("create")]
-        [Authorize(Roles = "Admin")]
         [ResponseType(typeof(int))]
         public IHttpActionResult PostDevice([FromBody]DeviceViewModel vmdl)
         {
@@ -364,22 +349,7 @@ namespace HwInf.Controllers
 
             if(db.Persons.Count(i => i.uid == vmdl.OwnerUid) == 0)
             {
-                var ldapUser = LDAPAuthenticator.GetUserParameter(vmdl.OwnerUid);
-
-                if (ldapUser.Fullname == null)
-                {
-                    return BadRequest("Person nicht vorhanden.");
-                } else
-                {
-                    Person p = new Person();
-                    p.Name = ldapUser.Firstname;
-                    p.LastName = ldapUser.Lastname;
-                    p.Email = ldapUser.Mail;
-                    p.uid = vmdl.OwnerUid;
-                    p.Role = db.Roles.Single(i => i.Name == "Verwalter");
-
-                }
-
+                return BadRequest("Person nicht vorhanden.");
             }
 
 
@@ -412,7 +382,7 @@ namespace HwInf.Controllers
             db.Devices.Remove(dev);
             db.SaveChanges();
 
-            return Ok("Device " + id + " wurde gelöscht");
+            return Ok();
         }
 
 
