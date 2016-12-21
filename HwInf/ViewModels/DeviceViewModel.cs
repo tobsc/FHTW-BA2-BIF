@@ -74,7 +74,7 @@ namespace HwInf.Models
             target.Brand = source.Marke;
             target.Type = db.DeviceTypes.Single(i => i.TypeId == source.TypeId);
             target.Status = db.DeviceStatus.Single(i => i.StatusId == source.StatusId);
-            target.CreateDate = DateTime.Now;
+            target.CreateDate = DateTime.Now.Date;
             target.Room = source.Room;
             target.Person = db.Persons.Single(i => i.uid == source.OwnerUid);
 

@@ -1,4 +1,5 @@
-﻿using HwInf.Common.DAL;
+﻿using HwInf.Common;
+using HwInf.Common.DAL;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -47,6 +48,32 @@ namespace HwInf.ViewModels
             target.Role = source.Role.Name;
             target.Room = source.Room;
             
+        }
+
+        public void Refresh(LDAPUserParameters obj)
+        {
+
+            if (obj == null)
+            {
+                return;
+            }
+
+            var target = this;
+            var source = obj;
+
+            target.Name = source.Firstname;
+            target.LastName = source.Lastname;
+            target.Email = source.Mail;
+
+            if(String.IsNullOrWhiteSpace(obj.PersonalType))
+            {
+                target.Role = "User";
+            } else
+            {
+                target.Role = obj.PersonalType;
+            }
+            
+
         }
 
         public void ApplyChanges(Person obj, HwInfContext db)
