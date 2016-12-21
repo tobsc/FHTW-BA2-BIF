@@ -39,8 +39,13 @@ namespace HwInf.Controllers
                         p = db.Persons.Single(i => i.uid == vmdl.Uid);
                     } else
                     {
-                        //Noch nix. LDAP/SOAP UserDaten.
+                        
                         p = new Person();
+                        var ldapUser = LDAPAuthenticator.Authenticate(vmdl.Uid, vmdl.Password);
+                        vmdl.Refresh(ldapUser);
+                        vmdl.ApplyChanges(p, db);
+                        db.Persons.Add(p);
+                        db.SaveChanges();
                     }
 
                     vmdl.Refresh(p);
