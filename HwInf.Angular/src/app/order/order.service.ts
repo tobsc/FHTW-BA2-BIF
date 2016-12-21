@@ -33,4 +33,14 @@ export class OrderService {
     return this.http.get(this.url + 'incoming/')
       .map((response: Response) => response.json());
   }
+
+  public acceptOrder(id: number) {
+    return this.http.get(this.url + '/id/' + id +'/accept')
+      .map((response: Response) => response.json());
+  }
+
+  public declineOrder(id: number) {
+    return this.http.get(this.url + '/id/' + id +'/decline')
+      .map((response: Response) => response.json());
+  }
 }

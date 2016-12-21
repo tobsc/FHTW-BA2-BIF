@@ -1,4 +1,6 @@
 <button class="btn btn-default btn-lg" routerLink="/devices">devices</button>
+<button class="btn btn-default btn-lg" routerLink="/orders">orders</button>
+
 <ul>
     <li *ngFor="let device of test | async">
         {{device.Name}}
@@ -10,6 +12,7 @@
     {{order.OrderId}} {{order.OrderItems}}
     <br>
     Verwalter: {{order.Owner}} - Ausleiher: {{order.Person}}
+    <span class="label label-default">{{order.Status}}</span>
   </li>
 </ul>
 
@@ -19,5 +22,6 @@
     {{order.OrderId}} {{order.OrderItems}}
     <br>
     Verwalter: {{order.Owner}} - Ausleiher: {{order.Person}}
+    <span class="label label-default">{{order.Status}}</span>
   </li>
 </ul>
