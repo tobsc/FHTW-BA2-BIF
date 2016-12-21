@@ -10,6 +10,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using HwInf.Models;
 using HwInf.Common.DAL;
+using HwInf.Common;
 
 namespace HwInf.Controllers
 {
@@ -313,6 +314,7 @@ namespace HwInf.Controllers
         /// <returns></returns>
         //[Authorize]
         [Route("create")]
+        [Authorize(Roles = "Admin")]
         [ResponseType(typeof(int))]
         public IHttpActionResult PostDevice([FromBody]DeviceViewModel vmdl)
         {
@@ -349,7 +351,22 @@ namespace HwInf.Controllers
 
             if(db.Persons.Count(i => i.uid == vmdl.OwnerUid) == 0)
             {
-                return BadRequest("Person nicht vorhanden.");
+                var ldapUser = LDAPAuthenticator.GetUserParameter(vmdl.OwnerUid);
+
+                if (ldapUser.Fullname == null)
+                {
+                    return BadRequest("Person nicht vorhanden.");
+                } else
+                {
+                    Person p = new Person();
+                    p.Name = ldapUser.Firstname;
+                    p.LastName = ldapUser.Lastname;
+                    p.Email = ldapUser.Mail;
+                    p.uid = vmdl.OwnerUid;
+                    p.Role = db.Roles.Single(i => i.Name == "Verwalter");
+
+                }
+
             }
 
 

@@ -55,22 +55,14 @@ namespace HwInf.Controllers
         /// <summary>
         /// Returns all orders from a user.
         /// </summary>
-        /// <param name="uid">User ID</param>
         /// <returns></returns>
         [ResponseType(typeof(OrderViewModel))]
-        [Route("")]
-        public IHttpActionResult GetByUid(string uid = "")
+        [Route("outgoing")]
+        public IHttpActionResult GetByUid()
         {
 
-            if (!String.IsNullOrWhiteSpace(uid) && !IsAdmin())
-            {
-                return Unauthorized();
-            }
+            var uid = User.Identity.Name;
 
-            if(String.IsNullOrWhiteSpace(uid))
-            {
-                uid = User.Identity.Name;
-            }
 
             var orders = db.Orders
                 .Include(i => i.Person)
@@ -91,7 +83,7 @@ namespace HwInf.Controllers
         /// </summary>
         /// <returns></returns>
         [ResponseType(typeof(OrderViewModel))]
-        [Route("all")]
+        [Route("incoming")]
         public IHttpActionResult GetOwnerOrders()
         {
             var orders = db.Orders
@@ -171,7 +163,7 @@ namespace HwInf.Controllers
         /// <summary>
         /// Creates a new order.
         /// </summary>
-        /// <param name="vmdl">From, To, PersonUid, OwnerUid, OrderItems</param>
+        /// <param name="vmdl">From, To, OrderItems</param>
         /// <example>test</example>
         /// <returns></returns>
         [Route("create")]
@@ -187,21 +179,17 @@ namespace HwInf.Controllers
                 return BadRequest("Ein Gerät kann nur einmal ausgewählt werden.");
             }
 
-            if(vmdl.containsLentItems(db))
-            {
-                return BadRequest("Nicht alle Geräte sind zum Ausleihen verfügbar.");
-            }
+            //if(vmdl.containsLentItems(db))
+            //{
+            //    return BadRequest("Nicht alle Geräte sind zum Ausleihen verfügbar.");
+            //}
 
-            Order o = new Order();
-            vmdl.Status = db.OrderStatus.Where(i => i.Description == "Offen").Select(i => i.Description).FirstOrDefault();
-            vmdl.Date = DateTime.Now;
-            vmdl.ApplyChanges(o, db); 
-            db.Orders.Add(o);
-            db.SaveChanges();
+            var allOrders = CreateAllOrders(vmdl);
+            vmdl.PersonUid = User.Identity.Name;
 
-            var orderItems = vmdl.createOrderItems(o, db);
-            orderItems.ForEach(i => db.OrderItems.Add(i));
-            db.SaveChanges();            
+            allOrders.ForEach(i => db.Orders.Add(i));
+
+            db.SaveChanges();    
 
             return Ok();
         }
@@ -229,6 +217,47 @@ namespace HwInf.Controllers
         private bool IsAdmin()
         {
             return RequestContext.Principal.IsInRole("Admin") ? true : false;
+        }
+
+        private List<Order> CreateAllOrders(OrderViewModel vmdl)
+        {
+
+            var dev = new List<Device>();
+            foreach(var oi in vmdl.OrderItems)
+            {
+                dev.Add(db.Devices.Single(i => i.DeviceId == oi));
+            }
+
+
+            var orders = new List<Order>();
+
+            var groups = dev.GroupBy(i => i.Person.uid);
+
+            foreach(var g in groups)
+            {
+                Order o = new Order();
+                o.Date = DateTime.Now.Date;
+                o.From = vmdl.From;
+                o.To = vmdl.To;
+                o.Person = db.Persons.Single(i => i.uid == User.Identity.Name);
+                o.Owner = g.Select(i => i.Person).FirstOrDefault();
+                o.Status = db.OrderStatus.Single(i => i.Description == "Offen");
+
+                orders.Add(o);
+
+                foreach(var x in g)
+                {
+                    OrderItem oi = new OrderItem();
+                    oi.Device = x;
+                    oi.Order = o;
+
+                    db.OrderItems.Add(oi);
+                }
+            }
+
+
+            return orders;
+           
         }
     }
 }
