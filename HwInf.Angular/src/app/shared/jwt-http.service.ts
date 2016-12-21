@@ -39,6 +39,7 @@ export class JwtHttpService extends Http {
   private catchAuthError (self: JwtHttpService) {
     // we have to pass HttpService's own instance here as `self`
     return (res: Response) => {
+
       if (res.status === 401 || res.status === 403) {
         // if not authenticated
         this.authService.logout();

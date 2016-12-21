@@ -38,10 +38,6 @@ export class AuthService {
     return this.loggedIn;
   }
 
-  public getToken(): string {
-    return this.token;
-  }
-
   public logout(): void {
     this.token = null;
     localStorage.removeItem('auth_token');
