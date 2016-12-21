@@ -2,7 +2,7 @@ import {Component, OnInit, NgZone, ViewChild} from '@angular/core';
 import {AuthService} from "./auth.service";
 import {Router} from "@angular/router";
 import {NgForm} from "@angular/forms";
-import {User} from "../shared/user.model";
+import {UserCredentials} from "../shared/user-credentials.model";
 import {ModalComponent} from "../shared/modal/modal.component";
 import {AuthGuard} from "./auth.guard";
 import {ErrorMessageService} from "../shared/error-message/error-message.service";
@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
   }
 
   private login(form: NgForm) {
-    let user: User = form.form.value;
+    let user: UserCredentials = form.form.value;
     this.authService.login(user)
       .subscribe(
         (result: boolean) => {
