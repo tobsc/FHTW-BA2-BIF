@@ -295,6 +295,16 @@ namespace HwInf.Controllers
 
         }
 
+        /// <summary>
+        /// Returns DeviceStatus
+        /// </summary>
+        /// <returns></returns>
+        [Route("status")]
+        public IHttpActionResult GetStatus()
+        {
+            return Ok(db.DeviceStatus.ToList());
+        }
+
         // POST: api/devices/create
         /// <summary>
         /// Creates a new device

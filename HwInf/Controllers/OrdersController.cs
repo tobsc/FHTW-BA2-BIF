@@ -157,6 +157,16 @@ namespace HwInf.Controllers
 
         }
 
+        /// <summary>
+        /// Return OrderStatus
+        /// </summary>
+        /// <returns></returns>
+        [Route("status")]
+        public IHttpActionResult GetStatus()
+        {
+            return Ok(db.OrderStatus.ToList());
+        }
+
 
         /// <summary>
         /// Creates a new order.
