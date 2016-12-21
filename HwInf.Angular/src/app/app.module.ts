@@ -23,6 +23,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import {AuthenticationModule} from "./authentication/authentication.module";
 import {OrderModule} from "./order/order.module";
 import {UserService} from "./shared/user.service";
+import {OrderService} from "./order/order.service";
 
 @NgModule({
     declarations: [
@@ -54,7 +55,8 @@ import {UserService} from "./shared/user.service";
       AuthService,
       CartService,
       AuthGuard,
-      UserService
+      UserService,
+      OrderService
     ],
     bootstrap: [AppComponent]
 })

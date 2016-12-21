@@ -15,7 +15,6 @@ import {OrderService} from "./order.service";
     orderRouting
   ],
   providers: [
-    OrderService
   ]
 })
 export class OrderModule {}

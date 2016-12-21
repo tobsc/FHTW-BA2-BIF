@@ -5,6 +5,8 @@
 <br>
 Inventarnummer: {{device.InvNum}}
 <br>
+Verwalter: {{device.Owner}}
+<br>
 <ul class="text-muted list-inline">
     <li *ngFor='let attr of device.DeviceMetaData | keys, let i = index'>
         {{attr.key}}:&nbsp;{{attr.value}}

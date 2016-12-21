@@ -4,3 +4,20 @@
         {{device.Name}}
     </li>
 </ul>
+<h3>Incoming</h3>
+<ul>
+  <li *ngFor="let order of incomingOrders | async">
+    {{order.OrderId}} {{order.OrderItems}}
+    <br>
+    Verwalter: {{order.Owner}} - Ausleiher: {{order.Person}}
+  </li>
+</ul>
+
+<h3>Outgoing</h3>
+<ul>
+  <li *ngFor="let order of outgoingOrders | async">
+    {{order.OrderId}} {{order.OrderItems}}
+    <br>
+    Verwalter: {{order.Owner}} - Ausleiher: {{order.Person}}
+  </li>
+</ul>

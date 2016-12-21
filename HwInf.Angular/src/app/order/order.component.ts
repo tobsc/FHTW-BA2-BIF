@@ -38,17 +38,20 @@ export class OrderComponent implements OnInit {
 
     let order: Order = form.form.value;
     order.OrderItems = this.getOrderItems();
+    console.log(order);
 
-    this.orderService.createOrder(order).subscribe(
-      (data) => {
-        console.log("success");
-        console.log(data);
-      },
-      (error) => {
-        console.log("error");
-        console.log(error);
-      }
-    );
+    this.orderService.createOrder(order)
+      .subscribe(
+        (success) => {
+          console.log("success");
+          console.log(successq);
+          this.cartService.clear();
+        },
+        (error) => {
+          console.log("error");
+          console.log(error);
+        }
+      );
   }
 
 }

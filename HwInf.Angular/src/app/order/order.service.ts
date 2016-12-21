@@ -18,6 +18,19 @@ export class OrderService {
     });
     let options = new RequestOptions({headers: headers});
     return this.http.post(this.url + 'create/', bodyString, options)
+      .map((response: Response) => {
+        console.log(response);
+        return response.json()
+      });
+  }
+
+  public getOutgoingOrders(): Observable<Order[]> {
+    return this.http.get(this.url + 'outgoing/')
+      .map((response: Response) => response.json());
+  }
+
+  public getIncomingOrders(): Observable<Order[]> {
+    return this.http.get(this.url + 'incoming/')
       .map((response: Response) => response.json());
   }
 }
