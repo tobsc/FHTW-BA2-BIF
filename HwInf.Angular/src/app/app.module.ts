@@ -21,6 +21,8 @@ import {CartModule} from "./cart/cart.module";
 import {CartService} from "./cart/cart.service";
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import {AuthenticationModule} from "./authentication/authentication.module";
+import {OrderModule} from "./order/order.module";
+import {UserService} from "./shared/user.service";
 
 @NgModule({
     declarations: [
@@ -36,6 +38,7 @@ import {AuthenticationModule} from "./authentication/authentication.module";
         SharedModule,
         DashboardModule,
         CartModule,
+        OrderModule,
         AuthenticationModule
     ],
     providers: [
@@ -50,7 +53,8 @@ import {AuthenticationModule} from "./authentication/authentication.module";
       DeviceService,
       AuthService,
       CartService,
-      AuthGuard
+      AuthGuard,
+      UserService
     ],
     bootstrap: [AppComponent]
 })

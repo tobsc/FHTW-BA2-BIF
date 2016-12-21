@@ -1,0 +1,30 @@
+<form>
+  <div class="row gutter-10">
+    <div class="col-xs-6">
+      <div class="form-group">
+        <label htmlFor="From">Von:</label>
+        <input type="text" class="form-control" id="From" placeholder="2016-12-21T16:22:15.995Z">
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="form-group">
+        <label htmlFor="To">Bis:</label>
+        <input type="text" class="form-control" id="To" placeholder="2016-12-21T16:22:15.995Z">
+      </div>
+    </div>
+  </div>
+</form>
+<div class="row">
+  <div class="col-xs-12">
+    <ul class="list-group">
+      <li class="list-group-item clearfix" *ngFor="let device of items, let i = index">
+        <a routerLink="/devices/id/{{device.DeviceId}}">{{device.Name}}</a> <div class="text-muted">Inventarnummer: {{device.InvNum}}</div>
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="row" *ngIf="items.length > 0">
+  <div class="col-xs-12 text-right">
+    <button class="btn btn-success">Jetzt ausleihen</button>
+  </div>
+</div>
