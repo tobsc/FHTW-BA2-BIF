@@ -158,13 +158,6 @@ namespace HwInf.Controllers
         }
 
 
-        [Route("rooms")]
-        public IHttpActionResult GetRooms()
-        {
-            return Ok(db.Rooms.ToList());
-        }
-
-
         /// <summary>
         /// Creates a new order.
         /// </summary>

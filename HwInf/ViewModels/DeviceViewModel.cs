@@ -17,7 +17,6 @@ namespace HwInf.Models
         public string Type { get; set; }
         public int TypeId { get; set; }
         public string Room { get; set; }
-        public int RoomId { get; set; }
         public string Owner { get; set; }
         public string OwnerUid { get; set; }
         public IDictionary<string,string> DeviceMetaData { get; set; }
@@ -45,8 +44,7 @@ namespace HwInf.Models
             target.StatusId = source.Status.StatusId;
             target.TypeId = source.Type.TypeId;
             target.Type= source.Type.Description;
-            target.Room = source.Room.Name;
-            target.RoomId = source.Room.RoomId;
+            target.Room = source.Room;
             target.Owner = source.Person.Name + " " + source.Person.LastName;
             target.OwnerUid = source.Person.uid;
         }
@@ -63,7 +61,7 @@ namespace HwInf.Models
             target.Status.StatusId = source.StatusId;
             target.Type = db.DeviceTypes.Single(i => i.TypeId == source.TypeId);
             target.Person = db.Persons.Single(i => i.uid == source.OwnerUid);
-            target.Room = db.Rooms.Single(i => i.RoomId == source.RoomId);
+            target.Room = source.Room;
         }
 
         public void CreateDevice(Device obj, HwInfContext db)
@@ -77,7 +75,7 @@ namespace HwInf.Models
             target.Type = db.DeviceTypes.Single(i => i.TypeId == source.TypeId);
             target.Status = db.Status.Single(i => i.StatusId == source.StatusId);
             target.CreateDate = DateTime.Now;
-            target.Room = db.Rooms.Single(i => i.RoomId == source.RoomId);
+            target.Room = source.Room;
             target.Person = db.Persons.Single(i => i.uid == source.OwnerUid);
 
 

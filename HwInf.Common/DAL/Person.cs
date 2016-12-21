@@ -27,6 +27,6 @@ namespace HwInf.Common.DAL
         [Required]
         public virtual Role Role { get; set; }
 
-        public virtual Room Room { get; set; }
+        public string Room { get; set; }
     }
 }

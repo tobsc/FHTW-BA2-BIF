@@ -17,7 +17,6 @@ namespace HwInf.Common.DAL
         public DbSet<DeviceMeta> DeviceMeta { get; set; }
         public DbSet<Status> Status { get; set; }
         public DbSet<Person> Persons { get; set; }
-        public DbSet<Room> Rooms { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Component> Components { get; set; }
         public DbSet<Order> Orders { get; set; }

@@ -45,11 +45,7 @@ namespace HwInf.ViewModels
             target.Email = source.Email;
             target.Tel = source.Tel;
             target.Role = source.Role.Name;
-
-            if(source.Room != null)
-            {
-                target.Room = source.Room.Name;
-            }
+            target.Room = source.Room;
             
         }
 
@@ -64,11 +60,7 @@ namespace HwInf.ViewModels
             target.Email = source.Email;
             target.Tel = source.Tel;
             target.Role = db.Roles.Single(i => i.Name == source.Role);
-
-            if (source.Room != null)
-            {
-                target.Room = db.Rooms.Single(i => i.Name == source.Room);
-            }
+            target.Room = source.Room;
             
 
         }

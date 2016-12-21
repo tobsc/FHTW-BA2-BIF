@@ -337,12 +337,6 @@ namespace HwInf.Controllers
                 return BadRequest("Status nicht vorhanden.");
             }
 
-
-            if (db.Rooms.Count(i => i.RoomId == vmdl.RoomId) == 0)
-            {
-                return BadRequest("Raum nicht vorhanden.");
-            }
-
             if(db.Persons.Count(i => i.uid == vmdl.OwnerUid) == 0)
             {
                 return BadRequest("Person nicht vorhanden.");

@@ -22,7 +22,7 @@ namespace HwInf.Common.DAL
         [Required]
         public virtual Person Person { get; set; }
 
-        public virtual Room Room { get; set; }
+        public string Room { get; set; }
         [Required]
         public virtual Status Status { get; set; }
         [Required]
