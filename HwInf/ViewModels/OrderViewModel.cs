@@ -17,6 +17,7 @@ namespace HwInf.ViewModels
         public int OrderId { get; set; }
 
         public string Status { get; set; }
+        public int StatusId { get; set; }
 
         public DateTime Date { get; set; }
 
@@ -49,6 +50,7 @@ namespace HwInf.ViewModels
 
             target.OrderId = source.OrderId;
             target.Status = source.Status.Description;
+            target.StatusId = source.Status.StatusId;
             target.Date = source.Date;
             target.From = source.From;
             target.To = source.To;

@@ -29,23 +29,36 @@ namespace HwInf.Controllers
         [Route("")]
         public IHttpActionResult GetAll()
         {
-            try
-            {
+                var parameterQuery = Request.GetQueryNameValuePairs();
+
                 var devices = db.Devices.Include(x => x.Type);
 
-                var vmdl = devices
-                    .Where(i => i.DeviceId > 0)
-                    .Take(10000)
-                    .ToList() // execl SQL
-                    .Select(i => new DeviceViewModel(i).loadMeta(db)) // Convert to viewmodel
-                    .ToList();
+                List<DeviceViewModel> vmdl = new List<DeviceViewModel>();
+
+                if(parameterQuery.Count() > 0)
+                {
+                    foreach (var m in parameterQuery)
+                    {
+
+                    var devId = Int32.Parse(m.Value);
+                    vmdl = new List<DeviceViewModel>(vmdl.Union(devices
+                            .Where(i => i.DeviceId == devId)
+                            .Take(10000)
+                            .ToList() // execl SQL
+                            .Select(i => new DeviceViewModel(i)) // Convert to viewmodel
+                            .ToList()));
+                    }
+                } else
+                {
+                    vmdl = devices
+                            .Where(i => i.DeviceId > 0)
+                            .Take(10000)
+                            .ToList() // execl SQL
+                            .Select(i => new DeviceViewModel(i).loadMeta(db)) // Convert to viewmodel
+                            .ToList();
+                }
 
                 return Ok(vmdl);
-
-            } catch
-            {
-                return InternalServerError() ;
-            }
         }
 
 
