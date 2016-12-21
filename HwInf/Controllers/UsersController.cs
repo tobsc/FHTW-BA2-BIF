@@ -47,22 +47,15 @@ namespace HwInf.Controllers
         /// <summary>
         /// Returns UserViewModel of given uid.
         /// </summary>
-        /// <param name="uid">User Uid</param>
         /// <returns></returns>
         [ResponseType(typeof(UserViewModel))]
-        [Route("uid/{uid}")]
-        public IHttpActionResult GetPersonByUid(string uid)
+        [Route("userdata")]
+        public IHttpActionResult GetPersonByUid()
         {
-            
-            if (IsCurrentUser(uid) || IsAdmin())
-            {
-                var p = db.Persons.Single(i => i.uid == uid);
-                var vmdl = new UserViewModel(p);
+            var p = db.Persons.Single(i => i.uid == User.Identity.Name);
+            var vmdl = new UserViewModel(p);
 
-                return Ok(vmdl);
-            }
-
-            return Unauthorized();
+            return Ok(vmdl);
            
         }
 
