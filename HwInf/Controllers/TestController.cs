@@ -84,7 +84,7 @@ namespace HwInf.Controllers
 
             type.ForEach(x => db.DeviceTypes.Add(x));
 
-            Status s = new Status();
+            DeviceStatus s = new DeviceStatus();
             s.Description = "Verfügbar";
 
             db.DeviceStatus.Add(s);

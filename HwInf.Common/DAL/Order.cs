@@ -15,7 +15,7 @@ namespace HwInf.Common.DAL
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int OrderId { get; set; }
         [Required]
-        public virtual Status Status { get; set; }
+        public virtual OrderStatus Status { get; set; }
         [Required]
         public DateTime Date { get; set; }
         [Required]

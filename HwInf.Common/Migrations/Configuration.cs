@@ -25,19 +25,19 @@ namespace HwInf.Common.Migrations
                     new DeviceType { Description = "Monitor" }
                 };
 
-            var deviceStatus = new List<Status>
+            var deviceStatus = new List<DeviceStatus>
                 {
-                    new Status { Description = "Verfügbar" },
-                    new Status { Description = "Ausgeliehen" },
-                    new Status { Description = "In Reparatur" },
+                    new DeviceStatus { Description = "Verfügbar" },
+                    new DeviceStatus { Description = "Ausgeliehen" },
+                    new DeviceStatus { Description = "In Reparatur" },
                 };
 
-            var orderStatus = new List<Status>
+            var orderStatus = new List<OrderStatus>
                 {
-                    new Status { Description = "Offen" },
-                    new Status { Description = "Akzeptiert" },
-                    new Status { Description = "Abgelehnt" },
-                    new DAL.Status { Description = "Abgeschlossen" }
+                    new OrderStatus { Description = "Offen" },
+                    new OrderStatus { Description = "Akzeptiert" },
+                    new OrderStatus { Description = "Abgelehnt" },
+                    new OrderStatus { Description = "Abgeschlossen" }
                 };
 
             var roles = new List<Role>
@@ -96,7 +96,7 @@ namespace HwInf.Common.Migrations
 
             if (context.OrderStatus.Count() < 1)
             {
-                orderStatus.ForEach(s => context.DeviceStatus.Add(s));
+                orderStatus.ForEach(s => context.OrderStatus.Add(s));
             }
 
             if (context.Roles.Count() < 1)
@@ -114,7 +114,7 @@ namespace HwInf.Common.Migrations
                 dev.ForEach(s => context.Devices.Add(s));
             }
 
-            if (context.OrderStatus.Count() < 1)
+            if (context.DeviceMeta.Count() < 1)
             {
                 devMeta.ForEach(s => context.DeviceMeta.Add(s));
             }

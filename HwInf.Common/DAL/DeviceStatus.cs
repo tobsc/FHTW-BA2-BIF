@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace HwInf.Common.DAL
 {
-    [Table("Status")]
-    public class Status
+    [Table("DeviceStatus")]
+    public class DeviceStatus
     {
 
         [Key]

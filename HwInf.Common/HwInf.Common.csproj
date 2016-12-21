@@ -67,8 +67,9 @@
     <Compile Include="DAL\Device.cs" />
     <Compile Include="DAL\DeviceMeta.cs" />
     <Compile Include="DAL\DeviceHistory.cs" />
+    <Compile Include="DAL\OrderStatus.cs" />
     <Compile Include="DAL\OrderItem.cs" />
-    <Compile Include="DAL\Status.cs" />
+    <Compile Include="DAL\DeviceStatus.cs" />
     <Compile Include="DAL\DeviceType.cs" />
     <Compile Include="DAL\HwInfContext.cs" />
     <Compile Include="DAL\Order.cs" />

@@ -24,7 +24,7 @@ namespace HwInf.Common.DAL
 
         public string Room { get; set; }
         [Required]
-        public virtual Status Status { get; set; }
+        public virtual DeviceStatus Status { get; set; }
         [Required]
         public virtual DeviceType Type { get; set; }
         [Required]
