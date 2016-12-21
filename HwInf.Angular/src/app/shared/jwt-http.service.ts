@@ -13,12 +13,14 @@ export class JwtHttpService extends Http {
 
   private authService: AuthService;
   private router: Router;
-  constructor(backend: ConnectionBackend, defaultOptions: RequestOptions, authService: AuthService, router: Router) {
+  private errorMessageService: ErrorMessageService;
+  constructor(backend: ConnectionBackend, defaultOptions: RequestOptions, authService: AuthService, router: Router, errorMessageService: ErrorMessageService) {
     let token = localStorage.getItem('auth_token');
     defaultOptions.headers.set('Authorization', 'Bearer ${token}');
     super(backend, defaultOptions);
     this.authService = authService;
     this.router = router;
+    this.errorMessageService = errorMessageService;
   }
 
   request(url: string|Request, options?: RequestOptionsArgs): Observable<Response> {
@@ -39,11 +41,19 @@ export class JwtHttpService extends Http {
   private catchAuthError (self: JwtHttpService) {
     // we have to pass HttpService's own instance here as `self`
     return (res: Response) => {
+
       if (res.status === 401 || res.status === 403) {
         // if not authenticated
         this.authService.logout();
         this.router.navigate(['/login']);
       }
+
+      this.errorMessageService.showErrorMessage(<Modal>{
+        header: res.status + ' - ' + res.statusText,
+        body: res['_bodyq']
+      });
+
+      console.log(res);
       return Observable.throw(res);
     };
   }

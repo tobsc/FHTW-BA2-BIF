@@ -22,7 +22,7 @@ export class CartService {
   }
 
   public addItem(item: Device) {
-    if (this.items.indexOf(item) < 0) {
+    if (!this.contains(item)) {
       this.items.push(item);
       this.updateData()
     }
@@ -30,6 +30,20 @@ export class CartService {
 
   public removeItem(index: number) {
     this.items.splice(index, 1);
+    this.updateData();
+  }
+
+  private contains(item: Device): boolean {
+    for (let device of this.items) {
+      if (device.DeviceId == item.DeviceId) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public clear() {
+    this.items = [];
     this.updateData();
   }
 

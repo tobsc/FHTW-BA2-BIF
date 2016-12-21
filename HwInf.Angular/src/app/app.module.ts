@@ -41,10 +41,10 @@ import {AuthenticationModule} from "./authentication/authentication.module";
     providers: [
       {
         provide: JwtHttpService,
-        useFactory: (backend: XHRBackend, options: RequestOptions, auth: AuthService, router: Router) => {
-          return new JwtHttpService(backend, options, auth, router);
+        useFactory: (backend: XHRBackend, options: RequestOptions, auth: AuthService, router: Router, errorMessageService: ErrorMessageService) => {
+          return new JwtHttpService(backend, options, auth, router, errorMessageService);
         },
-        deps: [XHRBackend, RequestOptions, AuthService, Router]
+        deps: [XHRBackend, RequestOptions, AuthService, Router, ErrorMessageService]
       },
       ErrorMessageService,
       DeviceService,

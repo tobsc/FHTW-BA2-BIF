@@ -41,9 +41,10 @@ export class LoginComponent implements OnInit {
           }
         },
         (error) => {
+          console.log(error);
           this.errorMessageService.showErrorMessage(<Modal>{
-            header: 'Loginfehler:',
-            body: 'UID oder Passwort ist falsch',
+            header: error.status + ' - ' + error.statusText,
+            body: error['_body'],
           });
         }
 
