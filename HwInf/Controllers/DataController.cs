@@ -12,7 +12,7 @@ using HwInf.Common.DAL;
 
 namespace HwInf.Controllers
 {
-    [RoutePrefix("api/auth")]
+    [RoutePrefix("api/data")]
     public class DataController : ApiController
     {
         private HwInfContext db = new HwInfContext();
