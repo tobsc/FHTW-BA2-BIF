@@ -399,7 +399,7 @@ namespace HwInf.Controllers
         /// </summary>
         /// <param name="id">Device ID</param>
         /// <returns></returns>
-        [Authorize(Roles = "Admin"]
+        [Authorize(Roles = "Admin")]
         [Route("delete/{id}")]
         public IHttpActionResult DeleteDevice(int id)
         {
