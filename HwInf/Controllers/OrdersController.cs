@@ -183,7 +183,7 @@ namespace HwInf.Controllers
             }
 
             Order o = new Order();
-            vmdl.Status = db.Status.Where(i => i.Description == "Offen").Select(i => i.Description).FirstOrDefault();
+            vmdl.Status = db.OrderStatus.Where(i => i.Description == "Offen").Select(i => i.Description).FirstOrDefault();
             vmdl.Date = DateTime.Now;
             vmdl.ApplyChanges(o, db); 
             db.Orders.Add(o);

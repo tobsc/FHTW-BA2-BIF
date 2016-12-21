@@ -64,7 +64,7 @@ namespace HwInf.ViewModels
             var target = obj;
             var source = this;
 
-            target.Status = db.Status.Single(i => i.Description == source.Status);
+            target.Status = db.OrderStatus.Single(i => i.Description == source.Status);
             target.Date = source.Date;
             target.From = source.From;
             target.To = source.To;
@@ -117,20 +117,20 @@ namespace HwInf.ViewModels
 
             if (action == "decline")
             {
-                target.Status = db.Status.Single(i => i.Description == "Abgelehnt");
+                target.Status = db.OrderStatus.Single(i => i.Description == "Abgelehnt");
                 return;
             }
 
 
             if (action == "accept")
             {
-                target.Status = db.Status.Single(i => i.Description == "Akzeptiert");
+                target.Status = db.OrderStatus.Single(i => i.Description == "Akzeptiert");
                 st = "Ausgeliehen";
             }
 
             if(action == "return")
             {
-                target.Status = db.Status.Single(i => i.Description == "Abgeschlossen");
+                target.Status = db.OrderStatus.Single(i => i.Description == "Abgeschlossen");
                 st = "Verfügbar";
             }
 
@@ -140,7 +140,7 @@ namespace HwInf.ViewModels
             {
 
                 Device dev = db.Devices.Single(i => i.DeviceId == id);
-                dev.Status = db.Status.Single(i => i.Description == st);
+                dev.Status = db.DeviceStatus.Single(i => i.Description == st);
             }
         }
 
@@ -149,7 +149,7 @@ namespace HwInf.ViewModels
             var target = obj;
             var source = this;
 
-            target.Status = db.Status.Single(i => i.Description == "Abgelehnt");
+            target.Status = db.OrderStatus.Single(i => i.Description == "Abgelehnt");
         }
 
         public bool containsDuplicates()

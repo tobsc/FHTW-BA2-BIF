@@ -29,11 +29,11 @@ namespace HwInf.Controllers
                 dev.Brand = brand;
                 dev.Name = "Device"+i;
                 dev.InvNum = "T000"+i;
-                dev.Status = db.Status.Single(x => x.StatusId == 1);
+                dev.Status = db.DeviceStatus.Single(x => x.StatusId == 1);
                 dev.Type = db.DeviceTypes.Single(x => x.TypeId == type);
                 dev.CreateDate = DateTime.Now;
                 dev.Person = db.Persons.Single(x => x.uid == "if15b032");
-                dev.Room = db.Rooms.Single(x => x.RoomId == 1);
+                dev.Room = "A0.00";
 
                 for(int j = 0; j<meta; j++)
                 {
@@ -58,9 +58,6 @@ namespace HwInf.Controllers
         [Route("createInitial")]
         public IHttpActionResult GetInitial()
         {
-            Room r = new Room();
-            r.Name = "A0.00";
-            db.Rooms.Add(r);
 
             Role ro = new Role();
             ro.Name = "Admin";
@@ -90,7 +87,7 @@ namespace HwInf.Controllers
             Status s = new Status();
             s.Description = "Verfügbar";
 
-            db.Status.Add(s);
+            db.DeviceStatus.Add(s);
 
             db.SaveChanges();
 

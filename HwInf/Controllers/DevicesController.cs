@@ -332,7 +332,7 @@ namespace HwInf.Controllers
                 return BadRequest("Type nicht vorhanden.");
             }
 
-            if (db.Status.Count(i => i.StatusId == vmdl.StatusId) == 0)
+            if (db.DeviceStatus.Count(i => i.StatusId == vmdl.StatusId) == 0)
             {
                 return BadRequest("Status nicht vorhanden.");
             }
