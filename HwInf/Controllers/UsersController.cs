@@ -87,7 +87,7 @@ namespace HwInf.Controllers
 
             db.SaveChanges();
 
-            return Ok();
+            return Ok("User erfolgreich upgedatet.");
         }
 
 
