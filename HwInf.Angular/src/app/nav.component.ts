@@ -8,7 +8,7 @@ import {CartService} from "./cart/cart.service";
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.scss'],
 })
-export class NavComponent implements AfterViewInit {
+export class NavComponent implements OnInit {
 
   private cartAmount: number = 0;
 
@@ -16,13 +16,12 @@ export class NavComponent implements AfterViewInit {
               private router: Router,
               private cartService: CartService) { }
 
-  ngAfterViewInit() {
-
+  ngOnInit() {
     this.cartService.getAmount().subscribe((data: number) => {
       this.cartAmount = data;
     });
-
     this.cartService.updateAmount();
+
   }
 
   logout(): void {

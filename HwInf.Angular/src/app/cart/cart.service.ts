@@ -11,8 +11,6 @@ export class CartService {
     if (!!localStorage.getItem('cart_list')) {
       this.items = JSON.parse(localStorage.getItem('cart_list'));
     }
-    this.amount = new Subject<number>();
-    this.updateData();
   }
 
   public getItems() {
