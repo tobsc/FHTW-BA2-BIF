@@ -67,9 +67,10 @@ namespace HwInf.Controllers
         /// </summary>
         /// <param name="minutes">Minutes</param>
         /// <param name="role">Admin, User</param>
+        /// <param name="uid">UID</param>
         /// <returns></returns>
         [Route("testToken/{minutes}/{role}")]
-        public IHttpActionResult CreateTestToken(int minutes = 1, string role = "User")
+        public IHttpActionResult CreateTestToken(int minutes = 1, string role = "User", string uid = "test")
         {
             var unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             var expiry = Math.Round((DateTime.UtcNow.AddMinutes(minutes) - unixEpoch).TotalSeconds);
@@ -79,7 +80,7 @@ namespace HwInf.Controllers
 
             var payload = new Dictionary<string, object>
             {
-                {"uid", "Test"},
+                {"uid", uid},
                 {"role", role  },
                 {"nbf", notBefore},
                 {"iat", issuedAt},
