@@ -6,7 +6,7 @@
     <span class="pull-right">
           <button (click)="removeItem(i)" type="button" class="close"><span aria-hidden="true">&times;</span></button>
     </span>
-        {{device.Name}} <span class="text-muted">{{device.InvNum}}</span>
+        <a routerLink="/devices/id/{{device.DeviceId}}">{{device.Name}}</a> <div class="text-muted">Inventarnummer: {{device.InvNum}}</div>
       </li>
     </ul>
   </div>
