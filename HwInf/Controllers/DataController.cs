@@ -12,11 +12,13 @@ using HwInf.Common.DAL;
 
 namespace HwInf.Controllers
 {
+    [RoutePrefix("api/auth")]
     public class DataController : ApiController
     {
         private HwInfContext db = new HwInfContext();
 
       
+        [Route("status")]
         public IHttpActionResult GetStatus()
         {
             var status = db.Status.ToList();
@@ -24,6 +26,7 @@ namespace HwInf.Controllers
             return Ok(status);
         }
 
+        [Route("rooms")]
         public IHttpActionResult GetRooms()
         {
             var rooms = db.Rooms.ToList();
