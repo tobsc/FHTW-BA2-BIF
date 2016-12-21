@@ -13,5 +13,5 @@ Verwalter: {{device.Owner}}
     </li>
 </ul>
 
-<button (click)="onAddToCartClick(device)" class="btn btn-default btn-xs"><i class="fa fa-plus-circle" aria-hidden="true"></i>
+<button [disabled]="device.StatusId === 2" (click)="onAddToCartClick(device)" class="btn btn-default btn-xs"><i class="fa fa-plus-circle" aria-hidden="true"></i>
   Auf die Liste</button>
