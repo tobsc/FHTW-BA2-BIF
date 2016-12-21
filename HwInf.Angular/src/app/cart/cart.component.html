@@ -1,8 +1,19 @@
-<ul class="list-group">
-  <li class="list-group-item clearfix" *ngFor="let device of items, let i = index">
+
+
+<div class="row">
+  <div class="col-xs-12">
+    <ul class="list-group">
+      <li [@list1] class="list-group-item clearfix" *ngFor="let device of items, let i = index">
     <span class="pull-right">
           <button (click)="removeItem(i)" type="button" class="close"><span aria-hidden="true">&times;</span></button>
     </span>
-    {{device.Name}} <span class="text-muted">{{device.InvNum}}</span>
-  </li>
-</ul>
+        {{device.Name}} <span class="text-muted">{{device.InvNum}}</span>
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12 text-right">
+    <button class="btn btn-success">Jetzt ausleihen</button>
+  </div>
+</div>

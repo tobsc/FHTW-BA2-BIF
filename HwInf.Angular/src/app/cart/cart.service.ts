@@ -33,6 +33,20 @@ export class CartService {
     this.updateData();
   }
 
+  private contains(item: Device): boolean {
+    for (let device of this.items) {
+      if (device.DeviceId == item.DeviceId) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public clear() {
+    this.items = [];
+    this.updateData();
+  }
+
   private updateData(): void {
     this.updateLocalStorage();
     this.updateAmount();
@@ -44,14 +58,5 @@ export class CartService {
 
   public updateAmount(): void {
     this.amount.next(this.items.length);
-  }
-
-  private contains(item: Device): boolean {
-    for (let device of this.items) {
-      if (device.DeviceId == item.DeviceId) {
-        return true;
-      }
-    }
-    return false;
   }
 }
