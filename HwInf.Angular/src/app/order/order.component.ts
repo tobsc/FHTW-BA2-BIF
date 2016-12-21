@@ -15,43 +15,35 @@ import {Order} from "./order.model";
 })
 export class OrderComponent implements OnInit {
 
-  private items: Device[] = [];
-  private user: Observable<User>;
+  private outgoingOrders: Observable<Order[]>;
+  private incomingOrders: Observable<Order[]>;
+
   constructor(private cartService: CartService,
               private userService: UserService,
               private orderService: OrderService) { }
 
-  ngOnInit() {
-    this.items = this.cartService.getItems();
-    this.user = this.userService.getUser();
+
+  ngOnInit(): void {
+    this.fetchData();
   }
 
-  private getOrderItems(): number[] {
-    let arr: number[] = [];
-    for (let device of this.items) {
-      arr.push(device.DeviceId);
-    }
-    return arr;
+  private fetchData() {
+    this.outgoingOrders = this.orderService.getOutgoingOrders();
+    this.incomingOrders = this.orderService.getIncomingOrders();
   }
 
-  public onSubmit(form: NgForm) {
-
-    let order: Order = form.form.value;
-    order.OrderItems = this.getOrderItems();
-    console.log(order);
-
-    this.orderService.createOrder(order)
+  public onAcceptOrder(id: number) {
+    this.orderService.acceptOrder(id)
       .subscribe(
-        (success) => {
-          console.log("success");
-          console.log(successq);
-          this.cartService.clear();
-        },
-        (error) => {
-          console.log("error");
-          console.log(error);
-        }
+        (success) => {console.log(success); this.fetchData();},
+        (error)   => {console.log(error)}
       );
   }
-
+  public onDeclineOrder(id: number) {
+    this.orderService.declineOrder(id)
+      .subscribe(
+        (success) => {console.log(success); this.fetchData();},
+        (error)   => {console.log(error)}
+      );
+  }
 }

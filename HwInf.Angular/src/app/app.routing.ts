@@ -11,7 +11,7 @@ const APP_ROUTES: Routes = [
     { path: 'dashboard', loadChildren: 'app/dashboard/dashboard.module#DashboardModule'},
     { path: 'devices', loadChildren: 'app/devices/devices.module#DevicesModule' },
     { path: 'cart', loadChildren: 'app/cart/cart.module#CartModule' },
-    { path: 'order', loadChildren: 'app/order/order.module#OrderModule'},
+    { path: 'orders', loadChildren: 'app/order/order.module#OrderModule'},
     { path: '**', component: PageNotFoundComponent }
 
 ];

@@ -9,5 +9,7 @@ export class Order {
     public Owner: string,
     public OwnerUid: string,
     public OrderItems: number[],
+    public Status: string,
+    public StatusId: number
   ) {}
 }

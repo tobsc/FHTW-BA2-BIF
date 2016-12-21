@@ -1,0 +1,44 @@
+<form (ngSubmit)="onSubmit(f)" #f="ngForm">
+  <div class="row gutter-10">
+    <div class="col-xs-6">
+      <div class="form-group">
+        <label htmlFor="From">Von:</label>
+        <input
+          type="date"
+          class="form-control"
+          id="From"
+          name="From"
+          placeholder="2016-12-21T16:22:15.995Z"
+          ngModel
+          required>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="form-group">
+        <label htmlFor="To">Bis:</label>
+        <input
+          type="date"
+          class="form-control"
+          id="To"
+          name="To"
+          placeholder="2016-12-21T16:22:15.995Z"
+          ngModel
+          required>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <ul class="list-group">
+        <li class="list-group-item clearfix" *ngFor="let device of items, let i = index">
+          <a routerLink="/devices/id/{{device.DeviceId}}">{{device.Name}}</a> <div class="text-muted">Inventarnummer: {{device.InvNum}}</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+
+  <div class="text-muted">UID: {{ (user | async)?.Uid}} </div>
+  <div class="text-muted">Name: {{ (user | async)?.Name}} {{(user | async)?.LastName}} </div>
+  <button *ngIf="items.length" type="submit" class="btn btn-success">Geräte jetzt beantragen</button>
+</form>
