@@ -21,6 +21,7 @@ export class DeviceAddComponent implements OnInit, OnDestroy {
   private deviceComponents: Observable<DeviceComponent[]>;
   private selectedType: number = 1;
   private data;
+  private sub: Subscription
 
   constructor(
     private deviceService: DeviceService,
@@ -30,7 +31,7 @@ export class DeviceAddComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    this.deviceService.getTypes()
+    this.sub = this.deviceService.getTypes()
       .subscribe((data: string[]) => {
         this.deviceTypes = data;
         this.deviceComponents = this.deviceService.getComponentsAndValues(this.deviceTypes[this.selectedType-1]);
@@ -40,6 +41,7 @@ export class DeviceAddComponent implements OnInit, OnDestroy {
 
   private onSubmit(form: NgForm) {
     this.confirmModal.show(<Modal>{
+      header: 'Neues Gerät hinzufügen',
       body: 'Sind Sie sicher, dass Sie <strong>' + form.form.value.Name + '</strong> hinzufügen wollen?'
     });
   }
@@ -52,13 +54,11 @@ export class DeviceAddComponent implements OnInit, OnDestroy {
         (data) => {
           this.data = data;
           this.router.navigate(['/devices/id', data]);
-        },
-        (error) => {
-          this.errorMessageService.showErrorMessage(<Modal>{body:error._body});
         });
   }
 
   ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 
   private onSelectedTypeChange(value): void {

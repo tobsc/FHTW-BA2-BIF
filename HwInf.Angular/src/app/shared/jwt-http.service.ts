@@ -50,7 +50,7 @@ export class JwtHttpService extends Http {
 
       this.errorMessageService.showErrorMessage(<Modal>{
         header: res.status + ' - ' + res.statusText,
-        body: res['_bodyq']
+        body: res['_body']
       });
 
       console.log(res);
