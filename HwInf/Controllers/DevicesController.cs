@@ -299,7 +299,7 @@ namespace HwInf.Controllers
         /// <summary>
         /// Creates a new device
         /// </summary>
-        /// <param name="vmdl">Device View Model</param>
+        /// <param name="vmdl">Name, Marke, InvNum, TypeId, StatusId, RoomId, OwnerUid, DeviceMetaData</param>
         /// <returns></returns>
         //[Authorize]
         [Route("create")]
@@ -312,31 +312,42 @@ namespace HwInf.Controllers
                 return BadRequest(ModelState);
             }
 
+            if(String.IsNullOrWhiteSpace(vmdl.Name))
+            {
+                return BadRequest("Bitte einen Namen für das Gerät angeben.");
+            }
+
+            if (String.IsNullOrWhiteSpace(vmdl.Marke))
+            {
+                return BadRequest("Bitte eine Marke für das Gerät angeben.");
+            }
+
             if (db.Devices.Count(i => i.InvNum == vmdl.InvNum) > 0)
             {
-                return BadRequest("Es existiert bereits ein Gerät mit dieser Inventarnummer!");
+                return BadRequest("Es existiert bereits ein Gerät mit dieser Inventarnummer.");
             }
 
             if(db.DeviceTypes.Count(i => i.TypeId == vmdl.TypeId) == 0)
             {
-                return BadRequest("Type nicht vorhanden!");
+                return BadRequest("Type nicht vorhanden.");
             }
 
             if (db.Status.Count(i => i.StatusId == vmdl.StatusId) == 0)
             {
-                return BadRequest("Status nicht vorhanden!");
+                return BadRequest("Status nicht vorhanden.");
             }
 
 
-            if (db.Rooms.Count(i => i.Name == vmdl.Room) == 0)
+            if (db.Rooms.Count(i => i.RoomId == vmdl.RoomId) == 0)
             {
-                return BadRequest("Raum nicht vorhanden!");
+                return BadRequest("Raum nicht vorhanden.");
             }
 
             if(db.Persons.Count(i => i.uid == vmdl.OwnerUid) == 0)
             {
-                return BadRequest("Person nicht vorhanden!");
+                return BadRequest("Person nicht vorhanden.");
             }
+
 
             Device dev = new Device();
 

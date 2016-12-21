@@ -151,5 +151,36 @@ namespace HwInf.ViewModels
 
             target.Status = db.Status.Single(i => i.Description == "Abgelehnt");
         }
+
+        public bool containsDuplicates()
+        {
+            var groups = OrderItems.GroupBy(i => i);
+
+            foreach(var i in groups)
+            {
+                if(i.Count() > 1)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public bool containsLentItems(HwInfContext db)
+        {
+            foreach(var devId in OrderItems)
+            {
+                if (db.Devices
+                    .Where(i => i.DeviceId == devId)
+                    .Select(i => i.Status.Description)
+                    .SingleOrDefault() == "Ausgeliehen")
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }

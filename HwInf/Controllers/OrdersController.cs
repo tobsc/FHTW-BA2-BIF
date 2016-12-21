@@ -58,25 +58,42 @@ namespace HwInf.Controllers
         /// <param name="uid">User ID</param>
         /// <returns></returns>
         [ResponseType(typeof(OrderViewModel))]
-        [Route("uid/{uid}")]
-        public IHttpActionResult GetByUid(string uid)
+        [Route("")]
+        public IHttpActionResult GetByUid(string uid = "")
         {
 
-            if (!IsAllowed(uid) && !IsAdmin())
+            if (!String.IsNullOrWhiteSpace(uid) && !IsAdmin())
             {
                 return Unauthorized();
             }
+
+            if(String.IsNullOrWhiteSpace(uid))
+            {
+                uid = User.Identity.Name;
+            }
+
 
             var orders = db.Orders
                 .Include(i => i.Person)
                 .Include(i => i.Owner);
 
-            var vmdl = orders
-                .Where(i => i.Person.uid == uid)
-                .ToList()
-                .Select(i => new OrderViewModel(i).loadOrderItems(db))
-                .ToList();
+            List<OrderViewModel> vmdl = new List<OrderViewModel>();
 
+            if (!String.IsNullOrWhiteSpace(uid) && IsAdmin())
+            {
+                vmdl = orders
+                    .Where(i => i.Owner.uid == uid)
+                    .ToList()
+                    .Select(i => new OrderViewModel(i).loadOrderItems(db))
+                    .ToList();
+            } else
+            {
+                vmdl = orders
+                    .Where(i => i.Person.uid == uid)
+                    .ToList()
+                    .Select(i => new OrderViewModel(i).loadOrderItems(db))
+                    .ToList();
+            }
 
             return Ok(vmdl);
 
@@ -128,7 +145,8 @@ namespace HwInf.Controllers
         /// <summary>
         /// Creates a new order.
         /// </summary>
-        /// <param name="vmdl">OrderViewModel</param>
+        /// <param name="vmdl">From, To, PersonUid, OwnerUid, OrderItems</param>
+        /// <example>test</example>
         /// <returns></returns>
         [Route("create")]
         public IHttpActionResult PostOrder([FromBody] OrderViewModel vmdl)
@@ -138,8 +156,19 @@ namespace HwInf.Controllers
                 return Unauthorized();
             }
 
+            if(vmdl.containsDuplicates())
+            {
+                return BadRequest("Ein Gerät kann nur einmal ausgewählt werden.");
+            }
+
+            if(vmdl.containsLentItems(db))
+            {
+                return BadRequest("Nicht alle Geräte sind zum Ausleihen verfügbar.");
+            }
+
             Order o = new Order();
             vmdl.Status = db.Status.Where(i => i.Description == "Offen").Select(i => i.Description).FirstOrDefault();
+            vmdl.Date = DateTime.Now;
             vmdl.ApplyChanges(o, db); 
             db.Orders.Add(o);
             db.SaveChanges();

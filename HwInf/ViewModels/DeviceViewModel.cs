@@ -63,7 +63,7 @@ namespace HwInf.Models
             target.Status.StatusId = source.StatusId;
             target.Type = db.DeviceTypes.Single(i => i.TypeId == source.TypeId);
             target.Person = db.Persons.Single(i => i.uid == source.OwnerUid);
-            target.Room = db.Rooms.Single(i => i.Name == source.Room);
+            target.Room = db.Rooms.Single(i => i.RoomId == source.RoomId);
         }
 
         public void CreateDevice(Device obj, HwInfContext db)
@@ -77,7 +77,7 @@ namespace HwInf.Models
             target.Type = db.DeviceTypes.Single(i => i.TypeId == source.TypeId);
             target.Status = db.Status.Single(i => i.StatusId == source.StatusId);
             target.CreateDate = DateTime.Now;
-            target.Room = db.Rooms.Single(i => i.Name == source.Room);
+            target.Room = db.Rooms.Single(i => i.RoomId == source.RoomId);
             target.Person = db.Persons.Single(i => i.uid == source.OwnerUid);
 
 
