@@ -1,8 +1,5 @@
 import {Routes, RouterModule} from "@angular/router";
-import {DashboardComponent} from "./dashboard/dashboard.component";
 import {LoginComponent} from "./authentication/login.component";
-import {AuthGuard} from "./authentication/auth.guard";
-import {CartComponent} from "./cart/cart.component";
 import {PageNotFoundComponent} from "./page-not-found/page-not-found.component";
 
 const APP_ROUTES: Routes = [

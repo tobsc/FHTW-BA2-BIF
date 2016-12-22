@@ -13,7 +13,7 @@ import {devicesRouting} from "./devices.routing";
 import {KeysPipe} from "../shared/pipes/keys.pipe";
 import {OrderDeviceByPipe} from "./shared/order-device-by.pipe";
 import {SharedModule} from "../shared/shared.module";
-import {NavComponent} from "../nav.component";
+import {NavComponent} from "../core/nav/nav.component";
 import {Router} from "@angular/router";
 import {AuthService} from "../authentication/auth.service";
 import {RequestOptions, XHRBackend} from "@angular/http";

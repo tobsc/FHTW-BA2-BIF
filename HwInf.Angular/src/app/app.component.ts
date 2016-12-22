@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {AuthService} from "./authentication/auth.service";
 
 @Component({
     selector: 'hw-inf-root',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
     styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-    title = 'hw-inf works!';
+    constructor(private authService: AuthService) {}
 }

@@ -1,4 +1,4 @@
-<hw-inf-nav></hw-inf-nav>
+<hw-inf-nav *ngIf="authService.isLoggedIn()"></hw-inf-nav>
 <div class="container">
     <router-outlet></router-outlet>
 </div>
