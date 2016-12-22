@@ -1,22 +1,44 @@
-<h3>Outgoing</h3>
-<ul>
-  <li *ngFor="let order of outgoingOrders | async">
-    {{order.OrderId}} {{order.OrderItems}}
-    <br>
-    Verwalter: {{order.Owner}} - Ausleiher: {{order.Person}}
-    <span class="label label-default">{{order.Status}}</span>
-  </li>
-</ul>
+<div class="row gutter-10">
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <!-- Default panel contents -->
+      <div class="panel-heading">Outgoing</div>
+      <!-- List group -->
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let order of outgoingOrders | async">
+          <div class="label label-default pull-right">{{order.Status}}</div>
+          AuftragsNr: #{{order.OrderId}}
+          <br>
+          Geräte:
+          <ul class="list-inline">
+            <li *ngFor="let deviceId of order.OrderItems">
+              <a routerLink="/devices/id/{{deviceId}}">{{deviceId}}</a>
+            </li>
+          </ul>
+          Verwalter: {{order.Owner}}<br> Ausleiher: {{order.Person}}
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <!-- Default panel contents -->
+      <div class="panel-heading">Incoming</div>
+      <!-- List group -->
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let order of incomingOrders | async">
+          <div class="label label-default pull-right">{{order.Status}}</div>
+          AuftragsNr: #{{order.OrderId}}
+          <br>
+          Geräte: {{order.OrderItems}}
+          <br>
+          Verwalter: {{order.Owner}}<br> Ausleiher: {{order.Person}}
 
-<h3>Incoming</h3>
-<ul>
-  <li *ngFor="let order of incomingOrders | async">
-    {{order.OrderId}} {{order.OrderItems}}
-    <br>
-    Verwalter: {{order.Owner}} - Ausleiher: {{order.Person}}
-    <span class="label label-default">{{order.Status}}</span>
-    <br>
-    <button (click)="onAcceptOrder(order.OrderId)" class="btn btn-success btn-sm">Akzeptieren</button>
-    <button (click)="onDeclineOrder(order.OrderId)" class="btn btn-danger btn-sm">Ablehnen</button>
-  </li>
-</ul>
+          <br>
+          <button (click)="onAcceptOrder(order.OrderId)" class="btn btn-success btn-sm">Akzeptieren</button>
+          <button (click)="onDeclineOrder(order.OrderId)" class="btn btn-danger btn-sm">Ablehnen</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

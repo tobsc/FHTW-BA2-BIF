@@ -5,6 +5,7 @@ import {orderRouting} from "./order.routing";
 import {FormsModule} from "@angular/forms";
 import {OrderService} from "./order.service";
 import { OrderCreateComponent } from './create/order-create.component';
+import {RouterModule} from "@angular/router";
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { OrderCreateComponent } from './create/order-create.component';
   imports: [
     CommonModule,
     FormsModule,
+    RouterModule,
     orderRouting
   ],
   providers: [

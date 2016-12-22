@@ -16,8 +16,6 @@ export class PanelCollapseDirective implements AfterViewInit {
       this.isCollapsed
     );
 
-    this.renderer.setElementStyle
-
     this.renderer.setElementStyle(
       this.elem.nativeElement,
       'border-color',

@@ -17,7 +17,6 @@ export class UserService {
         .map((response: Response) => response.json())
         .cache();
     }
-
       return this.user;
   }
 
