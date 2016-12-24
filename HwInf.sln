@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HwInf", "HwInf\HwInf.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HwInf.Common", "HwInf.Common\HwInf.Common.csproj", "{CE712F85-A9E5-40B4-A0B1-9D3787FF8A4A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HwInf.Angular", "HwInf.angular\HwInf.Angular.csproj", "{4D2492C4-7A23-4749-9E77-41800F373C87}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HwInf.Angular", "HwInf.Angular\HwInf.Angular.csproj", "{4D2492C4-7A23-4749-9E77-41800F373C87}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
