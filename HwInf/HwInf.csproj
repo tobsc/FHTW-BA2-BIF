@@ -166,6 +166,28 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Client\karma.conf.js" />
+    <Content Include="Client\protractor.conf.js" />
+    <Content Include="Client\src\app\app.component.html" />
+    <Content Include="Client\src\app\authentication\login.component.html" />
+    <Content Include="Client\src\app\cart\cart.component.html" />
+    <Content Include="Client\src\app\core\nav\nav.component.html" />
+    <Content Include="Client\src\app\dashboard\dashboard.component.css" />
+    <Content Include="Client\src\app\dashboard\dashboard.component.html" />
+    <Content Include="Client\src\app\devices\device-add\device-add.component.html" />
+    <Content Include="Client\src\app\devices\device-details\device-details.component.html" />
+    <Content Include="Client\src\app\devices\device-list\device-filter.component.html" />
+    <Content Include="Client\src\app\devices\device-list\device-item.component.html" />
+    <Content Include="Client\src\app\devices\device-list\device-list.component.html" />
+    <Content Include="Client\src\app\devices\devices-start.component.html" />
+    <Content Include="Client\src\app\devices\devices.component.html" />
+    <Content Include="Client\src\app\order\create\order-create.component.html" />
+    <Content Include="Client\src\app\order\order.component.html" />
+    <Content Include="Client\src\app\page-not-found\page-not-found.component.html" />
+    <Content Include="Client\src\app\shared\error-message\error-message.component.html" />
+    <Content Include="Client\src\app\shared\modal\modal.component.html" />
+    <Content Include="Client\src\favicon.ico" />
+    <Content Include="Client\src\index.html" />
     <Content Include="Global.asax" />
     <Content Include="index.html" />
     <Content Include="scripts\ai.0.22.19-build00125.js" />
@@ -198,6 +220,29 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include=".bin\node.cmd" />
+    <Content Include="Client\angular-cli.json" />
+    <Content Include="Client\package.json" />
+    <Content Include="Client\proxy.conf.json" />
+    <Content Include="Client\src\app\app.component.scss" />
+    <Content Include="Client\src\app\authentication\login.component.scss" />
+    <Content Include="Client\src\app\cart\cart.component.scss" />
+    <Content Include="Client\src\app\core\nav\nav.component.scss" />
+    <Content Include="Client\src\app\devices\device-add\device-add.component.scss" />
+    <Content Include="Client\src\app\devices\device-details\device-details.component.scss" />
+    <Content Include="Client\src\app\devices\device-list\device-filter.component.scss" />
+    <Content Include="Client\src\app\devices\device-list\device-item.component.scss" />
+    <Content Include="Client\src\app\devices\device-list\device-list.component.scss" />
+    <Content Include="Client\src\app\devices\devices-start.component.scss" />
+    <Content Include="Client\src\app\devices\devices.component.scss" />
+    <Content Include="Client\src\app\order\create\order-create.component.scss" />
+    <Content Include="Client\src\app\order\order.component.scss" />
+    <Content Include="Client\src\app\page-not-found\page-not-found.component.scss" />
+    <Content Include="Client\src\app\shared\error-message\error-message.component.scss" />
+    <Content Include="Client\src\app\shared\modal\modal.component.scss" />
+    <Content Include="Client\src\assets\.gitkeep" />
+    <Content Include="Client\src\styles.scss" />
+    <Content Include="Client\src\tsconfig.json" />
+    <Content Include="Client\tslint.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -207,7 +252,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="wwwroot\" />
+    <Folder Include="Client\src\app\pipes\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
@@ -218,9 +263,81 @@
       <Name>HwInf.Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Client\src\app\app.component.spec.ts" />
+    <TypeScriptCompile Include="Client\src\app\app.component.ts" />
+    <TypeScriptCompile Include="Client\src\app\app.module.ts" />
+    <TypeScriptCompile Include="Client\src\app\app.routing.ts" />
+    <TypeScriptCompile Include="Client\src\app\authentication\admin-auth.guard.ts" />
+    <TypeScriptCompile Include="Client\src\app\authentication\auth.guard.ts" />
+    <TypeScriptCompile Include="Client\src\app\authentication\auth.service.ts" />
+    <TypeScriptCompile Include="Client\src\app\authentication\authentication.module.ts" />
+    <TypeScriptCompile Include="Client\src\app\authentication\login.component.ts" />
+    <TypeScriptCompile Include="Client\src\app\cart\cart.component.ts" />
+    <TypeScriptCompile Include="Client\src\app\cart\cart.module.ts" />
+    <TypeScriptCompile Include="Client\src\app\cart\cart.routing.ts" />
+    <TypeScriptCompile Include="Client\src\app\cart\cart.service.ts" />
+    <TypeScriptCompile Include="Client\src\app\core\core.module.ts" />
+    <TypeScriptCompile Include="Client\src\app\core\nav\nav.component.ts" />
+    <TypeScriptCompile Include="Client\src\app\dashboard\dashboard.component.ts" />
+    <TypeScriptCompile Include="Client\src\app\dashboard\dashboard.module.ts" />
+    <TypeScriptCompile Include="Client\src\app\dashboard\dashboard.routing.ts" />
+    <TypeScriptCompile Include="Client\src\app\devices\device-add\device-add.component.ts" />
+    <TypeScriptCompile Include="Client\src\app\devices\device-details\device-details.component.ts" />
+    <TypeScriptCompile Include="Client\src\app\devices\device-list\device-filter.component.ts" />
+    <TypeScriptCompile Include="Client\src\app\devices\device-list\device-item.component.ts" />
+    <TypeScriptCompile Include="Client\src\app\devices\device-list\device-list.component.ts" />
+    <TypeScriptCompile Include="Client\src\app\devices\devices-start.component.ts" />
+    <TypeScriptCompile Include="Client\src\app\devices\devices.component.ts" />
+    <TypeScriptCompile Include="Client\src\app\devices\devices.module.ts" />
+    <TypeScriptCompile Include="Client\src\app\devices\devices.routing.ts" />
+    <TypeScriptCompile Include="Client\src\app\devices\shared\device-component.model.ts" />
+    <TypeScriptCompile Include="Client\src\app\devices\shared\device-status.directive.ts" />
+    <TypeScriptCompile Include="Client\src\app\devices\shared\device.model.ts" />
+    <TypeScriptCompile Include="Client\src\app\devices\shared\device.service.ts" />
+    <TypeScriptCompile Include="Client\src\app\devices\shared\order-device-by.pipe.ts" />
+    <TypeScriptCompile Include="Client\src\app\index.ts" />
+    <TypeScriptCompile Include="Client\src\app\order\create\order-create.component.ts" />
+    <TypeScriptCompile Include="Client\src\app\order\order.component.ts" />
+    <TypeScriptCompile Include="Client\src\app\order\order.model.ts" />
+    <TypeScriptCompile Include="Client\src\app\order\order.module.ts" />
+    <TypeScriptCompile Include="Client\src\app\order\order.routing.ts" />
+    <TypeScriptCompile Include="Client\src\app\order\order.service.ts" />
+    <TypeScriptCompile Include="Client\src\app\page-not-found\page-not-found.component.ts" />
+    <TypeScriptCompile Include="Client\src\app\polyfills.ts" />
+    <TypeScriptCompile Include="Client\src\app\shared\bootstrap\dropdown.directive.ts" />
+    <TypeScriptCompile Include="Client\src\app\shared\bootstrap\panel-collapse.directive.ts" />
+    <TypeScriptCompile Include="Client\src\app\shared\dictionary.class.ts" />
+    <TypeScriptCompile Include="Client\src\app\shared\dictionary.interface.ts" />
+    <TypeScriptCompile Include="Client\src\app\shared\error-message\error-message.component.ts" />
+    <TypeScriptCompile Include="Client\src\app\shared\error-message\error-message.model.ts" />
+    <TypeScriptCompile Include="Client\src\app\shared\error-message\error-message.service.ts" />
+    <TypeScriptCompile Include="Client\src\app\shared\jwt-http.service.ts" />
+    <TypeScriptCompile Include="Client\src\app\shared\modal\modal.component.ts" />
+    <TypeScriptCompile Include="Client\src\app\shared\modal\modal.model.ts" />
+    <TypeScriptCompile Include="Client\src\app\shared\pipes\keys.pipe.ts" />
+    <TypeScriptCompile Include="Client\src\app\shared\pipes\sort.pipe.ts" />
+    <TypeScriptCompile Include="Client\src\app\shared\shared.module.ts" />
+    <TypeScriptCompile Include="Client\src\app\shared\user.model.ts" />
+    <TypeScriptCompile Include="Client\src\app\shared\user.service.ts" />
+    <TypeScriptCompile Include="Client\src\app\test.ts" />
+    <TypeScriptCompile Include="Client\src\app\typings.d.ts" />
+    <TypeScriptCompile Include="Client\src\environments\environment.prod.ts" />
+    <TypeScriptCompile Include="Client\src\environments\environment.ts" />
+    <TypeScriptCompile Include="Client\src\main.ts" />
+    <TypeScriptCompile Include="Client\src\polyfills.ts" />
+    <TypeScriptCompile Include="Client\src\test.ts" />
+    <TypeScriptCompile Include="Client\src\typings.d.ts" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+    <!-- 
+       Ignore the CS1701 errors when building on something else than Windows (no way to specify "not msbuild" or mono)
+  -->
+  <PropertyGroup Condition="'$(OS)' != 'Windows_NT'">
+      <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
@@ -251,6 +368,10 @@
     <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

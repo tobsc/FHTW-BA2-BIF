@@ -15,3 +15,39 @@
 /HwInf.Common/obj/Debug
 /packages
 /typings
+
+
+
+
+# compiled output
+/HwInf/Client/dist
+/HwInf/Client/tmp
+
+# dependencies
+/HwInf/Client/node_modules
+/HwInf/Client/bower_components
+
+# IDEs and editors
+/HwInf/Client/.idea
+/HwInf/Client/.vscode
+/HwInf/Client.project
+/HwInf/Client.classpath
+/HwInf/Client*.launch
+/HwInf/Client.settings/
+
+# misc
+/HwInf/Client/.sass-cache
+/HwInf/Client/connect.lock
+/HwInf/Client/coverage/*
+/HwInf/Client/libpeerconnection.log
+/HwInf/Client/npm-debug.log
+/HwInf/Client/testem.log
+/HwInf/Client/typings
+
+# e2e
+/HwInf/Client/e2e/*.js
+/HwInf/Client/e2e/*.map
+
+#System Files
+/HwInf/Client/.DS_Store
+/HwInf/ClientThumbs.db
