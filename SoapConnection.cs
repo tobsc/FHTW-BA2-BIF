@@ -61,8 +61,8 @@ namespace Soaptest
              * MAIL AN oesi@technikum-wien.at UM USER ZU BERECHTIGEN
              */
 
-            string username = "if15b030";                             //   <---------------------------------------   USERNAME
-            string password = "7QBRangers!";                                //   <---------------------------------------   PASSWORD
+            string username = "USER";                             //   <---------------------------------------   USERNAME
+            string password = "PASSWORD";                                //   <---------------------------------------   PASSWORD
 
             //StudentFromUid
             Student student = StudentFromUid(username, password,"if15b001");
