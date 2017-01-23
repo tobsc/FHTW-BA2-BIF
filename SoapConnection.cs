@@ -60,23 +60,31 @@ namespace Soaptest
              * 
              * MAIL AN oesi@technikum-wien.at UM USER ZU BERECHTIGEN
              */
+           
+            string username = "USERNAME";                             //   <---------------------------------------   USERNAME
+            string password = "PASSWORT";                             //   <---------------------------------------   PASSWORD
 
-            string username = "USER";                             //   <---------------------------------------   USERNAME
-            string password = "PASSWORD";                                //   <---------------------------------------   PASSWORD
-
-            //StudentFromUid
+            /*
+             * StudentFromUid
+             */
             Student student = StudentFromUid(username, password,"if15b001");
             student.Debug();
 
-            //StudentsFromStudiengang
+            /*
+             * StudentsFromStudiengang
+             */
             List<Student> studg= StudentsFromStudiengang(username, password,"257"); //sollte List<Student> returnen
             foreach(Student stud in studg)
             {
                 stud.Debug();
             }
-            
 
-           
+            /*
+             * StudentFromMatrikelnummer
+             */
+            Student studentFromMat = StudentFromMatrikelnummer(username, password, "1510257001");
+            studentFromMat.Debug();
+            
             Console.ReadKey();
         }
 
@@ -148,8 +156,76 @@ namespace Soaptest
                 //person_id
                 person_id=document.Descendants("person_id").SingleOrDefault().Value;
 
-                
-                //Console.WriteLine(responseText);
+            }
+            Student result = new Student(vorname, nachname, studiengang_kz, semester, verband, gruppe, uid, status, personenkennzeichen, email, person_id);
+            return result;
+        }
+
+        private static Student StudentFromMatrikelnummer(string username, string password, string searched_mat)
+        {
+            HttpWebRequest myReq = (HttpWebRequest)WebRequest.Create("https://cis.technikum-wien.at/soap/student.soap.php?0.12187700 1480588994");
+
+
+            string usernamePassword = username + ":" + password;
+            CredentialCache mycache = new CredentialCache();
+            mycache.Add(new Uri("https://cis.technikum-wien.at/soap/student.soap.php?0.12187700 1480588994"), "Basic", new NetworkCredential(username, password));
+            myReq.Credentials = mycache;
+            myReq.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(new ASCIIEncoding().GetBytes(usernamePassword)));
+
+            //Rest of Http Header
+            myReq.Method = "POST";
+            myReq.ContentType = "text/xml";
+            myReq.Timeout = 1000;
+            myReq.Headers.Add("SOAPAction", ":\"getStudentFromMatrikelnummer\"");
+
+            //xmlDocument = Inhalt der XML-Request
+            string xmlDocument = "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\"><s:Body s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"><q1:getStudentFromMatrikelnummer xmlns:q1=\"http://technikum-wien.at\"><student_uid xsi:type=\"xsd:string\">" + searched_mat + "</student_uid><authentifizierung href=\"#id1\"/></q1:getStudentFromMatrikelnummer><q2:GetAuthentifizierung id=\"id1\" xsi:type=\"q2:GetAuthentifizierung\" xmlns:q2=\"http://technikum-wien.at\"><username xsi:type=\"xsd:string\">" + username + "</username><passwort xsi:type=\"xsd:string\">" + password + "</passwort></q2:GetAuthentifizierung></s:Body></s:Envelope>";
+            byte[] PostData = Encoding.UTF8.GetBytes(xmlDocument);
+            myReq.ContentLength = PostData.Length;
+
+            //Request
+            using (Stream requestStream = myReq.GetRequestStream())
+            {
+                requestStream.Write(PostData, 0, PostData.Length);
+            }
+
+            //Response
+            HttpWebResponse response = (HttpWebResponse)myReq.GetResponse();
+            WebHeaderCollection header = response.Headers;
+
+            var encoding = ASCIIEncoding.ASCII;
+
+            //StreamReader for Response to have the response available as string
+            string vorname, nachname, studiengang_kz, semester, verband, gruppe, uid, status, personenkennzeichen, email, person_id;
+            using (var reader = new System.IO.StreamReader(response.GetResponseStream(), encoding))
+            {
+
+
+                string responseText = reader.ReadToEnd();
+                XDocument document = XDocument.Load(new StringReader(responseText));
+
+                //vorname
+                vorname = document.Descendants("vorname").SingleOrDefault().Value;
+                //nachname
+                nachname = document.Descendants("nachname").SingleOrDefault().Value;
+                //studiengang_kz
+                studiengang_kz = document.Descendants("studiengang_kz").SingleOrDefault().Value;
+                //semester
+                semester = document.Descendants("semester").SingleOrDefault().Value;
+                //verband
+                verband = document.Descendants("verband").SingleOrDefault().Value;
+                //gruppe
+                gruppe = document.Descendants("gruppe").SingleOrDefault().Value;
+                //uid
+                uid = document.Descendants("uid").SingleOrDefault().Value;
+                //status
+                status = document.Descendants("status").SingleOrDefault().Value;
+                //personenkennzeichen
+                personenkennzeichen = document.Descendants("personenkennzeichen").SingleOrDefault().Value;
+                //email
+                email = document.Descendants("email").SingleOrDefault().Value;
+                //person_id
+                person_id = document.Descendants("person_id").SingleOrDefault().Value;
 
             }
             Student result = new Student(vorname, nachname, studiengang_kz, semester, verband, gruppe, uid, status, personenkennzeichen, email, person_id);
