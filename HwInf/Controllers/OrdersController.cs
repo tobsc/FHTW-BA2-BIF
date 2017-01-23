@@ -15,6 +15,7 @@ using System.IO;
 using MigraDoc.DocumentObjectModel.IO;
 using MigraDoc.Rendering;
 using System.Web;
+using System.Net.Http.Headers;
 
 namespace HwInf.Controllers
 {
@@ -205,7 +206,6 @@ namespace HwInf.Controllers
         /// </summary>
         /// <param name="id">Order ID</param>
         /// <returns></returns>
-        [ResponseType(typeof(OrderViewModel))]
         [Route("print/{id}")]
         public HttpResponseMessage print(int id)
         {
@@ -236,7 +236,7 @@ namespace HwInf.Controllers
             pdf.Save(AppDomain.CurrentDomain.BaseDirectory+"\\Hello.pdf");
 
             HttpResponseMessage result = null;
-            var localFilePath = HttpContext.Current.Server.MapPath("Hello.pdf");
+            var localFilePath = AppDomain.CurrentDomain.BaseDirectory + "\\Hello.pdf";
 
             if (!File.Exists(localFilePath))
             {
@@ -246,8 +246,11 @@ namespace HwInf.Controllers
             {
                 // Serve the file to the client
                 result = Request.CreateResponse(HttpStatusCode.OK);
-                result.Content = new StreamContent(new FileStream(localFilePath, FileMode.Open, FileAccess.Read));
+                //result.Content = new StreamContent(new FileStream(localFilePath, FileMode.Open, FileAccess.Read));
+                Byte[] bytes = File.ReadAllBytes(localFilePath);
+                result.Content = new ByteArrayContent(bytes);
                 result.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
+                result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
                 result.Content.Headers.ContentDisposition.FileName = "Ausleih_Vertrag.pdf";
             }
 
