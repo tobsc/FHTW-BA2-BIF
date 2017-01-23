@@ -25,7 +25,7 @@ namespace ConsoleApplication1
         {
             HwInfContext db = new HwInfContext();
             Console.WriteLine("We now are looking into the DB");
-            var uidlist = db.Orders.Where(i => i.ReturnDate.Date == date.Date).Select(i => i.Owner.uid);
+            var uidlist = db.Orders.Where(i => i.ReturnDate == date).Select(i => i.Owner.uid).ToList();
             Console.WriteLine("We now create the Mail");
             if (uidlist.Count() > 0)
             {

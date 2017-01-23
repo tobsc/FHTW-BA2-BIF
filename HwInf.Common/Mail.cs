@@ -44,14 +44,17 @@ namespace HwInf.Common
                 mail.Body = "Ihre Anfrage wurde akzeptiert.";
             }
 
-            if(status == "decline")
+            else if(status == "decline")
             {
                 mail.Body = "Ihre Anfrage wurde abgelehnt. Für Details besuchen Sie bitte <LinkZurSeite>";
             }
 
-            if(status == "newOrder")
+            else if(status == "newOrder")
             {
                 mail.Body = "Es wurde eine neue Anfrge für eines Ihrer Geräte gestellt.";
+            } else
+            {
+                mail.Body = status;
             }
             
         }
