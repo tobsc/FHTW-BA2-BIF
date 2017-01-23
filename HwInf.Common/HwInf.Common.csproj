@@ -63,6 +63,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contract.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Contract.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Component.cs" />
     <Compile Include="DAL\Device.cs" />
     <Compile Include="DAL\DeviceMeta.cs" />
@@ -76,6 +81,7 @@
     <Compile Include="DAL\Person.cs" />
     <Compile Include="DAL\Role.cs" />
     <Compile Include="LDAPAuthenticator.cs" />
+    <Compile Include="Mail.cs" />
     <Compile Include="Migrations\201612151809052_Initial_Create.cs" />
     <Compile Include="Migrations\201612151809052_Initial_Create.Designer.cs">
       <DependentUpon>201612151809052_Initial_Create.cs</DependentUpon>
@@ -91,6 +97,15 @@
     <EmbeddedResource Include="Migrations\201612151809052_Initial_Create.resx">
       <DependentUpon>201612151809052_Initial_Create.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Contract.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>Contract.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

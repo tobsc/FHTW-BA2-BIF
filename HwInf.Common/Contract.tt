@@ -1,0 +1,32 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<html>
+	<body>
+		<h1 align="center"> Leihvertrag </h1>
+		<p>
+		Zwischen:
+			der Fachhochschule Technikum Wien,
+			vertreten durch eine/n MitarbeiterIn des Instituts für Informatik
+			Adresse: Höchstädtplatz 5, A-1200 Wien 
+		</p>
+		<h2 align="right"> -VerleiherIn </h2>
+		<p>
+		und <br>
+		Name: <br>
+		Adresse: <br>
+		Personenkennzahl: <br>
+		Studiengang: <br>
+		Telefon: <br>
+		Email: <br>
+		</p>
+		<h2 align="right"> -EntleiherIn </h2>
+		<p>
+		wird der folgende Leihvertrag geschlossen:
+		</p>
+		<h5 align="left"> § 1 Vertragsgegenstand </h5>
+
+	</body>
+</html>

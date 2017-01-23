@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HwInf", "HwInf\HwInf.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HwInf.Common", "HwInf.Common\HwInf.Common.csproj", "{CE712F85-A9E5-40B4-A0B1-9D3787FF8A4A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HwInf.Notifier", "HwInf.Notifier\HwInf.Notifier.csproj", "{D260C077-1BBE-4461-92B7-96195760F6F9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{CE712F85-A9E5-40B4-A0B1-9D3787FF8A4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE712F85-A9E5-40B4-A0B1-9D3787FF8A4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE712F85-A9E5-40B4-A0B1-9D3787FF8A4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D260C077-1BBE-4461-92B7-96195760F6F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D260C077-1BBE-4461-92B7-96195760F6F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D260C077-1BBE-4461-92B7-96195760F6F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D260C077-1BBE-4461-92B7-96195760F6F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

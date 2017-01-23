@@ -1,0 +1,17 @@
+C:\Users\Valentin\Documents\__FH\ITP3\collab\HW-INF\HwInf.Notifier\bin\Debug\HwInf.Notifier.exe.config
+C:\Users\Valentin\Documents\__FH\ITP3\collab\HW-INF\HwInf.Notifier\bin\Debug\HwInf.Notifier.exe
+C:\Users\Valentin\Documents\__FH\ITP3\collab\HW-INF\HwInf.Notifier\bin\Debug\HwInf.Notifier.pdb
+C:\Users\Valentin\Documents\__FH\ITP3\collab\HW-INF\HwInf.Notifier\bin\Debug\EntityFramework.dll
+C:\Users\Valentin\Documents\__FH\ITP3\collab\HW-INF\HwInf.Notifier\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Valentin\Documents\__FH\ITP3\collab\HW-INF\HwInf.Notifier\bin\Debug\EntityFramework6.Npgsql.dll
+C:\Users\Valentin\Documents\__FH\ITP3\collab\HW-INF\HwInf.Notifier\bin\Debug\HwInf.Common.dll
+C:\Users\Valentin\Documents\__FH\ITP3\collab\HW-INF\HwInf.Notifier\bin\Debug\Npgsql.dll
+C:\Users\Valentin\Documents\__FH\ITP3\collab\HW-INF\HwInf.Notifier\bin\Debug\HwInf.Common.pdb
+C:\Users\Valentin\Documents\__FH\ITP3\collab\HW-INF\HwInf.Notifier\bin\Debug\EntityFramework.xml
+C:\Users\Valentin\Documents\__FH\ITP3\collab\HW-INF\HwInf.Notifier\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Valentin\Documents\__FH\ITP3\collab\HW-INF\HwInf.Notifier\bin\Debug\EntityFramework6.Npgsql.xml
+C:\Users\Valentin\Documents\__FH\ITP3\collab\HW-INF\HwInf.Notifier\bin\Debug\Npgsql.xml
+C:\Users\Valentin\Documents\__FH\ITP3\collab\HW-INF\HwInf.Notifier\obj\Debug\HwInf.Notifier.csprojResolveAssemblyReference.cache
+C:\Users\Valentin\Documents\__FH\ITP3\collab\HW-INF\HwInf.Notifier\obj\Debug\HwInf.Notifier.csproj.HwInf.Notifier.exe.config
+C:\Users\Valentin\Documents\__FH\ITP3\collab\HW-INF\HwInf.Notifier\obj\Debug\HwInf.Notifier.exe
+C:\Users\Valentin\Documents\__FH\ITP3\collab\HW-INF\HwInf.Notifier\obj\Debug\HwInf.Notifier.pdb
