@@ -5,6 +5,8 @@
 /.vs
 /HwInf/bin
 /HwInf/obj/Debug
+/HwInf.Notifier/bin
+/HwInf.Notifier/obj
 /HwInf/wwwroot/out-tsc
 /HwInf/wwwroot
 /HwInf.Angular/bin
