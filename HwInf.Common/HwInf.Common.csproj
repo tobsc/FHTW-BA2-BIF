@@ -68,6 +68,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Contract.tt</DependentUpon>
     </Compile>
+    <Compile Include="ContractCode.cs" />
     <Compile Include="DAL\Component.cs" />
     <Compile Include="DAL\Device.cs" />
     <Compile Include="DAL\DeviceMeta.cs" />

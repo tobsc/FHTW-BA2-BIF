@@ -1,32 +1,57 @@
 ﻿<#@ template language="C#" #>
+<#@ output extension=".html" #>
 <#@ assembly name="System.Core" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
-<html>
-	<body>
-		<h1 align="center"> Leihvertrag </h1>
-		<p>
-		Zwischen:
+<#@ import namespace="HwInf.Common.DAL" #>
+\document
+[
+    Info
+    {
+        Title = "Ausleihvertrag"
+        Subject = "Technikum Wien Ausleihvertrag"
+        Author = "HW-INF.Technikum-Wien"
+    }
+]
+{
+	\section
+	{
+		\paragraph
+		{
+			Leihvertrag
+		}
+		\paragraph
+		{
+			Zwischen:
 			der Fachhochschule Technikum Wien,
 			vertreten durch eine/n MitarbeiterIn des Instituts für Informatik
 			Adresse: Höchstädtplatz 5, A-1200 Wien 
-		</p>
-		<h2 align="right"> -VerleiherIn </h2>
-		<p>
-		und <br>
-		Name: <br>
-		Adresse: <br>
-		Personenkennzahl: <br>
-		Studiengang: <br>
-		Telefon: <br>
-		Email: <br>
-		</p>
-		<h2 align="right"> -EntleiherIn </h2>
-		<p>
-		wird der folgende Leihvertrag geschlossen:
-		</p>
-		<h5 align="left"> § 1 Vertragsgegenstand </h5>
+		}
+		\paragraph
+		{
+			-VerleiherIn-
+		}
+		\paragraph
+		{
+			und
+		}
+		\paragraph
+		{
+			<#= getEntleiher() #>
+		}
+		\paragraph
+		{
+			-EntleiherIn-
+		}
+		\paragraph
+		{
+			wird der folgende Leihvertrag geschlossen:
+		}
+		\paragraph
+		{
+		§ 1 Vertragsgegenstand
+		}
 
-	</body>
-</html>
+	}
+}

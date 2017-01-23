@@ -12,6 +12,7 @@ namespace HwInf.Common
     using System.Linq;
     using System.Text;
     using System.Collections.Generic;
+    using HwInf.Common.DAL;
     using System;
     
     /// <summary>
@@ -28,33 +29,49 @@ namespace HwInf.Common
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write(@"<html>
-	<body>
-		<h1 align=""center""> Leihvertrag </h1>
-		<p>
-		Zwischen:
+            this.Write(@"\document
+[
+    Info
+    {
+        Title = ""Ausleihvertrag""
+        Subject = ""Technikum Wien Ausleihvertrag""
+        Author = ""HW-INF.Technikum-Wien""
+    }
+]
+{
+	\section
+	{
+		\paragraph
+		{
+			Leihvertrag
+		}
+		\paragraph
+		{
+			Zwischen:
 			der Fachhochschule Technikum Wien,
 			vertreten durch eine/n MitarbeiterIn des Instituts für Informatik
 			Adresse: Höchstädtplatz 5, A-1200 Wien 
-		</p>
-		<h2 align=""right""> -VerleiherIn </h2>
-		<p>
-		und <br>
-		Name: <br>
-		Adresse: <br>
-		Personenkennzahl: <br>
-		Studiengang: <br>
-		Telefon: <br>
-		Email: <br>
-		</p>
-		<h2 align=""right""> -EntleiherIn </h2>
-		<p>
-		wird der folgende Leihvertrag geschlossen:
-		</p>
-		<h5 align=""left""> § 1 Vertragsgegenstand </h5>
-
-	</body>
-</html>");
+		}
+		\paragraph
+		{
+			-VerleiherIn-
+		}
+		\paragraph
+		{
+			und
+		}
+		\paragraph
+		{
+			");
+            
+            #line 41 "C:\Users\Valentin\Documents\__FH\ITP3\collab\HW-INF\HwInf.Common\Contract.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(getEntleiher()));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n\t\t}\r\n\t\t\\paragraph\r\n\t\t{\r\n\t\t\t-EntleiherIn-\r\n\t\t}\r\n\t\t\\paragraph\r\n\t\t{\r\n\t\t\twird der f" +
+                    "olgende Leihvertrag geschlossen:\r\n\t\t}\r\n\t\t\\paragraph\r\n\t\t{\r\n\t\t§ 1 Vertragsgegensta" +
+                    "nd\r\n\t\t}\r\n\r\n\t}\r\n}");
             return this.GenerationEnvironment.ToString();
         }
     }

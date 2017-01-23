@@ -10,6 +10,11 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using HwInf.Common.DAL;
 using HwInf.ViewModels;
+using HwInf.Common;
+using System.IO;
+using MigraDoc.DocumentObjectModel.IO;
+using MigraDoc.Rendering;
+using System.Web;
 
 namespace HwInf.Controllers
 {
@@ -195,6 +200,62 @@ namespace HwInf.Controllers
             return Ok("Anfrage war erfolgreich!");
         }
 
+        /// <summary>
+        /// Starts the RunTime Text Template and creates the contract as pdf
+        /// </summary>
+        /// <param name="id">Order ID</param>
+        /// <returns></returns>
+        [ResponseType(typeof(OrderViewModel))]
+        [Route("print/{id}")]
+        public HttpResponseMessage print(int id)
+        {
+            var uid = db.Orders.Where(i => i.OrderId == id).Select(i => i.Person.uid).SingleOrDefault();
+
+
+            if (!IsAllowed(uid) && !IsAdmin())
+            {
+                return null;
+            }
+            var rpt = new Contract(id, uid);
+            // Report -> String
+            var text = rpt.TransformText();
+
+            // Stream für den DdlReader erzeugen
+            MemoryStream stream = CreateMDDLStream(text);
+            var errors = new DdlReaderErrors();
+            DdlReader rd = new DdlReader(stream, errors);
+
+            // MDDL einlesen
+            var doc = rd.ReadDocument();
+
+            // MigraDoc Dokument in ein PDF Rendern
+            PdfDocumentRenderer pdf = new PdfDocumentRenderer(true, PdfSharp.Pdf.PdfFontEmbedding.None);
+            pdf.Document = doc;
+            pdf.RenderDocument();
+            // Speichern
+            pdf.Save(AppDomain.CurrentDomain.BaseDirectory+"\\Hello.pdf");
+
+            HttpResponseMessage result = null;
+            var localFilePath = HttpContext.Current.Server.MapPath("Hello.pdf");
+
+            if (!File.Exists(localFilePath))
+            {
+                result = Request.CreateResponse(HttpStatusCode.Gone);
+            }
+            else
+            {
+                // Serve the file to the client
+                result = Request.CreateResponse(HttpStatusCode.OK);
+                result.Content = new StreamContent(new FileStream(localFilePath, FileMode.Open, FileAccess.Read));
+                result.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
+                result.Content.Headers.ContentDisposition.FileName = "Ausleih_Vertrag.pdf";
+            }
+
+
+            return result;
+
+        }
+
 
         protected override void Dispose(bool disposing)
         {
@@ -259,6 +320,19 @@ namespace HwInf.Controllers
 
             return orders;
            
+        }
+
+
+        private static MemoryStream CreateMDDLStream(string text)
+        {
+            MemoryStream stream = new MemoryStream();
+            StreamWriter sw = new StreamWriter(stream);
+
+            sw.Write(text);
+
+            sw.Flush();
+            stream.Seek(0, SeekOrigin.Begin);
+            return stream;
         }
     }
 }
