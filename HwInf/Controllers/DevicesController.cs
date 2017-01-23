@@ -363,6 +363,33 @@ namespace HwInf.Controllers
             return Ok(dev.DeviceId);
         }
 
+        // POST: api/devices/createdevicetype
+        /// <summary>
+        /// Creates a new device type
+        /// </summary>
+        /// <param name="vmdl">Type Name, Fields</param>
+        /// <returns></returns>
+        //[Authorize]
+        [Route("createdevicetype")]
+        [ResponseType(typeof(int))]
+        public IHttpActionResult PostCreateDeviceType([FromBody]DeviceTypeViewModel vmdl)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+      
+            DeviceType devType = new DeviceType();
+
+            vmdl.CreateDeviceType(devType, db);
+            db.DeviceTypes.Add(devType);
+
+            db.SaveChanges();
+
+            return Ok(devType.TypeId);
+        }
+
         // DELETE: api/devicee/{id}
         /// <summary>
         /// Deletes the device with the given id
