@@ -93,8 +93,6 @@ namespace HwInf.Controllers
         [Route("{type}")]
         public IHttpActionResult GetFilter(string type)
         {
-            try
-            {
                 var parameterQuery = Request.GetQueryNameValuePairs();
                 var devices = db.Devices.Include(x => x.Type);
 
@@ -132,10 +130,6 @@ namespace HwInf.Controllers
 
                 }
                 return Ok(response.OrderBy(o => o.Marke).ToList());
-            } catch
-            {
-                return InternalServerError();
-            }
            
         }
 
@@ -146,7 +140,7 @@ namespace HwInf.Controllers
         /// <returns></returns>
         [ResponseType(typeof(List<string>))]
         [Route("types")]
-        public IHttpActionResult GetDeviceComponents()
+        public IHttpActionResult GetDeviceTypes()
         {
             try
             {
@@ -178,7 +172,8 @@ namespace HwInf.Controllers
             try
             {
                 var devices = db.Devices.Include(x => x.Type);
-                var meta = db.DeviceMeta.Include(x => x.DeviceType);
+                var meta = db.DeviceMeta.Include(x => x.Component);
+                var component = db.Components.Include(x => x.DeviceType);
                 List<object> response = new List<object>();
 
                 var brands = devices
@@ -195,10 +190,10 @@ namespace HwInf.Controllers
 
                 response.Add(brandList);
 
-                var deviceComponents = meta
+
+                var deviceComponents = component
                         .Where(i => i.DeviceType.Description.ToLower() == type.ToLower())
-                        .Select(i => i.MetaKey)
-                        .Distinct()
+                        .Select(i => i.Name)
                         .ToList();
 
                 deviceComponents.Sort();
@@ -207,8 +202,8 @@ namespace HwInf.Controllers
                 foreach (var c in deviceComponents)
                 {
                     var componentValues = meta
-                        .Where(i => i.DeviceType.Description.ToLower() == type.ToLower())
-                        .Where(i => i.MetaKey.ToLower() == c.ToLower())
+                        .Where(i => i.Component.DeviceType.Description.ToLower() == type.ToLower())
+                        .Where(i => i.Component.Name.ToLower() == c.ToLower())
                         .OrderBy(i => i.MetaValue)
                         .Select(i => i.MetaValue)
                         .Distinct()
@@ -249,7 +244,7 @@ namespace HwInf.Controllers
             try
             {
                 var devices = db.Devices.Include(x => x.Type);
-                var meta = db.DeviceMeta.Include(x => x.DeviceType);
+                var meta = db.DeviceMeta.Include(x => x.Component);
 
                 if (component.ToLower() == "name")
                 {
@@ -276,8 +271,8 @@ namespace HwInf.Controllers
                 } else
                 {
                     var componentMetaValues = meta
-                        .Where(i => i.DeviceType.Description.ToLower() == type.ToLower())
-                        .Where(i => i.MetaKey.ToLower() == component.ToLower())
+                        .Where(i => i.Component.DeviceType.Description.ToLower() == type.ToLower())
+                        .Where(i => i.Component.Name.ToLower() == component.ToLower())
                         .Where(i => i.MetaValue.ToLower().Contains(input.ToLower()))
                         .OrderBy(i => i.MetaValue)
                         .Select(i => i.MetaValue)
@@ -370,6 +365,7 @@ namespace HwInf.Controllers
         /// <param name="vmdl">Type Name, Fields</param>
         /// <returns></returns>
         //[Authorize]
+        [Authorize(Roles="Admin")]
         [Route("createdevicetype")]
         [ResponseType(typeof(int))]
         public IHttpActionResult PostCreateDeviceType([FromBody]DeviceTypeViewModel vmdl)

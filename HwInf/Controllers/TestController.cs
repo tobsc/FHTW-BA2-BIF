@@ -38,9 +38,9 @@ namespace HwInf.Controllers
                 for(int j = 0; j<meta; j++)
                 {
                     DeviceMeta m = new DeviceMeta();
-                    m.DeviceType = dev.Type;
+                    m.Component.DeviceType = dev.Type;
                     m.Device = dev;
-                    m.MetaKey = "Key" + j;
+                    m.Component.Name = "Key" + j;
                     m.MetaValue = "Value" + j;
 
                     db.DeviceMeta.Add(m);
