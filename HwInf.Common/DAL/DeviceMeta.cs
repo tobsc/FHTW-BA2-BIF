@@ -16,9 +16,7 @@ namespace HwInf.Common.DAL
         [Required]
         public virtual Device Device { get; set; }
         [Required]
-        public virtual DeviceType DeviceType { get; set; }
-        [Required]
-        public string MetaKey { get; set; }
+        public virtual Component Component { get; set; }
         [Required]
         public string MetaValue { get; set; }
     }

@@ -85,10 +85,9 @@ namespace HwInf.Models
                 {
                     db.DeviceMeta.Add(new DeviceMeta
                     {
-                        MetaKey = m.Key,
+                        Component = db.Components.Single(i => i.DeviceType == target.Type && i.Name == m.Key),
                         MetaValue = m.Value,
-                        Device = target,
-                        DeviceType = target.Type
+                        Device = target
                     });
                 }
             }
@@ -99,9 +98,9 @@ namespace HwInf.Models
             var deviceMeta = db.DeviceMeta;
             DeviceMetaData = new Dictionary<string, string>();
 
-            foreach (DeviceMeta m in deviceMeta.Include("Device").Where(i => i.Device.DeviceId == DeviceId))
+            foreach (DeviceMeta m in deviceMeta.Include("Component").Include("Device").Where(i => i.Device.DeviceId == DeviceId))
             {
-                    DeviceMetaData.Add(m.MetaKey, m.MetaValue);
+                    DeviceMetaData.Add(m.Component.Name, m.MetaValue);
             }
 
             return this; // fluent interface
