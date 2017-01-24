@@ -27,21 +27,21 @@ namespace HwInf.Common.Migrations
 
             var typeFields = new List<Component>
                 {
-                    new Component { Name = "Prozessor", DeviceType = type.Single(i => i.Description == "PC") },
-                    new Component { Name = "Arbeitsspeicher", DeviceType = type.Single(i => i.Description == "PC") },
-                    new Component { Name = "Grafikkarte", DeviceType = type.Single(i => i.Description == "PC") },
-                    new Component { Name = "Festplatte", DeviceType = type.Single(i => i.Description == "PC") },
-                    new Component { Name = "DVD-Laufwerk", DeviceType = type.Single(i => i.Description == "PC") },
+                    new Component { FieldType = "text", Name = "Prozessor", DeviceType = type.Single(i => i.Description == "PC") },
+                    new Component { FieldType = "text", Name = "Arbeitsspeicher", DeviceType = type.Single(i => i.Description == "PC") },
+                    new Component { FieldType = "text", Name = "Grafikkarte", DeviceType = type.Single(i => i.Description == "PC") },
+                    new Component { FieldType = "text", Name = "Festplatte", DeviceType = type.Single(i => i.Description == "PC") },
+                    new Component { FieldType = "text", Name = "DVD-Laufwerk", DeviceType = type.Single(i => i.Description == "PC") },
 
-                    new Component { Name = "Prozessor", DeviceType = type.Single(i => i.Description == "Notebook") },
-                    new Component { Name = "Arbeitsspeicher", DeviceType = type.Single(i => i.Description == "Notebook") },
-                    new Component { Name = "Grafikkarte", DeviceType = type.Single(i => i.Description == "Notebook") },
-                    new Component { Name = "Festplatte", DeviceType = type.Single(i => i.Description == "Notebook") },
-                    new Component { Name = "Display", DeviceType = type.Single(i => i.Description == "Notebook") },
-                    new Component { Name = "DVD-Laufwerk", DeviceType = type.Single(i => i.Description == "Notebook") },
+                    new Component { FieldType = "text", Name = "Prozessor", DeviceType = type.Single(i => i.Description == "Notebook") },
+                    new Component { FieldType = "text", Name = "Arbeitsspeicher", DeviceType = type.Single(i => i.Description == "Notebook") },
+                    new Component { FieldType = "text", Name = "Grafikkarte", DeviceType = type.Single(i => i.Description == "Notebook") },
+                    new Component { FieldType = "text", Name = "Festplatte", DeviceType = type.Single(i => i.Description == "Notebook") },
+                    new Component { FieldType = "text", Name = "Display", DeviceType = type.Single(i => i.Description == "Notebook") },
+                    new Component { FieldType = "text", Name = "DVD-Laufwerk", DeviceType = type.Single(i => i.Description == "Notebook") },
 
-                    new Component { Name = "Bildschirmdiagonale", DeviceType = type.Single(i => i.Description == "Monitor") },
-                    new Component { Name = "Anschlüsse", DeviceType = type.Single(i => i.Description == "Monitor") }
+                    new Component { FieldType = "text", Name = "Bildschirmdiagonale", DeviceType = type.Single(i => i.Description == "Monitor") },
+                    new Component { FieldType = "text", Name = "Anschlüsse", DeviceType = type.Single(i => i.Description == "Monitor") }
 
                 };
 
@@ -69,7 +69,7 @@ namespace HwInf.Common.Migrations
 
             var persons = new List<Person>
                 {
-                    new Person { Name = "Jan", LastName = "Calanog", Email = "jan.calanog.technikum-wien.at", Role = roles.Single(i => i.Name == "Admin"), uid = "if15b042" },
+                    new Person { Name = "Jan", LastName = "Calanog", Email = "jan.calanog@technikum-wien.at", Role = roles.Single(i => i.Name == "Admin"), uid = "if15b042" },
                     new Person { Name = "Tobias", LastName = "Schlachter", Email = "tobias.schlachter@technikum-wien.at", Role = roles.Single(i => i.Name == "Admin"), uid = "if15b032" },
                     new Person { Name = "Valentin", LastName = "Sagl", Email = "valentin.sagl@technikum-wien.at", Role = roles.Single(i => i.Name == "Admin"), uid = "if15b030" },
                     new Person { Name = "Sebastian", LastName = "Slowak", Email = "sebastian.slowak@technikum-wien.at", Role = roles.Single(i => i.Name == "Admin"), uid = "if15b049" }

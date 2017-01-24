@@ -76,9 +76,9 @@
     <Compile Include="DAL\Person.cs" />
     <Compile Include="DAL\Role.cs" />
     <Compile Include="LDAPAuthenticator.cs" />
-    <Compile Include="Migrations\201612151809052_Initial_Create.cs" />
-    <Compile Include="Migrations\201612151809052_Initial_Create.Designer.cs">
-      <DependentUpon>201612151809052_Initial_Create.cs</DependentUpon>
+    <Compile Include="Migrations\201701242304489_Initial_Create.cs" />
+    <Compile Include="Migrations\201701242304489_Initial_Create.Designer.cs">
+      <DependentUpon>201701242304489_Initial_Create.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -88,8 +88,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201612151809052_Initial_Create.resx">
-      <DependentUpon>201612151809052_Initial_Create.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201701242304489_Initial_Create.resx">
+      <DependentUpon>201701242304489_Initial_Create.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
