@@ -24,7 +24,8 @@ import {AuthenticationModule} from "./authentication/authentication.module";
 import {OrderModule} from "./order/order.module";
 import {UserService} from "./shared/user.service";
 import {OrderService} from "./order/order.service";
-import {CoreModule} from "./core/core.module";
+import { CoreModule } from "./core/core.module";
+import { AdminModule } from "./admin/admin.module";
 
 @NgModule({
     declarations: [
@@ -42,7 +43,8 @@ import {CoreModule} from "./core/core.module";
         CartModule,
         OrderModule,
         AuthenticationModule,
-        CoreModule
+        CoreModule,
+        AdminModule
     ],
     providers: [
       {
