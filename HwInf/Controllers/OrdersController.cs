@@ -207,7 +207,7 @@ namespace HwInf.Controllers
         /// <param name="id">Order ID</param>
         /// <returns></returns>
         [Route("print/{id}")]
-        public HttpResponseMessage print(int id)
+        public HttpResponseMessage GetPrint(int id)
         {
             var uid = db.Orders.Where(i => i.OrderId == id).Select(i => i.Person.uid).SingleOrDefault();
 
