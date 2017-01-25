@@ -5,7 +5,7 @@ namespace HwInf.Common
 {
     partial class Contract
     {
-        private int orderId;
+        //private int orderId;
         private string uid;
         public Contract(int orderId, string uid)
         {
