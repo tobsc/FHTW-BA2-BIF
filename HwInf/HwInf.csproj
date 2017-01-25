@@ -183,6 +183,7 @@
     <Content Include="Client\karma.conf.js" />
     <Content Include="Client\protractor.conf.js" />
     <Content Include="Client\src\app\admin\admin-start.component.html" />
+    <Content Include="Client\src\app\admin\devices\types-manager\type-add\type-add.component.html" />
     <Content Include="Client\src\app\admin\devices\types-manager\types-manager.component.html" />
     <Content Include="Client\src\app\app.component.html" />
     <Content Include="Client\src\app\authentication\login.component.html" />
@@ -262,6 +263,7 @@
     <Content Include="Client\tslint.json" />
     <Content Include="Client\src\app\admin\admin-start.component.scss" />
     <Content Include="Client\src\app\admin\devices\types-manager\types-manager.component.scss" />
+    <Content Include="Client\src\app\admin\devices\types-manager\type-add\type-add.component.scss" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -286,6 +288,7 @@
     <TypeScriptCompile Include="Client\src\app\admin\admin-start.component.ts" />
     <TypeScriptCompile Include="Client\src\app\admin\admin.module.ts" />
     <TypeScriptCompile Include="Client\src\app\admin\admin.routing.ts" />
+    <TypeScriptCompile Include="Client\src\app\admin\devices\types-manager\type-add\type-add.component.ts" />
     <TypeScriptCompile Include="Client\src\app\admin\devices\types-manager\types-manager.component.ts" />
     <TypeScriptCompile Include="Client\src\app\app.component.spec.ts" />
     <TypeScriptCompile Include="Client\src\app\app.component.ts" />

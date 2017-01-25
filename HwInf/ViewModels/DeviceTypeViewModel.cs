@@ -9,8 +9,8 @@ namespace HwInf.Models
     public class DeviceTypeViewModel
     {
         public int DeviceTypeId { get; set; }
-        public string TypeDescription { get; set; }
-        public IDictionary<string,string> DeviceTypeFields { get; set; }
+        public string typeName { get; set; }
+        public IDictionary<string,string> DeviceMetaData { get; set; }
 
         public DeviceTypeViewModel()
         {
@@ -28,7 +28,7 @@ namespace HwInf.Models
             var source = obj;
 
             target.DeviceTypeId = source.TypeId;
-            target.TypeDescription = source.Description;
+            target.typeName = source.Description;
         }
 
         public void ApplyChanges(DeviceType obj, HwInfContext db)
@@ -36,7 +36,7 @@ namespace HwInf.Models
             var target = obj;
             var source = this;
 
-            target.Description = source.TypeDescription;
+            target.Description = source.typeName;
         }
 
         public void CreateDeviceType(DeviceType obj, HwInfContext db)
@@ -44,18 +44,18 @@ namespace HwInf.Models
             var target = obj;
             var source = this;
 
-            target.Description = source.TypeDescription;
+            target.Description = source.typeName;
 
 
 
-            if (source.DeviceTypeFields.Count != 0)
+            if (source.DeviceMetaData.Count != 0)
             {
-                for(int i = 0; i<(source.DeviceTypeFields.Count()/2); i++)
+                for(int i = 0; i<(source.DeviceMetaData.Count()/2); i++)
                 {
                     db.Components.Add(new Component
                     {
-                        Name = this.DeviceTypeFields["key"+(i + 1)],
-                        FieldType = this.DeviceTypeFields["value" + (i + 1)],
+                        Name = this.DeviceMetaData["key"+(i + 1)],
+                        FieldType = this.DeviceMetaData["value" + (i + 1)],
                         DeviceType = target
                     });
                 }
@@ -65,11 +65,11 @@ namespace HwInf.Models
         public DeviceTypeViewModel loadComponents(HwInfContext db)
         {
             var typeComponents = db.Components;
-            DeviceTypeFields = new Dictionary<string, string>();
+            DeviceMetaData = new Dictionary<string, string>();
 
             foreach (Component m in typeComponents.Include("DeviceType").Where(i => i.DeviceType.TypeId == DeviceTypeId))
             {
-                DeviceTypeFields.Add(m.Name, m.FieldType);
+                DeviceMetaData.Add(m.Name, m.FieldType);
             }
 
             return this; // fluent interface
