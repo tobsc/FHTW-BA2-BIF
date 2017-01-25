@@ -114,7 +114,6 @@ namespace HwInf.ViewModels
         public void changeStatus(Order obj, HwInfContext db, string action)
         {
             var target = obj;
-            var source = this;
             var st = "";
 
             if (action == "decline")
@@ -149,7 +148,6 @@ namespace HwInf.ViewModels
         public void declineOrder(Order obj, HwInfContext db)
         {
             var target = obj;
-            var source = this;
 
             target.Status = db.OrderStatus.Single(i => i.Description == "Abgelehnt");
         }
