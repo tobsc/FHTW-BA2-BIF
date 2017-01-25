@@ -90,6 +90,16 @@ export class DeviceService {
     return this.http.get(this.url + 'components/' + type + '/' + term)
       .map((response: Response) => response.json());
   }
+  public addDeviceType(body: any): Observable<any> {
+      let bodyString = JSON.stringify(body);
+      let headers = new Headers({
+          'Content-Type': 'application/json'
+      });
+      let options = new RequestOptions({ headers: headers });
+      return this.http.post(this.url + 'types/create/', bodyString, options)
+          .map((response: Response) => response.json());
+
+    }
 
   public clearCache(): void {
     this.deviceTypes = null;

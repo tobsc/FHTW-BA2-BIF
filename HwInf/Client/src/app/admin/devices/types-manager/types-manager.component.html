@@ -1,3 +1,7 @@
-<p>
-  types-manager works!
-</p>
+﻿
+<button class="btn btn-default" routerLink="new">Neuer Typ hinzufügen</button>
+<ul>
+    <li *ngFor="let type of types | async">
+        {{type}}
+    </li>
+</ul>

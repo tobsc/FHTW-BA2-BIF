@@ -1,0 +1,35 @@
+
+<form (ngSubmit)="onSubmit(f)" #f="ngForm">
+    <div class="form-group">
+        
+        <label htmlFor="typeName">Typname</label>
+        <input class="form-control" type="text" name="typeName" id="typeName" ngModel/>
+    </div>
+    <div ngModelGroup="DeviceMetaData">
+        <div class="form-group" *ngFor="let number of numarray">
+            <div class="row">
+                <div class="col-md-6">
+                    <label htmlFor="key{{number}}">Feldname</label>
+                    <input class="form-control" type="text" name="key{{number}}" id="key{{number}}" ngModel/>
+                </div>
+                <div class="col-md-6">
+                    <label htmlFor="value{{number}}">Feldtyp</label>
+                    <select class="form-control" name="value{{number}}" id="value{{number}}" ngModel>
+                        <option value="text">
+                            TEXT
+                        </option>
+                        <option value="checkbox">
+                            CHECKBOX
+                        </option>
+                        <option value="textarea">
+                            TEXTAREA
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-default" (click)="addNewRow()"> neues </button>
+    </div>
+    <button class="btn btn-default" type="submit">Typ erstellen</button>
+</form>
+
