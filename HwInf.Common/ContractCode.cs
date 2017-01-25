@@ -10,7 +10,7 @@ namespace HwInf.Common
         public Contract(int orderId, string uid)
         {
             this.uid = uid;
-            this.orderId = orderId;
+            //this.orderId = orderId;
         }
 
         //returns part of contract where borrower is stated
