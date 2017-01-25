@@ -290,6 +290,33 @@ namespace HwInf.Controllers
 
         }
 
+
+        // GET: api/devices/types/type
+        /// <summary>
+        /// Get all component fields from a device type
+        /// </summary>
+        /// <param name="type">Type Name</param>
+        /// <returns></returns>
+        //[Authorize]
+        [Authorize(Roles = "Admin")]
+        [Route("types/{type}")]
+        [ResponseType(typeof(int))]
+        public IHttpActionResult GetTypeComponents(string type)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var componetns = db.Components.Include("DeviceType");
+
+            var fields = componetns.Where(i => i.DeviceType.Description.ToLower() == type.ToLower()).ToDictionary(i => i.Name, i => i.FieldType);
+
+            return Ok(fields);
+        }
+
+
         /// <summary>
         /// Returns DeviceStatus
         /// </summary>
@@ -366,7 +393,7 @@ namespace HwInf.Controllers
         /// <returns></returns>
         //[Authorize]
         [Authorize(Roles="Admin")]
-        [Route("createdevicetype")]
+        [Route("types/create")]
         [ResponseType(typeof(int))]
         public IHttpActionResult PostCreateDeviceType([FromBody]DeviceTypeViewModel vmdl)
         {

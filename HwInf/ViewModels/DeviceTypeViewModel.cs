@@ -50,14 +50,13 @@ namespace HwInf.Models
 
             if (source.DeviceTypeFields.Count != 0)
             {
-                foreach (var m in source.DeviceTypeFields)
+                for(int i = 0; i<(source.DeviceTypeFields.Count()/2); i++)
                 {
                     db.Components.Add(new Component
                     {
-                        Name = m.Key,
-                        FieldType = m.Value,
+                        Name = this.DeviceTypeFields["key"+(i + 1)],
+                        FieldType = this.DeviceTypeFields["value" + (i + 1)],
                         DeviceType = target
-                        
                     });
                 }
             }
