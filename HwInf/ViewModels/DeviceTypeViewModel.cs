@@ -10,7 +10,7 @@ namespace HwInf.Models
     {
         public int DeviceTypeId { get; set; }
         public string TypeDescription { get; set; }
-        public List<string> DeviceTypeFields { get; set; }
+        public IDictionary<string,string> DeviceTypeFields { get; set; }
 
         public DeviceTypeViewModel()
         {
@@ -50,13 +50,13 @@ namespace HwInf.Models
 
             if (source.DeviceTypeFields.Count != 0)
             {
-                foreach (var m in source.DeviceTypeFields)
+                for(int i = 0; i<(source.DeviceTypeFields.Count()/2); i++)
                 {
                     db.Components.Add(new Component
                     {
-                        Name = m,
+                        Name = this.DeviceTypeFields["key"+(i + 1)],
+                        FieldType = this.DeviceTypeFields["value" + (i + 1)],
                         DeviceType = target
-                        
                     });
                 }
             }
@@ -65,11 +65,11 @@ namespace HwInf.Models
         public DeviceTypeViewModel loadComponents(HwInfContext db)
         {
             var typeComponents = db.Components;
-            DeviceTypeFields = new List<string>();
+            DeviceTypeFields = new Dictionary<string, string>();
 
             foreach (Component m in typeComponents.Include("DeviceType").Where(i => i.DeviceType.TypeId == DeviceTypeId))
             {
-                DeviceTypeFields.Add(m.Name);
+                DeviceTypeFields.Add(m.Name, m.FieldType);
             }
 
             return this; // fluent interface

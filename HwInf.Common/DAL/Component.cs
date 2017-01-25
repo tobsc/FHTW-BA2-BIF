@@ -15,6 +15,7 @@ namespace HwInf.Common.DAL
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CompId { get; set; }
         public string Name { get; set; }
+        public string FieldType { get; set; }
         public virtual DeviceType DeviceType { get; set; }
     }
 }
