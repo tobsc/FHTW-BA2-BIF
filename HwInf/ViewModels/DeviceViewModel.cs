@@ -81,11 +81,12 @@ namespace HwInf.Models
 
             if (source.DeviceMetaData.Count != 0)
             {
+
                 foreach (var m in source.DeviceMetaData)
                 {
                     db.DeviceMeta.Add(new DeviceMeta
-                    {
-                        Component = db.Components.Single(i => i.DeviceType == target.Type && i.Name == m.Key),
+                    {                       
+                        Component = db.Components.Single(i => i.DeviceType.TypeId == target.Type.TypeId && i.Name == m.Key),
                         MetaValue = m.Value,
                         Device = target
                     });
