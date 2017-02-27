@@ -48,7 +48,7 @@ export class DeviceService {
     if ( this.deviceTypes === null) {
       this.deviceTypes = this.http.get(this.url + 'types/')
         .map((response: Response) => response.json())
-        .cache();
+        ;
     }
     return this.deviceTypes;
   }
@@ -65,7 +65,7 @@ export class DeviceService {
         type,
         this.http.get(this.url +'components/' + type)
           .map((response: Response) => response.json())
-          .cache()
+          
       );
     }
     return this.deviceComponents.get(type);

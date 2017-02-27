@@ -15,7 +15,7 @@ export class UserService {
     if (this.user === null) {
       this.user = this.http.get(this.url + 'userdata')
         .map((response: Response) => response.json())
-        .cache();
+        ;
     }
       return this.user;
   }
