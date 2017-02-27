@@ -7,16 +7,14 @@ import { AppComponent } from './app.component';
 
 import { DeviceService } from "./devices/shared/device.service";
 
-import {routing} from "./app.routing";
-
 import {AuthService} from "./authentication/auth.service";
 import {AuthGuard} from "./authentication/auth.guard";
 import {DevicesModule} from "./devices/devices.module";
 import {SharedModule} from "./shared/shared.module";
-import {ErrorMessageService} from "./shared/error-message/error-message.service";
+import { ErrorMessageService } from "./shared/error-message/error-message.service";
+import { DashboardModule } from "./dashboard/dashboard.module"
 import {JwtHttpService} from "./shared/jwt-http.service";
 import {Router} from "@angular/router";
-import {DashboardModule} from "./dashboard/dashboard.module";
 import {CartModule} from "./cart/cart.module";
 import {CartService} from "./cart/cart.service";
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
@@ -26,6 +24,13 @@ import {UserService} from "./shared/user.service";
 import {OrderService} from "./order/order.service";
 import { CoreModule } from "./core/core.module";
 import { AdminModule } from "./admin/admin.module";
+import { routing } from "./app.routing";
+
+
+
+export function jwtFactory(backend: XHRBackend, options: RequestOptions, auth: AuthService, router: Router, errorMessageService: ErrorMessageService) {
+    return new JwtHttpService(backend, options, auth, router, errorMessageService);
+}
 
 @NgModule({
     declarations: [
@@ -36,22 +41,20 @@ import { AdminModule } from "./admin/admin.module";
         BrowserModule,
         FormsModule,
         HttpModule,
-        routing,
+        DashboardModule,
         DevicesModule,
         SharedModule,
-        DashboardModule,
         CartModule,
         OrderModule,
         AuthenticationModule,
         CoreModule,
-        AdminModule
+        AdminModule,
+        routing,
     ],
     providers: [
       {
         provide: JwtHttpService,
-        useFactory: (backend: XHRBackend, options: RequestOptions, auth: AuthService, router: Router, errorMessageService: ErrorMessageService) => {
-          return new JwtHttpService(backend, options, auth, router, errorMessageService);
-        },
+        useFactory: jwtFactory,
         deps: [XHRBackend, RequestOptions, AuthService, Router, ErrorMessageService]
       },
       ErrorMessageService,
