@@ -28,8 +28,6 @@ namespace HwInf.Controllers
         [Route("")]
         public IHttpActionResult GetAll()
         {
-            try
-            {
                 var devices = db.Devices.Include(x => x.Type);
 
                 var vmdl = devices
@@ -40,13 +38,6 @@ namespace HwInf.Controllers
                     .ToList();
 
                 return Ok(vmdl);
-
-            } catch(Exception e)
-            {
-                HttpResponseMessage httpResponseMessage = new HttpResponseMessage(HttpStatusCode.InternalServerError);
-                httpResponseMessage.Content = new StringContent(e.Message);
-                throw new HttpResponseException(httpResponseMessage);
-            }
         }
 
 
