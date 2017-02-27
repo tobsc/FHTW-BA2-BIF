@@ -41,9 +41,11 @@ namespace HwInf.Controllers
 
                 return Ok(vmdl);
 
-            } catch
+            } catch(Exception e)
             {
-                return InternalServerError() ;
+                HttpResponseMessage httpResponseMessage = new HttpResponseMessage(HttpStatusCode.InternalServerError);
+                httpResponseMessage.Content = new StringContent(e.Message);
+                throw new HttpResponseException(httpResponseMessage);
             }
         }
 
