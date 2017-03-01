@@ -77,7 +77,6 @@ namespace HwInf.Common
                 //user daten parameter lesen - frage: daten nur holen, wenn noch nicht registriert oder sollen die daten immer verwendet werden und u.U auch in sofi aktualisiert werden
                 string[] attributesToReturn = new string[] { "displayName", "sn", "givenName", "cn", "mail", "ou", "gidNumber", "uid" };
 
-                var result = new LDAPUserParameters();
                 string sMail = "";
                 string sDisplayName = "";
                 string sFirstName = "";
