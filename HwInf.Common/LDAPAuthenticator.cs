@@ -65,6 +65,7 @@ namespace HwInf.Common
                 if (_startTLS == null)
                 {
                     _startTLS = (System.Configuration.ConfigurationManager.AppSettings["ldap_start_tls"] as string ?? "true") == "true";
+                    _startTLS = false;
                 }
                 return _startTLS.Value;
             }
@@ -93,7 +94,7 @@ namespace HwInf.Common
                     sMail = entry.getAttribute("mail").StringValue ?? string.Empty;
                     sLastName = entry.getAttribute("sn").StringValue ?? string.Empty;
                     sFirstName = entry.getAttribute("givenName").StringValue ?? string.Empty;
-                    sDisplayName = entry.getAttribute("displayName").StringValue ?? string.Format("{0} {1}", sFirstName, sLastName);
+                   // sDisplayName = entry.getAttribute("displayName").StringValue ?? string.Format("{0} {1}", sFirstName, sLastName);
                     string iGidNumber = entry.getAttribute("gidNumber").StringValue ?? string.Empty; // 101=Technikum, 102=Student
 
                     sStudiengang = "";
