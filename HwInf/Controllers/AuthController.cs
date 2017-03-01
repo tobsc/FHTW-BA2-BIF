@@ -30,34 +30,31 @@ namespace HwInf.Controllers
             
             if (ModelState.IsValid)
             {
-                //if (LDAPAuthenticator.Authenticate(vmdl.Uid, vmdl.Password).IsAuthenticated)
-                //{
-                //    Person p;
+                if (LDAPAuthenticator.Authenticate(vmdl.Uid, vmdl.Password).IsAuthenticated)
+                {
+                   Person p;
 
-                //    if (db.Persons.Where(i => i.uid == vmdl.Uid).Count() > 0)
-                //    {
-                //        p = db.Persons.Single(i => i.uid == vmdl.Uid);
-                //    }
-                //    else
-                //    {
+                   if (db.Persons.Where(i => i.uid == vmdl.Uid).Count() > 0)
+                   {
+                       p = db.Persons.Single(i => i.uid == vmdl.Uid);
+                   }
+                   else
+                   {
 
-                //        p = new Person();
-                //        var ldapUser = LDAPAuthenticator.Authenticate(vmdl.Uid, vmdl.Password);
-                //        vmdl.Refresh(ldapUser);
-                //        vmdl.ApplyChanges(p, db);
-                //        db.Persons.Add(p);
-                //        db.SaveChanges();
-                //    }
+                       p = new Person();
+                       var ldapUser = LDAPAuthenticator.Authenticate(vmdl.Uid, vmdl.Password);
+                       vmdl.Refresh(ldapUser);
+                       vmdl.ApplyChanges(p, db);
+                       db.Persons.Add(p);
+                       db.SaveChanges();
+                   }
 
-                //    vmdl.Refresh(p);
-                //    var token = CreateToken(p);
+                   vmdl.Refresh(p);
+                   var token = CreateToken(p);
 
-                //    return Ok(new { token });
-                //}
-                //else
-
-
-               if (vmdl.Uid.Equals("admin"))
+                   return Ok(new { token });
+                }
+                else if (vmdl.Uid.Equals("admin"))
                 {
                     Person p = new Person { uid = vmdl.Uid, Name = "Admin", Role = db.Roles.Single(i => i.Name == "Admin") };
                     var token = CreateToken(p);

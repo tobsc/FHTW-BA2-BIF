@@ -48,11 +48,14 @@
       <HintPath>..\packages\Npgsql.3.1.8\lib\net451\Npgsql.dll</HintPath>
       <Private>True</Private>
     </Reference>
+	<Reference Include="Novell.Directory.Ldap, Version=2.2.1.0, Culture=neutral">
+      <HintPath>..\packages\Novell.Directory.Ldap.2.2.1\lib\Novell.Directory.Ldap.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.DirectoryServices.Protocols" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
