@@ -16,7 +16,7 @@ using System.Web.Http.Description;
 namespace HwInf.Controllers
 {
     [RoutePrefix("api/auth")]
-    public class AuthControllerA : ApiController
+    public class AuthController : ApiController
     {
 
         private HwInfContext db = new HwInfContext();
