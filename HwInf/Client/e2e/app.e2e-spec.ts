@@ -1,14 +1,14 @@
-import { HwInfPage } from './app.po';
+import { ItpPage } from './app.po';
 
-describe('hw-inf App', function() {
-  let page: HwInfPage;
+describe('itp App', function() {
+  let page: ItpPage;
 
   beforeEach(() => {
-    page = new HwInfPage();
+    page = new ItpPage();
   });
 
   it('should display message saying app works', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('hw-inf works!');
+    expect(page.getParagraphText()).toEqual('app works!');
   });
 });

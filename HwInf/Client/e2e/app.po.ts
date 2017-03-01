@@ -1,11 +1,11 @@
 import { browser, element, by } from 'protractor';
 
-export class HwInfPage {
+export class ItpPage {
   navigateTo() {
     return browser.get('/');
   }
 
   getParagraphText() {
-    return element(by.css('hw-inf-root h1')).getText();
+    return element(by.css('app-root h1')).getText();
   }
 }
