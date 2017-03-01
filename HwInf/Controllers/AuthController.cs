@@ -15,7 +15,7 @@ using System.Web.Http.Description;
 
 namespace HwInf.Controllers
 {
-    [RoutePrefix("api/auth")]
+    [RoutePrefix("api/autha")]
     public class AuthControllerA : ApiController
     {
 
