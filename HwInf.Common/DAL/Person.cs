@@ -26,7 +26,7 @@ namespace HwInf.Common.DAL
         public string uid { get; set; }
         [Required]
         public virtual Role Role { get; set; }
-
         public string Room { get; set; }
+        public string Password { get; set; }
     }
 }
