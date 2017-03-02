@@ -253,7 +253,7 @@ namespace HwInf
 
         private static string GetXmlCommentsPath()
         {
-            return string.Format(@"{0}\bin\hwinf.xml", AppDomain.CurrentDomain.BaseDirectory);
+            return string.Format(@"{0}\bin\HwInf.xml", AppDomain.CurrentDomain.BaseDirectory);
         }
 
     }
