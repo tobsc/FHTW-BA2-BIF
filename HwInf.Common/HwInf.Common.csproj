@@ -66,6 +66,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BL\BL.cs" />
     <Compile Include="Contract.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
