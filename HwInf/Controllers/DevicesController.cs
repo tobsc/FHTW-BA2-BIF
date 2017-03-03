@@ -10,6 +10,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using HwInf.Models;
 using HwInf.Common.DAL;
+using HwInf.Common.BL;
 
 namespace HwInf.Controllers
 {
@@ -18,6 +19,12 @@ namespace HwInf.Controllers
     public class DevicesController : ApiController
     {
         private HwInfContext db = new HwInfContext();
+        private BL _bl;
+
+        public DevicesController()
+        {
+            _bl = new BL(db);
+        }
 
         // GET: api/devices/all
         /// <summary>
@@ -28,11 +35,7 @@ namespace HwInf.Controllers
         [Route("")]
         public IHttpActionResult GetAll()
         {
-                var devices = db.Devices.Include(x => x.Type);
-
-                var vmdl = devices
-                    .Where(i => i.DeviceId > 0)
-                    .Take(10000)
+                var vmdl = _bl.GetDevices()
                     .ToList() // execl SQL
                     .Select(i => new DeviceViewModel(i).loadMeta(db)) // Convert to viewmodel
                     .ToList();
