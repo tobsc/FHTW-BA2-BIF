@@ -1,4 +1,4 @@
-namespace HwInf.Common.Migrations
+ï»¿namespace HwInf.Common.Migrations
 {
     using DAL;
     using System;
@@ -41,13 +41,13 @@ namespace HwInf.Common.Migrations
                     new Component { FieldType = "text", Name = "DVD-Laufwerk", DeviceType = type.Single(i => i.Description == "Notebook") },
 
                     new Component { FieldType = "text", Name = "Bildschirmdiagonale", DeviceType = type.Single(i => i.Description == "Monitor") },
-                    new Component { FieldType = "text", Name = "Anschlüsse", DeviceType = type.Single(i => i.Description == "Monitor") }
+                    new Component { FieldType = "text", Name = "AnschlÃ¼sse", DeviceType = type.Single(i => i.Description == "Monitor") }
 
                 };
 
             var deviceStatus = new List<DeviceStatus>
                 {
-                    new DeviceStatus { Description = "Verfügbar" },
+                    new DeviceStatus { Description = "VerfÃ¼gbar" },
                     new DeviceStatus { Description = "Ausgeliehen" },
                     new DeviceStatus { Description = "In Reparatur" },
                 };
@@ -78,11 +78,11 @@ namespace HwInf.Common.Migrations
 
             var dev = new List<Device>
                {
-                new Device { Name = "Lenovo Notebook", Brand = "Lenovo", Status = deviceStatus.Single(i => i.Description == "Verfügbar"), InvNum = "a123", Type = type.Single(i => i.Description == "Notebook"), CreateDate = DateTime.Now, Room ="A0.00", Person = persons.Single(i => i.LastName == "Calanog")},
+                new Device { Name = "Lenovo Notebook", Brand = "Lenovo", Status = deviceStatus.Single(i => i.Description == "VerfÃ¼gbar"), InvNum = "a123", Type = type.Single(i => i.Description == "Notebook"), CreateDate = DateTime.Now, Room ="A0.00", Person = persons.Single(i => i.LastName == "Calanog")},
                 new Device { Name = "Acer PC", Brand = "Acer", Status = deviceStatus.Single(i => i.Description == "Ausgeliehen"), InvNum = "a5123", Type = type.Single(i => i.Description == "PC"), CreateDate = DateTime.Now, Room = "A0.00", Person = persons.Single(i => i.LastName == "Calanog")},
-                new Device { Name = "Benq Monitor", Brand = "Benq", Status = deviceStatus.Single(i => i.Description == "Verfügbar"), InvNum = "a6123", Type = type.Single(i => i.Description == "Monitor"), CreateDate = DateTime.Now, Room = "F0.00", Person = persons.Single(i => i.LastName == "Calanog")},
+                new Device { Name = "Benq Monitor", Brand = "Benq", Status = deviceStatus.Single(i => i.Description == "VerfÃ¼gbar"), InvNum = "a6123", Type = type.Single(i => i.Description == "Monitor"), CreateDate = DateTime.Now, Room = "F0.00", Person = persons.Single(i => i.LastName == "Calanog")},
                 new Device { Name = "Medion PC", Brand = "Medion", Status = deviceStatus.Single(i => i.Description == "In Reparatur"), InvNum = "a57123", Type = type.Single(i => i.Description == "PC"), CreateDate = DateTime.Now, Room = "F0.00", Person = persons.Single(i => i.LastName == "Calanog")},
-                new Device { Name = "HP PC", Brand = "HP", Status = deviceStatus.Single(i => i.Description == "Verfügbar"), InvNum = "a985123", Type = type.Single(i => i.Description == "PC"), CreateDate = DateTime.Now, Room = "B0.00", Person = persons.Single(i => i.LastName == "Sagl")},
+                new Device { Name = "HP PC", Brand = "HP", Status = deviceStatus.Single(i => i.Description == "VerfÃ¼gbar"), InvNum = "a985123", Type = type.Single(i => i.Description == "PC"), CreateDate = DateTime.Now, Room = "B0.00", Person = persons.Single(i => i.LastName == "Sagl")},
                 new Device { Name = "Acer PC", Brand = "Acer", Status = deviceStatus.Single(i => i.Description == "Ausgeliehen"), InvNum = "a512683", Type = type.Single(i => i.Description == "PC"), CreateDate = DateTime.Now, Room = "B0.00", Person = persons.Single(i => i.LastName == "Sagl")}
                };
 
@@ -93,7 +93,7 @@ namespace HwInf.Common.Migrations
                 new DeviceMeta { Device= dev.Single(i => i.InvNum == "a123"), Component = typeFields.Single(i => i.DeviceType.Description == "Notebook" && i.Name == "Display"), MetaValue = "13 Zoll" },
                 new DeviceMeta { Device= dev.Single(i => i.InvNum == "a5123"), Component = typeFields.Single(i => i.DeviceType.Description == "PC" && i.Name == "Prozessor"), MetaValue = "Intel Core i5-3550" },
                 new DeviceMeta { Device= dev.Single(i => i.InvNum == "a6123"), Component = typeFields.Single(i => i.DeviceType.Description == "Monitor" && i.Name == "Bildschirmdiagonale"), MetaValue = "17 Zoll" },
-                new DeviceMeta { Device= dev.Single(i => i.InvNum == "a6123"), Component = typeFields.Single(i => i.DeviceType.Description == "Monitor" && i.Name == "Anschlüsse"), MetaValue = "HDMI, VGA, DVI" },
+                new DeviceMeta { Device= dev.Single(i => i.InvNum == "a6123"), Component = typeFields.Single(i => i.DeviceType.Description == "Monitor" && i.Name == "AnschlÃ¼sse"), MetaValue = "HDMI, VGA, DVI" },
 
                 new DeviceMeta { Device = dev.Single(i => i.InvNum == "a57123"), Component = typeFields.Single(i => i.DeviceType.Description == "PC" && i.Name == "Prozessor"),MetaValue = "Intel Core i7-6500" },
                 new DeviceMeta { Device = dev.Single(i => i.InvNum == "a57123"), Component = typeFields.Single(i => i.DeviceType.Description == "PC" && i.Name == "Arbeitsspeicher"), MetaValue = "16GB" },

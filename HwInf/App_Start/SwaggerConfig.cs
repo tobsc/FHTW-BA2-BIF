@@ -21,7 +21,7 @@ namespace HwInf
             var thisAssembly = typeof(SwaggerConfig).Assembly;
 
             GlobalConfiguration.Configuration 
-                .EnableSwagger("api/swagger/v/{apiVersion}", c =>
+                .EnableSwagger(c =>
                     {
                         // By default, the service root url is inferred from the request used to access the docs.
                         // However, there may be situations (e.g. proxy and load-balanced environments) where this does not
@@ -181,7 +181,7 @@ namespace HwInf
                         //
                         //c.CustomProvider((defaultProvider) => new CachingSwaggerProvider(defaultProvider));
                     })
-                .EnableSwaggerUi("api/swagger/{*assetPath}", c =>
+                .EnableSwaggerUi(c =>
                     {
                         // Use the "InjectStylesheet" option to enrich the UI with one or more additional CSS stylesheets.
                         // The file must be included in your project as an "Embedded Resource", and then the resource's
