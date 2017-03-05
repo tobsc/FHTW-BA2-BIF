@@ -30,12 +30,14 @@ namespace HwInf.Controllers
         /// <summary>
         /// Returns a list of all devices
         /// </summary>
+        /// <param name="limit">Limit</param>
+        /// <param name="offset">Offset</param>
         /// <returns></returns>
         [ResponseType(typeof(DeviceViewModel))]
         [Route("")]
-        public IHttpActionResult GetAll()
+        public IHttpActionResult GetAll(int limit = 25, int offset = 0)
         {
-                var vmdl = _bl.GetDevices()
+                var vmdl = _bl.GetDevices(limit, offset)
                     .ToList() // execl SQL
                     .Select(i => new DeviceViewModel(i).loadMeta(_bl)) // Convert to viewmodel
                     .ToList();
@@ -83,17 +85,20 @@ namespace HwInf.Controllers
         /// Filters the devices with given parameters
         /// </summary>
         /// <param name="type">Device Type</param>
+        /// <param name="limit">Limit</param>
+        /// <param name="offset">Offset</param>
+        /// 
         /// <returns></returns>
 
         [ResponseType(typeof(List<DeviceViewModel>))]
         [Route("{type}")]
-        public IHttpActionResult GetFilter(string type)
+        public IHttpActionResult GetFilter(string type, int limit = 25, int offset = 0)
         {
                 var parameterQuery = Request.GetQueryNameValuePairs();
                 var devices = db.Devices.Include(x => x.Type);
 
 
-                var data = _bl.GetDevices(true, type)
+                var data = _bl.GetDevices(limit, offset, true, type)
                     .ToList() // execl SQL
                     .Select(i => new DeviceViewModel(i).loadMeta(_bl)) // Convert to viewmodel
                     .ToList();

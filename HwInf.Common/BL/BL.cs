@@ -20,14 +20,15 @@ namespace HwInf.Common.BL
             _dal = dal;
         }
 
-        public IQueryable<Device> GetDevices(bool onlyActive = true, string type = null)
+        public IQueryable<Device> GetDevices(int limit = 25, int offset = 0, bool onlyActive = true, string type = null)
         {
 
             if(type == null)
             {
                 return _dal.Devices.Include(x => x.Type)
+                    .Where(i => i.DeviceId > offset)
                     .Where(i => i.IsActive == true)
-                    .Take(10000);
+                    .Take(limit);
             } else
             {
                 return _dal.Devices.Include(x => x.Type)
