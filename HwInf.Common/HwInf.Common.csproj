@@ -91,6 +91,10 @@
     <Compile Include="Migrations\201701242304489_Initial_Create.Designer.cs">
       <DependentUpon>201701242304489_Initial_Create.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703052246458_Device_Change.cs" />
+    <Compile Include="Migrations\201703052246458_Device_Change.Designer.cs">
+      <DependentUpon>201703052246458_Device_Change.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -101,6 +105,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201701242304489_Initial_Create.resx">
       <DependentUpon>201701242304489_Initial_Create.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703052246458_Device_Change.resx">
+      <DependentUpon>201703052246458_Device_Change.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

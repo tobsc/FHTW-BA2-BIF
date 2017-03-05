@@ -60,6 +60,25 @@ namespace HwInf.Controllers
         }
 
         /// <summary>
+        /// Returns List of Users.
+        /// </summary>
+        /// <param name="noNormalUsers">No normal Users</param>
+        /// <returns>LastName, Name, Uid</returns>
+        [Authorize(Roles="Verwalter, Admin")]
+        [ResponseType(typeof(UserViewModel))]
+        [Route("owners")]
+        public IHttpActionResult GetOwners(bool noNormalUsers = false)
+        {
+            if(noNormalUsers == true)
+            {
+                return Ok(db.Persons.Where(i => i.Role.RoleId != 2).Select(i => new { i.LastName, i.Name, i.uid }));
+            } else
+            {
+                return Ok(db.Persons.Select(i => new { i.LastName, i.Name, i.uid }));
+            }
+        }
+
+        /// <summary>
         /// Update User Data. Only Tel if not Admin.
         /// </summary>
         /// <param name="vmdl"></param>

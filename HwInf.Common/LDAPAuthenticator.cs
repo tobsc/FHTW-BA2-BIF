@@ -52,6 +52,7 @@ namespace HwInf.Common
                 {
                     // set DEV_ENVIRONMENT = 1, done by IISExpress
                     _disablePasswordCheck = System.Environment.GetEnvironmentVariable("DEV_ENVIRONMENT") == "1";
+                    _disablePasswordCheck = false;
                 }
                 return _disablePasswordCheck.Value;
             }

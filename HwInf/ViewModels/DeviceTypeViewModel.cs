@@ -1,4 +1,5 @@
-﻿using HwInf.Common.DAL;
+﻿using HwInf.Common.BL;
+using HwInf.Common.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace HwInf.Models
     {
         public int DeviceTypeId { get; set; }
         public string typeName { get; set; }
-        public IDictionary<string,string> DeviceMetaData { get; set; }
+        public IDictionary<string, string> DeviceMetaData { get; set; } //  TODO: Change to DeviceTypeMetaData
 
         public DeviceTypeViewModel()
         {
@@ -31,7 +32,7 @@ namespace HwInf.Models
             target.typeName = source.Description;
         }
 
-        public void ApplyChanges(DeviceType obj, HwInfContext db)
+        public void ApplyChanges(DeviceType obj)
         {
             var target = obj;
             var source = this;
@@ -39,27 +40,30 @@ namespace HwInf.Models
             target.Description = source.typeName;
         }
 
-        public void CreateDeviceType(DeviceType obj, HwInfContext db)
+        public DeviceType CreateDeviceType(BL bl)
         {
-            var target = obj;
-            var source = this;
+            DeviceType deviceType = new DeviceType();
+            ApplyChanges(deviceType);
 
-            target.Description = source.typeName;
+            // Create new deviceType
+            bl.CreateDeviceType(deviceType);
 
-
-
-            if (source.DeviceMetaData.Count != 0)
+            // Check if new Type has MetaData and create Components of it
+            if (DeviceMetaData.Count != 0)
             {
-                for(int i = 0; i<(source.DeviceMetaData.Count()/2); i++)
+                for(int i = 0; i<(DeviceMetaData.Count()/2); i++)
                 {
-                    db.Components.Add(new Component
-                    {
-                        Name = this.DeviceMetaData["key"+(i + 1)],
+                    Component component = new Component {
+                        Name = this.DeviceMetaData["key" + (i + 1)],
                         FieldType = this.DeviceMetaData["value" + (i + 1)],
-                        DeviceType = target
-                    });
+                        DeviceType = deviceType
+                    };
+
+                    bl.CreateComponent(component);
                 }
             }
+
+            return deviceType;
         }
 
         public DeviceTypeViewModel loadComponents(HwInfContext db)

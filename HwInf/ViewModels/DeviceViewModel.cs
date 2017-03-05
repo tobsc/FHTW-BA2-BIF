@@ -1,4 +1,5 @@
-﻿using HwInf.Common.DAL;
+﻿using HwInf.Common.BL;
+using HwInf.Common.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,10 +21,11 @@ namespace HwInf.Models
         public string Owner { get; set; }
         public string OwnerUid { get; set; }
         public IDictionary<string,string> DeviceMetaData { get; set; }
+        public bool IsActive { get; set; } = true;
 
         public DeviceViewModel()
         {
-
+            Status = "Verfügbar";
         }
 
         public DeviceViewModel(Device obj)
@@ -47,9 +49,10 @@ namespace HwInf.Models
             target.Room = source.Room;
             target.Owner = source.Person.Name + " " + source.Person.LastName;
             target.OwnerUid = source.Person.uid;
+            target.IsActive = source.IsActive;
         }
 
-        public void ApplyChanges(Device obj, HwInfContext db)
+        public void ApplyChanges(Device obj, BL bl)
         {
             var target = obj;
             var source = this;
@@ -57,53 +60,51 @@ namespace HwInf.Models
             target.Name = source.Name;
             target.InvNum = source.InvNum;
             target.Brand = source.Marke;
-            target.Status.Description = source.Status;
-            target.Status.StatusId = source.StatusId;
-            target.Type = db.DeviceTypes.Single(i => i.TypeId == source.TypeId);
-            target.Person = db.Persons.Single(i => i.uid == source.OwnerUid);
+            target.Status = bl.GetDeviceStatus(source.StatusId);
+            target.Type = bl.GetDeviceType(source.TypeId);
+            target.Person = bl.GetPerson(source.OwnerUid);
             target.Room = source.Room;
+            target.IsActive = source.IsActive;
         }
 
-        public void CreateDevice(Device obj, HwInfContext db)
+        public Device CreateDevice(BL bl)
         {
-            var target = obj;
-            var source = this;
 
-            target.Name = source.Name;
-            target.InvNum = source.InvNum;
-            target.Brand = source.Marke;
-            target.Type = db.DeviceTypes.Single(i => i.TypeId == source.TypeId);
-            target.Status = db.DeviceStatus.Single(i => i.StatusId == source.StatusId);
-            target.CreateDate = DateTime.Now.Date;
-            target.Room = source.Room;
-            target.Person = db.Persons.Single(i => i.uid == source.OwnerUid);
+            // Create Device from VMDL
+            Device device = new Device();
+            ApplyChanges(device, bl);
 
+            // Create Device
+            bl.CreateDevice(device);
 
-            if (source.DeviceMetaData.Count != 0)
+            // Check if there are any MetaData and create them
+            if (DeviceMetaData.Count != 0)
             {
-
-                foreach (var m in source.DeviceMetaData)
+                foreach (var meta in DeviceMetaData)
                 {
-                    db.DeviceMeta.Add(new DeviceMeta
-                    {                       
-                        Component = db.Components.Single(i => i.DeviceType.TypeId == target.Type.TypeId && i.Name == m.Key),
-                        MetaValue = m.Value,
-                        Device = target
+                    bl.CreateDeviceMeta(new DeviceMeta
+                    {
+                        Component = bl.GetComponent(device.Type.TypeId, meta.Key),
+                        MetaValue = meta.Value,
+                        Device = device
                     });
                 }
             }
+
+
+            return device;
         }
 
-        public DeviceViewModel loadMeta(HwInfContext db)
+        public DeviceViewModel loadMeta(BL bl)
         {
-            var deviceMeta = db.DeviceMeta;
             DeviceMetaData = new Dictionary<string, string>();
 
-            foreach (DeviceMeta m in deviceMeta.Include("Component").Include("Device").Where(i => i.Device.DeviceId == DeviceId))
+            var deviceMeta = bl.LoadDeviceMeta(DeviceId);
+
+            foreach (DeviceMeta m in deviceMeta)
             {
                     DeviceMetaData.Add(m.Component.Name, m.MetaValue);
             }
-
             return this; // fluent interface
         }
     }

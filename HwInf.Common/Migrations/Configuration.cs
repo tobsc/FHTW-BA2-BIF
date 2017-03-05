@@ -78,12 +78,12 @@
 
             var dev = new List<Device>
                {
-                new Device { Name = "Lenovo Notebook", Brand = "Lenovo", Status = deviceStatus.Single(i => i.Description == "Verfügbar"), InvNum = "a123", Type = type.Single(i => i.Description == "Notebook"), CreateDate = DateTime.Now, Room ="A0.00", Person = persons.Single(i => i.LastName == "Calanog")},
-                new Device { Name = "Acer PC", Brand = "Acer", Status = deviceStatus.Single(i => i.Description == "Ausgeliehen"), InvNum = "a5123", Type = type.Single(i => i.Description == "PC"), CreateDate = DateTime.Now, Room = "A0.00", Person = persons.Single(i => i.LastName == "Calanog")},
-                new Device { Name = "Benq Monitor", Brand = "Benq", Status = deviceStatus.Single(i => i.Description == "Verfügbar"), InvNum = "a6123", Type = type.Single(i => i.Description == "Monitor"), CreateDate = DateTime.Now, Room = "F0.00", Person = persons.Single(i => i.LastName == "Calanog")},
-                new Device { Name = "Medion PC", Brand = "Medion", Status = deviceStatus.Single(i => i.Description == "In Reparatur"), InvNum = "a57123", Type = type.Single(i => i.Description == "PC"), CreateDate = DateTime.Now, Room = "F0.00", Person = persons.Single(i => i.LastName == "Calanog")},
-                new Device { Name = "HP PC", Brand = "HP", Status = deviceStatus.Single(i => i.Description == "Verfügbar"), InvNum = "a985123", Type = type.Single(i => i.Description == "PC"), CreateDate = DateTime.Now, Room = "B0.00", Person = persons.Single(i => i.LastName == "Sagl")},
-                new Device { Name = "Acer PC", Brand = "Acer", Status = deviceStatus.Single(i => i.Description == "Ausgeliehen"), InvNum = "a512683", Type = type.Single(i => i.Description == "PC"), CreateDate = DateTime.Now, Room = "B0.00", Person = persons.Single(i => i.LastName == "Sagl")}
+                new Device { Name = "Lenovo Notebook", Brand = "Lenovo", Status = deviceStatus.Single(i => i.Description == "Verfügbar"), InvNum = "a123", Type = type.Single(i => i.Description == "Notebook"), CreateDate = DateTime.Now, Room ="A0.00", Person = persons.Single(i => i.LastName == "Calanog"), IsActive = true },
+                new Device { Name = "Acer PC", Brand = "Acer", Status = deviceStatus.Single(i => i.Description == "Ausgeliehen"), InvNum = "a5123", Type = type.Single(i => i.Description == "PC"), CreateDate = DateTime.Now, Room = "A0.00", Person = persons.Single(i => i.LastName == "Calanog"), IsActive = true },
+                new Device { Name = "Benq Monitor", Brand = "Benq", Status = deviceStatus.Single(i => i.Description == "Verfügbar"), InvNum = "a6123", Type = type.Single(i => i.Description == "Monitor"), CreateDate = DateTime.Now, Room = "F0.00", Person = persons.Single(i => i.LastName == "Calanog"), IsActive = true },
+                new Device { Name = "Medion PC", Brand = "Medion", Status = deviceStatus.Single(i => i.Description == "In Reparatur"), InvNum = "a57123", Type = type.Single(i => i.Description == "PC"), CreateDate = DateTime.Now, Room = "F0.00", Person = persons.Single(i => i.LastName == "Calanog"), IsActive = true },
+                new Device { Name = "HP PC", Brand = "HP", Status = deviceStatus.Single(i => i.Description == "Verfügbar"), InvNum = "a985123", Type = type.Single(i => i.Description == "PC"), CreateDate = DateTime.Now, Room = "B0.00", Person = persons.Single(i => i.LastName == "Sagl"), IsActive = true },
+                new Device { Name = "Acer PC", Brand = "Acer", Status = deviceStatus.Single(i => i.Description == "Ausgeliehen"), InvNum = "a512683", Type = type.Single(i => i.Description == "PC"), CreateDate = DateTime.Now, Room = "B0.00", Person = persons.Single(i => i.LastName == "Sagl"), IsActive = true }
                };
 
 

@@ -37,7 +37,7 @@ namespace HwInf.Controllers
         {
                 var vmdl = _bl.GetDevices()
                     .ToList() // execl SQL
-                    .Select(i => new DeviceViewModel(i).loadMeta(db)) // Convert to viewmodel
+                    .Select(i => new DeviceViewModel(i).loadMeta(_bl)) // Convert to viewmodel
                     .ToList();
 
                 return Ok(vmdl);
@@ -60,7 +60,7 @@ namespace HwInf.Controllers
                 var vmdl = devices
                  .Where(i => i.DeviceId == id)
                  .ToList() // execl SQL
-                 .Select(i => new DeviceViewModel(i).loadMeta(db)) // Convert to viewmodel
+                 .Select(i => new DeviceViewModel(i).loadMeta(_bl)) // Convert to viewmodel
                  .ToList();
 
                 if (vmdl == null)
@@ -93,11 +93,9 @@ namespace HwInf.Controllers
                 var devices = db.Devices.Include(x => x.Type);
 
 
-                var data = devices
-                    .Where(i => i.Type.Description.ToLower().Contains(type.ToLower()))
-                    .Take(10000)
+                var data = _bl.GetDevices(true, type)
                     .ToList() // execl SQL
-                    .Select(i => new DeviceViewModel(i).loadMeta(db)) // Convert to viewmodel
+                    .Select(i => new DeviceViewModel(i).loadMeta(_bl)) // Convert to viewmodel
                     .ToList();
 
                 var response = new List<DeviceViewModel>();
@@ -370,15 +368,10 @@ namespace HwInf.Controllers
                 return BadRequest("Person nicht vorhanden.");
             }
 
+            
+            Device device = vmdl.CreateDevice(_bl);
 
-            Device dev = new Device();
-
-            vmdl.CreateDevice(dev, db);
-            db.Devices.Add(dev); 
-
-            db.SaveChanges();
-
-            return Ok(dev.DeviceId);
+            return Ok(device.DeviceId);
         }
 
         // POST: api/devices/createdevicetype
@@ -399,14 +392,9 @@ namespace HwInf.Controllers
                 return BadRequest(ModelState);
             }
       
-            DeviceType devType = new DeviceType();
+            DeviceType deviceType = vmdl.CreateDeviceType(_bl);
 
-            vmdl.CreateDeviceType(devType, db);
-            db.DeviceTypes.Add(devType);
-
-            db.SaveChanges();
-
-            return Ok(devType.TypeId);
+            return Ok(deviceType.TypeId);
         }
 
         // DELETE: api/devicee/{id}
@@ -419,14 +407,14 @@ namespace HwInf.Controllers
         [Route("delete/{id}")]
         public IHttpActionResult DeleteDevice(int id)
         {
-            Device dev = db.Devices.Find(id);
-            if (dev == null)
+            if(!_bl.DeviceExists(id))
             {
                 return NotFound();
             }
-
-            db.Devices.Remove(dev);
-            db.SaveChanges();
+            else
+            {
+                _bl.DeleteDevice(id);
+            }
 
             return Ok();
         }
@@ -453,15 +441,13 @@ namespace HwInf.Controllers
                 return BadRequest();
             }
 
-            db.Entry(Dev).State = EntityState.Modified;
-
             try
             {
-                db.SaveChanges();
+                _bl.UpdateDevice(Dev);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!DeviceExists(id))
+                if (!_bl.DeviceExists(id))
                 {
                     return NotFound();
                 }
@@ -481,11 +467,6 @@ namespace HwInf.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        private bool DeviceExists(int id)
-        {
-            return db.Devices.Count(e => e.DeviceId == id) > 0;
         }
     }
 
