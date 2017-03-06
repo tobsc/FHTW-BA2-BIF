@@ -16,6 +16,7 @@ using MigraDoc.DocumentObjectModel.IO;
 using MigraDoc.Rendering;
 using System.Web;
 using System.Net.Http.Headers;
+using System.Diagnostics;
 
 namespace HwInf.Controllers
 {
@@ -219,6 +220,7 @@ namespace HwInf.Controllers
             var rpt = new Contract(id, uid);
             // Report -> String
             var text = rpt.TransformText();
+            
 
             // Stream für den DdlReader erzeugen
             MemoryStream stream = CreateMDDLStream(text);
@@ -233,10 +235,10 @@ namespace HwInf.Controllers
             pdf.Document = doc;
             pdf.RenderDocument();
             // Speichern
-            pdf.Save(AppDomain.CurrentDomain.BaseDirectory+"\\Hello.pdf");
+            pdf.Save(AppDomain.CurrentDomain.BaseDirectory+"\\Ausleihvertrag.pdf");
 
             HttpResponseMessage result = null;
-            var localFilePath = AppDomain.CurrentDomain.BaseDirectory + "\\Hello.pdf";
+            var localFilePath = AppDomain.CurrentDomain.BaseDirectory + "\\Ausleihvertrag.pdf";
 
             if (!File.Exists(localFilePath))
             {
