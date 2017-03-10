@@ -1,11 +1,10 @@
-﻿using HwInf.Common.BL;
-using HwInf.Common.DAL;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using HwInf.Common.BL;
+using HwInf.Common.Models;
+using static System.String;
 
-namespace HwInf.Models
+namespace HwInf.ViewModels
 {
     public class DeviceViewModel
     {
@@ -13,19 +12,15 @@ namespace HwInf.Models
         public string Name { get; set; }
         public string InvNum { get; set; }
         public string Marke { get; set; }
-        public string Status { get; set; }
-        public int StatusId { get; set; }
-        public string Type { get; set; }
-        public int TypeId { get; set; }
         public string Room { get; set; }
-        public string Owner { get; set; }
-        public string OwnerUid { get; set; }
-        public IDictionary<string,string> DeviceMetaData { get; set; }
+        public DeviceTypeViewModel DeviceType { get; set; }
+        public UserViewModel Owner { get; set; }
+        public DeviceStatusViewModel Status { get;set; }
+        public IEnumerable<DeviceMetaViewModel> DeviceMeta { get; set; }
         public bool IsActive { get; set; } = true;
 
         public DeviceViewModel()
         {
-            Status = "Verfügbar";
         }
 
         public DeviceViewModel(Device obj)
@@ -38,17 +33,15 @@ namespace HwInf.Models
             var target = this;
             var source = obj;
 
+
             target.DeviceId = source.DeviceId;
             target.Name = source.Name;
             target.InvNum = source.InvNum;
             target.Marke = source.Brand;
-            target.Status = source.Status.Description;
-            target.StatusId = source.Status.StatusId;
-            target.TypeId = source.Type.TypeId;
-            target.Type= source.Type.Description;
+            target.Status = source.Status;
+            target.DeviceType= source.Type;
             target.Room = source.Room;
-            target.Owner = source.Person.Name + " " + source.Person.LastName;
-            target.OwnerUid = source.Person.uid;
+            target.Owner = source.Person;
             target.IsActive = source.IsActive;
         }
 
@@ -57,55 +50,32 @@ namespace HwInf.Models
             var target = obj;
             var source = this;
 
+            if(IsNullOrWhiteSpace(Status.Description))
+            {
+                Status.Description = "Verfügbar";
+            }
+
             target.Name = source.Name;
             target.InvNum = source.InvNum;
             target.Brand = source.Marke;
-            target.Status = bl.GetDeviceStatus(source.StatusId);
-            target.Type = bl.GetDeviceType(source.TypeId);
-            target.Person = bl.GetPerson(source.OwnerUid);
+            target.Status = bl.GetDeviceStatus(source.Status.StatusId);
+            target.Type = bl.GetDeviceType(source.DeviceType.DeviceTypeId);
+            target.Person = bl.GetPerson(source.Owner.Uid);
             target.Room = source.Room;
             target.IsActive = source.IsActive;
+            target.DeviceMeta = new List<DeviceMeta>();
+            source.DeviceMeta.ToList().ForEach(i => target.DeviceMeta.Add(i));
+
         }
 
-        public Device CreateDevice(BL bl)
+        public DeviceViewModel LoadMeta(Device d)
         {
+            DeviceMeta = d.DeviceMeta
+                .Select(i => new DeviceMetaViewModel(i));
 
-            // Create Device from VMDL
-            Device device = new Device();
-            ApplyChanges(device, bl);
-
-            // Create Device
-            bl.CreateDevice(device);
-
-            // Check if there are any MetaData and create them
-            if (DeviceMetaData.Count != 0)
-            {
-                foreach (var meta in DeviceMetaData)
-                {
-                    bl.CreateDeviceMeta(new DeviceMeta
-                    {
-                        Component = bl.GetComponent(device.Type.TypeId, meta.Key),
-                        MetaValue = meta.Value,
-                        Device = device
-                    });
-                }
-            }
-
-
-            return device;
-        }
-
-        public DeviceViewModel loadMeta(BL bl)
-        {
-            DeviceMetaData = new Dictionary<string, string>();
-
-            var deviceMeta = bl.LoadDeviceMeta(DeviceId);
-
-            foreach (DeviceMeta m in deviceMeta)
-            {
-                    DeviceMetaData.Add(m.Component.Name, m.MetaValue);
-            }
+              
             return this; // fluent interface
         }
+
     }
 }

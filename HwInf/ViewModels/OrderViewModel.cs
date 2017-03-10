@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using HwInf.Common.Models;
 
 namespace HwInf.ViewModels
 {
@@ -75,12 +75,12 @@ namespace HwInf.ViewModels
 
         }
 
-        public OrderViewModel loadOrderItems(HwInfContext db)
+        public OrderViewModel LoadOrderItems(HwInfContext db)
         {
             var oItems = db.OrderItems.Include("Order").Where(i => i.Order.OrderId == OrderId).Select(i => i.Device);
             OrderItems = new List<int>();
 
-            if(oItems.Count() > 0)
+            if(oItems.Any())
             {
                 foreach (var o in oItems)
                 {
@@ -92,67 +92,59 @@ namespace HwInf.ViewModels
             return this;
         }
 
-        public List<OrderItem> createOrderItems(Order o, HwInfContext db)
+        public List<OrderItem> CreateOrderItems(Order o, HwInfContext db)
         {
 
-            List<OrderItem> oi = new List<OrderItem>();
+            var oi = new List<OrderItem>();
             if (OrderItems != null)
             {
-                foreach (var ois in OrderItems)
+                oi.AddRange(OrderItems.Select(ois => new OrderItem
                 {
-                    OrderItem tmp = new OrderItem();
-                    tmp.Device = db.Devices.Single(i => i.DeviceId == ois);
-                    tmp.Order = db.Orders.Single(i => i.OrderId == o.OrderId);
-
-                    oi.Add(tmp);
-                }
+                    Device = db.Devices.Single(i => i.DeviceId == ois), Order = db.Orders.Single(i => i.OrderId == o.OrderId)
+                }));
             }
 
             return oi;
         }
 
-        public void changeStatus(Order obj, HwInfContext db, string action)
+        public void ChangeStatus(Order obj, HwInfContext db, string action)
         {
             var target = obj;
             var st = "";
 
-            if (action == "decline")
+            switch (action)
             {
-                target.Status = db.OrderStatus.Single(i => i.Description == "Abgelehnt");
-                return;
+                case "decline":
+                    target.Status = db.OrderStatus.Single(i => i.Description == "Abgelehnt");
+                    return;
+                case "accept":
+                    target.Status = db.OrderStatus.Single(i => i.Description == "Akzeptiert");
+                    st = "Ausgeliehen";
+                    break;
+                case "return":
+                    target.Status = db.OrderStatus.Single(i => i.Description == "Abgeschlossen");
+                    st = "Verfügbar";
+                    break;
             }
 
-
-            if (action == "accept")
-            {
-                target.Status = db.OrderStatus.Single(i => i.Description == "Akzeptiert");
-                st = "Ausgeliehen";
-            }
-
-            if(action == "return")
-            {
-                target.Status = db.OrderStatus.Single(i => i.Description == "Abgeschlossen");
-                st = "Verfügbar";
-            }
-
-            var orderItems = loadOrderItems(db);
+            var orderItems = LoadOrderItems(db);
 
             foreach (var id in orderItems.OrderItems)
             {
 
-                Device dev = db.Devices.Single(i => i.DeviceId == id);
+                var dev = db.Devices.Single(i => i.DeviceId == id);
                 dev.Status = db.DeviceStatus.Single(i => i.Description == st);
             }
         }
 
-        public void declineOrder(Order obj, HwInfContext db)
+        public void DeclineOrder(Order obj, HwInfContext db)
         {
             var target = obj;
 
             target.Status = db.OrderStatus.Single(i => i.Description == "Abgelehnt");
         }
 
-        public bool containsDuplicates()
+        public bool ContainsDuplicates()
         {
             var groups = OrderItems.GroupBy(i => i);
 
@@ -167,20 +159,9 @@ namespace HwInf.ViewModels
             return false;
         }
 
-        public bool containsLentItems(HwInfContext db)
+        public bool ContainsLentItems(HwInfContext db)
         {
-            foreach(var devId in OrderItems)
-            {
-                if (db.Devices
-                    .Where(i => i.DeviceId == devId)
-                    .Select(i => i.Status.Description)
-                    .SingleOrDefault() == "Ausgeliehen")
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return OrderItems.Any(devId => db.Devices.Where(i => i.DeviceId == devId).Select(i => i.Status.Description).SingleOrDefault() == "Ausgeliehen");
         }
     }
 }

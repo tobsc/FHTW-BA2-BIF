@@ -1,17 +1,17 @@
-﻿using HwInf.Common.BL;
-using HwInf.Common.DAL;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using HwInf.Common.BL;
+using HwInf.Common.Models;
+using WebGrease.Css.Extensions;
 
-namespace HwInf.Models
+namespace HwInf.ViewModels
 {
     public class DeviceTypeViewModel
     {
         public int DeviceTypeId { get; set; }
-        public string typeName { get; set; }
-        public IDictionary<string, string> DeviceMetaData { get; set; } //  TODO: Change to DeviceTypeMetaData
+        public string TypeName { get; set; }
+        public IEnumerable<ComponentViewModel> Components { get; set; }
+
 
         public DeviceTypeViewModel()
         {
@@ -29,54 +29,49 @@ namespace HwInf.Models
             var source = obj;
 
             target.DeviceTypeId = source.TypeId;
-            target.typeName = source.Description;
+            target.TypeName = source.Description;
+            target.Components = new List<ComponentViewModel>();
+            source.Components.ForEach(i => target.Components.ToList().Add(i));
+
         }
 
-        public void ApplyChanges(DeviceType obj)
+        public void ApplyChanges(DeviceType obj, BL bl)
         {
             var target = obj;
             var source = this;
 
-            target.Description = source.typeName;
+            target.Description = source.TypeName;
+            target.Components = new List<Component>();
+            source.Components.ToList().ForEach(i => target.Components.Add(i));
+            target.Components.ForEach(i => i.ComponentType = bl.GetComponentType(i.ComponentType.Name));
         }
 
-        public DeviceType CreateDeviceType(BL bl)
+        public DeviceTypeViewModel LoadComponents(DeviceType dt)
         {
-            DeviceType deviceType = new DeviceType();
-            ApplyChanges(deviceType);
 
-            // Create new deviceType
-            bl.CreateDeviceType(deviceType);
+            Components = dt.Components
+                .Select(i => new ComponentViewModel(i));
 
-            // Check if new Type has MetaData and create Components of it
-            if (DeviceMetaData.Count != 0)
-            {
-                for(int i = 0; i<(DeviceMetaData.Count()/2); i++)
-                {
-                    Component component = new Component {
-                        Name = this.DeviceMetaData["key" + (i + 1)],
-                        FieldType = this.DeviceMetaData["value" + (i + 1)],
-                        DeviceType = deviceType
-                    };
-
-                    bl.CreateComponent(component);
-                }
-            }
-
-            return deviceType;
-        }
-
-        public DeviceTypeViewModel loadComponents(HwInfContext db)
-        {
-            var typeComponents = db.Components;
-            DeviceMetaData = new Dictionary<string, string>();
-
-            foreach (Component m in typeComponents.Include("DeviceType").Where(i => i.DeviceType.TypeId == DeviceTypeId))
-            {
-                DeviceMetaData.Add(m.Name, m.FieldType);
-            }
 
             return this; // fluent interface
+        }
+
+        public static implicit operator DeviceType(DeviceTypeViewModel vmdl)
+        {
+            return new DeviceType
+            {
+                TypeId = vmdl.DeviceTypeId,
+                Description = vmdl.TypeName
+            };
+        }
+
+        public static implicit operator DeviceTypeViewModel(DeviceType dt)
+        {
+            return new DeviceTypeViewModel
+            {
+                DeviceTypeId = dt.TypeId,
+                TypeName = dt.Description
+            };
         }
     }
 }

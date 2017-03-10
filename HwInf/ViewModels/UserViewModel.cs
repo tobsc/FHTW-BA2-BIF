@@ -1,28 +1,29 @@
-﻿using HwInf.Common;
-using HwInf.Common.DAL;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Web;
+using HwInf.Common;
+using HwInf.Common.DAL;
+using HwInf.Common.Models;
 
 namespace HwInf.ViewModels
 {
     public class UserViewModel
     {
 
+        public UserViewModel() { }
+
         public UserViewModel(Person obj)
         {
             Refresh(obj);
         }
 
-        public int PersId { get; set; }
+        private int PersId { get; set; }
         public string Uid { get; set; }
         public string Name { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
         public string Tel { get; set; }
-        public string Role { get; set; }
+        private string Role { get; set; }
         public string Room { get; set; }
         [DataType(DataType.Password)]
         public string Password { get; set; }
@@ -98,6 +99,35 @@ namespace HwInf.ViewModels
 
             target.Tel = source.Tel;
 
+        }
+
+        public static implicit operator Person(UserViewModel vmdl)
+        {
+            return new Person
+            {
+                PersId = vmdl.PersId,
+                Name = vmdl.Name,
+                LastName = vmdl.LastName,
+                uid = vmdl.Uid,
+                Email = vmdl.Email,
+                Tel = vmdl.Tel,
+                Room = vmdl.Room
+            };
+        }
+
+        public static implicit operator UserViewModel(Person p)
+        {
+            return new UserViewModel
+            {
+                PersId = p.PersId,
+                Name = p.Name,
+                LastName = p.LastName,
+                Uid = p.uid,
+                Email = p.Email,
+                Tel = p.Tel,
+                Role = p.Role.Name,
+                Room = p.Room
+            };
         }
     }
 }
