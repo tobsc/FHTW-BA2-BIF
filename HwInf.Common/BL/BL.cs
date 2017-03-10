@@ -1,16 +1,15 @@
 ﻿using HwInf.Common.DAL;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data.Entity;
+using System.Diagnostics.CodeAnalysis;
+using HwInf.Common.Models;
 
 namespace HwInf.Common.BL
 {
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class BL
     {
-        private HwInfContext _dal;
+        private readonly HwInfContext _dal;
 
         public BL() {
             _dal = new HwInfContext();
@@ -20,21 +19,27 @@ namespace HwInf.Common.BL
             _dal = dal;
         }
 
-        public IQueryable<Device> GetDevices(int limit = 25, int offset = 0, bool onlyActive = true, string type = null)
+        public IQueryable<Device> GetDevices(int limit = 25, int offset = 0, bool onlyActive = true, int type = 0, bool isSearch = false)
         {
 
-            if(type == null)
+            if (type == 0)
             {
                 return _dal.Devices.Include(x => x.Type)
+                    .Where(i => i.IsActive)
                     .Where(i => i.DeviceId > offset)
-                    .Where(i => i.IsActive == true)
                     .Take(limit);
+            } else if(isSearch)
+            {
+                return _dal.Devices.Include(x => x.Type)
+                    .Where(i => i.IsActive)
+                    .Where(i => i.Type.TypeId== type);
             } else
             {
                 return _dal.Devices.Include(x => x.Type)
-                    .Where(i => i.IsActive == true)
-                    .Where(i => i .Type.Description.ToLower() == type)
-                    .Take(10000);
+                    .Where(i => i.IsActive)
+                    .Where(i => i.Type.TypeId == type)
+                    .Where(i => i.DeviceId > offset)
+                    .Take(limit);
             }
 
         }
@@ -46,7 +51,22 @@ namespace HwInf.Common.BL
 
         public DeviceType GetDeviceType(int typeId)
         {
-            return _dal.DeviceTypes.Single(i => i.TypeId == typeId);
+            return _dal.DeviceTypes.Include(x => x.Components.Select(y => y.ComponentType)).Single(i => i.TypeId == typeId);
+        }
+
+        public DeviceType GetDeviceType(string typeName)
+        {
+            return _dal.DeviceTypes.Include(x => x.Components.Select(y => y.ComponentType)).Single(i => i.Description.ToLower().Equals(typeName.ToLower()));
+        }
+
+        public IQueryable<DeviceMeta> GetDeviceMeta()
+        {
+            return _dal.DeviceMeta.Include(x => x.Component);
+        }
+
+        public IQueryable<DeviceType> GetDeviceTypes()
+        {
+            return _dal.DeviceTypes.Include(x => x.Components.Select(y => y.ComponentType));
         }
 
         public Person GetPerson(string uid)
@@ -59,44 +79,63 @@ namespace HwInf.Common.BL
             return _dal.DeviceStatus.Single(i => i.StatusId == statusId);
         }
 
-        public Component GetComponent(int typeId, string componentName)
+        public IQueryable<DeviceStatus> GetDeviceStatus()
         {
-            return _dal.Components.Single(i => i.DeviceType.TypeId == typeId && i.Name == componentName);
+            return _dal.DeviceStatus;
         }
 
-        public void CreateDeviceMeta(DeviceMeta deviceMeta)
+        public DeviceMeta CreateDeviceMeta(DeviceMeta dm)
         {
-            _dal.DeviceMeta.Add(deviceMeta);
-            SaveChanges();
+            _dal.DeviceMeta.Add(dm);
+            return dm;
         }
 
-        public IQueryable<DeviceMeta> LoadDeviceMeta(int deviceId)
+        public void UpdateDeviceMeta(DeviceMeta deviceMeta)
         {
-            return _dal.DeviceMeta.Include("Component").Include("Device").Where(i => i.Device.DeviceId == deviceId);
+            _dal.Entry(deviceMeta).State = EntityState.Modified;
         }
 
-        public void CreateDevice(Device device)
+
+        public Device CreateDevice()
         {
-            _dal.Devices.Add(device);
-            SaveChanges();
+            var dev = new Device();
+            _dal.Devices.Add(dev);
+            return dev;
+
         }
 
-        public void CreateDeviceType(DeviceType deviceType)
+        public DeviceType CreateDeviceType()
         {
-            _dal.DeviceTypes.Add(deviceType);
-            SaveChanges();
+            var dt = new DeviceType();
+            _dal.DeviceTypes.Add(dt);
+            return dt;
         }
 
-        public void CreateComponent(Component component)
+        public Component CreateComponent()
         {
-            _dal.Components.Add(component);
-            SaveChanges();
+            var c = new Component();
+            _dal.Components.Add(c);
+            return c;
+        }
+
+        public ComponentType GetComponentType(int compTypeId)
+        {
+           return _dal.ComponentTypes.Single(i => i.CompTypeId == compTypeId);
+        }
+
+        public ComponentType GetComponentType(string compTypeName)
+        {
+            return _dal.ComponentTypes.Single(i => i.Name == compTypeName);
+        }
+
+        public Component GetComponent(int id)
+        {
+            return _dal.Components.Include(x => x.ComponentType).Single(i => i.CompId == id);
         }
 
         public void UpdateDevice(Device device)
         {
             _dal.Entry(device).State = EntityState.Modified;
-            SaveChanges();
         }
 
         public bool DeviceExists(int deviceId)
@@ -106,12 +145,12 @@ namespace HwInf.Common.BL
 
         public void DeleteDevice(int deviceId)
         {
-            Device device = _dal.Devices.Find(deviceId);
-            _dal.Devices.Remove(device);
-            SaveChanges();
+            var device = _dal.Devices.Find(deviceId);
+            UpdateDevice(device);
+            if (device != null) device.IsActive = false;
         }
 
-        private void SaveChanges()
+        public void SaveChanges()
         {
             _dal.SaveChanges();
         }

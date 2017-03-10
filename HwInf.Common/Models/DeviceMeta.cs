@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
+using HwInf.Common.DAL;
 
-namespace HwInf.Common.DAL
+namespace HwInf.Common.Models
 {
     [Table("DeviceMeta")]
     public class DeviceMeta
@@ -13,8 +10,6 @@ namespace HwInf.Common.DAL
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int MetaId { get; set; }
-        [Required]
-        public virtual Device Device { get; set; }
         [Required]
         public virtual Component Component { get; set; }
         [Required]

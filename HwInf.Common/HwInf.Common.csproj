@@ -73,18 +73,19 @@
       <DependentUpon>Contract.tt</DependentUpon>
     </Compile>
     <Compile Include="ContractCode.cs" />
-    <Compile Include="DAL\Component.cs" />
-    <Compile Include="DAL\Device.cs" />
-    <Compile Include="DAL\DeviceMeta.cs" />
-    <Compile Include="DAL\DeviceHistory.cs" />
-    <Compile Include="DAL\OrderStatus.cs" />
-    <Compile Include="DAL\OrderItem.cs" />
-    <Compile Include="DAL\DeviceStatus.cs" />
-    <Compile Include="DAL\DeviceType.cs" />
+    <Compile Include="Models\ComponentType.cs" />
+    <Compile Include="Models\Component.cs" />
+    <Compile Include="Models\Device.cs" />
+    <Compile Include="Models\DeviceMeta.cs" />
+    <Compile Include="Models\DeviceHistory.cs" />
+    <Compile Include="Models\OrderStatus.cs" />
+    <Compile Include="Models\OrderItem.cs" />
+    <Compile Include="Models\DeviceStatus.cs" />
+    <Compile Include="Models\DeviceType.cs" />
     <Compile Include="DAL\HwInfContext.cs" />
-    <Compile Include="DAL\Order.cs" />
-    <Compile Include="DAL\Person.cs" />
-    <Compile Include="DAL\Role.cs" />
+    <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\Person.cs" />
+    <Compile Include="Models\Role.cs" />
     <Compile Include="LDAPAuthenticator.cs" />
     <Compile Include="Mail.cs" />
     <Compile Include="Migrations\201701242304489_Initial_Create.cs" />

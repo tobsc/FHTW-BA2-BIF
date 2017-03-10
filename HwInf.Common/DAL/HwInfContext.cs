@@ -1,6 +1,7 @@
 ﻿using HwInf.Common.Migrations;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using HwInf.Common.Models;
 
 namespace HwInf.Common.DAL
 {
@@ -20,6 +21,7 @@ namespace HwInf.Common.DAL
         public DbSet<Person> Persons { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Component> Components { get; set; }
+        public DbSet<ComponentType> ComponentTypes { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<DeviceHistory> DeviceHistory { get; set; }

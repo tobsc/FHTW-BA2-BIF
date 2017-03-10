@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
+using HwInf.Common.DAL;
 
-namespace HwInf.Common.DAL
+namespace HwInf.Common.Models
 {
     [Table("DeviceTypes")]
     public class DeviceType
@@ -15,5 +13,7 @@ namespace HwInf.Common.DAL
         public int TypeId { get; set; }
         [Required]
         public string Description { get; set; }
+        public virtual ICollection<Component> Components { get; set; } = new List<Component>();
+
     }
 }

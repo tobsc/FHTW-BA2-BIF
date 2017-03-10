@@ -6,22 +6,22 @@ namespace HwInf.Common
     partial class Contract
     {
         //private int orderId;
-        private string uid;
+        private readonly string _uid;
         public Contract(int orderId, string uid)
         {
-            this.uid = uid;
+            this._uid = uid;
             //this.orderId = orderId;
         }
 
         //returns part of contract where borrower is stated
-        public string getEntleiher()
+        public string GetEntleiher()
         {
            
-            HwInfContext db = new HwInfContext();
-            var p = db.Persons.Single(i => i.uid == this.uid);
+            var db = new HwInfContext();
+            var p = db.Persons.Single(i => i.uid == _uid);
             
 
-            string entleiherPart="Name: " + p.Name + " " + p.LastName + "\nAdresse: __________________________________ \nPersonenkennzahl: "+ p.PersId + "\nStudiengang: _______ \nTelefon: "+p.Tel+"\nEmail: "+p.Email+"\n";
+            var entleiherPart="Name: " + p.Name + " " + p.LastName + "\nAdresse: __________________________________ \nPersonenkennzahl: "+ p.PersId + "\nStudiengang: _______ \nTelefon: "+p.Tel+"\nEmail: "+p.Email+"\n";
             return entleiherPart;
         }
     }
