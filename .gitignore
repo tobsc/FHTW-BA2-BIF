@@ -14,11 +14,11 @@
 /HwInf.Angular/obj/Debug
 /HwInf.Angular/.idea/
 /HwInf.Common/bin/Debug
-/HwInf.Common/obj/Debug
+/HwInf/obj/Debug
 /packages
 /typings
-
-
+/HwInf/obj/
+/HwInf.Common/obj/
 
 
 # compiled output
