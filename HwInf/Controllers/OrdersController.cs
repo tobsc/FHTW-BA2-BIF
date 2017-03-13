@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -14,13 +13,14 @@ using HwInf.Common;
 using System.IO;
 using MigraDoc.DocumentObjectModel.IO;
 using MigraDoc.Rendering;
-using System.Web;
 using System.Net.Http.Headers;
+using HwInf.Common.Models;
 
 namespace HwInf.Controllers
 {
     [Authorize]
     [RoutePrefix("api/orders")]
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class OrdersController : ApiController
     {
         private HwInfContext db = new HwInfContext();
@@ -50,7 +50,7 @@ namespace HwInf.Controllers
                 var vmdl = orders
                     .Where(i => i.OrderId == id)
                     .ToList()
-                    .Select(i => new OrderViewModel(i).loadOrderItems(db))
+                    .Select(i => new OrderViewModel(i).LoadOrderItems(db))
                     .ToList();
 
 
@@ -77,7 +77,7 @@ namespace HwInf.Controllers
             var vmdl = orders
                 .Where(i => i.Person.uid == uid)
                 .ToList()
-                .Select(i => new OrderViewModel(i).loadOrderItems(db))
+                .Select(i => new OrderViewModel(i).LoadOrderItems(db))
                 .ToList();
 
             return Ok(vmdl);
@@ -97,13 +97,13 @@ namespace HwInf.Controllers
                 .Include(i => i.Person)
                 .Include(i => i.Owner);
 
-            List<OrderViewModel> vmdl = new List<OrderViewModel>();
+            List<OrderViewModel> vmdl;
 
             if (IsAdmin())
             {
                 vmdl = orders
                     .ToList()
-                    .Select(i => new OrderViewModel(i).loadOrderItems(db))
+                    .Select(i => new OrderViewModel(i).LoadOrderItems(db))
                     .ToList();
             } else
             {
@@ -112,7 +112,7 @@ namespace HwInf.Controllers
                 vmdl = orders
                     .Where(i => i.Owner.uid == uid)
                     .ToList()
-                    .Select(i => new OrderViewModel(i).loadOrderItems(db))
+                    .Select(i => new OrderViewModel(i).LoadOrderItems(db))
                     .ToList();
             }
 
@@ -146,7 +146,7 @@ namespace HwInf.Controllers
 
             var order = new OrderViewModel(o);
 
-            order.changeStatus(o, db, act);
+            order.ChangeStatus(o, db, act);
 
 
             db.SaveChanges();
@@ -181,12 +181,12 @@ namespace HwInf.Controllers
                 return Unauthorized();
             }
 
-            if(vmdl.containsDuplicates())
+            if(vmdl.ContainsDuplicates())
             {
                 return BadRequest("Ein Gerät kann nur einmal ausgewählt werden.");
             }
 
-            if (vmdl.containsLentItems(db))
+            if (vmdl.ContainsLentItems(db))
             {
                 return BadRequest("Nicht alle Geräte sind zum Ausleihen verfügbar.");
             }
@@ -235,7 +235,7 @@ namespace HwInf.Controllers
             // Speichern
             pdf.Save(AppDomain.CurrentDomain.BaseDirectory+"\\Hello.pdf");
 
-            HttpResponseMessage result = null;
+            HttpResponseMessage result;
             var localFilePath = AppDomain.CurrentDomain.BaseDirectory + "\\Hello.pdf";
 
             if (!File.Exists(localFilePath))
@@ -249,7 +249,7 @@ namespace HwInf.Controllers
                 //result.Content = new StreamContent(new FileStream(localFilePath, FileMode.Open, FileAccess.Read));
                 Byte[] bytes = File.ReadAllBytes(localFilePath);
                 result.Content = new ByteArrayContent(bytes);
-                result.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
+                result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
                 result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
                 result.Content.Headers.ContentDisposition.FileName = "Ausleih_Vertrag.pdf";
             }
@@ -269,19 +269,14 @@ namespace HwInf.Controllers
             base.Dispose(disposing);
         }
 
-        private bool OrderExists(int id)
-        {
-            return db.Orders.Count(e => e.OrderId == id) > 0;
-        }
-
         private bool IsAllowed(string uid)
         {
-            return User.Identity.Name == uid ? true : false;
+            return User.Identity.Name == uid;
         }
 
         private bool IsAdmin()
         {
-            return RequestContext.Principal.IsInRole("Admin") ? true : false;
+            return RequestContext.Principal.IsInRole("Admin");
         }
 
         private List<Order> CreateAllOrders(OrderViewModel vmdl)

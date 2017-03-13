@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
+﻿using System.Data.Entity;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
-using System.Security.Claims;
 using System.Web.Http.Description;
 using HwInf.Common.DAL;
+using HwInf.Common.Models;
 using HwInf.ViewModels;
-using System.Web.Security;
-using System.Web;
 
 namespace HwInf.Controllers
 {
@@ -69,12 +61,12 @@ namespace HwInf.Controllers
         [Route("owners")]
         public IHttpActionResult GetOwners(bool noNormalUsers = false)
         {
-            if(noNormalUsers == true)
+            if(noNormalUsers)
             {
-                return Ok(db.Persons.Where(i => i.Role.RoleId != 2).Select(i => new { i.LastName, i.Name, i.uid }));
+                return Ok(db.Persons.Where(i => i.Role.RoleId != 2).Select(i => new { i.LastName, i.Name, uid = i.uid }));
             } else
             {
-                return Ok(db.Persons.Select(i => new { i.LastName, i.Name, i.uid }));
+                return Ok(db.Persons.Select(i => new { i.LastName, i.Name, uid = i.uid }));
             }
         }
 
@@ -90,8 +82,7 @@ namespace HwInf.Controllers
             Person p = db.Persons
                 .Include(i => i.Room)
                 .Include(i => i.Role)
-                .Where(i => i.uid == vmdl.Uid)
-                .FirstOrDefault<Person>();
+                .FirstOrDefault(i => i.uid == vmdl.Uid);
             
             if(IsAdmin())
             {
@@ -119,19 +110,14 @@ namespace HwInf.Controllers
             base.Dispose(disposing);
         }
 
-        private bool PersonExists(int id)
-        {
-            return db.Persons.Count(e => e.PersId == id) > 0;
-        }
-
         private bool IsCurrentUser(string uid)
         {
-            return User.Identity.Name == uid ? true : false;
+            return User.Identity.Name == uid;
         }
 
         private bool IsAdmin()
         {
-            return RequestContext.Principal.IsInRole("Admin") ? true : false;
+            return RequestContext.Principal.IsInRole("Admin");
         }
     }
 }

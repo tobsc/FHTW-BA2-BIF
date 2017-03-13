@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using HwInf.Common;
-using System.Web.Security;
-using HwInf.ViewModels;
 using JWT;
-using System.Security.Cryptography;
-using System.Text;
 using HwInf.Common.DAL;
 using System.Web.Http.Description;
+using HwInf.Common.Models;
+using HwInf.ViewModels;
 
 namespace HwInf.Controllers
 {
@@ -19,7 +15,7 @@ namespace HwInf.Controllers
     public class AuthController : ApiController
     {
 
-        private HwInfContext db = new HwInfContext();
+        private readonly HwInfContext _db = new HwInfContext();
 
         [AllowAnonymous]
         [ResponseType(typeof(string))]
@@ -34,9 +30,9 @@ namespace HwInf.Controllers
                 {
                    Person p;
 
-                   if (db.Persons.Where(i => i.uid == vmdl.Uid).Count() > 0)
+                   if (_db.Persons.Any(i => i.uid == vmdl.Uid))
                    {
-                       p = db.Persons.Single(i => i.uid == vmdl.Uid);
+                       p = _db.Persons.Single(i => i.uid == vmdl.Uid);
                    }
                    else
                    {
@@ -44,27 +40,17 @@ namespace HwInf.Controllers
                        p = new Person();
                        var ldapUser = LDAPAuthenticator.Authenticate(vmdl.Uid, vmdl.Password);
                        vmdl.Refresh(ldapUser);
-                       vmdl.ApplyChanges(p, db);
-                       db.Persons.Add(p);
-                       db.SaveChanges();
+                       vmdl.ApplyChanges(p, _db);
+                       _db.Persons.Add(p);
+                       _db.SaveChanges();
                    }
 
                    vmdl.Refresh(p);
                    var token = CreateToken(p);
 
                    return Ok(new { token });
-                }
-                else if (vmdl.Uid.Equals("admin"))
-                {
-                    Person p = new Person { uid = vmdl.Uid, Name = "Admin", Role = db.Roles.Single(i => i.Name == "Admin") };
-                    var token = CreateToken(p);
-
-                    return Ok(new { token });
-                }
-                {
+                } 
                     return Unauthorized();
-                }
-
             }
 
             return BadRequest(ModelState);
@@ -133,7 +119,7 @@ namespace HwInf.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }
