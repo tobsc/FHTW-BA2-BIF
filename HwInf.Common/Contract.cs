@@ -9,12 +9,18 @@
 // ------------------------------------------------------------------------------
 namespace HwInf.Common
 {
+    using System.Linq;
+    using System.Text;
+    using System.Collections.Generic;
+    using HwInf.Common.DAL;
+    using System;
+
     /// <summary>
     /// Class to produce the template output
     /// </summary>
-    
-    #line 1 "C:\Users\Valentin\Documents\__FH\ITP3\collab\HW-INF\HwInf.Common\Contract.tt"
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "14.0.0.0")]
+
+#line 1 "C:\Users\Valentin\Documents\__FH\ITP3\collab\HW-INF\HwInf.Common\Contract.tt"
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "14.0.0.0")]
     public partial class Contract : ContractBase
     {
 #line hidden
@@ -23,7 +29,7 @@ namespace HwInf.Common
         /// </summary>
         public virtual string TransformText()
         {
-            Write(@"\document
+            this.Write(@"\document
 [
     Info
     {
@@ -35,57 +41,332 @@ namespace HwInf.Common
 {
 	\section
 	{
-		\paragraph
+
+
+		\paragraph [ Format { Font { Size = 14 Bold = true }
+                              SpaceBefore = ""1cm""
+							  SpaceAfter = ""1cm""
+							  LeftIndent = ""6.6cm""} ]
 		{
 			Leihvertrag
 		}
-		\paragraph
+		\paragraph 
 		{
-			Zwischen:
+			Zwischen
+		}
+		\paragraph [ Format {LeftIndent = ""1cm""} ]
+		{
 			der Fachhochschule Technikum Wien,
+		}
+		\paragraph [ Format {LeftIndent = ""1cm""} ]
+		{
 			vertreten durch eine/n MitarbeiterIn des Instituts für Informatik
+		}
+		\paragraph [ Format {LeftIndent = ""1cm""} ]
+		{
 			Adresse: Höchstädtplatz 5, A-1200 Wien 
 		}
-		\paragraph
+		\paragraph [ Format { Font { Bold = true } LeftIndent = ""12cm""} ]
 		{
 			-VerleiherIn-
 		}
-		\paragraph
+		\paragraph 
 		{
 			und
 		}
-		\paragraph
+		
+		");
+
+#line 54 "C:\Users\Valentin\Documents\__FH\ITP3\collab\HW-INF\HwInf.Common\Contract.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(getEntleiher()));
+
+#line default
+#line hidden
+            this.Write("\r\n\t\t\r\n\t\t\\paragraph [ Format { Font { Bold = true } LeftIndent = \"12cm\"} ]\r\n\t\t{\r\n\t" +
+                    "\t\t-EntleiherIn-\r\n\t\t}\r\n\t\t\\paragraph\r\n\t\t{\r\n\t\t\twird der folgende Leihvertrag geschl" +
+                    "ossen:\r\n\t\t}\r\n\t\t\\paragraph [ Format { Font { Size = 7.5 Bold = true}\r\n\t\t\t\t\t\t\t  Sp" +
+                    "aceBefore = \"1cm\"} ]\r\n\t\t{\r\n\t\t§ 1 Vertragsgegenstand\r\n\t\t}\r\n\t\t\\paragraph [ Format " +
+                    "{ Font { Size = 7.5}\r\n\t\t\t\t\t\t\t  SpaceAfter = \"0.5cm\"\r\n\t\t\t\t\t\t\t  LeftIndent = \"1cm\"" +
+                    "} ]\r\n\t\t{\r\n\t\t(1) Gegenstand des Vertrages ist die Überlassung eines\r\n\t\t}\r\n\t\t\\para" +
+                    "graph [ Format { SpaceAfter = \"0.5cm\"\r\n\t\t\t\t\t\t\tLeftIndent = \"1cm\"}]\r\n\t\t{\r\n\t\t\tGerä" +
+                    "ts der Marke DAS MUSS NOCH GENERIERT WERDEN!!!!\r\n\t\t}\r\n\t\t\\paragraph [ Format { Sp" +
+                    "aceAfter = \"0.5cm\"\r\n\t\t\t\t\t\t\tLeftIndent = \"1cm\"}]\r\n\t\t{\r\n\t\t\tTyp\r\n\t\t}\r\n\t\t\\paragraph " +
+                    "[ Format { SpaceAfter = \"0.5cm\" \r\n\t\t\t\t\t\t\tLeftIndent = \"1cm\"}]\r\n\t\t{\r\n\t\tInventarnu" +
+                    "mmer:\r\n\t\t}\r\n\t\t\\paragraph [ Format { Font { Size = 7.5} \r\n\t\t\t\t\t\t\tSpaceAfter = \"0." +
+                    "25cm\"} ]\r\n\t\t{\r\n\t\tmit Zubehör an den/die EntleiherIn für die befristete Nutzung a" +
+                    "uch außerhalb der Zeiten der Lehrveranstaltungen nach § 6 Absatz 1 dieses\r\nLeihv" +
+                    "ertrages\r\n\t\t}\r\n\t\t\\paragraph [ Format { Font { Size = 7.5} \r\n\t\t\t\t\t\t\tSpaceAfter = " +
+                    "\"0.25cm\"} ]\r\n\t\t{\r\n\t\tDas Zubehör ist in der als Anlage zu diesem Vertrag beigefüg" +
+                    "ten Bestandsliste aufgeführt. Die Bestandsliste ist Bestandteil dieses\r\nVertrage" +
+                    "s. Entleiherin oder Entleiher können nur Studierende der FH Technikum Wien sein." +
+                    " Ein Anspruch auf Abschluss oder Verlängerung\r\ndes Leihvertrages besteht nicht.\r" +
+                    "\n\t\t}\r\n\t\t\\paragraph [ Format { Font { Size = 7.5}\r\n\t\t\t\t\t\t\t  SpaceAfter = \"1cm\"} ]" +
+                    "\r\n\t\t{\r\n\t\t(2)    Die Leihe erfolgt im Rahmen der Ausbildung zur Unterstützung bei" +
+                    " Projekten oder als befristete Übergangslösung.\r\n\t\t}\r\n\t\t\\paragraph [ Format { Fo" +
+                    "nt { Size = 7.5 Bold = true} \r\n\t\t\t\t\t\t\t\tSpaceAfter = \"0.25cm\"} ]\r\n\t\t{\r\n\t\t§ 2 Vert" +
+                    "ragsgemäßer Gebrauch, Ausschluss von der Nutzung\r\n\t\t}\r\n\t\t\\paragraph [ Format { F" +
+                    "ont { Size = 7.5} SpaceAfter = \"1cm\"} ]\r\n\t\t{\r\n\t\t(1)    Das Gerät wird ausschließ" +
+                    "lich für Zwecke von Forschung, Lehre und Studium entliehen. Eine Nutzung für gew" +
+                    "erbliche,\r\nerwerbswirtschaftliche, private oder sonstige Zwecke, die mit dem in " +
+                    "§ 1 Abs. 2 genannten Ausbildungszweck nicht vereinbar sind, ist\r\nuntersagt.\r\n\t\t}" +
+                    "\r\n\t}\r\n\t\\section\r\n\t{\r\n\t\t\\paragraph [ Format { Font { Size = 7.5} SpaceAfter = \"0." +
+                    "25cm\"} ]\r\n\t\t{\r\n\t\t(2)    Eine Weitergabe bzw. Überlassung des Gebrauchs des entli" +
+                    "ehenen Gerätes an Dritte ist untersagt. Technische Ressourcen des\r\nGerätes dürfe" +
+                    "n Dritten nicht zugänglich gemacht werden. Die auf dem Gerät installierten Progr" +
+                    "amme und Software dürfen vom/von\r\nder EntleiherIn nicht kopiert werden. Der/die " +
+                    "EntleiherIn erhält ein vorinstalliertes System und muss das System während der L" +
+                    "eihzeit\r\nselbst administrieren. Es bestehen keine Ansprüche auf regelmäßige Wart" +
+                    "ung des Systems seitens der VerleiherIn. Eingriffe in die\r\nHardware bzw. die Aus" +
+                    "stattung des Gerätes durch den/die EntleiherIn sind nicht gestattet. Solange der" +
+                    "/die EntleiherIn das Gerät\r\nausgeliehen hat, darf er/sie eigene legal erworbene " +
+                    "Software installieren, soweit diese zur Erfüllung des Ausbildungszweckes\r\nerford" +
+                    "erlich ist. Die VerleiherIn übernimmt für diesen Fall jedoch keine Gewähr für di" +
+                    "e Nutzbarkeit des Geräts.\r\n\t\t}\r\n\t\t\\paragraph [ Format { Font { Size = 7.5} Space" +
+                    "After = \"1cm\"} ]\r\n\t\t{\r\n\t\t(3)    Die VerleiherIn kann den/die EntleiherIn von der" +
+                    " weiteren Nutzung des Gerätes ausschließen, wenn dieser/diese schuldhaft\r\nseinen" +
+                    "/ihren Pflichten aus dieser Vereinbarung nicht nachkommt, das Gerät für strafbar" +
+                    "e Handlungen missbraucht oder der\r\nFachhochschule Technikum Wien durch sonstiges" +
+                    " rechtswidriges Nutzerverhalten Nachteile entstehen.\r\n\t\t}\r\n\t\t\\paragraph [ Format" +
+                    " { Font { Size = 7.5 Bold = true} } ]\r\n\t\t{\r\n\t\t\t§ 3 Ausgabe und Rückgabe des Gerä" +
+                    "tes\r\n\t\t}\r\n\t\t\\paragraph [ Format { Font { Size = 7.5} SpaceAfter = \"0.25cm\" } ]\r\n" +
+                    "\t\t{\r\n\t\t\tDas Gerät nebst Zubehör wird von dem in dieser Vereinbarung genannten In" +
+                    "stitut ausgegeben. Bei diesem Institut ist das Gerät nebst\r\nZubehör auch wieder " +
+                    "zurückzugeben.\r\n\t\t}\r\n\t\t\\paragraph [ Format { Font { Size = 7.5 Bold = true} } ]\r" +
+                    "\n\t\t{\r\n\t\t\t§ 4 Mängel, Sorgfaltspflichten und Haftung\r\n\t\t}\r\n\t\t\\paragraph [ Format " +
+                    "{ Font { Size = 7.5} SpaceAfter = \"0.25cm\" } ]\r\n\t\t{\r\n\t\t(1) Der/die EntleiherIn h" +
+                    "at sich bei der Übergabe von dem ordnungsgemäßen Zustand des Gerätes zu überzeug" +
+                    "en und festgestellte\r\nMängel und Schäden oder fehlendes Zubehör unverzüglich dem" +
+                    " Fachbereich anzuzeigen. Unterlässt der/die EntleiherIn die Anzeige,\r\nso gilt da" +
+                    "s Gerät als in mangelfreiem Zustand und mit dem genannten Zubehör übergeben, es " +
+                    "sei denn, dass es sich um einen\r\nMangel handelt, der bei der Untersuchung nicht " +
+                    "erkennbar war. Zeigt sich später ein solcher Mangel, so muss die Anzeige\r\nunverz" +
+                    "üglich schriftlich an Herrn Benedikt Salzbrunn (salzbrunn@technikum-wien.at) bzw" +
+                    ". dessen Vertretung gemacht werden,\r\nanderenfalls ist der Einwand ausgeschlossen" +
+                    ", ein mangelhaftes Gerät erhalten zu haben.\r\n\t\t}\r\n\t\t\\paragraph [ Format { Font {" +
+                    " Size = 7.5} SpaceAfter = \"0.25cm\" } ]\r\n\t\t{\r\n\t\t(2) Der/die EntleiherIn verpflich" +
+                    "tet sich zur sorgfältigen Behandlung des Gerätes und des Zubehörs sowie dieses v" +
+                    "or Verlusten (auch\r\nDiebstahl) und Beschädigungen zu schützen.\r\n\t\t}\r\n\t\t\\paragrap" +
+                    "h [ Format { Font { Size = 7.5} SpaceAfter = \"0.25cm\"} ]\r\n\t\t{\r\n\t\t(3) Der/die Ent" +
+                    "leiherIn hat Verluste sowie alle Mängel und Schäden des Gerätes, die während der" +
+                    " Leihzeit auftreten, unverzüglich dem\r\nausgebenden Fachbereich zu melden. Auf Ve" +
+                    "rlangen ist ein schriftlicher Schadensbericht vorzulegen. Der Diebstahl des Gerä" +
+                    "tes ist\r\ndarüber hinaus unverzüglich der Polizei anzuzeigen. Die Reparaturabwick" +
+                    "lung bei aufgetretenen Mängeln und Schäden des Gerätes\r\nerfolgt ausschließlich ü" +
+                    "ber die IT-Abteilung des Technikum Wien. Der/die EntleiherIn darf Reparaturen we" +
+                    "der selbst durchführen noch\r\nin Auftrag geben.\r\n\t\t}\r\n\t\t\\paragraph [ Format { Fon" +
+                    "t { Size = 7.5} SpaceAfter = \"0.25cm\" } ]\r\n\t\t{\r\n\t\t(4) Der/die EntleiherIn haftet" +
+                    " der VerleiherIn für die von ihm/ihr schuldhaft verursachten Schäden an der Leih" +
+                    "gabe sowie für alle\r\nsonstigen Schäden, die dadurch entstehen, dass der/die Entl" +
+                    "eiherIn schuldhaft seinen/ihren Pflichten aus dieser Vereinbarung nicht\r\nnachkom" +
+                    "mt. Dem/der EntleiherIn obliegt der Beweis, dass ein schuldhaftes Verhalten nich" +
+                    "t vorgelegen habe. Für Schäden an der\r\nLeihgabe, die durch vertragswidrigen Gebr" +
+                    "auch entstehen, haftet der/die EntleiherIn unabhängig vom Verschulden.\r\n\t\t}\r\n\t\t\\" +
+                    "paragraph [ Format { Font { Size = 7.5 Bold = true} SpaceAfter = \"0.5cm\"} ]\r\n\t\t{" +
+                    "\r\n\t\t§ 6 Laufzeit und Ende des Vertrages\r\n\t\t}\r\n\t\t\\paragraph [ Format { SpaceAfter" +
+                    " = \"0.25cm\"}]\r\n\t\t{\r\n\t\t");
+
+#line 186 "C:\Users\Valentin\Documents\__FH\ITP3\collab\HW-INF\HwInf.Common\Contract.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(getZeitspanne()));
+
+#line default
+#line hidden
+            this.Write("\r\n\t\t}\r\n\t\t\\paragraph [ Format { Font { Size = 7.5} SpaceAfter = \"0.25cm\" } ]\r\n\t\t{\r" +
+                    "\n\t\tDer/die EntleiherIn ist verpflichtet, das Gerät während dieser Zeit der Verle" +
+                    "iherIn auf deren Verlangen jederzeit vorzuzeigen. Die\r\nVerleiherIn ist berechtig" +
+                    "t, die Leihe jederzeit zu kündigen.\r\n\t\t}\r\n\t\t\\paragraph [ Format { Font { Size = " +
+                    "7.5}} ]\r\n\t\t{\r\n\t\t(2) Der Vertrag endet jedenfalls unabhängig von dem in Absatz (1" +
+                    ") genannten Termin:\r\n\t\t}\r\n\t\t\\paragraph [ Format { Font { Size = 7.5}} ]\r\n\t\t{\r\n\t\t" +
+                    "a) wenn der/die EntleiherIn nicht mehr Studierende(r) der FH Technikum Wien ist," +
+                    "\r\n\t\t}\r\n\t\t\\paragraph [ Format { Font { Size = 7.5} SpaceAfter = \"0.25cm\"} ]\r\n\t\t{\r" +
+                    "\n\t\tb) in den Fällen des § 2 Absatz 3 dieses Leihvertrages.\r\n\t\t}\r\n\t\t\\paragraph [ " +
+                    "Format { Font { Size = 7.5} SpaceAfter = \"0.25cm\"} ]\r\n\t\t{\r\n\t\t(3) Mit dem Ende de" +
+                    "s Vertrages ist das Gerät nebst Zubehör unaufgefordert und unverzüglich zurückzu" +
+                    "geben.\r\n\t\t}\r\n\t\t\\paragraph [ Format { Font { Size = 7.5 Bold = true} SpaceAfter =" +
+                    " \"0.5cm\"} ]\r\n\t\t{\r\n\t\t§ 7 Nebenbestimmungen\r\n\t\t}\r\n\t\t\\paragraph [ Format { Font { S" +
+                    "ize = 7.5} SpaceAfter = \"0.25cm\"} ]\r\n\t\t{\r\n\t\t(1) Änderungen und Ergänzungen diese" +
+                    "r Vereinbarung sowie Nebenabreden bedürfen der Schriftform.\r\n\t\t}\r\n\t\t\\paragraph [" +
+                    " Format { Font { Size = 7.5} SpaceAfter = \"0.25cm\"} ]\r\n\t\t{\r\n\t\t(2) Sollte eine Be" +
+                    "stimmung dieses Vertrages unwirksam oder undurchführbar sein, beeinträchtigt die" +
+                    "s nicht die Geltung der übrigen\r\nBestimmungen dieses Vertrages. Die Vertragspart" +
+                    "eien werden sich in einem solchen Fall bemühen, die unwirksame oder\r\nundurchführ" +
+                    "bare Bestimmung durch eine andere zu ersetzen, die der zu ersetzenden Bestimmung" +
+                    " möglichst nahe kommt.\r\n\t\t}\r\n\t\t\\paragraph [ Format { Font { Size = 7.5} SpaceAft" +
+                    "er = \"0.5cm\"} ]\r\n\t\t{\r\n\t\t(3) Es gilt österreichisches Recht, Gerichtsstand ist da" +
+                    "s sachlich zuständige Gericht in Wien.\r\n\t\t}\r\n\t\t\\paragraph [ Format { SpaceAfter " +
+                    "= \"1cm\"} ]\r\n\t\t{\r\n\t\tWien, den ");
+
+#line 229 "C:\Users\Valentin\Documents\__FH\ITP3\collab\HW-INF\HwInf.Common\Contract.tt"
+            this.Write(DateTime.Now.Day.ToString("d2"));
+
+#line default
+#line hidden
+            this.Write(".");
+
+#line 229 "C:\Users\Valentin\Documents\__FH\ITP3\collab\HW-INF\HwInf.Common\Contract.tt"
+            this.Write(DateTime.Now.Month.ToString("d2"));
+
+#line default
+#line hidden
+            this.Write(".");
+
+#line 229 "C:\Users\Valentin\Documents\__FH\ITP3\collab\HW-INF\HwInf.Common\Contract.tt"
+            this.Write(DateTime.Now.Year.ToString());
+
+#line default
+#line hidden
+            this.Write(@"		}
+		\paragraph 
+		{ 
+		_____________________________                    _____________________________
+		}
+		\paragraph 
 		{
-			");
-            
-            #line 41 "C:\Users\Valentin\Documents\__FH\ITP3\collab\HW-INF\HwInf.Common\Contract.tt"
-            Write(ToStringHelper.ToStringWithCulture(GetEntleiher()));
-            
-            #line default
-            #line hidden
-            Write("\r\n\t\t}\r\n\t\t\\paragraph\r\n\t\t{\r\n\t\t\t-EntleiherIn-\r\n\t\t}\r\n\t\t\\paragraph\r\n\t\t{\r\n\t\t\twird der f" +
-                    "olgende Leihvertrag geschlossen:\r\n\t\t}\r\n\t\t\\paragraph\r\n\t\t{\r\n\t\t§ 1 Vertragsgegensta" +
-                    "nd\r\n\t\t}\r\n\r\n\t}\r\n}");
-            return GenerationEnvironment.ToString();
+		Unterschrift VerleiherIn                                      Unterschrift EntleiherIn
+		}
+	}
+	\section
+	{
+		\paragraph  [Format { Font { Bold = true} SpaceBefore = ""1cm"" SpaceAfter = ""0.25cm""}]
+		{
+		Bestätigung des/der EntleiherIn über die Übernahme des Gerätes:
+		}
+		\paragraph  [Format { SpaceAfter = ""0.5cm""}]
+		{
+		Das oben genannte Gerät wurde heute (bitte ankreuzen und ggf. ergänzen)
+		}
+		\paragraph  [Format { SpaceAfter = ""0.25cm""}]
+		{
+		O    in einwandfreiem Zustand und mit komplettem Zubehör (siehe Bestandsliste in der Anlage) übernommen
+		}
+		\paragraph  [Format { SpaceAfter = ""0.25cm""}]
+		{
+		O    mit folgenden Mängeln/Schäden übernommen
+		}
+		\paragraph  [Format { SpaceAfter = ""0.25cm"" LeftIndent =""1cm""}]
+		{
+		...................................................
+		}
+		\paragraph  [Format { SpaceAfter = ""0.25cm"" LeftIndent =""1cm""}]
+		{
+		...................................................
+		}
+		\paragraph  [Format { SpaceAfter = ""0.5cm"" LeftIndent =""1cm""}]
+		{
+		...................................................
+		}
+		\paragraph [ Format { SpaceAfter = ""1cm""} ]
+		{
+		Wien, den ");
+
+#line 272 "C:\Users\Valentin\Documents\__FH\ITP3\collab\HW-INF\HwInf.Common\Contract.tt"
+            this.Write(DateTime.Now.Day.ToString("d2"));
+
+#line default
+#line hidden
+            this.Write(".");
+
+#line 272 "C:\Users\Valentin\Documents\__FH\ITP3\collab\HW-INF\HwInf.Common\Contract.tt"
+            this.Write(DateTime.Now.Month.ToString("d2"));
+
+#line default
+#line hidden
+            this.Write(".");
+
+#line 272 "C:\Users\Valentin\Documents\__FH\ITP3\collab\HW-INF\HwInf.Common\Contract.tt"
+            this.Write(DateTime.Now.Year.ToString());
+
+#line default
+#line hidden
+            this.Write(@"		}
+		\paragraph [ Format { SpaceAfter = ""1cm""}]
+		{
+		Unterschrift des/der EntleiherIn:......................................................................
+		}
+	}
+	\section
+	{
+		\paragraph [ Format { Font { Size = 14 Bold = true }
+                              SpaceBefore = ""1cm""
+							  SpaceAfter = ""1cm""
+							  LeftIndent = ""6.6cm""} ]
+		{
+		Anlage
+		}
+		");
+
+#line 288 "C:\Users\Valentin\Documents\__FH\ITP3\collab\HW-INF\HwInf.Common\Contract.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(getAnhang()));
+
+#line default
+#line hidden
+            this.Write(@"
+		\paragraph [ Format { SpaceAfter = ""1cm""
+							LeftIndent = ""1cm""}]
+		{
+		(unzutreffendes bitte deutlich durchstreichen)
+		}
+		\paragraph [ Format { SpaceAfter = ""0.25cm""
+							LeftIndent = ""1cm""}]
+		{
+		1. Gerät
+		}
+		\paragraph [ Format { SpaceAfter = ""0.25cm""
+							LeftIndent = ""1cm""}]
+		{
+		2. Netzkabel
+		}
+		\paragraph [ Format { SpaceAfter = ""0.25cm""
+							LeftIndent = ""1cm""}]
+		{
+		3. Schutzhülle
+		}
+		\paragraph [ Format { SpaceAfter = ""0.25cm""
+							LeftIndent = ""1cm""}]
+		{
+		4. Original-Schachtel und Bedienungsanleitung
+		}
+		\paragraph [ Format { SpaceAfter = ""0.5cm""
+							LeftIndent = ""1cm""}]
+		{
+		5. Kopfhörer
+		}
+		\paragraph [ Format { SpaceAfter = ""0.25cm""
+							LeftIndent = ""1cm""}]
+		{
+		6. _______________
+		}
+		\paragraph [ Format { SpaceAfter = ""0.5cm""
+							LeftIndent = ""1cm""}]
+		{
+		7. _______________
+		}
+
+
+
+
+
+	}
+}");
+            return this.GenerationEnvironment.ToString();
         }
     }
-    
-    #line default
-    #line hidden
+
+#line default
+#line hidden
     #region Base class
     /// <summary>
     /// Base class for this transformation
     /// </summary>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "14.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "14.0.0.0")]
     public class ContractBase
     {
         #region Fields
-        private System.Text.StringBuilder _generationEnvironmentField;
-        private System.CodeDom.Compiler.CompilerErrorCollection _errorsField;
-        private System.Collections.Generic.List<int> _indentLengthsField;
-        private string _currentIndentField = "";
-        private bool _endsWithNewline;
-        private System.Collections.Generic.IDictionary<string, object> _sessionField;
+        private global::System.Text.StringBuilder generationEnvironmentField;
+        private global::System.CodeDom.Compiler.CompilerErrorCollection errorsField;
+        private global::System.Collections.Generic.List<int> indentLengthsField;
+        private string currentIndentField = "";
+        private bool endsWithNewline;
+        private global::System.Collections.Generic.IDictionary<string, object> sessionField;
         #endregion
         #region Properties
         /// <summary>
@@ -95,15 +376,15 @@ namespace HwInf.Common
         {
             get
             {
-                if (_generationEnvironmentField == null)
+                if ((this.generationEnvironmentField == null))
                 {
-                    _generationEnvironmentField = new System.Text.StringBuilder();
+                    this.generationEnvironmentField = new global::System.Text.StringBuilder();
                 }
-                return _generationEnvironmentField;
+                return this.generationEnvironmentField;
             }
             set
             {
-                _generationEnvironmentField = value;
+                this.generationEnvironmentField = value;
             }
         }
         /// <summary>
@@ -113,25 +394,25 @@ namespace HwInf.Common
         {
             get
             {
-                if ((_errorsField == null))
+                if ((this.errorsField == null))
                 {
-                    _errorsField = new System.CodeDom.Compiler.CompilerErrorCollection();
+                    this.errorsField = new global::System.CodeDom.Compiler.CompilerErrorCollection();
                 }
-                return _errorsField;
+                return this.errorsField;
             }
         }
         /// <summary>
         /// A list of the lengths of each indent that was added with PushIndent
         /// </summary>
-        private System.Collections.Generic.List<int> IndentLengths
+        private System.Collections.Generic.List<int> indentLengths
         {
             get
             {
-                if ((_indentLengthsField == null))
+                if ((this.indentLengthsField == null))
                 {
-                    _indentLengthsField = new System.Collections.Generic.List<int>();
+                    this.indentLengthsField = new global::System.Collections.Generic.List<int>();
                 }
-                return _indentLengthsField;
+                return this.indentLengthsField;
             }
         }
         /// <summary>
@@ -141,21 +422,21 @@ namespace HwInf.Common
         {
             get
             {
-                return _currentIndentField;
+                return this.currentIndentField;
             }
         }
         /// <summary>
         /// Current transformation session
         /// </summary>
-        public virtual System.Collections.Generic.IDictionary<string, object> Session
+        public virtual global::System.Collections.Generic.IDictionary<string, object> Session
         {
             get
             {
-                return SessionField;
+                return this.sessionField;
             }
             set
             {
-                SessionField = value;
+                this.sessionField = value;
             }
         }
         #endregion
@@ -171,35 +452,35 @@ namespace HwInf.Common
             }
             // If we're starting off, or if the previous text ended with a newline,
             // we have to append the current indent first.
-            if (GenerationEnvironment.Length == 0 
-                || _endsWithNewline)
+            if (((this.GenerationEnvironment.Length == 0)
+                        || this.endsWithNewline))
             {
-                GenerationEnvironment.Append(_currentIndentField);
-                _endsWithNewline = false;
+                this.GenerationEnvironment.Append(this.currentIndentField);
+                this.endsWithNewline = false;
             }
             // Check if the current text ends with a newline
-            if (textToAppend.EndsWith(System.Environment.NewLine, System.StringComparison.CurrentCulture))
+            if (textToAppend.EndsWith(global::System.Environment.NewLine, global::System.StringComparison.CurrentCulture))
             {
-                _endsWithNewline = true;
+                this.endsWithNewline = true;
             }
             // This is an optimization. If the current indent is "", then we don't have to do any
             // of the more complex stuff further down.
-            if ((_currentIndentField.Length == 0))
+            if ((this.currentIndentField.Length == 0))
             {
-                GenerationEnvironment.Append(textToAppend);
+                this.GenerationEnvironment.Append(textToAppend);
                 return;
             }
             // Everywhere there is a newline in the text, add an indent after it
-            textToAppend = textToAppend.Replace(System.Environment.NewLine, (System.Environment.NewLine + _currentIndentField));
+            textToAppend = textToAppend.Replace(global::System.Environment.NewLine, (global::System.Environment.NewLine + this.currentIndentField));
             // If the text ends with a newline, then we should strip off the indent added at the very end
             // because the appropriate indent will be added when the next time Write() is called
-            if (_endsWithNewline)
+            if (this.endsWithNewline)
             {
-                GenerationEnvironment.Append(textToAppend, 0, (textToAppend.Length - _currentIndentField.Length));
+                this.GenerationEnvironment.Append(textToAppend, 0, (textToAppend.Length - this.currentIndentField.Length));
             }
             else
             {
-                GenerationEnvironment.Append(textToAppend);
+                this.GenerationEnvironment.Append(textToAppend);
             }
         }
         /// <summary>
@@ -207,46 +488,42 @@ namespace HwInf.Common
         /// </summary>
         public void WriteLine(string textToAppend)
         {
-            Write(textToAppend);
-            GenerationEnvironment.AppendLine();
-            _endsWithNewline = true;
+            this.Write(textToAppend);
+            this.GenerationEnvironment.AppendLine();
+            this.endsWithNewline = true;
         }
         /// <summary>
         /// Write formatted text directly into the generated output
         /// </summary>
         public void Write(string format, params object[] args)
         {
-            Write(string.Format(System.Globalization.CultureInfo.CurrentCulture, format, args));
+            this.Write(string.Format(global::System.Globalization.CultureInfo.CurrentCulture, format, args));
         }
         /// <summary>
         /// Write formatted text directly into the generated output
         /// </summary>
         public void WriteLine(string format, params object[] args)
         {
-            WriteLine(string.Format(System.Globalization.CultureInfo.CurrentCulture, format, args));
+            this.WriteLine(string.Format(global::System.Globalization.CultureInfo.CurrentCulture, format, args));
         }
         /// <summary>
         /// Raise an error
         /// </summary>
         public void Error(string message)
         {
-            System.CodeDom.Compiler.CompilerError error = new System.CodeDom.Compiler.CompilerError
-            {
-                ErrorText = message
-            };
-            Errors.Add(error);
+            System.CodeDom.Compiler.CompilerError error = new global::System.CodeDom.Compiler.CompilerError();
+            error.ErrorText = message;
+            this.Errors.Add(error);
         }
         /// <summary>
         /// Raise a warning
         /// </summary>
         public void Warning(string message)
         {
-            System.CodeDom.Compiler.CompilerError error = new System.CodeDom.Compiler.CompilerError
-            {
-                ErrorText = message,
-                IsWarning = true
-            };
-            Errors.Add(error);
+            System.CodeDom.Compiler.CompilerError error = new global::System.CodeDom.Compiler.CompilerError();
+            error.ErrorText = message;
+            error.IsWarning = true;
+            this.Errors.Add(error);
         }
         /// <summary>
         /// Increase the indent
@@ -255,10 +532,10 @@ namespace HwInf.Common
         {
             if ((indent == null))
             {
-                throw new System.ArgumentNullException("indent");
+                throw new global::System.ArgumentNullException("indent");
             }
-            _currentIndentField = (_currentIndentField + indent);
-            IndentLengths.Add(indent.Length);
+            this.currentIndentField = (this.currentIndentField + indent);
+            this.indentLengths.Add(indent.Length);
         }
         /// <summary>
         /// Remove the last indent that was added with PushIndent
@@ -266,14 +543,14 @@ namespace HwInf.Common
         public string PopIndent()
         {
             string returnValue = "";
-            if ((IndentLengths.Count > 0))
+            if ((this.indentLengths.Count > 0))
             {
-                int indentLength = IndentLengths[(IndentLengths.Count - 1)];
-                IndentLengths.RemoveAt((IndentLengths.Count - 1));
+                int indentLength = this.indentLengths[(this.indentLengths.Count - 1)];
+                this.indentLengths.RemoveAt((this.indentLengths.Count - 1));
                 if ((indentLength > 0))
                 {
-                    returnValue = _currentIndentField.Substring((_currentIndentField.Length - indentLength));
-                    _currentIndentField = _currentIndentField.Remove((_currentIndentField.Length - indentLength));
+                    returnValue = this.currentIndentField.Substring((this.currentIndentField.Length - indentLength));
+                    this.currentIndentField = this.currentIndentField.Remove((this.currentIndentField.Length - indentLength));
                 }
             }
             return returnValue;
@@ -283,8 +560,8 @@ namespace HwInf.Common
         /// </summary>
         public void ClearIndent()
         {
-            IndentLengths.Clear();
-            _currentIndentField = "";
+            this.indentLengths.Clear();
+            this.currentIndentField = "";
         }
         #endregion
         #region ToString Helpers
@@ -293,7 +570,7 @@ namespace HwInf.Common
         /// </summary>
         public class ToStringInstanceHelper
         {
-            private System.IFormatProvider _formatProviderField  = System.Globalization.CultureInfo.InvariantCulture;
+            private System.IFormatProvider formatProviderField = global::System.Globalization.CultureInfo.InvariantCulture;
             /// <summary>
             /// Gets or sets format provider to be used by ToStringWithCulture method.
             /// </summary>
@@ -301,13 +578,13 @@ namespace HwInf.Common
             {
                 get
                 {
-                    return _formatProviderField ;
+                    return this.formatProviderField;
                 }
                 set
                 {
                     if ((value != null))
                     {
-                        _formatProviderField  = value;
+                        this.formatProviderField = value;
                     }
                 }
             }
@@ -318,10 +595,10 @@ namespace HwInf.Common
             {
                 if ((objectToConvert == null))
                 {
-                    throw new System.ArgumentNullException("objectToConvert");
+                    throw new global::System.ArgumentNullException("objectToConvert");
                 }
                 System.Type t = objectToConvert.GetType();
-                System.Reflection.MethodInfo method = t.GetMethod("ToString", new[] {
+                System.Reflection.MethodInfo method = t.GetMethod("ToString", new System.Type[] {
                             typeof(System.IFormatProvider)});
                 if ((method == null))
                 {
@@ -330,7 +607,7 @@ namespace HwInf.Common
                 else
                 {
                     return ((string)(method.Invoke(objectToConvert, new object[] {
-                                _formatProviderField })));
+                                this.formatProviderField })));
                 }
             }
         }
@@ -342,20 +619,7 @@ namespace HwInf.Common
         {
             get
             {
-                return toStringHelperField;
-            }
-        }
-
-        public System.Collections.Generic.IDictionary<string, object> SessionField
-        {
-            get
-            {
-                return _sessionField;
-            }
-
-            set
-            {
-                _sessionField = value;
+                return this.toStringHelperField;
             }
         }
         #endregion
