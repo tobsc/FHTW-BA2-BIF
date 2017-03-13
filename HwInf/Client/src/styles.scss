@@ -1,27 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 /* You can add global styles to this file, and also import other style files */
 
+@import "assets/stylesheets/vendor/_gentelella";
+@import "assets/stylesheets/partials/_mixins.scss";
+
 html, body {
   font-size: 16px;
   font-family: 'Lato', sans-serif;
-}
-
-.full-width {
-  width: 100%;
-}
-
-.gutter-10.row {
-  margin-right: -5px;
-  margin-left: -5px;
-}
-.gutter-10 [class^="col-"], .gutter-10  [class^=" col-"] {
-  padding-right: 5px;
-  padding-left: 5px;
-}
-
-.truncate {
-  width: 100%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }

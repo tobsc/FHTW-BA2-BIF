@@ -1,0 +1,13 @@
+@import "../../assets/stylesheets/partials/all";
+
+#login-form {
+  @include fixed(top 40% left 50%);
+  @include transform(translate(-50%, -80%));
+  width: 90%;
+  max-width: 400px;
+}
+
+#tw-logo {
+  height: 3em;
+  width: auto;
+}
