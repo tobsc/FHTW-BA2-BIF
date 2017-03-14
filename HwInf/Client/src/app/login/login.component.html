@@ -1,31 +1,29 @@
-<div class="container">
-  <div class="row">
-    <div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
-      <div class="x_panel" id="login-form">
-        <div class="x_title">
-          <h2>HW-INF Login</h2>
-          <img id="tw-logo" class="pull-right" src="assets/img/logo-300x160.png" alt="Technikum-Wien">
-          <div class="clearfix"></div>
-        </div>
-        <div class="x_content">
-          <form (ngSubmit)="login(f)" #f="ngForm">
-            <fieldset>
-              <div class="form-group">
-                <input class="form-control" placeholder="UID" name="Uid" type="text" ngModel required autofocus>
-              </div>
-              <div class="form-group">
-                <input class="form-control" placeholder="Password" name="Password" type="password" ngModel required>
-              </div>
-              <!--div class="checkbox">
-                <label>
-                  <input name="remember" type="checkbox" value="Remember Me"> Remember Me
-                </label>
-              </div-->
-              <input class="btn btn-lg btn-success btn-block" type="submit" value="Login">
-            </fieldset>
-          </form>
-        </div>
-      </div>
+<div class="overlay">
+  <div class="x_panel" id="login-form">
+    <div class="x_title">
+      <h2>HW-INF Login</h2>
+      <img id="tw-logo" class="pull-right" src="assets/img/logo-300x160.png" alt="Technikum-Wien">
+      <div class="clearfix"></div>
+    </div>
+    <div class="x_content">
+      <form (ngSubmit)="login(f)" #f="ngForm">
+        <fieldset>
+          <div class="form-group">
+            <input class="form-control" placeholder="UID" name="Uid" type="text" ngModel required autofocus>
+          </div>
+          <div class="form-group">
+            <input class="form-control" placeholder="Password" name="Password" type="password" ngModel required>
+          </div>
+          <!--div class="checkbox">
+            <label>
+              <input name="remember" type="checkbox" value="Remember Me"> Remember Me
+            </label>
+          </div-->
+          <input class="btn btn-lg btn-success btn-block" type="submit" value="Login">
+        </fieldset>
+      </form>
     </div>
   </div>
 </div>
+
+

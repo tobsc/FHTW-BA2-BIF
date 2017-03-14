@@ -1,11 +1,17 @@
 @import "../../assets/stylesheets/partials/all";
+.overlay {
+  @include fixed(top 0 left 0);
+  width: 100%;
+  height: 100%;
+  background-color: #2a3f54;
+  z-index: 999999999999999;
+}
 
 #login-form {
-  @include fixed(top 40% left 50%);
+  @include absolute(top 40% left 50%);
   @include transform(translate(-50%, -80%));
   width: 90%;
   max-width: 400px;
-  z-index: 999999999999999;
 }
 
 #tw-logo {
