@@ -1,5 +1,5 @@
 import {Component, HostBinding, OnInit} from '@angular/core';
-import {AuthService} from "./login/auth.service";
+import {AuthService} from "./authentication/auth.service";
 
 @Component({
     selector: 'body',

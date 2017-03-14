@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {AppComponent} from "../app.component";
-import {AuthService} from "../login/auth.service";
-import {Router} from "@angular/router";
+import {AuthService} from "../../authentication/auth.service";
+import {AppComponent} from "../../app.component";
 
 @Component({
   selector: 'hwinf-top-navbar',
@@ -12,8 +11,9 @@ export class TopNavbarComponent implements OnInit {
 
   private isCollapsed: boolean = false;
   constructor(
-      private rootComp: AppComponent,
-      private authService: AuthService) {  }
+      private authService: AuthService,
+      private rootComp: AppComponent
+  ) {  }
 
   setClass() {
     this.isCollapsed = !this.isCollapsed;

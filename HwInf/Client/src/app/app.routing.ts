@@ -1,8 +1,8 @@
 import { Routes, RouterModule } from "@angular/router";
-import { PageNotFoundComponent } from "./page-not-found/page-not-found.component";
-import { LoginComponent } from "./login/login.component";
+import { PageNotFoundComponent } from "./core/page-not-found/page-not-found.component";
+import { LoginComponent } from "./authentication/login.component";
 import { DashboardComponent } from "./user/dashboard/dashboard.component";
-import {   AuthGuard } from "./login/auth.guard";
+import {   AuthGuard } from "./authentication/auth.guard";
 
 const APP_ROUTES: Routes = [
     { path: '', redirectTo: '/login', pathMatch: 'full' },

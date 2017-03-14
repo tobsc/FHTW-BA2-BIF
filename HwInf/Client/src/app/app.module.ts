@@ -6,18 +6,15 @@ import {HttpModule, XHRBackend, RequestOptions} from '@angular/http';
 import { AppComponent } from './app.component';
 import {JwtHttpService} from "./shared/jwt-http.service";
 import {Router} from "@angular/router";
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 import { routing } from "./app.routing";
-import { LoginComponent } from './login/login.component';
-import { AuthService} from "./login/auth.service";
+import { LoginComponent } from './authentication/login.component';
+import { AuthService} from "./authentication/auth.service";
 import { UserModule} from "./user/user.module";
 import { AdminModule} from "./admin/admin.module";
 import { DropdownModule, CollapseModule } from 'ng2-bootstrap';
-import { SidebarComponent } from './ui/sidebar.component';
-import { TopNavbarComponent } from './ui/top-navbar.component';
-import { FooterComponent } from './ui/footer.component';
-import { AuthGuard } from "./login/auth.guard";
+import { AuthGuard } from "./authentication/auth.guard";
+import {CoreModule} from "./core/core.module";
 
 
 
@@ -28,13 +25,10 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
 @NgModule({
     declarations: [
         AppComponent,
-        PageNotFoundComponent,
         LoginComponent,
-        SidebarComponent,
-        TopNavbarComponent,
-        FooterComponent,
     ],
     imports: [
+        CoreModule,
         BrowserModule,
         FormsModule,
         HttpModule,
@@ -42,16 +36,16 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
         UserModule,
         AdminModule,
         DropdownModule.forRoot(),
-        CollapseModule.forRoot()
+        CollapseModule.forRoot(),
     ],
     providers: [
-        AuthService,
-        AuthGuard,
         {
             provide: JwtHttpService,
             useFactory: jwtFactory,
             deps: [XHRBackend, RequestOptions, Router ]
         },
+        AuthService,
+        AuthGuard,
     ],
     bootstrap: [AppComponent]
 })
