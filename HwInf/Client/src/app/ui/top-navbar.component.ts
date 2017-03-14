@@ -9,20 +9,16 @@ import {AppComponent} from "../app.component";
 export class TopNavbarComponent implements OnInit {
 
   private isCollapsed: boolean = false;
-
-
   constructor(private rootComp: AppComponent) {  }
+
   setClass() {
-
     this.isCollapsed = !this.isCollapsed;
-
     if ( this.isCollapsed ){
       this.rootComp.cssClass = 'nav-sm';
     }
     else {
       this.rootComp.cssClass = 'nav-md';
     }
-
   }
 
   ngOnInit() {
