@@ -13,6 +13,12 @@ import { LoginComponent } from './login/login.component';
 import {AuthService} from "./login/auth.service";
 import {UserModule} from "./user/user.module";
 import {AdminModule} from "./admin/admin.module";
+import {DropdownModule, CollapseModule} from 'ng2-bootstrap';
+import { SidebarComponent } from './ui/sidebar.component';
+import { TopNavbarComponent } from './ui/top-navbar.component';
+import { FooterComponent } from './ui/footer.component';
+
+
 
 export function jwtFactory(backend: XHRBackend, options: RequestOptions, router: Router ) {
     return new JwtHttpService(backend, options, router);
@@ -23,6 +29,9 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
         AppComponent,
         PageNotFoundComponent,
         LoginComponent,
+        SidebarComponent,
+        TopNavbarComponent,
+        FooterComponent,
     ],
     imports: [
         BrowserModule,
@@ -31,6 +40,8 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
         routing,
         UserModule,
         AdminModule,
+        DropdownModule.forRoot(),
+        CollapseModule.forRoot()
     ],
     providers: [
         AuthService,

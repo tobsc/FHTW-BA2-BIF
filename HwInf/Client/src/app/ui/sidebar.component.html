@@ -1,0 +1,74 @@
+<div class="col-md-3 left_col">
+  <div class="left_col scroll-view">
+    <div class="navbar nav_title" style="border: 0;">
+      <a href="index.php" class="site_title"><i class="fa fa-paw"></i> <span>HW-INF!</span></a>
+    </div>
+    <div class="clearfix"></div>
+    <br />
+    <!-- sidebar menu -->
+    <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+      <div class="menu_section">
+        <h3>User</h3>
+        <ul class="nav side-menu">
+          <li routerLinkActive="active">
+            <a routerLink="/dashboard" ><i class="fa fa-home"></i> Dashboard</a>
+          </li>
+          <li dropdown><a dropdownToggle><i class="fa fa-home"></i> Geräte <span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+              <li><a href="geraete_user.php">Alle</a></li>
+              <li><a href="geraete_user.php">PC</a></li>
+              <li><a href="geraete_user.php">Monitor</a></li>
+              <li><a href="geraete_user.php">Beamer</a></li>
+              <li><a href="geraete_user.php">Fernseher</a></li>
+              <li><a href="geraete_user.php">Dev-Kits</a></li>
+            </ul>
+          </li>
+          <li dropdown><a dropdownToggle><i class="fa fa-edit"></i> Aufträge <span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+              <li><a href="auftraege.php">Alle</a></li>
+              <li><a href="auftraege.php">Aktuelle</a></li>
+              <li><a href="auftraege.php">Abgeschlossene</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="menu_section">
+        <h3>Administration</h3>
+        <ul class="nav side-menu">
+          <li dropdown><a dropdownToggle><i class="fa fa-bug"></i> Geräte <span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+              <li><a href="geraete_verwalten.php">Geräte verwalten</a></li>
+              <li><a href="geraete_hinzufuegen.php">Geräte hinzufügen</a></li>
+              <li><a href="geraete_typ_verwalten.php">Gerätetyp</a></li>
+              <li><a href="geraete_status_verwalten.php">Gerätestatus</a></li>
+            </ul>
+          </li>
+          <li dropdown><a dropdownToggle><i class="fa fa-windows"></i> Aufträge <span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+              <li><a href="auftraege_admin.php">Alle</a></li>
+              <li><a href="auftraege_admin.php">Anfragen</a></li>
+              <li><a href="auftraege_admin.php">Ausgeliehen</a></li>
+              <li><a href="auftraege_admin.php">Abgeschlossen</a></li>
+              <li><a href="auftraege_admin.php">Archiviert</a></li>
+            </ul>
+          </li>
+          <li dropdown><a dropdownToggle><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Schäden <span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+              <li><a href="schaden.php">Schaden hinzufügen</a></li>
+              <li><a href="schaden.php">Historie anzeigen</a></li>
+              <li><a href="schaden.php">Archiv</a></li>
+            </ul>
+          </li>
+          <li dropdown><a dropdownToggle><i class="fa fa-cog" aria-hidden="true"></i> Settings <span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+              <li><a href="page_403.html">Semesterdaten</a></li>
+              <li><a href="page_404.html">Texte</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- /sidebar menu -->
+
+  </div>
+</div>

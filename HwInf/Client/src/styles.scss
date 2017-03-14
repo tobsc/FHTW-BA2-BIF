@@ -8,3 +8,11 @@ html, body {
   font-size: 16px;
   font-family: 'Lato', sans-serif;
 }
+
+.dropdown {
+  &.active {
+    .nav.child_menu {
+      display: block;
+    }
+  }
+}

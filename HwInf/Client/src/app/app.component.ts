@@ -1,10 +1,13 @@
-import { Component } from '@angular/core';
+import {Component, HostBinding} from '@angular/core';
 
 @Component({
-    selector: 'hwinf-root',
+    selector: 'body',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
     constructor() {}
+
+    @HostBinding('class') public cssClass = 'nav-md';
+
 }
