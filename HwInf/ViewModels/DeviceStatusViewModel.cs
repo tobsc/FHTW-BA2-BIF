@@ -1,27 +1,43 @@
-﻿using HwInf.Common.Models;
+﻿using System.ComponentModel;
+using HwInf.Common.BL;
+using HwInf.Common.Models;
 
 namespace HwInf.ViewModels
 {
     public class DeviceStatusViewModel
     {
+
         public int StatusId { get; set; }
         public string Description { get; set; }
 
-        public static implicit operator DeviceStatus(DeviceStatusViewModel vmdl)
+
+
+        public DeviceStatusViewModel()
         {
-            return new DeviceStatus {
-                StatusId = vmdl.StatusId,
-                Description = vmdl.Description
-            };
+            
         }
 
-        public static implicit operator DeviceStatusViewModel(DeviceStatus ds)
+        public DeviceStatusViewModel(DeviceStatus ds)
         {
-            return new DeviceStatusViewModel
-            {
-                StatusId = ds.StatusId,
-                Description = ds.Description
-            };
+            Refresh(ds);
+        }
+
+        public void Refresh(DeviceStatus ds)
+        {
+            var target = this;
+            var source = ds;
+
+            target.Description = source.Description;
+            target.StatusId = source.StatusId;
+        }
+
+        public void ApplyChanges(DeviceStatus ds, BL bl)
+        {
+            var target = ds;
+            var source = this;
+
+            target.Description = source.Description;
+
         }
     }
 }

@@ -100,34 +100,5 @@ namespace HwInf.ViewModels
             target.Tel = source.Tel;
 
         }
-
-        public static implicit operator Person(UserViewModel vmdl)
-        {
-            return new Person
-            {
-                PersId = vmdl.PersId,
-                Name = vmdl.Name,
-                LastName = vmdl.LastName,
-                uid = vmdl.Uid,
-                Email = vmdl.Email,
-                Tel = vmdl.Tel,
-                Room = vmdl.Room
-            };
-        }
-
-        public static implicit operator UserViewModel(Person p)
-        {
-            return new UserViewModel
-            {
-                PersId = p.PersId,
-                Name = p.Name,
-                LastName = p.LastName,
-                Uid = p.uid,
-                Email = p.Email,
-                Tel = p.Tel,
-                Role = p.Role.Name,
-                Room = p.Room
-            };
-        }
     }
 }

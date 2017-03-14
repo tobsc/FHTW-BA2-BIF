@@ -38,10 +38,10 @@ namespace HwInf.ViewModels
             target.Name = source.Name;
             target.InvNum = source.InvNum;
             target.Marke = source.Brand;
-            target.Status = source.Status;
-            target.DeviceType= source.Type;
+            target.Status = new DeviceStatusViewModel(source.Status);
+            target.DeviceType= new DeviceTypeViewModel(source.Type).LoadComponents(source.Type);
             target.Room = source.Room;
-            target.Owner = source.Person;
+            target.Owner = new UserViewModel(source.Person);
             target.IsActive = source.IsActive;
         }
 
@@ -76,6 +76,5 @@ namespace HwInf.ViewModels
               
             return this; // fluent interface
         }
-
     }
 }

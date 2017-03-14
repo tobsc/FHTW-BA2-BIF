@@ -31,7 +31,7 @@ namespace HwInf.ViewModels
             target.DeviceTypeId = source.TypeId;
             target.TypeName = source.Description;
             target.Components = new List<ComponentViewModel>();
-            source.Components.ForEach(i => target.Components.ToList().Add(i));
+            source.Components.ForEach(i => target.Components.ToList().Add(new ComponentViewModel(i)));
 
         }
 
@@ -65,13 +65,5 @@ namespace HwInf.ViewModels
             };
         }
 
-        public static implicit operator DeviceTypeViewModel(DeviceType dt)
-        {
-            return new DeviceTypeViewModel
-            {
-                DeviceTypeId = dt.TypeId,
-                TypeName = dt.Description
-            };
-        }
     }
 }

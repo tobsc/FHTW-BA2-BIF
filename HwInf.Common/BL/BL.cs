@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Data.Entity;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using HwInf.Common.Models;
 
 namespace HwInf.Common.BL
@@ -24,7 +25,7 @@ namespace HwInf.Common.BL
 
             if (type == 0)
             {
-                return _dal.Devices.Include(x => x.Type)
+                return _dal.Devices.Include(x => x.Type.Components.Select(y => y.ComponentType))
                     .Where(i => i.IsActive)
                     .Where(i => i.DeviceId > offset)
                     .Take(limit);

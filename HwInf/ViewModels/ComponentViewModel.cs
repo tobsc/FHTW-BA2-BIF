@@ -53,15 +53,5 @@ namespace HwInf.ViewModels
             };
         }
 
-        public static implicit operator ComponentViewModel(Component c)
-        {
-            return new ComponentViewModel
-            {
-                CompId = c.CompId,
-                Name = c.Name,
-                ComponentType = c.ComponentType
-            };
-        }
-
     }
 }
