@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Http, Headers, RequestOptions, Response} from "@angular/http";
 import {User} from "../shared/user.model";
 import {Observable} from "rxjs";
+import {Router} from "@angular/router";
 
 
 @Injectable()
@@ -11,7 +12,10 @@ export class AuthService {
   private loggedIn: boolean = false;
   private url: string = "/api/auth/";
 
-  constructor(private http: Http) {
+  constructor(
+      private http: Http,
+      private router: Router
+  ) {
 
     this.loggedIn = !!localStorage.getItem('auth_token');
 
@@ -47,6 +51,7 @@ export class AuthService {
     this.token = null;
     localStorage.removeItem('auth_token');
     this.loggedIn = false;
+    this.router.navigate(['/login']);
   }
 
 }

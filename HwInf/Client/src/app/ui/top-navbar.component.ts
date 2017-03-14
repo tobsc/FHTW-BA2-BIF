@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AppComponent} from "../app.component";
+import {AuthService} from "../login/auth.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'hwinf-top-navbar',
@@ -9,7 +11,9 @@ import {AppComponent} from "../app.component";
 export class TopNavbarComponent implements OnInit {
 
   private isCollapsed: boolean = false;
-  constructor(private rootComp: AppComponent) {  }
+  constructor(
+      private rootComp: AppComponent,
+      private authService: AuthService) {  }
 
   setClass() {
     this.isCollapsed = !this.isCollapsed;
@@ -25,10 +29,8 @@ export class TopNavbarComponent implements OnInit {
 
   }
 
-
-  public toggleNaviation(): void {
-    let body = document.getElementsByTagName('body')[0];
-
-    body.classList.add
+  public logout(): void {
+    this.authService.logout();
   }
+
 }

@@ -5,6 +5,7 @@
   @include transform(translate(-50%, -80%));
   width: 90%;
   max-width: 400px;
+  z-index: 999999999999999;
 }
 
 #tw-logo {
