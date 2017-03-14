@@ -10,13 +10,14 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 
 import { routing } from "./app.routing";
 import { LoginComponent } from './login/login.component';
-import {AuthService} from "./login/auth.service";
-import {UserModule} from "./user/user.module";
-import {AdminModule} from "./admin/admin.module";
-import {DropdownModule, CollapseModule} from 'ng2-bootstrap';
+import { AuthService} from "./login/auth.service";
+import { UserModule} from "./user/user.module";
+import { AdminModule} from "./admin/admin.module";
+import { DropdownModule, CollapseModule } from 'ng2-bootstrap';
 import { SidebarComponent } from './ui/sidebar.component';
 import { TopNavbarComponent } from './ui/top-navbar.component';
 import { FooterComponent } from './ui/footer.component';
+import { AuthGuard } from "./login/auth.guard";
 
 
 
@@ -45,6 +46,7 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
     ],
     providers: [
         AuthService,
+        AuthGuard,
         {
             provide: JwtHttpService,
             useFactory: jwtFactory,
