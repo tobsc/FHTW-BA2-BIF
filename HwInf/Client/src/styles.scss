@@ -7,6 +7,14 @@
 html, body {
   font-size: 16px;
   font-family: 'Lato', sans-serif;
+  min-height: 100%;
+}
+.container.body,
+.main_container,
+.right_col,
+body,
+html {
+  height: 100%;
 }
 
 .dropdown {
