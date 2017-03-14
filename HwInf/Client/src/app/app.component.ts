@@ -1,5 +1,4 @@
-import {Component, HostBinding, OnInit} from '@angular/core';
-import {AuthService} from "./authentication/auth.service";
+import {Component, HostBinding } from '@angular/core';
 
 @Component({
     selector: 'body',
@@ -7,6 +6,6 @@ import {AuthService} from "./authentication/auth.service";
     styleUrls: ['./app.component.scss'],
 })
 export class AppComponent  {
-    constructor(private authService: AuthService) {}
+    constructor() {}
     @HostBinding('class') public cssClass = 'nav-md';
 }

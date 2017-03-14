@@ -3,11 +3,16 @@ import { PageNotFoundComponent } from "./core/page-not-found/page-not-found.comp
 import { LoginComponent } from "./authentication/login.component";
 import { DashboardComponent } from "./user/dashboard/dashboard.component";
 import {   AuthGuard } from "./authentication/auth.guard";
+import {HomeComponent} from "./home/home.component";
 
 const APP_ROUTES: Routes = [
-    { path: '', redirectTo: '/login', pathMatch: 'full' },
+    { path: '', component: HomeComponent, canActivate: [AuthGuard],
+        children: [
+            { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+            { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+        ]
+    },
     { path: 'login', component: LoginComponent },
-    { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
     { path: '**', component: PageNotFoundComponent }
 ];
 
