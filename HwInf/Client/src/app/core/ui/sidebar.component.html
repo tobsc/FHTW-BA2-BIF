@@ -10,17 +10,15 @@
       <div class="menu_section">
         <h3>User</h3>
         <ul class="nav side-menu">
-          <li routerLinkActive="active">
-            <a routerLink="/dashboard" ><i class="fa fa-home"></i> Dashboard</a>
+          <li routerLinkActive="active"  >
+            <a routerLink="/dashboard"><i class="fa fa-home"></i> Dashboard</a>
           </li>
-          <li dropdown><a dropdownToggle><i class="fa fa-home"></i> Geräte <span class="fa fa-chevron-down"></span></a>
+          <li dropdown [ngClass]="{current_parent_menu_item: router.url.indexOf('geraete') >= 0}"><a dropdownToggle><i class="fa fa-home"></i> Geräte <span class="fa fa-chevron-down"></span></a>
             <ul class="nav child_menu">
-              <li><a href="geraete_user.php">Alle</a></li>
-              <li><a href="geraete_user.php">PC</a></li>
-              <li><a href="geraete_user.php">Monitor</a></li>
-              <li><a href="geraete_user.php">Beamer</a></li>
-              <li><a href="geraete_user.php">Fernseher</a></li>
-              <li><a href="geraete_user.php">Dev-Kits</a></li>
+              <li ><a routerLink="/geraete">Alle</a></li>
+              <li *ngFor="let deviceType of deviceTypes | async">
+                <a routerLink="/geraete/typ/{{deviceType.TypeName | lowercase}}">{{deviceType.TypeName}}</a>
+              </li>
             </ul>
           </li>
           <li dropdown><a dropdownToggle><i class="fa fa-edit"></i> Aufträge <span class="fa fa-chevron-down"></span></a>

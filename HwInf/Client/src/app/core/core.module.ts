@@ -5,6 +5,7 @@ import {SidebarComponent} from "./ui/sidebar.component";
 import {FooterComponent} from "./ui/footer.component";
 import {PageNotFoundComponent} from "./page-not-found/page-not-found.component";
 import {DropdownModule, CollapseModule} from "ng2-bootstrap";
+import {RouterModule} from "@angular/router";
 @NgModule({
     declarations: [
         TopNavbarComponent,
@@ -16,6 +17,7 @@ import {DropdownModule, CollapseModule} from "ng2-bootstrap";
         CommonModule,
         DropdownModule.forRoot(),
         CollapseModule.forRoot(),
+        RouterModule,
     ],
     exports: [
         TopNavbarComponent,
