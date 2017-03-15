@@ -1,9 +1,12 @@
-import { OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { DeviceService } from "../../shared/services/device.service";
 import { ActivatedRoute } from "@angular/router";
 import { Subscription, Observable } from "rxjs";
 import { Device } from "../../shared/models/device.model";
-import { Component } from "../../shared/models/component.model";
+import { DeviceComponent } from "../../shared/models/component.model";
+import { DeviceType } from "../../shared/models/device-type.model";
+import { IDictionary } from "../../shared/common/dictionary.interface";
+import { Dictionary } from "../../shared/common/dictionary.class";
 import { NgForm, FormControl } from "@angular/forms";
 import { URLSearchParams } from "@angular/http";
 
@@ -15,9 +18,9 @@ import { URLSearchParams } from "@angular/http";
 export class DeviceFilterComponent implements OnInit {
 
     private subscription: Subscription;
-    private components: Component[];
+    private components: DeviceComponent[];
     private currentType: string;
-    private deviceTypes: Observable<string[]>;
+    private deviceTypes: Observable<DeviceType[]>;
     private checkedValues: IDictionary<string[]> = new Dictionary<string[]>();
     @Output() deviceListUpdated = new EventEmitter<URLSearchParams>();
     private term: FormControl = new FormControl();
@@ -25,18 +28,19 @@ export class DeviceFilterComponent implements OnInit {
     constructor(private deviceService: DeviceService, private route: ActivatedRoute) { }
 
     ngOnInit() {
-        this.deviceTypes = this.deviceService.getTypes();
+        this.deviceTypes = this.deviceService.getDeviceTypes();
         this.subscription = this.route.params
             .subscribe(
             (params: any) => {
                 this.currentType = params['type'];
                 this.deviceService.getComponentsAndValues(this.currentType)
-                    .subscribe((data: Component[]) => {
+                    .subscribe((data: DeviceComponent[]) => {
                         this.components = data;
                         // initialize this.checkedValues with keys and empty arrays
-                        for (let c of data) {
-                            this.checkedValues.add(c.component.toLowerCase(), []);
-                        }
+                        //for (let c of data) {
+                        //    this.checkedValues.add(c.Name.toLowerCase(), []);
+                        //}
+                        console.log(data);
                     });
             }
             );

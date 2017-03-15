@@ -1,6 +1,6 @@
 <div class="page-title">
   <div class="title_left">
-    <h1>Geräte <small>Alle</small></h1>
+    <h1>Geräte</h1>
   </div>
 
   <div class="title_right">
@@ -21,57 +21,65 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
 
         
+        
         <div class="col-sm-3 col-md-2">
             <hwinf-device-filter (deviceListUpdated)="updateList($event)"></hwinf-device-filter>
         </div>
-            
 
 
         
 
         <div class="col-md-10">
-            <div class="accordion">
-                <div class="x_panel">
-                    <div class="x_content">
-                    <accordion [closeOthers]=true>
-                        <div *ngFor="let device of devices | async">
 
-                            <accordion-group>
-                                <div accordion-heading>
-                                    <h3>{{device.Name}} <small>Inventarnummer: {{device.InvNum}}; {{device.DeviceMeta[0].Value}}; {{device.DeviceMeta[1].Value}}; {{device.DeviceMeta[2].Value}}</small></h3>
-                                    
-                                </div>
-                                <div id="{{device.InfNum}}" class="panel-collapse" role="tabpanel" attr.aria-labelledby="headingTwo" attr.aria-expanded="true">
-                                    <div class="panel-body">
-                                        <ul>
-                                            <li>
-                                                Name: {{device.Name}}
-                                            </li>
-                                            <li>
-                                                Inventarnummer: {{device.InvNum}}
-                                            </li>
-                                            <li>
-                                                Verwalter: {{device.Owner.Name}} {{device.Owner.LastName}}
-                                            </li>
-                                            <li>
-                                                Marke: {{device.Marke}}
-                                            </li>
-                                            <li *ngFor='let attr of device.DeviceMeta'>
-                                                {{attr.Component.Name}}:&nbsp;{{attr.Value}}
-                                            </li>
-                                        </ul>
-                                        <span class="glyphicon glyphicon-shopping-cart fa-2x"> </span>
-                                    </div>
-                                </div>
-                            </accordion-group>
-
-                        </div>
-                    </accordion>
-
-                        </div>
-                </div>
+            <hwinf-panel>
+            <div class="hwinf-panel__heading">
+                <span *ngIf="currentType!=null">{{currentType | uppercase}}</span>
+                <span *ngIf="currentType==null">Alle</span>
+                
             </div>
-            
+            <div class="hwinf-panel__content">
+                <accordion [closeOthers]=true>
+                    <div *ngFor="let device of devices | async">
+
+                        <accordion-group>
+                            <div accordion-heading>
+                                <h3>{{device.Name}} <small>Inventarnummer: {{device.InvNum}}; {{device.DeviceMeta[0].Value}}; {{device.DeviceMeta[1].Value}}; {{device.DeviceMeta[2].Value}}</small></h3>
+
+                            </div>
+                            <div id="{{device.InfNum}}" class="panel-collapse" role="tabpanel" attr.aria-labelledby="headingTwo" attr.aria-expanded="true">
+                                <div class="panel-body">
+                                    <ul>
+                                        <li>
+                                            Name: {{device.Name}}
+                                        </li>
+                                        <li>
+                                            Inventarnummer: {{device.InvNum}}
+                                        </li>
+                                        <li>
+                                            Verwalter: {{device.Owner.Name}} {{device.Owner.LastName}}
+                                        </li>
+                                        <li>
+                                            Marke: {{device.Marke}}
+                                        </li>
+                                        <li *ngFor='let attr of device.DeviceMeta'>
+                                            {{attr.Component.Name}}:&nbsp;{{attr.Value}}
+                                        </li>
+                                    </ul>
+                                    <span class="glyphicon glyphicon-shopping-cart fa-2x"> </span>
+                                </div>
+                            </div>
+                        </accordion-group>
+
+                    </div>
+                </accordion>
+            </div>
+            </hwinf-panel>
+
+        </div>
+
+        <div>
+
+
 
         </div>
     
