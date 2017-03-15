@@ -20,8 +20,8 @@ import {DeviceService} from "./shared/services/device.service";
 
 
 
-export function jwtFactory(backend: XHRBackend, options: RequestOptions, router: Router ) {
-    return new JwtHttpService(backend, options, router);
+export function jwtFactory(backend: XHRBackend, options: RequestOptions, router: Router, authService: AuthService) {
+    return new JwtHttpService(backend, options, router, authService);
 }
 
 @NgModule({
@@ -45,7 +45,7 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
         {
             provide: JwtHttpService,
             useFactory: jwtFactory,
-            deps: [XHRBackend, RequestOptions, Router ]
+            deps: [XHRBackend, RequestOptions, Router, AuthService]
         },
         AuthService,
         AuthGuard,
