@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import {HttpModule, XHRBackend, RequestOptions} from '@angular/http';
 
 import { AppComponent } from './app.component';
-import {JwtHttpService} from "./shared/jwt-http.service";
+import {JwtHttpService} from "./shared/services/jwt-http.service";
 import {Router} from "@angular/router";
 
 import { routing } from "./app.routing";
@@ -16,6 +16,7 @@ import { DropdownModule, CollapseModule } from 'ng2-bootstrap';
 import { AuthGuard } from "./authentication/auth.guard";
 import {CoreModule} from "./core/core.module";
 import { HomeComponent } from './home/home.component';
+import {DeviceService} from "./shared/services/device.service";
 
 
 
@@ -48,6 +49,7 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
         },
         AuthService,
         AuthGuard,
+        DeviceService,
     ],
     bootstrap: [AppComponent]
 })

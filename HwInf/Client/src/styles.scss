@@ -18,7 +18,9 @@ html {
 }
 
 .dropdown {
-  &.active {
+  &.active,
+  &.current_parent_menu_item {
+    @extend .active;
     .nav.child_menu {
       display: block;
     }
