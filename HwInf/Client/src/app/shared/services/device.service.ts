@@ -21,7 +21,6 @@ export class DeviceService {
     let options = new RequestOptions({
       search: params,
     });
-
     return this.http.get(this.url + type + '/', options)
         .map((response: Response) => response.json());
   }
