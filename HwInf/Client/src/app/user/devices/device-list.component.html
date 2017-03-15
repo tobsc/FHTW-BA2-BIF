@@ -17,8 +17,62 @@
 
 <div class="clearfix"></div>
 
-<ul>
-  <li *ngFor="let device of devices | async">
-    {{device.Name}}
-  </li>
-</ul>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+
+        
+        <div class="col-sm-3 col-md-2">
+            <hwinf-device-filter (deviceListUpdated)="updateList($event)"></hwinf-device-filter>
+        </div>
+            
+
+
+        
+
+        <div class="col-md-10">
+
+            
+            <div class="accordion" id="accordion" role="tablist" aria-multiselectable="true" *ngFor="let device of devices | async">>
+                <div class="panel">
+
+                    <a class="panel-heading collapsed" role="tab" id="{{device.InvNum}}" datat-toggle="collapse" data-parent="#accordion" href="#{{device.InvNum}}" attr.aria-expanded="false" attr.aria-controls="{{device.InvNum}}">
+                        <h4 class="panel-title">
+                            {{device.Name}}	&emsp; Status: 
+                                <span class="label pull-right" [ngSwitch]="device.StatusId" [statusId]="device.StatusId" hwInfDeviceStatus>
+                                    {{device.Status}}
+                                </span>
+                        </h4>
+                        &nbsp; Inventarnummer: {{device.InvNum}};
+                        {{device.DeviceMeta[0].Component.Name}}: {{device.DeviceMeta[0].Value}};
+                        {{device.DeviceMeta[1].Component.Name}}: {{device.DeviceMeta[0].Value}};
+                        {{device.DeviceMeta[2].Component.Name}}: {{device.DeviceMeta[0].Value}}
+                    </a>
+
+                    <div id="{{device.InfNum}}" class="panel-collapse collapse" role="tabpanel" attr.aria-labelledby="headingTwo" attr.aria-expanded="false">
+                        <div class="panel-body">
+                            -	Name: {{device.Name}} <br />
+                            -	Inventarnummer: {{device.InvNum}} <br />
+                            -	Verwalter: {{device.Owner}} <br />
+                            -	Marke: {{device.Marke}} <br />
+                            -	Status: <span class="label label-danger">VERLIEHEN </span> <br />
+                            <ul class="text-muted list-inline">
+                                <li *ngFor='let attr of device.DeviceMetaData'>
+                                    {{attr.Component.Name}}:&nbsp;{{attr.Value}}
+                                </li>
+                            </ul>
+                            <span class="glyphicon glyphicon-shopping-cart fa-2x"> </span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    
+           
+                
+         
+
+        <!-- edit -->
+    </div>
+</div>
