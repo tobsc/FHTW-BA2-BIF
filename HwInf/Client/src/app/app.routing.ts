@@ -15,6 +15,7 @@ const APP_ROUTES: Routes = [
             { path: 'geraete/typ/:type', component: DeviceListComponent, canActivate: [AuthGuard] },
         ]
     },
+    { path: 'admin', loadChildren: './admin/admin.module#AdminModule' },
     { path: 'login', component: LoginComponent },
     { path: '**', component: PageNotFoundComponent }
 ];

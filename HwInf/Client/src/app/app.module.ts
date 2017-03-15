@@ -12,7 +12,7 @@ import { LoginComponent } from './authentication/login.component';
 import { AuthService} from "./authentication/auth.service";
 import { UserModule} from "./user/user.module";
 import { AdminModule} from "./admin/admin.module";
-import { AlertModule, DropdownModule, CollapseModule, AccordionModule} from 'ng2-bootstrap/ng2-bootstrap';
+import { AlertModule, DropdownModule, CollapseModule, AccordionModule} from 'ng2-bootstrap';
 import { AuthGuard } from "./authentication/auth.guard";
 import {CoreModule} from "./core/core.module";
 import { HomeComponent } from './home/home.component';

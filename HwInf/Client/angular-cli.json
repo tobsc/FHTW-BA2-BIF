@@ -18,7 +18,6 @@
       "tsconfig": "tsconfig.json",
       "prefix": "hwinf",
       "styles": [
-        "../node_modules/bootstrap/dist/css/bootstrap.min.css",
         "styles.scss"
       ],
       "scripts": [],
