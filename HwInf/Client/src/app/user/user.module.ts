@@ -5,8 +5,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { DeviceListComponent } from './devices/device-list.component';
 import { DeviceFilterComponent } from './devices/device-filter.component';
 import { DevicesStatusDirective } from './devices/devices-status.directive';
+import { AccordionModule } from 'ng2-bootstrap';
 @NgModule({
     declarations: [DashboardComponent, DeviceListComponent, DeviceFilterComponent, DevicesStatusDirective],
-    imports: [CommonModule, FormsModule]
+    imports: [CommonModule, FormsModule, AccordionModule.forRoot()]
 })
 export class UserModule {}
