@@ -5,8 +5,17 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { DeviceListComponent } from './devices/device-list.component';
 import { DeviceFilterComponent } from './devices/device-filter.component';
 import { DevicesStatusDirective } from './devices/devices-status.directive';
+import {CoreModule} from "../core/core.module";
 @NgModule({
-    declarations: [DashboardComponent, DeviceListComponent, DeviceFilterComponent, DevicesStatusDirective],
-    imports: [CommonModule, FormsModule]
+    declarations: [
+        DashboardComponent,
+        DeviceListComponent,
+        DeviceFilterComponent,
+        DevicesStatusDirective],
+    imports: [
+        CommonModule,
+        FormsModule,
+        CoreModule
+    ]
 })
 export class UserModule {}

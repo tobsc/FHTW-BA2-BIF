@@ -1,7 +1,7 @@
-import { Component } from "./component.model";
+import { DeviceComponent } from "./component.model";
 export class DeviceMeta {
     constructor(
-        public Component: Component,
+        public Component: DeviceComponent,
         public Value: string
     ) {}
 }

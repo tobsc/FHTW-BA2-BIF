@@ -6,12 +6,14 @@ import {FooterComponent} from "./ui/footer.component";
 import {PageNotFoundComponent} from "./page-not-found/page-not-found.component";
 import {DropdownModule, CollapseModule} from "ng2-bootstrap";
 import {RouterModule} from "@angular/router";
+import { PanelComponent } from './panel/panel.component';
 @NgModule({
     declarations: [
         TopNavbarComponent,
         SidebarComponent,
         FooterComponent,
         PageNotFoundComponent,
+        PanelComponent,
     ],
     imports: [
         CommonModule,
@@ -23,7 +25,8 @@ import {RouterModule} from "@angular/router";
         TopNavbarComponent,
         SidebarComponent,
         FooterComponent,
-        PageNotFoundComponent
+        PageNotFoundComponent,
+        PanelComponent
     ]
 })
 export class CoreModule {}

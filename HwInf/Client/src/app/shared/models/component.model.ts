@@ -1,4 +1,4 @@
-export class Component {
+export class DeviceComponent {
     constructor(
         public CompId: number,
         public Name: string,
