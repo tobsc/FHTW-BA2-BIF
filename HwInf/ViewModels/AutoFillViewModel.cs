@@ -48,7 +48,6 @@ namespace HwInf.ViewModels
                     break;
                 default:
                     var componentMetaValues = meta
-                        .Where(i => i.Component.Name.ToLower().Equals(component.ToLower()))
                         .Where(i => i.MetaValue.ToLower().Contains(input.ToLower()))
                         .OrderBy(i => i.MetaValue)
                         .Select(i => i.MetaValue)

@@ -47,7 +47,7 @@ namespace HwInf.Common.BL
 
         public Device GetSingleDevice(int deviceId)
         {
-            return _dal.Devices.Single(i => i.DeviceId == deviceId);
+            return _dal.Devices.Include(x => x.DeviceMeta.Select(y => y.FieldGroup).Select(y => y.Fields)).Single(i => i.DeviceId == deviceId);
         }
 
         public DeviceType GetDeviceType(int typeId)
@@ -62,7 +62,7 @@ namespace HwInf.Common.BL
 
         public IQueryable<DeviceMeta> GetDeviceMeta()
         {
-            return _dal.DeviceMeta.Include(x => x.Component);
+            return _dal.DeviceMeta.Include(x => x.FieldGroup);
         }
 
         public IQueryable<DeviceType> GetDeviceTypes()

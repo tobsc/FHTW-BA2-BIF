@@ -78,6 +78,7 @@
     <Compile Include="Models\Device.cs" />
     <Compile Include="Models\DeviceMeta.cs" />
     <Compile Include="Models\DeviceHistory.cs" />
+    <Compile Include="Models\Field.cs" />
     <Compile Include="Models\OrderStatus.cs" />
     <Compile Include="Models\OrderItem.cs" />
     <Compile Include="Models\DeviceStatus.cs" />

@@ -6,7 +6,8 @@ namespace HwInf.ViewModels
     public class DeviceMetaViewModel
     {
 
-        public ComponentViewModel Component { get; set; }
+        public string Field { get; set; }
+        public string Group { get; set; }
         public string Value { get; set; }
 
 
@@ -27,7 +28,8 @@ namespace HwInf.ViewModels
             var source = dm;
 
             target.Value = source.MetaValue;
-            target.Component = new ComponentViewModel(source.Component);
+            target.Group = source.FieldGroup.Label;
+            target.Field = source.Field.Label;
         }
 
         public void ApplyChanges(DeviceMeta dm, BL bl)
@@ -36,7 +38,7 @@ namespace HwInf.ViewModels
             var source = this;
 
             target.MetaValue = source.Value;
-            target.Component = source.Component;
+            
             
         }
 
@@ -45,7 +47,6 @@ namespace HwInf.ViewModels
         {
             return new DeviceMeta
             {
-                Component = vmdl.Component,
                 MetaValue = vmdl.Value               
             };
         }
