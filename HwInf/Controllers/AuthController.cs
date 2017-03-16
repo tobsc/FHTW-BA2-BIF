@@ -101,7 +101,10 @@ namespace HwInf.Controllers
             var payload = new Dictionary<string, object>
             {
                 {"uid", p.uid},
-                {"role", p.Role.Name  },
+                {"role", p.Role.Name },
+                {"lastName", p.LastName },
+                {"name", p.Name },
+                {"displayName", p.Name + " " +p.LastName},
                 {"nbf", notBefore},
                 {"iat", issuedAt},
                 {"exp", expiry}
