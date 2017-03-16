@@ -90,7 +90,10 @@ namespace HwInf.Controllers
         [Route("{type}")]
         public IHttpActionResult GetFilter(string type, int limit = 25, int offset = 0)
         {
-            var parameterQuery = Request.GetQueryNameValuePairs();
+            var pq = Request.GetQueryNameValuePairs();
+            var parameterQuery = pq.ToDictionary(p => p.Key, p => p.Value);
+            parameterQuery.Remove("limit");
+            parameterQuery.Remove("offset");
 
             var dt = _bl.GetDeviceType(type);
 
@@ -123,7 +126,7 @@ namespace HwInf.Controllers
                 }
 
             }
-            return Ok(response.OrderBy(o => o.DeviceId).ToList());
+            return Ok(response.Skip(offset).Take(limit));
 
         }
 
