@@ -1,21 +1,39 @@
 import { Injectable } from '@angular/core';
 import { Device } from "../models/device.model";
 import { Subject, Observable } from "rxjs";
+import { Router } from "@angular/router";
 
 @Injectable()
 export class CartService {
     private amount: Subject<number> = new Subject<number>();
     private items: Device[] = [];
     private count: number = 0;
+    
 
-    constructor() {
+    constructor(private router: Router) {
         if (!!localStorage.getItem('cart_list')) {
             this.items = JSON.parse(localStorage.getItem('cart_list'));
         }
+
+
     }
 
     public getItems() {
         return this.items;
+    }
+
+    public getHash(uid: string) {
+        
+            var hash = 0;
+            if (uid.length == 0) return hash;
+            for (let i = 0; i < uid.length; i++) {
+                var char = uid.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash; // Convert to 32bit integer
+            }
+            return hash;
+        
+
     }
 
     public getAmount(): Observable<number> {
@@ -62,4 +80,6 @@ export class CartService {
     public updateAmount(): void {
         this.amount.next(this.items.length);
     }
+
+   
 }
