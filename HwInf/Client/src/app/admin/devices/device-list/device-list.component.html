@@ -1,0 +1,38 @@
+
+
+<hwinf-panel>
+  <div class="hwinf-panel__heading">
+    Geräte verwalten
+  </div>
+  <div class="hwinf-panel__content">
+
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>InvNum</th>
+            <th>Name</th>
+            <th>Erstellt am</th>
+            <th>Verwalter</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr *ngFor="let device of devices | async">
+            <th scope="row">{{device.InvNum}}</th>
+            <td>{{device.Name}}</td>
+            <td>?????</td>
+            <td>{{device.Owner.Name}}</td>
+            <td><div class="label label-xs label-success">{{device.Status.Description}}</div></td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+
+  </div>
+</hwinf-panel>
+<a *ngIf="currentPage > 0" routerLink="/admin/geraete/page/{{ currentPage - 1 }}" class="btn">Prev Page</a>
+<a routerLink="/admin/geraete/page/{{ currentPage + 1 }}" class="btn">Next Page</a>

@@ -13,9 +13,9 @@
           <li routerLinkActive="active"  >
             <a routerLink="/dashboard"><i class="fa fa-home"></i> Dashboard</a>
           </li>
-          <li dropdown [ngClass]="{current_parent_menu_item: router.url.indexOf('geraete') >= 0}"><a dropdownToggle><i class="fa fa-home"></i> Geräte <span class="fa fa-chevron-down"></span></a>
+          <li dropdown [ngClass]="{current_parent_menu_item: router.url.match('(?!^admin$)\/geraete') }"><a dropdownToggle><i class="fa fa-home"></i> Geräte <span class="fa fa-chevron-down"></span></a>
             <ul class="nav child_menu">
-              <li ><a routerLink="/geraete">Alle</a></li>
+              <li ><a routerLink="/geraete">Alle {{router.url}}</a></li>
               <li *ngFor="let deviceType of deviceTypes | async">
                 <a routerLink="/geraete/typ/{{deviceType.TypeName | lowercase}}">{{deviceType.TypeName}}</a>
               </li>
@@ -33,10 +33,10 @@
       <div class="menu_section">
         <h3>Administration</h3>
         <ul class="nav side-menu">
-          <li dropdown><a dropdownToggle><i class="fa fa-bug"></i> Geräte <span class="fa fa-chevron-down"></span></a>
+          <li [ngClass]="{current_parent_menu_item: router.url.match('(?!^admin$)\/geraete') }" dropdown><a dropdownToggle><i class="fa fa-bug"></i> Geräte <span class="fa fa-chevron-down"></span></a>
             <ul class="nav child_menu">
-              <li><a href="geraete_verwalten.php">Geräte verwalten</a></li>
-              <li><a href="geraete_hinzufuegen.php">Geräte hinzufügen</a></li>
+              <li><a routerLink="/admin/geraete">Geräte verwalten</a></li>
+              <li><a routerLink="/admin/geraete/neu">Geräte hinzufügen</a></li>
               <li><a href="geraete_typ_verwalten.php">Gerätetyp</a></li>
               <li><a href="geraete_status_verwalten.php">Gerätestatus</a></li>
             </ul>
