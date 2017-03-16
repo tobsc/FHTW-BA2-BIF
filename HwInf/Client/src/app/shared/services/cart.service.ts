@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Device } from "../models/device.model";
 import { Subject, Observable } from "rxjs";
 import { Router } from "@angular/router";
+import { JwtService } from "./jwt.service";
 
 @Injectable()
 export class CartService {
@@ -10,9 +11,9 @@ export class CartService {
     private count: number = 0;
     
 
-    constructor(private router: Router) {
+    constructor(private router: Router, private jwtService:JwtService) {
         if (!!localStorage.getItem('cart_list')) {
-            this.items = JSON.parse(localStorage.getItem('cart_list'));
+            this.items = JSON.parse(localStorage.getItem('cart_list' + this.getHash(jwtService.getUid())));
         }
 
 
@@ -31,6 +32,8 @@ export class CartService {
                 hash = ((hash << 5) - hash) + char;
                 hash = hash & hash; // Convert to 32bit integer
             }
+
+            console.log('cart_list' + hash);
             return hash;
         
 

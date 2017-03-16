@@ -16,6 +16,7 @@ import { AdminModule} from "./admin/admin.module";
 import { AlertModule, DropdownModule, CollapseModule, AccordionModule} from 'ng2-bootstrap';
 import { AuthGuard } from "./authentication/auth.guard";
 import { AdminGuard } from "./authentication/admin.guard";
+import { JwtService } from "./shared/services/jwt.service";
 
 import {CoreModule} from "./core/core.module";
 import { HomeComponent } from './home/home.component';
@@ -56,6 +57,7 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
         AuthGuard,
         AdminGuard,
         DeviceService,
+        JwtService,
         CartService
     ],
     bootstrap: [AppComponent]

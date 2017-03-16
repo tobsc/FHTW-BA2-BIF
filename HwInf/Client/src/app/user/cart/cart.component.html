@@ -1,0 +1,72 @@
+<div class="page-title">
+    <div class="title_left">
+        <h1>Watchlist</h1>
+    </div>
+    <div class="title_right">
+        <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search for...">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">Go!</button>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+
+
+        <div class="col-md-10">
+            <hwinf-panel>
+                <div class="hwinf-panel__heading">
+                    <span *ngIf="currentType==null">Watchlist</span>
+
+                </div>
+                <div class="hwinf-panel__content">
+                    <accordion [closeOthers]=true class="accordion">
+                        <div *ngFor="let device of devices">
+                            <accordion-group>
+                                <div accordion-heading>
+                                    <h3>{{device.Name}} <small>Inventarnummer: {{device.DeviceMeta[0].Value}}; {{device.DeviceMeta[1].Value}}; {{device.DeviceMeta[2].Value}}</small></h3>
+                                </div>
+                                <div id="{{device.InfNum}}" class="panel-collapse" role="tabpanel" attr.aria-labelledby="headingTwo" attr.aria-expanded="true">
+                                    <div class="panel-body">
+                                        <ul>
+                                            <li>
+                                                Name: {{device.Name}}
+                                            </li>
+                                            <li>
+                                                Inventarnummer: {{device.InvNum}}
+                                            </li>
+                                            <li>
+                                                Verwalter: {{device.Owner.Name}} {{device.Owner.LastName}}
+                                            </li>
+                                            <li>
+                                                Marke: {{device.Marke}}
+                                            </li>
+                                            <li *ngFor='let attr of device.DeviceMeta'>
+                                                {{attr.Component.Name}}:&nbsp;{{attr.Value}}
+                                            </li>
+                                        </ul>
+                                        <span class="glyphicon glyphicon-shopping-cart fa-2x"> </span>
+                                    </div>
+                                </div>
+                            </accordion-group>
+                        </div>
+                    </accordion>
+                </div>
+            </hwinf-panel>
+
+        </div>
+        <div>
+
+        </div>
+
+
+
+
+        <!-- edit -->
+    </div>
+</div>
