@@ -29,8 +29,8 @@
             </ul>
           </li>
         </ul>
-      </div>
-      <div class="menu_section">
+      </div> 
+      <div class="menu_section" *ngIf="canActivate()">
         <h3>Administration</h3>
         <ul class="nav side-menu">
           <li [ngClass]="{current_parent_menu_item: router.url.match('(?!^admin$)\/geraete') }" dropdown><a dropdownToggle><i class="fa fa-bug"></i> Geräte <span class="fa fa-chevron-down"></span></a>
