@@ -1,0 +1,94 @@
+<div class="x_panel">
+  <div class="x_title">
+    <h2>Gerätetyp erstellen</h2>
+    <div class="clearfix"></div>
+  </div>
+  <div class="x_content">
+    <br>
+    <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left">
+
+      <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-11" for="typename">Typ Name
+        </label>
+        <div class="col-md-6 col-sm-6 col-xs-11">
+          <input type="text" id="typename" required="required" class="form-control col-md-7 col-xs-12">
+        </div>
+      </div>
+
+      <div id="meta_fields">
+
+
+        <div class="form-group">
+          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="fieldgroup"> Fieldgroup
+          </label>
+          <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="row">
+
+
+
+              <div class="col-xs-12">
+
+                <div class="form-group">
+
+                  <select class="select2_group form-control" name="value1" id="fieldgroup" ngmodel="">
+                    <option value="text">
+                      Prozessor
+                    </option>
+                    <option value="checkbox">
+                      Anschlüsse
+                    </option>
+                    <option value="textarea">
+                      Graphikkarte
+                    </option>
+                  </select>
+
+                </div>
+              </div>
+
+              <div class="col-xs-12" *ngFor="let fieldgroup of fieldgroups; let i = index;">
+
+                <div class="form-group">
+
+                <div class="field-select">
+                <select class="select2_group form-control" name="value1" id="fieldgroup-{{i+1}}" ngmodel="">
+                  <option value="text">
+                    Prozessor
+                  </option>
+                  <option value="checkbox">
+                    Anschlüsse
+                  </option>
+                  <option value="textarea">
+                    Graphikkarte
+                  </option>
+                </select>
+                  <a class="btn btn-danger btn-rm-row" (click)="onDeleteRow(i)"><i class="fa fa-times" aria-hidden="true"></i></a>
+
+                </div>
+
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+      <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+          <button type="button" class="btn btn-default" (click)="onAddRow()">Eigenschaft hinzufügen</button>
+        </div>
+      </div>
+
+      <div class="ln_solid"></div>
+      <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+          <button type="submit" class="btn btn-success">Erstellen</button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>
