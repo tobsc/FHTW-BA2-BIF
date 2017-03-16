@@ -1,8 +1,4 @@
-﻿import { DeviceType } from "./device-type.model";
-import { User } from "./user.model";
-import { Status } from "./status.model";
-import { DeviceMeta } from "./device-meta.model";
-import { Field } from "./field.model";
+﻿import { Field } from "./field.model";
 
 export class Group {
     constructor(
