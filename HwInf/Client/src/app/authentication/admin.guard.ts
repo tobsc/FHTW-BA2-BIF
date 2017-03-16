@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, RouterStateSnapshot, ActivatedRouteSnapshot } from "@angular/router";
 import { AuthService } from "./auth.service";
+import { JwtService } from "../shared/services/jwt.service";
 
 @Injectable()
 export class AdminGuard implements CanActivate {
 
-    constructor(private router: Router, private authService: AuthService) { }
+    constructor(private router: Router, private authService: AuthService, private jwtService: JwtService) { }
 
     canActivate() {
 
@@ -16,9 +17,9 @@ export class AdminGuard implements CanActivate {
 
         //console.log(this.parseJwt(localStorage.getItem('auth_token')));
 
-        console.log(this.getRole(localStorage.getItem('auth_token')));
+        console.log(this.jwtService.getRole());
 
-        if (this.getRole(localStorage.getItem('auth_token')).toLowerCase() === 'admin') {
+        if (this.jwtService.isAdmin()) {
             return true;
         } else {
             return false;
@@ -27,13 +28,6 @@ export class AdminGuard implements CanActivate {
 
     
 
-    public parseJwt(token): any {
-        var base64Url = token.split('.')[1];
-        var base64 = base64Url.replace('-', '+').replace('_', '/');
-        return JSON.parse(window.atob(base64));
-    };
-
-    public getRole(token): string {
-        return this.parseJwt(token).role;
-    }
+   
+    
 }

@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import {Http, Headers, RequestOptions, Response} from "@angular/http";
 import {User} from "../shared/models/user.model";
 import {Observable} from "rxjs";
-import {Router} from "@angular/router";
+import { Router } from "@angular/router";
+import { JwtService } from "../shared/services/jwt.service";
 
 
 @Injectable()
@@ -14,13 +15,14 @@ export class AuthService {
 
   constructor(
       private http: Http,
-      private router: Router
+      private router: Router,
+      private jwtService: JwtService
   ) {
 
-    this.loggedIn = !!localStorage.getItem('auth_token');
+      this.loggedIn = !!this.jwtService.getToken();
 
     if (this.isLoggedIn()) {
-      this.token = localStorage.getItem('auth_token');
+        this.token = this.jwtService.getToken();
     }
   }
 
@@ -34,7 +36,7 @@ export class AuthService {
           if(token) {
             this.token = token;
             this.loggedIn = true;
-            localStorage.setItem('auth_token', token);
+            this.jwtService.setToken( token);
             return true;
           } else {
             return false;
@@ -49,7 +51,7 @@ export class AuthService {
 
   public logout(): void {
     this.token = null;
-    localStorage.removeItem('auth_token');
+    this.jwtService.removeToken();
     this.loggedIn = false;
     this.router.navigate(['/login']);
   }
