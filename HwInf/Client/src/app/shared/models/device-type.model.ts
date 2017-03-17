@@ -2,7 +2,8 @@ import {DeviceComponent} from "./component.model";
 export class DeviceType {
     constructor(
         public DeviceTypeId: number,
-        public TypeName: string,
-        public Components: DeviceComponent[]
+        public Name: string,
+        public Slug: string,
+        public PermaLink
     ) {}
 }
