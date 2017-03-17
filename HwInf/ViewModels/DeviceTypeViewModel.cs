@@ -15,7 +15,7 @@ namespace HwInf.ViewModels
 
         public string PermaLink
         {
-            get { return HttpContext.Current.Request.Url.AbsoluteUri + "/" + Slug; }
+            get { return "geraete/typ/" + Slug; }
         }
 
         public DeviceTypeViewModel()

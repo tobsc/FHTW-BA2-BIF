@@ -7,7 +7,7 @@ namespace HwInf.ViewModels
     {
 
         public string Field { get; set; }
-        public string Group { get; set; }
+        public string FieldGroup { get; set; }
         public string Value { get; set; }
 
 
@@ -28,7 +28,7 @@ namespace HwInf.ViewModels
             var source = dm;
 
             target.Value = source.MetaValue;
-            target.Group = source.FieldGroup.Name;
+            target.FieldGroup = source.FieldGroup.Name;
             target.Field = source.Field.Name;
         }
 
