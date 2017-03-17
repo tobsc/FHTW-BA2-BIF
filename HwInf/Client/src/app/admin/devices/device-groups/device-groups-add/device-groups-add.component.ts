@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from "@angular/forms";
+import {NgForm, FormGroup, FormBuilder, Validators, FormArray} from "@angular/forms";
+import {FieldGroup} from "../../../../shared/models/fieldgroup.model";
 
 @Component({
   selector: 'hwinf-device-groups-add',
@@ -7,23 +8,43 @@ import { NgForm } from "@angular/forms";
   styleUrls: ['./device-groups-add.component.scss']
 })
 export class DeviceGroupsAddComponent implements OnInit {
-  private fields: number[] = [];
-  private count = 0;
 
-  constructor() { }
+  private myForm: FormGroup;
+
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
+    this.myForm = this.fb.group({
+      Name: ['', [Validators.required, Validators.minLength(5)]],
+      Fields: this.fb.array([
+        this.initFields(),
+      ])
+    });
   }
 
-  public onAddRow(): void {
-    this.fields.push(this.count++);
+
+  initFields() {
+    // initialize our address
+    return this.fb.group({
+      Name: ['', Validators.required],
+      Slug: ['']
+    });
   }
 
-  public onDeleteRow(index) {
-    this.fields.splice(index, 1);
+  addField() {
+    // add address to the list
+    const control = <FormArray>this.myForm.controls['Fields'];
+    control.push(this.initFields());
   }
-  private onSubmit(f: NgForm)
-  {
-      console.log(f.form.value);   
+
+  removeField(i: number) {
+    // remove address from the list
+    const control = <FormArray>this.myForm.controls['Fields'];
+    control.removeAt(i);
   }
+
+  onSubmit(fieldgroup: NgForm) {
+    console.log (fieldgroup);
+  }
+
 }
