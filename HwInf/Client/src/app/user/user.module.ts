@@ -6,13 +6,15 @@ import { DeviceListComponent } from './devices/device-list.component';
 import { DevicesStatusDirective } from './devices/devices-status.directive';
 import { CoreModule } from "../core/core.module";
 import { AccordionModule } from "ng2-bootstrap";
+import { CartComponent } from './cart/cart.component';
 
 
 @NgModule({
     declarations: [
         DashboardComponent,
         DeviceListComponent,
-        DevicesStatusDirective],
+        DevicesStatusDirective,
+        CartComponent],
     imports: [
         CommonModule,
         FormsModule,
