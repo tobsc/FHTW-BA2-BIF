@@ -29,6 +29,18 @@ namespace HwInf.Controllers
         // GET: api/admin/devices/groups
         /// <summary>
         /// Returns all Field Groups
+        /// <param name="input"></param>
+        /// </summary>
+        /// <returns></returns>
+        [Route("devices/slug")]
+        public IHttpActionResult GetSlug(string input)
+        {
+            return Ok(SlugGenerator.GenerateSlug(input));
+        }
+
+        // GET: api/admin/devices/groups
+        /// <summary>
+        /// Returns all Field Groups
         /// </summary>
         /// <returns></returns>
         [ResponseType(typeof(IQueryable<FieldGroupViewModel>))]
