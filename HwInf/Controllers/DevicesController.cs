@@ -266,7 +266,7 @@ namespace HwInf.Controllers
                 return BadRequest("Status nicht vorhanden.");
             }
 
-            if (_bl.GetPerson(vmdl.Owner.Uid) == null)
+            if (_bl.GetPerson(vmdl.Verwalter.Uid) == null)
             {
                 return BadRequest("Person nicht vorhanden.");
             }
