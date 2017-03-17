@@ -28,8 +28,8 @@ namespace HwInf.ViewModels
             var source = dm;
 
             target.Value = source.MetaValue;
-            target.Group = source.FieldGroup.Label;
-            target.Field = source.Field.Label;
+            target.Group = source.FieldGroup.Name;
+            target.Field = source.Field.Name;
         }
 
         public void ApplyChanges(DeviceMeta dm, BL bl)

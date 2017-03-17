@@ -55,14 +55,19 @@ namespace HwInf.Common.BL
             return _dal.DeviceTypes.Include(x => x.FieldGroups.Select(y => y.DeviceTypes)).Single(i => i.TypeId == typeId);
         }
 
-        public DeviceType GetDeviceType(string typeName)
+        public DeviceType GetDeviceType(string typeSlug)
         {
-            return _dal.DeviceTypes.Include(x => x.FieldGroups.Select(y => y.DeviceTypes)).Single(i => i.Name.ToLower().Equals(typeName.ToLower()));
+            return _dal.DeviceTypes.Include(x => x.FieldGroups.Select(y => y.DeviceTypes)).Single(i => i.Slug.ToLower().Equals(typeSlug.ToLower()));
         }
 
         public IQueryable<FieldGroup> GetFieldGroups()
         {
             return _dal.FieldGroups.Include(x => x.Fields);
+        }
+
+        public FieldGroup GetFieldGroups(string groupSlug)
+        {
+            return _dal.FieldGroups.Include(x => x.Fields).Single(i => i.Slug.Equals(groupSlug));
         }
 
         public IQueryable<DeviceMeta> GetDeviceMeta()
@@ -101,6 +106,11 @@ namespace HwInf.Common.BL
             _dal.Entry(deviceMeta).State = EntityState.Modified;
         }
 
+        public void UpdateFieldGroup(FieldGroup obj)
+        {
+            _dal.Entry(obj).State = EntityState.Modified;
+        }
+
 
         public Device CreateDevice()
         {
@@ -115,6 +125,13 @@ namespace HwInf.Common.BL
             var dt = new DeviceType();
             _dal.DeviceTypes.Add(dt);
             return dt;
+        }
+
+        public FieldGroup CreateFieldGroup()
+        {
+            var fg = new FieldGroup();
+            _dal.FieldGroups.Add(fg);
+            return fg;
         }
 
         public Component CreateComponent()
@@ -159,6 +176,14 @@ namespace HwInf.Common.BL
         public void SaveChanges()
         {
             _dal.SaveChanges();
+        }
+
+        public Field CreateField()
+        {
+            var obj = new Field();
+            _dal.Fields.Add(obj);
+
+            return obj;
         }
     }
 

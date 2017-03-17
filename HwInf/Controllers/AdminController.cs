@@ -64,9 +64,52 @@ namespace HwInf.Controllers
         [Route("devices/groups")]
         public IHttpActionResult PostGroup(FieldGroupViewModel vmdl)
         {
+            var obj = _bl.CreateFieldGroup();
+            vmdl.ApplyChanges(obj, _bl);
+            _bl.SaveChanges();
+            return Ok(vmdl);
+        }
 
+        // POST: api/admin/devices/groups/fields
+        /// <summary>
+        /// Add new Field Group
+        /// </summary>
+        /// <returns></returns>
+        [ResponseType(typeof(DeviceViewModel))]
+        [Route("devices/groups/fields")]
+        public IHttpActionResult PostField(string groupSlug, FieldViewModel vmdl)
+        {
+            var obj = _bl.GetFieldGroups(groupSlug);
+            _bl.UpdateFieldGroup(obj);
+
+            var field =_bl.CreateField();
+            vmdl.ApplyChanges(field, _bl);
+            obj.Fields.Add(field);
+
+            _bl.SaveChanges();
+            vmdl.Refresh(field);
 
             return Ok(vmdl);
+        }
+
+        // POST: api/admin/devices/groups/types
+        /// <summary>
+        /// Add new Field Group
+        /// </summary>
+        /// <returns></returns>
+        [ResponseType(typeof(DeviceViewModel))]
+        [Route("devices/groups/types")]
+        public IHttpActionResult PostGroupType(string typeSlug, string groupSlug)
+        {
+
+            var fg = _bl.GetFieldGroups(groupSlug);
+            var dt = _bl.GetDeviceType(typeSlug);
+
+            _bl.UpdateFieldGroup(fg);
+            fg.DeviceTypes.Add(dt);
+            _bl.SaveChanges();
+
+            return Ok();
         }
 
 

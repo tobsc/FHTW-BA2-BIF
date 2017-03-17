@@ -11,7 +11,7 @@ namespace HwInf.Common.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int FieldId { get; set; }
         public string Name { get; set; }
-        public string Label { get; set; }
+        public string Slug { get; set; }
     }
 
     [Table("FieldGroups")]
@@ -21,7 +21,7 @@ namespace HwInf.Common.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int GroupId { get; set; }
         public string Name { get; set; }
-        public string Label { get; set; }
+        public string Slug { get; set; }
         public ICollection<Field> Fields { get; set; }
         public virtual ICollection<DeviceType> DeviceTypes { get; set; }
     }

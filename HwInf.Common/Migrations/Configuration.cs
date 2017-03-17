@@ -12,6 +12,7 @@ namespace HwInf.Common.Migrations
     {
         public Configuration()
         {
+            
             AutomaticMigrationsEnabled = true;
             AutomaticMigrationDataLossAllowed = true;
         }
@@ -65,13 +66,13 @@ namespace HwInf.Common.Migrations
 
             var fields = new List<Field>
             {
-                new Field {Name = "hdmi", Label = "HDMI"},
-                new Field {Name = "vga", Label = "VGA"},
+                new Field {Slug = "hdmi", Name = "HDMI"},
+                new Field {Slug = "vga", Name = "VGA"},
             };
 
             var fieldGroup = new List<FieldGroup>
             {
-                new FieldGroup {Name = "anschluesse", Label = "Anschlüsse", Fields = fields.ToList(), DeviceTypes = type.Where(i => i.Slug == "pc").ToList()}
+                new FieldGroup {Slug = "anschluesse", Name = "Anschlüsse", Fields = fields.ToList(), DeviceTypes = type.Where(i => i.Slug == "pc").ToList()}
             };
 
 
@@ -110,14 +111,14 @@ namespace HwInf.Common.Migrations
                 new DeviceMeta
                 {
                     MetaValue = "2",
-                    Field = fieldGroup.Select(i => i.Fields.Single(x => x.Name == "hdmi")).FirstOrDefault(),
-                    FieldGroup = fieldGroup.Single(i => i.Name == "anschluesse")
+                    Field = fieldGroup.Select(i => i.Fields.Single(x => x.Slug == "hdmi")).FirstOrDefault(),
+                    FieldGroup = fieldGroup.Single(i => i.Slug == "anschluesse")
                 },
                                 new DeviceMeta
                 {
                     MetaValue = "5",
-                    Field = fieldGroup.Select(i => i.Fields.Single(x => x.Name == "vga")).FirstOrDefault(),
-                    FieldGroup = fieldGroup.Single(i => i.Name == "anschluesse")
+                    Field = fieldGroup.Select(i => i.Fields.Single(x => x.Slug == "vga")).FirstOrDefault(),
+                    FieldGroup = fieldGroup.Single(i => i.Slug == "anschluesse")
                 }
             };
 
