@@ -8,10 +8,10 @@
     <form #f="ngForm" (ngSubmit)="onSubmit(f)" id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left">
 
       <div class="form-group">
-        <label class="control-label col-md-3 col-sm-3 col-xs-11" htmlFor="groupname">
+        <label class="control-label  col-xs-12  col-sm-3 col-md-3" htmlFor="groupname">
             Gruppen-Name
         </label>
-        <div class="col-md-6 col-sm-6 col-xs-11">
+        <div class="col-xs-12 col-sm-9 col-md-8">
           <input type="text" name="groupname" id="groupname" required="required" class="form-control col-md-7 col-xs-12" ngModel>
         </div>
       </div>
@@ -23,7 +23,7 @@
                 <label class="control-label col-md-3 col-sm-3 col-xs-12" htmlFor="field-0">
                     Feld
                 </label>
-                <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="col-xs-12  col-sm-8 col-md-8 ">
                     <div class="row">
                         <div class="col-xs-12">
                             <input type="text" id="field-0" name="field-0" required="required" class="form-control col-md-7 col-xs-12" ngModel>
@@ -32,10 +32,10 @@
                 </div>
             </div>
             <div class="form-group" *ngFor="let field of fields; let i = index">
-                <label class="control-label col-md-3 col-sm-3 col-xs-12" htmlFor="field-{{i+1}}">
+                <label class="control-label col-xs-12 col-sm-3 " htmlFor="field-{{i+1}}">
                     Feld
                 </label>
-                <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="col-xs-12 col-sm-8 col-md-8 ">
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="field-input">

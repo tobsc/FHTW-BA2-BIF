@@ -20,7 +20,9 @@ import { JwtService } from "./shared/services/jwt.service";
 
 import {CoreModule} from "./core/core.module";
 import { HomeComponent } from './home/home.component';
-import {DeviceService} from "./shared/services/device.service";
+import { DeviceService } from "./shared/services/device.service";
+import { FeedbackHttpService } from "./shared/services/feedback-http.service";
+import { PubSubService } from "./shared/services/pub-sub.service";
 
 
 
@@ -28,6 +30,9 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
     return new JwtHttpService(backend, options, router, authService);
 }
 
+export function feedbackHttpFactory(backend: XHRBackend, options: RequestOptions, router: Router, pubsub: PubSubService) {
+    return new FeedbackHttpService(backend, options, router, pubsub);
+}
 @NgModule({
     declarations: [
         AppComponent,
@@ -53,12 +58,18 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
             useFactory: jwtFactory,
             deps: [XHRBackend, RequestOptions, Router, AuthService]
         },
+        {
+            provide: FeedbackHttpService,
+            useFactory: feedbackHttpFactory,
+            deps: [XHRBackend, RequestOptions, Router, PubSubService]
+        },
         AuthService,
         AuthGuard,
         AdminGuard,
         DeviceService,
         JwtService,
-        CartService
+        CartService,
+        PubSubService,
     ],
     bootstrap: [AppComponent]
 })

@@ -200,7 +200,14 @@
   <ItemGroup>
     <Content Include="Client\karma.conf.js" />
     <Content Include="Client\protractor.conf.js" />
-    <Content Include="Client\src\app\admin\admin-start.component.html" />
+    <Content Include="Client\src\app\admin\devices\device-add\device-add.component.html" />
+    <Content Include="Client\src\app\admin\devices\device-groups\device-groups-add\device-groups-add.component.html" />
+    <Content Include="Client\src\app\admin\devices\device-groups\device-groups-list\device-groups-list.component.html" />
+    <Content Include="Client\src\app\admin\devices\device-groups\device-groups.component.html" />
+    <Content Include="Client\src\app\admin\devices\device-list\device-list.component.html" />
+    <Content Include="Client\src\app\admin\devices\device-types\device-types-add\device-types-add.component.html" />
+    <Content Include="Client\src\app\admin\devices\device-types\device-types-list\device-types-list.component.html" />
+    <Content Include="Client\src\app\admin\devices\device-types\device-types.component.html" />
     <Content Include="Client\src\app\admin\devices\types-manager\type-add\type-add.component.html" />
     <Content Include="Client\src\app\admin\devices\types-manager\types-manager.component.html" />
     <Content Include="Client\src\app\app.component.html" />
@@ -238,6 +245,14 @@
     <Content Include="Client\src\app\core\ui\sidebar.component.scss" />
     <Content Include="Client\src\app\core\ui\top-navbar.component.scss" />
     <Content Include="Client\src\app\home\home.component.scss" />
+    <Content Include="Client\src\app\admin\devices\device-add\device-add.component.scss" />
+    <Content Include="Client\src\app\admin\devices\device-groups\device-groups-add\device-groups-add.component.scss" />
+    <Content Include="Client\src\app\admin\devices\device-groups\device-groups-list\device-groups-list.component.scss" />
+    <Content Include="Client\src\app\admin\devices\device-groups\device-groups.component.scss" />
+    <Content Include="Client\src\app\admin\devices\device-list\device-list.component.scss" />
+    <Content Include="Client\src\app\admin\devices\device-types\device-types-add\device-types-add.component.scss" />
+    <Content Include="Client\src\app\admin\devices\device-types\device-types-list\device-types-list.component.scss" />
+    <Content Include="Client\src\app\admin\devices\device-types\device-types.component.scss" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\jquery-1.10.2.js" />
     <Content Include="scripts\jquery-1.10.2.min.js" />
@@ -295,7 +310,6 @@
     <Content Include="Client\src\styles.scss" />
     <Content Include="Client\src\tsconfig.json" />
     <Content Include="Client\tslint.json" />
-    <Content Include="Client\src\app\admin\admin-start.component.scss" />
     <Content Include="Client\src\app\admin\devices\types-manager\types-manager.component.scss" />
     <Content Include="Client\src\app\admin\devices\types-manager\type-add\type-add.component.scss" />
     <Content Include="Views\Shared\Error.cshtml" />
@@ -327,9 +341,16 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Client\src\app\admin\admin-start.component.ts" />
     <TypeScriptCompile Include="Client\src\app\admin\admin.module.ts" />
     <TypeScriptCompile Include="Client\src\app\admin\admin.routing.ts" />
+    <TypeScriptCompile Include="Client\src\app\admin\devices\device-add\device-add.component.ts" />
+    <TypeScriptCompile Include="Client\src\app\admin\devices\device-groups\device-groups-add\device-groups-add.component.ts" />
+    <TypeScriptCompile Include="Client\src\app\admin\devices\device-groups\device-groups-list\device-groups-list.component.ts" />
+    <TypeScriptCompile Include="Client\src\app\admin\devices\device-groups\device-groups.component.ts" />
+    <TypeScriptCompile Include="Client\src\app\admin\devices\device-list\device-list.component.ts" />
+    <TypeScriptCompile Include="Client\src\app\admin\devices\device-types\device-types-add\device-types-add.component.ts" />
+    <TypeScriptCompile Include="Client\src\app\admin\devices\device-types\device-types-list\device-types-list.component.ts" />
+    <TypeScriptCompile Include="Client\src\app\admin\devices\device-types\device-types.component.ts" />
     <TypeScriptCompile Include="Client\src\app\admin\devices\types-manager\type-add\type-add.component.ts" />
     <TypeScriptCompile Include="Client\src\app\admin\devices\types-manager\types-manager.component.ts" />
     <TypeScriptCompile Include="Client\src\app\app.component.ts" />
