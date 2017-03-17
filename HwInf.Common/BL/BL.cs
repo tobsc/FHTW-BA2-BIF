@@ -25,7 +25,7 @@ namespace HwInf.Common.BL
 
             if (type == 0)
             {
-                return _dal.Devices.Include(x => x.Type.Components.Select(y => y.ComponentType))
+                return _dal.Devices.Include(x => x.Type.FieldGroups.Select(y => y.DeviceTypes))
                     .Where(i => i.IsActive)
                     .Where(i => i.DeviceId > offset)
                     .Take(limit);
@@ -52,12 +52,17 @@ namespace HwInf.Common.BL
 
         public DeviceType GetDeviceType(int typeId)
         {
-            return _dal.DeviceTypes.Include(x => x.Components.Select(y => y.ComponentType)).Single(i => i.TypeId == typeId);
+            return _dal.DeviceTypes.Include(x => x.FieldGroups.Select(y => y.DeviceTypes)).Single(i => i.TypeId == typeId);
         }
 
         public DeviceType GetDeviceType(string typeName)
         {
-            return _dal.DeviceTypes.Include(x => x.Components.Select(y => y.ComponentType)).Single(i => i.Description.ToLower().Equals(typeName.ToLower()));
+            return _dal.DeviceTypes.Include(x => x.FieldGroups.Select(y => y.DeviceTypes)).Single(i => i.Name.ToLower().Equals(typeName.ToLower()));
+        }
+
+        public IQueryable<FieldGroup> GetFieldGroups()
+        {
+            return _dal.FieldGroups.Include(x => x.Fields);
         }
 
         public IQueryable<DeviceMeta> GetDeviceMeta()
@@ -67,7 +72,7 @@ namespace HwInf.Common.BL
 
         public IQueryable<DeviceType> GetDeviceTypes()
         {
-            return _dal.DeviceTypes.Include(x => x.Components.Select(y => y.ComponentType));
+            return _dal.DeviceTypes.Include(x => x.FieldGroups.Select(y => y.DeviceTypes));
         }
 
         public Person GetPerson(string uid)

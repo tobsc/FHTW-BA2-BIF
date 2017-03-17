@@ -29,7 +29,7 @@ namespace HwInf.ViewModels
             {
                 case "name":
                     var componentNameValues = devices
-                        .Where(i => i.Type.Description.ToLower().Equals(type.ToLower()))
+                        .Where(i => i.Type.Name.ToLower().Equals(type.ToLower()))
                         .Where(i => i.Name.ToLower().Contains(input.ToLower()))
                         .OrderBy(i => i.Name)
                         .Select(i => i.Name)
@@ -39,7 +39,7 @@ namespace HwInf.ViewModels
                 case "marke":
                 case "brand":
                     var componentBrandValues = devices
-                        .Where(i => i.Type.Description.ToLower().Equals(type.ToLower()))
+                        .Where(i => i.Type.Name.ToLower().Equals(type.ToLower()))
                         .Where(i => i.Brand.ToLower().Contains(input.ToLower()))
                         .OrderBy(i => i.Brand)
                         .Select(i => i.Brand)

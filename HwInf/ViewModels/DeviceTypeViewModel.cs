@@ -9,9 +9,13 @@ namespace HwInf.ViewModels
     public class DeviceTypeViewModel
     {
         public int DeviceTypeId { get; set; }
-        public string TypeName { get; set; }
-        public IEnumerable<ComponentViewModel> Components { get; set; }
+        public string Label { get; set; }
+        public string Name { get; set; }
 
+        public string PermaLink
+        {
+            get { return System.Environment.UserDomainName + "/" +Name; }
+        }
 
         public DeviceTypeViewModel()
         {
@@ -28,10 +32,8 @@ namespace HwInf.ViewModels
             var target = this;
             var source = obj;
 
-            target.DeviceTypeId = source.TypeId;
-            target.TypeName = source.Description;
-            target.Components = new List<ComponentViewModel>();
-            source.Components.ForEach(i => target.Components.ToList().Add(new ComponentViewModel(i)));
+            Label = obj.Label;
+            Name = obj.Name;
 
         }
 
@@ -40,17 +42,11 @@ namespace HwInf.ViewModels
             var target = obj;
             var source = this;
 
-            target.Description = source.TypeName;
-            target.Components = new List<Component>();
-            source.Components.ToList().ForEach(i => target.Components.Add(i));
-            target.Components.ForEach(i => i.ComponentType = bl.GetComponentType(i.ComponentType.Name));
         }
 
         public DeviceTypeViewModel LoadComponents(DeviceType dt)
         {
 
-            Components = dt.Components
-                .Select(i => new ComponentViewModel(i));
 
 
             return this; // fluent interface
@@ -61,7 +57,6 @@ namespace HwInf.ViewModels
             return new DeviceType
             {
                 TypeId = vmdl.DeviceTypeId,
-                Description = vmdl.TypeName
             };
         }
 

@@ -12,7 +12,6 @@ namespace HwInf.Common.Models
         public int FieldId { get; set; }
         public string Name { get; set; }
         public string Label { get; set; }
-        public string FieldType { get; set; }
     }
 
     [Table("FieldGroups")]
@@ -24,6 +23,6 @@ namespace HwInf.Common.Models
         public string Name { get; set; }
         public string Label { get; set; }
         public ICollection<Field> Fields { get; set; }
-        public ICollection<DeviceType> DeviceTypes { get; set; }
+        public virtual ICollection<DeviceType> DeviceTypes { get; set; }
     }
 }

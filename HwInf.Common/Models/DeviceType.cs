@@ -12,8 +12,9 @@ namespace HwInf.Common.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int TypeId { get; set; }
         [Required]
-        public string Description { get; set; }
-        public virtual ICollection<Component> Components { get; set; } = new List<Component>();
+        public string Name { get; set; }
+        public string Label { get; set; }
+        public virtual ICollection<FieldGroup> FieldGroups { get; set; }
 
     }
 }
