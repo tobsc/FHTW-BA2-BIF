@@ -7,6 +7,7 @@ import {PageNotFoundComponent} from "./page-not-found/page-not-found.component";
 import {DropdownModule, CollapseModule} from "ng2-bootstrap";
 import {RouterModule} from "@angular/router";
 import { PanelComponent } from './panel/panel.component';
+import { LoadingIncidcatorComponent } from './loading-indicator/loading-incidcator.component';
 @NgModule({
     declarations: [
         TopNavbarComponent,
@@ -14,6 +15,7 @@ import { PanelComponent } from './panel/panel.component';
         FooterComponent,
         PageNotFoundComponent,
         PanelComponent,
+        LoadingIncidcatorComponent,
     ],
     imports: [
         CommonModule,
@@ -26,7 +28,8 @@ import { PanelComponent } from './panel/panel.component';
         SidebarComponent,
         FooterComponent,
         PageNotFoundComponent,
-        PanelComponent
+        PanelComponent,
+        LoadingIncidcatorComponent,
     ]
 })
 export class CoreModule {}

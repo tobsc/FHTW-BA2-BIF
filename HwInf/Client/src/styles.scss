@@ -5,9 +5,10 @@
 @import "assets/stylesheets/partials/_mixins.scss";
 
 html, body {
-  font-size: 16px;
-  font-family: 'Lato', sans-serif;
-  min-height: 100%;
+    font-size: 16px;
+    font-family: 'Lato', sans-serif;
+    min-height: 100%;
+    background-color: #F7F7F7;
 }
 .container.body,
 .main_container,
