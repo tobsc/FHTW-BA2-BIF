@@ -27,10 +27,10 @@ export class FeedbackHttpService extends Http {
         //this will force the call to be made immediately..  
         observable.subscribe(
             null,
-            null,
+            () => this.pubsub.afterRequest.emit("afterRequestEvent"),
             () => this.pubsub.afterRequest.emit("afterRequestEvent")
           );
-        return observable
+        return observable;
     }
 
 }
