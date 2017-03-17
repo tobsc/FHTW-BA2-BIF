@@ -39,7 +39,7 @@ namespace HwInf.ViewModels
             target.InvNum = source.InvNum;
             target.Marke = source.Brand;
             target.Status = new DeviceStatusViewModel(source.Status);
-            target.DeviceType= new DeviceTypeViewModel(source.Type).LoadComponents(source.Type);
+            target.DeviceType= new DeviceTypeViewModel(source.Type);
             target.Raum = source.Room;
             target.Verwalter = new UserViewModel(source.Person);
             target.IsActive = source.IsActive;

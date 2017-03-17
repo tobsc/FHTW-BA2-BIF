@@ -12,6 +12,7 @@ namespace HwInf.ViewModels
         public int DeviceTypeId { get; set; }
         public string Slug { get; set; }
         public string Name { get; set; }
+        public ICollection<FieldGroup> FieldGroups { get; set; }
 
         public string PermaLink
         {
@@ -33,8 +34,9 @@ namespace HwInf.ViewModels
             var target = this;
             var source = obj;
 
-            Slug = obj.Slug;
-            Name = obj.Name;
+            target.Slug = source.Slug;
+            target.Name = source.Name;
+            target.DeviceTypeId = source.TypeId;
 
         }
 
@@ -43,22 +45,11 @@ namespace HwInf.ViewModels
             var target = obj;
             var source = this;
 
-        }
+            target.Name = source.Name;
+            target.Slug = SlugGenerator.GenerateSlug(source.Name);
+            target.FieldGroups = new List<FieldGroup>();
+            source.FieldGroups.ForEach(i => target.FieldGroups.Add(bl.GetFieldGroups(i.Slug)));
 
-        public DeviceTypeViewModel LoadComponents(DeviceType dt)
-        {
-
-
-
-            return this; // fluent interface
-        }
-
-        public static implicit operator DeviceType(DeviceTypeViewModel vmdl)
-        {
-            return new DeviceType
-            {
-                TypeId = vmdl.DeviceTypeId,
-            };
         }
 
     }

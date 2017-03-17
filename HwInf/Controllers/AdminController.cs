@@ -57,7 +57,7 @@ namespace HwInf.Controllers
 
         // POST: api/admin/devices/groups
         /// <summary>
-        /// Add new Field Group
+        /// Add new FieldGroup
         /// </summary>
         /// <returns></returns>
         [ResponseType(typeof(DeviceViewModel))]
@@ -72,7 +72,7 @@ namespace HwInf.Controllers
 
         // POST: api/admin/devices/groups/fields
         /// <summary>
-        /// Add new Field Group
+        /// Add new Field to FieldGroup
         /// </summary>
         /// <returns></returns>
         [ResponseType(typeof(DeviceViewModel))]
@@ -94,7 +94,7 @@ namespace HwInf.Controllers
 
         // POST: api/admin/devices/groups/types
         /// <summary>
-        /// Add new Field Group
+        /// Add DeviceType to FieldGroup
         /// </summary>
         /// <returns></returns>
         [ResponseType(typeof(DeviceViewModel))]
@@ -110,6 +110,25 @@ namespace HwInf.Controllers
             _bl.SaveChanges();
 
             return Ok();
+        }
+
+        // POST: api/admin/devices/types
+        /// <summary>
+        /// Create New DeviceType
+        /// </summary>
+        /// <returns></returns>
+        [ResponseType(typeof(DeviceViewModel))]
+        [Route("device/types")]
+        public IHttpActionResult PostDeviceType(DeviceTypeViewModel vmdl)
+        {
+
+            var dt = _bl.CreateDeviceType();
+
+            vmdl.ApplyChanges(dt, _bl);
+            _bl.SaveChanges();
+
+            vmdl.Refresh(dt);
+            return Ok(vmdl);
         }
 
 

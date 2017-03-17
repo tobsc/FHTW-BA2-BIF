@@ -143,7 +143,7 @@ namespace HwInf.Controllers
             {
                 var deviceTypes = _bl.GetDeviceTypes()
                     .ToList()
-                    .Select(i => new DeviceTypeViewModel(i).LoadComponents(i))  // LoadComponents?
+                    .Select(i => new DeviceTypeViewModel(i))  // LoadComponents?
                     .ToList();
 
 
@@ -266,7 +266,7 @@ namespace HwInf.Controllers
                 return BadRequest("Status nicht vorhanden.");
             }
 
-            if (_bl.GetPerson(vmdl.Owner.Uid) == null)
+            if (_bl.GetPerson(vmdl.Verwalter.Uid) == null)
             {
                 return BadRequest("Person nicht vorhanden.");
             }
