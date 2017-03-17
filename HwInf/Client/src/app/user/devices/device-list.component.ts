@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {DeviceService} from "../../shared/services/device.service";
 import {ActivatedRoute} from "@angular/router";
 import {Subscription, Observable} from "rxjs";
-import {Device} from "../../shared/models/device.model";
+import { Device } from "../../shared/models/device.model";
+import { CartService } from "../../shared/services/cart.service";
 
 @Component({
   selector: 'hwinf-device-list',
@@ -16,6 +17,7 @@ export class DeviceListComponent implements OnInit {
 
   constructor(
       private deviceService: DeviceService,
+      private cartService: CartService,
       private route: ActivatedRoute
   ) { }
 
@@ -28,6 +30,13 @@ export class DeviceListComponent implements OnInit {
               this.devices = this.deviceService.getDevices(this.currentType);
             }
         );
+  }
+
+  public addItem(device: Device) {
+      console.log("following object has been recieved");
+      console.log(device);
+      this.cartService.addItem(device);
+      
   }
 
 }
