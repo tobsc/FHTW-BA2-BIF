@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpModule, XHRBackend, RequestOptions} from '@angular/http';
 
 import { AppComponent } from './app.component';
@@ -26,8 +26,8 @@ import { PubSubService } from "./shared/services/pub-sub.service";
 
 
 
-export function jwtFactory(backend: XHRBackend, options: RequestOptions, router: Router, authService: AuthService) {
-    return new JwtHttpService(backend, options, router, authService);
+export function jwtFactory(backend: XHRBackend, options: RequestOptions, router: Router, authService: AuthService, pubsub: PubSubService) {
+    return new JwtHttpService(backend, options, router, authService, pubsub);
 }
 
 export function feedbackHttpFactory(backend: XHRBackend, options: RequestOptions, router: Router, pubsub: PubSubService) {
@@ -56,7 +56,7 @@ export function feedbackHttpFactory(backend: XHRBackend, options: RequestOptions
         {
             provide: JwtHttpService,
             useFactory: jwtFactory,
-            deps: [XHRBackend, RequestOptions, Router, AuthService]
+            deps: [XHRBackend, RequestOptions, Router, AuthService, PubSubService]
         },
         {
             provide: FeedbackHttpService,

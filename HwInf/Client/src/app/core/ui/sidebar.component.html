@@ -17,7 +17,7 @@
             <ul class="nav child_menu">
               <li ><a routerLink="/geraete">Alle</a></li>
               <li *ngFor="let deviceType of deviceTypes | async">
-                <a routerLink="/geraete/typ/{{deviceType.TypeName | lowercase}}">{{deviceType.TypeName}}</a>
+                <a routerLink="/geraete/typ/{{deviceType.Slug }}">{{deviceType.Name}}</a>
               </li>
             </ul>
           </li>

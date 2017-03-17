@@ -1,10 +1,10 @@
 ﻿import { Field } from "./field.model";
 
-export class Group {
+export class FieldGroup {
     constructor(
         public GroupId: number,
         public Name: string,
-        public Label: string,
+        public Slug: string,
         public Field: Field[]
     ) { }
 }
