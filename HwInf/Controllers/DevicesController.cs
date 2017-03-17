@@ -42,7 +42,7 @@ namespace HwInf.Controllers
                 .Select(i => new DeviceViewModel(i).LoadMeta(i))
                 .ToList();
 
-                return Ok(vmdl);
+            return Ok(vmdl);
         }
 
 

@@ -22,21 +22,20 @@ namespace HwInf.Common.BL
 
         public IQueryable<Device> GetDevices(int limit = 25, int offset = 0, bool onlyActive = true, int type = 0, bool isSearch = false)
         {
-
             if (type == 0)
             {
-                return _dal.Devices.Include(x => x.Type.FieldGroups.Select(y => y.DeviceTypes))
+                return _dal.Devices.Include(x => x.DeviceMeta.Select(y => y.FieldGroup).Select(y => y.Fields))
                     .Where(i => i.IsActive)
                     .Where(i => i.DeviceId > offset)
                     .Take(limit);
             } else if(isSearch)
             {
-                return _dal.Devices.Include(x => x.Type)
+                return _dal.Devices.Include(x => x.Type).Include(x => x.DeviceMeta.Select(y => y.FieldGroup).Select(y => y.Fields))
                     .Where(i => i.IsActive)
                     .Where(i => i.Type.TypeId== type);
             } else
             {
-                return _dal.Devices.Include(x => x.Type)
+                return _dal.Devices.Include(x => x.Type).Include(x => x.DeviceMeta.Select(y => y.FieldGroup).Select(y => y.Fields))
                     .Where(i => i.IsActive)
                     .Where(i => i.Type.TypeId == type)
                     .Where(i => i.DeviceId > offset)
