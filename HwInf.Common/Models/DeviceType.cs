@@ -13,7 +13,7 @@ namespace HwInf.Common.Models
         public int TypeId { get; set; }
         [Required]
         public string Name { get; set; }
-        public string Label { get; set; }
+        public string Slug { get; set; }
         public virtual ICollection<FieldGroup> FieldGroups { get; set; }
 
     }

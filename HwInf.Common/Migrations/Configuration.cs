@@ -58,9 +58,9 @@ namespace HwInf.Common.Migrations
 
             var type = new List<DeviceType>
                 {
-                    new DeviceType { Label = "Notebook", Name = "notebook"},
-                    new DeviceType { Label = "PC", Name = "pc" },
-                    new DeviceType { Label = "Monitor", Name = "monitor"}
+                    new DeviceType { Name = "Notebook", Slug = "notebook"},
+                    new DeviceType { Name = "PC", Slug = "pc" },
+                    new DeviceType { Name = "Monitor", Slug = "monitor"}
                 };
 
             var fields = new List<Field>
@@ -71,7 +71,7 @@ namespace HwInf.Common.Migrations
 
             var fieldGroup = new List<FieldGroup>
             {
-                new FieldGroup {Name = "anschluesse", Label = "Anschlüsse", Fields = fields.ToList(), DeviceTypes = type.Where(i => i.Name == "pc").ToList()}
+                new FieldGroup {Name = "anschluesse", Label = "Anschlüsse", Fields = fields.ToList(), DeviceTypes = type.Where(i => i.Slug == "pc").ToList()}
             };
 
 
@@ -123,7 +123,7 @@ namespace HwInf.Common.Migrations
 
             var dev = new List<Device>
                {
-                new Device { Name = "Acer PC", Brand = "Acer", Status = deviceStatus.Single(i => i.Description == "Verfügbar"), InvNum = "a5123", Type = type.Single(i => i.Name == "pc"), CreateDate = DateTime.Now, Room = "A0.00", Person = persons.Single(i => i.LastName == "Calanog"), IsActive = true, DeviceMeta = meta.ToList()},
+                new Device { Name = "Acer PC", Brand = "Acer", Status = deviceStatus.Single(i => i.Description == "Verfügbar"), InvNum = "a5123", Type = type.Single(i => i.Slug == "pc"), CreateDate = DateTime.Now, Room = "A0.00", Person = persons.Single(i => i.LastName == "Calanog"), IsActive = true, DeviceMeta = meta.ToList()},
                };
 
 

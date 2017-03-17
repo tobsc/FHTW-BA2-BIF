@@ -9,7 +9,7 @@ namespace HwInf.ViewModels
     public class DeviceTypeViewModel
     {
         public int DeviceTypeId { get; set; }
-        public string Label { get; set; }
+        public string Slug { get; set; }
         public string Name { get; set; }
 
         public string PermaLink
@@ -32,7 +32,7 @@ namespace HwInf.ViewModels
             var target = this;
             var source = obj;
 
-            Label = obj.Label;
+            Slug = obj.Slug;
             Name = obj.Name;
 
         }
