@@ -8,7 +8,7 @@ export class Device {
         public Name: string,
         public InvNum: string,
         public Marke: string,
-        public Room: string,
+        public Raum: string,
         public DeviceType: DeviceType,
         public Owner: User,
         public Status: Status,
