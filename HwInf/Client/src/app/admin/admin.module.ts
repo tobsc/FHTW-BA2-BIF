@@ -32,6 +32,6 @@ import { DeviceTypesAddComponent } from './devices/device-types/device-types-add
         FormsModule,
         ReactiveFormsModule,
         adminRouting
-    ]
+    ],
 })
 export class AdminModule {}

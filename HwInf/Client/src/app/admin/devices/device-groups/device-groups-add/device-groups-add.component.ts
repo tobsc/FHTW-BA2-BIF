@@ -15,7 +15,7 @@ export class DeviceGroupsAddComponent implements OnInit {
 
   ngOnInit() {
     this.myForm = this.fb.group({
-      Name: ['', [Validators.required, Validators.minLength(5)]],
+      Name: ['', [Validators.required]],
       Fields: this.fb.array([
         this.initFields(),
       ])

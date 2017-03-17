@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Observable} from "rxjs";
 import {DeviceType} from "../../../../shared/models/device-type.model";
 import {DeviceService} from "../../../../shared/services/device.service";
+import {Device} from "../../../../shared/models/device.model";
 
 @Component({
   selector: 'hwinf-device-types-list',
@@ -10,12 +11,23 @@ import {DeviceService} from "../../../../shared/services/device.service";
 })
 export class DeviceTypesListComponent implements OnInit {
 
-  private deviceTypes: Observable<DeviceType[]> = null;
+  private deviceTypes: DeviceType[] = [];
 
   constructor(private deviceService: DeviceService) { }
 
   ngOnInit() {
-    this.deviceTypes = this.deviceService.getDeviceTypes();
+    this.fetchData();
+  }
+
+  fetchData() {
+    this.deviceService.getDeviceTypes()
+        .subscribe((data) => {
+          this.deviceTypes = data;
+        });
+  }
+
+  pushData(item: DeviceType) {
+    this.deviceTypes.push(item);
   }
 
 }

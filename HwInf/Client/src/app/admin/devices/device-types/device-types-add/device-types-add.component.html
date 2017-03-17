@@ -5,63 +5,44 @@
   </div>
   <div class="x_content">
     <br>
-    <form #f="ngForm" (ngSubmit)="onSubmit(f)" id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left">
+    <form [formGroup]="form" (ngSubmit)="onSubmit(form)" id="demo-form2" class="form-horizontal form-label-left">
 
       <div class="form-group">
         <label class="control-label col-md-3 col-sm-3 col-xs-11" for="typename">Typ Name
         </label>
         <div class="col-md-6 col-sm-6 col-xs-11">
-          <input type="text" id="typename" required="required" class="form-control col-md-7 col-xs-12">
+          <input type="text" id="typename" required="required" class="form-control col-md-7 col-xs-12" formControlName="Name">
         </div>
       </div>
 
-      <div id="meta_fields">
+      <div id="meta_fields" formArrayName="FieldGroups">
 
 
-        <div class="form-group">
-          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="fieldgroup"> Fieldgroup
+        <div class="form-group" *ngFor="let field of form.controls.FieldGroups.controls; let i = index;">
+          <label class="control-label col-md-3 col-sm-3 col-xs-12">
+            Feldgruppe
           </label>
           <div class="col-md-6 col-sm-6 col-xs-12">
-            <div class="row">
-
+            <div class="row" >
 
 
               <div class="col-xs-12">
 
-                <div class="form-group">
+                <div class="form-group" [formGroupName]="i">
 
-                  <select class="select2_group form-control" name="value1" id="fieldgroup" ngmodel="">
-                    <option value="text">
-                      Prozessor
-                    </option>
-                    <option value="checkbox">
-                      Anschlüsse
-                    </option>
-                    <option value="textarea">
-                      Graphikkarte
-                    </option>
-                  </select>
-
-                </div>
-              </div>
-
-              <div class="col-xs-12" *ngFor="let fieldgroup of fieldgroups; let i = index;">
-
-                <div class="form-group">
-
-                <div class="field-select">
-                <select class="select2_group form-control" name="value1" id="fieldgroup-{{i+1}}" ngmodel="">
-                  <option value="text">
+                <div class="field-select" >
+                <select class="select2_group form-control" name="value1" id="fieldgroup-{{i+1}}" formControlName="Slug">
+                  <option value="prozessor">
                     Prozessor
                   </option>
-                  <option value="checkbox">
+                  <option value="anschluesse">
                     Anschlüsse
                   </option>
-                  <option value="textarea">
+                  <option value="graphikkarte">
                     Graphikkarte
                   </option>
                 </select>
-                  <a class="btn btn-danger btn-rm-row" (click)="onDeleteRow(i)"><i class="fa fa-times" aria-hidden="true"></i></a>
+                  <a class="btn btn-danger btn-rm-row" (click)="removeFieldGroup(i)"><i class="fa fa-times" aria-hidden="true"></i></a>
 
                 </div>
 
@@ -78,14 +59,14 @@
 
       <div class="form-group">
         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-          <button type="button" class="btn btn-default" (click)="onAddRow()">Eigenschaft hinzufügen</button>
+          <button type="button" class="btn btn-default" (click)="addFieldGroup()">Feldgruppe hinzufügen</button>
         </div>
       </div>
 
       <div class="ln_solid"></div>
       <div class="form-group">
         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-          <button type="submit" class="btn btn-success">Erstellen</button>
+          <button type="submit" class="btn btn-success" [disabled]="!form.valid">Erstellen</button>
         </div>
       </div>
 

@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, Output, EventEmitter} from '@angular/core';
+import {FormGroup, FormBuilder, Validators, FormArray, NgForm} from "@angular/forms";
+import {DeviceService} from "../../../../shared/services/device.service";
+import {DeviceType} from "../../../../shared/models/device-type.model";
 
 @Component({
   selector: 'hwinf-device-types-add',
@@ -6,19 +9,46 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./device-types-add.component.scss']
 })
 export class DeviceTypesAddComponent implements OnInit {
-  private fieldgroups: number[] = [];
-  private count = 0;
-
-  constructor() { }
+  @Output() deviceTypesListUpdated = new EventEmitter<DeviceType>();
+  private form: FormGroup;
+  constructor(
+      private fb: FormBuilder,
+      private deviceService: DeviceService,
+  ) { }
 
   ngOnInit() {
+    this.form = this.fb.group({
+      Name: ['', Validators.required],
+      FieldGroups: this.fb.array([])
+    });
   }
 
-  public onAddRow(): void {
-    this.fieldgroups.push(this.count++);
+  initFieldGroup() {
+    return this.fb.group({
+      Slug: ['', Validators.required]
+    });
   }
 
-  public onDeleteRow(index) {
-    this.fieldgroups.splice(index, 1);
+  addFieldGroup() {
+    const control = <FormArray>this.form.controls['FieldGroups'];
+    control.push(this.initFieldGroup());
   }
+
+  removeFieldGroup(i: number): void {
+    const control = <FormArray>this.form.controls['FieldGroups'];
+    control.removeAt(i);
+  }
+
+  onSubmit(form : NgForm) {
+
+    let deviceType: DeviceType = form.value;
+    this.deviceService.addDeviceType(deviceType).subscribe(
+        (next) => {
+          this.deviceTypesListUpdated.emit(next);
+        },
+        (error) => console.log(error),
+        () => console.log('')
+    );
+  }
+
 }

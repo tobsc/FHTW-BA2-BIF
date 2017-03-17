@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {JwtHttpService} from "./jwt-http.service";
 import {Observable} from "rxjs";
 import {DeviceType} from "../models/device-type.model";
-import {Response, URLSearchParams, RequestOptions} from "@angular/http";
+import {Response, URLSearchParams, RequestOptions, Headers} from "@angular/http";
 import { Device } from "../models/device.model";
 import { IDictionary } from "../../shared/common/dictionary.interface";
 import { Dictionary } from "../../shared/common/dictionary.class";
@@ -68,6 +68,16 @@ export class DeviceService {
             );
         }
         return this.deviceComponents.get(type);
+    }
+
+    public addDeviceType(body: DeviceType): Observable<DeviceType> {
+        let bodyString = JSON.stringify(body);
+        let headers = new Headers({
+           'Content-Type': 'application/json'
+        });
+        let options = new RequestOptions({headers: headers});
+        return this.http.post('/api/admin/device/types', bodyString, options)
+            .map((response: Response) => response.json());
     }
 
 }

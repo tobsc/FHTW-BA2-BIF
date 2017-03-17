@@ -24,13 +24,7 @@ export class FeedbackHttpService extends Http {
 
     intercept(observable: Observable<Response>): Observable<Response> {
         this.pubsub.beforeRequest.emit("beforeRequestEvent");
-        //this will force the call to be made immediately..  
-        observable.subscribe(
-            null,
-            () => this.pubsub.afterRequest.emit("afterRequestEvent"),
-            () => this.pubsub.afterRequest.emit("afterRequestEvent")
-          );
-        return observable;
+        return observable.do(() => this.pubsub.afterRequest.emit("afterRequestEvent"));
     }
 
 }
