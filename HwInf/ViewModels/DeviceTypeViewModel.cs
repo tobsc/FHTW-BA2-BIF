@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using HwInf.Common.BL;
 using HwInf.Common.Models;
 using WebGrease.Css.Extensions;
@@ -14,7 +15,7 @@ namespace HwInf.ViewModels
 
         public string PermaLink
         {
-            get { return System.Environment.UserDomainName + "/" +Name; }
+            get { return HttpContext.Current.Request.Url.AbsoluteUri + "/" + Slug; }
         }
 
         public DeviceTypeViewModel()
