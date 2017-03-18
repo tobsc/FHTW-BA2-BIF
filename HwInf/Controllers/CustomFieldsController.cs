@@ -119,7 +119,7 @@ namespace HwInf.Controllers
         /// </summary>
         /// <returns></returns>
         [ResponseType(typeof(DeviceViewModel))]
-        [Route("devices/groups/types")]
+        [Route("fieldgroups/types")]
         public IHttpActionResult PostGroupType(string typeSlug, string groupSlug)
         {
 
@@ -131,25 +131,6 @@ namespace HwInf.Controllers
             _bl.SaveChanges();
 
             return Ok();
-        }
-
-        // POST: api/admin/devices/types
-        /// <summary>
-        /// Create New DeviceType
-        /// </summary>
-        /// <returns></returns>
-        [ResponseType(typeof(DeviceViewModel))]
-        [Route("device/types")]
-        public IHttpActionResult PostDeviceType(DeviceTypeViewModel vmdl)
-        {
-
-            var dt = _bl.CreateDeviceType();
-
-            vmdl.ApplyChanges(dt, _bl);
-            _bl.SaveChanges();
-
-            vmdl.Refresh(dt);
-            return Ok(vmdl);
         }
 
 
