@@ -46,9 +46,12 @@ export class JwtHttpService extends Http {
     return observable.do(() => this.pubsub.afterRequest.emit("afterRequestEvent"));
   }
 
+
   private catchAuthError (self: JwtHttpService) {
     // we have to pass HttpService's own instance here as `self`
     return (res: Response) => {
+
+      this.pubsub.afterRequest.emit("afterRequestEvent");
 
       if (res.status === 401 || res.status === 403) {
         // if not authenticated

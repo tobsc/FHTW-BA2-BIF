@@ -11,6 +11,7 @@ import {DeviceType} from "../../../../shared/models/device-type.model";
 export class DeviceTypesAddComponent implements OnInit {
   @Output() deviceTypesListUpdated = new EventEmitter<DeviceType>();
   private form: FormGroup;
+  private fieldGroups: FormArray;
   constructor(
       private fb: FormBuilder,
       private deviceService: DeviceService,
@@ -21,6 +22,8 @@ export class DeviceTypesAddComponent implements OnInit {
       Name: ['', Validators.required],
       FieldGroups: this.fb.array([])
     });
+
+    this.fieldGroups = <FormArray>this.form.controls['FieldGroups']
   }
 
   initFieldGroup() {
@@ -30,13 +33,17 @@ export class DeviceTypesAddComponent implements OnInit {
   }
 
   addFieldGroup() {
-    const control = <FormArray>this.form.controls['FieldGroups'];
-    control.push(this.initFieldGroup());
+    this.fieldGroups.push(this.initFieldGroup());
+  }
+
+  clearFieldGroup() {
+    for (var i = 0; i < this.fieldGroups.length; i++) {
+      this.removeFieldGroup(i);
+    }
   }
 
   removeFieldGroup(i: number): void {
-    const control = <FormArray>this.form.controls['FieldGroups'];
-    control.removeAt(i);
+    this.fieldGroups.removeAt(i);
   }
 
   onSubmit(form : NgForm) {
@@ -45,10 +52,13 @@ export class DeviceTypesAddComponent implements OnInit {
     this.deviceService.addDeviceType(deviceType).subscribe(
         (next) => {
           this.deviceTypesListUpdated.emit(next);
+          this.form.reset();
+          this.clearFieldGroup();
         },
         (error) => console.log(error),
         () => console.log('')
     );
+
   }
 
 }

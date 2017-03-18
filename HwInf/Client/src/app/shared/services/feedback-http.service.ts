@@ -24,7 +24,17 @@ export class FeedbackHttpService extends Http {
 
     intercept(observable: Observable<Response>): Observable<Response> {
         this.pubsub.beforeRequest.emit("beforeRequestEvent");
-        return observable.do(() => this.pubsub.afterRequest.emit("afterRequestEvent"));
+        return observable.do(() => this.pubsub.afterRequest.emit("afterRequestEvent"))
+            .catch(this.catchError(this));
+    }
+
+    catchError(self: FeedbackHttpService) {
+        return (res: Response) => {
+
+            this.pubsub.afterRequest.emit("afterRequestEvent");
+
+            return Observable.throw(res);
+        };
     }
 
 }

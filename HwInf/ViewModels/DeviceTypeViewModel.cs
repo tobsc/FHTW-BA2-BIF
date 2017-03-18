@@ -48,6 +48,7 @@ namespace HwInf.ViewModels
             target.Name = source.Name;
             target.Slug = SlugGenerator.GenerateSlug(source.Name);
             target.FieldGroups = new List<FieldGroup>();
+            //TODO
             //source.FieldGroups.ForEach(i => target.FieldGroups.Add(bl.GetFieldGroups(i.Slug)));
 
         }
