@@ -55,9 +55,9 @@ namespace HwInf.ViewModels
             target.From = source.From;
             target.To = source.To;
             target.Person = source.Person.Name;
-            target.PersonUid = source.Person.uid;
+            target.PersonUid = source.Person.Uid;
             target.Owner = source.Owner.Name;
-            target.OwnerUid = source.Owner.uid;
+            target.OwnerUid = source.Owner.Uid;
 
         }
 
@@ -70,8 +70,8 @@ namespace HwInf.ViewModels
             target.Date = source.Date;
             target.From = source.From;
             target.To = source.To;
-            target.Person = db.Persons.Single(i => i.uid == source.PersonUid);
-            target.Owner = db.Persons.Single(i => i.uid == source.OwnerUid);
+            target.Person = db.Persons.Single(i => i.Uid == source.PersonUid);
+            target.Owner = db.Persons.Single(i => i.Uid == source.OwnerUid);
 
         }
 

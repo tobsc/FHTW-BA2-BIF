@@ -77,7 +77,7 @@ namespace HwInf.Common
             try
             {
                 //user daten parameter lesen - frage: daten nur holen, wenn noch nicht registriert oder sollen die daten immer verwendet werden und u.U auch in sofi aktualisiert werden
-                string[] attributesToReturn = new string[] { "displayName", "sn", "givenName", "cn", "mail", "ou", "gidNumber", "uid" };
+                string[] attributesToReturn = new string[] { "displayName", "sn", "givenName", "cn", "mail", "ou", "gidNumber", "Uid" };
 
                 string sMail = "";
                 string sDisplayName = "";
@@ -87,7 +87,7 @@ namespace HwInf.Common
                 string sStudiengangKuerzel = "";
                 string sPersonalBezeichnung = "";
 
-                var queue = ldap.Search(ATTRIBUTES, LdapConnection.SCOPE_SUB, string.Format("(uid={0})", username), attributesToReturn, false);
+                var queue = ldap.Search(ATTRIBUTES, LdapConnection.SCOPE_SUB, string.Format("(Uid={0})", username), attributesToReturn, false);
 
                 LdapEntry entry = queue.next();
                 if (entry != null)
@@ -142,7 +142,7 @@ namespace HwInf.Common
             {
                 if (DisablePasswordCheck == false)
                 {
-                    ldap.Bind("uid=" + username + "," + ATTRIBUTES, password);
+                    ldap.Bind("Uid=" + username + "," + ATTRIBUTES, password);
                 }
                 else
                 {

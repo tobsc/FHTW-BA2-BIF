@@ -25,13 +25,13 @@ namespace ConsoleApplication1
         {
             HwInfContext db = new HwInfContext();
             Console.WriteLine("We now are looking into the DB");
-            var uidlist = db.Orders.Where(i => i.ReturnDate == date).Select(i => i.Owner.uid).ToList();
+            var uidlist = db.Orders.Where(i => i.ReturnDate == date).Select(i => i.Owner.Uid).ToList();
             Console.WriteLine("We now create the Mail");
             if (uidlist.Count() > 0)
             {
                 foreach (var uid in uidlist)
                 {
-                    var mailadress = db.Persons.Where(i => i.uid == uid).Select(i => i.Email).SingleOrDefault();
+                    var mailadress = db.Persons.Where(i => i.Uid == uid).Select(i => i.Email).SingleOrDefault();
                     var act = @"Liebe/r StudentIn, 
                     Sie haben bei uns ein oder mehrere Geräte ausgeborgt, und heute ist der vereinbarte Termin für die Rückgabe.
                     Bitte vergessen Sie es nicht!

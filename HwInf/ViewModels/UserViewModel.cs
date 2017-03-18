@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using HwInf.Common;
+using HwInf.Common.BL;
 using HwInf.Common.DAL;
 using HwInf.Common.Models;
 
@@ -25,7 +26,6 @@ namespace HwInf.ViewModels
         public string Tel { get; set; }
         private string Role { get; set; }
         public string Room { get; set; }
-        [DataType(DataType.Password)]
         public string Password { get; set; }
 
 
@@ -43,12 +43,12 @@ namespace HwInf.ViewModels
             target.PersId = source.PersId;
             target.Name = source.Name;
             target.LastName = source.LastName;
-            target.Uid = source.uid;
+            target.Uid = source.Uid;
             target.Email = source.Email;
             target.Tel = source.Tel;
             target.Role = source.Role.Name;
             target.Room = source.Room;
-            
+            target.Password = null;
         }
 
         public void Refresh(LDAPUserParameters obj)
@@ -65,39 +65,33 @@ namespace HwInf.ViewModels
             target.Name = source.Firstname;
             target.LastName = source.Lastname;
             target.Email = source.Mail;
-
-            if(String.IsNullOrWhiteSpace(obj.PersonalType))
-            {
-                target.Role = "User";
-            } else
-            {
-                target.Role = obj.PersonalType;
-            }
+            target.Role = string.IsNullOrWhiteSpace(obj.PersonalType) ? "User" : obj.PersonalType;
             
 
         }
 
-        public void ApplyChanges(Person obj, HwInfContext db)
+        public void ApplyChanges(Person obj, BL bl)
         {
             var target = obj;
             var source = this;
 
             target.Name = source.Name;
             target.LastName = source.LastName;
-            target.uid = source.Uid;
+            target.Uid = source.Uid;
             target.Email = source.Email;
             target.Tel = source.Tel;
-            target.Role = db.Roles.Single(i => i.Name == source.Role);
+            target.Role = bl.GetRole(source.Role);
             target.Room = source.Room;
             
 
         }
-        public void ApplyChangesToTel(Person obj, HwInfContext db)
+        public void ApplyChangesTelRoom(Person obj)
         {
             var target = obj;
             var source = this;
 
             target.Tel = source.Tel;
+            target.Room = source.Room;
 
         }
     }

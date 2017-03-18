@@ -60,7 +60,7 @@ namespace HwInf.ViewModels
             target.Brand = source.Marke;
             target.Status = bl.GetDeviceStatus(source.Status.StatusId);
             target.Type = bl.GetDeviceType(source.DeviceType.DeviceTypeId);
-            target.Person = bl.GetPerson(source.Verwalter.Uid);
+            target.Person = bl.GetUsers(source.Verwalter.Uid);
             target.Room = source.Raum;
             target.IsActive = source.IsActive;
             target.DeviceMeta = new List<DeviceMeta>();

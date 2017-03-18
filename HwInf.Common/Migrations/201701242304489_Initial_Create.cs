@@ -76,7 +76,7 @@ namespace HwInf.Common.Migrations
                         LastName = c.String(nullable: false),
                         Email = c.String(nullable: false),
                         Tel = c.String(),
-                        uid = c.String(nullable: false),
+                        Uid = c.String(nullable: false),
                         Room = c.String(),
                         Role_RoleId = c.Int(nullable: false),
                     })

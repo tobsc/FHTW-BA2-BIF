@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Description;
+using HwInf.Common.BL;
 using HwInf.Common.DAL;
 using HwInf.Common.Models;
 using HwInf.ViewModels;
@@ -12,39 +13,24 @@ namespace HwInf.Controllers
     [RoutePrefix("api/users")]
     public class UsersController : ApiController
     {
-        private HwInfContext db = new HwInfContext();
+        private readonly HwInfContext _db = new HwInfContext();
+        private readonly BL _bl;
 
-        /// <summary>
-        /// Returns UserViewModel of given id.
-        /// </summary>
-        /// <param name="id">User ID</param>
-        /// <returns></returns>
-        [ResponseType(typeof(UserViewModel))]
-        [Route("id/{id}")]
-        public IHttpActionResult GetPersonById(int id)
+
+        public UsersController()
         {
-            var uid = db.Persons.Where(i => i.PersId == id).Select(i => i.uid).SingleOrDefault();
-            
-            if (IsCurrentUser(uid) || IsAdmin())
-            {
-                var p = db.Persons.Single(i => i.PersId == id);
-                var vmdl = new UserViewModel(p);
-
-                return Ok(vmdl);
-            }
-
-            return Unauthorized();
+            _bl = new BL(_db);
         }
 
         /// <summary>
-        /// Returns UserViewModel of given uid.
+        /// Returns UserViewModel of given Uid.
         /// </summary>
         /// <returns></returns>
         [ResponseType(typeof(UserViewModel))]
         [Route("userdata")]
         public IHttpActionResult GetPersonByUid()
         {
-            var p = db.Persons.Single(i => i.uid == User.Identity.Name);
+            var p = _bl.GetUsers(User.Identity.Name);
             var vmdl = new UserViewModel(p);
 
             return Ok(vmdl);
@@ -54,24 +40,24 @@ namespace HwInf.Controllers
         /// <summary>
         /// Returns List of Users.
         /// </summary>
-        /// <param name="noNormalUsers">No normal Users</param>
         /// <returns>LastName, Name, Uid</returns>
         [Authorize(Roles="Verwalter, Admin")]
         [ResponseType(typeof(UserViewModel))]
         [Route("owners")]
-        public IHttpActionResult GetOwners(bool noNormalUsers = false)
+        public IHttpActionResult GetOwners()
         {
-            if(noNormalUsers)
-            {
-                return Ok(db.Persons.Where(i => i.Role.RoleId != 2).Select(i => new { i.LastName, i.Name, uid = i.uid }));
-            } else
-            {
-                return Ok(db.Persons.Select(i => new { i.LastName, i.Name, uid = i.uid }));
-            }
+            var vmdl = _bl.GetUsers()
+                .Where(i => i.Role.Name != "User")
+                .ToList()
+                .Select(i => new UserViewModel(i))
+                .ToList();
+
+            return Ok(vmdl);
+
         }
 
         /// <summary>
-        /// Update User Data. Only Tel if not Admin.
+        /// Save Phonenumber
         /// </summary>
         /// <param name="vmdl"></param>
         /// <returns></returns>
@@ -79,25 +65,13 @@ namespace HwInf.Controllers
         public IHttpActionResult PostUpdateUser([FromBody] UserViewModel vmdl)
         {
 
-            Person p = db.Persons
-                .Include(i => i.Room)
-                .Include(i => i.Role)
-                .FirstOrDefault(i => i.uid == vmdl.Uid);
-            
-            if(IsAdmin())
-            {
-                vmdl.ApplyChanges(p, db);
-            } else if(IsCurrentUser(vmdl.Uid))
-            {
-                vmdl.ApplyChangesToTel(p, db);
-            } else
-            {
-                return Unauthorized();
-            }
+            var obj = _bl.GetUsers(User.Identity.Name);
 
-            db.SaveChanges();
+            vmdl.ApplyChangesTelRoom(obj);
+            vmdl.Refresh(obj);
+            _bl.SaveChanges();
 
-            return Ok("User erfolgreich upgedatet.");
+            return Ok(vmdl);
         }
 
 
@@ -105,7 +79,7 @@ namespace HwInf.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }

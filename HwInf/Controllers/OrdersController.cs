@@ -37,7 +37,7 @@ namespace HwInf.Controllers
         [Route("id/{id}")]
         public IHttpActionResult GetById(int id)
         {
-            var uid = db.Orders.Where(i => i.OrderId == id).Select(i => i.Person.uid).SingleOrDefault();
+            var uid = db.Orders.Where(i => i.OrderId == id).Select(i => i.Person.Uid).SingleOrDefault();
 
 
             if(!IsAllowed(uid) && !IsAdmin())
@@ -77,7 +77,7 @@ namespace HwInf.Controllers
                 .Include(i => i.Owner);
 
             var vmdl = orders
-                .Where(i => i.Person.uid == uid)
+                .Where(i => i.Person.Uid == uid)
                 .ToList()
                 .Select(i => new OrderViewModel(i).LoadOrderItems(db))
                 .ToList();
@@ -112,7 +112,7 @@ namespace HwInf.Controllers
                 string uid = User.Identity.Name;
 
                 vmdl = orders
-                    .Where(i => i.Owner.uid == uid)
+                    .Where(i => i.Owner.Uid == uid)
                     .ToList()
                     .Select(i => new OrderViewModel(i).LoadOrderItems(db))
                     .ToList();
@@ -132,7 +132,7 @@ namespace HwInf.Controllers
         [Route("id/{id}/{act}")]
         public IHttpActionResult GetChangeOrderStatus(int id, string act)
         {
-            var uid = db.Orders.Where(i => i.OrderId == id).Select(i => i.Owner.uid).SingleOrDefault();
+            var uid = db.Orders.Where(i => i.OrderId == id).Select(i => i.Owner.Uid).SingleOrDefault();
 
             if (!IsAllowed(uid) && !IsAdmin())
             {
@@ -211,7 +211,7 @@ namespace HwInf.Controllers
         [Route("print/{id}")]
         public HttpResponseMessage GetPrint(int id)
         {
-            var uid = db.Orders.Where(i => i.OrderId == id).Select(i => i.Person.uid).SingleOrDefault();
+            var uid = db.Orders.Where(i => i.OrderId == id).Select(i => i.Person.Uid).SingleOrDefault();
 
 
             if (!IsAllowed(uid) && !IsAdmin())
@@ -295,7 +295,7 @@ namespace HwInf.Controllers
 
             var orders = new List<Order>();
 
-            var groups = dev.GroupBy(i => i.Person.uid);
+            var groups = dev.GroupBy(i => i.Person.Uid);
 
             foreach(var g in groups)
             {
@@ -303,7 +303,7 @@ namespace HwInf.Controllers
                 o.Date = DateTime.Now.Date;
                 o.From = vmdl.From;
                 o.To = vmdl.To;
-                o.Person = db.Persons.Single(i => i.uid == User.Identity.Name);
+                o.Person = db.Persons.Single(i => i.Uid == User.Identity.Name);
                 o.Owner = g.Select(i => i.Person).FirstOrDefault();
                 o.Status = db.OrderStatus.Single(i => i.Description == "Offen");
 

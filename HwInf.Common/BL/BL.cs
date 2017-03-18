@@ -89,9 +89,13 @@ namespace HwInf.Common.BL
             return _dal.DeviceTypes.Include(x => x.FieldGroups.Select(y => y.DeviceTypes));
         }
 
-        public Person GetPerson(string uid)
+        public IQueryable<Person> GetUsers()
         {
-            return _dal.Persons.Single(i => i.uid == uid);
+            return _dal.Persons;
+        }
+        public Person GetUsers(string uid)
+        {
+            return _dal.Persons.Single(i => i.Uid == uid);
         }
 
         public DeviceStatus GetDeviceStatus(int statusId)
@@ -116,6 +120,11 @@ namespace HwInf.Common.BL
         }
 
         public void UpdateFieldGroup(FieldGroup obj)
+        {
+            _dal.Entry(obj).State = EntityState.Modified;
+        }
+
+        public void UpdateUser(Person obj)
         {
             _dal.Entry(obj).State = EntityState.Modified;
         }
@@ -194,6 +203,13 @@ namespace HwInf.Common.BL
 
             return obj;
         }
+
+        public Role GetRole(string name)
+        {
+            return _dal.Roles.Single(i => i.Name.Equals(name));
+        }
+
+
     }
 
 }

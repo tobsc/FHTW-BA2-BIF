@@ -6,6 +6,7 @@ using HwInf.Common;
 using JWT;
 using HwInf.Common.DAL;
 using System.Web.Http.Description;
+using HwInf.Common.BL;
 using HwInf.Common.Models;
 using HwInf.ViewModels;
 
@@ -16,6 +17,12 @@ namespace HwInf.Controllers
     {
 
         private readonly HwInfContext _db = new HwInfContext();
+        private readonly BL _bl;
+
+        public AuthController()
+        {
+            _bl = new BL(_db);
+        }
 
         [AllowAnonymous]
         [ResponseType(typeof(string))]
@@ -30,9 +37,9 @@ namespace HwInf.Controllers
                 {
                    Person p;
 
-                   if (_db.Persons.Any(i => i.uid == vmdl.Uid))
+                   if (_db.Persons.Any(i => i.Uid == vmdl.Uid))
                    {
-                       p = _db.Persons.Single(i => i.uid == vmdl.Uid);
+                       p = _db.Persons.Single(i => i.Uid == vmdl.Uid);
                    }
                    else
                    {
@@ -40,7 +47,7 @@ namespace HwInf.Controllers
                        p = new Person();
                        var ldapUser = LDAPAuthenticator.Authenticate(vmdl.Uid, vmdl.Password);
                        vmdl.Refresh(ldapUser);
-                       vmdl.ApplyChanges(p, _db);
+                       vmdl.ApplyChanges(p, _bl);
                        _db.Persons.Add(p);
                        _db.SaveChanges();
                    }
@@ -74,7 +81,7 @@ namespace HwInf.Controllers
 
             var payload = new Dictionary<string, object>
             {
-                {"uid", uid},
+                {"Uid", uid},
                 {"role", role  },
                 {"nbf", notBefore},
                 {"iat", issuedAt},
@@ -100,7 +107,7 @@ namespace HwInf.Controllers
 
             var payload = new Dictionary<string, object>
             {
-                {"uid", p.uid},
+                {"Uid", p.Uid},
                 {"role", p.Role.Name },
                 {"lastName", p.LastName },
                 {"name", p.Name },
