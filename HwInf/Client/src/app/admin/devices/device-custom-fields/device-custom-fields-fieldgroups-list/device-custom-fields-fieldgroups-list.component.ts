@@ -1,13 +1,13 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {DeviceType} from "../../../../shared/models/device-type.model";
 import {DeviceService} from "../../../../shared/services/device.service";
 
 @Component({
-  selector: 'hwinf-device-types-list',
-  templateUrl: './device-types-list.component.html',
-  styleUrls: ['./device-types-list.component.scss']
+  selector: 'hwinf-device-custom-fields-fieldgroups-list',
+  templateUrl: './device-custom-fields-fieldgroups-list.component.html',
+  styleUrls: ['./device-custom-fields-fieldgroups-list.component.scss']
 })
-export class DeviceTypesListComponent implements OnInit {
+export class DeviceCustomFieldsFieldgroupsListComponent implements OnInit {
 
   private deviceTypes: DeviceType[] = [];
 

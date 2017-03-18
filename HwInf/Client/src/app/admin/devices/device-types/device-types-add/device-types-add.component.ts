@@ -23,7 +23,7 @@ export class DeviceTypesAddComponent implements OnInit {
       FieldGroups: this.fb.array([])
     });
 
-    this.fieldGroups = <FormArray>this.form.controls['FieldGroups']
+    this.fieldGroups = <FormArray>this.form.controls['FieldGroups'];
   }
 
   initFieldGroup() {
