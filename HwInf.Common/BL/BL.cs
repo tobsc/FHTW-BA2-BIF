@@ -66,6 +66,11 @@ namespace HwInf.Common.BL
 
         public FieldGroup GetFieldGroups(string groupSlug)
         {
+            if (!_dal.FieldGroups.Include(x => x.Fields).Any(i => i.Slug.Equals(groupSlug)))
+            {
+                return null;
+            }
+
             return _dal.FieldGroups.Include(x => x.Fields).Single(i => i.Slug.Equals(groupSlug));
         }
 

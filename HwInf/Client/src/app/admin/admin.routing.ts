@@ -6,7 +6,7 @@ import {HomeComponent} from "../home/home.component";
 import {DeviceListComponent} from "../admin/devices/device-list/device-list.component";
 import {DeviceAddComponent} from "./devices/device-add/device-add.component";
 import { DeviceTypesComponent } from "./devices/device-types/device-types.component";
-import { DeviceGroupsComponent } from "./devices/device-groups/device-groups.component"; 
+import {DeviceCustomFieldsComponent} from "./devices/device-custom-fields/device-custom-fields.component";
 
 const ADMIN_ROUTES: Routes = [
     { path: 'admin', component: HomeComponent, canActivate: [AuthGuard , AdminGuard],
@@ -17,8 +17,7 @@ const ADMIN_ROUTES: Routes = [
             { path: 'geraete/page/:page', component: DeviceListComponent },
             { path: 'geraete/neu', component: DeviceAddComponent },
             { path: 'geraete/typen', component: DeviceTypesComponent },
-            { path: 'geraete/typen/gruppen', component: DeviceGroupsComponent },
-
+            { path: 'geraete/eigene_felder', component: DeviceCustomFieldsComponent },
         ]
     }
 ];

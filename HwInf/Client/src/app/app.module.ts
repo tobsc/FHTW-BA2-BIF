@@ -24,6 +24,7 @@ import { HomeComponent } from './home/home.component';
 import { DeviceService } from "./shared/services/device.service";
 import { FeedbackHttpService } from "./shared/services/feedback-http.service";
 import { PubSubService } from "./shared/services/pub-sub.service";
+import {CustomFieldsService} from "./shared/services/custom-fields.service";
 
 
 
@@ -72,6 +73,7 @@ export function feedbackHttpFactory(backend: XHRBackend, options: RequestOptions
         CartService,
         UserService,
         PubSubService,
+        CustomFieldsService
     ],
     bootstrap: [AppComponent]
 })

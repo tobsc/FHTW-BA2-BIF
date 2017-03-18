@@ -1,8 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {Observable} from "rxjs";
 import {DeviceType} from "../../../../shared/models/device-type.model";
 import {DeviceService} from "../../../../shared/services/device.service";
-import {Device} from "../../../../shared/models/device.model";
 
 @Component({
   selector: 'hwinf-device-types-list',

@@ -1,6 +1,6 @@
 <div class="x_panel">
   <div class="x_title">
-    <h2>Gerätetyp erstellen</h2>
+    <h2>Feldgruppe erstellen</h2>
     <div class="clearfix"></div>
   </div>
   <div class="x_content">
@@ -8,19 +8,20 @@
     <form [formGroup]="form" (ngSubmit)="onSubmit(form)" id="demo-form2" class="form-horizontal form-label-left">
 
       <div class="form-group">
-        <label class="control-label col-md-3 col-sm-3 col-xs-11" for="typename">Typ Name
+        <label class="control-label col-md-3 col-sm-3 col-xs-11" for="typename">
+          Feldgruppen Name
         </label>
         <div class="col-md-6 col-sm-6 col-xs-11">
           <input type="text" id="typename" required="required" class="form-control col-md-7 col-xs-12" formControlName="Name">
         </div>
       </div>
 
-      <div id="meta_fields" formArrayName="FieldGroups">
+      <div id="meta_fields" formArrayName="Fields">
 
 
-        <div class="form-group" *ngFor="let field of form.controls.FieldGroups.controls; let i = index;">
+        <div class="form-group" *ngFor="let field of form.controls.Fields.controls; let i = index;">
           <label class="control-label col-md-3 col-sm-3 col-xs-12">
-            Feldgruppe
+            Feld
           </label>
           <div class="col-md-6 col-sm-6 col-xs-12">
             <div class="row" >
@@ -30,15 +31,10 @@
 
                 <div class="form-group" [formGroupName]="i">
 
-                <div class="field-select" >
-                  <select class="select2_group form-control" name="value1" id="fieldgroup-{{i+1}}" formControlName="Slug">
-
-                    <option *ngFor="let selectableFieldGroup of selectableFieldGroups" value="{{selectableFieldGroup.Slug}}">
-                      {{selectableFieldGroup.Name}}
-                    </option>
-                  </select>
-                  <a class="btn btn-danger btn-rm-row" (click)="removeFieldGroup(i)"><i class="fa fa-times" aria-hidden="true"></i></a>
-                </div>
+                  <div class="field-select" >
+                    <input type="text" class="form-control" formControlName="Name">
+                    <a class="btn btn-danger btn-rm-row" (click)="removeField(i)"><i class="fa fa-times" aria-hidden="true"></i></a>
+                  </div>
 
                 </div>
               </div>
@@ -53,7 +49,7 @@
 
       <div class="form-group">
         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-          <button type="button" class="btn btn-default" (click)="addFieldGroup()">Feldgruppe hinzufügen</button>
+          <button type="button" class="btn btn-default" (click)="addField()">Feld hinzufügen</button>
         </div>
       </div>
 
