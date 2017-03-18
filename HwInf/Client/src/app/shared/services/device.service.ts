@@ -76,7 +76,7 @@ export class DeviceService {
            'Content-Type': 'application/json'
         });
         let options = new RequestOptions({headers: headers});
-        return this.http.post('/api/admin/device/types', bodyString, options)
+        return this.http.post(this.url + 'types', bodyString, options)
             .map((response: Response) => response.json());
     }
 
