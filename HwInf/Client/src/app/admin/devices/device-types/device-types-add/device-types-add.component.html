@@ -31,19 +31,13 @@
                 <div class="form-group" [formGroupName]="i">
 
                 <div class="field-select" >
-                <select class="select2_group form-control" name="value1" id="fieldgroup-{{i+1}}" formControlName="Slug">
-                  <option value="prozessor">
-                    Prozessor
-                  </option>
-                  <option value="anschluesse">
-                    Anschlüsse
-                  </option>
-                  <option value="graphikkarte">
-                    Graphikkarte
-                  </option>
-                </select>
-                  <a class="btn btn-danger btn-rm-row" (click)="removeFieldGroup(i)"><i class="fa fa-times" aria-hidden="true"></i></a>
+                  <select class="select2_group form-control" name="value1" id="fieldgroup-{{i+1}}" formControlName="Slug">
 
+                    <option *ngFor="let selectableFieldGroup of selectableFieldGroups" value="{{selectableFieldGroup.Slug}}">
+                      {{selectableFieldGroup.Name}}
+                    </option>
+                  </select>
+                  <a class="btn btn-danger btn-rm-row" (click)="removeFieldGroup(i)"><i class="fa fa-times" aria-hidden="true"></i></a>
                 </div>
 
                 </div>

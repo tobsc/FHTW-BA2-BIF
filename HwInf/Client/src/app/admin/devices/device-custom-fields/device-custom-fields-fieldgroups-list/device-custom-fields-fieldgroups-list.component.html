@@ -21,11 +21,11 @@
         </thead>
 
         <tbody>
-        <tr class=" pointer" *ngFor="let deviceType of deviceTypes; let i = index;" [ngClass]="{ 'even': i%2==0, 'odd': i%2!=0 }">
+        <tr class=" pointer" *ngFor="let fieldGroup of fieldGroups; let i = index;" [ngClass]="{ 'even': i%2==0, 'odd': i%2!=0 }">
           <td class="a-center ">
             <input type="checkbox" class="flat" name="table_records">
           </td>
-          <td>{{ deviceType.Name }}</td>
+          <td>{{ fieldGroup.Name }}</td>
           <td><a href="#">Edit</a> <a href="#">Del</a></td>
         </tr>
         </tbody>

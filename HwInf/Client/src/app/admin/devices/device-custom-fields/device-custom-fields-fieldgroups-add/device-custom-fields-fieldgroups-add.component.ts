@@ -2,6 +2,7 @@ import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 import {FieldGroup} from "../../../../shared/models/fieldgroup.model";
 import {FormGroup, FormArray, FormBuilder, Validators, NgForm} from "@angular/forms";
 import {DeviceService} from "../../../../shared/services/device.service";
+import {CustomFieldsService} from "../../../../shared/services/custom-fields.service";
 
 @Component({
   selector: 'hwinf-device-custom-fields-fieldgroups-add',
@@ -16,7 +17,7 @@ export class DeviceCustomFieldsFieldgroupsAddComponent implements OnInit {
 
   constructor(
       private fb: FormBuilder,
-      private deviceService: DeviceService
+      private customFieldsService: CustomFieldsService
   ) {}
 
   ngOnInit() {
@@ -47,7 +48,11 @@ export class DeviceCustomFieldsFieldgroupsAddComponent implements OnInit {
     this.fields.removeAt(i);
   }
   onSubmit(form: NgForm) {
-    console.log(form.value);
+    let fieldGroup: FieldGroup = form.value;
+    this.customFieldsService.addFieldGroup(fieldGroup).subscribe(
+        (next) => this.fieldGroupsListUpdated.emit(next),
+        (err) => console.log(err)
+    );
   }
 
 }
