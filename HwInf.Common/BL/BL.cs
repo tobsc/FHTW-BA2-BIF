@@ -74,6 +74,11 @@ namespace HwInf.Common.BL
             return _dal.FieldGroups.Include(x => x.Fields).Single(i => i.Slug.Equals(groupSlug));
         }
 
+        public IQueryable<Field> GetFields()
+        {
+            return _dal.Fields;
+        }
+
         public IQueryable<DeviceMeta> GetDeviceMeta()
         {
             return _dal.DeviceMeta.Include(x => x.FieldGroup);

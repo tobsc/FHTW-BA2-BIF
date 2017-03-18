@@ -274,7 +274,7 @@
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AuthController.cs" />
-    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\CustomFieldsController.cs" />
     <Compile Include="Controllers\DevicesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />

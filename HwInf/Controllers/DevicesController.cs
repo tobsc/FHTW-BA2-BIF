@@ -188,13 +188,16 @@ namespace HwInf.Controllers
             brandList.Add("component", "Marke");
             brandList.Add("values", brands);
 
-            response.Add(brandList);
+            var f = new List<FieldViewModel>();
+            f = brands
+                .Select(i => new FieldViewModel{ Name = i, Slug = SlugGenerator.GenerateSlug(i) })
+                .ToList();
+
+            var x = new FieldGroupViewModel {Name = "Marke", Slug = "brand", Fields = f};
+
+            //response.Add(x);
             response.Add(components);
 
-            if (response.Count < 2)
-            {
-                return NotFound();
-            }
 
             return Ok(response);
         }
