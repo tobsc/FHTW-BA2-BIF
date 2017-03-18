@@ -68,25 +68,6 @@
         </div>
       </div>
 
-
-      <div class="form-group">
-        <label class="control-label col-md-3 col-sm-3 col-xs-11" for="value1">Geräte Typ <span class="required">*</span>
-        </label>
-        <div class="col-md-6 col-sm-6 col-xs-12">
-          <select class="select2_group form-control" name="value1" id="value1" ngmodel="">
-            <option value="text">
-              PC
-            </option>
-            <option value="checkbox">
-              Notebokk
-            </option>
-            <option value="textarea">
-              Monitor
-            </option>
-          </select>
-        </div>
-      </div>
-
       <div class="form-group">
         <label class="control-label col-md-3 col-sm-3 col-xs-11" for="value1">Geräte Status <span class="required">*</span>
         </label>
@@ -105,14 +86,29 @@
         </div>
       </div>
 
+      <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-11" for="value1">Geräte Typ <span class="required">*</span>
+        </label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <select class="select2_group form-control" name="value1" [(ngModel)]="selectedType" (ngModelChange)="onSelectedTypeChange()">
+
+            <option *ngFor="let deviceType of deviceTypes | async; let i = index" [selected]="i == 0"  [ngValue]="deviceType.Slug">
+              {{deviceType.Name}}
+            </option>
+
+          </select>
+        </div>
+      </div>
+
 
       <div class="ln_solid"></div>
 
-      <div class="form-group">
-        <label class="control-label col-md-3 col-sm-3 col-xs-11" for="first-name">MetaDaten<span class="required">*</span>
-        </label>
-        <div class="col-md-6 col-sm-6 col-xs-11">
-          <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+      <div *ngFor="let fieldGroup of fieldGroups | async">
+        <h4>{{fieldGroup.Name }}</h4>
+          <div class="ln_solid"></div>
+
+        <div *ngFor="let field of fieldGroup.Fields">
+          {{field.Name}}
         </div>
       </div>
 
@@ -124,25 +120,6 @@
           <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
         </div>
       </div>
-
-
-      <div class="form-group">
-        <label class="control-label col-md-3 col-sm-3 col-xs-11" for="first-name">MetaDaten<span class="required">*</span>
-        </label>
-        <div class="col-md-6 col-sm-6 col-xs-11">
-          <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
-        </div>
-      </div>
-
-
-      <div class="form-group">
-        <label class="control-label col-md-3 col-sm-3 col-xs-11" for="first-name">MetaDaten<span class="required">*</span>
-        </label>
-        <div class="col-md-6 col-sm-6 col-xs-11">
-          <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
-        </div>
-      </div>
-
 
 
       <div class="ln_solid"></div>
