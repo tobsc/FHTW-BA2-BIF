@@ -288,7 +288,6 @@
     <Compile Include="ViewModels\FieldViewModel.cs" />
     <Compile Include="ViewModels\FieldGroupViewModel.cs" />
     <Compile Include="ViewModels\AutoFillViewModel.cs" />
-    <Compile Include="ViewModels\ComponentViewModel.cs" />
     <Compile Include="ViewModels\DeviceMetaViewModel.cs" />
     <Compile Include="ViewModels\DeviceStatusViewModel.cs" />
     <Compile Include="ViewModels\DeviceTypeViewModel.cs" />
@@ -415,7 +414,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>14373</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

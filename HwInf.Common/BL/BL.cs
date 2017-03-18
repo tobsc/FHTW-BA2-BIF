@@ -1,9 +1,12 @@
-﻿using HwInf.Common.DAL;
+﻿using System;
+using System.Collections.Generic;
+using HwInf.Common.DAL;
 using System.Linq;
 using System.Data.Entity;
 using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
+using System.Security;
 using HwInf.Common.Models;
+using JWT;
 
 namespace HwInf.Common.BL
 {
@@ -20,6 +23,13 @@ namespace HwInf.Common.BL
             _dal = dal;
         }
 
+
+        #region DAL
+
+
+        #region Devices
+
+        // Read
         public IQueryable<Device> GetDevices(int limit = 25, int offset = 0, bool onlyActive = true, int type = 0, bool isSearch = false)
         {
             if (type == 0)
@@ -59,6 +69,78 @@ namespace HwInf.Common.BL
             return _dal.DeviceTypes.Include(x => x.FieldGroups.Select(y => y.DeviceTypes)).Single(i => i.Slug.ToLower().Equals(typeSlug.ToLower()));
         }
 
+        public IQueryable<DeviceType> GetDeviceTypes()
+        {
+            return _dal.DeviceTypes.Include(x => x.FieldGroups.Select(y => y.DeviceTypes));
+        }
+
+
+        public IQueryable<DeviceMeta> GetDeviceMeta()
+        {
+            return _dal.DeviceMeta.Include(x => x.FieldGroup);
+        }
+
+        public DeviceStatus GetDeviceStatus(int statusId)
+        {
+            return _dal.DeviceStatus.Single(i => i.StatusId == statusId);
+        }
+
+        public IQueryable<DeviceStatus> GetDeviceStatus()
+        {
+            return _dal.DeviceStatus;
+        }
+
+        public bool DeviceExists(int deviceId)
+        {
+            return _dal.Devices.Count(i => i.DeviceId == deviceId) > 0;
+        }
+
+        // Create
+        public Device CreateDevice()
+        {
+            var dev = new Device();
+            _dal.Devices.Add(dev);
+            return dev;
+
+        }
+
+        public DeviceMeta CreateDeviceMeta(DeviceMeta dm)
+        {
+            _dal.DeviceMeta.Add(dm);
+            return dm;
+        }
+
+        public DeviceType CreateDeviceType()
+        {
+            var dt = new DeviceType();
+            _dal.DeviceTypes.Add(dt);
+            return dt;
+        }
+
+
+        // Update
+        public void UpdateDevice(Device device)
+        {
+            _dal.Entry(device).State = EntityState.Modified;
+        }
+
+        public void UpdateDeviceMeta(DeviceMeta deviceMeta)
+        {
+            _dal.Entry(deviceMeta).State = EntityState.Modified;
+        }
+
+        public void DeleteDevice(int deviceId)
+        {
+            var device = _dal.Devices.Find(deviceId);
+            UpdateDevice(device);
+            if (device != null) device.IsActive = false;
+        }
+
+        #endregion
+
+        #region CustomFields
+
+        // Read
         public IQueryable<FieldGroup> GetFieldGroups()
         {
             return _dal.FieldGroups.Include(x => x.Fields);
@@ -79,121 +161,12 @@ namespace HwInf.Common.BL
             return _dal.Fields;
         }
 
-        public IQueryable<DeviceMeta> GetDeviceMeta()
-        {
-            return _dal.DeviceMeta.Include(x => x.FieldGroup);
-        }
-
-        public IQueryable<DeviceType> GetDeviceTypes()
-        {
-            return _dal.DeviceTypes.Include(x => x.FieldGroups.Select(y => y.DeviceTypes));
-        }
-
-        public IQueryable<Person> GetUsers()
-        {
-            return _dal.Persons;
-        }
-        public Person GetUsers(string uid)
-        {
-            return _dal.Persons.Single(i => i.Uid == uid);
-        }
-
-        public DeviceStatus GetDeviceStatus(int statusId)
-        {
-            return _dal.DeviceStatus.Single(i => i.StatusId == statusId);
-        }
-
-        public IQueryable<DeviceStatus> GetDeviceStatus()
-        {
-            return _dal.DeviceStatus;
-        }
-
-        public DeviceMeta CreateDeviceMeta(DeviceMeta dm)
-        {
-            _dal.DeviceMeta.Add(dm);
-            return dm;
-        }
-
-        public void UpdateDeviceMeta(DeviceMeta deviceMeta)
-        {
-            _dal.Entry(deviceMeta).State = EntityState.Modified;
-        }
-
-        public void UpdateFieldGroup(FieldGroup obj)
-        {
-            _dal.Entry(obj).State = EntityState.Modified;
-        }
-
-        public void UpdateUser(Person obj)
-        {
-            _dal.Entry(obj).State = EntityState.Modified;
-        }
-
-
-        public Device CreateDevice()
-        {
-            var dev = new Device();
-            _dal.Devices.Add(dev);
-            return dev;
-
-        }
-
-        public DeviceType CreateDeviceType()
-        {
-            var dt = new DeviceType();
-            _dal.DeviceTypes.Add(dt);
-            return dt;
-        }
-
+        // Create
         public FieldGroup CreateFieldGroup()
         {
             var fg = new FieldGroup();
             _dal.FieldGroups.Add(fg);
             return fg;
-        }
-
-        public Component CreateComponent()
-        {
-            var c = new Component();
-            _dal.Components.Add(c);
-            return c;
-        }
-
-        public ComponentType GetComponentType(int compTypeId)
-        {
-           return _dal.ComponentTypes.Single(i => i.CompTypeId == compTypeId);
-        }
-
-        public ComponentType GetComponentType(string compTypeName)
-        {
-            return _dal.ComponentTypes.Single(i => i.Name == compTypeName);
-        }
-
-        public Component GetComponent(int id)
-        {
-            return _dal.Components.Include(x => x.ComponentType).Single(i => i.CompId == id);
-        }
-
-        public void UpdateDevice(Device device)
-        {
-            _dal.Entry(device).State = EntityState.Modified;
-        }
-
-        public bool DeviceExists(int deviceId)
-        {
-            return _dal.Devices.Count(i => i.DeviceId == deviceId) > 0;
-        }
-
-        public void DeleteDevice(int deviceId)
-        {
-            var device = _dal.Devices.Find(deviceId);
-            UpdateDevice(device);
-            if (device != null) device.IsActive = false;
-        }
-
-        public void SaveChanges()
-        {
-            _dal.SaveChanges();
         }
 
         public Field CreateField()
@@ -204,11 +177,98 @@ namespace HwInf.Common.BL
             return obj;
         }
 
+        // Update
+        public void UpdateFieldGroup(FieldGroup obj)
+        {
+            _dal.Entry(obj).State = EntityState.Modified;
+        }
+
+        #endregion
+
+
+        #region Users
+
+        // Read
+        public IQueryable<Person> GetUsers()
+        {
+            return _dal.Persons;
+        }
+        public Person GetUsers(string uid)
+        {
+            return _dal.Persons.SingleOrDefault(i => i.Uid == uid);
+        }
+
         public Role GetRole(string name)
         {
             return _dal.Roles.Single(i => i.Name.Equals(name));
         }
 
+        // Create
+        public Person CreateUser()
+        {
+            var obj = new Person();
+            _dal.Persons.Add(obj);
+            return obj;
+        }
+
+        // Update
+        public void UpdateUser(Person obj)
+        {
+            _dal.Entry(obj).State = EntityState.Modified;
+        }
+
+        #endregion
+
+        public void SaveChanges()
+        {
+            _dal.SaveChanges();
+        }
+
+
+        #endregion
+
+
+        #region Auth
+
+        public bool IsAdmin()
+        {
+            return System.Threading.Thread.CurrentPrincipal.IsInRole("Admin");
+        }
+
+        public bool IsOwner()
+        {
+            return System.Threading.Thread.CurrentPrincipal.IsInRole("Owner");
+        }
+
+        public string CreateToken(Person p)
+        {
+            var unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            var expiry = Math.Round((DateTime.UtcNow.AddHours(2) - unixEpoch).TotalSeconds);
+            var issuedAt = Math.Round((DateTime.UtcNow - unixEpoch).TotalSeconds);
+            var notBefore = Math.Round((DateTime.UtcNow.AddMonths(6) - unixEpoch).TotalSeconds);
+
+
+            var payload = new Dictionary<string, object>
+            {
+                {"uid", p.Uid},
+                {"role", p.Role.Name },
+                {"lastName", p.LastName },
+                {"name", p.Name },
+                {"displayName", p.Name + " " +p.LastName},
+                {"nbf", notBefore},
+                {"iat", issuedAt},
+                {"exp", expiry}
+            };
+
+            //var secret = ConfigurationManager.AppSettings.Get("jwtKey");
+            const string apikey = "secretKey";
+
+            var token = JsonWebToken.Encode(payload, apikey, JwtHashAlgorithm.HS256);
+
+            return token;
+        }
+
+        #endregion
 
     }
 

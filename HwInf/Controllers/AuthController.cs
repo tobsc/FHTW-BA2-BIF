@@ -30,37 +30,31 @@ namespace HwInf.Controllers
         [HttpPost]
         public IHttpActionResult SignIn(UserViewModel vmdl)
         {
-            
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            if (!LDAPAuthenticator.Authenticate(vmdl.Uid, vmdl.Password).IsAuthenticated) return Unauthorized();
+
+            var p = new Person();
+
+            if (_bl.GetUsers(vmdl.Uid) != null)
             {
-                if (LDAPAuthenticator.Authenticate(vmdl.Uid, vmdl.Password).IsAuthenticated)
-                {
-                   Person p;
-
-                   if (_db.Persons.Any(i => i.Uid == vmdl.Uid))
-                   {
-                       p = _db.Persons.Single(i => i.Uid == vmdl.Uid);
-                   }
-                   else
-                   {
-
-                       p = new Person();
-                       var ldapUser = LDAPAuthenticator.Authenticate(vmdl.Uid, vmdl.Password);
-                       vmdl.Refresh(ldapUser);
-                       vmdl.ApplyChanges(p, _bl);
-                       _db.Persons.Add(p);
-                       _db.SaveChanges();
-                   }
-
-                   vmdl.Refresh(p);
-                   var token = CreateToken(p);
-
-                   return Ok(new { token });
-                } 
-                    return Unauthorized();
+                p = _bl.GetUsers(vmdl.Uid);
+                _bl.UpdateUser(p);
+            }
+            else
+            {
+                p = _bl.CreateUser();
             }
 
-            return BadRequest(ModelState);
+            // Load user data from LDAP and save them into DB
+            var ldapUser = LDAPAuthenticator.Authenticate(vmdl.Uid, vmdl.Password);
+            vmdl.Refresh(ldapUser);
+            vmdl.ApplyChanges(p, _bl);
+            _db.SaveChanges();
+
+            // Create new token from user
+            var token = _bl.CreateToken(p);
+
+            return Ok(new { token });
         }
 
         /// <summary>
@@ -94,35 +88,6 @@ namespace HwInf.Controllers
             var token = JsonWebToken.Encode(payload, apikey, JwtHashAlgorithm.HS256);
 
             return Ok(new { token });
-        }
-
-
-        private static string CreateToken(Person p)
-        {
-            var unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            var expiry = Math.Round((DateTime.UtcNow.AddHours(2) - unixEpoch).TotalSeconds);
-            var issuedAt = Math.Round((DateTime.UtcNow - unixEpoch).TotalSeconds);
-            var notBefore = Math.Round((DateTime.UtcNow.AddMonths(6) - unixEpoch).TotalSeconds);
-
-
-            var payload = new Dictionary<string, object>
-            {
-                {"uid", p.Uid},
-                {"role", p.Role.Name },
-                {"lastName", p.LastName },
-                {"name", p.Name },
-                {"displayName", p.Name + " " +p.LastName},
-                {"nbf", notBefore},
-                {"iat", issuedAt},
-                {"exp", expiry}
-            };
-
-            //var secret = ConfigurationManager.AppSettings.Get("jwtKey");
-            const string apikey = "secretKey";
-
-            var token = JsonWebToken.Encode(payload, apikey, JwtHashAlgorithm.HS256);
-
-            return token;
         }
 
         protected override void Dispose(bool disposing)

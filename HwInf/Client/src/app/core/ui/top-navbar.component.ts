@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {AuthService} from "../../authentication/auth.service";
 import { AppComponent } from "../../app.component";
 import { CartService } from "../../shared/services/cart.service";
-import { User } from "../../../shared/models/user.model";
 import { UserService } from "../../shared/services/user.service";
+import { User } from "../../shared/models/user.model";
 
 @Component({
   selector: 'hwinf-top-navbar',

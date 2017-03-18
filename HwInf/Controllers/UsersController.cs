@@ -1,10 +1,8 @@
-﻿using System.Data.Entity;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Description;
 using HwInf.Common.BL;
 using HwInf.Common.DAL;
-using HwInf.Common.Models;
 using HwInf.ViewModels;
 
 namespace HwInf.Controllers

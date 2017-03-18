@@ -78,8 +78,6 @@
       <DependentUpon>Contract.tt</DependentUpon>
     </Compile>
     <Compile Include="ContractCode.cs" />
-    <Compile Include="Models\ComponentType.cs" />
-    <Compile Include="Models\Component.cs" />
     <Compile Include="Models\Device.cs" />
     <Compile Include="Models\DeviceMeta.cs" />
     <Compile Include="Models\DeviceHistory.cs" />
