@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
-using System.IO.Compression;
 using System.Linq;
 using HwInf.Common.Models;
 
@@ -20,44 +19,7 @@ namespace HwInf.Common.Migrations
         protected override void Seed(HwInf.Common.DAL.HwInfContext context)
         {
 
-            var compTypes = new List<ComponentType>
-            {
-                new ComponentType {FieldType = "text", Name = "TextFeld"},
-                new ComponentType {FieldType = "textArea", Name = "TextArea"},
-                new ComponentType {FieldType = "checkbox", Name = "Checkbox"},
-                new ComponentType {FieldType = "list", Name = "Liste"}
-            };
-
-            var compN = new List<Component>
-                {
-                    new Component { ComponentType = compTypes.Single(i => i.Name == "TextFeld"), Name = "Prozessor"},
-                    new Component { ComponentType = compTypes.Single(i => i.Name == "TextFeld"), Name = "Arbeitsspeicher" },
-                    new Component { ComponentType = compTypes.Single(i => i.Name == "TextFeld"), Name = "Grafikkarte" },
-                    new Component { ComponentType = compTypes.Single(i => i.Name == "TextFeld"), Name = "Festplatte" },
-                    new Component { ComponentType = compTypes.Single(i => i.Name == "Checkbox"), Name = "DVD-Laufwerk" },
-                    new Component { ComponentType = compTypes.Single(i => i.Name == "TextFeld"), Name = "Display" },
-                    new Component { ComponentType = compTypes.Single(i => i.Name == "TextFeld"), Name = "Anschlüsse" }
-                };
-
-            var compM = new List<Component>
-            {
-                new Component { ComponentType = compTypes.Single(i => i.Name == "TextFeld"), Name = "Bildschirmdiagonale" },
-                new Component { ComponentType = compTypes.Single(i => i.Name == "TextFeld"), Name = "Anschlüsse" }
-
-            };
-
-            var compPC = new List<Component>
-                {
-                    new Component { ComponentType = compTypes.Single(i => i.Name == "TextFeld"), Name = "Prozessor"},
-                    new Component { ComponentType = compTypes.Single(i => i.Name == "TextFeld"), Name = "Arbeitsspeicher" },
-                    new Component { ComponentType = compTypes.Single(i => i.Name == "TextFeld"), Name = "Grafikkarte" },
-                    new Component { ComponentType = compTypes.Single(i => i.Name == "TextFeld"), Name = "Festplatte" },
-                    new Component { ComponentType = compTypes.Single(i => i.Name == "Checkbox"), Name = "DVD-Laufwerk" },
-                    new Component { ComponentType = compTypes.Single(i => i.Name == "TextFeld"), Name = "Anschlüsse" }
-                };
-
-
-            var type = new List<DeviceType>
+           var type = new List<DeviceType>
                 {
                     new DeviceType { Name = "Notebook", Slug = "notebook"},
                     new DeviceType { Name = "PC", Slug = "pc" },
@@ -127,18 +89,6 @@ namespace HwInf.Common.Migrations
                 new Device { Name = "Acer PC", Brand = "Acer", Status = deviceStatus.Single(i => i.Description == "Verfügbar"), InvNum = "a5123", Type = type.Single(i => i.Slug == "pc"), CreateDate = DateTime.Now, Room = "A0.00", Person = persons.Single(i => i.LastName == "Calanog"), IsActive = true, DeviceMeta = meta.ToList()},
                };
 
-
-            if (context.ComponentTypes.Count() < 1)
-            {
-                compTypes.ForEach(s => context.ComponentTypes.Add(s));
-            }
-
-            if (context.Components.Count() < 1)
-            {
-                compPC.ForEach(s => context.Components.Add(s));
-                compN.ForEach(s => context.Components.Add(s));
-                compM.ForEach(s => context.Components.Add(s));
-            }
 
             if (context.DeviceTypes.Count() < 1)
             {
