@@ -100,7 +100,7 @@ namespace HwInf
 
                     switch (pair.Key)
                     {
-                        case "Uid":
+                        case "uid":
                             claims.Add(new Claim(ClaimTypes.Name, pair.Value.ToString(), ClaimValueTypes.String));
                             break;
                         case "surname":

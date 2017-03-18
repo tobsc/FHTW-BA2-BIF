@@ -81,7 +81,7 @@ namespace HwInf.Controllers
 
             var payload = new Dictionary<string, object>
             {
-                {"Uid", uid},
+                {"uid", uid},
                 {"role", role  },
                 {"nbf", notBefore},
                 {"iat", issuedAt},
@@ -107,7 +107,7 @@ namespace HwInf.Controllers
 
             var payload = new Dictionary<string, object>
             {
-                {"Uid", p.Uid},
+                {"uid", p.Uid},
                 {"role", p.Role.Name },
                 {"lastName", p.LastName },
                 {"name", p.Name },
