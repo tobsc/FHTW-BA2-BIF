@@ -25,7 +25,7 @@ export class DeviceTypesAddComponent implements OnInit {
 
   ngOnInit() {
 
-    this.selectableFieldGroups = this.customFieldsService.getFieldGroups()
+   this.customFieldsService.getFieldGroups()
         .subscribe( (data) => {
           this.selectableFieldGroups = data;
         });
