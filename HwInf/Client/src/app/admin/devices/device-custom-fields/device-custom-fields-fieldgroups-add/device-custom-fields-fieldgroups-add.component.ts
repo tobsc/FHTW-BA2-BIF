@@ -50,7 +50,11 @@ export class DeviceCustomFieldsFieldgroupsAddComponent implements OnInit {
   onSubmit(form: NgForm) {
     let fieldGroup: FieldGroup = form.value;
     this.customFieldsService.addFieldGroup(fieldGroup).subscribe(
-        (next) => this.fieldGroupsListUpdated.emit(next),
+        (next) => {
+          this.fieldGroupsListUpdated.emit(next);
+          this.form.reset();
+          this.clearFields();
+        },
         (err) => console.log(err)
     );
   }
