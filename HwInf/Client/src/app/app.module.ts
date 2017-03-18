@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpModule, XHRBackend, RequestOptions} from '@angular/http';
 
 import { AppComponent } from './app.component';
@@ -21,14 +21,19 @@ import { UserService } from "./shared/services/user.service";
 
 import {CoreModule} from "./core/core.module";
 import { HomeComponent } from './home/home.component';
-import {DeviceService} from "./shared/services/device.service";
+import { DeviceService } from "./shared/services/device.service";
+import { FeedbackHttpService } from "./shared/services/feedback-http.service";
+import { PubSubService } from "./shared/services/pub-sub.service";
 
 
 
-export function jwtFactory(backend: XHRBackend, options: RequestOptions, router: Router, authService: AuthService) {
-    return new JwtHttpService(backend, options, router, authService);
+export function jwtFactory(backend: XHRBackend, options: RequestOptions, router: Router, authService: AuthService, pubsub: PubSubService) {
+    return new JwtHttpService(backend, options, router, authService, pubsub);
 }
 
+export function feedbackHttpFactory(backend: XHRBackend, options: RequestOptions, router: Router, pubsub: PubSubService) {
+    return new FeedbackHttpService(backend, options, router, pubsub);
+}
 @NgModule({
     declarations: [
         AppComponent,
@@ -52,7 +57,12 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
         {
             provide: JwtHttpService,
             useFactory: jwtFactory,
-            deps: [XHRBackend, RequestOptions, Router, AuthService]
+            deps: [XHRBackend, RequestOptions, Router, AuthService, PubSubService]
+        },
+        {
+            provide: FeedbackHttpService,
+            useFactory: feedbackHttpFactory,
+            deps: [XHRBackend, RequestOptions, Router, PubSubService]
         },
         AuthService,
         AuthGuard,
@@ -60,7 +70,8 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
         DeviceService,
         JwtService,
         CartService,
-        UserService
+        UserService,
+        PubSubService,
     ],
     bootstrap: [AppComponent]
 })

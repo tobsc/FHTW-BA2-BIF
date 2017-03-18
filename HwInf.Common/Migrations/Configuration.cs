@@ -12,6 +12,7 @@ namespace HwInf.Common.Migrations
     {
         public Configuration()
         {
+            
             AutomaticMigrationsEnabled = true;
             AutomaticMigrationDataLossAllowed = true;
         }
@@ -58,10 +59,21 @@ namespace HwInf.Common.Migrations
 
             var type = new List<DeviceType>
                 {
-                    new DeviceType { Description = "Notebook", Components = compN.ToList()},
-                    new DeviceType { Description = "PC", Components = compPC.ToList()},
-                    new DeviceType { Description = "Monitor", Components = compM.ToList()}
+                    new DeviceType { Name = "Notebook", Slug = "notebook"},
+                    new DeviceType { Name = "PC", Slug = "pc" },
+                    new DeviceType { Name = "Monitor", Slug = "monitor"}
                 };
+
+            var fields = new List<Field>
+            {
+                new Field {Slug = "hdmi", Name = "HDMI"},
+                new Field {Slug = "vga", Name = "VGA"},
+            };
+
+            var fieldGroup = new List<FieldGroup>
+            {
+                new FieldGroup {Slug = "anschluesse", Name = "Anschlüsse", Fields = fields.ToList(), DeviceTypes = type.Where(i => i.Slug == "pc").ToList()}
+            };
 
 
             var deviceStatus = new List<DeviceStatus>
@@ -94,26 +106,25 @@ namespace HwInf.Common.Migrations
                     new Person { Name = "Sebastian", LastName = "Slowak", Email = "sebastian.slowak@technikum-wien.at", Role = roles.Single(i => i.Name == "Admin"), uid = "if15b049" },
             };
 
-            var devMetaPC1 = new List<DeviceMeta>
+            var meta = new List<DeviceMeta>
             {
-                new DeviceMeta { Component = compPC.Single(i => i.Name == "Prozessor"), MetaValue = "Intel Core i7-6500" },
-                new DeviceMeta { Component = compPC.Single(i => i.Name == "Anschlüsse"), MetaValue = "USB 2.0, USB 3.0" },
-                new DeviceMeta { Component = compPC.Single(i => i.Name == "Grafikkarte"), MetaValue = "NVIDIA GeForce 1080" },
-                new DeviceMeta { Component = compPC.Single(i => i.Name == "Arbeitsspeicher"), MetaValue = "16GB" }
-            };
-
-            var devMetaPC2 = new List<DeviceMeta>
-            {
-                new DeviceMeta { Component = compPC.Single(i => i.Name == "Prozessor"), MetaValue = "Intel Core i5-12345" },
-                new DeviceMeta { Component = compPC.Single(i => i.Name == "Anschlüsse"), MetaValue = "USB 2.0" },
-                new DeviceMeta { Component = compPC.Single(i => i.Name == "Grafikkarte"), MetaValue = "NVIDIA GeForce 1060" },
-                new DeviceMeta { Component = compPC.Single(i => i.Name == "Arbeitsspeicher"), MetaValue = "8GB" }
+                new DeviceMeta
+                {
+                    MetaValue = "2",
+                    Field = fieldGroup.Select(i => i.Fields.Single(x => x.Slug == "hdmi")).FirstOrDefault(),
+                    FieldGroup = fieldGroup.Single(i => i.Slug == "anschluesse")
+                },
+                                new DeviceMeta
+                {
+                    MetaValue = "5",
+                    Field = fieldGroup.Select(i => i.Fields.Single(x => x.Slug == "vga")).FirstOrDefault(),
+                    FieldGroup = fieldGroup.Single(i => i.Slug == "anschluesse")
+                }
             };
 
             var dev = new List<Device>
                {
-                new Device { Name = "Acer PC", Brand = "Acer", Status = deviceStatus.Single(i => i.Description == "Verfügbar"), InvNum = "a5123", Type = type.Single(i => i.Description == "PC"), CreateDate = DateTime.Now, Room = "A0.00", Person = persons.Single(i => i.LastName == "Calanog"), IsActive = true, DeviceMeta = devMetaPC1.ToList()},
-                new Device { Name = "Medion PC", Brand = "Medion", Status = deviceStatus.Single(i => i.Description == "Verfügbar"), InvNum = "a57123", Type = type.Single(i => i.Description == "PC"), CreateDate = DateTime.Now, Room = "F0.00", Person = persons.Single(i => i.LastName == "Calanog"), IsActive = true, DeviceMeta = devMetaPC2.ToList()},
+                new Device { Name = "Acer PC", Brand = "Acer", Status = deviceStatus.Single(i => i.Description == "Verfügbar"), InvNum = "a5123", Type = type.Single(i => i.Slug == "pc"), CreateDate = DateTime.Now, Room = "A0.00", Person = persons.Single(i => i.LastName == "Calanog"), IsActive = true, DeviceMeta = meta.ToList()},
                };
 
 

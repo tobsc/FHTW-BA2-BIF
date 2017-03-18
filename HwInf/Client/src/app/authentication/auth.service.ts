@@ -4,6 +4,7 @@ import {User} from "../shared/models/user.model";
 import {Observable} from "rxjs";
 import { Router } from "@angular/router";
 import { JwtService } from "../shared/services/jwt.service";
+import { FeedbackHttpService } from '../shared/services/feedback-http.service';
 
 
 @Injectable()
@@ -14,9 +15,10 @@ export class AuthService {
   private url: string = "/api/auth/";
 
   constructor(
-      private http: Http,
       private router: Router,
-      private jwtService: JwtService
+      private jwtService: JwtService,
+      private http: FeedbackHttpService
+
   ) {
 
       this.loggedIn = !!this.jwtService.getToken();

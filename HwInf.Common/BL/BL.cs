@@ -22,21 +22,20 @@ namespace HwInf.Common.BL
 
         public IQueryable<Device> GetDevices(int limit = 25, int offset = 0, bool onlyActive = true, int type = 0, bool isSearch = false)
         {
-
             if (type == 0)
             {
-                return _dal.Devices.Include(x => x.Type.Components.Select(y => y.ComponentType))
+                return _dal.Devices.Include(x => x.DeviceMeta.Select(y => y.FieldGroup).Select(y => y.Fields))
                     .Where(i => i.IsActive)
                     .Where(i => i.DeviceId > offset)
                     .Take(limit);
             } else if(isSearch)
             {
-                return _dal.Devices.Include(x => x.Type)
+                return _dal.Devices.Include(x => x.Type).Include(x => x.DeviceMeta.Select(y => y.FieldGroup).Select(y => y.Fields))
                     .Where(i => i.IsActive)
                     .Where(i => i.Type.TypeId== type);
             } else
             {
-                return _dal.Devices.Include(x => x.Type)
+                return _dal.Devices.Include(x => x.Type).Include(x => x.DeviceMeta.Select(y => y.FieldGroup).Select(y => y.Fields))
                     .Where(i => i.IsActive)
                     .Where(i => i.Type.TypeId == type)
                     .Where(i => i.DeviceId > offset)
@@ -47,27 +46,37 @@ namespace HwInf.Common.BL
 
         public Device GetSingleDevice(int deviceId)
         {
-            return _dal.Devices.Single(i => i.DeviceId == deviceId);
+            return _dal.Devices.Include(x => x.DeviceMeta.Select(y => y.FieldGroup).Select(y => y.Fields)).Single(i => i.DeviceId == deviceId);
         }
 
         public DeviceType GetDeviceType(int typeId)
         {
-            return _dal.DeviceTypes.Include(x => x.Components.Select(y => y.ComponentType)).Single(i => i.TypeId == typeId);
+            return _dal.DeviceTypes.Include(x => x.FieldGroups.Select(y => y.DeviceTypes)).Single(i => i.TypeId == typeId);
         }
 
-        public DeviceType GetDeviceType(string typeName)
+        public DeviceType GetDeviceType(string typeSlug)
         {
-            return _dal.DeviceTypes.Include(x => x.Components.Select(y => y.ComponentType)).Single(i => i.Description.ToLower().Equals(typeName.ToLower()));
+            return _dal.DeviceTypes.Include(x => x.FieldGroups.Select(y => y.DeviceTypes)).Single(i => i.Slug.ToLower().Equals(typeSlug.ToLower()));
+        }
+
+        public IQueryable<FieldGroup> GetFieldGroups()
+        {
+            return _dal.FieldGroups.Include(x => x.Fields);
+        }
+
+        public FieldGroup GetFieldGroups(string groupSlug)
+        {
+            return _dal.FieldGroups.Include(x => x.Fields).Single(i => i.Slug.Equals(groupSlug));
         }
 
         public IQueryable<DeviceMeta> GetDeviceMeta()
         {
-            return _dal.DeviceMeta.Include(x => x.Component);
+            return _dal.DeviceMeta.Include(x => x.FieldGroup);
         }
 
         public IQueryable<DeviceType> GetDeviceTypes()
         {
-            return _dal.DeviceTypes.Include(x => x.Components.Select(y => y.ComponentType));
+            return _dal.DeviceTypes.Include(x => x.FieldGroups.Select(y => y.DeviceTypes));
         }
 
         public Person GetPerson(string uid)
@@ -96,6 +105,11 @@ namespace HwInf.Common.BL
             _dal.Entry(deviceMeta).State = EntityState.Modified;
         }
 
+        public void UpdateFieldGroup(FieldGroup obj)
+        {
+            _dal.Entry(obj).State = EntityState.Modified;
+        }
+
 
         public Device CreateDevice()
         {
@@ -110,6 +124,13 @@ namespace HwInf.Common.BL
             var dt = new DeviceType();
             _dal.DeviceTypes.Add(dt);
             return dt;
+        }
+
+        public FieldGroup CreateFieldGroup()
+        {
+            var fg = new FieldGroup();
+            _dal.FieldGroups.Add(fg);
+            return fg;
         }
 
         public Component CreateComponent()
@@ -154,6 +175,14 @@ namespace HwInf.Common.BL
         public void SaveChanges()
         {
             _dal.SaveChanges();
+        }
+
+        public Field CreateField()
+        {
+            var obj = new Field();
+            _dal.Fields.Add(obj);
+
+            return obj;
         }
     }
 

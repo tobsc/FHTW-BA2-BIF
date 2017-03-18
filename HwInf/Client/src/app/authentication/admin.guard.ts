@@ -15,15 +15,10 @@ export class AdminGuard implements CanActivate {
             return false;
         }
 
-        //console.log(this.parseJwt(localStorage.getItem('auth_token')));
+        return this.jwtService.isAdmin();
 
-        console.log(this.jwtService.getRole());
-
-        if (this.jwtService.isAdmin()) {
-            return true;
-        } else {
-            return false;
-        }
+        //oberer code equivalent zu?
+        //this.getRole(localStorage.getItem('auth_token')).toLowerCase() === 'admin';
     }
 
     

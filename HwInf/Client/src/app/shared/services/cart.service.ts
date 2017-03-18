@@ -8,11 +8,11 @@ import { JwtService } from "./jwt.service";
 export class CartService {
     private amount: Subject<number> = new Subject<number>();
     private items: Device[] = [];
-    
-    
+
 
     constructor(private router: Router, private jwtService:JwtService) {
         if (!!localStorage.getItem('cart_list'+this.getHash(jwtService.getUid()))) {
+
             this.items = JSON.parse(localStorage.getItem('cart_list' + this.getHash(jwtService.getUid())));
         }
 
@@ -51,7 +51,7 @@ export class CartService {
             this.updateData()
             
         }
-        
+ 
     }
 
     public removeItem(index: number) {
@@ -80,16 +80,18 @@ export class CartService {
 
     private updateLocalStorage(): void {
         localStorage.setItem('cart_list'+this.getHash(this.jwtService.getUid()), JSON.stringify(this.items));
+
     }
 
     public updateAmount(): void {
         this.amount.next(this.items.length);
     }
-
+    
     public getCount(): number {
         var count = this.items.length;
         return count;
     }
+
 
    
 }

@@ -1,4 +1,5 @@
 ﻿export class Jwt {
+
     constructor(
         public Name: string,
         public Uid: string,
@@ -7,5 +8,4 @@
         public DisplayName: string
     ) { }
 
-    
 }

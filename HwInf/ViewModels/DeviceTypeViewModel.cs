@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using HwInf.Common.BL;
 using HwInf.Common.Models;
 using WebGrease.Css.Extensions;
@@ -9,9 +10,14 @@ namespace HwInf.ViewModels
     public class DeviceTypeViewModel
     {
         public int DeviceTypeId { get; set; }
-        public string TypeName { get; set; }
-        public IEnumerable<ComponentViewModel> Components { get; set; }
+        public string Slug { get; set; }
+        public string Name { get; set; }
+        public ICollection<FieldGroup> FieldGroups { get; set; }
 
+        public string PermaLink
+        {
+            get { return "geraete/typ/" + Slug; }
+        }
 
         public DeviceTypeViewModel()
         {
@@ -28,10 +34,9 @@ namespace HwInf.ViewModels
             var target = this;
             var source = obj;
 
+            target.Slug = source.Slug;
+            target.Name = source.Name;
             target.DeviceTypeId = source.TypeId;
-            target.TypeName = source.Description;
-            target.Components = new List<ComponentViewModel>();
-            source.Components.ForEach(i => target.Components.ToList().Add(new ComponentViewModel(i)));
 
         }
 
@@ -40,29 +45,12 @@ namespace HwInf.ViewModels
             var target = obj;
             var source = this;
 
-            target.Description = source.TypeName;
-            target.Components = new List<Component>();
-            source.Components.ToList().ForEach(i => target.Components.Add(i));
-            target.Components.ForEach(i => i.ComponentType = bl.GetComponentType(i.ComponentType.Name));
-        }
+            target.Name = source.Name;
+            target.Slug = SlugGenerator.GenerateSlug(source.Name);
+            target.FieldGroups = new List<FieldGroup>();
+            //TODO
+            //source.FieldGroups.ForEach(i => target.FieldGroups.Add(bl.GetFieldGroups(i.Slug)));
 
-        public DeviceTypeViewModel LoadComponents(DeviceType dt)
-        {
-
-            Components = dt.Components
-                .Select(i => new ComponentViewModel(i));
-
-
-            return this; // fluent interface
-        }
-
-        public static implicit operator DeviceType(DeviceTypeViewModel vmdl)
-        {
-            return new DeviceType
-            {
-                TypeId = vmdl.DeviceTypeId,
-                Description = vmdl.TypeName
-            };
         }
 
     }

@@ -11,7 +11,8 @@ namespace HwInf.Common.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int MetaId { get; set; }
         [Required]
-        public virtual Component Component { get; set; }
+        public Field Field { get; set; }
+        public FieldGroup FieldGroup { get; set; }
         [Required]
         public string MetaValue { get; set; }
     }

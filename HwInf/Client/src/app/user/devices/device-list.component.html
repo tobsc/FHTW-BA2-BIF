@@ -20,14 +20,8 @@
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
 
-        
-        
-        <!-->div class="col-sm-3 col-md-2">
-            <hwinf-device-filter (deviceListUpdated)="updateList($event)"></hwinf-device-filter>
-        </div-->
 
 
-        
 
         <div class="col-md-10">
 
@@ -35,7 +29,7 @@
             <div class="hwinf-panel__heading">
                 <span *ngIf="currentType!=null">{{currentType | uppercase}}</span>
                 <span *ngIf="currentType==null">Alle</span>
-                
+
             </div>
             <div class="hwinf-panel__content">
                 <accordion [closeOthers]=true class="accordion">
@@ -43,10 +37,10 @@
 
                         <accordion-group>
                             <div accordion-heading>
-                                <h3>{{device.Name}} <small>Inventarnummer: {{device.InvNum}}; {{device.DeviceMeta[0].Value}}; {{device.DeviceMeta[1].Value}}; {{device.DeviceMeta[2].Value}}</small></h3>
+                                <h3>{{device.Name}} <small>Inventarnummer: {{device.InvNum}}</small></h3>
 
                             </div>
-                            <div id="{{device.InfNum}}" class="panel-collapse" role="tabpanel" attr.aria-labelledby="headingTwo" attr.aria-expanded="true">
+                            <div id="{{device.InvNum}}" class="panel-collapse" role="tabpanel" attr.aria-labelledby="headingTwo" attr.aria-expanded="true">
                                 <div class="panel-body">
                                     <ul>
                                         <li>
@@ -56,14 +50,12 @@
                                             Inventarnummer: {{device.InvNum}}
                                         </li>
                                         <li>
-                                            Verwalter: {{device.Owner.Name}} {{device.Owner.LastName}}
+                                            Verwalter: {{device.Verwalter.Name}} {{device.Verwalter.LastName}}
                                         </li>
                                         <li>
                                             Marke: {{device.Marke}}
                                         </li>
-                                        <li *ngFor='let attr of device.DeviceMeta'>
-                                            {{attr.Component.Name}}:&nbsp;{{attr.Value}}
-                                        </li>
+
                                     </ul>
                                     <a  (click)="addItem(device)">
                                         <span class="glyphicon glyphicon-shopping-cart fa-2x"> </span>
@@ -84,10 +76,10 @@
 
 
         </div>
-    
-           
-                
-         
+
+
+
+
 
         <!-- edit -->
     </div>

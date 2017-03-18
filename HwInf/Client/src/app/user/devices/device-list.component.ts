@@ -25,7 +25,6 @@ export class DeviceListComponent implements OnInit {
     this.subscription = this.route.params
         .subscribe(
             (params: any) => {
-
               this.currentType = params['type'];
               this.devices = this.deviceService.getDevices(this.currentType);
             }

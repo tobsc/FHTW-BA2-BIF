@@ -42,7 +42,7 @@ namespace HwInf.Controllers
                 .Select(i => new DeviceViewModel(i).LoadMeta(i))
                 .ToList();
 
-                return Ok(vmdl);
+            return Ok(vmdl);
         }
 
 
@@ -143,7 +143,7 @@ namespace HwInf.Controllers
             {
                 var deviceTypes = _bl.GetDeviceTypes()
                     .ToList()
-                    .Select(i => new DeviceTypeViewModel(i).LoadComponents(i))  // LoadComponents?
+                    .Select(i => new DeviceTypeViewModel(i))  // LoadComponents?
                     .ToList();
 
 
@@ -166,41 +166,37 @@ namespace HwInf.Controllers
         [Route("types/{type}")]
         public IHttpActionResult GetComponents(string type)
         {
-            try
+            var devices = _bl.GetDevices();
+            var dt = _bl.GetDeviceType(type);
+            var fg = _bl.GetFieldGroups();
+
+            var components = fg.ToList()
+                .Where(i => i.DeviceTypes.Contains(dt))
+                .Select(i => new FieldGroupViewModel(i)).ToList();
+
+            var response = new List<object>();
+
+            var brands = devices
+                .Where(i => i.Type.Name.ToLower() == type.ToLower())
+                .Select(i => i.Brand)
+                .Distinct()
+                .ToList();
+
+            brands.Sort();
+
+            IDictionary<string, object> brandList = new Dictionary<string, object>();
+            brandList.Add("component", "Marke");
+            brandList.Add("values", brands);
+
+            response.Add(brandList);
+            response.Add(components);
+
+            if (response.Count < 2)
             {
-                var devices = _bl.GetDevices();
-                var dt = _bl.GetDeviceType(type);
-                var components = new DeviceTypeViewModel(dt).LoadComponents(dt);
-
-                var response = new List<object>();
-
-                var brands = devices
-                    .Where(i => i.Type.Description.ToLower() == type.ToLower())
-                    .Select(i => i.Brand)
-                    .Distinct()
-                    .ToList();
-
-                brands.Sort();
-
-                IDictionary<string, object> brandList = new Dictionary<string, object>();
-                brandList.Add("component", "Marke");
-                brandList.Add("values", brands);
-
-                response.Add(brandList);
-                response.Add(components);
-
-                if (response.Count < 2)
-                {
-                    return NotFound();
-                }
-
-                return Ok(response);
-            }
-            catch
-            {
-                return InternalServerError();
+                return NotFound();
             }
 
+            return Ok(response);
         }
 
         /// <summary>
@@ -270,7 +266,7 @@ namespace HwInf.Controllers
                 return BadRequest("Status nicht vorhanden.");
             }
 
-            if (_bl.GetPerson(vmdl.Owner.Uid) == null)
+            if (_bl.GetPerson(vmdl.Verwalter.Uid) == null)
             {
                 return BadRequest("Person nicht vorhanden.");
             }

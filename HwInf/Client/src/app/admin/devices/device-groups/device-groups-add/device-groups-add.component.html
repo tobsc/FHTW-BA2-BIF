@@ -1,0 +1,56 @@
+<div class="x_panel">
+  <div class="x_title">
+    <h2>Gruppe erstellen</h2>
+    <div class="clearfix"></div>
+  </div>
+  <div class="x_content">
+    <br>
+    <form [formGroup]="myForm" class="form-horizontal form-label-left" novalidate (ngSubmit)="onSubmit(myForm)">
+
+      <div class="form-group">
+        <label class="control-label  col-xs-12  col-sm-3 col-md-3" htmlFor="groupname">
+            Gruppen-Name
+        </label>
+        <div class="col-xs-12 col-sm-8 col-md-8">
+          <input type="text" name="groupname" id="groupname" required="required" class="form-control col-md-7 col-xs-12" formControlName="Name">
+        </div>
+      </div>
+
+     
+
+        <div>
+            <div class="form-group" *ngFor="let field of myForm.controls.Fields.controls; let i = index;">
+                <label class="control-label col-xs-12 col-sm-3 " htmlFor="field-">
+                    Feld
+                </label>
+                <div class="col-xs-12 col-sm-8 col-md-8 ">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="field-input">
+                                <input type="text" id="field-" name="field-" required="required" class="form-control col-md-7 col-xs-12" >
+                                <a *ngIf="myForm.controls.Fields.controls.length > 1" (click)="removeField(i)" class="btn btn-danger btn-rm-row"><i class="fa fa-times" aria-hidden="true"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+      <div class="form-group">
+        <div class="col-md-6 col-sm-6  col-sm-offset-3 col-xs-12 col-md-offset-3">
+          <button type="button" class="btn btn-default" (click)="addField()">Eigenschaft hinzufügen</button>
+        </div>
+      </div>
+
+      <div class="ln_solid"></div>
+      <div class="form-group">
+        <div class="col-md-6 col-sm-6  col-xs-12 col-md-offset-3">
+          <button type="submit" class="btn btn-success" >Erstellen</button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>

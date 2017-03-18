@@ -3,7 +3,6 @@ import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DeviceListComponent } from './devices/device-list.component';
-import { DeviceFilterComponent } from './devices/device-filter.component';
 import { DevicesStatusDirective } from './devices/devices-status.directive';
 import { CoreModule } from "../core/core.module";
 import { AccordionModule } from "ng2-bootstrap";
@@ -17,7 +16,6 @@ import { OrderStep3Component } from './cart/order-step3/order-step3.component';
     declarations: [
         DashboardComponent,
         DeviceListComponent,
-        DeviceFilterComponent,
         DevicesStatusDirective,
         CartComponent,
         OrderStep1Component,

@@ -12,9 +12,9 @@ namespace HwInf.ViewModels
         public string Name { get; set; }
         public string InvNum { get; set; }
         public string Marke { get; set; }
-        public string Room { get; set; }
+        public string Raum { get; set; }
         public DeviceTypeViewModel DeviceType { get; set; }
-        public UserViewModel Owner { get; set; }
+        public UserViewModel Verwalter { get; set; }
         public DeviceStatusViewModel Status { get;set; }
         public IEnumerable<DeviceMetaViewModel> DeviceMeta { get; set; }
         public bool IsActive { get; set; } = true;
@@ -39,9 +39,9 @@ namespace HwInf.ViewModels
             target.InvNum = source.InvNum;
             target.Marke = source.Brand;
             target.Status = new DeviceStatusViewModel(source.Status);
-            target.DeviceType= new DeviceTypeViewModel(source.Type).LoadComponents(source.Type);
-            target.Room = source.Room;
-            target.Owner = new UserViewModel(source.Person);
+            target.DeviceType= new DeviceTypeViewModel(source.Type);
+            target.Raum = source.Room;
+            target.Verwalter = new UserViewModel(source.Person);
             target.IsActive = source.IsActive;
         }
 
@@ -60,8 +60,8 @@ namespace HwInf.ViewModels
             target.Brand = source.Marke;
             target.Status = bl.GetDeviceStatus(source.Status.StatusId);
             target.Type = bl.GetDeviceType(source.DeviceType.DeviceTypeId);
-            target.Person = bl.GetPerson(source.Owner.Uid);
-            target.Room = source.Room;
+            target.Person = bl.GetPerson(source.Verwalter.Uid);
+            target.Room = source.Raum;
             target.IsActive = source.IsActive;
             target.DeviceMeta = new List<DeviceMeta>();
             source.DeviceMeta.ToList().ForEach(i => target.DeviceMeta.Add(i));
