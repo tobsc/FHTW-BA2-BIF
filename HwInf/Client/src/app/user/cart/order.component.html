@@ -1,17 +1,8 @@
 <!-- Smart Wizard -->
 <div id="wizard" class="form_wizard wizard_horizontal">
     <ul class="wizard_steps">
-        <!--<li>
-            <a routerLink="schritt-1">
-                <span class="step_no">1</span>
-                <span class="step_descr">
-                    Geräte Überprüfen<br />
-                    <small><p>Liste der Geräte bearbeiten</p></small>
-                </span>
-            </a>
-        </li>-->
         <li>
-            <a routerLink="schritt-2">
+            <a routerLink="schritt-1">
                 <span class="step_no">1</span>
                 <span class="step_descr">
                     Zeitraum und Persönliches<br />
@@ -20,7 +11,7 @@
             </a>
         </li>
         <li>
-            <a routerLink="schritt-3">
+            <a routerLink="schritt-2">
                 <span class="step_no">2</span>
                 <span class="step_descr">
                     Bestätigung<br />
@@ -30,14 +21,13 @@
         </li>
     </ul>
 
+    <router-outlet>
 
-    <hwinf-order-step2>
-    </hwinf-order-step2>
-    <hwinf-order-step3>
-    </hwinf-order-step3>
-    <!--<router-outlet>
+    </router-outlet>
+        
+        <!--<router-outlet>
 
-    </router-outlet>-->
+        </router-outlet>-->
 
 </div>
 <!-- End SmartWizard Content -->

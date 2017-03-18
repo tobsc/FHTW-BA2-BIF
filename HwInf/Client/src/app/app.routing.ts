@@ -19,7 +19,8 @@ const APP_ROUTES: Routes = [
             { path: 'geraete/typ/:type', component: DeviceListComponent, canActivate: [AuthGuard] },
             { path: 'warenkorb', component: CartComponent, canActivate: [AuthGuard], },
             { path: 'anfrage', component: OrderComponent, canActivate: [AuthGuard], 
-                children: [ { path: 'schritt-1', component: OrderStep1Component, canActivate: [AuthGuard] },
+                children: [{ path: '', redirectTo: 'schritt-1', pathMatch: 'full' },
+                            { path: 'schritt-1', component: OrderStep1Component, canActivate: [AuthGuard] },
                             { path: 'schritt-2', component: OrderStep2Component, canActivate: [AuthGuard] },]
                 },
         ]

@@ -1,6 +1,7 @@
 import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
-import {FormsModule} from "@angular/forms";
+import { FormsModule } from "@angular/forms";
+import { RouterModule } from "@angular/router";
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DeviceListComponent } from './devices/device-list.component';
 import { DevicesStatusDirective } from './devices/devices-status.directive';
@@ -25,6 +26,7 @@ import { OrderComponent } from './cart/order.component';
         CommonModule,
         FormsModule,
         CoreModule,
+        RouterModule,
         AccordionModule.forRoot()
     ]
 })

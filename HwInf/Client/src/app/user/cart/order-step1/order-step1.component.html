@@ -1,7 +1,7 @@
 <div id="step-1">
     <form class="form-horizontal form-label-left" (ngSubmit)="update(f)" #f="ngForm">
         <div align="center">
-            <input class="btn btn-success" type="submit" value="Weiter">
+            <button [disabled]="user?.Tel?.length==0" class="btn btn-success" routerLink="/anfrage">Bestellen</button>
         </div>
         <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="daterange">

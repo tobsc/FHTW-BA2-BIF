@@ -19,7 +19,7 @@
                             <div id="step-1">
                                 <div class="col-md-12">
                                     <div align="center">
-                                        <input routerLink="/anfrage" class="btn btn-success" type="submit" value="Bestellen">
+                                        <button [disabled]="devices.length<1" class="btn btn-success" routerLink="/anfrage">Bestellen</button>
                                     </div>
                                     <accordion [closeOthers]=true class="accordion">
                                         <div *ngFor="let device of devices; let i = index">
