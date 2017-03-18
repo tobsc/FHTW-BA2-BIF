@@ -1,45 +1,11 @@
-<div id="step-2" >
-
-    <form class="form-horizontal form-label-left" (ngSubmit)="update(f)" #f="ngForm">
-        <div align="center">
-            <input class="btn btn-success" type="submit" value="Weiter">
-        </div>
-        <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="daterange">
-                Zeitraum <span class="required">*</span>
-            </label>
-            <div class="col-md-6 col-sm-6 col-xs-12" name="parent">
-                <input type="text" name="daterange" value="01/01/2015 - 01/31/2015" class="form-control col-md-7 col-xs-12" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">
-                Name <span class="required"> </span>
-            </label>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                <input type="text" required="required" class="form-control col-md-7 col-xs-12" placeholder="NAME" name="Name" value="{{user?.LastName}} {{user?.Name}}" disabled="disabled">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="matrikelnummer" class="control-label col-md-3 col-sm-3 col-xs-12">Matrikelnummer</label>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                <input input class="form-control col-md-7 col-xs-12" type="text" placeholder="MATRIKELNUMMER" name="Mat" value="{{user?.Uid}}" disabled="disabled">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12">
-                Telefonnummer <span class="required">*</span>
-            </label>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                <input input class="form-control col-md-7 col-xs-12" placeholder="TELEFONNUMMER" name="Tel" type="text" ngModel required autofocus value="{{user?.Tel}}">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12">
-
-            </label>
-
-        </div>
-
-    </form>
+<div id="step-2">
+    <div align="center">
+        <input class="btn btn-success" type="submit" value="Weiter">
+        <a href="#" class="buttonNext btn btn-success">Next</a>
+        <a href="#" class="buttonPrevious btn btn-primary">Previous</a>
+    </div>
+    <h2 class="StepTitle">Ihre Bestellung wurde bestätigt</h2>
+    <p>
+        Ihre Bestellung wird nun an den Verwalter gesendet und Sie werden in Kürze Rückmeldung per Mail erhalten.
+    </p>
 </div>

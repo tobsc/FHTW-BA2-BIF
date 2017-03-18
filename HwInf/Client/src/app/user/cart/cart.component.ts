@@ -16,7 +16,7 @@ import { CanActivate, Router, RouterModule, RouterStateSnapshot, ActivatedRouteS
 })
 export class CartComponent implements OnInit {
 
-    private devices: any[];
+    private devices: Device[];
     private user: User;
 
     constructor(
