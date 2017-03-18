@@ -17,13 +17,18 @@ export class CustomFieldsService {
       'Content-Type': 'application/json'
     });
     let options = new RequestOptions({headers: headers});
-    return this.http.post('/api/admin/devices/groups', bodyString, options)
+    return this.http.post('/api/customfields/fieldgroups', bodyString, options)
         .map((response: Response) => response.json());
   }
 
 
   public getFieldGroups(): Observable<FieldGroup[]> {
-    return this.http.get('/api/admin/devices/groups')
+    return this.http.get('/api/customfields/fieldgroups')
+        .map((response: Response) => response.json());
+  }
+
+  public getFieldGroupsOfType ( deviceTypeSlug: string): Observable<FieldGroup[]> {
+    return this.http.get('/api/customfields/fieldgroups/' + deviceTypeSlug)
         .map((response: Response) => response.json());
   }
 }
