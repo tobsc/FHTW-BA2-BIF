@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {DeviceType} from "../../../../shared/models/device-type.model";
 import {DeviceService} from "../../../../shared/services/device.service";
+import {CustomFieldsService} from "../../../../shared/services/custom-fields.service";
+import {FieldGroup} from "../../../../shared/models/fieldgroup.model";
 
 @Component({
   selector: 'hwinf-device-custom-fields-fieldgroups-list',
@@ -9,23 +11,23 @@ import {DeviceService} from "../../../../shared/services/device.service";
 })
 export class DeviceCustomFieldsFieldgroupsListComponent implements OnInit {
 
-  private deviceTypes: DeviceType[] = [];
+  private fieldGroups: FieldGroup[] = [];
 
-  constructor(private deviceService: DeviceService) { }
+  constructor(private customFieldsService: CustomFieldsService) { }
 
   ngOnInit() {
     this.fetchData();
   }
 
   fetchData() {
-    this.deviceService.getDeviceTypes()
+    this.customFieldsService.getFieldGroups()
         .subscribe((data) => {
-          this.deviceTypes = data;
+          this.fieldGroups = data;
         });
   }
 
-  pushData(item: DeviceType) {
-    this.deviceTypes.push(item);
+  pushData(item: FieldGroup) {
+    this.fieldGroups.push(item);
   }
 
 }

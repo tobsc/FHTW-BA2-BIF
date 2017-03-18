@@ -16,7 +16,7 @@ export class DeviceTypesComponent implements OnInit {
   ngOnInit() {
   }
 
-  foo(item: DeviceType) {
+  pushData(item: DeviceType) {
     this.list.pushData(item);
   }
 
