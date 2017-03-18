@@ -9,6 +9,7 @@ import { CanActivate, Router, RouterModule, RouterStateSnapshot, ActivatedRouteS
 
 
 
+
 @Component({
     selector: 'hwinf-order-step1',
     templateUrl: './order-step1.component.html',
@@ -18,6 +19,7 @@ export class OrderStep1Component implements OnInit {
 
     private devices: Device[];
     private user: User;
+    private date: string;
 
     constructor(
         private cartService: CartService,
@@ -42,4 +44,6 @@ export class OrderStep1Component implements OnInit {
             this.userService.updateUser(this.user);
         }
     }
+
+    
 }

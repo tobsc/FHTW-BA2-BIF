@@ -8,6 +8,7 @@ import { DeviceListComponent } from "./user/devices/device-list.component";
 import { CartComponent } from "./user/cart/cart.component";
 import { OrderStep1Component } from "./user/cart/order-step1/order-step1.component";
 import { OrderStep2Component } from "./user/cart/order-step2/order-step2.component";
+import { OrderStep3Component } from "./user/cart/order-step3/order-step3.component";
 import { OrderComponent } from "./user/cart/order.component";
 
 const APP_ROUTES: Routes = [
@@ -21,7 +22,8 @@ const APP_ROUTES: Routes = [
             { path: 'anfrage', component: OrderComponent, canActivate: [AuthGuard], 
                 children: [{ path: '', redirectTo: 'schritt-1', pathMatch: 'full' },
                             { path: 'schritt-1', component: OrderStep1Component, canActivate: [AuthGuard] },
-                            { path: 'schritt-2', component: OrderStep2Component, canActivate: [AuthGuard] },]
+                            { path: 'schritt-2', component: OrderStep2Component, canActivate: [AuthGuard] },
+                            { path: 'schritt-3', component: OrderStep3Component, canActivate: [AuthGuard] },]
                 },
         ]
     },

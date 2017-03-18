@@ -1,11 +1,42 @@
-<div id="step-2">
-    <div align="center">
-        <input class="btn btn-success" type="submit" value="Weiter">
-        <a href="#" class="buttonNext btn btn-success">Next</a>
-        <a href="#" class="buttonPrevious btn btn-primary">Previous</a>
-    </div>
-    <h2 class="StepTitle">Ihre Bestellung wurde bestätigt</h2>
-    <p>
-        Ihre Bestellung wird nun an den Verwalter gesendet und Sie werden in Kürze Rückmeldung per Mail erhalten.
-    </p>
-</div>
+ï»¿<div class="col-md-12 col-sm-12 col-xs-12">
+   
+            <div id="step-1">
+                <div class="col-md-12">
+                    <div align="center">
+                        <button class="btn btn-success" routerLink="/anfrage/schritt-3">Weiter</button>
+                        <button class="btn btn-warning" routerLink="/anfrage/schritt-1">ZurÃ¼ck</button>
+                        <button class="btn btn-danger" routerLink="/warenkorb">Abbrechen</button>
+                    </div>
+                    <accordion [closeOthers]=true class="accordion">
+                        <div *ngFor="let device of devices; let i = index">
+                            <div class="col-md-12">
+                                <accordion-group>
+                                    <div accordion-heading>
+                                        <h3>{{device.Name}} <small>Inventarnummer: {{device.InvNum}}</small></h3>
+                                    </div>
+                                    <div id="{{device.InvNum}}" class="panel-collapse" role="tabpanel" attr.aria-labelledby="headingTwo" attr.aria-expanded="true">
+                                        <div class="panel-body">
+                                            <ul>
+                                                <li>
+                                                    Name: {{device.Name}}
+                                                </li>
+                                                <li>
+                                                    Inventarnummer: {{device.InvNum}}
+                                                </li>
+                                                <li>
+                                                    Verwalter: {{device.Verwalter.Name}} {{device.Verwalter.LastName}}
+                                                </li>
+                                                <li>
+                                                    Marke: {{device.Marke}}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </accordion-group>
+                            </div>
+                        </div>
+                    </accordion>
+
+                </div>
+            </div>
+        </div>

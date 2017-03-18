@@ -1,24 +1,35 @@
-<!-- Smart Wizard -->
+ï»¿<!-- Smart Wizard -->
 <div id="wizard" class="form_wizard wizard_horizontal">
     <ul class="wizard_steps">
         <li>
-            <a routerLink="schritt-1">
+            <a [ngClass]="getClass(1)" >
                 <span class="step_no">1</span>
                 <span class="step_descr">
-                    Zeitraum und Persönliches<br />
-                    <small>Datum auswählen, Daten überprüfen</small>
+                    Zeitspanne<br />
+                    <small>PersÃ¶nliches</small>
                 </span>
             </a>
         </li>
         <li>
-            <a routerLink="schritt-2">
+            <a [ngClass]="getClass(2)">
                 <span class="step_no">2</span>
                 <span class="step_descr">
-                    Bestätigung<br />
-                    <small>Ausborgen bestätigt</small>
+                    GerÃ¤te<br />
+                    <small>Aufgelistet</small>
                 </span>
             </a>
         </li>
+        <li>
+            <a [ngClass]="getClass(3)">
+                <span class="step_no">3</span>
+                <span class="step_descr">
+                    BestÃ¤tigung<br />
+                    <small>Fertig!</small>
+                </span>
+            </a>
+        </li>
+        
+
     </ul>
 
     <router-outlet>

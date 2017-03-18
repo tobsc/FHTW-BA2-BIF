@@ -11,6 +11,7 @@ import { CartComponent } from './cart/cart.component';
 import { OrderStep1Component } from './cart/order-step1/order-step1.component';
 import { OrderStep2Component } from './cart/order-step2/order-step2.component';
 import { OrderComponent } from './cart/order.component';
+import { OrderStep3Component } from './cart/order-step3/order-step3.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { OrderComponent } from './cart/order.component';
         CartComponent,
         OrderStep1Component,
         OrderStep2Component,
-        OrderComponent],
+        OrderComponent,
+        OrderStep3Component],
     imports: [
         CommonModule,
         FormsModule,
