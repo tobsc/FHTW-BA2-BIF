@@ -8,9 +8,9 @@ namespace HwInf
 {
     public class SlugGenerator
     {
-        private static BL _bl = new BL();
+        private static readonly BL Bl = new BL();
 
-        public static string GenerateSlug(string value)
+        public static string GenerateSlug(string value, string entity = null)
         {
             //First to lower case
             value = value.ToLowerInvariant();
@@ -35,49 +35,47 @@ namespace HwInf
             //Replace double occurences of - or _
             value = Regex.Replace(value, @"([-_]){2,}", "$1", RegexOptions.Compiled);
 
+
+            if (!string.IsNullOrWhiteSpace(entity))
+            {
+                value = CheckDuplicates(value, entity);
+            }
+
+
             return value;
         }
 
-        private string CheckDuplicates(string value)
+        private static string CheckDuplicates(string value, string entity)
         {
 
-            var a = Regex.Matches(value, "(slug-name){1}[-]*[0-9]*");
-
-            return value;
-        }
-
-        public static int test(string value, string entity)
-        {
-            List<string> l = new List<string>(); 
+            var slugList = new List<string>();
 
             switch (entity)
             {
                 case "fieldGroup":
-                    l = _bl.GetFieldGroups().Select(i => i.Slug).ToList();
+                    slugList = Bl.GetFieldGroups().Select(i => i.Slug).ToList();
                     break;
 
                 case "field":
-                    l = _bl.GetFields().Select(i => i.Slug).ToList();
+                    slugList = Bl.GetFields().Select(i => i.Slug).ToList();
                     break;
                 case "deviceType":
-                    l = _bl.GetDeviceTypes().Select(i => i.Slug).ToList();
+                    slugList = Bl.GetDeviceTypes().Select(i => i.Slug).ToList();
+                    break;
+                default:
                     break;
 
             }
 
+            var filter = "(" + value + "){1}[-]*[0-9]*";
+            var duplicatesList = slugList.Where(x => Regex.IsMatch(x, filter, RegexOptions.IgnoreCase)).ToList();
 
-            var fg =_bl.GetFieldGroups().Select(i => i.Slug).ToList();
-
-            string filter = "("+value+"){1}[-]*[0-9]*";
-
-            List<string> a = fg.Where(x => Regex.IsMatch(x, filter, RegexOptions.IgnoreCase)).ToList();
-
-            if(a.Count != null)
+            if (duplicatesList.Count != 0)
             {
-                
+                value = value + "-" + duplicatesList.Count;
             }
 
-            return a.Count;
+            return value;
         }
     }
 }
