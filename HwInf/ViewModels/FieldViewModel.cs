@@ -38,7 +38,7 @@ namespace HwInf.ViewModels
             var source = this;
 
             target.Name = source.Name;
-            target.Slug = SlugGenerator.GenerateSlug(source.Name);
+            target.Slug = SlugGenerator.GenerateSlug(source.Name, "field");
         }
 
         public static implicit operator Field(FieldViewModel vmdl)
@@ -46,7 +46,7 @@ namespace HwInf.ViewModels
             return new Field
             {
                 Name = vmdl.Name,
-                Slug = SlugGenerator.GenerateSlug(vmdl.Name)
+                Slug = SlugGenerator.GenerateSlug(vmdl.Name, "field")
             };
         }
     }

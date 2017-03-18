@@ -29,13 +29,14 @@ namespace HwInf.Controllers
         // GET: api/admin/devices/groups
         /// <summary>
         /// Returns all Field Groups
-        /// <param name="input"></param>
         /// </summary>
+        /// <param name="input">String</param>
+        /// <param name="entity">Entity Name (deviceType, fieldGroup)</param>
         /// <returns></returns>
         [Route("slug")]
-        public IHttpActionResult GetSlug(string input)
+        public IHttpActionResult GetSlug(string input, string entity)
         {
-            return Ok(SlugGenerator.GenerateSlug(input));
+            return Ok(SlugGenerator.GenerateSlug(input, entity));
         }
 
         // GET: api/admin/devices/groups
@@ -149,20 +150,6 @@ namespace HwInf.Controllers
 
             vmdl.Refresh(dt);
             return Ok(vmdl);
-        }
-
-
-        // POST: api/admin/devices/types
-        /// <summary>
-        /// Create New DeviceType
-        /// </summary>
-        /// <returns></returns>
-        [ResponseType(typeof(DeviceViewModel))]
-        [Route("slugtest")]
-        public IHttpActionResult GetSlugDuplicate(string slug, string entity)
-        {
-
-            return Ok(SlugGenerator.test(slug, entity));
         }
 
 

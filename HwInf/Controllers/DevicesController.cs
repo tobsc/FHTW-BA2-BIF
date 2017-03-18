@@ -190,7 +190,7 @@ namespace HwInf.Controllers
 
             var f = new List<FieldViewModel>();
             f = brands
-                .Select(i => new FieldViewModel{ Name = i, Slug = SlugGenerator.GenerateSlug(i) })
+                .Select(i => new FieldViewModel{ Name = i, Slug = SlugGenerator.GenerateSlug(i, "field") })
                 .ToList();
 
             var x = new FieldGroupViewModel {Name = "Marke", Slug = "brand", Fields = f};

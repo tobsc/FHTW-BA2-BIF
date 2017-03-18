@@ -46,7 +46,7 @@ namespace HwInf.ViewModels
             var source = this;
 
             target.Name = source.Name;
-            target.Slug = SlugGenerator.GenerateSlug(source.Name);
+            target.Slug = SlugGenerator.GenerateSlug(source.Name, "deviceType");
             target.FieldGroups = new List<FieldGroup>();
 
             var fgs = source.FieldGroups.Select(i => bl.GetFieldGroups(i.Slug)).ToList();
