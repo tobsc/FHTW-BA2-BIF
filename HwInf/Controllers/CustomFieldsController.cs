@@ -14,14 +14,14 @@ using HwInf.ViewModels;
 
 namespace HwInf.Controllers
 {
-    [RoutePrefix("api/admin")]
+    [RoutePrefix("api/customfields")]
     [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
-    public class AdminController : ApiController
+    public class CustomFieldsController : ApiController
     {
         private readonly HwInfContext _db = new HwInfContext();
         private readonly BL _bl;
 
-        public AdminController()
+        public CustomFieldsController()
         {
             _bl = new BL(_db);
         }
@@ -32,7 +32,7 @@ namespace HwInf.Controllers
         /// <param name="input"></param>
         /// </summary>
         /// <returns></returns>
-        [Route("devices/slug")]
+        [Route("slug")]
         public IHttpActionResult GetSlug(string input)
         {
             return Ok(SlugGenerator.GenerateSlug(input));
@@ -44,12 +44,32 @@ namespace HwInf.Controllers
         /// </summary>
         /// <returns></returns>
         [ResponseType(typeof(IQueryable<FieldGroupViewModel>))]
-        [Route("devices/groups")]
+        [Route("fieldgroups")]
         public IHttpActionResult GetGroups()
         {
 
             var vmdl = _bl.GetFieldGroups()
                 .ToList()
+                .Select(i => new FieldGroupViewModel(i));
+
+            return Ok(vmdl);
+        }
+
+
+        // POST: api/admin/devices/types
+        /// <summary>
+        /// Return FieldGroups of a DeviceType
+        /// </summary>
+        /// <returns>List of FieldGroups</returns>
+        [ResponseType(typeof(FieldGroupViewModel))]
+        [Route("fieldgroups/{typeSlug}")]
+        public IHttpActionResult GetGroupsOfDeviceType(string typeSlug)
+        {
+            var dt = _bl.GetDeviceType(typeSlug);
+
+            var vmdl = _bl.GetFieldGroups()
+                .ToList()
+                .Where(i => i.DeviceTypes.Contains(dt))
                 .Select(i => new FieldGroupViewModel(i));
 
             return Ok(vmdl);
@@ -61,7 +81,7 @@ namespace HwInf.Controllers
         /// </summary>
         /// <returns></returns>
         [ResponseType(typeof(DeviceViewModel))]
-        [Route("devices/groups")]
+        [Route("fieldgroups")]
         public IHttpActionResult PostGroup(FieldGroupViewModel vmdl)
         {
             var obj = _bl.CreateFieldGroup();
@@ -76,7 +96,7 @@ namespace HwInf.Controllers
         /// </summary>
         /// <returns></returns>
         [ResponseType(typeof(DeviceViewModel))]
-        [Route("devices/groups/fields")]
+        [Route("fields")]
         public IHttpActionResult PostField(string groupSlug, FieldViewModel vmdl)
         {
             var obj = _bl.GetFieldGroups(groupSlug);
@@ -129,6 +149,20 @@ namespace HwInf.Controllers
 
             vmdl.Refresh(dt);
             return Ok(vmdl);
+        }
+
+
+        // POST: api/admin/devices/types
+        /// <summary>
+        /// Create New DeviceType
+        /// </summary>
+        /// <returns></returns>
+        [ResponseType(typeof(DeviceViewModel))]
+        [Route("slugtest")]
+        public IHttpActionResult GetSlugDuplicate(string slug, string entity)
+        {
+
+            return Ok(SlugGenerator.test(slug, entity));
         }
 
 

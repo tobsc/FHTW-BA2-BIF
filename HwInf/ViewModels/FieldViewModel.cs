@@ -9,7 +9,6 @@ namespace HwInf.ViewModels
     public class FieldViewModel
     {
 
-        public int FieldId { get; set; }
         public string Name { get; set; }
         public string Slug { get; set; }
 
@@ -31,7 +30,6 @@ namespace HwInf.ViewModels
 
             target.Name = source.Name;
             target.Slug = source.Slug;
-            target.FieldId = source.FieldId;
         }
 
         public void ApplyChanges(Field fg, BL bl)

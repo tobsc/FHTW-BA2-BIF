@@ -10,7 +10,6 @@ namespace HwInf.ViewModels
     public class FieldGroupViewModel
     {
 
-        public int GroupId { get; set; }
         public string Name { get; set; }
         public string Slug { get; set; }
         public ICollection<FieldViewModel> Fields { get; set; }
@@ -33,9 +32,7 @@ namespace HwInf.ViewModels
 
             target.Name = source.Name;
             target.Slug = source.Slug;
-            target.Fields = source.Fields.Select(i => new FieldViewModel(i)).ToList();
-            target.GroupId = source.GroupId;
-        }
+            target.Fields = source.Fields.Select(i => new FieldViewModel(i)).ToList();        }
 
         public void ApplyChanges(FieldGroup fg, BL bl)
         {
