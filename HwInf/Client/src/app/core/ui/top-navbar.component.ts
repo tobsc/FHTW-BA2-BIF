@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {AuthService} from "../../authentication/auth.service";
 import { AppComponent } from "../../app.component";
 import { CartService } from "../../shared/services/cart.service";
+import { User } from "../../../shared/models/user.model";
+import { UserService } from "../../shared/services/user.service";
 
 @Component({
   selector: 'hwinf-top-navbar',
@@ -9,12 +11,14 @@ import { CartService } from "../../shared/services/cart.service";
   styleUrls: ['./top-navbar.component.scss']
 })
 export class TopNavbarComponent implements OnInit {
-
+  private user: User;
   private isCollapsed: boolean = false;
+
   constructor(
       private authService: AuthService,
       private rootComp: AppComponent,
-      private cartService: CartService
+      private cartService: CartService,
+      private userService: UserService
   ) {  }
 
   setClass() {
@@ -28,7 +32,7 @@ export class TopNavbarComponent implements OnInit {
   }
 
   ngOnInit() {
-
+      this.userService.getUser().subscribe((data) => this.user = data);
   }
 
   public logout(): void {
