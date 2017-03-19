@@ -12,6 +12,8 @@ import { DeviceTypesAddComponent } from './devices/device-types/device-types-add
 import { DeviceCustomFieldsComponent } from './devices/device-custom-fields/device-custom-fields.component';
 import { DeviceCustomFieldsFieldgroupsListComponent } from './devices/device-custom-fields/device-custom-fields-fieldgroups-list/device-custom-fields-fieldgroups-list.component';
 import { DeviceCustomFieldsFieldgroupsAddComponent } from './devices/device-custom-fields/device-custom-fields-fieldgroups-add/device-custom-fields-fieldgroups-add.component';
+import {Ng2AutoCompleteModule} from "ng2-auto-complete";
+import {FieldsToArrayPipe} from "./devices/device-add/fields-to-array.pipe";
 
 @NgModule({
     declarations: [
@@ -24,12 +26,14 @@ import { DeviceCustomFieldsFieldgroupsAddComponent } from './devices/device-cust
         DeviceCustomFieldsComponent,
         DeviceCustomFieldsFieldgroupsListComponent,
         DeviceCustomFieldsFieldgroupsAddComponent,
+        FieldsToArrayPipe,
     ],
     imports: [
         CoreModule,
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
+        Ng2AutoCompleteModule,
         adminRouting
     ],
 })
