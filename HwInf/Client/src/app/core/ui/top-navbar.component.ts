@@ -5,6 +5,7 @@ import { CartService } from "../../shared/services/cart.service";
 import { UserService } from "../../shared/services/user.service";
 import { User } from "../../shared/models/user.model";
 
+
 @Component({
   selector: 'hwinf-top-navbar',
   templateUrl: './top-navbar.component.html',
