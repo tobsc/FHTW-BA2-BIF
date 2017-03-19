@@ -28,7 +28,6 @@ namespace HwInf.ViewModels
         public string Room { get; set; }
         public string Password { get; set; }
 
-
         public void Refresh(Person obj)
         {
 
@@ -65,8 +64,17 @@ namespace HwInf.ViewModels
             target.Name = source.Firstname;
             target.LastName = source.Lastname;
             target.Email = source.Mail;
-            target.Role = string.IsNullOrWhiteSpace(obj.PersonalType) ? "User" : obj.PersonalType;
-            
+
+            switch (source.PersonalType)
+            {
+                case "Teacher":
+                    target.Role = "Owner";
+                    break;
+                default:
+                    target.Role = "User";
+                    break;
+            }
+        
 
         }
 

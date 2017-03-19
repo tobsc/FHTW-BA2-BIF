@@ -45,6 +45,28 @@ namespace HwInf.Controllers
             return Ok(vmdl);
         }
 
+        // GET: api/devices/all
+        /// <summary>
+        /// Returns a list of all devices
+        /// </summary>
+        /// <param name="limit">Limit</param>
+        /// <param name="offset">Offset</param>
+        /// <returns></returns>
+        [ResponseType(typeof(DeviceViewModel))]
+        [Authorize(Roles = "Admin, Owner")]
+        [Route("admin")]
+        public IHttpActionResult GetAllAdmin(int limit = 25, int offset = 0)
+        {
+            var vmdl = _bl.GetDevices(limit, offset, false, 0, true)
+                .ToList()
+                .Select(i => new DeviceViewModel(i).LoadMeta(i))
+                .ToList();
+
+            if(!_bl.IsAdmin()) vmdl = vmdl.TakeWhile(i => i.Verwalter.Uid == User.Identity.Name).ToList();
+
+            return Ok(vmdl.Skip(offset).Take(limit));
+        }
+
 
         // GET: api/devices/{id}
         /// <summary>
@@ -325,7 +347,7 @@ namespace HwInf.Controllers
 
         // PUT: api/Devicee/5
         /// <summary>
-        /// NOT IMPLEMENTED!
+        /// Update a Devices
         /// </summary>
         /// <param name="id"></param>
         /// <param name="dev"></param>

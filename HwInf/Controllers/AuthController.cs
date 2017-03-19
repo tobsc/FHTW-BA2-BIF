@@ -48,7 +48,9 @@ namespace HwInf.Controllers
             // Load user data from LDAP and save them into DB
             var ldapUser = LDAPAuthenticator.Authenticate(vmdl.Uid, vmdl.Password);
             vmdl.Refresh(ldapUser);
+            bool isAdmin = _bl.IsAdminRole(vmdl.Uid);
             vmdl.ApplyChanges(p, _bl);
+            if (isAdmin) p.Role = _bl.GetRole("Admin");
             _db.SaveChanges();
 
             // Create new token from user
