@@ -74,7 +74,6 @@ namespace HwInf.Common.BL
             return _dal.DeviceTypes.Include(x => x.FieldGroups.Select(y => y.DeviceTypes));
         }
 
-
         public IQueryable<DeviceMeta> GetDeviceMeta()
         {
             return _dal.DeviceMeta.Include(x => x.FieldGroup);
@@ -98,20 +97,25 @@ namespace HwInf.Common.BL
         // Create
         public Device CreateDevice()
         {
+            if (!IsAdmin() && !IsOwner()) return null;
+
             var dev = new Device();
             _dal.Devices.Add(dev);
             return dev;
-
         }
 
         public DeviceMeta CreateDeviceMeta(DeviceMeta dm)
         {
+            if (!IsAdmin() && !IsOwner()) return null;
+
             _dal.DeviceMeta.Add(dm);
             return dm;
         }
 
         public DeviceType CreateDeviceType()
         {
+            if (!IsAdmin() && !IsOwner()) return null;
+
             var dt = new DeviceType();
             _dal.DeviceTypes.Add(dt);
             return dt;
@@ -121,16 +125,22 @@ namespace HwInf.Common.BL
         // Update
         public void UpdateDevice(Device device)
         {
+            if (!IsAdmin() && !IsOwner()) return;
+
             _dal.Entry(device).State = EntityState.Modified;
         }
 
         public void UpdateDeviceMeta(DeviceMeta deviceMeta)
         {
+            if (!IsAdmin() && !IsOwner()) return;
+
             _dal.Entry(deviceMeta).State = EntityState.Modified;
         }
 
         public void DeleteDevice(int deviceId)
         {
+            if (!IsAdmin() && !IsOwner()) return;
+
             var device = _dal.Devices.Find(deviceId);
             UpdateDevice(device);
             if (device != null) device.IsActive = false;
@@ -164,6 +174,8 @@ namespace HwInf.Common.BL
         // Create
         public FieldGroup CreateFieldGroup()
         {
+            if (!IsAdmin() && !IsOwner()) return null;
+
             var fg = new FieldGroup();
             _dal.FieldGroups.Add(fg);
             return fg;
@@ -171,6 +183,8 @@ namespace HwInf.Common.BL
 
         public Field CreateField()
         {
+            if (!IsAdmin() && !IsOwner()) return null;
+
             var obj = new Field();
             _dal.Fields.Add(obj);
 
@@ -180,6 +194,8 @@ namespace HwInf.Common.BL
         // Update
         public void UpdateFieldGroup(FieldGroup obj)
         {
+            if (!IsAdmin() && !IsOwner()) return;
+
             _dal.Entry(obj).State = EntityState.Modified;
         }
 
@@ -233,6 +249,11 @@ namespace HwInf.Common.BL
         public bool IsAdmin()
         {
             return System.Threading.Thread.CurrentPrincipal.IsInRole("Admin");
+        }
+
+        public bool IsAdminRole(string uid)
+        {
+            return _dal.Persons.Any(i => i.Uid == uid && i.IsAdmin);
         }
 
         public bool IsOwner()
