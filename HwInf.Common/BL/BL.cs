@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using HwInf.Common.DAL;
 using System.Linq;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Diagnostics.CodeAnalysis;
 using System.Security;
 using HwInf.Common.Models;
@@ -259,6 +260,14 @@ namespace HwInf.Common.BL
         public bool IsOwner()
         {
             return System.Threading.Thread.CurrentPrincipal.IsInRole("Owner");
+        }
+
+        public void SetAdmin(Person obj)
+        {
+            if (!IsAdmin()) return;
+            obj.IsAdmin = true;
+            obj.Role = GetRole("Admin");
+
         }
 
         public string CreateToken(Person p)

@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Data.Entity.Validation;
+using System.Diagnostics;
+using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Description;
 using HwInf.Common.BL;
@@ -72,6 +74,25 @@ namespace HwInf.Controllers
             return Ok(vmdl);
         }
 
+        /// <summary>
+        /// Add Admin
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <returns></returns>
+        [Route("admin")]
+        [Authorize(Roles = "Admin")]
+        public IHttpActionResult PutAddAdmin(string uid)
+        {
+
+            var p = _bl.GetUsers(uid);
+            _bl.SetAdmin(p);
+            _bl.SaveChanges();  
+       
+
+
+            return Ok();
+        }
+
 
         protected override void Dispose(bool disposing)
         {
@@ -80,16 +101,6 @@ namespace HwInf.Controllers
                 _db.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        private bool IsCurrentUser(string uid)
-        {
-            return User.Identity.Name == uid;
-        }
-
-        private bool IsAdmin()
-        {
-            return RequestContext.Principal.IsInRole("Admin");
         }
     }
 }
