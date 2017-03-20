@@ -26,7 +26,11 @@ export class SidebarComponent implements OnInit, CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> |
         boolean {
-        return this.adminGuard.canActivate() || this.verwalterGuard.canActivate();
+        return this.verwalterGuard.canActivate();
+  }
+
+    canActivateSettings(): boolean{
+        return this.adminGuard.canActivate();
     }
 
     ngOnInit() {

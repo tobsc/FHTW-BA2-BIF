@@ -15,7 +15,7 @@ export class VerwalterGuard implements CanActivate {
             return false;
         }
 
-        return this.jwtService.isVerwalter();
+        return this.jwtService.isVerwalter() || this.jwtService.isAdmin();
 
         //oberer code equivalent zu?
         //this.getRole(localStorage.getItem('auth_token')).toLowerCase() === 'admin';
