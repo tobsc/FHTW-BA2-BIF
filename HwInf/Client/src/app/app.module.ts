@@ -16,6 +16,7 @@ import { AdminModule} from "./admin/admin.module";
 import { AlertModule, DropdownModule, CollapseModule, AccordionModule} from 'ng2-bootstrap';
 import { AuthGuard } from "./authentication/auth.guard";
 import { AdminGuard } from "./authentication/admin.guard";
+import { VerwalterGuard } from "./authentication/verwalter.guard";
 import { JwtService } from "./shared/services/jwt.service";
 import { UserService } from "./shared/services/user.service";
 
@@ -68,6 +69,7 @@ export function feedbackHttpFactory(backend: XHRBackend, options: RequestOptions
         AuthService,
         AuthGuard,
         AdminGuard,
+        VerwalterGuard,
         DeviceService,
         JwtService,
         CartService,

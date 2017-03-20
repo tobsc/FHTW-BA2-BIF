@@ -261,6 +261,11 @@ namespace HwInf.Common.BL
             return System.Threading.Thread.CurrentPrincipal.IsInRole("Owner");
         }
 
+        public bool IsVerwalterRole(string uid)
+        {
+            return _dal.Persons.Any(i => i.Uid == uid && i.Role.Name.Equals("Owner"));
+        }
+
         public string CreateToken(Person p)
         {
             var unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
