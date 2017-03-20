@@ -9,62 +9,132 @@
   </div>
 </div>
 
+
+<div class="x_panel">
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit(form)">
+    <div class="form-group">
+      <label htmlFor="name">
+        Name
+      </label>
+      <input id="Name" name="Name" class="form-control" type="text" formControlName="Name">
+    </div>
+
+
+    <div class="form-group">
+      <label htmlFor="InvNum">
+        Inventarnummer
+      </label>
+      <input id="InvNum" name="InvNum" class="form-control" type="text" formControlName="InvNum">
+    </div>
+
+    <div class="form-group">
+      <label htmlFor="Marke">
+        Marke
+      </label>
+      <input id="Marke" name="Marke" class="form-control" type="text" formControlName="Marke">
+    </div>
+
+
+    <div class="form-group">
+      <label htmlFor="Raum">
+        Raum
+      </label>
+      <input id="Raum" name="Raum" class="form-control" type="text" formControlName="Raum">
+    </div>
+
+
+
+    <div class="form-group" formGroupName="Person">
+      <label htmlFor="Person">
+        Verwalter
+      </label>
+      <input id="Person" name="Person" class="form-control" type="text" formControlName="Uid">
+    </div>
+
+    <div class="form-group">
+      <label for="type">
+        Typ
+      </label>
+      <select id="type" class="select2_group form-control" name="value1" [(ngModel)]="selectedType" (ngModelChange)="onSelectedTypeChange()" [ngModelOptions]="{standalone: true}">
+        <option *ngFor="let deviceType of deviceTypes | async; let i = index" [selected]="i == 0"  [ngValue]="deviceType.Slug">
+          {{deviceType.Name}}
+        </option>
+      </select>
+    </div>
+
+
+    <div class="form-group" formArrayName="DeviceMeta">
+
+      <div *ngFor="let fieldGroup of fieldGroups; let i = index">
+        <h4>{{fieldGroup.Name}}</h4>
+        <div class="ln_solid"></div>
+            <div [formGroupName]="i">
+              <input id="FieldGroup" name="FieldGroup" class="form-control" type="hidden" ngModel="{{fieldGroup.Slug}}" formControlName="FieldGroup">
+              <input id="Field" name="Field" class="form-control" auto-complete [source]="fieldGroup.Fields | fieldsToArrayPipe" formControlName="Field">
+              <input id="Value" name="Value" class="form-control" type="number" formControlName="Value">
+            </div>
+            <button (click)="addDeviceMeta()">add</button>
+        </div>
+
+    </div>
+
+    <button type="submit">submit</button>
+
+  </form>
+</div>
+
+<!--
+
 <div class="x_panel">
   <div class="x_content">
     <br>
-    <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left">
+    <form [formGroup]="form" class="form-horizontal form-label-left">
 
       <div id="inv_nums">
 
         <div class="form-group">
-          <label class="control-label col-md-3 col-sm-3 col-xs-11" for="first-name">Inventarnummer <span class="required">*</span>
+          <label class="control-label col-md-3 col-sm-3 col-xs-11" for="invnum">
+            Inventarnummer <span class="required">*</span>
           </label>
           <div class="col-md-6 col-sm-6 col-xs-11">
-            <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+            <input id="invnum" type="text" required="required" class="form-control col-md-7 col-xs-12" formControlName="InvNum">
           </div>
         </div>
 
       </div>
       <div class="form-group">
         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-          <button type="button" class="btn btn-default" onclick="add_fields()">Weitere Inventarnummer hinzufügen</button>
+          <button type="button" class="btn btn-default">Weitere Inventarnummer hinzufügen</button>
         </div>
       </div>
 
 
       <div class="form-group">
-        <label class="control-label col-md-3 col-sm-3 col-xs-11" for="first-name">Geräte Name <span class="required">*</span>
+        <label class="control-label col-md-3 col-sm-3 col-xs-11" >
+          Geräte Name <span class="required">*</span>
         </label>
         <div class="col-md-6 col-sm-6 col-xs-11">
-          <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+          <input type="text" required="required" class="form-control" formControlName="Name">
         </div>
       </div>
 
 
       <div class="form-group">
-        <label class="control-label col-md-3 col-sm-3 col-xs-11" for="first-name">Raum<span class="required">*</span>
+        <label class="control-label col-md-3 col-sm-3 col-xs-11" >
+          Raum<span class="required">*</span>
         </label>
         <div class="col-md-6 col-sm-6 col-xs-11">
-          <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+          <input type="text"  required="required" class="form-control" formControlName="Raum">
         </div>
       </div>
 
 
-      <div class="form-group">
-        <label class="control-label col-md-3 col-sm-3 col-xs-11" for="value1">Verwalter <span class="required">*</span>
+      <div class="form-group" [formGroupName]="Person">
+        <label class="control-label col-md-3 col-sm-3 col-xs-11" for="verwalter">Verwalter <span class="required">*</span>
         </label>
         <div class="col-md-6 col-sm-6 col-xs-12">
-          <select class="select2_group form-control" name="value1" id="value1" ngmodel="">
-            <option value="text">
-              Valentin Sagl
-            </option>
-            <option value="checkbox">
-              Jan Calanog
-            </option>
-            <option value="textarea">
-              Sebastian Slowak
-            </option>
-          </select>
+          <input id="verwalter" type="text"  required="required" class="form-control" formControlName="Uid">
         </div>
       </div>
 
@@ -103,27 +173,24 @@
 
       <div class="ln_solid"></div>
 
-      <div *ngFor="let fieldGroup of fieldGroups | async">
-        <h4>{{fieldGroup.Name }}</h4>
-          <div class="ln_solid"></div>
+      <div formArrayName="MetaData">
 
-        <div class="form-group">
-          <div class="col-xs-12 col-sm-9 col-sm-offset-3">
-            <input class="form-control" auto-complete  [source]="fieldGroup.Fields | fieldsToArrayPipe" />
+        <div *ngFor="let fieldGroup of fieldGroups | async;" >
+          <h4>{{fieldGroup.Name }}</h4>
+            <div class="ln_solid"></div>
+
+          <input type="hidden" formControlName="FieldGroup" value="{{fieldGroup.Name}}">
+
+          <div class="form-group">
+            <div class="col-xs-12 col-sm-9 col-sm-offset-3">
+              <input class="form-control" auto-complete  [source]="fieldGroup.Fields | fieldsToArrayPipe" formControlName="Field"/>
+              <input type="number" formControlName="Value">
+            </div>
           </div>
         </div>
 
-
       </div>
 
-
-      <div class="form-group">
-        <label class="control-label col-md-3 col-sm-3 col-xs-11" for="first-name">MetaDaten<span class="required">*</span>
-        </label>
-        <div class="col-md-6 col-sm-6 col-xs-11">
-          <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
-        </div>
-      </div>
 
 
       <div class="ln_solid"></div>
@@ -136,3 +203,4 @@
     </form>
   </div>
 </div>
+-->

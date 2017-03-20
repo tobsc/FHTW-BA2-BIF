@@ -40,7 +40,13 @@ export class OrderStep1Component implements OnInit {
 
     private update(form: NgForm): void {
             this.user.Tel = form.form.value.Tel;
-            this.userService.updateUser(this.user).subscribe((next) => {this.router.navigate(['/anfrage/schritt-2']) },(error)=>console.log(error));
+            this.userService.updateUser(this.user)
+                .subscribe(
+                    (next) => {
+                        this.router.navigate(['/anfrage/schritt-2']);
+                    },
+                    (error) => console.log(error)
+                );
        
     }
 
