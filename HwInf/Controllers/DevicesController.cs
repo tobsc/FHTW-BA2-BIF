@@ -14,6 +14,7 @@ using HwInf.ViewModels;
 
 namespace HwInf.Controllers
 {
+    [Authorize]
     [RoutePrefix("api/devices")]
     [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
     public class DevicesController : ApiController
@@ -274,13 +275,13 @@ namespace HwInf.Controllers
             }
 
 
-            if (_bl.GetDeviceTypes().Count(i => i.TypeId == vmdl.DeviceType.DeviceTypeId) == 0)
+            if (_bl.GetDeviceType(vmdl.DeviceType.Slug) == null)
             {
                 return BadRequest("Typ nicht vorhanden.");
             }
 
             if (_bl.GetDevices(0, 0, true, vmdl.DeviceType.DeviceTypeId, true)
-                .Count(i => i.InvNum.ToLower() == vmdl.InvNum.ToLower()) > 0)
+                .Count(i => i.InvNum.ToLower().Equals(vmdl.InvNum.ToLower())) > 0)
             {
                 return BadRequest("Es existiert bereits ein Gerät mit dieser Inventarnummer.");
             }
@@ -299,6 +300,8 @@ namespace HwInf.Controllers
             var dev = _bl.CreateDevice();
             vmdl.ApplyChanges(dev, _bl);
             _bl.SaveChanges();
+
+            vmdl.Refresh(dev);
 
             return Ok(vmdl);
         }
@@ -350,27 +353,26 @@ namespace HwInf.Controllers
         /// Update a Devices
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="dev"></param>
+        /// <param name="vmdl"></param>
         /// <returns></returns>
         //[Authorize]
         [HttpPut]
         [Route("")]
-        public IHttpActionResult PutDevice(int id, Device dev)
+        public IHttpActionResult PutDevice(int id, DeviceViewModel vmdl)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
 
-            if (id != dev.DeviceId)
+
+            if (id != vmdl.DeviceId)
             {
                 return BadRequest();
             }
 
             try
             {
-
+                var dev = _bl.GetSingleDevice(vmdl.DeviceId);
                 _bl.UpdateDevice(dev);
+                vmdl.ApplyChanges(dev, _bl);
+
                 _bl.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)

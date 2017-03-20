@@ -62,7 +62,7 @@ namespace HwInf.Common.BL
 
         public DeviceType GetDeviceType(int typeId)
         {
-            return _dal.DeviceTypes.Include(x => x.FieldGroups.Select(y => y.DeviceTypes)).Single(i => i.TypeId == typeId);
+            return _dal.DeviceTypes.Include(x => x.FieldGroups.Select(y => y.DeviceTypes)).SingleOrDefault(i => i.TypeId == typeId);
         }
 
         public DeviceType GetDeviceType(string typeSlug)
@@ -170,6 +170,11 @@ namespace HwInf.Common.BL
         public IQueryable<Field> GetFields()
         {
             return _dal.Fields;
+        }
+
+        public Field GetFields(string slug)
+        {
+            return _dal.Fields.SingleOrDefault(i => i.Slug.Equals(slug));
         }
 
         // Create

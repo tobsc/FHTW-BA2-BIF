@@ -2,6 +2,7 @@
 using System.Linq;
 using HwInf.Common.BL;
 using HwInf.Common.Models;
+using WebGrease.Css.Extensions;
 using static System.String;
 
 namespace HwInf.ViewModels
@@ -59,12 +60,13 @@ namespace HwInf.ViewModels
             target.InvNum = source.InvNum;
             target.Brand = source.Marke;
             target.Status = bl.GetDeviceStatus(source.Status.StatusId);
-            target.Type = bl.GetDeviceType(source.DeviceType.DeviceTypeId);
+            target.Type = bl.GetDeviceType(source.DeviceType.Slug);
             target.Person = bl.GetUsers(source.Verwalter.Uid);
             target.Room = source.Raum;
             target.IsActive = source.IsActive;
             target.DeviceMeta = new List<DeviceMeta>();
-            source.DeviceMeta.ToList().ForEach(i => target.DeviceMeta.Add(i));
+            source.DeviceMeta.ForEach(i => i.ApplyChanges(i, bl));
+            source.DeviceMeta.ForEach(i => target.DeviceMeta.Add(i));
 
         }
 

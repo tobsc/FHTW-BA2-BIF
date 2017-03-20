@@ -32,7 +32,8 @@ namespace HwInf.ViewModels
 
             target.Name = source.Name;
             target.Slug = source.Slug;
-            target.Fields = source.Fields.Select(i => new FieldViewModel(i)).ToList();        }
+            target.Fields = source.Fields.Select(i => new FieldViewModel(i)).ToList();
+        }
 
         public void ApplyChanges(FieldGroup fg, BL bl)
         {
