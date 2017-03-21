@@ -16,6 +16,7 @@ export class DeviceAddComponent implements OnInit {
 
   private form: FormGroup;
   private formFieldGroups: FormArray;
+  private invNums: FormArray;
   private deviceTypes: Observable<DeviceType[]>;
   private fieldGroups: FieldGroup[];
 
@@ -31,14 +32,29 @@ export class DeviceAddComponent implements OnInit {
     this.form = this.fb.group({
       Name: ['', Validators.required],
       InvNum: ['', Validators.required],
+      AdditionalInvNums: this.fb.array([]),
       Marke: ['', Validators.required],
       Raum: ['', Validators.required],
       DeviceType: this.initDeviceType(),
       Person: this.initPerson(),
-      FieldGroups: this.fb.array([
-      ]),
+      FieldGroups: this.fb.array([]),
     });
     this.formFieldGroups = <FormArray>this.form.controls['FieldGroups'];
+    this.invNums = <FormArray>this.form.controls['AdditionalInvNums'];
+  }
+
+  addInvNum() {
+    this.invNums.push(this.initInvNum());
+  }
+
+  initInvNum(invNum: string = '') {
+    return this.fb.group({
+      InvNum: invNum
+    });
+  }
+
+  removeInvNum(index: number) {
+    this.invNums.removeAt(index);
   }
 
   initPerson(uid: string = '') {
@@ -130,6 +146,9 @@ export class DeviceAddComponent implements OnInit {
       DeviceType: this.initDeviceType(form.value.DeviceType.Slug),
       Verwalter: this.initPerson(form.value.Person.Uid),
       DeviceMeta: this.fb.array([]),
+      AdditionalInvNums: this.fb.array(
+          form.value.AdditionalInvNums
+      ),
     });
 
     let deviceMeta: FormArray = <FormArray>finalForm.controls['DeviceMeta'];
@@ -140,7 +159,9 @@ export class DeviceAddComponent implements OnInit {
       }
     }
 
-    this.deviceService.addNewDevice(<Device>finalForm.value).subscribe(
+    console.log(finalForm.value);
+
+   this.deviceService.addNewDevice(<Device>finalForm.value).subscribe(
         (next) => { console.log(next) },
         (error) => { console.log(error) }
     );

@@ -55,6 +55,24 @@
           <input id="InvNum" name="InvNum" class="form-control" type="text" formControlName="InvNum">
         </div>
 
+        <div formArrayName="AdditionalInvNums">
+          <div class="form-group" *ngFor="let invNum of form.controls.AdditionalInvNums.controls; let i = index">
+            <div [formGroupName]="i">
+
+              <div class="input-group">
+                <input id="InvNum-{{i}}" name="InvNum-{{i}}" class="form-control" type="text" formControlName="InvNum">
+
+                <span class="input-group-btn">
+                      <button type="button" class="btn btn-danger" (click)="removeInvNum(i)" style="margin-right: 0"><i class="fa fa-times" aria-hidden="true"></i></button>
+                    </span>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-default btn-xs" type="button" (click)="addInvNum()">Inventarnummer hinzufügen</button>
+
         <div class="form-group">
           <label htmlFor="Marke">
             Marke
