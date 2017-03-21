@@ -51,15 +51,10 @@ namespace HwInf.ViewModels
             var target = obj;
             var source = this;
 
-            if(IsNullOrWhiteSpace(Status.Description))
-            {
-                Status.Description = "Verfügbar";
-            }
-
             target.Name = source.Name;
             target.InvNum = source.InvNum;
             target.Brand = source.Marke;
-            target.Status = bl.GetDeviceStatus(source.Status.StatusId);
+            target.Status = bl.GetDeviceStatus(1);
             target.Type = bl.GetDeviceType(source.DeviceType.Slug);
             target.Person = bl.GetUsers(source.Verwalter.Uid);
             target.Room = source.Raum;

@@ -286,7 +286,6 @@ namespace HwInf.Controllers
                 return BadRequest("Es existiert bereits ein Gerät mit dieser Inventarnummer.");
             }
 
-
        
 
             if (_bl.GetUsers(vmdl.Verwalter.Uid) == null)
