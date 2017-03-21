@@ -27,6 +27,9 @@ import { FeedbackHttpService } from "./shared/services/feedback-http.service";
 import { PubSubService } from "./shared/services/pub-sub.service";
 import {CustomFieldsService} from "./shared/services/custom-fields.service";
 
+import { Daterangepicker } from 'ng2-daterangepicker';
+
+
 
 
 export function jwtFactory(backend: XHRBackend, options: RequestOptions, router: Router, authService: AuthService, pubsub: PubSubService) {
@@ -54,6 +57,7 @@ export function feedbackHttpFactory(backend: XHRBackend, options: RequestOptions
         AccordionModule.forRoot(),
         AlertModule.forRoot(),
         CollapseModule.forRoot(),
+        Daterangepicker,
     ],
     providers: [
         {
