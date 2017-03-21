@@ -18,7 +18,9 @@ namespace HwInf.ViewModels
         public UserViewModel Verwalter { get; set; }
         public DeviceStatusViewModel Status { get;set; }
         public IEnumerable<DeviceMetaViewModel> DeviceMeta { get; set; }
-        public IDictionary<string, string> AdditionalInvNums { get; set; }
+        public IEnumerable<AdditionalInvNumViewModel> AdditionalInvNums { get; set; }
+
+
         public bool IsActive { get; set; } = true;
 
         public DeviceViewModel()

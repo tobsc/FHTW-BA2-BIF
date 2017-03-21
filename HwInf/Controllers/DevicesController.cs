@@ -290,18 +290,6 @@ namespace HwInf.Controllers
             }
 
 
-            // Check if InvNums already exist
-            var invNumDb = _bl.GetDevices(0, 0, true, dt.TypeId, true).Select(i => i.InvNum).ToList();
-            var invNumVmdl = vmdl.AdditionalInvNums.Values.ToList();
-            var result = invNumDb.Intersect(invNumVmdl);
-
-            if (result.Any())
-            {
-                return BadRequest("Es existiert bereits ein Gerät mit dieser Inventarnummer.");
-            }
-
-
-
             if (_bl.GetUsers(vmdl.Verwalter.Uid) == null)
             {
                 return BadRequest("Person nicht vorhanden.");
@@ -309,22 +297,22 @@ namespace HwInf.Controllers
 
             var dev = _bl.CreateDevice();
             vmdl.ApplyChanges(dev, _bl);
-            _bl.SaveChanges();
+
             vmdl.Refresh(dev);
 
             if (vmdl.AdditionalInvNums.Any())
             {
-                vmdl.AdditionalInvNums.ForEach(i =>
-                {
-                    var d = _bl.CreateDevice();
-                    d.InvNum = i.Value;
-                    vmdl.ApplyChanges(d, _bl);
-                });
-
-                _bl.SaveChanges();
+                vmdl.AdditionalInvNums
+                    .Select(i => i.InvNum)
+                    .ForEach(i =>
+                    {
+                        var d = _bl.CreateDevice();
+                        vmdl.InvNum = i;
+                        vmdl.ApplyChanges(d, _bl);
+                    });
             }
 
-
+            _bl.SaveChanges();
             return Ok(vmdl);
         }
 
