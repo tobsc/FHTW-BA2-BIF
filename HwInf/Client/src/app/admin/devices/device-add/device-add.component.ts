@@ -115,7 +115,7 @@ export class DeviceAddComponent implements OnInit {
   initDeviceMeta(fieldGroup: string, field: string,  value: string) {
     return this.fb.group({
       Field: [field, Validators.required],
-      FieldGroup: [fieldGroup, Validators.required],
+      FieldGroupSlug: [fieldGroup, Validators.required],
       Value: [value, Validators.required]
     });
   }

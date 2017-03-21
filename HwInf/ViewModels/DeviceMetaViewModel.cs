@@ -26,7 +26,6 @@ namespace HwInf.ViewModels
             Refresh(dm);
         }
 
-
         public void Refresh(DeviceMeta dm)
         {
             var target = this;
@@ -46,7 +45,7 @@ namespace HwInf.ViewModels
             var target = vmdl;
 
             target.Fg = bl.GetFieldGroups(target.FieldGroupSlug);
-            target.F = bl.GetFields(FieldSlug);
+            target.F = target.Fg.Fields.SingleOrDefault(i => i.Name.Equals(target.Field));
         }
 
         public void ApplyChanges(DeviceMeta dm, BL bl)
