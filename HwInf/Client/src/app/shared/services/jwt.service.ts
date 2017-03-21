@@ -13,8 +13,8 @@ export class JwtService {
       return localStorage.getItem(this.TOKEN);
   }
 
-  public setToken(newtoken: string): void {
-      localStorage.setItem(this.TOKEN, newtoken);
+  public setToken(newToken: string): void {
+      localStorage.setItem(this.TOKEN, newToken);
   }
 
   public parseJwt(token): any {

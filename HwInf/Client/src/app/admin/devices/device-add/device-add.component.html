@@ -1,12 +1,9 @@
 <div class="page-title">
+
   <div class="title_left">
-    <h3>Gerät hinzufügen</h3>
+    <h1>Neues Gerät hinzufügen</h1>
   </div>
 
-  <div class="title_right">
-    <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-    </div>
-  </div>
 </div>
 
 <div class="clearfix"></div>
@@ -26,7 +23,7 @@
             <option value="2">Entwurf</option>
           </select>
         </div>
-        <button type="submit" class="btn btn-success">Erstellen</button>
+        <button type="submit" [disabled]="!form.valid" class="btn btn-success">Erstellen</button>
       </div>
     </div>
 
@@ -71,7 +68,10 @@
           </div>
         </div>
 
-        <button class="btn btn-default btn-xs" type="button" (click)="addInvNum()">Inventarnummer hinzufügen</button>
+        <button class="btn btn-warning btn-xs" type="button" (click)="addInvNum()">
+          <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+          Weitere Inventarnummer hinzufügen
+        </button>
 
         <div class="form-group">
           <label htmlFor="Marke">
@@ -94,7 +94,14 @@
           <label htmlFor="Person">
             Verwalter
           </label>
-          <input id="Person" name="Person" class="form-control" type="text" formControlName="Uid">
+
+          <select class="form-control" id="Person" name="Person" formControlName="Uid">
+            <option *ngFor="let owner of owners" value="{{owner.Uid}}">
+              ({{owner.Uid}}) {{owner.LastName}} {{owner.Name}}
+            </option>
+          </select>
+
+          <!--input auto-complete [source]="owners" id="Person" name="Person" class="form-control" type="text" formControlName="Uid"-->
         </div>
 
         <div class="form-group" formGroupName="DeviceType">
@@ -127,21 +134,23 @@
 
                   <div class="row">
                     <div class="col-xs-2 col-md-1" style="padding-right: 0">
-                      <input min="1" class="form-control" type="number" formControlName="Quantity">
+                      <input min="1" class="form-control" type="number" formControlName="Quantity" ngModel="1">
                     </div>
                     <div class="col-xs-10 col-md-11">
                       <div class="input-group">
                         <input class="form-control" auto-complete [source]="fieldGroups[i].Fields | fieldsToArrayPipe" type="text" formControlName="Name">
                         <span class="input-group-btn">
-                      <button type="button" class="btn btn-danger" (click)="removeField(i,j)" style="margin-right: 0"><i class="fa fa-times" aria-hidden="true"></i></button>
-                    </span>
+                          <button type="button" class="btn btn-danger" [disabled]="fieldGroup.controls.Fields.controls.length < 2" (click)="removeField(i,j)" style="margin-right: 0"><i class="fa fa-times" aria-hidden="true"></i></button>
+                        </span>
                       </div>
                     </div>
                   </div>
-
                 </div>
               </div>
-              <button class="btn btn-default" type="button" (click)="addField(i)">Feld hinzufügen</button>
+              <button class="btn btn-warning btn-xs" type="button" (click)="addField(i)">
+                <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                Feld hinzufügen
+              </button>
             </div>
           </div>
         </div>

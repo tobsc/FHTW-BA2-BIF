@@ -14,6 +14,7 @@ import { DeviceCustomFieldsFieldgroupsListComponent } from './devices/device-cus
 import { DeviceCustomFieldsFieldgroupsAddComponent } from './devices/device-custom-fields/device-custom-fields-fieldgroups-add/device-custom-fields-fieldgroups-add.component';
 import {Ng2AutoCompleteModule} from "ng2-auto-complete";
 import {FieldsToArrayPipe} from "./devices/device-add/fields-to-array.pipe";
+import {ToArrayPipe} from "../shared/common/to-array.pipe";
 
 @NgModule({
     declarations: [
@@ -27,6 +28,7 @@ import {FieldsToArrayPipe} from "./devices/device-add/fields-to-array.pipe";
         DeviceCustomFieldsFieldgroupsListComponent,
         DeviceCustomFieldsFieldgroupsAddComponent,
         FieldsToArrayPipe,
+        ToArrayPipe,
     ],
     imports: [
         CoreModule,
