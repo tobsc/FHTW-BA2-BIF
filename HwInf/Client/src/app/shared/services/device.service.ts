@@ -80,4 +80,13 @@ export class DeviceService {
             .map((response: Response) => response.json());
     }
 
+    public addNewDevice(body: Device): Observable<Device> {
+        let bodyString = JSON.stringify(body);
+        let headers = new Headers({
+            'Content-Type': 'application/json'
+        });
+        let options = new RequestOptions({headers: headers});
+        return this.http.post(this.url);
+    }
+
 }
