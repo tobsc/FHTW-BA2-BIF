@@ -58,7 +58,7 @@
               <li><a href="schaden.php">Archiv</a></li>
             </ul>
           </li>
-          <li dropdown><a dropdownToggle><i class="fa fa-cog" aria-hidden="true"></i> Settings <span class="fa fa-chevron-down"></span></a>
+          <li dropdown *ngIf="canActivateSettings()"><a dropdownToggle><i class="fa fa-cog" aria-hidden="true"></i> Settings <span class="fa fa-chevron-down"></span></a>
             <ul class="nav child_menu">
               <li><a href="page_403.html">Semesterdaten</a></li>
               <li><a href="page_404.html">Texte</a></li>

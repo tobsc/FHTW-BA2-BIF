@@ -36,7 +36,7 @@ export class JwtService {
   }
 
   public isVerwalter(): boolean {
-      return this.getRole().toLowerCase() === "verwalter";
+      return this.getRole().toLowerCase() === "owner";
   }
 
   public getUid(): string {

@@ -16,6 +16,7 @@ import { AdminModule} from "./admin/admin.module";
 import { AlertModule, DropdownModule, CollapseModule, AccordionModule} from 'ng2-bootstrap';
 import { AuthGuard } from "./authentication/auth.guard";
 import { AdminGuard } from "./authentication/admin.guard";
+import { VerwalterGuard } from "./authentication/verwalter.guard";
 import { JwtService } from "./shared/services/jwt.service";
 import { UserService } from "./shared/services/user.service";
 
@@ -25,6 +26,9 @@ import { DeviceService } from "./shared/services/device.service";
 import { FeedbackHttpService } from "./shared/services/feedback-http.service";
 import { PubSubService } from "./shared/services/pub-sub.service";
 import {CustomFieldsService} from "./shared/services/custom-fields.service";
+
+import { Daterangepicker } from 'ng2-daterangepicker';
+
 
 
 
@@ -53,6 +57,7 @@ export function feedbackHttpFactory(backend: XHRBackend, options: RequestOptions
         AccordionModule.forRoot(),
         AlertModule.forRoot(),
         CollapseModule.forRoot(),
+        Daterangepicker,
     ],
     providers: [
         {
@@ -68,6 +73,7 @@ export function feedbackHttpFactory(backend: XHRBackend, options: RequestOptions
         AuthService,
         AuthGuard,
         AdminGuard,
+        VerwalterGuard,
         DeviceService,
         JwtService,
         CartService,

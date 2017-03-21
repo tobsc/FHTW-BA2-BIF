@@ -51,6 +51,7 @@ namespace HwInf.Controllers
             bool isAdmin = _bl.IsAdminRole(vmdl.Uid);
             vmdl.ApplyChanges(p, _bl);
             if (isAdmin) p.Role = _bl.GetRole("Admin");
+            if (_bl.IsVerwalterRole(vmdl.Uid)) p.Role = _bl.GetRole("Owner");
             _db.SaveChanges();
 
             // Create new token from user

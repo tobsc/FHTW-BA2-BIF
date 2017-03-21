@@ -12,6 +12,8 @@ import { OrderStep1Component } from './cart/order-step1/order-step1.component';
 import { OrderStep2Component } from './cart/order-step2/order-step2.component';
 import { OrderComponent } from './cart/order.component';
 import { OrderStep3Component } from './cart/order-step3/order-step3.component';
+import { Daterangepicker } from 'ng2-daterangepicker';
+
 
 
 @NgModule({
@@ -29,7 +31,8 @@ import { OrderStep3Component } from './cart/order-step3/order-step3.component';
         FormsModule,
         CoreModule,
         RouterModule,
-        AccordionModule.forRoot()
+        AccordionModule.forRoot(),
+        Daterangepicker
     ]
 })
 export class UserModule {}

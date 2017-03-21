@@ -267,7 +267,11 @@ namespace HwInf.Common.BL
             if (!IsAdmin()) return;
             obj.IsAdmin = true;
             obj.Role = GetRole("Admin");
+        }
 
+        public bool IsVerwalterRole(string uid)
+        {
+            return _dal.Persons.Any(i => i.Uid == uid && i.Role.Name.Equals("Owner"));
         }
 
         public string CreateToken(Person p)

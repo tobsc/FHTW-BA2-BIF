@@ -44,5 +44,21 @@ export class OrderStep1Component implements OnInit {
        
     }
 
+    // DaterangePicker
+    public daterange: any = {};
+
+    // see original project for full list of options
+    // can also be setup using the config service to apply to multiple pickers
+    public options: any = {
+        locale: { format: 'DD.MM.YYYY' },
+        alwaysShowCalendars: false,
+        minDate: new Date(),
+        maxDate: "31.03.2017" //SEMESTERENDE
+    };
+
+    public selectedDate(value: any) {
+        this.daterange.start = value.start;
+        this.daterange.end = value.end;
+    }
     
 }
