@@ -41,9 +41,9 @@ export class DeviceAddComponent implements OnInit {
     this.formFieldGroups = <FormArray>this.form.controls['FieldGroups'];
   }
 
-  initPerson() {
+  initPerson(uid: string = '') {
     return this.fb.group({
-      Uid: ['', Validators.required]
+      Uid: [uid, Validators.required]
     });
   }
 
@@ -128,7 +128,7 @@ export class DeviceAddComponent implements OnInit {
       Marke: [form.value.Marke, Validators.required],
       Raum: [form.value.Raum, Validators.required],
       DeviceType: this.initDeviceType(form.value.DeviceType.Slug),
-      Person: this.initPerson(),
+      Verwalter: this.initPerson(form.value.Person.Uid),
       DeviceMeta: this.fb.array([]),
     });
 
@@ -136,14 +136,13 @@ export class DeviceAddComponent implements OnInit {
 
     for (let fieldgroup of form.value.FieldGroups) {
       for (let field of fieldgroup.Fields) {
-
         deviceMeta.push(this.initDeviceMeta(fieldgroup.Slug, field.Name, field.Quantity ))
       }
     }
 
     this.deviceService.addNewDevice(<Device>finalForm.value).subscribe(
         (next) => { console.log(next) },
-        (error) => { console.log(error)}
+        (error) => { console.log(error) }
     );
   }
 

@@ -287,10 +287,7 @@ namespace HwInf.Controllers
             }
 
 
-            if (_bl.GetDeviceStatus().Count(i => i.StatusId == vmdl.Status.StatusId) == 0)
-            {
-                return BadRequest("Status nicht vorhanden.");
-            }
+       
 
             if (_bl.GetUsers(vmdl.Verwalter.Uid) == null)
             {
