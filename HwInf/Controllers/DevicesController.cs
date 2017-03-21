@@ -11,6 +11,7 @@ using HwInf.Common.DAL;
 using HwInf.Common.BL;
 using HwInf.Common.Models;
 using HwInf.ViewModels;
+using WebGrease.Css.Extensions;
 
 namespace HwInf.Controllers
 {
@@ -280,13 +281,26 @@ namespace HwInf.Controllers
                 return BadRequest("Typ nicht vorhanden.");
             }
 
-            if (_bl.GetDevices(0, 0, true, vmdl.DeviceType.DeviceTypeId, true)
+            var dt = _bl.GetDeviceType(vmdl.DeviceType.Slug);
+
+            if (_bl.GetDevices(0, 0, true, dt.TypeId, true)
                 .Count(i => i.InvNum.ToLower().Equals(vmdl.InvNum.ToLower())) > 0)
             {
                 return BadRequest("Es existiert bereits ein Gerät mit dieser Inventarnummer.");
             }
 
-       
+
+            // Check if InvNums already exist
+            var invNumDb = _bl.GetDevices(0, 0, true, dt.TypeId, true).Select(i => i.InvNum).ToList();
+            var invNumVmdl = vmdl.AdditionalInvNums.Values.ToList();
+            var result = invNumDb.Intersect(invNumVmdl);
+
+            if (result.Any())
+            {
+                return BadRequest("Es existiert bereits ein Gerät mit dieser Inventarnummer.");
+            }
+
+
 
             if (_bl.GetUsers(vmdl.Verwalter.Uid) == null)
             {
@@ -296,8 +310,20 @@ namespace HwInf.Controllers
             var dev = _bl.CreateDevice();
             vmdl.ApplyChanges(dev, _bl);
             _bl.SaveChanges();
-
             vmdl.Refresh(dev);
+
+            if (vmdl.AdditionalInvNums.Any())
+            {
+                vmdl.AdditionalInvNums.ForEach(i =>
+                {
+                    var d = _bl.CreateDevice();
+                    d.InvNum = i.Value;
+                    vmdl.ApplyChanges(d, _bl);
+                });
+
+                _bl.SaveChanges();
+            }
+
 
             return Ok(vmdl);
         }
