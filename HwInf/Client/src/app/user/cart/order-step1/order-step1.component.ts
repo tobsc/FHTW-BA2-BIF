@@ -52,8 +52,8 @@ export class OrderStep1Component implements OnInit {
     public options: any = {
         locale: { format: 'DD.MM.YYYY' },
         alwaysShowCalendars: false,
-        minDate: "01.03.2017",
-        maxDate: "31.03.2017"
+        minDate: new Date(),
+        maxDate: "31.03.2017" //SEMESTERENDE
     };
 
     public selectedDate(value: any) {
