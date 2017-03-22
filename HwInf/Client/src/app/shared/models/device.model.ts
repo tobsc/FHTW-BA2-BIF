@@ -2,6 +2,7 @@ import {DeviceType} from "./device-type.model";
 import {User} from "./user.model";
 import {Status} from "./status.model";
 import {DeviceMeta} from "./device-meta.model";
+import {FieldGroup} from "./fieldgroup.model";
 export class Device {
     constructor(
         public DeviceId: number,

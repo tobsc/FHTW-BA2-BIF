@@ -1,19 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {DeviceService} from "../../shared/services/device.service";
 import {ActivatedRoute} from "@angular/router";
 import {Subscription, Observable} from "rxjs";
 import { Device } from "../../shared/models/device.model";
 import { CartService } from "../../shared/services/cart.service";
+import {DeviceMeta} from "../../shared/models/device-meta.model";
+import {IDictionary} from "../../shared/common/dictionary.interface";
+import {Dictionary} from "../../shared/common/dictionary.class";
 
 @Component({
   selector: 'hwinf-device-list',
   templateUrl: './device-list.component.html',
   styleUrls: ['./device-list.component.scss']
 })
-export class DeviceListComponent implements OnInit {
+export class DeviceListComponent implements OnInit, OnDestroy {
+
   private subscription: Subscription;
   private currentType: string;
-  private devices: Observable<Device[]>;
+  private devices: Device[];
 
   constructor(
       private deviceService: DeviceService,
@@ -23,19 +27,29 @@ export class DeviceListComponent implements OnInit {
 
   ngOnInit() {
     this.subscription = this.route.params
-        .subscribe(
-            (params: any) => {
-              this.currentType = params['type'];
-              this.devices = this.deviceService.getDevices(this.currentType);
-            }
-        );
+        .do((params: any) => {this.currentType = params['type'];})
+        .flatMap(() => this.deviceService.getDevices(this.currentType))
+        .subscribe((data) => {
+            this.devices = data;
+        });
   }
 
   public addItem(device: Device) {
-      console.log("following object has been recieved");
-      console.log(device);
       this.cartService.addItem(device);
-      
+  }
+
+  public getMetaDataOfFieldGroup(slug: string, metaData: DeviceMeta[]) {
+      let result: DeviceMeta[] = [];
+      for (let deviceMeta of metaData) {
+          if (deviceMeta.FieldGroupSlug === slug){
+              result.push(deviceMeta);
+          }
+      }
+      return result;
+  }
+
+  ngOnDestroy(): void {
+      this.subscription.unsubscribe();
   }
 
 }

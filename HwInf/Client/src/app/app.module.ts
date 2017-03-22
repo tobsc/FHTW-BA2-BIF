@@ -28,6 +28,7 @@ import { PubSubService } from "./shared/services/pub-sub.service";
 import {CustomFieldsService} from "./shared/services/custom-fields.service";
 
 import { Daterangepicker } from 'ng2-daterangepicker';
+import {KeysPipe} from "./shared/pipes/keys.pipe";
 
 
 
@@ -44,6 +45,8 @@ export function feedbackHttpFactory(backend: XHRBackend, options: RequestOptions
         AppComponent,
         LoginComponent,
         HomeComponent,
+        KeysPipe,
+
     ],
     imports: [
         CoreModule,

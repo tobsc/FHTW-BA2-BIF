@@ -31,3 +31,7 @@ html {
 .accordion .panel:hover {
   background:inherit;
 }
+
+.accordion .panel {
+  border-bottom: 1px solid #ddd !important;
+}

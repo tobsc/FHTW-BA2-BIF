@@ -19,6 +19,8 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
       if ( this.authService.isLoggedIn() ) {
           this.goToDashboard()
+      } else {
+          this.authService.logout();
       }
   }
 

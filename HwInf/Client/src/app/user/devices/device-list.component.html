@@ -1,18 +1,18 @@
 <div class="page-title">
-  <div class="title_left">
-    <h1>Geräte</h1>
-  </div>
-
-  <div class="title_right">
-    <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-      <div class="input-group">
-        <input type="text" class="form-control" placeholder="Search for...">
-        <span class="input-group-btn">
-                      <button class="btn btn-default" type="button">Go!</button>
-                    </span>
-      </div>
+    <div class="title_left">
+        <h1>Geräte</h1>
     </div>
-  </div>
+
+    <div class="title_right">
+        <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search for...">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">Go!</button>
+                </span>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="clearfix"></div>
@@ -26,47 +26,40 @@
         <div class="col-md-10">
 
             <hwinf-panel>
-            <div class="hwinf-panel__heading">
-                <span *ngIf="currentType!=null">{{currentType | uppercase}}</span>
-                <span *ngIf="currentType==null">Alle</span>
+                <div class="hwinf-panel__heading">
+                    <span *ngIf="currentType!=null">{{currentType | uppercase}}</span>
+                    <span *ngIf="currentType==null">Alle</span>
 
-            </div>
-            <div class="hwinf-panel__content">
-                <accordion [closeOthers]=true class="accordion">
-                    <div *ngFor="let device of devices | async">
+                </div>
+                <div class="hwinf-panel__content">
+                    <accordion [closeOthers]=true class="accordion">
+                        <div *ngFor="let device of devices">
 
-                        <accordion-group>
-                            <div accordion-heading>
-                                <h3>{{device.Name}} <small>Inventarnummer: {{device.InvNum}}</small></h3>
-
-                            </div>
-                            <div id="{{device.InvNum}}" class="panel-collapse" role="tabpanel" attr.aria-labelledby="headingTwo" attr.aria-expanded="true">
-                                <div class="panel-body">
-                                    <ul>
-                                        <li>
-                                            Name: {{device.Name}}
-                                        </li>
-                                        <li>
-                                            Inventarnummer: {{device.InvNum}}
-                                        </li>
-                                        <li>
-                                            Verwalter: {{device.Verwalter.Name}} {{device.Verwalter.LastName}}
-                                        </li>
-                                        <li>
-                                            Marke: {{device.Marke}}
-                                        </li>
-
-                                    </ul>
-                                    <a  (click)="addItem(device)">
-                                        <span class="glyphicon glyphicon-shopping-cart fa-2x"> </span>
-                                    </a>
+                            <accordion-group>
+                                <div accordion-heading>
+                                   <strong>{{device.Name}} </strong>
+                                    <div class="text-muted pull-right" style="font-size: 0.8em">Inventarnummer: {{device.InvNum}}</div>
                                 </div>
-                            </div>
-                        </accordion-group>
+                                <div id="{{device.InvNum}}" class="panel-collapse" role="tabpanel" attr.aria-labelledby="headingTwo" attr.aria-expanded="true">
 
-                    </div>
-                </accordion>
-            </div>
+                                    <div *ngFor="let fieldGroup of device.FieldGroups">
+                                        {{fieldGroup.Name}}
+                                        <div *ngFor="let metaData of getMetaDataOfFieldGroup(fieldGroup.Slug, device.DeviceMeta)">
+                                            {{metaData.Value}}x {{metaData.Field}}
+                                        </div>
+                                    </div>
+
+
+                                    <button class="btn btn-success btn-xs" (click)="addItem(device)">
+                                        Zum Warenkorb hinzufügen
+                                        <i class="fa fa-cart-plus" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </accordion-group>
+
+                        </div>
+                    </accordion>
+                </div>
             </hwinf-panel>
 
         </div>
