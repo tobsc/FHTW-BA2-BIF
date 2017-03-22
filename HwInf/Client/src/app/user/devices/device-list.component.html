@@ -42,6 +42,10 @@
                                 </div>
                                 <div id="{{device.InvNum}}" class="panel-collapse" role="tabpanel" attr.aria-labelledby="headingTwo" attr.aria-expanded="true">
 
+                                    <div *ngFor="let meta of device.DeviceMeta">
+                                        {{meta.Value}}x {{meta.Field}}
+                                    </div>
+
                                     <div *ngFor="let fieldGroup of device.FieldGroups">
                                         {{fieldGroup.Name}}
                                         <div *ngFor="let metaData of getMetaDataOfFieldGroup(fieldGroup.Slug, device.DeviceMeta)">
