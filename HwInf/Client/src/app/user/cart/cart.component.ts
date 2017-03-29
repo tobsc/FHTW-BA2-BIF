@@ -6,6 +6,7 @@ import { User } from "../../shared/models/user.model";
 import { UserService } from "../../shared/services/user.service";
 import { NgForm } from "@angular/forms";
 import { CanActivate, Router, RouterModule, RouterStateSnapshot, ActivatedRouteSnapshot } from "@angular/router";
+import { DeviceMeta } from "../../shared/models/device-meta.model";
 
 
 
@@ -41,5 +42,15 @@ export class CartComponent implements OnInit {
             this.user.Tel = form.form.value.Tel;
             this.userService.updateUser(this.user);
         }
+    }
+
+    public getMetaDataOfFieldGroup(slug: string, metaData: DeviceMeta[]) {
+        let result: DeviceMeta[] = [];
+        for (let deviceMeta of metaData) {
+            if (deviceMeta.FieldGroupSlug === slug) {
+                result.push(deviceMeta);
+            }
+        }
+        return result;
     }
 }

@@ -8,7 +8,7 @@ import { NgForm } from "@angular/forms";
 import { CanActivate, Router, RouterModule, RouterStateSnapshot, ActivatedRouteSnapshot } from "@angular/router";
 import { Overlay } from 'angular2-modal';
 import { Modal } from 'angular2-modal/plugins/bootstrap';
-
+import { DeviceMeta } from "../../../shared/models/device-meta.model";
 
 
 @Component({
@@ -67,9 +67,18 @@ export class OrderStep2Component implements OnInit {
                 <h4>§ 7 Nebenbestimmungen </h4>
                 <p>(1) Änderungen und Ergänzungen dieser Vereinbarung sowie Nebenabreden bedürfen der Schriftform.</p>
                 <p>(2) Sollte eine Bestimmung dieses Vertrages unwirksam oder undurchführbar sein, beeinträchtigt dies nicht die Geltung der übrigen Bestimmungen dieses Vertrages. Die Vertragsparteien werden sich in einem solchen Fall bemühen, die unwirksame oder undurchführbare Bestimmung durch eine andere zu ersetzen, die der zu ersetzenden Bestimmung möglichst nahe kommt.</p>
-                <p>(3) Es gilt österreichisches Recht, Gerichtsstand ist das sachlich zuständige Gericht in Wien. </p>
-`)
+                <p>(3) Es gilt österreichisches Recht, Gerichtsstand ist das sachlich zuständige Gericht in Wien. </p>`)
             .open();
+    }
+
+    public getMetaDataOfFieldGroup(slug: string, metaData: DeviceMeta[]) {
+        let result: DeviceMeta[] = [];
+        for (let deviceMeta of metaData) {
+            if (deviceMeta.FieldGroupSlug === slug) {
+                result.push(deviceMeta);
+            }
+        }
+        return result;
     }
 
 }

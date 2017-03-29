@@ -13,7 +13,6 @@ import { OrderStep2Component } from './cart/order-step2/order-step2.component';
 import { OrderComponent } from './cart/order.component';
 import { OrderStep3Component } from './cart/order-step3/order-step3.component';
 import { Daterangepicker } from 'ng2-daterangepicker';
-
 import { ModalModule } from 'angular2-modal';
 import { BootstrapModalModule } from 'angular2-modal/plugins/bootstrap';
 

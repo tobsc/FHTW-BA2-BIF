@@ -3,6 +3,8 @@ import {AuthService} from "./auth.service";
 import {Router} from "@angular/router";
 import {User} from "../shared/models/user.model";
 import {NgForm} from "@angular/forms";
+import { ErrorHandlerService } from "../shared/services/error-handler.service";
+import { Error } from "../shared/models/error.model";
 
 @Component({
   selector: 'hwinf-login',
@@ -13,7 +15,8 @@ export class LoginComponent implements OnInit {
 
 
   constructor(private authService: AuthService,
-              private router: Router
+      private router: Router,
+      private errorService: ErrorHandlerService,
   ) { }
 
   ngOnInit() {
@@ -34,7 +37,7 @@ export class LoginComponent implements OnInit {
               }
             },
             (error) => {
-              console.log(error);
+                this.errorService.showError(<Error>{ header: error.status + ' - ' + error.statusText, body:error['_body'], });
             }
         );
   }
