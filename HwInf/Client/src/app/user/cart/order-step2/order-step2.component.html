@@ -2,41 +2,41 @@
    
             <div id="step-1">
                 <div class="col-md-12">
-                    <div align="center">
-                        <button class="btn btn-success" routerLink="/anfrage/schritt-3">Weiter</button>
-                        <button class="btn btn-warning" routerLink="/anfrage/schritt-1">Zurück</button>
-                        <button class="btn btn-danger" routerLink="/warenkorb">Abbrechen</button>
-                    </div>
-                    <accordion [closeOthers]=true class="accordion">
+                    
+                    <accordion [closeOthers]=false class="accordion">
                         <div *ngFor="let device of devices; let i = index">
-                            <div class="col-md-12">
-                                <accordion-group>
-                                    <div accordion-heading>
-                                        <h3>{{device.Name}} <small>Inventarnummer: {{device.InvNum}}</small></h3>
-                                    </div>
-                                    <div id="{{device.InvNum}}" class="panel-collapse" role="tabpanel" attr.aria-labelledby="headingTwo" attr.aria-expanded="true">
-                                        <div class="panel-body">
-                                            <ul>
-                                                <li>
-                                                    Name: {{device.Name}}
-                                                </li>
-                                                <li>
-                                                    Inventarnummer: {{device.InvNum}}
-                                                </li>
-                                                <li>
-                                                    Verwalter: {{device.Verwalter.Name}} {{device.Verwalter.LastName}}
-                                                </li>
-                                                <li>
-                                                    Marke: {{device.Marke}}
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </accordion-group>
-                            </div>
-                        </div>
-                    </accordion>
+                            
+                                        <accordion-group>
+                                            <div accordion-heading>
+                                                <strong>{{device.Name}} </strong>
+                                                <div class="text-muted pull-right" style="font-size: 0.8em">Inventarnummer: {{device.InvNum}}</div>
+                                            </div>
+                                            <div id="{{device.InvNum}}" class="panel-collapse" role="tabpanel" attr.aria-labelledby="headingTwo" attr.aria-expanded="true">
+                                                <div *ngFor="let meta of device.DeviceMeta">
+                                                    {{meta.Value}}x {{meta.Field}}
+                                                </div>
+                                                <div *ngFor="let fieldGroup of device.FieldGroups">
+                                                    {{fieldGroup.Name}}
+                                                    <div *ngFor="let metaData of getMetaDataOfFieldGroup(fieldGroup.Slug, device.DeviceMeta)">
+                                                        {{metaData.Value}}x {{metaData.Field}}
+                                                    </div>
+                                                </div>
 
+                                                <button class="btn btn-success btn-xs" (click)="addItem(device)">
+                                                    Zum Warenkorb hinzufügen
+                                                    <i class="fa fa-cart-plus" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </accordion-group>
+                            </div>
+                    </accordion>
+                    <div class="weiter-zurueck-btns">
+                        <button class="btn btn-warning" routerLink="/anfrage/schritt-1">Zurück</button>
+                        <div>
+                        <button class="btn btn-default" (click)="showContract()">Vertragsbedingungen anschauen...</button>
+                        <button class="btn btn-success" routerLink="/anfrage/schritt-3">Weiter</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

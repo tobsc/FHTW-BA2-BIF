@@ -35,3 +35,13 @@ html {
 .accordion .panel {
   border-bottom: 1px solid #ddd !important;
 }
+
+.weiter-zurueck-btns {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.btn {
+    margin:0;
+}
