@@ -295,22 +295,37 @@ namespace HwInf.Controllers
                 return BadRequest("Person nicht vorhanden.");
             }
 
-            var dev = _bl.CreateDevice();
-            vmdl.ApplyChanges(dev, _bl);
 
-            vmdl.Refresh(dev);
-
-            if (vmdl.AdditionalInvNums.Any())
+            // Check for new fields and add them
+            vmdl.DeviceMeta.ForEach(i =>
             {
-                vmdl.AdditionalInvNums
-                    .Select(i => i.InvNum)
-                    .ForEach(i =>
-                    {
-                        var d = _bl.CreateDevice();
-                        vmdl.InvNum = i;
-                        vmdl.ApplyChanges(d, _bl);
-                    });
-            }
+                var fg = _bl.GetFieldGroups(i.FieldGroupSlug);
+                if (fg.Fields.Count(j => j.Name == i.Field) == 0)
+                {
+                    _bl.UpdateFieldGroup(fg);
+                    var field = _bl.CreateField();
+                    var fvmdl = new FieldViewModel { Name = i.Field };
+                    fvmdl.ApplyChanges(field, _bl);
+                    fg.Fields.Add(field);
+                }
+            });
+
+            // Put all invNums into one List
+            var invNums = new List<AdditionalInvNumViewModel>
+            {
+                new AdditionalInvNumViewModel {InvNum = vmdl.InvNum}
+            };
+            invNums.AddRange(vmdl.AdditionalInvNums);
+
+            invNums
+                .Select(i => i.InvNum)
+                .ForEach(i =>
+                {
+                    var d = _bl.CreateDevice();
+                    vmdl.InvNum = i;
+                    vmdl.ApplyChanges(d, _bl);
+                    vmdl.Refresh(d);
+                });
 
             _bl.SaveChanges();
             return Ok(vmdl);

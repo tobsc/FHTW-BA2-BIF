@@ -243,7 +243,16 @@ namespace HwInf.Common.BL
 
         public void SaveChanges()
         {
-            _dal.SaveChanges();
+            try
+            {
+                _dal.SaveChanges();
+            }
+            catch(DbEntityValidationException ex)
+            {
+
+                var a = ex.EntityValidationErrors;
+            }
+            
         }
 
 
