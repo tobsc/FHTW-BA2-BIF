@@ -11,6 +11,7 @@ using HwInf.Common.DAL;
 using HwInf.Common.BL;
 using HwInf.Common.Models;
 using HwInf.ViewModels;
+using log4net;
 using WebGrease.Css.Extensions;
 
 namespace HwInf.Controllers
@@ -22,6 +23,7 @@ namespace HwInf.Controllers
     {
         private readonly HwInfContext _db = new HwInfContext();
         private readonly BL _bl;
+        private readonly ILog _log = LogManager.GetLogger("Devices");
 
         public DevicesController()
         {
@@ -328,6 +330,13 @@ namespace HwInf.Controllers
                 });
 
             _bl.SaveChanges();
+
+            _log.InfoFormat("Device '{0}({1})' added by '{2}'", vmdl.InvNum, vmdl.Name , User.Identity.Name);
+            foreach (var n in vmdl.AdditionalInvNums)
+            {
+                _log.InfoFormat("Device '{0}({1})' added by '{2}'", n.InvNum, vmdl.Name, User.Identity.Name);
+            }
+
             return Ok(vmdl);
         }
 
