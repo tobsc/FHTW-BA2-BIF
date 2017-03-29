@@ -35,3 +35,14 @@ html {
 .accordion .panel {
   border-bottom: 1px solid #ddd !important;
 }
+
+
+// 10px gutter
+.gutter-10.row {
+  margin-right: -5px;
+  margin-left: -5px;
+}
+.gutter-10 > [class^="col-"], .gutter-10 > [class^=" col-"] {
+  padding-right: 5px;
+  padding-left: 5px;
+}
