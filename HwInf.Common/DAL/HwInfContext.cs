@@ -1,13 +1,18 @@
-﻿using HwInf.Common.Migrations;
+﻿using System.CodeDom;
+using HwInf.Common.Migrations;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using System.Data.Entity.Validation;
 using HwInf.Common.Models;
+using log4net;
 
 namespace HwInf.Common.DAL
 {
 
     public class HwInfContext : DbContext
     {
+        private static readonly ILog Log = LogManager.GetLogger(typeof(HwInfContext));
+
         public HwInfContext() : base("HwInfContext")
         {
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<HwInfContext, Configuration>());
@@ -30,6 +35,27 @@ namespace HwInf.Common.DAL
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
             modelBuilder.HasDefaultSchema("public");
+        }
+
+        public override int SaveChanges()
+        {
+            try
+            {
+                return base.SaveChanges();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                foreach (var d in ex.EntityValidationErrors)
+                {
+                    Log.ErrorFormat("{0}", d.Entry.Entity.GetType().Name);
+                    foreach (var msg in d.ValidationErrors)
+                    {
+                        Log.ErrorFormat("\t{0} : {1}", msg.PropertyName, msg.ErrorMessage);
+                    }
+                }
+
+                throw;
+            }
         }
     }
 }

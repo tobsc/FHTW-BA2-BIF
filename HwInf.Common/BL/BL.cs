@@ -59,6 +59,10 @@ namespace HwInf.Common.BL
         {
             return _dal.Devices.Include(x => x.DeviceMeta.Select(y => y.FieldGroup).Select(y => y.Fields)).Single(i => i.DeviceId == deviceId);
         }
+        public Device GetSingleDevice(string deviceInvNum)
+        {
+            return _dal.Devices.Include(x => x.DeviceMeta.Select(y => y.FieldGroup).Select(y => y.Fields)).Single(i => i.InvNum == deviceInvNum);
+        }
 
         public DeviceType GetDeviceType(int typeId)
         {
@@ -243,7 +247,16 @@ namespace HwInf.Common.BL
 
         public void SaveChanges()
         {
-            _dal.SaveChanges();
+            try
+            {
+                _dal.SaveChanges();
+            }
+            catch(DbEntityValidationException ex)
+            {
+
+                var a = ex.EntityValidationErrors;
+            }
+            
         }
 
 

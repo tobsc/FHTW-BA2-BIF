@@ -14,6 +14,7 @@ export class Device {
         public Owner: User,
         public Status: Status,
         public DeviceMeta: DeviceMeta[],
-        public IsActive: boolean
+        public IsActive: boolean,
+        public FieldGroups: FieldGroup[]
     ) {}
 }
