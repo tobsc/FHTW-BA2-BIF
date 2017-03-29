@@ -26,9 +26,9 @@ export class DeviceListComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.subscription = this.route.params
-        .do((params: any) => {this.currentType = params['type'];})
-        .flatMap(() => this.deviceService.getDevices(this.currentType))
+      this.subscription = this.route.params
+        .map((params) => params['type'])
+        .flatMap((type) => this.deviceService.getDevices(type))
         .subscribe((data) => {
             this.devices = data;
         });
@@ -38,18 +38,12 @@ export class DeviceListComponent implements OnInit, OnDestroy {
       this.cartService.addItem(device);
   }
 
-  public getMetaDataOfFieldGroup(slug: string, metaData: DeviceMeta[]) {
-      let result: DeviceMeta[] = [];
-      for (let deviceMeta of metaData) {
-          if (deviceMeta.FieldGroupSlug === slug){
-              result.push(deviceMeta);
-          }
-      }
-      return result;
+  public getMetaDataOfFieldGroup(slug: string, metaData: DeviceMeta[]): DeviceMeta[] {
+      return metaData.filter((i) => i.FieldGroupSlug === slug);
   }
 
   ngOnDestroy(): void {
-      this.subscription.unsubscribe();
+      this.subscription.unsubscribe();  
   }
 
 }

@@ -1,0 +1,2 @@
+2017-03-29 20:13:30,685 [INFO] Devices - Device 'IN12345(MacBook Pro 13")' added by 'if15b042'
+2017-03-29 20:13:30,705 [INFO] Devices - Device 'IN12345(MacBook Pro 13")' added by 'if15b042'

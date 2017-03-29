@@ -102,9 +102,9 @@ export class DeviceAddComponent implements OnInit {
    * @returns {FormGroup}
    */
   private initDeviceType( slug: string = '' ): FormGroup {
-    return this.fb.group({
-      Slug: [slug, Validators.required]
-    })
+      return this.fb.group({
+          Slug: [slug, Validators.required]
+      });
   }
 
   /**
