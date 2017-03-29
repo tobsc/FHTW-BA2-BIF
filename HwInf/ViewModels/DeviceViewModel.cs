@@ -19,6 +19,7 @@ namespace HwInf.ViewModels
         public DeviceStatusViewModel Status { get;set; }
         public IEnumerable<DeviceMetaViewModel> DeviceMeta { get; set; }
         public IEnumerable<AdditionalInvNumViewModel> AdditionalInvNums { get; set; }
+        public IEnumerable<FieldGroupViewModel> FieldGroups { get; set; }
 
 
         public bool IsActive { get; set; } = true;
@@ -47,6 +48,7 @@ namespace HwInf.ViewModels
             target.Raum = source.Room;
             target.Verwalter = new UserViewModel(source.Person);
             target.IsActive = source.IsActive;
+            target.FieldGroups = source.Type.FieldGroups.Select(i => new FieldGroupViewModel(i)).ToList();
         }
 
         public void ApplyChanges(Device obj, BL bl)
