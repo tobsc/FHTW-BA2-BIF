@@ -15,7 +15,7 @@ import { LoadingIncidcatorComponent } from './loading-indicator/loading-incidcat
         FooterComponent,
         PageNotFoundComponent,
         PanelComponent,
-        LoadingIncidcatorComponent,
+        LoadingIncidcatorComponent
     ],
     imports: [
         CommonModule,
