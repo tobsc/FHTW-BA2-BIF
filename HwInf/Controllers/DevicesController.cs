@@ -99,6 +99,35 @@ namespace HwInf.Controllers
                 return InternalServerError();
             }
             
+        } 
+        
+        // GET: api/devices/invnum/{invNum}
+        /// <summary>
+        /// Returns device of given InvNum
+        /// </summary>
+        /// <param name="invNum">Device InvNum</param>
+        /// <returns></returns>
+        [ResponseType(typeof(DeviceViewModel))]
+        [Route("invnum/{invNum}")]
+        public IHttpActionResult GetDevice(string invNum)
+        {
+            try
+            {
+                var d = _bl.GetSingleDevice(invNum);
+                var vmdl = new DeviceViewModel(d).LoadMeta(d);
+
+
+                if (vmdl == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(vmdl);
+            } catch
+            {
+                return InternalServerError();
+            }
+            
         }
 
 
