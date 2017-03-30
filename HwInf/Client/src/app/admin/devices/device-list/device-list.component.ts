@@ -3,6 +3,7 @@ import {DeviceService} from "../../../shared/services/device.service";
 import {Observable, Subscription} from "rxjs";
 import {Device} from "../../../shared/models/device.model";
 import {ActivatedRoute, Router} from "@angular/router";
+import {DeviceList} from "../../../shared/models/device-list.model";
 
 @Component({
   selector: 'hwinf-device-list',
@@ -11,9 +12,10 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class DeviceListComponent implements OnInit, OnDestroy {
 
-  private currentPage: number = 0;
+  private currentPage: number = 1;
+  private maxPages: number = 0;
   private subscription: Subscription;
-  private devices: Observable<Device[]>;
+  private devices: Device[];
 
   constructor(
       private deviceService: DeviceService,
@@ -27,9 +29,19 @@ export class DeviceListComponent implements OnInit, OnDestroy {
             (params: any) => {
 
               if ( params['page'] ) {
-                this.currentPage = +params['page'] ;
+                  let pagenumber = +params['page'];
+                  if (pagenumber > 0) {
+                      this.currentPage = pagenumber ;
+                  }
               }
-              this.devices = this.deviceService.getDevices("", 1, this.currentPage);
+
+              this.deviceService.getDevices("", 2, this.currentPage-1).subscribe(
+                  (data: DeviceList) => {
+                      this.maxPages = data.MaxPages;
+                      this.devices = data.Devices;
+
+                  }
+              )
             }
         );
   }

@@ -30,7 +30,7 @@ export class DeviceListComponent implements OnInit, OnDestroy {
         .map((params) => params['type'])
         .flatMap((type) => this.deviceService.getDevices(type))
         .subscribe((data) => {
-            this.devices = data;
+            this.devices = data.Devices;
         });
   }
 

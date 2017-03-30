@@ -7,6 +7,7 @@ import { Device } from "../models/device.model";
 import { IDictionary } from "../../shared/common/dictionary.interface";
 import { Dictionary } from "../../shared/common/dictionary.class";
 import { DeviceComponent } from "../models/component.model";
+import {DeviceList} from "../models/device-list.model";
 
 @Injectable()
 export class DeviceService {
@@ -32,7 +33,7 @@ export class DeviceService {
         limit: number = 100,
         offset: number = 0,
         params: URLSearchParams = new URLSearchParams()
-    ): Observable<Device[]> {
+    ): Observable<DeviceList> {
 
         params.set('limit', limit + '');
         params.set('offset', offset + '');

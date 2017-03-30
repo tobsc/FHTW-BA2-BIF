@@ -19,7 +19,7 @@
         </thead>
         <tbody>
 
-          <tr *ngFor="let device of devices | async">
+          <tr *ngFor="let device of devices">
             <th scope="row">{{device.InvNum}}</th>
             <td>{{device.Name}}</td>
             <td>?????</td>
@@ -34,5 +34,16 @@
 
   </div>
 </hwinf-panel>
-<a *ngIf="currentPage > 0" routerLink="/admin/geraete/page/{{ currentPage - 1 }}" class="btn">Prev Page</a>
-<a routerLink="/admin/geraete/page/{{ currentPage + 1 }}" class="btn">Next Page</a>
+
+<div class="text-right">
+  {{currentPage}}/{{maxPages == 0 ? "(n/a)" : maxPages}}
+</div>
+
+<div style="display: flex; justify-content: space-between">
+  <div>
+    <a *ngIf="currentPage > 1" routerLink="/admin/geraete/page/{{ currentPage - 1 }}" class="btn">Prev Page</a>
+  </div>
+  <div>
+    <a *ngIf="currentPage < maxPages" routerLink="/admin/geraete/page/{{ currentPage + 1 }}" class="btn">Next Page</a>
+  </div>
+</div>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net;
@@ -41,12 +42,38 @@ namespace HwInf.Controllers
         [Route("")]
         public IHttpActionResult GetAll(int limit = 25, int offset = 0)
         {
-            var vmdl = _bl.GetDevices(limit, offset)
+
+            var deviceList = _bl.GetDevices(limit, offset)
                 .ToList()
                 .Select(i => new DeviceViewModel(i).LoadMeta(i))
                 .ToList();
 
-            return Ok(vmdl);
+
+            return Ok(CreateDeviceListViewModel(deviceList, limit, offset));
+        }
+        /// <summary>
+        /// Creates DeviceListViewModel out of a list of DeviceViewModels
+        /// </summary>
+        /// <param name="deviceList">List of Devices</param>
+        /// <param name="limit">Limit</param>
+        /// <param name="offset">Offset</param>
+        /// <returns></returns>
+        private DeviceListViewModel CreateDeviceListViewModel(
+            IEnumerable<DeviceViewModel> deviceList, 
+            int limit,
+            int offset
+        )
+        {
+
+            var currentPage = offset + 1;
+            var maxPages = (int)Math.Ceiling((double) _bl.DeviceCount() / (limit == 0 ? 1 : limit));
+
+            return new DeviceListViewModel
+            {
+                CurrentPage = currentPage,
+                MaxPages = maxPages,
+                Devices = deviceList
+            };
         }
 
         // GET: api/devices/all
@@ -68,7 +95,7 @@ namespace HwInf.Controllers
 
             if(!_bl.IsAdmin()) vmdl = vmdl.TakeWhile(i => i.Verwalter.Uid == User.Identity.Name).ToList();
 
-            return Ok(vmdl.Skip(offset).Take(limit));
+            return Ok(CreateDeviceListViewModel(vmdl.Skip(offset).Take(limit), limit, offset));
         }
 
 
@@ -181,7 +208,7 @@ namespace HwInf.Controllers
                 }
 
             }
-            return Ok(response.Skip(offset).Take(limit));
+            return Ok(CreateDeviceListViewModel(response.Skip(offset).Take(limit), limit, offset));
 
         }
 

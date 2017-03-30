@@ -1,2 +1,7 @@
 2017-03-29 20:13:30,685 [INFO] Devices - Device 'IN12345(MacBook Pro 13")' added by 'if15b042'
 2017-03-29 20:13:30,705 [INFO] Devices - Device 'IN12345(MacBook Pro 13")' added by 'if15b042'
+2017-03-31 00:43:37,591 [INFO] Devices - Device 'asdfadsf(dsafadsf)' added by 'if15b042'
+2017-03-31 00:43:40,465 [INFO] Devices - Device 'adsfsdfdsf(dsafadsf)' added by 'if15b042'
+2017-03-31 00:43:43,398 [INFO] Devices - Device 'asdfsdfdsf(dsafadsf)' added by 'if15b042'
+2017-03-31 00:43:45,677 [INFO] Devices - Device 'fdasfsdfasdfsadf(dsafadsf)' added by 'if15b042'
+2017-03-31 00:43:48,010 [INFO] Devices - Device 'dsafadsfasd(dsafadsf)' added by 'if15b042'

@@ -151,6 +151,11 @@ namespace HwInf.Common.BL
             if (device != null) device.IsActive = false;
         }
 
+        public int DeviceCount()
+        {
+            return _dal.Devices.Count(i => i.IsActive);
+        }
+
         #endregion
 
         #region CustomFields
