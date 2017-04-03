@@ -35,11 +35,10 @@ export class DeviceListComponent implements OnInit, OnDestroy {
                   }
               }
 
-              this.deviceService.getDevices("", 2, this.currentPage-1).subscribe(
+              this.deviceService.getDevices("", 2, (this.currentPage-1) *  2).subscribe(
                   (data: DeviceList) => {
                       this.maxPages = data.MaxPages;
                       this.devices = data.Devices;
-
                   }
               )
             }

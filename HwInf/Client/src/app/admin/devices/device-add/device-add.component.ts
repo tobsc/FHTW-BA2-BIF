@@ -9,6 +9,7 @@ import {Device} from "../../../shared/models/device.model";
 import {UserService} from "../../../shared/services/user.service";
 import {User} from "../../../shared/models/user.model";
 import {ActivatedRoute} from "@angular/router";
+import {DeviceMeta} from "../../../shared/models/device-meta.model";
 
 @Component({
   selector: 'hwinf-device-add',
@@ -25,6 +26,7 @@ export class DeviceAddComponent implements OnInit, AfterViewInit {
   private fieldGroups: FieldGroup[];
   private owners: User[];
   private currentDevice: Device;
+  private formDeviceType: FormGroup;
 
   constructor(
       private deviceService: DeviceService,
@@ -42,26 +44,52 @@ export class DeviceAddComponent implements OnInit, AfterViewInit {
             (next) => { this.owners = next },
             (error) => console.log(error)
         );
+
     this.form = this.initForm();
+    this.formDeviceType = <FormGroup>this.form.controls['DeviceType'];
     this.formFieldGroups = <FormArray>this.form.controls['FieldGroups'];
     this.invNums = <FormArray>this.form.controls['AdditionalInvNums'];
-
-
 
   }
 
 
   ngAfterViewInit(): void {
+
     this.routeSubscription = this.route.params
-        .map((params) => params['invnum'])
-        .flatMap((invnum) => this.deviceService.getDevice(invnum))
-        .subscribe(
-            (data) => {
-              this.currentDevice = data; console.log(data);
-              this.onSelectedTypeChange(this.currentDevice.DeviceType.Slug);
-              console.log(this.form.controls['DeviceType']);
-            }
-        );
+        .map(params => params['invnum'])
+        .flatMap(invnum => this.deviceService.getDevice(invnum))
+        .subscribe((device:Device) => {
+            this.currentDevice = device;
+            this.fillFormWithDeviceData(device);
+            this.fillFormWIthMetaData(device);
+        });
+  }
+
+
+
+  private getMetaDataOfFieldGroup(slug: string, metaData: DeviceMeta[]): DeviceMeta[] {
+    return metaData.filter((i) => i.FieldGroupSlug === slug);
+  }
+
+  private fillFormWIthMetaData(device: Device) {
+    setTimeout(() => {
+      device.FieldGroups
+          .forEach( (fieldgroup, index) => {
+            this.getFieldGroups(index).removeAt(0);
+            this.getMetaDataOfFieldGroup(fieldgroup.Slug, device.DeviceMeta)
+                .forEach((field) => {
+                  this.getFieldGroups(index).push(this.initField(field.Field, +field.Value));
+                });
+          });
+    }, 2000);
+  }
+
+  private fillFormWithDeviceData(device: Device) {
+    this.form.get('Name').setValue(device.Name);
+    this.form.get('Marke').setValue(device.Marke);
+    this.form.get('Raum').setValue(device.Raum);
+    this.form.get('Person').setValue({Uid: device.Verwalter.Uid});
+    this.form.get('DeviceType').setValue({Slug: device.DeviceType.Slug });
   }
 
 
@@ -71,7 +99,7 @@ export class DeviceAddComponent implements OnInit, AfterViewInit {
    * Initializes a the main form
    * @returns {FormGroup}
    */
-  private initForm(): FormGroup {
+  private initForm(device: Device = null): FormGroup {
     return this.fb.group({
       Name: ['', Validators.required],
       InvNum: ['', Validators.required],
@@ -172,10 +200,10 @@ export class DeviceAddComponent implements OnInit, AfterViewInit {
    * Initializes a Field form group
    * @returns {FormGroup}
    */
-  public initField(): FormGroup {
+  public initField(name: string = '', quantity :number = 1): FormGroup {
     return this.fb.group({
-      Name: ['', Validators.required],
-      Quantity: ['', Validators.required]
+      Name: [name, Validators.required],
+      Quantity: [quantity, Validators.required]
     });
   }
 
@@ -212,6 +240,7 @@ export class DeviceAddComponent implements OnInit, AfterViewInit {
    */
   public onSelectedTypeChange( $event ): void {
     this.clearFieldGroups();
+
     this.customFieldsService.getFieldGroupsOfType( $event )
       .subscribe(
             (data) => {

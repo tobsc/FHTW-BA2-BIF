@@ -5,3 +5,4 @@
 2017-03-31 00:43:43,398 [INFO] Devices - Device 'asdfsdfdsf(dsafadsf)' added by 'if15b042'
 2017-03-31 00:43:45,677 [INFO] Devices - Device 'fdasfsdfasdfsadf(dsafadsf)' added by 'if15b042'
 2017-03-31 00:43:48,010 [INFO] Devices - Device 'dsafadsfasd(dsafadsf)' added by 'if15b042'
+2017-04-04 01:24:48,430 [INFO] Devices - Device 'dsadasd123123(MacBook Pro)' added by 'if15b042'

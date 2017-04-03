@@ -11,7 +11,7 @@ export class Device {
         public Marke: string,
         public Raum: string,
         public DeviceType: DeviceType,
-        public Owner: User,
+        public Verwalter: User,
         public Status: Status,
         public DeviceMeta: DeviceMeta[],
         public IsActive: boolean,
