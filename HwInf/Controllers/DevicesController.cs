@@ -48,7 +48,7 @@ namespace HwInf.Controllers
                 .Select(i => new DeviceViewModel(i).LoadMeta(i))
                 .ToList();
 
-            var deviceList = new DeviceListViewModel(devices, limit, offset, _bl);
+            var deviceList = new DeviceListViewModel(devices, offset, limit, _bl);
 
             return Ok(deviceList);
         }
@@ -73,7 +73,7 @@ namespace HwInf.Controllers
 
             if(!_bl.IsAdmin()) vmdl = vmdl.TakeWhile(i => i.Verwalter.Uid == User.Identity.Name).ToList();
 
-            return Ok(new DeviceListViewModel(vmdl.Skip(offset).Take(limit), limit, offset, _bl));
+            return Ok(new DeviceListViewModel(vmdl.Skip(offset).Take(limit), offset, limit , _bl));
         }
 
 
