@@ -1,36 +1,41 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnInit, AfterViewInit} from "@angular/core";
 import {DeviceService} from "../../../shared/services/device.service";
 import {CustomFieldsService} from "../../../shared/services/custom-fields.service";
 import {DeviceType} from "../../../shared/models/device-type.model";
 import {FieldGroup} from "../../../shared/models/fieldgroup.model";
-import {Observable} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import {FormGroup, FormArray, FormBuilder, Validators, NgForm} from "@angular/forms";
 import {Device} from "../../../shared/models/device.model";
 import {UserService} from "../../../shared/services/user.service";
 import {User} from "../../../shared/models/user.model";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'hwinf-device-add',
   templateUrl: './device-add.component.html',
   styleUrls: ['./device-add.component.scss']
 })
-export class DeviceAddComponent implements OnInit {
+export class DeviceAddComponent implements OnInit, AfterViewInit {
 
+  private routeSubscription: Subscription;
   private form: FormGroup;
   private formFieldGroups: FormArray;
   private invNums: FormArray;
   private deviceTypes: Observable<DeviceType[]>;
   private fieldGroups: FieldGroup[];
   private owners: User[];
+  private currentDevice: Device;
 
   constructor(
       private deviceService: DeviceService,
       private customFieldsService: CustomFieldsService,
       private userService: UserService,
-      private fb: FormBuilder
+      private fb: FormBuilder,
+      private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
+
     this.deviceTypes = this.deviceService.getDeviceTypes();
     this.userService.getOwners()
         .subscribe(
@@ -40,7 +45,27 @@ export class DeviceAddComponent implements OnInit {
     this.form = this.initForm();
     this.formFieldGroups = <FormArray>this.form.controls['FieldGroups'];
     this.invNums = <FormArray>this.form.controls['AdditionalInvNums'];
+
+
+
   }
+
+
+  ngAfterViewInit(): void {
+    this.routeSubscription = this.route.params
+        .map((params) => params['invnum'])
+        .flatMap((invnum) => this.deviceService.getDevice(invnum))
+        .subscribe(
+            (data) => {
+              this.currentDevice = data; console.log(data);
+              this.onSelectedTypeChange(this.currentDevice.DeviceType.Slug);
+              console.log(this.form.controls['DeviceType']);
+            }
+        );
+  }
+
+
+
 
   /**
    * Initializes a the main form

@@ -45,6 +45,11 @@ export class DeviceService {
             .map((response: Response) => response.json());
     }
 
+    public getDevice(invNum: string): Observable<Device> {
+        return this.http.get(this.url + 'invnum/' + encodeURI(invNum))
+            .map((response: Response) => response.json());
+    }
+
     /**
      * Returns all device types. e.g Notebook, PC, Monitor, ...
      * @returns {Observable<DeviceType[]>}

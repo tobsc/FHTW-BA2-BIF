@@ -16,7 +16,7 @@ import {Ng2AutoCompleteModule} from "ng2-auto-complete";
 import {FieldsToArrayPipe} from "./devices/device-add/fields-to-array.pipe";
 import {ToArrayPipe} from "../shared/pipes/to-array.pipe";
 import {XHRBackend, RequestOptions} from "@angular/http";
-import {Router} from "@angular/router";
+import {Router, RouterModule} from "@angular/router";
 import {AuthService} from "../authentication/auth.service";
 import {PubSubService} from "../shared/services/pub-sub.service";
 import {JwtHttpService} from "../shared/services/jwt-http.service";
@@ -42,6 +42,7 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
         ToArrayPipe,
     ],
     imports: [
+        RouterModule,
         CoreModule,
         CommonModule,
         FormsModule,

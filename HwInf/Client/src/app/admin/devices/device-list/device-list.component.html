@@ -15,6 +15,7 @@
             <th>Erstellt am</th>
             <th>Verwalter</th>
             <th>Status</th>
+            <th>Aktion</th>
           </tr>
         </thead>
         <tbody>
@@ -25,6 +26,7 @@
             <td>?????</td>
             <td>{{device.Verwalter.Name}}</td>
             <td><div class="label label-xs label-success">{{device.Status.Description}}</div></td>
+            <td><a routerLink="/admin/geraete/duplizieren/{{device.InvNum}}"><i class="fa fa-files-o" aria-hidden="true"></i></a></td>
           </tr>
 
         </tbody>
@@ -36,7 +38,7 @@
 </hwinf-panel>
 
 <div class="text-right">
-  {{currentPage}}/{{maxPages == 0 ? "(n/a)" : maxPages}}
+  {{currentPage}}/{{maxPages == 0 ? "?" : maxPages}}
 </div>
 
 <div style="display: flex; justify-content: space-between">
