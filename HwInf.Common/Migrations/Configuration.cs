@@ -73,14 +73,18 @@ namespace HwInf.Common.Migrations
                 new DeviceMeta
                 {
                     MetaValue = "2",
-                    Field = fieldGroup.Select(i => i.Fields.Single(x => x.Slug == "hdmi")).FirstOrDefault(),
-                    FieldGroup = fieldGroup.Single(i => i.Slug == "anschluesse")
+                    FieldName = fieldGroup.Select(i => i.Fields.Single(x => x.Slug == "hdmi").Name).FirstOrDefault(),
+                    FieldSlug = fieldGroup.Select(i => i.Fields.Single(x => x.Slug == "hdmi").Slug).FirstOrDefault(),
+                    FieldGroupName = fieldGroup.Single(i => i.Slug == "anschluesse").Name,
+                    FieldGroupSlug = fieldGroup.Single(i => i.Slug == "anschluesse").Slug
                 },
                                 new DeviceMeta
                 {
                     MetaValue = "5",
-                    Field = fieldGroup.Select(i => i.Fields.Single(x => x.Slug == "vga")).FirstOrDefault(),
-                    FieldGroup = fieldGroup.Single(i => i.Slug == "anschluesse")
+                    FieldName = fieldGroup.Select(i => i.Fields.Single(x => x.Slug == "vga").Name).FirstOrDefault(),
+                    FieldSlug = fieldGroup.Select(i => i.Fields.Single(x => x.Slug == "vga").Slug).FirstOrDefault(),
+                    FieldGroupName = fieldGroup.Single(i => i.Slug == "anschluesse").Name,
+                    FieldGroupSlug = fieldGroup.Single(i => i.Slug == "anschluesse").Slug
                 }
             };
 
