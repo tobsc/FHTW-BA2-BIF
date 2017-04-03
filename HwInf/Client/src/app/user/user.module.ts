@@ -1,7 +1,7 @@
 import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
 import { FormsModule } from "@angular/forms";
-import { RouterModule } from "@angular/router";
+import {RouterModule, Router} from "@angular/router";
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DeviceListComponent } from './devices/device-list.component';
 import { DevicesStatusDirective } from './devices/devices-status.directive';
@@ -15,9 +15,15 @@ import { OrderStep3Component } from './cart/order-step3/order-step3.component';
 import { Daterangepicker } from 'ng2-daterangepicker';
 import { ModalModule } from 'angular2-modal';
 import { BootstrapModalModule } from 'angular2-modal/plugins/bootstrap';
+import {JwtHttpService} from "../shared/services/jwt-http.service";
+import {XHRBackend, RequestOptions} from "@angular/http";
+import {AuthService} from "../authentication/auth.service";
+import {PubSubService} from "../shared/services/pub-sub.service";
 
 
-
+export function jwtFactory(backend: XHRBackend, options: RequestOptions, router: Router, authService: AuthService, pubsub: PubSubService) {
+    return new JwtHttpService(backend, options, router, authService, pubsub);
+}
 
 @NgModule({
     declarations: [
@@ -28,7 +34,8 @@ import { BootstrapModalModule } from 'angular2-modal/plugins/bootstrap';
         OrderStep1Component,
         OrderStep2Component,
         OrderComponent,
-        OrderStep3Component],
+        OrderStep3Component
+    ],
     imports: [
         CommonModule,
         FormsModule,
@@ -38,6 +45,13 @@ import { BootstrapModalModule } from 'angular2-modal/plugins/bootstrap';
         Daterangepicker,
         ModalModule.forRoot(),
         BootstrapModalModule
+    ],
+    providers: [
+        {
+            provide: JwtHttpService,
+            useFactory: jwtFactory,
+            deps: [XHRBackend, RequestOptions, Router, AuthService, PubSubService]
+        },
     ]
 })
 export class UserModule {}

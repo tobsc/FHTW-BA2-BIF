@@ -39,7 +39,7 @@ export class AuthService {
             this.token = token;
             this.loggedIn = true;
             this.jwtService.setToken( token);
-            console.log(token);
+            console.log("auth: " +token);
             return true;
           } else {
             return false;
@@ -57,6 +57,7 @@ export class AuthService {
     this.jwtService.removeToken();
     this.loggedIn = false;
     this.router.navigate(['/login']);
+
   }
 
 }

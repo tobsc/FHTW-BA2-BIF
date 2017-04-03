@@ -1,29 +1,22 @@
 import { Injectable } from '@angular/core';
 import { JwtHttpService } from "./jwt-http.service";
-import { Http, Headers, RequestOptions, Response } from "@angular/http";
+import { Headers, RequestOptions, Response } from "@angular/http";
 import {User} from "../models/user.model";
 import { Observable } from "rxjs";
-import { Router } from "@angular/router";
-import { JwtService } from "./jwt.service";
+
 
 @Injectable()
 export class UserService {
-    private user: Observable<any> = null;
     private url: string = '/api/users/';
     private token: string;
 
 
     constructor(
-        private http: JwtHttpService,
-        private router: Router,
-        private jwtService: JwtService) {}
+        private http: JwtHttpService) {}
 
     public getUser(): Observable<User> {
-        if (this.user === null) {
-            this.user = this.http.get(this.url + 'userdata')
-                .map((response: Response) => response.json());
-        }
-        return this.user;
+        return this.http.get(this.url + 'userdata')
+            .map((response: Response) => response.json());
     }
 
     public updateUser(user: User): Observable<boolean> {

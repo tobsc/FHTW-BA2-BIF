@@ -36,10 +36,6 @@ import {KeysPipe} from "./shared/pipes/keys.pipe";
 
 
 
-export function jwtFactory(backend: XHRBackend, options: RequestOptions, router: Router, authService: AuthService, pubsub: PubSubService) {
-    return new JwtHttpService(backend, options, router, authService, pubsub);
-}
-
 export function feedbackHttpFactory(backend: XHRBackend, options: RequestOptions, router: Router, pubsub: PubSubService) {
     return new FeedbackHttpService(backend, options, router, pubsub);
 }
@@ -68,11 +64,6 @@ export function feedbackHttpFactory(backend: XHRBackend, options: RequestOptions
         BootstrapModalModule
     ],
     providers: [
-        {
-            provide: JwtHttpService,
-            useFactory: jwtFactory,
-            deps: [XHRBackend, RequestOptions, Router, AuthService, PubSubService]
-        },
         {
             provide: FeedbackHttpService,
             useFactory: feedbackHttpFactory,

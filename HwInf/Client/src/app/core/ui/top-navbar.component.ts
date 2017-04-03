@@ -33,7 +33,7 @@ export class TopNavbarComponent implements OnInit {
   }
 
   ngOnInit() {
-      this.userService.getUser().subscribe((data) => this.user = data);
+     this.userService.getUser().subscribe((data) => this.user = data);
   }
 
   public logout(): void {

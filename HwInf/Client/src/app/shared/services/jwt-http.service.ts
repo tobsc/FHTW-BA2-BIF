@@ -19,6 +19,7 @@ export class JwtHttpService extends Http {
       authService: AuthService,
       pubsub: PubSubService) {
     let token = localStorage.getItem('auth_token');
+    console.log("jwt-http-ctor:" +token);
     defaultOptions.headers.set('Authorization', 'Bearer ${token}');
     super(backend, defaultOptions);
     this.router = router;

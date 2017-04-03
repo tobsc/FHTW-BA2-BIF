@@ -49,6 +49,7 @@ export class JwtService {
 
   public removeToken(): void {
       localStorage.removeItem(this.TOKEN);
+      this.jwt = null;
   }
 
     //checks if token is valid
