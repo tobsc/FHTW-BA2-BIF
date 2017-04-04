@@ -8,6 +8,7 @@ import { DeviceTypesComponent } from "./devices/device-types/device-types.compon
 import { DeviceCustomFieldsComponent } from "./devices/device-custom-fields/device-custom-fields.component";
 import { VerwalterGuard } from "../authentication/verwalter.guard";
 import {DeviceEditComponent} from "./devices/device-edit/device-edit.component";
+import {PageNotFoundComponent} from "../core/page-not-found/page-not-found.component";
 
 const ADMIN_ROUTES: Routes = [
     { path: 'admin', component: HomeComponent, canActivate: [AuthGuard , VerwalterGuard],
@@ -15,11 +16,13 @@ const ADMIN_ROUTES: Routes = [
             { path: '', redirectTo: 'dashboard', pathMatch: 'full', },
             { path: 'dashboard', component: AdminDashboardComponent },
             { path: 'geraete', component: DeviceListComponent },
-            { path: 'geraete/page/:page', component: DeviceListComponent },
-            { path: 'geraete/neu/', component: DeviceAddComponent },
+            { path: 'geraete/neu', component: DeviceAddComponent },
+            { path: 'geraete/neu/:invnum', component: DeviceAddComponent },
             { path: 'geraete/typen', component: DeviceTypesComponent },
             { path: 'geraete/eigene_felder', component: DeviceCustomFieldsComponent },
+            { path: 'geraete/page/:page', component: DeviceListComponent },
             { path: 'geraete/invnum/:invnum', component: DeviceEditComponent },
+            { path: '**', component: PageNotFoundComponent }
         ]
     }
 ];

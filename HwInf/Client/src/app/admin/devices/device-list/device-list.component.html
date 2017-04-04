@@ -1,57 +1,67 @@
 
+<nav aria-label="...">
+  <ul class="pager">
+    <li class="previous"><a *ngIf="currentPage > 1" routerLink="/admin/geraete/page/{{ currentPage - 1 }}"><span aria-hidden="true">&larr;</span> Vorherige Seite</a></li>
+    <li class="next"><a *ngIf="currentPage < maxPages" routerLink="/admin/geraete/page/{{ currentPage + 1 }}">Nächste Seite <span aria-hidden="true">&rarr;</span></a></li>
+  </ul>
+</nav>
 
-<hwinf-panel>
-  <div class="hwinf-panel__heading">
-    Geräte verwalten
+<div class="text-right">
+</div>
+
+<div class="x_panel">
+  <div class="x_title">
+    <h2>Geräte verwalten</h2>
+    <div class="pull-right">
+      {{currentPage}}/{{maxPages == 0 ? "?" : maxPages}}
+    </div>
+    <div class="clearfix"></div>
   </div>
-  <div class="hwinf-panel__content">
-
+  <div class="x_content">
     <div class="table-responsive">
       <table class="table table-hover">
         <thead>
-          <tr>
-            <th>InvNum</th>
-            <th>Typ</th>
-            <th>Name</th>
-            <th>Erstellt am</th>
-            <th>Verwalter</th>
-            <th>Status</th>
-            <th>Aktion</th>
-          </tr>
+        <tr>
+          <th>InvNum</th>
+          <th>Typ</th>
+          <th>Name</th>
+          <th>Erstellt am</th>
+          <th>Verwalter</th>
+          <th>Status</th>
+          <th>Aktion</th>
+        </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let device of devices">
-              <td>{{device.InvNum}}</td>
-              <td>{{device.DeviceType.Name}}</td>
-              <th scope="row" ><a routerLink="/admin/geraete/invnum/{{device.InvNum}}/">{{device.Name}}</a></th>
-              <td>{{device.CreateDate}}</td>
-              <td>{{device.Verwalter.Name}}</td>
-              <td><div class="label label-success">{{device.Status.Description}}</div></td>
-              <td>
-
-                <a (click)="onDelete(device.DeviceId)" title="Gerät löschen" class="btn btn-danger" aria-label="Delete">
-                  <i class="fa fa-trash-o" aria-hidden="true"></i>
-                </a>
-              </td>
-          </tr>
+        <tr *ngFor="let device of devices">
+          <td>{{device.InvNum}}</td>
+          <td>{{device.DeviceType.Name}}</td>
+          <th scope="row" ><a routerLink="/admin/geraete/invnum/{{device.InvNum}}/">{{device.Name}}</a></th>
+          <td>{{device.CreateDate}}</td>
+          <td>{{device.Verwalter.Name}}</td>
+          <td><div class="label label-success">{{device.Status.Description}}</div></td>
+          <td>
+            <a routerLink="/admin/geraete/invnum/{{device.InvNum}}/" title="Gerät bearbeiten" class="btn btn-warning" aria-label="Bearbeiten"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+            <a routerLink="/admin/geraete/neu/{{device.InvNum}}" title="Gerät duplizieren" class="btn btn-info" aria-label="Duplizieren"><i class="fa fa-files-o" aria-hidden="true"></i></a>
+            <a (click)="onDelete(device.DeviceId)" title="Gerät löschen" class="btn btn-danger" aria-label="Löschen">
+              <i class="fa fa-trash-o" aria-hidden="true"></i>
+            </a>
+          </td>
+        </tr>
 
         </tbody>
       </table>
     </div>
 
-
-  </div>
-</hwinf-panel>
-
-<div class="text-right">
-  {{currentPage}}/{{maxPages == 0 ? "?" : maxPages}}
-</div>
-
-<div style="display: flex; justify-content: space-between">
-  <div>
-    <a *ngIf="currentPage > 1" routerLink="/admin/geraete/page/{{ currentPage - 1 }}" class="btn">Prev Page</a>
-  </div>
-  <div>
-    <a *ngIf="currentPage < maxPages" routerLink="/admin/geraete/page/{{ currentPage + 1 }}" class="btn">Next Page</a>
+    <div class="ln_solid"></div>
+    <div class="pull-right">
+      {{currentPage}}/{{maxPages == 0 ? "?" : maxPages}}
+    </div>
   </div>
 </div>
+
+<nav aria-label="...">
+  <ul class="pager">
+    <li class="previous"><a *ngIf="currentPage > 1" routerLink="/admin/geraete/page/{{ currentPage - 1 }}"><span aria-hidden="true">&larr;</span> Vorherige Seite</a></li>
+    <li class="next"><a *ngIf="currentPage < maxPages" routerLink="/admin/geraete/page/{{ currentPage + 1 }}">Nächste Seite <span aria-hidden="true">&rarr;</span></a></li>
+  </ul>
+</nav>

@@ -21,7 +21,6 @@ export class UserService {
 
     public updateUser(user: User): Observable<boolean> {
         let bodyString = JSON.stringify(user);
-        console.log(bodyString);
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
         return this.http.post(this.url + 'update', bodyString, options)
@@ -32,7 +31,6 @@ export class UserService {
                 } else {
                     return false;
                 }
-
             });
     }
 

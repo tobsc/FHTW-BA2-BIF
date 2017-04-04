@@ -22,6 +22,7 @@ import {JwtHttpService} from "../shared/services/jwt-http.service";
 import { DeviceFormComponent } from './devices/device-form/device-form.component';
 import { DeviceEditComponent } from './devices/device-edit/device-edit.component';
 import {DeviceAddComponent} from "./devices/device-add/device-add.component";
+import {AlertModule} from "ng2-bootstrap";
 
 
 export function jwtFactory(backend: XHRBackend, options: RequestOptions, router: Router, authService: AuthService, pubsub: PubSubService) {
@@ -52,7 +53,9 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
         FormsModule,
         ReactiveFormsModule,
         Ng2AutoCompleteModule,
-        adminRouting
+        adminRouting,
+        AlertModule.forRoot(),
+
     ],
     providers: [
     {
