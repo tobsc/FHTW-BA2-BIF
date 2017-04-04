@@ -40,6 +40,10 @@ export class DeviceAddComponent implements OnInit {
 
   ngOnInit() {
 
+    this.route.url.map(segments => segments.join('/')).subscribe( (i) =>{
+      if (i.indexOf("geraete")) console.log("yes")
+    } );
+
     this.deviceTypes = this.deviceService.getDeviceTypes();
     this.userService.getOwners()
         .subscribe(
