@@ -20,6 +20,7 @@ const ADMIN_ROUTES: Routes = [
             { path: 'geraete/typen', component: DeviceTypesComponent },
             { path: 'geraete/eigene_felder', component: DeviceCustomFieldsComponent },
             { path: 'geraete/duplizieren/:invnum', component: DeviceAddComponent },
+            { path: 'geraete/bearbeiten/:invnum', component: DeviceAddComponent },
         ]
     }
 ];

@@ -53,3 +53,6 @@
 #System Files
 /HwInf/Client/.DS_Store
 /HwInf/ClientThumbs.db
+
+# app data
+/HwInf/App_Data/
