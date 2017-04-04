@@ -102,7 +102,7 @@ namespace HwInf.Common.BL
         // Create
         public Device CreateDevice()
         {
-            if (!IsAdmin() && !IsOwner()) return null;
+            if (!IsAdmin() && !IsVerwalter()) return null;
 
             var dev = new Device();
             _dal.Devices.Add(dev);
@@ -111,7 +111,7 @@ namespace HwInf.Common.BL
 
         public DeviceMeta CreateDeviceMeta(DeviceMeta dm)
         {
-            if (!IsAdmin() && !IsOwner()) return null;
+            if (!IsAdmin() && !IsVerwalter()) return null;
 
             _dal.DeviceMeta.Add(dm);
             return dm;
@@ -119,7 +119,7 @@ namespace HwInf.Common.BL
 
         public DeviceType CreateDeviceType()
         {
-            if (!IsAdmin() && !IsOwner()) return null;
+            if (!IsAdmin() && !IsVerwalter()) return null;
 
             var dt = new DeviceType();
             _dal.DeviceTypes.Add(dt);
@@ -135,21 +135,21 @@ namespace HwInf.Common.BL
         // Update
         public void UpdateDevice(Device device)
         {
-            if (!IsAdmin() && !IsOwner()) return;
+            if (!IsAdmin() && !IsVerwalter()) return;
 
             _dal.Entry(device).State = EntityState.Modified;
         }
 
         public void UpdateDeviceMeta(DeviceMeta deviceMeta)
         {
-            if (!IsAdmin() && !IsOwner()) return;
+            if (!IsAdmin() && !IsVerwalter()) return;
 
             _dal.Entry(deviceMeta).State = EntityState.Modified;
         }
 
         public void DeleteDevice(int deviceId)
         {
-            if (!IsAdmin() && !IsOwner()) return;
+            if (!IsAdmin() && !IsVerwalter()) return;
 
             var device = _dal.Devices.Find(deviceId);
             UpdateDevice(device);
@@ -194,7 +194,7 @@ namespace HwInf.Common.BL
         // Create
         public FieldGroup CreateFieldGroup()
         {
-            if (!IsAdmin() && !IsOwner()) return null;
+            if (!IsAdmin() && !IsVerwalter()) return null;
 
             var fg = new FieldGroup();
             _dal.FieldGroups.Add(fg);
@@ -203,7 +203,7 @@ namespace HwInf.Common.BL
 
         public Field CreateField()
         {
-            if (!IsAdmin() && !IsOwner()) return null;
+            if (!IsAdmin() && !IsVerwalter()) return null;
 
             var obj = new Field();
             _dal.Fields.Add(obj);
@@ -214,7 +214,7 @@ namespace HwInf.Common.BL
         // Update
         public void UpdateFieldGroup(FieldGroup obj)
         {
-            if (!IsAdmin() && !IsOwner()) return;
+            if (!IsAdmin() && !IsVerwalter()) return;
 
             _dal.Entry(obj).State = EntityState.Modified;
         }
@@ -280,26 +280,25 @@ namespace HwInf.Common.BL
             return System.Threading.Thread.CurrentPrincipal.IsInRole("Admin");
         }
 
-        public bool IsAdminRole(string uid)
+        public bool IsAdmin(string uid)
         {
-            return _dal.Persons.Any(i => i.Uid == uid && i.IsAdmin);
+            return _dal.Persons.Any(i => i.Uid == uid && i.Role.Name.Equals("Admin"));
         }
 
-        public bool IsOwner()
+        public bool IsVerwalter()
         {
-            return System.Threading.Thread.CurrentPrincipal.IsInRole("Owner");
+            return System.Threading.Thread.CurrentPrincipal.IsInRole("Verwalter");
+        }
+
+        public bool IsVerwalter(string uid)
+        {
+            return _dal.Persons.Any(i => i.Uid == uid && i.Role.Name.Equals("Verwalter"));
         }
 
         public void SetAdmin(Person obj)
         {
             if (!IsAdmin()) return;
-            obj.IsAdmin = true;
             obj.Role = GetRole("Admin");
-        }
-
-        public bool IsVerwalterRole(string uid)
-        {
-            return _dal.Persons.Any(i => i.Uid == uid && i.Role.Name.Equals("Owner"));
         }
 
         public string CreateToken(Person p)

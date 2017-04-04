@@ -47,7 +47,7 @@ namespace HwInf.Controllers
 
                 var orders = db.Orders
                     .Include(i => i.Person)
-                    .Include(i => i.Owner);
+                    .Include(i => i.Verwalter);
 
                 var vmdl = orders
                     .Where(i => i.OrderId == id)
@@ -74,7 +74,7 @@ namespace HwInf.Controllers
 
             var orders = db.Orders
                 .Include(i => i.Person)
-                .Include(i => i.Owner);
+                .Include(i => i.Verwalter);
 
             var vmdl = orders
                 .Where(i => i.Person.Uid == uid)
@@ -97,7 +97,7 @@ namespace HwInf.Controllers
         {
             var orders = db.Orders
                 .Include(i => i.Person)
-                .Include(i => i.Owner);
+                .Include(i => i.Verwalter);
 
             List<OrderViewModel> vmdl;
 
@@ -112,7 +112,7 @@ namespace HwInf.Controllers
                 string uid = User.Identity.Name;
 
                 vmdl = orders
-                    .Where(i => i.Owner.Uid == uid)
+                    .Where(i => i.Verwalter.Uid == uid)
                     .ToList()
                     .Select(i => new OrderViewModel(i).LoadOrderItems(db))
                     .ToList();
@@ -132,7 +132,7 @@ namespace HwInf.Controllers
         [Route("id/{id}/{act}")]
         public IHttpActionResult GetChangeOrderStatus(int id, string act)
         {
-            var uid = db.Orders.Where(i => i.OrderId == id).Select(i => i.Owner.Uid).SingleOrDefault();
+            var uid = db.Orders.Where(i => i.OrderId == id).Select(i => i.Verwalter.Uid).SingleOrDefault();
 
             if (!IsAllowed(uid) && !IsAdmin())
             {
@@ -304,7 +304,7 @@ namespace HwInf.Controllers
                 o.From = vmdl.From;
                 o.To = vmdl.To;
                 o.Person = db.Persons.Single(i => i.Uid == User.Identity.Name);
-                o.Owner = g.Select(i => i.Person).FirstOrDefault();
+                o.Verwalter = g.Select(i => i.Person).FirstOrDefault();
                 o.Status = db.OrderStatus.Single(i => i.Description == "Offen");
 
                 orders.Add(o);

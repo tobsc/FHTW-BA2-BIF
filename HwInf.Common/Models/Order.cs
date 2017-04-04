@@ -22,6 +22,6 @@ namespace HwInf.Common.Models
         [Required]
         public virtual Person Person { get; set; }
         [Required]
-        public virtual Person Owner { get; set; }
+        public virtual Person Verwalter { get; set; }
     }
 }

@@ -41,7 +41,7 @@ namespace HwInf.Controllers
         /// Returns List of Users.
         /// </summary>
         /// <returns>LastName, Name, Uid</returns>
-        [Authorize(Roles="Owner, Admin")]
+        [Authorize(Roles="Verwalter, Admin")]
         [ResponseType(typeof(UserViewModel))]
         [Route("owners")]
         public IHttpActionResult GetOwners()

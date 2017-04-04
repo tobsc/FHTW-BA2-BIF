@@ -33,7 +33,7 @@ namespace HwInf.Controllers
             if (!ModelState.IsValid) return BadRequest(ModelState);
             if (!LDAPAuthenticator.Authenticate(vmdl.Uid, vmdl.Password).IsAuthenticated) return Unauthorized();
 
-            var p = new Person();
+            Person p;
 
             if (_bl.GetUsers(vmdl.Uid) != null)
             {
@@ -48,10 +48,7 @@ namespace HwInf.Controllers
             // Load user data from LDAP and save them into DB
             var ldapUser = LDAPAuthenticator.Authenticate(vmdl.Uid, vmdl.Password);
             vmdl.Refresh(ldapUser);
-            var isAdmin = _bl.IsAdminRole(vmdl.Uid);
             vmdl.ApplyChanges(p, _bl);
-            if (isAdmin) p.Role = _bl.GetRole("Admin");
-            if (_bl.IsVerwalterRole(vmdl.Uid)) p.Role = _bl.GetRole("Owner");
             _db.SaveChanges();
 
             // Create new token from user

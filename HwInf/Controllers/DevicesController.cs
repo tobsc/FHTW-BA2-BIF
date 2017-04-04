@@ -19,7 +19,6 @@ namespace HwInf.Controllers
 {
     [Authorize]
     [RoutePrefix("api/devices")]
-    [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
     public class DevicesController : ApiController
     {
         private readonly HwInfContext _db = new HwInfContext();
@@ -62,7 +61,7 @@ namespace HwInf.Controllers
         /// <param name="offset">Offset</param>
         /// <returns></returns>
         [ResponseType(typeof(DeviceViewModel))]
-        [Authorize(Roles = "Admin, Owner")]
+        [Authorize(Roles = "Admin, Verwalter")]
         [Route("admin")]
         public IHttpActionResult GetAllAdmin(int limit = 25, int offset = 0)
         {

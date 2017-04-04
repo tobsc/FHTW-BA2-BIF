@@ -29,9 +29,9 @@ namespace HwInf.ViewModels
 
         public string PersonUid { get; set; }
 
-        public string Owner { get; set; }
+        public string Verwalter { get; set; }
 
-        public string OwnerUid { get; set; }
+        public string VerwalterUid { get; set; }
 
         public List<int> OrderItems { get; set; }
 
@@ -56,8 +56,8 @@ namespace HwInf.ViewModels
             target.To = source.To;
             target.Person = source.Person.Name;
             target.PersonUid = source.Person.Uid;
-            target.Owner = source.Owner.Name;
-            target.OwnerUid = source.Owner.Uid;
+            target.Verwalter = source.Verwalter.Name;
+            target.VerwalterUid = source.Verwalter.Uid;
 
         }
 
@@ -71,7 +71,7 @@ namespace HwInf.ViewModels
             target.From = source.From;
             target.To = source.To;
             target.Person = db.Persons.Single(i => i.Uid == source.PersonUid);
-            target.Owner = db.Persons.Single(i => i.Uid == source.OwnerUid);
+            target.Verwalter = db.Persons.Single(i => i.Uid == source.VerwalterUid);
 
         }
 

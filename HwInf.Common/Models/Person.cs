@@ -22,6 +22,5 @@ namespace HwInf.Common.Models
         [Required]
         public virtual Role Role { get; set; }
         public string Room { get; set; }
-        public bool IsAdmin { get; set; }
     }
 }

@@ -57,7 +57,7 @@ namespace HwInf.Common.Migrations
                 {
                     new Role { Name = "Admin" },
                     new Role { Name = "User" },
-                    new Role { Name = "Owner" }
+                    new Role { Name = "Verwalter" }
                 };
 
             var persons = new List<Person>

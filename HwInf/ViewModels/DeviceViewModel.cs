@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using HwInf.Common.BL;
 using HwInf.Common.Models;
@@ -14,12 +15,13 @@ namespace HwInf.ViewModels
         public string InvNum { get; set; }
         public string Marke { get; set; }
         public string Raum { get; set; }
+        public string CreateDate { get; set; }
         public DeviceTypeViewModel DeviceType { get; set; }
         public UserViewModel Verwalter { get; set; }
-        public DeviceStatusViewModel Status { get;set; }
+        public DeviceStatusViewModel Status { get; set; }
         public IEnumerable<DeviceMetaViewModel> DeviceMeta { get; set; }
         public IEnumerable<AdditionalInvNumViewModel> AdditionalInvNums { get; set; }
-        public IEnumerable<FieldGroupViewModel> FieldGroups { get; set; }
+        public IEnumerable<object> FieldGroups { get; set; }
 
 
         public bool IsActive { get; set; } = true;
@@ -48,7 +50,9 @@ namespace HwInf.ViewModels
             target.Raum = source.Room;
             target.Verwalter = new UserViewModel(source.Person);
             target.IsActive = source.IsActive;
-            target.FieldGroups = source.Type.FieldGroups.Select(i => new FieldGroupViewModel(i)).ToList();
+            target.CreateDate = source.CreateDate.ToShortDateString();
+
+            target.FieldGroups = source.Type.FieldGroups.Select(i => new {Slug = i.Slug, Name = i.Name}).ToList();
         }
 
         public void ApplyChanges(Device obj, BL bl)
@@ -67,6 +71,7 @@ namespace HwInf.ViewModels
             target.DeviceMeta = new List<DeviceMeta>();
             source.DeviceMeta.ForEach(i => i.ApplyChanges(i, bl));
             source.DeviceMeta.ForEach(i => target.DeviceMeta.Add(i));
+
 
         }
 

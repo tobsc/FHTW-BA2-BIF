@@ -68,7 +68,7 @@ namespace HwInf.ViewModels
             switch (source.PersonalType)
             {
                 case "Teacher":
-                    target.Role = "Owner";
+                    target.Role = "Verwalter";
                     break;
                 default:
                     target.Role = "User";
@@ -88,7 +88,10 @@ namespace HwInf.ViewModels
             target.Uid = source.Uid;
             target.Email = source.Email;
             target.Tel = source.Tel;
-            target.Role = bl.GetRole(source.Role);
+            if (target.Role == null)
+            {
+                target.Role = bl.GetRole(source.Role);
+            }
             target.Room = source.Room;
             
 
