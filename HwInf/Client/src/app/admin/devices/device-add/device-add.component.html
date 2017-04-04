@@ -113,7 +113,6 @@
                                       <button type="button" class="btn btn-danger" (click)="removeInvNum(i)" style="margin-right: 0"><i class="fa fa-times" aria-hidden="true"></i></button>
                                   </span>
                               </div>
-
                           </div>
                       </div>
                   </div>
@@ -150,7 +149,6 @@
                             <div formArrayName="Fields">
                                 <div *ngFor="let field of fieldGroup.controls.Fields.controls; let j = index">
                                     <div class="form-group" [formGroupName]="j">
-
                                         <div class="row">
                                             <div class="col-xs-3 col-sm-2 col-md-2" style="padding-right: 0">
                                                 <input min="1" class="form-control" type="number" formControlName="Quantity">
