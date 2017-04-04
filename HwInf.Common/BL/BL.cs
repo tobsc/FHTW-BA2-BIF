@@ -167,16 +167,17 @@ namespace HwInf.Common.BL
         {
             if (!IsAdmin() && !IsVerwalter()) return;
 
-            try
+            if (!GetDevices(0, 0, false, dt.TypeId, true).Any())
             {
                 _dal.DeviceTypes.Remove(dt);
-                SaveChanges();
+
             }
-            catch
+            else
             {
                 UpdateDeviceType(dt);
-                if (dt != null) dt.IsActive = false;
+                dt.IsActive = false;
             }
+
 
 
         }
