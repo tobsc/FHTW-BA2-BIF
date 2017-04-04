@@ -96,4 +96,16 @@ export class DeviceService {
             .map((response: Response) => response.json());
     }
 
+    public editDevice(body: Device): Observable<Device> {
+        let bodyString = JSON.stringify(body);
+        let headers = new Headers({
+            'Content-Type': 'application/json'
+        });
+        let params: URLSearchParams = new URLSearchParams();
+        params.append('id', ""+body.DeviceId);
+        let options = new RequestOptions({headers: headers, });
+        return this.http.put(this.url, bodyString, options)
+            .map((response: Response) => response.json());
+    }
+
 }

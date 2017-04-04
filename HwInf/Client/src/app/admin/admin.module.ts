@@ -20,6 +20,8 @@ import {Router, RouterModule} from "@angular/router";
 import {AuthService} from "../authentication/auth.service";
 import {PubSubService} from "../shared/services/pub-sub.service";
 import {JwtHttpService} from "../shared/services/jwt-http.service";
+import { DeviceFormComponent } from './devices/device-form/device-form.component';
+import { DeviceEditComponent } from './devices/device-edit/device-edit.component';
 
 
 export function jwtFactory(backend: XHRBackend, options: RequestOptions, router: Router, authService: AuthService, pubsub: PubSubService) {
@@ -40,6 +42,8 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
         DeviceCustomFieldsFieldgroupsAddComponent,
         FieldsToArrayPipe,
         ToArrayPipe,
+        DeviceFormComponent,
+        DeviceEditComponent,
     ],
     imports: [
         RouterModule,

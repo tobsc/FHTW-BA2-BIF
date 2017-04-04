@@ -8,6 +8,7 @@ import {DeviceAddComponent} from "./devices/device-add/device-add.component";
 import { DeviceTypesComponent } from "./devices/device-types/device-types.component";
 import { DeviceCustomFieldsComponent } from "./devices/device-custom-fields/device-custom-fields.component";
 import { VerwalterGuard } from "../authentication/verwalter.guard";
+import {DeviceEditComponent} from "./devices/device-edit/device-edit.component";
 
 const ADMIN_ROUTES: Routes = [
     { path: 'admin', component: HomeComponent, canActivate: [AuthGuard , VerwalterGuard],
@@ -20,7 +21,7 @@ const ADMIN_ROUTES: Routes = [
             { path: 'geraete/typen', component: DeviceTypesComponent },
             { path: 'geraete/eigene_felder', component: DeviceCustomFieldsComponent },
             { path: 'geraete/duplizieren/:invnum', component: DeviceAddComponent },
-            { path: 'geraete/bearbeiten/:invnum', component: DeviceAddComponent },
+            { path: 'geraete/bearbeiten/:invnum', component: DeviceEditComponent },
         ]
     }
 ];
