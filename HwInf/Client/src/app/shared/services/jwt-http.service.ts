@@ -19,7 +19,6 @@ export class JwtHttpService extends Http {
       authService: AuthService,
       pubsub: PubSubService) {
     let token = localStorage.getItem('auth_token');
-    console.log("jwt-http-ctor:" +token);
     defaultOptions.headers.set('Authorization', 'Bearer ${token}');
     super(backend, defaultOptions);
     this.router = router;
@@ -59,8 +58,6 @@ export class JwtHttpService extends Http {
         this.authService.logout();
         //this.router.navigate(['/login']);
       }
-
-      console.log(res);
       return Observable.throw(res);
     };
   }

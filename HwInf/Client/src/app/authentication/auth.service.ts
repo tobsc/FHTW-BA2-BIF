@@ -39,7 +39,6 @@ export class AuthService {
             this.token = token;
             this.loggedIn = true;
             this.jwtService.setToken( token);
-            console.log("auth: " +token);
             return true;
           } else {
             return false;

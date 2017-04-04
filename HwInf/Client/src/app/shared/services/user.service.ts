@@ -28,7 +28,6 @@ export class UserService {
             .map((response: Response) => {
                 let token = response.json() && response.json().token;
                 if (token) {
-                    console.log(token);
                     return true;
                 } else {
                     return false;
