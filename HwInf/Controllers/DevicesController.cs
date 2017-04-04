@@ -425,7 +425,7 @@ namespace HwInf.Controllers
         /// <returns></returns>
         //[Authorize]
         [HttpPut]
-        [Route("")]
+        [Route("id/{id}")]
         public IHttpActionResult PutDevice(int id, DeviceViewModel vmdl)
         {
 
