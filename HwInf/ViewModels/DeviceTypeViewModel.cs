@@ -13,11 +13,8 @@ namespace HwInf.ViewModels
         public string Slug { get; set; }
         public string Name { get; set; }
         public ICollection<FieldGroup> FieldGroups { get; set; }
+        public bool IsActive { get; set; } = true;
 
-        public string PermaLink
-        {
-            get { return "geraete/typ/" + Slug; }
-        }
 
         public DeviceTypeViewModel()
         {
@@ -37,6 +34,7 @@ namespace HwInf.ViewModels
             target.Slug = source.Slug;
             target.Name = source.Name;
             target.DeviceTypeId = source.TypeId;
+            target.IsActive = source.IsActive;
 
         }
 
@@ -52,6 +50,7 @@ namespace HwInf.ViewModels
             var fgs = source.FieldGroups.Select(i => bl.GetFieldGroups(i.Slug)).ToList();
             fgs.RemoveAll(i => i == null);
             fgs.ForEach(i => target.FieldGroups.Add(i));
+            target.IsActive = source.IsActive;
 
         }
 

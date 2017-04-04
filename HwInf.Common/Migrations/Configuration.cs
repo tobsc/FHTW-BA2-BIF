@@ -21,9 +21,9 @@ namespace HwInf.Common.Migrations
 
            var type = new List<DeviceType>
                 {
-                    new DeviceType { Name = "Notebook", Slug = "notebook"},
-                    new DeviceType { Name = "PC", Slug = "pc" },
-                    new DeviceType { Name = "Monitor", Slug = "monitor"}
+                    new DeviceType { Name = "Notebook", Slug = "notebook", IsActive = true},
+                    new DeviceType { Name = "PC", Slug = "pc", IsActive = true },
+                    new DeviceType { Name = "Monitor", Slug = "monitor", IsActive = true}
                 };
 
             var fields = new List<Field>
@@ -117,6 +117,11 @@ namespace HwInf.Common.Migrations
             if (context.Persons.Count() < 1)
             {
                 persons.ForEach(s => context.Persons.Add(s));
+            }
+
+            if (context.FieldGroups.Count() < 1)
+            {
+                fieldGroup.ForEach(s => context.FieldGroups.Add(s));
             }
 
             if (context.Devices.Count() < 1)
