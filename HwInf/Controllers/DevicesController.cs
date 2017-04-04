@@ -358,6 +358,7 @@ namespace HwInf.Controllers
                 .ForEach(i =>
                 {
                     var d = _bl.CreateDevice();
+                    d.CreateDate = DateTime.Now;
                     vmdl.InvNum = i;
                     vmdl.ApplyChanges(d, _bl);
                     vmdl.Refresh(d);
