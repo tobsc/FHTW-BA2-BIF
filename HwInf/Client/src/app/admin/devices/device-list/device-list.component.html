@@ -20,16 +20,16 @@
         </thead>
         <tbody>
 
-          <tr *ngFor="let device of devices">
-            <th scope="row">{{device.InvNum}}</th>
-            <td>{{device.Name}}</td>
-            <td>{{device.CreateDate}}</td>
-            <td>{{device.Verwalter.Name}} {{device.Verwalter.LastName}}</td>
-            <td><div class="label label-xs label-success">{{device.Status.Description}}</div></td>
-            <td>
-              <a title="Gerät duplizieren" routerLink="/admin/geraete/duplizieren/{{device.InvNum}}"><i class="fa fa-files-o" aria-hidden="true"></i></a>
-              <a title="Gerät bearbeiten" routerLink="/admin/geraete/bearbeiten/{{device.InvNum}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-            </td>
+
+          <tr *ngFor="let device of devices" routerLink="/admin/geraete/bearbeiten/{{device.InvNum}}">
+              <th scope="row">{{device.InvNum}}</th>
+              <td>{{device.Name}}</td>
+              <td>?????</td>
+              <td>{{device.Verwalter.Name}}</td>
+              <td><div class="label label-xs label-success">{{device.Status.Description}}</div></td>
+              <td>
+                <a title="Gerät duplizieren" routerLink="/admin/geraete/duplizieren/{{device.InvNum}}"><i class="fa fa-files-o" aria-hidden="true"></i></a>
+              </td>
           </tr>
 
         </tbody>

@@ -10,6 +10,7 @@ import {UserService} from "../../../shared/services/user.service";
 import {User} from "../../../shared/models/user.model";
 import {ActivatedRoute} from "@angular/router";
 import {DeviceMeta} from "../../../shared/models/device-meta.model";
+import {isNullOrUndefined} from "util";
 
 @Component({
   selector: 'hwinf-device-add',
@@ -39,6 +40,10 @@ export class DeviceAddComponent implements OnInit {
 
   ngOnInit() {
 
+    this.route.url.map(segments => segments.join('/')).subscribe( (i) =>{
+      if (i.indexOf("geraete")) console.log("yes")
+    } );
+
     this.deviceTypes = this.deviceService.getDeviceTypes();
     this.userService.getOwners()
         .subscribe(
@@ -53,16 +58,27 @@ export class DeviceAddComponent implements OnInit {
     this.routeSubscription = this.route.params
         .map(params => params['invnum'])
         .flatMap(invnum => this.deviceService.getDevice(invnum))
-        .subscribe((device:Device) => {
-          this.currentDevice = device;
-          this.fillFormWithDeviceData(device);
-        });
+        .subscribe(
+            (device:Device) => {
+              this.currentDevice = device;
+              this.fillFormWithDeviceData(device);
+            },
+        );
   }
 
+  /**
+   * @param slug
+   * @param metaData
+   * @returns {DeviceMeta[]} array of device meta data of given slug
+   */
   private getMetaDataOfFieldGroup(slug: string, metaData: DeviceMeta[]): DeviceMeta[] {
     return metaData.filter((i) => i.FieldGroupSlug === slug);
   }
 
+  /**
+   * fills the meta data of the form with given device data
+   * @param device
+   */
   private fillFormWIthMetaData(device: Device) {
       device.FieldGroups
           .forEach( (fieldgroup, index) => {
@@ -74,6 +90,10 @@ export class DeviceAddComponent implements OnInit {
           });
   }
 
+  /**
+   * fills the form with given Device data
+   * @param device
+   */
   private fillFormWithDeviceData(device: Device) {
     this.form.get('Name').setValue(device.Name);
     this.form.get('Marke').setValue(device.Marke);
@@ -268,6 +288,11 @@ export class DeviceAddComponent implements OnInit {
     );
   }
 
+  /**
+   * Maps the form to a Device for the API call
+   * @param form
+   * @returns {Device} mapped form of type Device
+   */
   private mappedForm(form: NgForm): Device {
     let resultForm: FormGroup = this.fb.group({
       Name: [form.value.Name, Validators.required],
