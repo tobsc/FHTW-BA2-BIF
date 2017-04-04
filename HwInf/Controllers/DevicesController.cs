@@ -358,6 +358,7 @@ namespace HwInf.Controllers
                 .ForEach(i =>
                 {
                     var d = _bl.CreateDevice();
+                    d.CreateDate = DateTime.Now;
                     vmdl.InvNum = i;
                     vmdl.ApplyChanges(d, _bl);
                     vmdl.Refresh(d);
@@ -400,7 +401,7 @@ namespace HwInf.Controllers
         /// <param name="id">Device ID</param>
         /// <returns></returns>
         //[Authorize(Roles = "Admin")]
-        [Route("delete/{id}")]
+        [Route("id/{id}")]
         public IHttpActionResult DeleteDevice(int id)
         {
             if (!_bl.DeviceExists(id))
@@ -410,6 +411,30 @@ namespace HwInf.Controllers
             else
             {
                 _bl.DeleteDevice(id);
+                _bl.SaveChanges();
+            }
+
+            return Ok();
+        }
+
+        // DELETE: 
+        /// <summary>
+        /// Delete Device Type
+        /// </summary>
+        /// <param name="slug">Device ID</param>
+        /// <returns></returns>
+        //[Authorize(Roles = "Admin")]
+        [Route("types/{slug}")]
+        public IHttpActionResult DeleteDeviceType(string slug)
+        {
+            if (_bl.GetDeviceType(slug) == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                var dt = _bl.GetDeviceType(slug);
+                _bl.DeleteDeviceType(dt);
                 _bl.SaveChanges();
             }
 
@@ -475,6 +500,40 @@ namespace HwInf.Controllers
             }
 
             return StatusCode(HttpStatusCode.NoContent);
+        }
+
+        // PUT: api/devices/types
+        /// <summary>
+        /// Edit DeviceType
+        /// </summary>
+        /// <returns></returns>
+        [ResponseType(typeof(DeviceViewModel))]
+        [Route("types/{slug}")]
+        public IHttpActionResult PutDeviceType(string slug, DeviceTypeViewModel vmdl)
+        {
+            try
+            {
+                var dt = _bl.GetDeviceType(slug);
+                _bl.UpdateDeviceType(dt);
+
+                vmdl.ApplyChanges(dt, _bl);
+                _bl.SaveChanges();
+
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (_bl.GetDeviceType(slug) == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
+
         }
 
         protected override void Dispose(bool disposing)

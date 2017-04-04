@@ -147,6 +147,13 @@ namespace HwInf.Common.BL
             _dal.Entry(deviceMeta).State = EntityState.Modified;
         }
 
+        public void UpdateDeviceType(DeviceType dt)
+        {
+            if (!IsAdmin() && !IsVerwalter()) return;
+
+            _dal.Entry(dt).State = EntityState.Modified;
+        }
+
         public void DeleteDevice(int deviceId)
         {
             if (!IsAdmin() && !IsVerwalter()) return;
@@ -154,6 +161,25 @@ namespace HwInf.Common.BL
             var device = _dal.Devices.Find(deviceId);
             UpdateDevice(device);
             if (device != null) device.IsActive = false;
+        }
+
+        public void DeleteDeviceType(DeviceType dt)
+        {
+            if (!IsAdmin() && !IsVerwalter()) return;
+
+            if (!GetDevices(0, 0, false, dt.TypeId, true).Any())
+            {
+                _dal.DeviceTypes.Remove(dt);
+
+            }
+            else
+            {
+                UpdateDeviceType(dt);
+                dt.IsActive = false;
+            }
+
+
+
         }
 
         public int DeviceCount()
@@ -226,6 +252,7 @@ namespace HwInf.Common.BL
 
         public void DeleteField(Field field)
         {
+            if (!IsAdmin() && !IsVerwalter()) return;
             _dal.Fields.Remove(field);
         }
         #endregion
