@@ -438,10 +438,29 @@ namespace HwInf.Controllers
 
             try
             {
+
+                // Check for new fields and add them
+                vmdl.DeviceMeta.ForEach(i =>
+                {
+                    var fg = _bl.GetFieldGroups(i.FieldGroupSlug);
+                    if (fg.Fields.Count(j => j.Name == i.Field) == 0)
+                    {
+                        _bl.UpdateFieldGroup(fg);
+                        var field = _bl.CreateField();
+                        var fvmdl = new FieldViewModel { Name = i.Field };
+                        fvmdl.ApplyChanges(field, _bl);
+                        fg.Fields.Add(field);
+                    }
+                });
+
+
+
                 var dev = _bl.GetSingleDevice(vmdl.DeviceId);
                 _bl.UpdateDevice(dev);
+                var dm = dev.DeviceMeta.ToList();
+                dm.ForEach(i => _bl.DeleteMeta(i));
+                dev.DeviceMeta.Clear();
                 vmdl.ApplyChanges(dev, _bl);
-
                 _bl.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)

@@ -11,8 +11,13 @@ namespace HwInf.Common.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int MetaId { get; set; }
         [Required]
-        public Field Field { get; set; }
-        public FieldGroup FieldGroup { get; set; }
+        public string FieldName { get; set; }
+        [Required]
+        public string FieldSlug { get; set; }
+        [Required]
+        public string FieldGroupName { get; set; }
+        [Required]
+        public string FieldGroupSlug { get; set; }
         [Required]
         public string MetaValue { get; set; }
     }

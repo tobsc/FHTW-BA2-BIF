@@ -35,18 +35,18 @@ namespace HwInf.Common.BL
         {
             if (type == 0)
             {
-                return _dal.Devices.Include(x => x.DeviceMeta.Select(y => y.FieldGroup).Select(y => y.Fields))
+                return _dal.Devices.Include(x => x.DeviceMeta).Include(x => x.Type.FieldGroups.Select(y => y.Fields))
                     .Where(i => i.IsActive)
                     .Where(i => i.DeviceId > offset)
                     .Take(limit);
             } else if(isSearch)
             {
-                return _dal.Devices.Include(x => x.Type).Include(x => x.DeviceMeta.Select(y => y.FieldGroup).Select(y => y.Fields))
+                return _dal.Devices.Include(x => x.Type).Include(x => x.DeviceMeta).Include(x => x.Type.FieldGroups.Select(y => y.Fields))
                     .Where(i => i.IsActive)
                     .Where(i => i.Type.TypeId== type);
             } else
             {
-                return _dal.Devices.Include(x => x.Type).Include(x => x.DeviceMeta.Select(y => y.FieldGroup).Select(y => y.Fields))
+                return _dal.Devices.Include(x => x.Type).Include(x => x.DeviceMeta).Include(x => x.Type.FieldGroups.Select(y => y.Fields))
                     .Where(i => i.IsActive)
                     .Where(i => i.Type.TypeId == type)
                     .Where(i => i.DeviceId > offset)
@@ -57,11 +57,11 @@ namespace HwInf.Common.BL
 
         public Device GetSingleDevice(int deviceId)
         {
-            return _dal.Devices.Include(x => x.DeviceMeta.Select(y => y.FieldGroup).Select(y => y.Fields)).Single(i => i.DeviceId == deviceId);
+            return _dal.Devices.Include(x => x.DeviceMeta).Include(x => x.Type.FieldGroups.Select(y => y.Fields)).Single(i => i.DeviceId == deviceId);
         }
         public Device GetSingleDevice(string deviceInvNum)
         {
-            return _dal.Devices.Include(x => x.DeviceMeta.Select(y => y.FieldGroup).Select(y => y.Fields)).Single(i => i.InvNum == deviceInvNum);
+            return _dal.Devices.Include(x => x.DeviceMeta).Include(x => x.Type.FieldGroups.Select(y => y.Fields)).Single(i => i.InvNum == deviceInvNum);
         }
 
         public DeviceType GetDeviceType(int typeId)
@@ -81,7 +81,7 @@ namespace HwInf.Common.BL
 
         public IQueryable<DeviceMeta> GetDeviceMeta()
         {
-            return _dal.DeviceMeta.Include(x => x.FieldGroup);
+            return _dal.DeviceMeta;
         }
 
         public DeviceStatus GetDeviceStatus(int statusId)
@@ -124,6 +124,11 @@ namespace HwInf.Common.BL
             var dt = new DeviceType();
             _dal.DeviceTypes.Add(dt);
             return dt;
+        }
+
+        public void DeleteMeta(DeviceMeta dm)
+        {
+            _dal.DeviceMeta.Remove(dm);
         }
 
 

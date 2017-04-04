@@ -32,12 +32,10 @@ namespace HwInf.ViewModels
             var source = dm;
 
             target.Value = source.MetaValue;
-            target.FieldGroup = source.FieldGroup.Name;
-            target.FieldGroupSlug = source.FieldGroup.Slug;
-            target.Field = source.Field.Name;
-            target.FieldSlug = source.Field.Slug;
-            target.F = source.Field;
-            target.Fg = source.FieldGroup;
+            target.FieldGroup = source.FieldGroupName;
+            target.FieldGroupSlug = source.FieldGroupSlug;
+            target.Field = source.FieldName;
+            target.FieldSlug = source.FieldSlug;
         }
 
         public void ApplyChanges(DeviceMetaViewModel vmdl, BL bl)
@@ -46,6 +44,9 @@ namespace HwInf.ViewModels
 
             target.Fg = bl.GetFieldGroups(target.FieldGroupSlug);
             target.F = target.Fg.Fields.SingleOrDefault(i => i.Name.Equals(target.Field));
+
+            target.FieldGroup = bl.GetFieldGroups(target.FieldGroupSlug).Name;
+            target.FieldSlug = target.Fg.Fields.SingleOrDefault(i => i.Name.Equals(target.Field))?.Slug;
         }
 
         public void ApplyChanges(DeviceMeta dm, BL bl)
@@ -54,8 +55,10 @@ namespace HwInf.ViewModels
             var source = this;
 
             target.MetaValue = source.Value;
-            target.FieldGroup = bl.GetFieldGroups(source.FieldGroupSlug);
-            target.Field = bl.GetFields().SingleOrDefault(i => i.Slug == source.FieldSlug);
+            target.FieldGroupName = source.Fg.Name;
+            target.FieldName = source.Field;
+            target.FieldGroupSlug = source.FieldGroupSlug;
+            target.FieldSlug = source.F.Slug;
         }
 
 
@@ -64,8 +67,11 @@ namespace HwInf.ViewModels
             return new DeviceMeta
             {                
                 MetaValue = vmdl.Value,
-                Field = vmdl.F,
-                FieldGroup = vmdl.Fg                    
+                FieldSlug = vmdl.FieldSlug,
+                FieldGroupSlug = vmdl.FieldGroupSlug,
+                FieldGroupName = vmdl.FieldGroup,
+                FieldName = vmdl.Field
+                       
             };
         }
     }
