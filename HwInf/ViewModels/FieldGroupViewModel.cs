@@ -41,7 +41,10 @@ namespace HwInf.ViewModels
             var source = this;
 
             target.Name = source.Name;
-            target.Slug = SlugGenerator.GenerateSlug(source.Name, "fieldGroup");
+            if (target.Slug == null)
+            {
+                target.Slug = SlugGenerator.GenerateSlug(source.Name, "fieldGroup");
+            }
             target.Fields = new List<Field>();
             source.Fields.ForEach(i => target.Fields.Add(i));
         }

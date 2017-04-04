@@ -11,6 +11,7 @@ using HwInf.Common.DAL;
 using HwInf.Common.BL;
 using HwInf.Common.Models;
 using HwInf.ViewModels;
+using WebGrease.Css.Extensions;
 
 namespace HwInf.Controllers
 {
@@ -132,6 +133,53 @@ namespace HwInf.Controllers
 
             return Ok();
         }
+
+
+        // PUT: api/Devicee/5
+        /// <summary>
+        /// Update a Devices
+        /// </summary>
+        /// <param name="slug"></param>
+        /// <param name="vmdl"></param>
+        /// <returns></returns>
+        //[Authorize]
+        [HttpPut]
+        [Route("fieldgroups/{slug}")]
+        public IHttpActionResult PutFieldGroups(string slug, FieldGroupViewModel vmdl)
+        {
+
+            if (slug != vmdl.Slug)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                var fg = _bl.GetFieldGroups(vmdl.Slug);
+                _bl.UpdateFieldGroup(fg);
+                var f = fg.Fields.ToList();
+                f.ForEach(i => _bl.DeleteField(i));
+                fg.Fields.Clear();
+                vmdl.ApplyChanges(fg, _bl); 
+
+                _bl.SaveChanges();
+
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!_bl.FieldGroupExists(vmdl.Slug))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
 
 
         protected override void Dispose(bool disposing)

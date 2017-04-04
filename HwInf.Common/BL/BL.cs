@@ -191,6 +191,11 @@ namespace HwInf.Common.BL
             return _dal.Fields.SingleOrDefault(i => i.Slug.Equals(slug));
         }
 
+        public bool FieldGroupExists(string slug)
+        {
+            return _dal.FieldGroups.Any(i => i.Slug.Equals(slug));
+        }
+
         // Create
         public FieldGroup CreateFieldGroup()
         {
@@ -219,6 +224,10 @@ namespace HwInf.Common.BL
             _dal.Entry(obj).State = EntityState.Modified;
         }
 
+        public void DeleteField(Field field)
+        {
+            _dal.Fields.Remove(field);
+        }
         #endregion
 
 
@@ -330,7 +339,6 @@ namespace HwInf.Common.BL
         }
 
         #endregion
-
     }
 
 }
