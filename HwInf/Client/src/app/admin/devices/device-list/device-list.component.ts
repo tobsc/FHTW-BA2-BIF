@@ -24,25 +24,37 @@ export class DeviceListComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.subscription = this.route.params
-        .subscribe(
-            (params: any) => {
+    this.fetchData();
+  }
 
-              if ( params['page'] ) {
-                  let pagenumber = +params['page'];
-                  if (pagenumber > 0) {
-                      this.currentPage = pagenumber ;
+  fetchData() {
+      this.subscription = this.route.params
+          .subscribe(
+              (params: any) => {
+
+                  if ( params['page'] ) {
+                      let pagenumber = +params['page'];
+                      if (pagenumber > 0) {
+                          this.currentPage = pagenumber ;
+                      }
                   }
+
+                  this.deviceService.getDevices("", 100, (this.currentPage-1) *  100).subscribe(
+                      (data: DeviceList) => {
+                          this.maxPages = data.MaxPages;
+                          this.devices = data.Devices;
+                      }
+                  )
               }
+          );
+  }
 
-              this.deviceService.getDevices("", 2, (this.currentPage-1) *  2).subscribe(
-                  (data: DeviceList) => {
-                      this.maxPages = data.MaxPages;
-                      this.devices = data.Devices;
-                  }
-              )
-            }
-        );
+  onDelete( deviceId: number) {
+      this.deviceService.deleteDevice(deviceId)
+          .subscribe(
+              (next) => { this.fetchData(); },
+              (err) => console.log(err)
+          );
   }
 
   ngOnDestroy(): void {

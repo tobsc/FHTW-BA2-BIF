@@ -11,6 +11,7 @@
         <thead>
           <tr>
             <th>InvNum</th>
+            <th>Typ</th>
             <th>Name</th>
             <th>Erstellt am</th>
             <th>Verwalter</th>
@@ -19,16 +20,18 @@
           </tr>
         </thead>
         <tbody>
-
-
-          <tr *ngFor="let device of devices" routerLink="/admin/geraete/bearbeiten/{{device.InvNum}}">
-              <th scope="row">{{device.InvNum}}</th>
-              <td>{{device.Name}}</td>
-              <td>?????</td>
+          <tr *ngFor="let device of devices">
+              <td>{{device.InvNum}}</td>
+              <td>{{device.DeviceType.Name}}</td>
+              <th scope="row" ><a routerLink="/admin/geraete/invnum/{{device.InvNum}}/">{{device.Name}}</a></th>
+              <td>{{device.CreateDate}}</td>
               <td>{{device.Verwalter.Name}}</td>
-              <td><div class="label label-xs label-success">{{device.Status.Description}}</div></td>
+              <td><div class="label label-success">{{device.Status.Description}}</div></td>
               <td>
-                <a title="Gerät duplizieren" routerLink="/admin/geraete/duplizieren/{{device.InvNum}}"><i class="fa fa-files-o" aria-hidden="true"></i></a>
+
+                <a (click)="onDelete(device.DeviceId)" title="Gerät löschen" class="btn btn-danger" aria-label="Delete">
+                  <i class="fa fa-trash-o" aria-hidden="true"></i>
+                </a>
               </td>
           </tr>
 

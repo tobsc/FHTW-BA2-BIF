@@ -101,11 +101,14 @@ export class DeviceService {
         let headers = new Headers({
             'Content-Type': 'application/json'
         });
-        let params: URLSearchParams = new URLSearchParams();
-        params.append('id', ""+body.DeviceId);
-        let options = new RequestOptions({headers: headers, });
-        return this.http.put(this.url, bodyString, options)
+        let options = new RequestOptions({headers: headers });
+        return this.http.put(this.url + "id/" + body.DeviceId, bodyString, options)
             .map((response: Response) => response.json());
+    }
+
+    public deleteDevice(id: number) {
+        return this.http.delete(this.url +"id/" + id)
+            ;
     }
 
 }

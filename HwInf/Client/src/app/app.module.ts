@@ -32,6 +32,7 @@ import { ErrorHandlerService } from "./shared/services/error-handler.service";
 import { ErrorHandlerComponent } from "./shared/services/error-handler.component";
 import { Daterangepicker } from 'ng2-daterangepicker';
 import {KeysPipe} from "./shared/pipes/keys.pipe";
+import {DeviceAddComponent} from "./admin/devices/device-add/device-add.component";
 
 
 

@@ -499,7 +499,7 @@ namespace HwInf.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok(vmdl);
         }
 
         // PUT: api/devices/types

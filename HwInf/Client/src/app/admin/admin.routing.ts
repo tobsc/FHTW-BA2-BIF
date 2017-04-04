@@ -1,6 +1,5 @@
 import {Routes, RouterModule} from "@angular/router";
 import { AuthGuard } from "../authentication/auth.guard";
-import { AdminGuard } from "../authentication/admin.guard";
 import {AdminDashboardComponent} from "./admin-dashboard/admin-dashboard.component";
 import {HomeComponent} from "../home/home.component";
 import {DeviceListComponent} from "../admin/devices/device-list/device-list.component";
@@ -17,11 +16,10 @@ const ADMIN_ROUTES: Routes = [
             { path: 'dashboard', component: AdminDashboardComponent },
             { path: 'geraete', component: DeviceListComponent },
             { path: 'geraete/page/:page', component: DeviceListComponent },
-            { path: 'geraete/neu', component: DeviceAddComponent },
+            { path: 'geraete/neu/', component: DeviceAddComponent },
             { path: 'geraete/typen', component: DeviceTypesComponent },
             { path: 'geraete/eigene_felder', component: DeviceCustomFieldsComponent },
-            { path: 'geraete/duplizieren/:invnum', component: DeviceAddComponent },
-            { path: 'geraete/bearbeiten/:invnum', component: DeviceEditComponent },
+            { path: 'geraete/invnum/:invnum', component: DeviceEditComponent },
         ]
     }
 ];

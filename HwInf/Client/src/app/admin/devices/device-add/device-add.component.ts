@@ -1,9 +1,7 @@
-import {Component, OnInit } from "@angular/core";
+
+import {Component, OnInit} from "@angular/core";
 import {DeviceService} from "../../../shared/services/device.service";
-
 import {Device} from "../../../shared/models/device.model";
-
-
 @Component({
   selector: 'hwinf-device-add',
   templateUrl: './device-add.component.html',

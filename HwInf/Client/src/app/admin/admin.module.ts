@@ -5,7 +5,6 @@ import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.compo
 import {adminRouting} from "./admin.routing";
 import { DeviceListComponent } from './devices/device-list/device-list.component';
 import {CoreModule} from "../core/core.module";
-import { DeviceAddComponent } from './devices/device-add/device-add.component';
 import { DeviceTypesComponent } from './devices/device-types/device-types.component';
 import { DeviceTypesListComponent } from './devices/device-types/device-types-list/device-types-list.component';
 import { DeviceTypesAddComponent } from './devices/device-types/device-types-add/device-types-add.component';
@@ -22,6 +21,7 @@ import {PubSubService} from "../shared/services/pub-sub.service";
 import {JwtHttpService} from "../shared/services/jwt-http.service";
 import { DeviceFormComponent } from './devices/device-form/device-form.component';
 import { DeviceEditComponent } from './devices/device-edit/device-edit.component';
+import {DeviceAddComponent} from "./devices/device-add/device-add.component";
 
 
 export function jwtFactory(backend: XHRBackend, options: RequestOptions, router: Router, authService: AuthService, pubsub: PubSubService) {
