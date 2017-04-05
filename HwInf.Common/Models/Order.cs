@@ -20,8 +20,11 @@ namespace HwInf.Common.Models
         public DateTime To { get; set; }
         public DateTime ReturnDate { get; set; }
         [Required]
-        public virtual Person Person { get; set; }
+        public virtual Person Entleiher { get; set; }
         [Required]
         public virtual Person Verwalter { get; set; }
+        [Required]
+        public virtual Device Device { get; set; }
+        public Guid OrderGuid { get; set; }
     }
 }

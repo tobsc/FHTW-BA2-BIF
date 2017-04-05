@@ -86,7 +86,6 @@
     <Compile Include="Models\DeviceHistory.cs" />
     <Compile Include="Models\Field.cs" />
     <Compile Include="Models\OrderStatus.cs" />
-    <Compile Include="Models\OrderItem.cs" />
     <Compile Include="Models\DeviceStatus.cs" />
     <Compile Include="Models\DeviceType.cs" />
     <Compile Include="DAL\HwInfContext.cs" />

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using HwInf.Common.DAL;
 using System.Linq;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Validation;
 using System.Diagnostics.CodeAnalysis;
 using System.Security;
@@ -33,7 +34,7 @@ namespace HwInf.Common.BL
         // Read
         public IQueryable<Device> GetDevices(int limit = 25, int offset = 0, bool onlyActive = true, int type = 0, bool isSearch = false)
         {
-            if (type == 0)
+            if (type == 0 && !isSearch)
             {
                 return _dal.Devices.Include(x => x.DeviceMeta).Include(x => x.Type.FieldGroups.Select(y => y.Fields))
                     .Where(i => i.IsActive)
@@ -42,11 +43,17 @@ namespace HwInf.Common.BL
                     .ThenBy(i => i.InvNum)
                     .Skip(offset)
                     .Take(limit);
-            } else if(isSearch)
+            } else if(isSearch && onlyActive)
             {
                 return _dal.Devices.Include(x => x.Type).Include(x => x.DeviceMeta).Include(x => x.Type.FieldGroups.Select(y => y.Fields))
                     .Where(i => i.IsActive)
                     .Where(i => i.Type.TypeId== type);
+            } else if (isSearch && !onlyActive)
+            {
+                return
+                    _dal.Devices.Include(x => x.Type)
+                        .Include(x => x.DeviceMeta)
+                        .Include(x => x.Type.FieldGroups.Select(y => y.Fields));
             } else
             {
                 return _dal.Devices.Include(x => x.Type).Include(x => x.DeviceMeta).Include(x => x.Type.FieldGroups.Select(y => y.Fields))
@@ -301,6 +308,32 @@ namespace HwInf.Common.BL
 
         #endregion
 
+        #region Orders
+
+        // Read
+
+        public IEnumerable<Order> GetOrders()
+        {
+            var orders = _dal.Orders;
+            return !IsAdmin() ? orders.Where(i => i.Entleiher.Uid.Equals(GetCurrentUid())) : orders;
+        }
+
+
+        public Order GetOrders(int orderId)
+        {
+            var orders = _dal.Orders
+                .SingleOrDefault(i => i.OrderId.Equals(orderId) && i.Entleiher.Uid.Equals(GetCurrentUid()));
+
+            return orders;
+        }
+
+        public Order GetOrders(Guid guid)
+        {
+            return _dal.Orders.SingleOrDefault(i => i.OrderGuid.Equals(guid));
+        }
+
+        #endregion
+
         public void SaveChanges()
         {
             try
@@ -345,6 +378,11 @@ namespace HwInf.Common.BL
         {
             if (!IsAdmin()) return;
             obj.Role = GetRole("Admin");
+        }
+
+        public string GetCurrentUid()
+        {
+            return System.Threading.Thread.CurrentPrincipal.Identity.Name;
         }
 
         public string CreateToken(Person p)

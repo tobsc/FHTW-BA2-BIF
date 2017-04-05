@@ -26,7 +26,6 @@ namespace HwInf.Common.DAL
         public DbSet<Person> Persons { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Order> Orders { get; set; }
-        public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<DeviceHistory> DeviceHistory { get; set; }
         public DbSet<Field> Fields { get; set; }
         public DbSet<FieldGroup> FieldGroups { get; set; }

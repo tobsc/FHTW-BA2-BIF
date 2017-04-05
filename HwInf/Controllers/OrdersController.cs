@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net;
@@ -14,8 +12,7 @@ using System.IO;
 using MigraDoc.DocumentObjectModel.IO;
 using MigraDoc.Rendering;
 using System.Net.Http.Headers;
-using HwInf.Common.Models;
-
+using HwInf.Common.BL;
 
 
 namespace HwInf.Controllers
@@ -25,182 +22,40 @@ namespace HwInf.Controllers
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class OrdersController : ApiController
     {
-        private HwInfContext db = new HwInfContext();
-
+        private static readonly HwInfContext _db = new HwInfContext();
+        private static readonly BL _bl = new BL(_db);
 
         /// <summary>
-        /// Returns Order by given id.
+        /// Get Orders
         /// </summary>
-        /// <param name="id">Order ID</param>
+        /// <returns></returns>
+        [ResponseType(typeof(OrderViewModel))]
+        [Route("")]
+        public IHttpActionResult GetOrders()
+        {
+            var orders = _bl.GetOrders()
+                .ToList()
+                .Select(i => new OrderViewModel(i))
+                .ToList();
+
+            return Ok(orders);
+        }
+
+        /// <summary>
+        /// Get Single Order
+        /// </summary>
+        /// <param name="id"></param>
         /// <returns></returns>
         [ResponseType(typeof(OrderViewModel))]
         [Route("id/{id}")]
-        public IHttpActionResult GetById(int id)
+        public IHttpActionResult GetOrders(int id)
         {
-            var uid = db.Orders.Where(i => i.OrderId == id).Select(i => i.Person.Uid).SingleOrDefault();
-
-
-            if(!IsAllowed(uid) && !IsAdmin())
-            {
-                return Unauthorized();
-            }
-
-                var orders = db.Orders
-                    .Include(i => i.Person)
-                    .Include(i => i.Verwalter);
-
-                var vmdl = orders
-                    .Where(i => i.OrderId == id)
-                    .ToList()
-                    .Select(i => new OrderViewModel(i).LoadOrderItems(db))
-                    .ToList();
-
-
-                return Ok(vmdl);
-
-        }
-
-        /// <summary>
-        /// Returns all orders from a user.
-        /// </summary>
-        /// <returns></returns>
-        [ResponseType(typeof(OrderViewModel))]
-        [Route("outgoing")]
-        public IHttpActionResult GetByUid()
-        {
-
-            var uid = User.Identity.Name;
-
-
-            var orders = db.Orders
-                .Include(i => i.Person)
-                .Include(i => i.Verwalter);
-
-            var vmdl = orders
-                .Where(i => i.Person.Uid == uid)
+            var orders = _bl.GetOrders()
                 .ToList()
-                .Select(i => new OrderViewModel(i).LoadOrderItems(db))
+                .Select(i => new OrderViewModel(i))
                 .ToList();
 
-            return Ok(vmdl);
-
-        }
-
-        /// <summary>
-        /// Returns all orders.
-        /// </summary>
-        /// <returns></returns>
-        [ResponseType(typeof(OrderViewModel))]
-        [Authorize(Roles = "Admin,Verwalter")]
-        [Route("incoming")]
-        public IHttpActionResult GetOwnerOrders()
-        {
-            var orders = db.Orders
-                .Include(i => i.Person)
-                .Include(i => i.Verwalter);
-
-            List<OrderViewModel> vmdl;
-
-            if (IsAdmin())
-            {
-                vmdl = orders
-                    .ToList()
-                    .Select(i => new OrderViewModel(i).LoadOrderItems(db))
-                    .ToList();
-            } else
-            {
-                string uid = User.Identity.Name;
-
-                vmdl = orders
-                    .Where(i => i.Verwalter.Uid == uid)
-                    .ToList()
-                    .Select(i => new OrderViewModel(i).LoadOrderItems(db))
-                    .ToList();
-            }
-
-
-            return Ok(vmdl);
-
-        }
-
-        /// <summary>
-        /// Change Order Status
-        /// </summary>
-        /// <param name="id">Order ID</param>
-        /// <param name="act">Action: accept, decline, return</param>
-        /// <returns></returns>
-        [Route("id/{id}/{act}")]
-        public IHttpActionResult GetChangeOrderStatus(int id, string act)
-        {
-            var uid = db.Orders.Where(i => i.OrderId == id).Select(i => i.Verwalter.Uid).SingleOrDefault();
-
-            if (!IsAllowed(uid) && !IsAdmin())
-            {
-                return Unauthorized();
-            }
-
-            if(!act.Equals("accept") && !act.Equals("decline") && !act.Equals("return"))
-            {
-                return BadRequest("Wrong action!");
-            }
-  
-            var o = db.Orders.Single(i => i.OrderId == id);
-
-            var order = new OrderViewModel(o);
-
-            order.ChangeStatus(o, db, act);
-
-
-            db.SaveChanges();
-
-
-            return Ok(act + " erfolgreich!");
-
-        }
-
-        /// <summary>
-        /// Return OrderStatus
-        /// </summary>
-        /// <returns></returns>
-        [Route("status")]
-        public IHttpActionResult GetStatus()
-        {
-            return Ok(db.OrderStatus.ToList());
-        }
-
-
-        /// <summary>
-        /// Creates a new order.
-        /// </summary>
-        /// <param name="vmdl">From, To, OrderItems</param>
-        /// <example>test</example>
-        /// <returns></returns>
-        [Route("create")]
-        public IHttpActionResult PostOrder([FromBody] OrderViewModel vmdl)
-        {
-            if (!IsAllowed(vmdl.PersonUid) && !IsAdmin())
-            {
-                return Unauthorized();
-            }
-
-            if(vmdl.ContainsDuplicates())
-            {
-                return BadRequest("Ein Gerät kann nur einmal ausgewählt werden.");
-            }
-
-            if (vmdl.ContainsLentItems(db))
-            {
-                return BadRequest("Nicht alle Geräte sind zum Ausleihen verfügbar.");
-            }
-
-            var allOrders = CreateAllOrders(vmdl);
-            vmdl.PersonUid = User.Identity.Name;
-
-            allOrders.ForEach(i => db.Orders.Add(i));
-
-            db.SaveChanges();    
-
-            return Ok("Anfrage war erfolgreich!");
+            return Ok(orders);
         }
 
         /// <summary>
@@ -209,15 +64,16 @@ namespace HwInf.Controllers
         /// <param name="id">Order ID</param>
         /// <returns></returns>
         [Route("print/{id}")]
-        public HttpResponseMessage GetPrint(int id)
+        public IHttpActionResult GetPrint(int id)
         {
-            var uid = db.Orders.Where(i => i.OrderId == id).Select(i => i.Person.Uid).SingleOrDefault();
 
-
-            if (!IsAllowed(uid) && !IsAdmin())
+            var uid = _bl.GetOrders(id).Entleiher.Uid;
+            if (uid != _bl.GetCurrentUid() && !_bl.IsAdmin())
             {
-                return null;
+                return Unauthorized();
             }
+
+
             var rpt = new Contract(id, uid);
             // Report -> String
             var text = rpt.TransformText();
@@ -259,7 +115,7 @@ namespace HwInf.Controllers
             }
 
 
-            return result;
+            return Ok(result);
 
         }
 
@@ -268,60 +124,9 @@ namespace HwInf.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        private bool IsAllowed(string uid)
-        {
-            return User.Identity.Name == uid;
-        }
-
-        private bool IsAdmin()
-        {
-            return RequestContext.Principal.IsInRole("Admin");
-        }
-
-        private List<Order> CreateAllOrders(OrderViewModel vmdl)
-        {
-
-            var dev = new List<Device>();
-            foreach(var oi in vmdl.OrderItems)
-            {
-                dev.Add(db.Devices.Single(i => i.DeviceId == oi));
-            }
-
-
-            var orders = new List<Order>();
-
-            var groups = dev.GroupBy(i => i.Person.Uid);
-
-            foreach(var g in groups)
-            {
-                Order o = new Order();
-                o.Date = DateTime.Now.Date;
-                o.From = vmdl.From;
-                o.To = vmdl.To;
-                o.Person = db.Persons.Single(i => i.Uid == User.Identity.Name);
-                o.Verwalter = g.Select(i => i.Person).FirstOrDefault();
-                o.Status = db.OrderStatus.Single(i => i.Description == "Offen");
-
-                orders.Add(o);
-
-                foreach(var x in g)
-                {
-                    OrderItem oi = new OrderItem();
-                    oi.Device = x;
-                    oi.Order = o;
-
-                    db.OrderItems.Add(oi);
-                }
-            }
-
-
-            return orders;
-           
         }
 
 
