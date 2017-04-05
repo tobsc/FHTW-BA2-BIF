@@ -11,8 +11,6 @@ import {ErrorHandlerService} from "../../../shared/services/error-handler.servic
 export class DeviceAddComponent implements OnInit {
 
   public alerts: any = [];
-
-
   constructor(
       private deviceService: DeviceService,
   ) { }
@@ -25,7 +23,7 @@ export class DeviceAddComponent implements OnInit {
         (next) => {
           this.alerts.push({
             type: 'success',
-            msg: `Das Gerät <strong>${next.Name}</strong> wurde erfolgreich hinzugefügt!`,
+            msg: `Das Gerät ${next.Name} wurde erfolgreich hinzugefügt!`,
             timeout: 5000
           });
         },

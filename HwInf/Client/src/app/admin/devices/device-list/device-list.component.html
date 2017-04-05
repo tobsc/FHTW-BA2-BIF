@@ -22,27 +22,27 @@
       <table class="table table-hover">
         <thead>
         <tr>
+          <th class="th-status">Status</th>
           <th>InvNum</th>
+          <th class="th-name">Name</th>
           <th>Typ</th>
-          <th>Name</th>
           <th>Erstellt am</th>
           <th>Verwalter</th>
-          <th>Status</th>
           <th>Aktion</th>
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let device of devices">
+        <tr *ngFor="let device of devices; let i = index">
+          <td><div class="label label-success label-device-status">{{device.Status.Description}}</div></td>
           <td>{{device.InvNum}}</td>
+          <th scope="row" ><a [routerLink]="['/admin/geraete/invnum/', device.InvNum]">{{device.Name}}</a></th>
           <td>{{device.DeviceType.Name}}</td>
-          <th scope="row" ><a routerLink="/admin/geraete/invnum/{{device.InvNum}}/">{{device.Name}}</a></th>
           <td>{{device.CreateDate}}</td>
-          <td>{{device.Verwalter.Name}}</td>
-          <td><div class="label label-success">{{device.Status.Description}}</div></td>
+          <td title="({{device.Verwalter.Uid}}) {{device.Verwalter.Name}} {{device.Verwalter.LastName}}">{{device.Verwalter.Name}} {{device.Verwalter.LastName}}</td>
           <td>
-            <a routerLink="/admin/geraete/invnum/{{device.InvNum}}/" title="Gerät bearbeiten" class="btn btn-warning" aria-label="Bearbeiten"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-            <a routerLink="/admin/geraete/neu/{{device.InvNum}}" title="Gerät duplizieren" class="btn btn-info" aria-label="Duplizieren"><i class="fa fa-files-o" aria-hidden="true"></i></a>
-            <a (click)="onDelete(device.DeviceId)" title="Gerät löschen" class="btn btn-danger" aria-label="Löschen">
+            <a routerLink="/admin/geraete/invnum/{{device.InvNum}}/" title="Gerät bearbeiten" class="btn btn-warning btn-sm" aria-label="Bearbeiten"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+            <a [routerLink]="['/admin/geraete/neu/', device.InvNum]" title="Gerät duplizieren" class="btn btn-info btn-sm" aria-label="Duplizieren"><i class="fa fa-files-o" aria-hidden="true"></i></a>
+            <a (click)="onDelete(device.DeviceId, i)" title="Gerät löschen" class="btn btn-danger btn-sm" aria-label="Löschen">
               <i class="fa fa-trash-o" aria-hidden="true"></i>
             </a>
           </td>

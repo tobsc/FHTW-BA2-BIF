@@ -63,6 +63,9 @@ export class DeviceFormComponent implements OnInit {
     this.formFieldGroups = <FormArray>this.form.controls['FieldGroups'];
     this.invNums = <FormArray>this.form.controls['AdditionalInvNums'];
 
+
+    if ( this.feature === 'add' ) return;
+
     this.route.params
         .map(params => params['invnum'])
         .flatMap(invnum => this.deviceService.getDevice(invnum))
@@ -73,6 +76,7 @@ export class DeviceFormComponent implements OnInit {
             },
             (err) => {}
         );
+
   }
 
   /**

@@ -1,9 +1,10 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnDestroy, ViewContainerRef} from "@angular/core";
 import {DeviceService} from "../../../shared/services/device.service";
-import {Observable, Subscription} from "rxjs";
+import {Subscription} from "rxjs";
 import {Device} from "../../../shared/models/device.model";
 import {ActivatedRoute, Router} from "@angular/router";
 import {DeviceList} from "../../../shared/models/device-list.model";
+import {Overlay, Modal} from "angular2-modal";
 
 @Component({
   selector: 'hwinf-device-list',
@@ -20,8 +21,13 @@ export class DeviceListComponent implements OnInit, OnDestroy {
   constructor(
       private deviceService: DeviceService,
       private route: ActivatedRoute,
-      private router: Router
-  ) { }
+      private router: Router,
+      overlay: Overlay,
+      vcRef: ViewContainerRef,
+      private modal: Modal
+  ) {
+      overlay.defaultViewContainer = vcRef;
+  }
 
   ngOnInit() {
     this.fetchData();
@@ -39,7 +45,7 @@ export class DeviceListComponent implements OnInit, OnDestroy {
                       }
                   }
 
-                  this.deviceService.getDevices("", 2, (this.currentPage-1) *  2).subscribe(
+                  this.deviceService.getDevices("", 10, (this.currentPage-1) *  10).subscribe(
                       (data: DeviceList) => {
                           this.maxPages = data.MaxPages;
                           this.devices = data.Devices;
@@ -49,10 +55,14 @@ export class DeviceListComponent implements OnInit, OnDestroy {
           );
   }
 
-  onDelete( deviceId: number) {
+  removeDevice(index: number) {
+      this.devices.splice(index, 1);
+  }
+
+  onDelete( deviceId: number, index: number) {
       this.deviceService.deleteDevice(deviceId)
           .subscribe(
-              (next) => { this.fetchData(); },
+              () => { this.removeDevice(index) },
               (err) => console.log(err)
           );
   }

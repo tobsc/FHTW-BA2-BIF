@@ -9,6 +9,7 @@ import { DeviceCustomFieldsComponent } from "./devices/device-custom-fields/devi
 import { VerwalterGuard } from "../authentication/verwalter.guard";
 import {DeviceEditComponent} from "./devices/device-edit/device-edit.component";
 import {PageNotFoundComponent} from "../core/page-not-found/page-not-found.component";
+import {DeviceDuplicateComponent} from "./devices/device-duplicate/device-duplicate.component";
 
 const ADMIN_ROUTES: Routes = [
     { path: 'admin', component: HomeComponent, canActivate: [AuthGuard , VerwalterGuard],
@@ -17,7 +18,7 @@ const ADMIN_ROUTES: Routes = [
             { path: 'dashboard', component: AdminDashboardComponent },
             { path: 'geraete', component: DeviceListComponent },
             { path: 'geraete/neu', component: DeviceAddComponent },
-            { path: 'geraete/neu/:invnum', component: DeviceAddComponent },
+            { path: 'geraete/neu/:invnum', component: DeviceDuplicateComponent },
             { path: 'geraete/typen', component: DeviceTypesComponent },
             { path: 'geraete/eigene_felder', component: DeviceCustomFieldsComponent },
             { path: 'geraete/page/:page', component: DeviceListComponent },
