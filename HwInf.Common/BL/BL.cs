@@ -37,7 +37,10 @@ namespace HwInf.Common.BL
             {
                 return _dal.Devices.Include(x => x.DeviceMeta).Include(x => x.Type.FieldGroups.Select(y => y.Fields))
                     .Where(i => i.IsActive)
-                    .Where(i => i.DeviceId > offset)
+                    .OrderBy(i => i.Name)
+                    .ThenBy(i => i.CreateDate)
+                    .ThenBy(i => i.InvNum)
+                    .Skip(offset)
                     .Take(limit);
             } else if(isSearch)
             {
@@ -49,7 +52,10 @@ namespace HwInf.Common.BL
                 return _dal.Devices.Include(x => x.Type).Include(x => x.DeviceMeta).Include(x => x.Type.FieldGroups.Select(y => y.Fields))
                     .Where(i => i.IsActive)
                     .Where(i => i.Type.TypeId == type)
-                    .Where(i => i.DeviceId > offset)
+                    .OrderBy(i => i.Name)
+                    .ThenBy(i => i.CreateDate)
+                    .ThenBy(i => i.InvNum)
+                    .Skip(offset)
                     .Take(limit);
             }
 
@@ -61,7 +67,11 @@ namespace HwInf.Common.BL
         }
         public Device GetSingleDevice(string deviceInvNum)
         {
-            return _dal.Devices.Include(x => x.DeviceMeta).Include(x => x.Type.FieldGroups.Select(y => y.Fields)).Single(i => i.InvNum == deviceInvNum);
+            return _dal.Devices
+                .Include(x => x.DeviceMeta)
+                .Include(x => x.Type.FieldGroups.Select(y => y.Fields))
+                .OrderByDescending(i => i.CreateDate)
+                .FirstOrDefault(i => i.InvNum == deviceInvNum);
         }
 
         public DeviceType GetDeviceType(int typeId)

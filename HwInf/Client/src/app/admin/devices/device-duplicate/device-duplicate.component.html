@@ -1,0 +1,22 @@
+<div class="page-title">
+
+  <div class="clearfix"></div>
+
+  <div *ngFor="let alert of alerts">
+    <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
+  </div>
+
+  <div class="title_left">
+    <h1>Gerät hinzufügen</h1>
+  </div>
+
+
+  <hwinf-device-form
+          [buttonLabel]="'Gerät(e) hinzufügen'"
+          [feature]="'duplicate'"
+          (submitForm)="onSubmit($event)"
+  ></hwinf-device-form>
+
+</div>
+
+<div class="clearfix"></div>

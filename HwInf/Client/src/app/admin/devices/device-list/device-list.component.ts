@@ -1,10 +1,9 @@
-import {Component, OnInit, OnDestroy, ViewContainerRef} from "@angular/core";
+import {Component, OnInit, OnDestroy } from "@angular/core";
 import {DeviceService} from "../../../shared/services/device.service";
 import {Subscription} from "rxjs";
 import {Device} from "../../../shared/models/device.model";
 import {ActivatedRoute, Router} from "@angular/router";
 import {DeviceList} from "../../../shared/models/device-list.model";
-import {Overlay, Modal} from "angular2-modal";
 
 @Component({
   selector: 'hwinf-device-list',
@@ -21,16 +20,12 @@ export class DeviceListComponent implements OnInit, OnDestroy {
   constructor(
       private deviceService: DeviceService,
       private route: ActivatedRoute,
-      private router: Router,
-      overlay: Overlay,
-      vcRef: ViewContainerRef,
-      private modal: Modal
-  ) {
-      overlay.defaultViewContainer = vcRef;
-  }
+      private router: Router
+  ) {}
 
   ngOnInit() {
-    this.fetchData();
+
+      this.fetchData();
   }
 
   fetchData() {
@@ -42,13 +37,20 @@ export class DeviceListComponent implements OnInit, OnDestroy {
                       let pagenumber = +params['page'];
                       if (pagenumber > 0) {
                           this.currentPage = pagenumber ;
+
                       }
                   }
 
-                  this.deviceService.getDevices("", 10, (this.currentPage-1) *  10).subscribe(
+                  console.log("currentpage: " + this.currentPage);
+                  console.log("offset: " + (this.currentPage-1) *  2);
+
+
+                  this.deviceService.getDevices("", 2, (this.currentPage-1) *  2 ).subscribe(
                       (data: DeviceList) => {
                           this.maxPages = data.MaxPages;
                           this.devices = data.Devices;
+
+                          console.log(this.devices);
                       }
                   )
               }
@@ -60,6 +62,7 @@ export class DeviceListComponent implements OnInit, OnDestroy {
   }
 
   onDelete( deviceId: number, index: number) {
+
       this.deviceService.deleteDevice(deviceId)
           .subscribe(
               () => { this.removeDevice(index) },

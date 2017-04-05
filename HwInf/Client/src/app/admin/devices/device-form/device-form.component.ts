@@ -114,7 +114,7 @@ export class DeviceFormComponent implements OnInit {
     this.form.get('Person').setValue({Uid: device.Verwalter.Uid});
     this.form.get('DeviceType').setValue({Slug: device.DeviceType.Slug });
 
-    if (this.feature === 'bearbeiten') {
+    if (this.feature === 'edit') {
       this.form.get('InvNum').setValue(device.InvNum);
     }
   }

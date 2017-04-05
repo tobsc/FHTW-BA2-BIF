@@ -24,6 +24,7 @@ import {DeviceEditComponent} from "./devices/device-edit/device-edit.component";
 import {DeviceAddComponent} from "./devices/device-add/device-add.component";
 import {AlertModule} from "ng2-bootstrap";
 import {DeviceDuplicateComponent} from "./devices/device-duplicate/device-duplicate.component";
+import {ModalModule} from "angular2-modal";
 
 
 export function jwtFactory(backend: XHRBackend, options: RequestOptions, router: Router, authService: AuthService, pubsub: PubSubService) {
@@ -57,6 +58,7 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
         Ng2AutoCompleteModule,
         adminRouting,
         AlertModule.forRoot(),
+        ModalModule.forRoot()
     ],
     providers: [
         {

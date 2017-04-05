@@ -318,6 +318,12 @@ namespace HwInf.Controllers
             }
 
             var dt = _bl.GetDeviceType(vmdl.DeviceType.Slug);
+            // Put all invNums into one List
+            var invNums = new List<AdditionalInvNumViewModel>
+            {
+                new AdditionalInvNumViewModel {InvNum = vmdl.InvNum}
+            };
+            invNums.AddRange(vmdl.AdditionalInvNums);
 
             if (_bl.GetDevices(0, 0, true, dt.TypeId, true)
                 .Count(i => i.InvNum.ToLower().Equals(vmdl.InvNum.ToLower())) > 0)
@@ -346,12 +352,7 @@ namespace HwInf.Controllers
                 }
             });
 
-            // Put all invNums into one List
-            var invNums = new List<AdditionalInvNumViewModel>
-            {
-                new AdditionalInvNumViewModel {InvNum = vmdl.InvNum}
-            };
-            invNums.AddRange(vmdl.AdditionalInvNums);
+            
 
             invNums
                 .Select(i => i.InvNum)
