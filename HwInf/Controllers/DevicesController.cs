@@ -301,12 +301,13 @@ namespace HwInf.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (String.IsNullOrWhiteSpace(vmdl.Name))
+
+            if (string.IsNullOrWhiteSpace(vmdl.Name))
             {
                 return BadRequest("Bitte einen Namen für das Gerät angeben.");
             }
 
-            if (String.IsNullOrWhiteSpace(vmdl.Marke))
+            if (string.IsNullOrWhiteSpace(vmdl.Marke))
             {
                 return BadRequest("Bitte eine Marke für das Gerät angeben.");
             }
@@ -317,7 +318,13 @@ namespace HwInf.Controllers
                 return BadRequest("Typ nicht vorhanden.");
             }
 
-            var dt = _bl.GetDeviceType(vmdl.DeviceType.Slug);
+            if (_bl.GetUsers(vmdl.Verwalter.Uid) == null)
+            {
+                return BadRequest("Person nicht vorhanden.");
+            }
+
+
+
             // Put all invNums into one List
             var invNums = new List<AdditionalInvNumViewModel>
             {
@@ -325,17 +332,19 @@ namespace HwInf.Controllers
             };
             invNums.AddRange(vmdl.AdditionalInvNums);
 
-            if (_bl.GetDevices(0, 0, true, dt.TypeId, true)
-                .Count(i => i.InvNum.ToLower().Equals(vmdl.InvNum.ToLower())) > 0)
+            // Get Existing InvNums
+            var existingInvNums = _bl.GetDevices(0, 0, false, 0, true).Select(i => i.InvNum)
+                .ToList();
+
+
+            var invNumsNoDupl = invNums.Select(i => i.InvNum).Distinct().ToList();
+
+            // Check if new InvNums do not exist
+            if (invNums.Select(i => i.InvNum).Intersect(existingInvNums).Any() || invNumsNoDupl.Count() != invNums.Count())
             {
                 return BadRequest("Es existiert bereits ein Gerät mit dieser Inventarnummer.");
             }
 
-
-            if (_bl.GetUsers(vmdl.Verwalter.Uid) == null)
-            {
-                return BadRequest("Person nicht vorhanden.");
-            }
 
 
             // Check for new fields and add them
@@ -352,7 +361,7 @@ namespace HwInf.Controllers
                 }
             });
 
-            
+
 
             invNums
                 .Select(i => i.InvNum)
@@ -367,7 +376,7 @@ namespace HwInf.Controllers
 
             _bl.SaveChanges();
 
-            _log.InfoFormat("Device '{0}({1})' added by '{2}'", vmdl.InvNum, vmdl.Name , User.Identity.Name);
+            _log.InfoFormat("Device '{0}({1})' added by '{2}'", vmdl.InvNum, vmdl.Name, User.Identity.Name);
             foreach (var n in vmdl.AdditionalInvNums)
             {
                 _log.InfoFormat("Device '{0}({1})' added by '{2}'", n.InvNum, vmdl.Name, User.Identity.Name);
