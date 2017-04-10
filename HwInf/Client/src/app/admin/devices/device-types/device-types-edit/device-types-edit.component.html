@@ -1,0 +1,14 @@
+<div class="clearfix"></div>
+<div class="form-group">
+  <ng-select style="min-height:34px" [multiple]="true"
+             [items]="items"
+             (data)="refreshValue($event)"
+             placeholder="No city selected" #f></ng-select>
+</div>
+
+<div class="form-group">
+  <input type="text" class="form-control">
+</div>
+
+
+<button (click)="foo(f.data)">test</button>
