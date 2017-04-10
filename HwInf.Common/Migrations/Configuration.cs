@@ -19,23 +19,58 @@ namespace HwInf.Common.Migrations
         protected override void Seed(HwInf.Common.DAL.HwInfContext context)
         {
 
-           var type = new List<DeviceType>
-                {
-                    new DeviceType { Name = "Notebook", Slug = "notebook", IsActive = true},
-                    new DeviceType { Name = "PC", Slug = "pc", IsActive = true },
-                    new DeviceType { Name = "Monitor", Slug = "monitor", IsActive = true}
-                };
+            var type = new List<DeviceType>
+            {
+                new DeviceType { Name = "Notebook", Slug = "notebook", IsActive = true},
+                new DeviceType { Name = "PC", Slug = "pc", IsActive = true },
+                new DeviceType { Name = "Monitor", Slug = "monitor", IsActive = true},
+                new DeviceType { Name = "Festplatte", Slug = "festplatte", IsActive = true},
+            };
 
-            var fields = new List<Field>
+            var anschluessefields = new List<Field>
             {
                 new Field {Slug = "hdmi", Name = "HDMI"},
                 new Field {Slug = "vga", Name = "VGA"},
             };
 
+            var prozessorfields = new List<Field>
+            {
+                new Field {Slug = "intel-i7", Name = "Intel i7"},
+                new Field {Slug = "intel-i5", Name = "Intel i5"},
+                new Field {Slug = "amd-ryzen", Name = "AMD Ryzen"},
+                new Field {Slug = "amd-athlon", Name = "AMD Athlon"},
+            };
+
+            var monitorfields = new List<Field>
+            {
+                new Field {Slug = "13-zoll", Name = "13 Zoll"},
+                new Field {Slug = "15-zoll", Name = "15 Zoll"},
+                new Field {Slug = "17-zoll", Name = "17 Zoll"},
+            };
+
+            var aufloesungfields = new List<Field>
+            {
+                new Field {Slug = "1366x768", Name = "1366x768"},
+                new Field {Slug = "1920x1080", Name = "1920x1080"},
+                new Field {Slug = "1280x1024", Name = "1280x1024"},
+            };
+
+            var festplattefields = new List<Field>
+            {
+                new Field {Slug = "128-gb", Name = "128 GB"},
+                new Field {Slug = "256-gb", Name = "256 GB"},
+                new Field {Slug = "2-tb", Name = "2 TB"},
+            };
+
             var fieldGroup = new List<FieldGroup>
             {
-                new FieldGroup {Slug = "anschluesse", Name = "Anschlüsse", Fields = fields.ToList(), DeviceTypes = type.Where(i => i.Slug == "pc").ToList()}
+                new FieldGroup {Slug = "anschluesse", Name = "Anschlüsse", Fields = anschluessefields.ToList(), DeviceTypes = type.Where(i => i.Slug == "pc" || i.Slug == "notebook" || i.Slug == "monitor").ToList()},
+                new FieldGroup {Slug = "prozessoren", Name = "Prozessoren", Fields = prozessorfields.ToList(), DeviceTypes = type.Where(i => i.Slug == "pc" || i.Slug == "notebook").ToList()},
+                new FieldGroup {Slug = "bilschirmdiagonale", Name = "Bildschirmdiagonale", Fields = monitorfields.ToList(), DeviceTypes = type.Where(i => i.Slug == "monitor" || i.Slug == "notebook").ToList()},
+                new FieldGroup {Slug = "aufloesung", Name = "Auflösung", Fields = aufloesungfields.ToList(), DeviceTypes = type.Where(i => i.Slug == "monitor" || i.Slug == "notebook").ToList()},
+                new FieldGroup {Slug = "kapazitaet", Name = "Kapazität", Fields = festplattefields.ToList(), DeviceTypes = type.Where(i => i.Slug == "festplatte").ToList()}
             };
+
 
 
             var deviceStatus = new List<DeviceStatus>
