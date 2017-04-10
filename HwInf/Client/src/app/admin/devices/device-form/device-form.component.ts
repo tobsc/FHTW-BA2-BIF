@@ -10,8 +10,7 @@ import {FieldGroup} from "../../../shared/models/fieldgroup.model";
 import {User} from "../../../shared/models/user.model";
 import {Device} from "../../../shared/models/device.model";
 import {DeviceMeta} from "../../../shared/models/device-meta.model";
-import {isNullOrUndefined} from "util";
-import {DomSanitizer} from "@angular/platform-browser";
+
 
 @Component({
   selector: 'hwinf-device-form',
@@ -43,9 +42,6 @@ export class DeviceFormComponent implements OnInit {
 
   ngOnInit() {
     this.init();
- /*   this.route.url.subscribe(
-        () => {this.init}
-    );*/
   }
 
   init() {
@@ -74,9 +70,8 @@ export class DeviceFormComponent implements OnInit {
               this.currentDevice = device;
               this.fillFormWithDeviceData(device);
             },
-            (err) => {}
+            (err) => { console.log(err); }
         );
-
   }
 
   /**
