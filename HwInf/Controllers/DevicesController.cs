@@ -190,6 +190,24 @@ namespace HwInf.Controllers
 
         }
 
+        // POST: api/devices/{type}/{filters?}
+        /// <summary>
+        /// Filters the devices with given parameters
+        /// </summary>
+        /// 
+        /// <returns></returns>
+
+        [ResponseType(typeof(List<Device>))]
+        [Route("filter")]
+        public IHttpActionResult PostFilter([FromBody] FilterViewModel vmdl)
+        {
+
+            var b = vmdl.FilteredList(_bl).ToList().Select(i => new DeviceViewModel(i).LoadMeta(i)).ToList();
+
+            return Ok(b);
+
+        }
+
         // GET: api/devices/types
         /// <summary>
         /// Returns all device types

@@ -20,5 +20,13 @@ namespace HwInf.Common.Models
         public string FieldGroupSlug { get; set; }
         [Required]
         public string MetaValue { get; set; }
+
+
+        public bool IsEqual(DeviceMeta dm)
+        {
+            return FieldSlug == dm.FieldSlug &&
+                   FieldGroupSlug == dm.FieldGroupSlug &&
+                   MetaValue == dm.MetaValue;
+        }
     }
 }

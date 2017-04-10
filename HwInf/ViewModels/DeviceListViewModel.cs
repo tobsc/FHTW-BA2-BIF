@@ -17,7 +17,7 @@ namespace HwInf.ViewModels
 
         public DeviceListViewModel()
         {
-            
+
         }
 
         public DeviceListViewModel(IEnumerable<DeviceViewModel> obj, int offset, int limit, BL bl)
