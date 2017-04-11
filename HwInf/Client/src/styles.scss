@@ -18,12 +18,32 @@ html {
   height: 100%;
 }
 
+.nav-md {
 .dropdown {
   &.active,
   &.current_parent_menu_item {
     @extend .active;
     .nav.child_menu {
       display: block;
+    }
+  }
+}
+}
+
+.nav-sm {
+  .dropdown {
+    &.active {
+      .nav.child_menu { display: block; }
+    }
+  }
+}
+
+.left_col {
+  .dropdown {
+    .current_menu_item {
+      &:before {
+        background: #1ABB9C !important;
+      }
     }
   }
 }

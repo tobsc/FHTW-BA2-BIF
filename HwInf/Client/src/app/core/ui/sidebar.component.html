@@ -15,8 +15,8 @@
           </li>
           <li dropdown [ngClass]="{current_parent_menu_item: router.url.match('^(?!.*admin).*geraete.*$') }"><a dropdownToggle><i class="fa fa-home"></i> Geräte <span class="fa fa-chevron-down"></span></a>
             <ul class="nav child_menu">
-              <li ><a routerLink="/geraete">Alle</a></li>
-              <li *ngFor="let deviceType of deviceTypes | async">
+              <li routerLinkActive="current_menu_item" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/geraete">Alle</a></li>
+              <li routerLinkActive="current_menu_item" *ngFor="let deviceType of deviceTypes | async">
                 <a routerLink="/geraete/typ/{{deviceType.Slug }}">{{deviceType.Name}}</a>
               </li>
             </ul>
@@ -35,11 +35,11 @@
         <ul class="nav side-menu">
           <li [ngClass]="{current_parent_menu_item: router.url.match('(.*admin\/geraete.*)') }" dropdown><a dropdownToggle><i class="fa fa-bug"></i> Geräte <span class="fa fa-chevron-down"></span></a>
             <ul class="nav child_menu">
-              <li><a routerLink="/admin/geraete">Geräte verwalten</a></li>
-              <li><a routerLink="/admin/geraete/neu">Geräte hinzufügen</a></li>
-              <li><a routerLink="/admin/geraete/typen">Gerätetypen</a></li>
-              <li><a routerLink="/admin/geraete/eigene_felder">Eigene Felder</a></li>
-              <li><a href="geraete_status_verwalten.php">Gerätestatus</a></li>
+              <li routerLinkActive="current_menu_item" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/admin/geraete">Geräte verwalten</a></li>
+              <li routerLinkActive="current_menu_item" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/admin/geraete/neu">Geräte hinzufügen</a></li>
+              <li routerLinkActive="current_menu_item" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/admin/geraete/typen">Gerätetypen</a></li>
+              <li routerLinkActive="current_menu_item" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/admin/geraete/eigene_felder">Eigene Felder</a></li>
+              <li routerLinkActive="current_menu_item" [routerLinkActiveOptions]="{exact:true}"><a href="geraete_status_verwalten.php">Gerätestatus</a></li>
             </ul>
           </li>
           <li dropdown><a dropdownToggle><i class="fa fa-windows"></i> Aufträge <span class="fa fa-chevron-down"></span></a>
