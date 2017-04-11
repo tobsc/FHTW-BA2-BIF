@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using HwInf.Common.DAL;
 using System.Linq;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Validation;
+using System.Data.SqlTypes;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Security;
 using HwInf.Common.Models;
@@ -384,7 +387,7 @@ namespace HwInf.Common.BL
         {
             var dt = GetDeviceType(type);
             var devices = GetDevices(0, 0, true, dt.TypeId, true).ToList();
-            var result = devices.ToList();
+            var result = devices;
             //devices.ForEach(i =>
             //{
             //    i.DeviceMeta.ToList().ForEach(y =>
@@ -401,18 +404,42 @@ namespace HwInf.Common.BL
             //    });
 
             //});
-            var fieldGroups = meta.Select(i => i.FieldGroupSlug);
-            meta.ToList().ForEach(i =>
+
+
+            //meta.ToList().ForEach(i =>
+            //{
+            //    var temp = new List<Device>();
+            //    result.ForEach(y => y.DeviceMeta.ToList().ForEach(x =>
+            //    {
+            //        if (x.IsEqual(i)) temp.Add(y);
+            //    }));
+            //    result = temp.ToList();
+            //});
+
+            List<List<DeviceMeta>> deviceMetaGroupedByFieldGroup = meta
+                .GroupBy(i => i.FieldGroupSlug, i => i)
+                .ToList()
+                .Select(i => i.ToList())
+                .ToList();
+
+            deviceMetaGroupedByFieldGroup.ForEach(i =>
             {
-                var temp = new List<Device>();
-                result.ForEach(y => y.DeviceMeta.ToList().ForEach(x =>
-                {
-                    if (x.IsEqual(i)) temp.Add(y);
-                }));
-                result = temp.ToList();
+                result = devices
+                            .Where(j => j.DeviceMeta.Intersect(i, new DeviceMetaComparer()).Any())
+                            .ToList();
             });
 
-            return result.Skip(offset).Take(limit).ToList();
+            result = order.Equals("ASC")
+                ? result.OrderBy(i => i.GetType().GetProperty(orderBy).GetValue(i, null)).ToList()
+                : result.OrderByDescending(i => i.GetType().GetProperty(orderBy).GetValue(i, null)).ToList();
+
+            result = result
+                .Skip(offset)
+                .Take(limit)
+                .Distinct()
+                .ToList();
+
+            return result;
         }
 
 
