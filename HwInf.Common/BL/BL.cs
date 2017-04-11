@@ -37,49 +37,18 @@ namespace HwInf.Common.BL
         #region Devices
 
         // Read
-        public IEnumerable<Device> GetDevices(int limit = 25, int offset = 0, bool onlyActive = true, int type = 0,
-            bool isSearch = false)
+        public IEnumerable<Device> GetDevices(bool onlyActive = true, string typeSlug = "")
         {
-            if (type == 0 && !isSearch)
-            {
-                return _dal.Devices.Include(x => x.DeviceMeta).Include(x => x.Type.FieldGroups.Select(y => y.Fields))
-                    .Where(i => i.IsActive)
-                    .ToList()
-                    .OrderBy(i => i.GetType().GetProperty("Name").GetValue(i, null))
-                    .ThenBy(i => i.GetType().GetProperty("CreateDate").GetValue(i, null))
-                    .ThenBy(i => i.GetType().GetProperty("InvNum").GetValue(i, null))
-                    .Skip(offset)
-                    .Take(limit);
-            }
-            else if (isSearch && onlyActive)
-            {
-                return _dal.Devices.Include(x => x.Type)
-                    .Include(x => x.DeviceMeta)
-                    .Include(x => x.Type.FieldGroups.Select(y => y.Fields))
-                    .Where(i => i.IsActive)
-                    .Where(i => i.Type.TypeId == type);
-            }
-            else if (isSearch && !onlyActive)
-            {
-                return
-                    _dal.Devices.Include(x => x.Type)
-                        .Include(x => x.DeviceMeta)
-                        .Include(x => x.Type.FieldGroups.Select(y => y.Fields));
-            }
-            else
-            {
-                return _dal.Devices.Include(x => x.Type)
-                    .Include(x => x.DeviceMeta)
-                    .Include(x => x.Type.FieldGroups.Select(y => y.Fields))
-                    .Where(i => i.IsActive)
-                    .Where(i => i.Type.TypeId == type)
-                    .OrderBy(i => i.GetType().GetProperty("InvNum"))
-                    .ThenBy(i => i.GetType().GetProperty("CreateDate"))
-                    .ThenBy(i => i.GetType().GetProperty("Name"))
-                    .Skip(offset)
-                    .Take(limit);
-            }
+            var obj = _dal.Devices.Include(x => x.Type)
+                .Include(x => x.DeviceMeta)
+                .Include(x => x.Type.FieldGroups.Select(y => y.Fields));
 
+            obj = onlyActive ? obj.Where(i => i.IsActive) : obj;
+            obj = !String.IsNullOrWhiteSpace(typeSlug)
+                ? obj.Where(i => i.Type.Slug.Equals(typeSlug))
+                : obj;
+
+            return obj;
         }
 
         public Device GetSingleDevice(int deviceId)
@@ -108,6 +77,11 @@ namespace HwInf.Common.BL
 
         public DeviceType GetDeviceType(string typeSlug)
         {
+            if (string.IsNullOrWhiteSpace(typeSlug))
+            {
+                return null;
+            }
+
             return
                 _dal.DeviceTypes.Include(x => x.FieldGroups.Select(y => y.DeviceTypes))
                     .Single(i => i.Slug.ToLower().Equals(typeSlug.ToLower()));
@@ -206,7 +180,7 @@ namespace HwInf.Common.BL
         {
             if (!IsAdmin() && !IsVerwalter()) return;
 
-            if (!GetDevices(0, 0, false, dt.TypeId, true).Any())
+            if (!GetDevices(true, dt.Slug).Any())
             {
                 _dal.DeviceTypes.Remove(dt);
 
@@ -378,66 +352,45 @@ namespace HwInf.Common.BL
         public ICollection<Device> GetFilteredDevices
         (
             ICollection<DeviceMeta> meta,
-            string type,
-            string order,
-            string orderBy,
-            int offset,
-            int limit
+            string type = null,
+            string order = "DESC",
+            string orderBy = "Name",
+            int offset = 0,
+            int limit = 25,
+            bool onlyActive = true
         )
         {
             var dt = GetDeviceType(type);
-            var devices = GetDevices(0, 0, true, dt.TypeId, true).ToList();
+            var devices = GetDevices(onlyActive, (string.IsNullOrWhiteSpace(type)) ? "" : dt.Slug).ToList();
             var result = devices;
-            //devices.ForEach(i =>
-            //{
-            //    i.DeviceMeta.ToList().ForEach(y =>
-            //    {
-            //        meta.ToList().ForEach(x =>
-            //        {
-            //            if (y.IsEqual(x))
-            //            {
-            //                result.Add(i);
-            //                return;
-            //            }
-            //        });
 
-            //    });
-
-            //});
-
-
-            //meta.ToList().ForEach(i =>
-            //{
-            //    var temp = new List<Device>();
-            //    result.ForEach(y => y.DeviceMeta.ToList().ForEach(x =>
-            //    {
-            //        if (x.IsEqual(i)) temp.Add(y);
-            //    }));
-            //    result = temp.ToList();
-            //});
-
-            List<List<DeviceMeta>> deviceMetaGroupedByFieldGroup = meta
-                .GroupBy(i => i.FieldGroupSlug, i => i)
-                .ToList()
-                .Select(i => i.ToList())
-                .ToList();
-
-            deviceMetaGroupedByFieldGroup.ForEach(i =>
+            if (meta != null)
             {
-                result = devices
-                            .Where(j => j.DeviceMeta.Intersect(i, new DeviceMetaComparer()).Any())
-                            .ToList();
-            });
+                List<List<DeviceMeta>> deviceMetaGroupedByFieldGroup = meta
+                    .Where(i => !String.IsNullOrWhiteSpace(i.FieldGroupSlug))
+                    .Where(i => !String.IsNullOrWhiteSpace(i.FieldSlug))
+                    .Where(i => !String.IsNullOrWhiteSpace(i.MetaValue))
+                    .GroupBy(i => i.FieldGroupSlug, i => i)
+                    .ToList()
+                    .Select(i => i.ToList())
+                    .ToList();
+
+                deviceMetaGroupedByFieldGroup.ForEach(i =>
+                {
+                    result = result
+                        .Where(j => j.DeviceMeta.Intersect(i, new DeviceMetaComparer()).Count() == i.Count)
+                        .ToList();
+                });
+            }
 
             result = order.Equals("ASC")
                 ? result.OrderBy(i => i.GetType().GetProperty(orderBy).GetValue(i, null)).ToList()
                 : result.OrderByDescending(i => i.GetType().GetProperty(orderBy).GetValue(i, null)).ToList();
 
             result = result
-                .Skip(offset)
-                .Take(limit)
                 .Distinct()
                 .ToList();
+
 
             return result;
         }

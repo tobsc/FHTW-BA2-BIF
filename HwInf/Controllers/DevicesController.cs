@@ -17,7 +17,6 @@ using WebGrease.Css.Extensions;
 
 namespace HwInf.Controllers
 {
-    [Authorize]
     [RoutePrefix("api/devices")]
     public class DevicesController : ApiController
     {
@@ -42,12 +41,12 @@ namespace HwInf.Controllers
         public IHttpActionResult GetAll(int limit = 25, int offset = 0)
         {
 
-            var devices = _bl.GetDevices(limit, offset)
+            var devices = _bl.GetDevices()
                 .ToList()
                 .Select(i => new DeviceViewModel(i).LoadMeta(i))
                 .ToList();
 
-            var deviceList = new DeviceListViewModel(devices, offset, limit, _bl);
+            var deviceList = new DeviceListViewModel(devices.Skip(offset).Take(limit), offset, limit, _bl, devices.Count);
 
             return Ok(deviceList);
         }
@@ -65,14 +64,14 @@ namespace HwInf.Controllers
         [Route("admin")]
         public IHttpActionResult GetAllAdmin(int limit = 25, int offset = 0)
         {
-            var vmdl = _bl.GetDevices(limit, offset, false, 0, true)
+            var vmdl = _bl.GetDevices(false)
                 .ToList()
                 .Select(i => new DeviceViewModel(i).LoadMeta(i))
                 .ToList();
 
             if(!_bl.IsAdmin()) vmdl = vmdl.TakeWhile(i => i.Verwalter.Uid == User.Identity.Name).ToList();
 
-            return Ok(new DeviceListViewModel(vmdl.Skip(offset).Take(limit), offset, limit , _bl));
+            return Ok(new DeviceListViewModel(vmdl.Skip(offset).Take(limit), offset, limit , _bl, vmdl.Count ));
         }
 
 
@@ -156,7 +155,7 @@ namespace HwInf.Controllers
 
             var dt = _bl.GetDeviceType(type);
 
-            var data = _bl.GetDevices(limit, offset, true, dt.TypeId, true)
+            var data = _bl.GetDevices(true, dt.Slug)
                 .ToList() // execl SQL
                 .Select(i => new DeviceViewModel(i).LoadMeta(i)) // Convert to viewmodel
                 .ToList();
@@ -186,7 +185,7 @@ namespace HwInf.Controllers
 
             }
 
-            return Ok(new DeviceListViewModel(response.Skip(offset).Take(limit), limit, offset, _bl));
+            return Ok(new DeviceListViewModel(response.Skip(offset).Take(limit), limit, offset, _bl,response.Count));
 
         }
 
@@ -203,8 +202,12 @@ namespace HwInf.Controllers
         {
 
             var b = vmdl.FilteredList(_bl).ToList().Select(i => new DeviceViewModel(i).LoadMeta(i)).ToList();
+            var count = b.Count;
+            b = vmdl.Limit < 0 
+                ? b.ToList() 
+                : b.Skip(vmdl.Offset).Take(vmdl.Limit).ToList();
 
-            return Ok(b);
+            return Ok(new DeviceListViewModel(b, vmdl.Offset, vmdl.Limit, _bl, count));
 
         }
 
@@ -351,7 +354,7 @@ namespace HwInf.Controllers
             invNums.AddRange(vmdl.AdditionalInvNums);
 
             // Get Existing InvNums
-            var existingInvNums = _bl.GetDevices(0, 0, false, 0, true).Select(i => i.InvNum)
+            var existingInvNums = _bl.GetDevices(false).Select(i => i.InvNum)
                 .ToList();
 
 
