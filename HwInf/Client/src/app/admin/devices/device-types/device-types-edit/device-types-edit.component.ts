@@ -4,6 +4,8 @@ import { DeviceService } from "../../../../shared/services/device.service";
 import { DeviceType } from "../../../../shared/models/device-type.model";
 import { CustomFieldsService } from "../../../../shared/services/custom-fields.service";
 import { FieldGroup } from "../../../../shared/models/fieldgroup.model";
+import { Subscription, Observable } from "rxjs";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
     selector: 'hwinf-device-types-edit',
@@ -19,13 +21,18 @@ export class DeviceTypesEditComponent implements OnInit {
 
     private deviceType: DeviceType;
 
+    private subscription: Subscription;
+    private currentType: string;
+
     constructor(
         private fb: FormBuilder,
         private deviceService: DeviceService,
-        private customFieldsService: CustomFieldsService
+        private customFieldsService: CustomFieldsService,
+        private route: ActivatedRoute
     ) { }
 
     ngOnInit() {
+        this.fetchFieldGroups();
 
         this.customFieldsService.getFieldGroups()
             .subscribe((data) => {
@@ -38,6 +45,10 @@ export class DeviceTypesEditComponent implements OnInit {
             FieldGroups: this.fb.array([])
         });
         this.fieldGroups = <FormArray>this.form.controls['FieldGroups'];
+    }
+
+    fetchFieldGroups() {
+        console.log(this.deviceService.getDeviceType('pc'));
     }
 
     initFieldGroup() {
