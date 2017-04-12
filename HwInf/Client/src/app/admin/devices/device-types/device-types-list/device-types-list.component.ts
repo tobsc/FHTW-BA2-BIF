@@ -28,4 +28,17 @@ export class DeviceTypesListComponent implements OnInit {
     this.deviceTypes.push(item);
   }
 
+  removeDeviceType(index: number) {
+      this.deviceTypes.splice(index, 1);
+  }
+
+  onDelete(typeSlug: string, index: number) {
+
+      this.deviceService.deleteDeviceType(typeSlug)
+          .subscribe(
+          () => { this.removeDeviceType(index) },
+          (err) => console.log(err)
+          );
+  }
+
 }

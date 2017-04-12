@@ -26,7 +26,12 @@
               <input type="checkbox" class="flat" name="table_records">
             </td>
             <td>{{ deviceType.Name }}</td>
-            <td><a href="#">Edit</a> <a href="#">Del</a></td>
+            <td>
+                <a routerLink="/admin/geraete/typen/edit/{{deviceType.Slug}}" title="Gerät bearbeiten" class="btn btn-warning btn-sm" aria-label="Bearbeiten"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                <a (click)="onDelete(deviceType.Slug, i)" title="Gerät löschen" class="btn btn-danger btn-sm" aria-label="Löschen">
+                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                </a>
+            </td>
           </tr>
         </tbody>
       </table>

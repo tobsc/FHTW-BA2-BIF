@@ -7,7 +7,8 @@ import {DeviceListComponent} from "./devices/device-list/device-list.component";
 import {CoreModule} from "../core/core.module";
 import {DeviceTypesComponent} from "./devices/device-types/device-types.component";
 import {DeviceTypesListComponent} from "./devices/device-types/device-types-list/device-types-list.component";
-import {DeviceTypesAddComponent} from "./devices/device-types/device-types-add/device-types-add.component";
+import { DeviceTypesAddComponent } from "./devices/device-types/device-types-add/device-types-add.component";
+import { DeviceTypesEditComponent } from "./devices/device-types/device-types-edit/device-types-edit.component";
 import {DeviceCustomFieldsComponent} from "./devices/device-custom-fields/device-custom-fields.component";
 import {DeviceCustomFieldsFieldgroupsListComponent} from "./devices/device-custom-fields/device-custom-fields-fieldgroups-list/device-custom-fields-fieldgroups-list.component";
 import {DeviceCustomFieldsFieldgroupsAddComponent} from "./devices/device-custom-fields/device-custom-fields-fieldgroups-add/device-custom-fields-fieldgroups-add.component";
@@ -40,6 +41,7 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
         DeviceTypesComponent,
         DeviceTypesListComponent,
         DeviceTypesAddComponent,
+        DeviceTypesEditComponent,
         DeviceCustomFieldsComponent,
         DeviceCustomFieldsFieldgroupsListComponent,
         DeviceCustomFieldsFieldgroupsAddComponent,

@@ -111,4 +111,28 @@ export class DeviceService {
             ;
     }
 
+    public addNewDeviceType(body: DeviceType): Observable<DeviceType> {
+        let bodyString = JSON.stringify(body);
+        let headers = new Headers({
+            'Content-Type': 'application/json'
+        });
+        let options = new RequestOptions({ headers: headers });
+        return this.http.post(this.url + "types/", bodyString, options)
+            .map((response: Response) => response.json());
+    }
+
+    public editDeviceType(body: DeviceType): Observable<DeviceType> {
+        let bodyString = JSON.stringify(body);
+        let headers = new Headers({
+            'Content-Type': 'application/json'
+        });
+        let options = new RequestOptions({ headers: headers });
+        return this.http.put(this.url + "types/slug/" + body.Slug, bodyString, options)
+            .map((response: Response) => response.json());
+    }
+
+    public deleteDeviceType(slug: string) {
+        return this.http.delete(this.url + "types/" + slug);
+    }
+
 }

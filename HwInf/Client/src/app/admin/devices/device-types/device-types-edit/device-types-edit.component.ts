@@ -1,36 +1,78 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormArray, NgForm } from "@angular/forms";
+import { DeviceService } from "../../../../shared/services/device.service";
+import { DeviceType } from "../../../../shared/models/device-type.model";
+import { CustomFieldsService } from "../../../../shared/services/custom-fields.service";
+import { FieldGroup } from "../../../../shared/models/fieldgroup.model";
 
 @Component({
-  selector: 'hwinf-device-types-edit',
-  templateUrl: './device-types-edit.component.html',
-  styleUrls: ['./device-types-edit.component.scss']
+    selector: 'hwinf-device-types-edit',
+    templateUrl: './device-types-edit.component.html',
+    styleUrls: ['./device-types-edit.component.scss']
 })
 export class DeviceTypesEditComponent implements OnInit {
+    @Output() deviceTypesListUpdated = new EventEmitter<DeviceType>();
+    private form: FormGroup;
+    private fieldGroups: FormArray;
 
-  constructor() { }
+    private selectableFieldGroups: FieldGroup[] = [];
 
-  ngOnInit() {
-  }
+    private deviceType: DeviceType;
 
-  private value: any[] = [];
+    constructor(
+        private fb: FormBuilder,
+        private deviceService: DeviceService,
+        private customFieldsService: CustomFieldsService
+    ) { }
 
-  public items: Array<string> = ['Amsterdam', 'Antwerp', 'Athens', 'Barcelona',
-    'Berlin', 'Birmingham', 'Bradford', 'Bremen', 'Brussels', 'Bucharest',
-    'Budapest', 'Cologne', 'Copenhagen', 'Dortmund', 'Dresden', 'Dublin', 'Düsseldorf',
-    'Essen', 'Frankfurt', 'Genoa', 'Glasgow', 'Gothenburg', 'Hamburg', 'Hannover',
-    'Helsinki', 'Leeds', 'Leipzig', 'Lisbon', 'Łódź', 'London', 'Kraków', 'Madrid',
-    'Málaga', 'Manchester', 'Marseille', 'Milan', 'Munich', 'Naples', 'Palermo',
-    'Paris', 'Poznań', 'Prague', 'Riga', 'Rome', 'Rotterdam', 'Seville', 'Sheffield',
-    'Sofia', 'Stockholm', 'Stuttgart', 'The Hague', 'Turin', 'Valencia', 'Vienna',
-    'Vilnius', 'Warsaw', 'Wrocław', 'Zagreb', 'Zaragoza'];
+    ngOnInit() {
 
-  public refreshValue(value:any):void {
-    this.value = value;
-  }
+        this.customFieldsService.getFieldGroups()
+            .subscribe((data) => {
+                this.selectableFieldGroups = data;
+            });
 
 
-  public foo(f) {
-    console.log(this.value);
-    this.value.map(i => i.text).forEach(i => console.log(i));
-  }
+        this.form = this.fb.group({
+            Name: ['', Validators.required],
+            FieldGroups: this.fb.array([])
+        });
+        this.fieldGroups = <FormArray>this.form.controls['FieldGroups'];
+    }
+
+    initFieldGroup() {
+        return this.fb.group({
+            Slug: ['', Validators.required]
+        });
+    }
+
+    addFieldGroup() {
+        this.fieldGroups.push(this.initFieldGroup());
+    }
+
+    clearFieldGroup() {
+        for (var i = 0; i < this.fieldGroups.length; i++) {
+            this.removeFieldGroup(i);
+        }
+    }
+
+    removeFieldGroup(i: number): void {
+        this.fieldGroups.removeAt(i);
+    }
+
+    onSubmit(form: NgForm) {
+
+        let deviceType: DeviceType = form.value;
+        this.deviceService.editDeviceType(deviceType).subscribe(
+            (next) => {
+                this.deviceTypesListUpdated.emit(next);
+                this.form.reset();
+                this.clearFieldGroup();
+            },
+            (error) => console.log(error),
+            () => console.log('')
+        );
+
+    }
+
 }

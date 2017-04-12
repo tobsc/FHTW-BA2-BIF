@@ -5,6 +5,8 @@ import {HomeComponent} from "../home/home.component";
 import {DeviceListComponent} from "../admin/devices/device-list/device-list.component";
 import {DeviceAddComponent} from "./devices/device-add/device-add.component";
 import { DeviceTypesComponent } from "./devices/device-types/device-types.component";
+import { DeviceTypesEditComponent } from "./devices/device-types/device-types-edit/device-types-edit.component";
+import { DeviceTypesAddComponent } from "./devices/device-types/device-types-add/device-types-add.component";
 import { DeviceCustomFieldsComponent } from "./devices/device-custom-fields/device-custom-fields.component";
 import { VerwalterGuard } from "../authentication/verwalter.guard";
 import {DeviceEditComponent} from "./devices/device-edit/device-edit.component";
@@ -19,7 +21,11 @@ const ADMIN_ROUTES: Routes = [
             { path: 'geraete', component: DeviceListComponent },
             { path: 'geraete/neu', component: DeviceAddComponent },
             { path: 'geraete/neu/:invnum', component: DeviceDuplicateComponent },
-            { path: 'geraete/typen', component: DeviceTypesComponent },
+            { path: 'geraete/typen', component: DeviceTypesComponent,
+                children: [{ path: '', redirectTo: 'verwalten', pathMatch: 'full' },
+                    { path: 'edit/:slug', component: DeviceTypesEditComponent, canActivate: [AuthGuard] },
+                    { path: 'verwalten', component: DeviceTypesAddComponent, canActivate: [AuthGuard] },]
+            },
             { path: 'geraete/eigene_felder', component: DeviceCustomFieldsComponent },
             { path: 'geraete/page/:page', component: DeviceListComponent },
             { path: 'geraete/invnum/:invnum', component: DeviceEditComponent },

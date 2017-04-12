@@ -1,14 +1,64 @@
-<div class="clearfix"></div>
-<div class="form-group">
-  <ng-select style="min-height:34px" [multiple]="true"
-             [items]="items"
-             (data)="refreshValue($event)"
-             placeholder="No city selected" #f></ng-select>
+﻿<div class="x_panel">
+    <div class="x_title">
+        <h2>Gerätetyp <b>PC</b> editieren</h2>
+        <div class="close" style="transform: translate(17px,-3px)">
+            <span class="btn btn-danger" routerLink="/admin/geraete/typen/verwalten">&times;</span>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="x_content">
+        <br>
+        <form [formGroup]="form" (ngSubmit)="onSubmit(form)" id="demo-form2" class="form-horizontal form-label-left">
+            <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-11" for="typename">
+                    Typ Name
+                </label>
+                <div class="col-md-6 col-sm-6 col-xs-11">
+                    <input type="text" id="typename" required="required" class="form-control col-md-7 col-xs-12" formControlName="Name">
+                </div>
+            </div>
+            <div id="meta_fields" formArrayName="FieldGroups">
+
+                <div class="form-group" *ngFor="let field of form.controls.FieldGroups.controls; let i = index;">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                        Feldgruppe
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="row">
+
+                            <div class="col-xs-12">
+                                <div class="form-group" [formGroupName]="i">
+                                    <div class="field-select">
+                                        <select class="select2_group form-control" name="value1" id="fieldgroup-{{i+1}}" formControlName="Slug">
+                                            <option *ngFor="let selectableFieldGroup of selectableFieldGroups" value="{{selectableFieldGroup.Slug}}">
+                                                {{selectableFieldGroup.Name}}
+                                            </option>
+                                        </select>
+                                        <a class="btn btn-danger btn-rm-row" (click)="removeFieldGroup(i)"><i class="fa fa-times" aria-hidden="true"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                    <button type="button" class="btn btn-default" (click)="addFieldGroup()">Feldgruppe hinzufügen</button>
+                </div>
+            </div>
+            <div class="ln_solid"></div>
+            <div class="form-group">
+                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                    <div class="weiter-zurueck-btns">
+                    <button type="submit" class="btn btn-success" [disabled]="!form.valid">Erstellen</button>
+                    <button routerLink="/admin/geraete/typen/verwalten" class="btn btn-danger" [disabled]="false">Abbrechen</button>
+                    </div>
+                </div>
+                   
+            </div>
+        </form>
+    </div>
 </div>
-
-<div class="form-group">
-  <input type="text" class="form-control">
-</div>
-
-
-<button (click)="foo(f.data)">test</button>
