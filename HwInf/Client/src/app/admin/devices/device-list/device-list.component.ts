@@ -45,7 +45,7 @@ export class DeviceListComponent implements OnInit, OnDestroy {
                   console.log("offset: " + (this.currentPage-1) *  2);
 
 
-                  this.deviceService.getDevices("", 2, (this.currentPage-1) *  2 ).subscribe(
+                  this.deviceService.getDevices("", 100, (this.currentPage-1) *  100 ).subscribe(
                       (data: DeviceList) => {
                           this.maxPages = data.MaxPages;
                           this.devices = data.Devices;
