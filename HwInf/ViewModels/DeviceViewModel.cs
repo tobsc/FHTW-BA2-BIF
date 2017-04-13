@@ -23,7 +23,6 @@ namespace HwInf.ViewModels
         public IEnumerable<AdditionalInvNumViewModel> AdditionalInvNums { get; set; }
         public IEnumerable<object> FieldGroups { get; set; }
 
-
         public bool IsActive { get; set; } = true;
 
         public DeviceViewModel()

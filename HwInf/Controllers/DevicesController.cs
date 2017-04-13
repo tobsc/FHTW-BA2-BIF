@@ -301,7 +301,6 @@ namespace HwInf.Controllers
                 return BadRequest(ModelState);
             }
 
-
             if (string.IsNullOrWhiteSpace(vmdl.Name))
             {
                 return BadRequest("Bitte einen Namen für das Gerät angeben.");
