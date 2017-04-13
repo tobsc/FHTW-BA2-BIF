@@ -375,8 +375,14 @@ namespace HwInf.Common.BL
                 });
             }
 
+
             result = order.Equals("ASC")
-                ? result.OrderBy(i => i.GetType().GetProperty(orderBy).GetValue(i, null)).ToList()
+                ? result.OrderBy(i =>
+                {
+                    var prop = i.GetType().GetProperty(orderBy).GetValue(i, null);
+                    return prop;
+
+                }).ToList()
                 : result.OrderByDescending(i => i.GetType().GetProperty(orderBy).GetValue(i, null)).ToList();
 
             result = result
