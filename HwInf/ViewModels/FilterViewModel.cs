@@ -16,7 +16,7 @@ namespace HwInf.ViewModels
         public string OrderBy { get; set; }
         public int Offset { get; set; }
         public int Limit { get; set; }
-        public ICollection<DeviceMeta> MetaQuery { get; set; }
+        public ICollection<DeviceMetaViewModel> MetaQuery { get; set; }
 
 
         public FilterViewModel()
@@ -27,7 +27,16 @@ namespace HwInf.ViewModels
 
         public ICollection<Device> FilteredList(BL bl)
         {
-            var bla = bl.GetFilteredDevices(MetaQuery, DeviceType, Order, OrderBy, Offset, Limit)
+
+            var metaViewModel = MetaQuery.Select(i =>
+            {
+                var deviceMeta = new DeviceMeta();
+                i.ApplyValues(deviceMeta);
+                return deviceMeta;
+
+            }).ToList();
+
+            var bla = bl.GetFilteredDevices(metaViewModel, DeviceType, Order, OrderBy, Offset, Limit)
                 .ToList();
 
 

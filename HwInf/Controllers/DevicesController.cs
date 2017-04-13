@@ -201,6 +201,9 @@ namespace HwInf.Controllers
         public IHttpActionResult PostFilter([FromBody] FilterViewModel vmdl)
         {
 
+            vmdl.OrderBy = vmdl.OrderBy ?? "Name";
+            vmdl.Order = vmdl.Order ?? "ASC";
+
             var b = vmdl.FilteredList(_bl).ToList().Select(i => new DeviceViewModel(i).LoadMeta(i)).ToList();
             var count = b.Count;
             b = vmdl.Limit < 0 

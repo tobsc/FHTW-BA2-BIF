@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HwInf.Common.Models
 {
 
     [Table("Persons")]
-    public class Person
+    public class Person : IComparable, IComparable<Person>
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -22,5 +23,15 @@ namespace HwInf.Common.Models
         [Required]
         public virtual Role Role { get; set; }
         public string Room { get; set; }
+        public int CompareTo(Person obj)
+        {
+            return LastName.CompareTo(obj.LastName);
+        }
+
+        public int CompareTo(object obj)
+        {
+            var o = obj as Person;
+            return CompareTo(o);
+        }
     }
 }

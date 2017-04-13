@@ -16,12 +16,11 @@ const ADMIN_ROUTES: Routes = [
         children: [
             { path: '', redirectTo: 'dashboard', pathMatch: 'full', },
             { path: 'dashboard', component: AdminDashboardComponent },
-            { path: 'geraete', component: DeviceListComponent },
-            { path: 'geraete/neu', component: DeviceAddComponent },
-            { path: 'geraete/neu/:invnum', component: DeviceDuplicateComponent },
+            { path: 'geraete/verwalten', component: DeviceListComponent },
+            { path: 'geraete/erstellen', component: DeviceAddComponent },
+            { path: 'geraete/erstellen/:invnum', component: DeviceDuplicateComponent },
             { path: 'geraete/typen', component: DeviceTypesComponent },
-            { path: 'geraete/eigene_felder', component: DeviceCustomFieldsComponent },
-            { path: 'geraete/page/:page', component: DeviceListComponent },
+            { path: 'geraete/felder', component: DeviceCustomFieldsComponent },
             { path: 'geraete/invnum/:invnum', component: DeviceEditComponent },
             { path: '**', component: PageNotFoundComponent }
         ]

@@ -10,3 +10,9 @@
 .th-name {
   width: 30%;
 }
+
+thead th {
+  i { display: none };
+  &.active { i {display: inline} }
+  cursor: pointer;
+}

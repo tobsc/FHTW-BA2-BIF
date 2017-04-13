@@ -9,6 +9,7 @@ using System.Data.Entity.Validation;
 using System.Data.SqlTypes;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using System.Security;
 using HwInf.Common.Models;
 using JWT;
@@ -379,11 +380,11 @@ namespace HwInf.Common.BL
             result = order.Equals("ASC")
                 ? result.OrderBy(i =>
                 {
-                    var prop = i.GetType().GetProperty(orderBy).GetValue(i, null);
+                    var prop = i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null);
                     return prop;
 
                 }).ToList()
-                : result.OrderByDescending(i => i.GetType().GetProperty(orderBy).GetValue(i, null)).ToList();
+                : result.OrderByDescending(i => i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null)).ToList();
 
             result = result
                 .Distinct()
