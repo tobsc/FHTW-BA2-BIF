@@ -59,7 +59,7 @@ export class DeviceService {
             .map((response: Response) => response.json());
     }
 
-    public getDeviceType(type: string): Observable<DeviceType[]> {
+    public getDeviceType(type: string): Observable<DeviceType> {
         return this.http.get(this.url + 'types/' + type)
             .map((response: Response) => response.json());
     }

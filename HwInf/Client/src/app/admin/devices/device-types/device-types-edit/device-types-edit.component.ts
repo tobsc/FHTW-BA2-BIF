@@ -5,7 +5,7 @@ import { DeviceType } from "../../../../shared/models/device-type.model";
 import { CustomFieldsService } from "../../../../shared/services/custom-fields.service";
 import { FieldGroup } from "../../../../shared/models/fieldgroup.model";
 import { Subscription, Observable } from "rxjs";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Params } from "@angular/router";
 
 @Component({
     selector: 'hwinf-device-types-edit',
@@ -20,9 +20,12 @@ export class DeviceTypesEditComponent implements OnInit {
     private selectableFieldGroups: FieldGroup[] = [];
 
     private deviceType: DeviceType;
+    private deviceTypes: DeviceType[] = [];
+
 
     private subscription: Subscription;
     private currentType: string;
+    private startTypeName: string;
 
     constructor(
         private fb: FormBuilder,
@@ -32,7 +35,24 @@ export class DeviceTypesEditComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.fetchFieldGroups();
+        this.route.params.subscribe((params: Params) => {
+            //to set currentType to the actual wanted type
+            this.currentType = params['slug']
+        });
+
+        //get DeviceType via Slug
+        this.deviceService.getDeviceTypes().map(devType => {
+            return devType.filter(item => item.Slug === this.currentType)[0];
+        }).subscribe(devType => this.startTypeName = devType.Name);
+
+
+        //this.deviceService.getDeviceTypes().subscribe((deviceTypes: DeviceType[]) => this.startTypeName = deviceTypes.find(slugdevice => slugdevice.Slug===this.currentType).Slug)
+        console.log(this.startTypeName);
+        console.log(this.currentType);
+
+        //STARTTYPENAME UNDEFINDED ABER ÜBERSCHRIFFT IST DA?!?!?!
+            
+
 
         this.customFieldsService.getFieldGroups()
             .subscribe((data) => {
@@ -41,15 +61,23 @@ export class DeviceTypesEditComponent implements OnInit {
 
 
         this.form = this.fb.group({
-            Name: ['', Validators.required],
+            Name: [this.startTypeName, Validators.required],
             FieldGroups: this.fb.array([])
         });
         this.fieldGroups = <FormArray>this.form.controls['FieldGroups'];
+
+        this.customFieldsService.getFieldGroupsOfType(this.currentType)
+            .subscribe((data) => {
+                for (let fg of data) {
+                    this.fieldGroups.push(this.fb.group({
+                        Slug: [fg.Slug, Validators.required]
+                    }))
+                }
+            });
+
     }
 
-    fetchFieldGroups() {
-        console.log(this.deviceService.getDeviceType('pc'));
-    }
+    
 
     initFieldGroup() {
         return this.fb.group({
