@@ -126,14 +126,6 @@ namespace HwInf.Common.BL
             return dev;
         }
 
-        public DeviceMeta CreateDeviceMeta(DeviceMeta dm)
-        {
-            if (!IsAdmin() && !IsVerwalter()) return null;
-
-            _dal.DeviceMeta.Add(dm);
-            return dm;
-        }
-
         public DeviceType CreateDeviceType()
         {
             if (!IsAdmin() && !IsVerwalter()) return null;

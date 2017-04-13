@@ -47,12 +47,44 @@ namespace HwInf.Tests
         {
             
             var device = _bl.CreateDevice();
-
-            Console.WriteLine("test");
-
-            
-
             Assert.NotNull(device);
         }
+
+        [Test]
+        public void bl_should_create_deviceType()
+        {
+
+            var obj = _bl.CreateDeviceType();
+            Assert.NotNull(obj);
+        }
+
+
+        [Test]
+        public void bl_should_create_field()
+        {
+            var obj = _bl.CreateField();
+            Assert.NotNull(obj);
+        }
+
+
+        [Test]
+        public void bl_should_create_fieldGroup()
+        {
+            var obj = _bl.CreateFieldGroup();
+            Assert.NotNull(obj);
+        }
+
+        [Test]
+        public void bl_should_return_deviceType_by_slug()
+        {
+            var obj = _bl.CreateField();
+            obj.Slug = "testtype";
+
+            var getObj = _bl.GetFields("testtype");
+
+            Assert.True(obj.Equals(getObj));
+
+        }
+
     }
 }
