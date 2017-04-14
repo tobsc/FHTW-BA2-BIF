@@ -22,7 +22,7 @@
   </div>
   <div class="x_content">
     <div class="table-responsive">
-      <table class="table table-hover table-striped">
+      <table class="table table-hover table-striped table-bordered">
         <thead>
         <tr>
           <th class="th-status">Status</th> <!-- TODO: order by status-->
@@ -32,8 +32,8 @@
               (click)="onChangeOrder()"
               skipLocationChange>
             InvNum
-            <i *ngIf="!isAscending" class="fa fa-caret-down" aria-hidden="true"></i>
-            <i *ngIf="isAscending" class="fa fa-caret-up" aria-hidden="true"></i>
+            <i *ngIf="!isAscending" class="fa fa-sort-amount-desc" aria-hidden="true"></i>
+            <i *ngIf="isAscending" class="fa fa-sort-amount-asc" aria-hidden="true"></i>
           </th>
           <th class="th-name"
               routerLink="/admin/geraete/verwalten"
@@ -42,8 +42,8 @@
               (click)="onChangeOrder()"
               skipLocationChange>
             Name
-            <i *ngIf="!isAscending" class="fa fa-caret-down" aria-hidden="true"></i>
-            <i *ngIf="isAscending" class="fa fa-caret-up" aria-hidden="true"></i>
+            <i *ngIf="!isAscending" class="fa fa-sort-amount-desc" aria-hidden="true"></i>
+            <i *ngIf="isAscending" class="fa fa-sort-amount-asc" aria-hidden="true"></i>
           </th>
           <th routerLink="/admin/geraete/verwalten"
               [ngClass]="{active: router.url.match('orderby=type') }"
@@ -51,8 +51,8 @@
               (click)="onChangeOrder()"
               skipLocationChange>
             Typ
-            <i *ngIf="!isAscending" class="fa fa-caret-down" aria-hidden="true"></i>
-            <i *ngIf="isAscending" class="fa fa-caret-up" aria-hidden="true"></i>
+            <i *ngIf="!isAscending" class="fa fa-sort-amount-desc" aria-hidden="true"></i>
+            <i *ngIf="isAscending" class="fa fa-sort-amount-asc" aria-hidden="true"></i>
           </th>
           <th routerLink="/admin/geraete/verwalten"
               [ngClass]="{active: router.url.match('orderby=createdate') }"
@@ -60,8 +60,8 @@
               (click)="onChangeOrder()"
               skipLocationChange>
             Erstellt am
-            <i *ngIf="!isAscending" class="fa fa-caret-down" aria-hidden="true"></i>
-            <i *ngIf="isAscending" class="fa fa-caret-up" aria-hidden="true"></i>
+            <i *ngIf="!isAscending" class="fa fa-sort-amount-desc" aria-hidden="true"></i>
+            <i *ngIf="isAscending" class="fa fa-sort-amount-asc" aria-hidden="true"></i>
           </th>
           <th routerLink="/admin/geraete/verwalten"
               [ngClass]="{active: router.url.match('orderby=person') }"
@@ -69,8 +69,8 @@
               (click)="onChangeOrder()"
               skipLocationChange>
             Verwalter
-            <i *ngIf="!isAscending" class="fa fa-caret-down" aria-hidden="true"></i>
-            <i *ngIf="isAscending" class="fa fa-caret-up" aria-hidden="true"></i>
+            <i *ngIf="!isAscending" class="fa fa-sort-amount-desc" aria-hidden="true"></i>
+            <i *ngIf="isAscending" class="fa fa-sort-amount-asc" aria-hidden="true"></i>
           </th>
           <th>Aktion</th>
         </tr>

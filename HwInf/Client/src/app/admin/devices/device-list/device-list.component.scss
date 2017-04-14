@@ -12,7 +12,13 @@
 }
 
 thead th {
-  i { display: none };
+  i {
+    display: none;
+    font-size: 0.7em;
+  };
   &.active { i {display: inline} }
+  &:hover {
+    i { display: inline}
+  }
   cursor: pointer;
 }
