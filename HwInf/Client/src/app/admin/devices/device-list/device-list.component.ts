@@ -46,11 +46,6 @@ export class DeviceListComponent implements OnInit, OnDestroy {
             }
         );
 
-        this.userService.getOwners().subscribe(
-
-        );
-
-
 
         this.fetchData();
     }

@@ -6,6 +6,6 @@ export class Filter {
         public OrderBy: string = '',
         public Offset: number = -1,
         public Limit: number = -1,
-        public MetaQuery: any[] = []
+        public MetaQuery: DeviceMeta[] = []
     ) {}
 }
