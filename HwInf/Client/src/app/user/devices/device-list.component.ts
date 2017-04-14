@@ -8,6 +8,9 @@ import {DeviceMeta} from "../../shared/models/device-meta.model";
 import {IDictionary} from "../../shared/common/dictionary.interface";
 import {Dictionary} from "../../shared/common/dictionary.class";
 import {Filter} from "../../shared/models/filter.model";
+import {DeviceType} from "../../shared/models/device-type.model";
+import {CustomFieldsService} from "../../shared/services/custom-fields.service";
+import {FieldGroup} from "../../shared/models/fieldgroup.model";
 
 @Component({
   selector: 'hwinf-device-list',
@@ -18,30 +21,32 @@ export class DeviceListComponent implements OnInit, OnDestroy {
 
   private currentPage: number = 1;
   private subscription: Subscription;
-  private currentType: string;
+  private currentType: DeviceType;
   private devices: Device[];
   private filter: Filter;
+    private customFields: Observable<FieldGroup[]>;
 
   constructor(
       private deviceService: DeviceService,
+      private customFieldsService: CustomFieldsService,
       private cartService: CartService,
       private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
 
-      console.log('yes');
-
-
       this.subscription = this.route.params
         .map((params) => params['type'])
         .do((type) => {
             if (type)
-                this.deviceService.getDeviceTypes().map(i => i.filter(x => x.Slug == type)[0]).map(i => i.Name).subscribe(
+                this.deviceService.getDeviceTypes().map(i => i.filter(x => x.Slug == type)[0]).subscribe(
                     i => {
                         this.currentType = i;
                     }
                 );
+        })
+        .do((type) => {
+            this.customFields = this.customFieldsService.getFieldGroupsOfType(type);
         })
         .flatMap((type) => {
             this.filter = new Filter();

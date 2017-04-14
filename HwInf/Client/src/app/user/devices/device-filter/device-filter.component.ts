@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, Input} from '@angular/core';
 import {CustomFieldsService} from "../../../shared/services/custom-fields.service";
 import {FieldGroup} from "../../../shared/models/fieldgroup.model";
+import {DeviceType} from "../../../shared/models/device-type.model";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'hwinf-device-filter',
@@ -9,7 +11,9 @@ import {FieldGroup} from "../../../shared/models/fieldgroup.model";
 })
 export class DeviceFilterComponent implements OnInit {
 
-  private fieldsGroups: FieldGroup[];
+  @Input() deviceType: DeviceType;
+  @Input() customFields: Observable<FieldGroup[]>;
+  private fieldGroups: FieldGroup[];
 
   constructor(
       private customFieldsService: CustomFieldsService
@@ -17,11 +21,7 @@ export class DeviceFilterComponent implements OnInit {
 
   ngOnInit() {
 
-
-    this.customFieldsService.getFieldGroups().subscribe(
-        (data) => this.fieldsGroups = data
-    );
-
+      this.customFields.subscribe( (data) => this.fieldGroups = data );
   }
 
 }

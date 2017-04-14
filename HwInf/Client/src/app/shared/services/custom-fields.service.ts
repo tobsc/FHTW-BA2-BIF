@@ -27,7 +27,7 @@ export class CustomFieldsService {
         .map((response: Response) => response.json());
   }
 
-  public getFieldGroupsOfType ( deviceTypeSlug: string): Observable<FieldGroup[]> {
+  public getFieldGroupsOfType ( deviceTypeSlug: string = ''): Observable<FieldGroup[]> {
     return this.http.get('/api/customfields/fieldgroups/' + deviceTypeSlug)
         .map((response: Response) => response.json());
   }

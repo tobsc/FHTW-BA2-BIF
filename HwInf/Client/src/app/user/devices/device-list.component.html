@@ -24,7 +24,7 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                    <hwinf-device-filter></hwinf-device-filter>
+                    <hwinf-device-filter [deviceType]="currentType" [customFields]="customFields"></hwinf-device-filter>
                 </div>
             </div>
         </div>
@@ -33,7 +33,7 @@
 
             <div class="x_panel">
                 <div class="x_title">
-                    <div *ngIf="currentType!=null">{{currentType}}</div>
+                    <div *ngIf="currentType!=null">{{currentType.Name}}</div>
                     <div *ngIf="currentType==null">Alle</div>
 
                 </div>

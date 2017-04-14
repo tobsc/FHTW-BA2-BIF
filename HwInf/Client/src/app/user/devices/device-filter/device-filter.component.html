@@ -1,5 +1,7 @@
 <ul>
-  <li *ngFor="let fieldGroup of fieldsGroups">
+
+  {{deviceType?.Slug}}
+  <li *ngFor="let fieldGroup of fieldGroups">
     {{fieldGroup.Name}}
     <ul>
       <li *ngFor="let field of fieldGroup.Fields">
