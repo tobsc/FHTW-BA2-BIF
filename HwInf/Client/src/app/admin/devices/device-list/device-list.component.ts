@@ -94,7 +94,8 @@ export class DeviceListComponent implements OnInit, OnDestroy {
         this.fetchData();
     }
 
-    onDeviceTypeChange(val: string) {
+    public onDeviceTypeChange(val: string) {
+        this.router.navigate(['/admin/geraete/verwalten'], {skipLocationChange: true, queryParams: {'page' : 1, 'orderby' : this.filter.OrderBy}});
         this.filter.DeviceType = val;
         this.fetchData();
     }

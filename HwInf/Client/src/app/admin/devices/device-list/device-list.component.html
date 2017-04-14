@@ -79,7 +79,7 @@
         <tr *ngFor="let device of devices; let i = index">
           <td><div class="label label-success label-device-status">{{device.Status.Description}}</div></td>
           <td>{{device.InvNum}}</td>
-          <th scope="row" ><a [routerLink]="['/admin/geraete/invnum/', device.InvNum]">{{device.Name}}</a></th>
+          <th scope="row" ><a [routerLink]="['/admin/geraete/verwalten/', device.InvNum]">{{device.Name}}</a></th>
           <td>{{device.DeviceType.Name}}</td>
           <td>{{device.CreateDate}}</td>
           <td title="({{device.Verwalter.Uid}}) {{device.Verwalter.Name}} {{device.Verwalter.LastName}}">{{device.Verwalter.Name}} {{device.Verwalter.LastName}}</td>

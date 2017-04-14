@@ -21,7 +21,7 @@ const ADMIN_ROUTES: Routes = [
             { path: 'geraete/erstellen/:invnum', component: DeviceDuplicateComponent },
             { path: 'geraete/typen', component: DeviceTypesComponent },
             { path: 'geraete/felder', component: DeviceCustomFieldsComponent },
-            { path: 'geraete/invnum/:invnum', component: DeviceEditComponent },
+            { path: 'geraete/verwalten/:invnum', component: DeviceEditComponent },
             { path: '**', component: PageNotFoundComponent }
         ]
     }
