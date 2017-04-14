@@ -118,8 +118,8 @@
       <div class="form-group" formArrayName="FieldGroups">
 
 
-        <div class="row gutter-10">
-          <div class="col-md-6" *ngFor="let fieldGroup of form.controls.FieldGroups.controls; let i = index">
+        <div class="row gutter-10 auto-clear">
+          <div class="col-xs-12 col-md-6 col-lg-4" *ngFor="let fieldGroup of form.controls.FieldGroups.controls; let i = index">
             <div class="x_panel">
               <div class="x_title">
                 <h2>{{fieldGroups[i].Name}}</h2>

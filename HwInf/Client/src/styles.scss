@@ -2,7 +2,8 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import "assets/stylesheets/vendor/_gentelella";
-@import "assets/stylesheets/partials/_mixins.scss";
+@import "assets/stylesheets/partials/mixins";
+@import "assets/stylesheets/partials/auto-clear";
 
 html, body {
     font-size: 16px;
@@ -100,3 +101,6 @@ html {
 }
 
 
+.form-control {
+  z-index: 0;
+}
