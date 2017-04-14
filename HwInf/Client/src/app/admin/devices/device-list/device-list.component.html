@@ -30,6 +30,7 @@
               [ngClass]="{active: router.url.match('orderby=invnum') }"
               [queryParams]="{page: 1, orderby: 'invnum'}"
               (click)="onChangeOrder()"
+              title="Nach Inventarnummer sortieren"
               skipLocationChange>
             InvNum
             <i *ngIf="!isAscending" class="fa fa-sort-amount-desc" aria-hidden="true"></i>
@@ -40,6 +41,7 @@
               [ngClass]="{active: router.url.match('orderby=name') }"
               [queryParams]="{page: 1, orderby: 'name'}"
               (click)="onChangeOrder()"
+              title="Nach Name sortieren"
               skipLocationChange>
             Name
             <i *ngIf="!isAscending" class="fa fa-sort-amount-desc" aria-hidden="true"></i>
@@ -49,6 +51,7 @@
               [ngClass]="{active: router.url.match('orderby=type') }"
               [queryParams]="{page: 1, orderby: 'type'}"
               (click)="onChangeOrder()"
+              title="Nach Typ sortieren"
               skipLocationChange>
             Typ
             <i *ngIf="!isAscending" class="fa fa-sort-amount-desc" aria-hidden="true"></i>
@@ -58,6 +61,7 @@
               [ngClass]="{active: router.url.match('orderby=createdate') }"
               [queryParams]="{page: 1, orderby: 'createdate'}"
               (click)="onChangeOrder()"
+              title="Nach Erstellungsdatum sortieren"
               skipLocationChange>
             Erstellt am
             <i *ngIf="!isAscending" class="fa fa-sort-amount-desc" aria-hidden="true"></i>
@@ -67,6 +71,7 @@
               [ngClass]="{active: router.url.match('orderby=person') }"
               [queryParams]="{page: 1, orderby: 'person'}"
               (click)="onChangeOrder()"
+              title="Nach Verwalter sortieren"
               skipLocationChange>
             Verwalter
             <i *ngIf="!isAscending" class="fa fa-sort-amount-desc" aria-hidden="true"></i>

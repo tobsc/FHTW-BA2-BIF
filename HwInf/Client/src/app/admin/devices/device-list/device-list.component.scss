@@ -13,12 +13,12 @@
 
 thead th {
   i {
-    display: none;
+    visibility: hidden;
     font-size: 0.7em;
   };
-  &.active { i {display: inline} }
+  &.active { i {visibility: visible} }
   &:hover {
-    i { display: inline}
+    i { visibility: visible}
   }
   cursor: pointer;
 }

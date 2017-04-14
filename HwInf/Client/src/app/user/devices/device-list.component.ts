@@ -24,11 +24,9 @@ export class DeviceListComponent implements OnInit, OnDestroy {
   private currentType: DeviceType;
   private devices: Device[];
   private filter: Filter;
-    private customFields: Observable<FieldGroup[]>;
 
   constructor(
       private deviceService: DeviceService,
-      private customFieldsService: CustomFieldsService,
       private cartService: CartService,
       private route: ActivatedRoute
   ) { }
@@ -44,9 +42,6 @@ export class DeviceListComponent implements OnInit, OnDestroy {
                         this.currentType = i;
                     }
                 );
-        })
-        .do((type) => {
-            this.customFields = this.customFieldsService.getFieldGroupsOfType(type);
         })
         .flatMap((type) => {
             this.filter = new Filter();
