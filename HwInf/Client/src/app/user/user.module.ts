@@ -19,6 +19,7 @@ import {JwtHttpService} from "../shared/services/jwt-http.service";
 import {XHRBackend, RequestOptions} from "@angular/http";
 import {AuthService} from "../authentication/auth.service";
 import {PubSubService} from "../shared/services/pub-sub.service";
+import { DeviceFilterComponent } from './devices/device-filter/device-filter.component';
 
 
 export function jwtFactory(backend: XHRBackend, options: RequestOptions, router: Router, authService: AuthService, pubsub: PubSubService) {
@@ -34,7 +35,8 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
         OrderStep1Component,
         OrderStep2Component,
         OrderComponent,
-        OrderStep3Component
+        OrderStep3Component,
+        DeviceFilterComponent
     ],
     imports: [
         CommonModule,

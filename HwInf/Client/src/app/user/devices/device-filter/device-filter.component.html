@@ -1,0 +1,10 @@
+<ul>
+  <li *ngFor="let fieldGroup of fieldsGroups">
+    {{fieldGroup.Name}}
+    <ul>
+      <li *ngFor="let field of fieldGroup.Fields">
+        {{ field.Name }}
+      </li>
+    </ul>
+  </li>
+</ul>
