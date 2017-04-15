@@ -7,11 +7,15 @@
 .checkbox {
   border-bottom: 1px dotted rgba(#000, 0.2);
   display: flex;
-  justify-content: space-between
+  justify-content: space-between;
+
+  input[type=checkbox] {
+    margin-left: 0;
+  }
 }
 
-input[type="checkbox"]:not(:checked) {
-  opacity: 0.5;
+input[type="checkbox"]:not(:checked) ~ input[type="number"] {
+  visibility: hidden;
 }
 
 input[type="number"] {

@@ -15,9 +15,9 @@
       </div>
       <div class="x_content" [(collapse)]="isCollapsedArr[i]" formArrayName="MetaQuery">
         <div class="checkbox" *ngFor="let field of fieldGroup.Fields;let j = index;" [formGroupName]="j">
-          <label>
-            <input type="checkbox" value="{{field.Slug}}" name="{{field.Slug}}" formControlName="isChecked">
-            {{field.Name}} - {{i * 4 + j}}
+          <input type="checkbox" id="{{fieldGroup.Slug}}-{{j}}" name="{{field.Slug}}" formControlName="isChecked">
+          <label htmlFor="{{fieldGroup.Slug}}-{{j}}">
+          {{field.Name}}
           </label>
           <input type="hidden" formControlName="FieldGroupSlug" value="{{fieldGroup.Slug}}" ngModel="{{fieldGroup.Slug}}">
           <input type="hidden" formControlName="FieldSlug" value="{{field.Slug}}" ngModel="{{field.Slug}}">
