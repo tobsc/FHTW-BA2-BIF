@@ -60,7 +60,9 @@ export class DeviceTypesAddComponent implements OnInit {
 
   onSubmit(form : NgForm) {
 
-    let deviceType: DeviceType = form.value;
+      let deviceType: DeviceType = form.value;
+
+      console.log(deviceType);
     this.deviceService.addDeviceType(deviceType).subscribe(
         (next) => {
           this.deviceTypesListUpdated.emit(next);

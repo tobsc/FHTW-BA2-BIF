@@ -69,11 +69,6 @@ export class DeviceService {
             .map((response: Response) => response.json());
     }
 
-    public getDeviceType(type: string): Observable<DeviceType> {
-        return this.http.get(this.url + 'types/' + type)
-            .map((response: Response) => response.json());
-    }
-
     /**
      * Returns objects of type DeviceComponent, which holds the component name e.g Prozessor
      * and all values present in the database
@@ -93,6 +88,7 @@ export class DeviceService {
 
     public addDeviceType(body: DeviceType): Observable<DeviceType> {
         let bodyString = JSON.stringify(body);
+        console.log(bodyString);
         let headers = new Headers({
            'Content-Type': 'application/json'
         });

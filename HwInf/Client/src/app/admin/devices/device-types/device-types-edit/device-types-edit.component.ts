@@ -50,8 +50,9 @@ export class DeviceTypesEditComponent implements OnInit {
         this.deviceService.getDeviceTypes().map(devType => {
             return devType.filter(item => item.Slug === this.currentType)[0];
         }).subscribe((devType: DeviceType) => {
-            console.log(devType.Name);
+            console.log(devType);
             this.startTypeName = devType.Name;
+            this.deviceType = devType;
             this.initForm();
         });
 
@@ -107,9 +108,13 @@ export class DeviceTypesEditComponent implements OnInit {
     }
 
     onSubmit(form: NgForm) {
+        
+        this.deviceType.Name = form.value.Name;
 
-        let deviceType: DeviceType = form.value;
-        this.deviceService.editDeviceType(deviceType).subscribe(
+        //FieldGroup not an array
+        this.deviceType.FieldGroups = form.value.FieldGroups;
+
+        this.deviceService.editDeviceType(this.deviceType).subscribe(
             (next) => {
                 this.deviceTypesListUpdated.emit(next);
                 this.form.reset();

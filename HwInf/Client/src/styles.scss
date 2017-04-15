@@ -104,3 +104,9 @@ html {
 .form-control {
   z-index: 0;
 }
+
+.weiter-zurueck-btns {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
