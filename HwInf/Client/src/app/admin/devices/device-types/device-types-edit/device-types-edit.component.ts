@@ -38,8 +38,14 @@ export class DeviceTypesEditComponent implements OnInit {
         this.route.params.subscribe((params: Params) => {
             //to set currentType to the actual wanted type
             this.currentType = params['slug']
+            this.fillFormWithDeviceType(this.currentType);
         });
 
+        
+
+    }
+
+    fillFormWithDeviceType(slug: string) {
         //get DeviceType via Slug
         this.deviceService.getDeviceTypes().map(devType => {
             return devType.filter(item => item.Slug === this.currentType)[0];
@@ -59,7 +65,6 @@ export class DeviceTypesEditComponent implements OnInit {
             Name: [this.startTypeName, Validators.required],
             FieldGroups: this.fb.array([])
         });
-
     }
 
     initForm() {
