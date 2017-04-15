@@ -8,10 +8,12 @@ namespace HwInf
 {
     public class SlugGenerator
     {
-        private static readonly BL Bl = new BL();
+        private static BL Bl;
 
-        public static string GenerateSlug(string value, string entity = null)
+        public static string GenerateSlug(BL bl, string value, string entity = null)
         {
+            Bl = bl ?? new BL();
+
             //First to lower case
             value = value.ToLowerInvariant();
 

@@ -19,14 +19,14 @@ namespace HwInf.Common.BL
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class BL
     {
-        private readonly HwInfContext _dal;
+        private readonly IDAL _dal;
 
         public BL()
         {
-            _dal = new HwInfContext();
+            
         }
 
-        public BL(HwInfContext dal)
+        public BL(IDAL dal)
         {
             _dal = dal;
         }
@@ -40,9 +40,7 @@ namespace HwInf.Common.BL
         // Read
         public IEnumerable<Device> GetDevices(bool onlyActive = true, string typeSlug = "")
         {
-            var obj = _dal.Devices.Include(x => x.Type)
-                .Include(x => x.DeviceMeta)
-                .Include(x => x.Type.FieldGroups.Select(y => y.Fields));
+            var obj = _dal.Devices;
 
             obj = onlyActive ? obj.Where(i => i.IsActive) : obj;
             obj = !String.IsNullOrWhiteSpace(typeSlug)
@@ -55,42 +53,33 @@ namespace HwInf.Common.BL
         public Device GetSingleDevice(int deviceId)
         {
             return
-                _dal.Devices.Include(x => x.DeviceMeta)
-                    .Include(x => x.Type.FieldGroups.Select(y => y.Fields))
-                    .Single(i => i.DeviceId == deviceId);
+                _dal.Devices
+                    .SingleOrDefault(i => i.DeviceId == deviceId);
         }
 
         public Device GetSingleDevice(string deviceInvNum)
         {
             return _dal.Devices
-                .Include(x => x.DeviceMeta)
-                .Include(x => x.Type.FieldGroups.Select(y => y.Fields))
-                .OrderByDescending(i => i.CreateDate)
-                .FirstOrDefault(i => i.InvNum == deviceInvNum);
+                .SingleOrDefault(i => i.InvNum == deviceInvNum);
         }
 
         public DeviceType GetDeviceType(int typeId)
         {
             return
-                _dal.DeviceTypes.Include(x => x.FieldGroups.Select(y => y.DeviceTypes))
+                _dal.DeviceTypes
                     .SingleOrDefault(i => i.TypeId == typeId);
         }
 
         public DeviceType GetDeviceType(string typeSlug)
         {
-            if (string.IsNullOrWhiteSpace(typeSlug))
-            {
-                return null;
-            }
-
             return
-                _dal.DeviceTypes.Include(x => x.FieldGroups.Select(y => y.DeviceTypes))
-                    .Single(i => i.Slug.ToLower().Equals(typeSlug.ToLower()));
+                _dal.DeviceTypes
+                    .SingleOrDefault(i => i.Slug.ToLower().Equals(typeSlug.ToLower()));
         }
 
         public IQueryable<DeviceType> GetDeviceTypes()
         {
-            return _dal.DeviceTypes.Include(x => x.FieldGroups.Select(y => y.DeviceTypes));
+            return _dal.DeviceTypes;
         }
 
         public IQueryable<DeviceMeta> GetDeviceMeta()
@@ -100,7 +89,8 @@ namespace HwInf.Common.BL
 
         public DeviceStatus GetDeviceStatus(int statusId)
         {
-            return _dal.DeviceStatus.Single(i => i.StatusId == statusId);
+            return _dal.DeviceStatus
+                .SingleOrDefault(i => i.StatusId == statusId);
         }
 
         public IQueryable<DeviceStatus> GetDeviceStatus()
@@ -110,31 +100,39 @@ namespace HwInf.Common.BL
 
         public bool DeviceExists(int deviceId)
         {
-            return _dal.Devices.Count(i => i.DeviceId == deviceId) > 0;
+            return _dal.Devices.Any(i => i.DeviceId == deviceId);
         }
 
         // Create
         public Device CreateDevice()
         {
             if (!IsAdmin() && !IsVerwalter()) return null;
-
-            var dev = new Device();
-            _dal.Devices.Add(dev);
-            return dev;
+ 
+            return _dal.CreateDevice();
         }
 
         public DeviceType CreateDeviceType()
         {
             if (!IsAdmin() && !IsVerwalter()) return null;
 
-            var dt = new DeviceType();
-            _dal.DeviceTypes.Add(dt);
-            return dt;
+            return _dal.CreateDeviceType();
+        }
+
+        public DeviceStatus CreateDeviceStatus()
+        {
+            if (!IsAdmin() && !IsVerwalter()) return null;
+
+            return _dal.CreateDeviceStatus();
+        }
+
+        public DeviceMeta CreateDeviceMeta()
+        {
+            return _dal.CreateDeviceMeta();
         }
 
         public void DeleteMeta(DeviceMeta dm)
         {
-            _dal.DeviceMeta.Remove(dm);
+            _dal.DeleteDeviceMeta(dm);
         }
 
 
@@ -143,28 +141,21 @@ namespace HwInf.Common.BL
         {
             if (!IsAdmin() && !IsVerwalter()) return;
 
-            _dal.Entry(device).State = EntityState.Modified;
-        }
-
-        public void UpdateDeviceMeta(DeviceMeta deviceMeta)
-        {
-            if (!IsAdmin() && !IsVerwalter()) return;
-
-            _dal.Entry(deviceMeta).State = EntityState.Modified;
+            _dal.UpdateObject(device);
         }
 
         public void UpdateDeviceType(DeviceType dt)
         {
             if (!IsAdmin() && !IsVerwalter()) return;
 
-            _dal.Entry(dt).State = EntityState.Modified;
+            _dal.UpdateObject(dt);
         }
 
-        public void DeleteDevice(int deviceId)
+        public void DeleteDevice(Device d)
         {
             if (!IsAdmin() && !IsVerwalter()) return;
 
-            var device = _dal.Devices.Find(deviceId);
+            var device = _dal.Devices.FirstOrDefault(i => d.InvNum.Equals(i.InvNum));
             UpdateDevice(device);
             if (device != null) device.IsActive = false;
         }
@@ -175,7 +166,7 @@ namespace HwInf.Common.BL
 
             if (!GetDevices(true, dt.Slug).Any())
             {
-                _dal.DeviceTypes.Remove(dt);
+                _dal.DeleteDeviceType(dt);
 
             }
             else
@@ -200,17 +191,12 @@ namespace HwInf.Common.BL
         // Read
         public IQueryable<FieldGroup> GetFieldGroups()
         {
-            return _dal.FieldGroups.Include(x => x.Fields);
+            return _dal.FieldGroups;
         }
 
         public FieldGroup GetFieldGroups(string groupSlug)
         {
-            if (!_dal.FieldGroups.Include(x => x.Fields).Any(i => i.Slug.Equals(groupSlug)))
-            {
-                return null;
-            }
-
-            return _dal.FieldGroups.Include(x => x.Fields).Single(i => i.Slug.Equals(groupSlug));
+            return _dal.FieldGroups.SingleOrDefault(i => i.Slug.Equals(groupSlug));
         }
 
         public IQueryable<Field> GetFields()
@@ -233,19 +219,14 @@ namespace HwInf.Common.BL
         {
             if (!IsAdmin() && !IsVerwalter()) return null;
 
-            var fg = new FieldGroup();
-            _dal.FieldGroups.Add(fg);
-            return fg;
+            return _dal.CreteFieldGroup();
         }
 
         public Field CreateField()
         {
             if (!IsAdmin() && !IsVerwalter()) return null;
 
-            var obj = new Field();
-            _dal.Fields.Add(obj);
-
-            return obj;
+            return _dal.CreaField();
         }
 
         // Update
@@ -253,13 +234,13 @@ namespace HwInf.Common.BL
         {
             if (!IsAdmin() && !IsVerwalter()) return;
 
-            _dal.Entry(obj).State = EntityState.Modified;
+            _dal.UpdateObject(obj);
         }
 
         public void DeleteField(Field field)
         {
             if (!IsAdmin() && !IsVerwalter()) return;
-            _dal.Fields.Remove(field);
+            _dal.DeleteField(field);
         }
 
         #endregion
@@ -280,21 +261,19 @@ namespace HwInf.Common.BL
 
         public Role GetRole(string name)
         {
-            return _dal.Roles.Single(i => i.Name.Equals(name));
+            return _dal.Roles.SingleOrDefault(i => i.Name.Equals(name));
         }
 
         // Create
         public Person CreateUser()
         {
-            var obj = new Person();
-            _dal.Persons.Add(obj);
-            return obj;
+            return _dal.CreatePerson();
         }
 
         // Update
         public void UpdateUser(Person obj)
         {
-            _dal.Entry(obj).State = EntityState.Modified;
+            _dal.UpdateObject(obj);
         }
 
         #endregion
