@@ -150,11 +150,11 @@ namespace HwInf.Common.BL
             _dal.UpdateObject(dt);
         }
 
-        public void DeleteDevice(int deviceId)
+        public void DeleteDevice(Device d)
         {
             if (!IsAdmin() && !IsVerwalter()) return;
 
-            var device = _dal.Devices.FirstOrDefault(i => deviceId.Equals(i.DeviceId));
+            var device = _dal.Devices.FirstOrDefault(i => d.InvNum.Equals(i.InvNum));
             UpdateDevice(device);
             if (device != null) device.IsActive = false;
         }

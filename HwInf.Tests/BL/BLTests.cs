@@ -62,7 +62,7 @@ namespace HwInf.Tests.BL
         [Test]
         public void bl_should_return_device_by_id()
         {
-            var id = 1;
+            var id = 11;
             var obj = _bl.CreateDevice();
             obj.DeviceId = id;
             var getObj = _bl.GetSingleDevice(id);
@@ -82,7 +82,7 @@ namespace HwInf.Tests.BL
         [Test]
         public void bl_should_return_null_when_no_device_found_by_invNum()
         {
-            var invNum = "INV123";
+            var invNum = Guid.NewGuid().ToString();
             var obj = _bl.CreateDevice();
             obj.InvNum = invNum;
             var getObj = _bl.GetSingleDevice(invNum + "bla");
@@ -99,30 +99,30 @@ namespace HwInf.Tests.BL
         [Test]
         public void bl_should_delete_device()
         {
-            var id = 21345;
+            var invNum = Guid.NewGuid().ToString();
             var obj = _bl.CreateDevice();
-            obj.DeviceId = id;
+            obj.InvNum = invNum;
             obj.IsActive = true;
-            var getObj = _bl.GetSingleDevice(id);
+            var getObj = _bl.GetSingleDevice(invNum);
             Assert.NotNull(getObj);
-            _bl.DeleteDevice(getObj.DeviceId);
-            var getDel = _bl.GetSingleDevice(id);
+            _bl.DeleteDevice(getObj);
+            var getDel = _bl.GetSingleDevice(invNum);
             Assert.False(getDel.IsActive);
         }
 
         [Test]
         public void bl_should_update_device()
         {
-            var id = 213457;
+            var invNum = Guid.NewGuid().ToString();
             var name = "Muh";
             var obj = _bl.CreateDevice();
-            obj.DeviceId = id;
+            obj.InvNum = invNum;
             obj.Name = name;
-            var getObj = _bl.GetSingleDevice(id);
+            var getObj = _bl.GetSingleDevice(invNum);
             Assert.NotNull(getObj);
             _bl.UpdateDevice(getObj);
             getObj.Name = "Kuh";
-            var getEdit = _bl.GetSingleDevice(id);
+            var getEdit = _bl.GetSingleDevice(invNum);
 
             Assert.False(getEdit.Name.Equals(name));
         }
@@ -149,6 +149,7 @@ namespace HwInf.Tests.BL
         {
             var obj = _bl.CreateDeviceType();
             obj.Slug = "test";
+            obj.TypeId = 23;
             Assert.NotNull(obj);
         }
 

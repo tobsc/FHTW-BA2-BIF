@@ -34,9 +34,9 @@ namespace HwInf.Tests.DAL
         {
             _deviceStatus = new List<DeviceStatus>
                 {
-                    new DeviceStatus { Description = "Verfügbar" },
-                    new DeviceStatus { Description = "Ausgeliehen" },
-                    new DeviceStatus { Description = "In Reparatur" },
+                    new DeviceStatus { Description = "Verfügbar", StatusId = 1},
+                    new DeviceStatus { Description = "Ausgeliehen", StatusId = 2},
+                    new DeviceStatus { Description = "In Reparatur", StatusId = 3},
                 };
 
             _roles = new List<Role>
@@ -169,7 +169,7 @@ namespace HwInf.Tests.DAL
 
             _devices = new List<Device>
                {
-                new Device { Name = "Acer PC", Brand = "Acer", Status = _deviceStatus.Single(i => i.Description == "Verfügbar"), InvNum = "a5123", Type = _deviceTypes.Single(i => i.Slug == "pc"), CreateDate = DateTime.Now, Room = "A0.00", Person = _persons.Single(i => i.LastName == "Calanog"), IsActive = true, DeviceMeta = meta.ToList()},
+                new Device { Name = "Acer PC", Brand = "Acer", Status = _deviceStatus.Single(i => i.Description == "Verfügbar"), InvNum = "a5123", Type = _deviceTypes.Single(i => i.Slug == "pc"), CreateDate = DateTime.Now, Room = "A0.00", Person = _persons.Single(i => i.LastName == "Calanog"), IsActive = true, DeviceMeta = meta.ToList(), DeviceId = 1},
                 new Device { Name = "HP PC", Brand = "HP", Status = _deviceStatus.Single(i => i.Description == "Verfügbar"), InvNum = "b3434", Type = _deviceTypes.Single(i => i.Slug == "pc"), CreateDate = DateTime.Now, Room = "A0.00", Person = _persons.Single(i => i.LastName == "Calanog"), IsActive = true, DeviceMeta = meta.ToList()},
                 new Device { Name = "Dell PC", Brand = "Dell", Status = _deviceStatus.Single(i => i.Description == "Verfügbar"), InvNum = "c3434", Type = _deviceTypes.Single(i => i.Slug == "pc"), CreateDate = DateTime.Now, Room = "A0.00", Person = _persons.Single(i => i.LastName == "Schlachter"), IsActive = true, DeviceMeta = meta.ToList()},
 

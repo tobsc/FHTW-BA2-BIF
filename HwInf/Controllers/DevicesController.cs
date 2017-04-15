@@ -278,7 +278,7 @@ namespace HwInf.Controllers
 
             var f = new List<FieldViewModel>();
             f = brands
-                .Select(i => new FieldViewModel{ Name = i, Slug = SlugGenerator.GenerateSlug(i, "field") })
+                .Select(i => new FieldViewModel{ Name = i, Slug = SlugGenerator.GenerateSlug(_bl, i, "field") })
                 .ToList();
 
             var x = new FieldGroupViewModel {Name = "Marke", Slug = "brand", Fields = f};
@@ -357,7 +357,8 @@ namespace HwInf.Controllers
             {
                 new AdditionalInvNumViewModel {InvNum = vmdl.InvNum}
             };
-            invNums.AddRange(vmdl.AdditionalInvNums);
+            if(vmdl.AdditionalInvNums != null)
+                invNums.AddRange(vmdl.AdditionalInvNums);
 
             // Get Existing InvNums
             var existingInvNums = _bl.GetDevices(false).Select(i => i.InvNum)
@@ -404,6 +405,7 @@ namespace HwInf.Controllers
             _bl.SaveChanges();
 
             _log.InfoFormat("Device '{0}({1})' added by '{2}'", vmdl.InvNum, vmdl.Name, User.Identity.Name);
+            if (vmdl.AdditionalInvNums == null) return Ok(vmdl);
             foreach (var n in vmdl.AdditionalInvNums)
             {
                 _log.InfoFormat("Device '{0}({1})' added by '{2}'", n.InvNum, vmdl.Name, User.Identity.Name);
@@ -447,7 +449,8 @@ namespace HwInf.Controllers
             }
             else
             {
-                _bl.DeleteDevice(id);
+                var d = _bl.GetSingleDevice(id);
+                _bl.DeleteDevice(d);
                 _bl.SaveChanges();
             }
 
@@ -516,7 +519,7 @@ namespace HwInf.Controllers
 
 
 
-                var dev = _bl.GetSingleDevice(vmdl.DeviceId);
+                var dev = _bl.GetSingleDevice(vmdl.InvNum);
                 _bl.UpdateDevice(dev);
                 var dm = dev.DeviceMeta.ToList();
                 dm.ForEach(i => _bl.DeleteMeta(i));
