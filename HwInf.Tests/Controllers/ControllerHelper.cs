@@ -24,9 +24,9 @@ namespace HwInf.Tests.Controllers
                 DeviceType = deviceType,
                 Limit = limit,
                 Offset = 0,
-                MetaQuery = new List<DeviceMeta>
+                MetaQuery = new List<DeviceMetaViewModel>
                 {
-                    new DeviceMeta {FieldGroupSlug = fieldgroup, FieldSlug = field, MetaValue = metaValue}
+                    new DeviceMetaViewModel {FieldGroupSlug = fieldgroup, FieldSlug = field, Value = metaValue}
                 },
                 OrderBy = orderBy,
                 Order = order
