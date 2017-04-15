@@ -196,40 +196,6 @@ namespace HwInf.Controllers
 
         }
 
-        // GET: 
-        /// <summary>
-        /// Returns fieldgroups with used fields from type
-        /// </summary>
-        /// <param name="typeSlug">DeviceType Slug</param>
-        /// <returns></returns>
-        [ResponseType(typeof(FieldGroupViewModel))]
-        [Route("fieldgroups/{typeslug}")]
-        public IHttpActionResult GetFieldGroupsUsedFields(string typeSlug)
-        {
-            var dt = _bl.GetDeviceType(typeSlug);
-
-            var vmdl = _bl.GetFieldGroups()
-                .ToList()
-                .Where(i => i.DeviceTypes.Contains(dt))
-                .Select(i => new FieldGroupViewModel(i));
-
-
-            var d = _bl.GetFilteredDevices(null, typeSlug)
-                .ToList()
-                .Select(i => new DeviceViewModel(i));
-
-            var meta = d.Select(i => i.DeviceMeta)
-                .ToList();
-
-
-
-            return Ok(vmdl);
-
-
-
-        }
-
-
         // POST: api/devices/{type}/{filters?}
         /// <summary>
         /// Filters the devices with given parameters

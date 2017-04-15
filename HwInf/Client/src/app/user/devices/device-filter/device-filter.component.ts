@@ -35,7 +35,7 @@ export class DeviceFilterComponent implements OnInit {
     this.form = this.initForm();
     this.sub = this.route.params
           .map( i => i['type'])
-          .flatMap( i => this.customFieldsService.getFieldGroupsOfType(i))
+          .flatMap( i => this.customFieldsService.getFieldGroupsOfTypeForFilter(i))
           .subscribe(
               (data: FieldGroup[]) => {
                 this.fieldGroups = data;
