@@ -31,4 +31,10 @@ export class CustomFieldsService {
     return this.http.get('/api/customfields/fieldgroups/' + deviceTypeSlug)
         .map((response: Response) => response.json());
   }
+
+
+  public getFieldGroupsOfTypeForFilter ( deviceTypeSlug: string = ''): Observable<FieldGroup[]> {
+    return this.http.get('/api/customfields/filter/fieldgroups/' + deviceTypeSlug)
+        .map((response: Response) => response.json());
+  }
 }

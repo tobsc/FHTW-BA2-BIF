@@ -179,6 +179,116 @@ namespace HwInf.Controllers
 
             return StatusCode(HttpStatusCode.NoContent);
         }
+        // GET: 
+        /// <summary>
+        /// Returns fieldgroups with used fields from type
+        /// </summary>
+        /// <param name="typeSlug">DeviceType Slug</param>
+        /// <returns></returns>
+        [ResponseType(typeof(FieldGroupViewModel))]
+        [Route("filter/fieldgroups/")]
+        public IHttpActionResult GetFieldGroupsUsedFields()
+        {
+
+            var vmdl = _bl.GetFieldGroups()
+                .ToList()
+                .Select(i => new FieldGroupViewModel(i))
+                .ToList();
+
+
+            var meta = _bl.GetFilteredDevices(null)
+                .ToList()
+                .Select(i => new DeviceViewModel(i).LoadMeta(i))
+                .ToList()
+                .SelectMany(i => i.DeviceMeta)
+                .ToList()
+                .Select(i => i.FieldSlug)
+                .ToList();
+
+
+            // Bad?
+            var res = new List<FieldGroupViewModel>();
+
+            vmdl.ForEach(i =>
+            {
+                var fieldGroup = new FieldGroupViewModel
+                {
+                    Name = i.Name,
+                    Slug = i.Slug,
+                    Fields = new List<FieldViewModel>()
+                };
+
+                i.Fields.ForEach(y =>
+                {
+                    if (!meta.Contains(y.Slug)) return;
+                    fieldGroup.Fields.Add(y);
+                });
+
+                res.Add(fieldGroup);
+            });
+
+            return Ok(res);
+
+
+
+        }
+
+        // GET: 
+        /// <summary>
+        /// Returns fieldgroups with used fields from type
+        /// </summary>
+        /// <param name="typeSlug">DeviceType Slug</param>
+        /// <returns></returns>
+        [ResponseType(typeof(FieldGroupViewModel))]
+        [Route("filter/fieldgroups/{typeslug}")]
+        public IHttpActionResult GetFieldGroupsUsedFieldsType(string typeSlug)
+        {
+            var dt = _bl.GetDeviceType(typeSlug);
+
+            var vmdl = _bl.GetFieldGroups()
+                .ToList()
+                .Where(i => i.DeviceTypes.Contains(dt))
+                .Select(i => new FieldGroupViewModel(i))
+                .ToList();
+
+
+            var meta = _bl.GetFilteredDevices(null, typeSlug)
+                .ToList()
+                .Select(i => new DeviceViewModel(i).LoadMeta(i))
+                .ToList()
+                .SelectMany(i => i.DeviceMeta)
+                .ToList()
+                .Select(i => i.FieldSlug)
+                .ToList();
+
+
+            // Bad?
+            var res = new List<FieldGroupViewModel>();
+
+            vmdl.ForEach(i =>
+            {
+                var fieldGroup = new FieldGroupViewModel
+                {
+                    Name = i.Name,
+                    Slug = i.Slug,
+                    Fields = new List<FieldViewModel>()
+                };
+
+                i.Fields.ForEach(y =>
+                {
+                    if (!meta.Contains(y.Slug)) return;
+                    fieldGroup.Fields.Add(y);
+                });
+
+                res.Add(fieldGroup);
+            });
+
+            return Ok(res);
+
+
+
+        }
+
 
 
 
