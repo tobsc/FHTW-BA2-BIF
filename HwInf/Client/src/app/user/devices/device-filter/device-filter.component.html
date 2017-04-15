@@ -1,6 +1,6 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit(form, $event)" (change)="onSubmit(form, $event)">
-  <div formArrayName="MetaQuery" >
-    <div class="x_panel" *ngFor="let fieldGroup of fieldGroups; let i = index">
+  <div formArrayName="FieldGroup">
+    <div class="x_panel" *ngFor="let fieldGroup of fieldGroups; let i = index" [formGroupName]="i">
       <div class="x_title">
         {{fieldGroup.Name}}
         <ul class="nav navbar-right panel_toolbox">
@@ -13,7 +13,7 @@
         </ul>
         <div class="clearfix"></div>
       </div>
-      <div class="x_content" [(collapse)]="isCollapsedArr[i]">
+      <div class="x_content" [(collapse)]="isCollapsedArr[i]" formArrayName="MetaQuery">
         <div class="checkbox" *ngFor="let field of fieldGroup.Fields;let j = index;" [formGroupName]="j">
           <label>
             <input type="checkbox" value="{{field.Slug}}" name="{{field.Slug}}" formControlName="isChecked">

@@ -22,7 +22,7 @@ export class DeviceFilterComponent implements OnInit {
   private sub: Subscription;
   private isCollapsedArr: boolean[];
   private form: FormGroup;
-  private metaQueries: FormArray;
+  private fieldGroupsFormArray: FormArray;
   private count = 0;
 
   constructor(
@@ -42,23 +42,30 @@ export class DeviceFilterComponent implements OnInit {
                 this.isCollapsedArr = [];
                 this.fieldGroups.forEach(() => this.isCollapsedArr.push(true));
                 this.form = this.initForm();
-                this.metaQueries = <FormArray>this.form.controls['MetaQuery'];
+                this.fieldGroupsFormArray = <FormArray>this.form.controls['FieldGroup'];
 
-                const flatten = arr => arr.reduce(
+                this.fieldGroups.forEach((item, index) => {
+                  this.addFieldGroup(item);
+                });
+
+//
+                console.log(this.form.value);
+
+                /*const flatten = arr => arr.reduce(
                     (acc, val) => acc.concat(
                         Array.isArray(val) ? flatten(val) : val
                     ),[]);
 
                 flatten(this.fieldGroups.map(i => i.Fields)).forEach(() => {
                   this.addDeviceMeta();
-                });
+                });*/
               }
           );
   }
 
   initForm(): FormGroup {
     return this.fb.group({
-      MetaQuery:  this.fb.array([])
+      FieldGroup:  this.fb.array([])
     });
   }
 
@@ -66,8 +73,23 @@ export class DeviceFilterComponent implements OnInit {
     return this.count++;
   }
 
-  addDeviceMeta(): void{
-    this.metaQueries.push(this.initDeviceMeta());
+  addDeviceMeta(index: number): void{
+  }
+
+  addFieldGroup(fieldGroup: FieldGroup): void {
+    this.fieldGroupsFormArray.push(this.initFieldGroup(fieldGroup));
+  }
+
+  initFieldGroup(fieldGroup: FieldGroup): FormGroup {
+    let foo =  this.fb.group({
+      MetaQuery: this.fb.array([])
+    });
+
+    let metaquery = <FormArray> foo.controls['MetaQuery'];
+
+    fieldGroup.Fields.forEach(() => metaquery.push(this.initDeviceMeta()));
+
+    return foo;
   }
 
   initDeviceMeta(): FormGroup {
@@ -85,12 +107,25 @@ export class DeviceFilterComponent implements OnInit {
 
 
   onSubmit(form: FormGroup, ev: Event) {
-    this.outputFilter.emit(this.mappedForm(form));
+
+    const flatten = arr => arr.reduce(
+     (acc, val) => acc.concat(
+     Array.isArray(val) ? flatten(val) : val
+     ),[]);
+
+    let arr: any[]= form.value.FieldGroup;
+    arr = flatten(arr.map(i => i.MetaQuery))
+        .filter(i => i.isChecked)
+        .map(i => <DeviceMeta>({
+              FieldGroupSlug: i.FieldGroupSlug,
+              FieldSlug: i.FieldSlug,
+              Value: i.Value
+            })
+        );
+    this.outputFilter.emit(arr);
   }
 
   mappedForm(form: FormGroup): DeviceMeta[] {
-
-    console.log(form.value.MetaQuery);
 
     return form.value.MetaQuery
         .filter(i => i.isChecked)
