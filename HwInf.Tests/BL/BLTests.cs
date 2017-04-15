@@ -13,20 +13,20 @@ using HwInf.Controllers;
 using HwInf.ViewModels;
 using NUnit.Framework;
 using HwInf.Common.Models;
+using HwInf.Tests.DAL;
 
-namespace HwInf.Tests
+namespace HwInf.Tests.BL
 {
     [TestFixture]
-    public class HwInfTests
+    public class BLTests
     {
-        private readonly DevicesController _ctrl = new DevicesController();
         private readonly IDAL _dal = new MockDAL();
-        private readonly BL _bl;
+        private readonly Common.BL.BL _bl;
 
 
-        public HwInfTests()
+        public BLTests()
         {
-            _bl = new BL(_dal);
+            _bl = new Common.BL.BL(_dal);
 
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");           
             var subject = new ClaimsIdentity("Federation", ClaimTypes.Name, ClaimTypes.Role);

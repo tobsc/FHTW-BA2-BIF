@@ -20,13 +20,20 @@ namespace HwInf.Controllers
     [RoutePrefix("api/devices")]
     public class DevicesController : ApiController
     {
-        private readonly IDAL _db = new HwInfContext();
+        private readonly IDAL _db;
         private readonly BL _bl;
         private readonly ILog _log = LogManager.GetLogger("Devices");
 
         public DevicesController()
         {
+            _db = new HwInfContext();
             _bl = new BL(_db);
+        }
+
+        public DevicesController(IDAL db)
+        {
+            _db = db;
+            _bl = new BL(db);
         }
 
         // GET: api/devices/all

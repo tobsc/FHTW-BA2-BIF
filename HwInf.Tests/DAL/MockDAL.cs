@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using HwInf.Common.DAL;
 using HwInf.Common.Models;
 
-namespace HwInf.Tests
+namespace HwInf.Tests.DAL
 {
     public class MockDAL: IDAL
     {
@@ -55,7 +55,7 @@ namespace HwInf.Tests
            _deviceTypes = new List<DeviceType>
             {
                 new DeviceType { Name = "Notebook", Slug = "notebook", IsActive = true},
-                new DeviceType { Name = "PC", Slug = "pc", IsActive = true },
+                new DeviceType { Name = "PC", Slug = "pc", IsActive = true},
                 new DeviceType { Name = "Monitor", Slug = "monitor", IsActive = true},
                 new DeviceType { Name = "Festplatte", Slug = "festplatte", IsActive = true},
             };
@@ -181,6 +181,7 @@ namespace HwInf.Tests
 
             _fields = _prozessorenFields.Concat(_aufloesungFields).Concat(_anschluesseFields).ToList();
             _deviceMeta = meta.Concat(nmeta).Concat(nbmeta).ToList();
+            
         }
 
 
