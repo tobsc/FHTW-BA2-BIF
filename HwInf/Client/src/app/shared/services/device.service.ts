@@ -45,6 +45,16 @@ export class DeviceService {
             .map((response: Response) => response.json());
     }
 
+    public getFilteredDevices(body: any): Observable<DeviceList> {
+        let bodyString = JSON.stringify(body);
+        let headers = new Headers({
+            'Content-Type': 'application/json'
+        });
+        let options = new RequestOptions({headers: headers});
+        return this.http.post(this.url + 'filter', bodyString, options)
+            .map((response: Response) => response.json());
+    }
+
     public getDevice(invNum: string): Observable<Device> {
         return this.http.get(this.url + 'invnum/' + encodeURI(invNum))
             .map((response: Response) => response.json());

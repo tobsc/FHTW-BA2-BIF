@@ -10,3 +10,15 @@
 .th-name {
   width: 30%;
 }
+
+thead th {
+  i {
+    visibility: hidden;
+    font-size: 0.7em;
+  };
+  &.active { i {visibility: visible} }
+  &:hover {
+    i { visibility: visible}
+  }
+  cursor: pointer;
+}

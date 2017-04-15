@@ -18,17 +18,16 @@ const ADMIN_ROUTES: Routes = [
         children: [
             { path: '', redirectTo: 'dashboard', pathMatch: 'full', },
             { path: 'dashboard', component: AdminDashboardComponent },
-            { path: 'geraete', component: DeviceListComponent },
-            { path: 'geraete/neu', component: DeviceAddComponent },
-            { path: 'geraete/neu/:invnum', component: DeviceDuplicateComponent },
-            { path: 'geraete/typen', component: DeviceTypesComponent,
+            { path: 'geraete/verwalten', component: DeviceListComponent },
+            { path: 'geraete/erstellen', component: DeviceAddComponent },
+            { path: 'geraete/erstellen/:invnum', component: DeviceDuplicateComponent },
+             { path: 'geraete/typen', component: DeviceTypesComponent,
                 children: [{ path: '', redirectTo: 'verwalten', pathMatch: 'full' },
                     { path: 'edit/:slug', component: DeviceTypesEditComponent, canActivate: [AuthGuard] },
                     { path: 'verwalten', component: DeviceTypesAddComponent, canActivate: [AuthGuard] },]
             },
-            { path: 'geraete/eigene_felder', component: DeviceCustomFieldsComponent },
-            { path: 'geraete/page/:page', component: DeviceListComponent },
-            { path: 'geraete/invnum/:invnum', component: DeviceEditComponent },
+            { path: 'geraete/felder', component: DeviceCustomFieldsComponent },
+            { path: 'geraete/verwalten/:invnum', component: DeviceEditComponent },
             { path: '**', component: PageNotFoundComponent }
         ]
     }

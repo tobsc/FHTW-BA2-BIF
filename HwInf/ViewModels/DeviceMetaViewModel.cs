@@ -61,6 +61,16 @@ namespace HwInf.ViewModels
             target.FieldSlug = source.F.Slug;
         }
 
+        public void ApplyValues(DeviceMeta dm)
+        {
+            var target = dm;
+            var source = this;
+
+            target.MetaValue = source.Value;
+            target.FieldGroupSlug = source.FieldGroupSlug;
+            target.FieldSlug = source.FieldSlug;
+        }
+
 
         public static implicit operator DeviceMeta(DeviceMetaViewModel vmdl)
         {

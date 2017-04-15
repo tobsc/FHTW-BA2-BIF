@@ -15,29 +15,40 @@
     </div>
 </div>
 
-<div class="clearfix"></div>
 
-<div class="row">
-    <div class="col-md-12 col-sm-12 col-xs-12">
+<div class="row gutter-10">
+        <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3">
 
+            <hwinf-device-filter
+                [deviceType]="currentType"
+                [inputFilter]="filter"
+                (outputFilter)="onFilterChanged($event)">
+            </hwinf-device-filter>
 
+        </div>
 
+        <div class="col-xs-12 col-sm-7 col-md-8 col-lg-9">
 
-        <div class="col-md-10">
-
-            <hwinf-panel>
-                <div class="hwinf-panel__heading">
-                    <span *ngIf="currentType!=null">{{currentType | uppercase}}</span>
-                    <span *ngIf="currentType==null">Alle</span>
+            <div class="x_panel">
+                <div class="x_title">
+                    <div *ngIf="currentType!=null">{{currentType.Name}}</div>
+                    <div *ngIf="currentType==null">Alle</div>
 
                 </div>
-                <div class="hwinf-panel__content">
+                <div class="x_content">
                     <accordion [closeOthers]=false class="accordion">
                         <div *ngFor="let device of devices">
 
                             <accordion-group>
                                 <div accordion-heading>
-                                   <strong>{{device.Name}} </strong>
+                                    <strong>{{device.Name}} </strong>
+                                    <ul class="list-inline" style="display: inline-block; margin-bottom: 0">
+                                        <li style="font-size: 0.8em" class="text-muted" *ngFor="let metaData of device.DeviceMeta">
+                                            {{metaData.Value}}x {{metaData.Field}}
+                                        </li>
+
+                                    </ul>
+
                                     <div class="text-muted pull-right" style="font-size: 0.8em">Inventarnummer: {{device.InvNum}}</div>
                                 </div>
                                 <div id="{{device.InvNum}}" class="panel-collapse" role="tabpanel" attr.aria-labelledby="headingTwo" attr.aria-expanded="true">
@@ -48,32 +59,15 @@
                                             {{metaData.Value}}x {{metaData.Field}}
                                         </div>
                                     </div>
-
-
                                     <button class="btn btn-success btn-xs" (click)="addItem(device)">
                                         Zum Warenkorb hinzufügen
                                         <i class="fa fa-cart-plus" aria-hidden="true"></i>
                                     </button>
                                 </div>
                             </accordion-group>
-
                         </div>
                     </accordion>
                 </div>
-            </hwinf-panel>
-
+            </div>
         </div>
-
-        <div>
-
-
-
-        </div>
-
-
-
-
-
-        <!-- edit -->
-    </div>
 </div>

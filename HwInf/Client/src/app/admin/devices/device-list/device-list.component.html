@@ -1,8 +1,8 @@
-
+<h1>Geräte verwalten</h1>
 <nav aria-label="...">
   <ul class="pager">
-    <li class="previous"><a *ngIf="currentPage > 1" routerLink="/admin/geraete/page/{{ currentPage - 1 }}"><span aria-hidden="true">&larr;</span> Vorherige Seite</a></li>
-    <li class="next"><a *ngIf="currentPage < maxPages" routerLink="/admin/geraete/page/{{ currentPage + 1 }}">Nächste Seite <span aria-hidden="true">&rarr;</span></a></li>
+    <li class="previous"><a *ngIf="currentPage > 1" routerLink="/admin/geraete/verwalten" [queryParams]="{page: currentPage - 1, orderby: filter.OrderBy}" skipLocationChange><span aria-hidden="true">&larr;</span> Vorherige Seite</a></li>
+    <li class="next"><a *ngIf="currentPage < maxPages" routerLink="/admin/geraete/verwalten" [queryParams]="{page: currentPage + 1, orderby: filter.OrderBy}" skipLocationChange>Nächste Seite <span aria-hidden="true">&rarr;</span></a></li>
   </ul>
 </nav>
 
@@ -11,7 +11,10 @@
 
 <div class="x_panel">
   <div class="x_title">
-    <h2>Geräte verwalten</h2>
+    <select style="display: inline; width: auto;" class="form-control" (change)="onDeviceTypeChange($event.target.value)">
+      <option value="">Alle Typen</option>
+      <option *ngFor="let dt of deviceTypes" value="{{dt.Slug}}">{{dt.Name}}</option>
+    </select>
     <div class="pull-right">
       {{currentPage}}/{{maxPages == 0 ? "?" : maxPages}}
     </div>
@@ -19,15 +22,61 @@
   </div>
   <div class="x_content">
     <div class="table-responsive">
-      <table class="table table-hover">
+      <table class="table table-hover table-striped table-bordered">
         <thead>
         <tr>
-          <th class="th-status">Status</th>
-          <th>InvNum</th>
-          <th class="th-name">Name</th>
-          <th>Typ</th>
-          <th>Erstellt am</th>
-          <th>Verwalter</th>
+          <th class="th-status">Status</th> <!-- TODO: order by status-->
+          <th routerLink="/admin/geraete/verwalten"
+              [ngClass]="{active: router.url.match('orderby=invnum') }"
+              [queryParams]="{page: 1, orderby: 'invnum'}"
+              (click)="onChangeOrder()"
+              title="Nach Inventarnummer sortieren"
+              skipLocationChange>
+            InvNum
+            <i *ngIf="!isAscending" class="fa fa-sort-amount-desc" aria-hidden="true"></i>
+            <i *ngIf="isAscending" class="fa fa-sort-amount-asc" aria-hidden="true"></i>
+          </th>
+          <th class="th-name"
+              routerLink="/admin/geraete/verwalten"
+              [ngClass]="{active: router.url.match('orderby=name') }"
+              [queryParams]="{page: 1, orderby: 'name'}"
+              (click)="onChangeOrder()"
+              title="Nach Name sortieren"
+              skipLocationChange>
+            Name
+            <i *ngIf="!isAscending" class="fa fa-sort-amount-desc" aria-hidden="true"></i>
+            <i *ngIf="isAscending" class="fa fa-sort-amount-asc" aria-hidden="true"></i>
+          </th>
+          <th routerLink="/admin/geraete/verwalten"
+              [ngClass]="{active: router.url.match('orderby=type') }"
+              [queryParams]="{page: 1, orderby: 'type'}"
+              (click)="onChangeOrder()"
+              title="Nach Typ sortieren"
+              skipLocationChange>
+            Typ
+            <i *ngIf="!isAscending" class="fa fa-sort-amount-desc" aria-hidden="true"></i>
+            <i *ngIf="isAscending" class="fa fa-sort-amount-asc" aria-hidden="true"></i>
+          </th>
+          <th routerLink="/admin/geraete/verwalten"
+              [ngClass]="{active: router.url.match('orderby=createdate') }"
+              [queryParams]="{page: 1, orderby: 'createdate'}"
+              (click)="onChangeOrder()"
+              title="Nach Erstellungsdatum sortieren"
+              skipLocationChange>
+            Erstellt am
+            <i *ngIf="!isAscending" class="fa fa-sort-amount-desc" aria-hidden="true"></i>
+            <i *ngIf="isAscending" class="fa fa-sort-amount-asc" aria-hidden="true"></i>
+          </th>
+          <th routerLink="/admin/geraete/verwalten"
+              [ngClass]="{active: router.url.match('orderby=person') }"
+              [queryParams]="{page: 1, orderby: 'person'}"
+              (click)="onChangeOrder()"
+              title="Nach Verwalter sortieren"
+              skipLocationChange>
+            Verwalter
+            <i *ngIf="!isAscending" class="fa fa-sort-amount-desc" aria-hidden="true"></i>
+            <i *ngIf="isAscending" class="fa fa-sort-amount-asc" aria-hidden="true"></i>
+          </th>
           <th>Aktion</th>
         </tr>
         </thead>
@@ -35,13 +84,13 @@
         <tr *ngFor="let device of devices; let i = index">
           <td><div class="label label-success label-device-status">{{device.Status.Description}}</div></td>
           <td>{{device.InvNum}}</td>
-          <th scope="row" ><a [routerLink]="['/admin/geraete/invnum/', device.InvNum]">{{device.Name}}</a></th>
+          <th scope="row" ><a [routerLink]="['/admin/geraete/verwalten/', device.InvNum]">{{device.Name}}</a></th>
           <td>{{device.DeviceType.Name}}</td>
           <td>{{device.CreateDate}}</td>
           <td title="({{device.Verwalter.Uid}}) {{device.Verwalter.Name}} {{device.Verwalter.LastName}}">{{device.Verwalter.Name}} {{device.Verwalter.LastName}}</td>
           <td>
             <a routerLink="/admin/geraete/invnum/{{device.InvNum}}/" title="Gerät bearbeiten" class="btn btn-warning btn-sm" aria-label="Bearbeiten"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-            <a [routerLink]="['/admin/geraete/neu/', device.InvNum]" title="Gerät duplizieren" class="btn btn-info btn-sm" aria-label="Duplizieren"><i class="fa fa-files-o" aria-hidden="true"></i></a>
+            <a [routerLink]="['/admin/geraete/erstellen/', device.InvNum]" title="Gerät duplizieren" class="btn btn-info btn-sm" aria-label="Duplizieren"><i class="fa fa-files-o" aria-hidden="true"></i></a>
             <a (click)="onDelete(device.DeviceId, i)" title="Gerät löschen" class="btn btn-danger btn-sm" aria-label="Löschen">
               <i class="fa fa-trash-o" aria-hidden="true"></i>
             </a>
@@ -61,7 +110,7 @@
 
 <nav aria-label="...">
   <ul class="pager">
-    <li class="previous"><a *ngIf="currentPage > 1" routerLink="/admin/geraete/page/{{ currentPage - 1 }}"><span aria-hidden="true">&larr;</span> Vorherige Seite</a></li>
-    <li class="next"><a *ngIf="currentPage < maxPages" routerLink="/admin/geraete/page/{{ currentPage + 1 }}">Nächste Seite <span aria-hidden="true">&rarr;</span></a></li>
+    <li class="previous"><a *ngIf="currentPage > 1" routerLink="/admin/geraete/verwalten" [queryParams]="{page: currentPage - 1, orderby: filter.OrderBy}" skipLocationChange><span aria-hidden="true">&larr;</span> Vorherige Seite</a></li>
+    <li class="next"><a *ngIf="currentPage < maxPages" routerLink="/admin/geraete/verwalten" [queryParams]="{page: currentPage + 1, orderby: filter.OrderBy}" skipLocationChange>Nächste Seite <span aria-hidden="true">&rarr;</span></a></li>
   </ul>
 </nav>

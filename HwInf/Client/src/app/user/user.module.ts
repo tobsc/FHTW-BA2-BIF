@@ -1,12 +1,12 @@
 import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
-import { FormsModule } from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RouterModule, Router} from "@angular/router";
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DeviceListComponent } from './devices/device-list.component';
 import { DevicesStatusDirective } from './devices/devices-status.directive';
 import { CoreModule } from "../core/core.module";
-import { AccordionModule } from "ng2-bootstrap";
+import {AccordionModule, CollapseModule} from "ng2-bootstrap";
 import { CartComponent } from './cart/cart.component';
 import { OrderStep1Component } from './cart/order-step1/order-step1.component';
 import { OrderStep2Component } from './cart/order-step2/order-step2.component';
@@ -19,6 +19,7 @@ import {JwtHttpService} from "../shared/services/jwt-http.service";
 import {XHRBackend, RequestOptions} from "@angular/http";
 import {AuthService} from "../authentication/auth.service";
 import {PubSubService} from "../shared/services/pub-sub.service";
+import { DeviceFilterComponent } from './devices/device-filter/device-filter.component';
 
 
 export function jwtFactory(backend: XHRBackend, options: RequestOptions, router: Router, authService: AuthService, pubsub: PubSubService) {
@@ -34,7 +35,8 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
         OrderStep1Component,
         OrderStep2Component,
         OrderComponent,
-        OrderStep3Component
+        OrderStep3Component,
+        DeviceFilterComponent
     ],
     imports: [
         CommonModule,
@@ -44,7 +46,9 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
         AccordionModule.forRoot(),
         Daterangepicker,
         ModalModule.forRoot(),
-        BootstrapModalModule
+        CollapseModule.forRoot(),
+        BootstrapModalModule,
+        ReactiveFormsModule
     ],
     providers: [
         {

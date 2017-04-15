@@ -43,16 +43,11 @@ export class DeviceTypesEditComponent implements OnInit {
         //get DeviceType via Slug
         this.deviceService.getDeviceTypes().map(devType => {
             return devType.filter(item => item.Slug === this.currentType)[0];
-        }).subscribe(devType => this.startTypeName = devType.Name);
-
-
-        //this.deviceService.getDeviceTypes().subscribe((deviceTypes: DeviceType[]) => this.startTypeName = deviceTypes.find(slugdevice => slugdevice.Slug===this.currentType).Slug)
-        console.log(this.startTypeName);
-        console.log(this.currentType);
-
-        //STARTTYPENAME UNDEFINDED ABER ÜBERSCHRIFFT IST DA?!?!?!
-            
-
+        }).subscribe((devType: DeviceType) => {
+            console.log(devType.Name);
+            this.startTypeName = devType.Name;
+            this.initForm();
+        });
 
         this.customFieldsService.getFieldGroups()
             .subscribe((data) => {
@@ -64,6 +59,13 @@ export class DeviceTypesEditComponent implements OnInit {
             Name: [this.startTypeName, Validators.required],
             FieldGroups: this.fb.array([])
         });
+
+    }
+
+    initForm() {
+
+        this.form.patchValue({ Name: this.startTypeName });
+
         this.fieldGroups = <FormArray>this.form.controls['FieldGroups'];
 
         this.customFieldsService.getFieldGroupsOfType(this.currentType)
@@ -77,9 +79,9 @@ export class DeviceTypesEditComponent implements OnInit {
 
     }
 
-    
-
     initFieldGroup() {
+        this.form.controls['Name'].setValue(this.startTypeName);
+
         return this.fb.group({
             Slug: ['', Validators.required]
         });

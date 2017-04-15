@@ -22,7 +22,7 @@ namespace HwInf.ViewModels
         public AutoFillViewModel RefreshList(string input, string type, string component, BL bl)
         {
             var deviceType = bl.GetDeviceType(type);
-            var devices = bl.GetDevices(0, 0, true, deviceType.TypeId, true);
+            var devices = bl.GetDevices(true, deviceType.Slug);
             var meta = bl.GetDeviceMeta();
 
             switch (component.ToLower())

@@ -7,9 +7,6 @@ namespace HwInf.ViewModels
 {
     public class DeviceListViewModel
     {
-
-        public int CurrentPage { get; set; }
-
         public int MaxPages { get; set; }
 
         public IEnumerable<DeviceViewModel> Devices { get; set; }
@@ -17,14 +14,13 @@ namespace HwInf.ViewModels
 
         public DeviceListViewModel()
         {
-            
+
         }
 
-        public DeviceListViewModel(IEnumerable<DeviceViewModel> obj, int offset, int limit, BL bl)
+        public DeviceListViewModel(IEnumerable<DeviceViewModel> obj, int offset, int limit, BL bl, int count)
         {
             Devices = obj.ToList();
-            CurrentPage = offset + 1;
-            MaxPages = (int)Math.Ceiling((double)bl.DeviceCount() / (limit == 0 ? 1 : limit));
+            MaxPages = limit == 0 ? 0 : (int)Math.Ceiling((double)count / limit);
         }
 
 

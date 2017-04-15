@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using HwInf.Common.DAL;
 using System.Linq;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Validation;
+using System.Data.SqlTypes;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using System.Security;
 using HwInf.Common.Models;
 using JWT;
@@ -17,9 +21,11 @@ namespace HwInf.Common.BL
     {
         private readonly HwInfContext _dal;
 
-        public BL() {
+        public BL()
+        {
             _dal = new HwInfContext();
         }
+
         public BL(HwInfContext dal)
         {
             _dal = dal;
@@ -32,46 +38,28 @@ namespace HwInf.Common.BL
         #region Devices
 
         // Read
-        public IQueryable<Device> GetDevices(int limit = 25, int offset = 0, bool onlyActive = true, int type = 0, bool isSearch = false)
+        public IEnumerable<Device> GetDevices(bool onlyActive = true, string typeSlug = "")
         {
-            if (type == 0 && !isSearch)
-            {
-                return _dal.Devices.Include(x => x.DeviceMeta).Include(x => x.Type.FieldGroups.Select(y => y.Fields))
-                    .Where(i => i.IsActive)
-                    .OrderBy(i => i.Name)
-                    .ThenBy(i => i.CreateDate)
-                    .ThenBy(i => i.InvNum)
-                    .Skip(offset)
-                    .Take(limit);
-            } else if(isSearch && onlyActive)
-            {
-                return _dal.Devices.Include(x => x.Type).Include(x => x.DeviceMeta).Include(x => x.Type.FieldGroups.Select(y => y.Fields))
-                    .Where(i => i.IsActive)
-                    .Where(i => i.Type.TypeId== type);
-            } else if (isSearch && !onlyActive)
-            {
-                return
-                    _dal.Devices.Include(x => x.Type)
-                        .Include(x => x.DeviceMeta)
-                        .Include(x => x.Type.FieldGroups.Select(y => y.Fields));
-            } else
-            {
-                return _dal.Devices.Include(x => x.Type).Include(x => x.DeviceMeta).Include(x => x.Type.FieldGroups.Select(y => y.Fields))
-                    .Where(i => i.IsActive)
-                    .Where(i => i.Type.TypeId == type)
-                    .OrderBy(i => i.Name)
-                    .ThenBy(i => i.CreateDate)
-                    .ThenBy(i => i.InvNum)
-                    .Skip(offset)
-                    .Take(limit);
-            }
+            var obj = _dal.Devices.Include(x => x.Type)
+                .Include(x => x.DeviceMeta)
+                .Include(x => x.Type.FieldGroups.Select(y => y.Fields));
 
+            obj = onlyActive ? obj.Where(i => i.IsActive) : obj;
+            obj = !String.IsNullOrWhiteSpace(typeSlug)
+                ? obj.Where(i => i.Type.Slug.Equals(typeSlug))
+                : obj;
+
+            return obj;
         }
 
         public Device GetSingleDevice(int deviceId)
         {
-            return _dal.Devices.Include(x => x.DeviceMeta).Include(x => x.Type.FieldGroups.Select(y => y.Fields)).Single(i => i.DeviceId == deviceId);
+            return
+                _dal.Devices.Include(x => x.DeviceMeta)
+                    .Include(x => x.Type.FieldGroups.Select(y => y.Fields))
+                    .Single(i => i.DeviceId == deviceId);
         }
+
         public Device GetSingleDevice(string deviceInvNum)
         {
             return _dal.Devices
@@ -83,12 +71,21 @@ namespace HwInf.Common.BL
 
         public DeviceType GetDeviceType(int typeId)
         {
-            return _dal.DeviceTypes.Include(x => x.FieldGroups.Select(y => y.DeviceTypes)).SingleOrDefault(i => i.TypeId == typeId);
+            return
+                _dal.DeviceTypes.Include(x => x.FieldGroups.Select(y => y.DeviceTypes))
+                    .SingleOrDefault(i => i.TypeId == typeId);
         }
 
         public DeviceType GetDeviceType(string typeSlug)
         {
-            return _dal.DeviceTypes.Include(x => x.FieldGroups.Select(y => y.DeviceTypes)).Single(i => i.Slug.ToLower().Equals(typeSlug.ToLower()));
+            if (string.IsNullOrWhiteSpace(typeSlug))
+            {
+                return null;
+            }
+
+            return
+                _dal.DeviceTypes.Include(x => x.FieldGroups.Select(y => y.DeviceTypes))
+                    .Single(i => i.Slug.ToLower().Equals(typeSlug.ToLower()));
         }
 
         public IQueryable<DeviceType> GetDeviceTypes()
@@ -124,14 +121,6 @@ namespace HwInf.Common.BL
             var dev = new Device();
             _dal.Devices.Add(dev);
             return dev;
-        }
-
-        public DeviceMeta CreateDeviceMeta(DeviceMeta dm)
-        {
-            if (!IsAdmin() && !IsVerwalter()) return null;
-
-            _dal.DeviceMeta.Add(dm);
-            return dm;
         }
 
         public DeviceType CreateDeviceType()
@@ -184,7 +173,7 @@ namespace HwInf.Common.BL
         {
             if (!IsAdmin() && !IsVerwalter()) return;
 
-            if (!GetDevices(0, 0, false, dt.TypeId, true).Any())
+            if (!GetDevices(true, dt.Slug).Any())
             {
                 _dal.DeviceTypes.Remove(dt);
 
@@ -272,6 +261,7 @@ namespace HwInf.Common.BL
             if (!IsAdmin() && !IsVerwalter()) return;
             _dal.Fields.Remove(field);
         }
+
         #endregion
 
 
@@ -282,6 +272,7 @@ namespace HwInf.Common.BL
         {
             return _dal.Persons;
         }
+
         public Person GetUsers(string uid)
         {
             return _dal.Persons.SingleOrDefault(i => i.Uid == uid);
@@ -340,19 +331,71 @@ namespace HwInf.Common.BL
             {
                 _dal.SaveChanges();
             }
-            catch(DbEntityValidationException ex)
+            catch (DbEntityValidationException ex)
             {
 
                 var a = ex.EntityValidationErrors;
             }
-            
+
         }
 
 
         #endregion
 
+        public ICollection<Device> GetFilteredDevices
+        (
+            ICollection<DeviceMeta> meta,
+            string type = null,
+            string order = "DESC",
+            string orderBy = "Name",
+            int offset = 0,
+            int limit = 25,
+            bool onlyActive = true
+        )
+        {
+            var dt = GetDeviceType(type);
+            var devices = GetDevices(onlyActive, (string.IsNullOrWhiteSpace(type)) ? "" : dt.Slug).ToList();
+            var result = devices;
 
-        #region Auth
+            if (meta != null)
+            {
+                List<List<DeviceMeta>> deviceMetaGroupedByFieldGroup = meta
+                    .Where(i => !String.IsNullOrWhiteSpace(i.FieldGroupSlug))
+                    .Where(i => !String.IsNullOrWhiteSpace(i.FieldSlug))
+                    .Where(i => !String.IsNullOrWhiteSpace(i.MetaValue))
+                    .GroupBy(i => i.FieldGroupSlug, i => i)
+                    .ToList()
+                    .Select(i => i.ToList())
+                    .ToList();
+
+                deviceMetaGroupedByFieldGroup.ForEach(i =>
+                {
+                    result = result
+                        .Where(j => j.DeviceMeta.Intersect(i, new DeviceMetaComparer()).Count() == i.Count)
+                        .ToList();
+                });
+            }
+
+
+            result = order.Equals("ASC")
+                ? result.OrderBy(i =>
+                {
+                    var prop = i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null);
+                    return prop;
+
+                }).ToList()
+                : result.OrderByDescending(i => i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null)).ToList();
+
+            result = result
+                .Distinct()
+                .ToList();
+
+
+            return result;
+        }
+
+
+    #region Auth
 
         public bool IsAdmin()
         {
