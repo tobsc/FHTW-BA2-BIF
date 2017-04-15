@@ -57,12 +57,19 @@ export class DeviceListComponent implements OnInit, OnDestroy {
         });
   }
 
-  public addItem(device: Device) {
+  public addItem(device: Device): void {
       this.cartService.addItem(device);
   }
 
   public getMetaDataOfFieldGroup(slug: string, metaData: DeviceMeta[]): DeviceMeta[] {
       return metaData.filter((i) => i.FieldGroupSlug === slug);
+  }
+
+  public onFilterChanged(metaQuery): void {
+      this.filter.MetaQuery = metaQuery;
+      this.deviceService.getFilteredDevices(this.filter).subscribe(
+          (data) => this.devices = data.Devices
+      );
   }
 
   ngOnDestroy(): void {

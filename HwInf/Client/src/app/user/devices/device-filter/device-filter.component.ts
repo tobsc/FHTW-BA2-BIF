@@ -1,9 +1,13 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {CustomFieldsService} from "../../../shared/services/custom-fields.service";
 import {FieldGroup} from "../../../shared/models/fieldgroup.model";
 import {DeviceType} from "../../../shared/models/device-type.model";
-import {Observable, Subscription} from "rxjs";
+import {Subscription} from "rxjs";
 import {ActivatedRoute} from "@angular/router";
+import {FormBuilder, FormGroup, FormArray} from "@angular/forms";
+import {Filter} from "../../../shared/models/filter.model";
+import {Field} from "../../../shared/models/field.model";
+import {DeviceMeta} from "../../../shared/models/device-meta.model";
 
 @Component({
   selector: 'hwinf-device-filter',
@@ -11,20 +15,92 @@ import {ActivatedRoute} from "@angular/router";
   styleUrls: ['./device-filter.component.scss']
 })
 export class DeviceFilterComponent implements OnInit {
-
+  @Input() inputFilter: Filter;
+  @Output() outputFilter: EventEmitter<DeviceMeta[]> = new EventEmitter<DeviceMeta[]>();
   @Input() deviceType: DeviceType;
   private fieldGroups: FieldGroup[];
   private sub: Subscription;
+  private isCollapsedArr: boolean[];
+  private form: FormGroup;
+  private metaQueries: FormArray;
+  private count = 0;
 
   constructor(
       private customFieldsService: CustomFieldsService,
-      private route: ActivatedRoute
+      private route: ActivatedRoute,
+      private fb: FormBuilder
   ) { }
 
   ngOnInit() {
+    this.form = this.initForm();
+    this.sub = this.route.params
+          .map( i => i['type'])
+          .flatMap( i => this.customFieldsService.getFieldGroupsOfType(i))
+          .subscribe(
+              (data: FieldGroup[]) => {
+                this.fieldGroups = data;
+                this.isCollapsedArr = [];
+                this.fieldGroups.forEach(() => this.isCollapsedArr.push(true));
+                this.form = this.initForm();
+                this.metaQueries = <FormArray>this.form.controls['MetaQuery'];
 
-      this.sub = this.route.params.map( i => i['type']).flatMap( i => this.customFieldsService.getFieldGroupsOfType(i))
-          .subscribe((data) => this.fieldGroups = data );
+                const flatten = arr => arr.reduce(
+                    (acc, val) => acc.concat(
+                        Array.isArray(val) ? flatten(val) : val
+                    ),[]);
+
+                flatten(this.fieldGroups.map(i => i.Fields)).forEach(() => {
+                  this.addDeviceMeta();
+                });
+              }
+          );
   }
+
+  initForm(): FormGroup {
+    return this.fb.group({
+      MetaQuery:  this.fb.array([])
+    });
+  }
+
+  public getCount() {
+    return this.count++;
+  }
+
+  addDeviceMeta(): void{
+    this.metaQueries.push(this.initDeviceMeta());
+  }
+
+  initDeviceMeta(): FormGroup {
+    return this.fb.group({
+      isChecked: [false],
+      FieldGroupSlug: [],
+      FieldSlug: [],
+      Value: []
+    });
+  }
+
+  onCollapse(index: number) {
+    this.isCollapsedArr[index] = !this.isCollapsedArr[index];
+  }
+
+
+  onSubmit(form: FormGroup, ev: Event) {
+    this.outputFilter.emit(this.mappedForm(form));
+  }
+
+  mappedForm(form: FormGroup): DeviceMeta[] {
+
+    console.log(form.value.MetaQuery);
+
+    return form.value.MetaQuery
+        .filter(i => i.isChecked)
+        .map(i => <DeviceMeta>({
+            FieldGroupSlug: i.FieldGroupSlug,
+            FieldSlug: i.FieldSlug,
+            Value: i.Value
+          })
+        );
+  }
+
 
 }

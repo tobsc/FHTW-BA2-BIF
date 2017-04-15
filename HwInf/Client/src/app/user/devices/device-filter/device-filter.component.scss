@@ -1,0 +1,25 @@
+
+
+.panel_toolbox {
+  min-width: 0;
+}
+
+.checkbox {
+  border-bottom: 1px dotted rgba(#000, 0.2);
+  display: flex;
+  justify-content: space-between
+}
+
+input[type="checkbox"]:not(:checked) {
+  opacity: 0.5;
+}
+
+input[type="number"] {
+  border: none;
+  text-align: right;
+  padding-right: 5px;
+  width: 60px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button { margin-left: 10px;  opacity: 1;}

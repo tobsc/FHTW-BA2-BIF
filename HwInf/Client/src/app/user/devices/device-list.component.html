@@ -19,7 +19,11 @@
 <div class="row gutter-10">
         <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3">
 
-            <hwinf-device-filter [deviceType]="currentType"></hwinf-device-filter>
+            <hwinf-device-filter
+                [deviceType]="currentType"
+                [inputFilter]="filter"
+                (outputFilter)="onFilterChanged($event)">
+            </hwinf-device-filter>
 
         </div>
 

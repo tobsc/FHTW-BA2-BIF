@@ -1,12 +1,30 @@
-<ul>
-
-  {{deviceType?.Slug}}
-  <li *ngFor="let fieldGroup of fieldGroups">
-    {{fieldGroup.Name}}
-    <ul>
-      <li *ngFor="let field of fieldGroup.Fields">
-        {{ field.Name }}
-      </li>
-    </ul>
-  </li>
-</ul>
+<form [formGroup]="form" (ngSubmit)="onSubmit(form, $event)" (change)="onSubmit(form, $event)">
+  <div formArrayName="MetaQuery" >
+    <div class="x_panel" *ngFor="let fieldGroup of fieldGroups; let i = index">
+      <div class="x_title">
+        {{fieldGroup.Name}}
+        <ul class="nav navbar-right panel_toolbox">
+          <li>
+            <a class="collapse-link" (click)="onCollapse(i)">
+              <i *ngIf="!isCollapsedArr[i]" class="fa fa-chevron-up"></i>
+              <i *ngIf="isCollapsedArr[i]" class="fa fa-chevron-down"></i>
+            </a>
+          </li>
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content" [(collapse)]="isCollapsedArr[i]">
+        <div class="checkbox" *ngFor="let field of fieldGroup.Fields;let j = index;" [formGroupName]="j">
+          <label>
+            <input type="checkbox" value="{{field.Slug}}" name="{{field.Slug}}" formControlName="isChecked">
+            {{field.Name}} - {{i * 4 + j}}
+          </label>
+          <input type="hidden" formControlName="FieldGroupSlug" value="{{fieldGroup.Slug}}" ngModel="{{fieldGroup.Slug}}">
+          <input type="hidden" formControlName="FieldSlug" value="{{field.Slug}}" ngModel="{{field.Slug}}">
+          <input type="number" min="1" value="1" formControlName="Value" ngModel="1">
+        </div>
+      </div>
+    </div>
+  </div>
+  <button class="btn btn-success" type="submit">submit</button>
+</form>
