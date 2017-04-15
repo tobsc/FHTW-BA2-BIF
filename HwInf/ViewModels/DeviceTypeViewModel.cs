@@ -44,12 +44,17 @@ namespace HwInf.ViewModels
             var source = this;
 
             target.Name = source.Name;
-            target.Slug = SlugGenerator.GenerateSlug(source.Name, "deviceType");
+            target.Slug = SlugGenerator.GenerateSlug(bl, source.Name, "deviceType");
             target.FieldGroups = new List<FieldGroup>();
 
-            var fgs = source.FieldGroups.Select(i => bl.GetFieldGroups(i.Slug)).ToList();
-            fgs.RemoveAll(i => i == null);
-            fgs.ForEach(i => target.FieldGroups.Add(i));
+
+            if (source.FieldGroups != null)
+            {
+                var fgs = source.FieldGroups.Select(i => bl.GetFieldGroups(i.Slug)).ToList();
+                fgs.RemoveAll(i => i == null);
+                fgs.ForEach(i => target.FieldGroups.Add(i));
+            }
+
             target.IsActive = source.IsActive;
 
         }

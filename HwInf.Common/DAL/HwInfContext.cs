@@ -3,13 +3,48 @@ using HwInf.Common.Migrations;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.Entity.Validation;
+using System.Linq;
 using HwInf.Common.Models;
 using log4net;
 
 namespace HwInf.Common.DAL
 {
+    public interface IDAL
+    {
+        IQueryable<Device> Devices { get; }
+        IQueryable<DeviceMeta> DeviceMeta { get; }
+        IQueryable<DeviceType> DeviceTypes { get; }
+        IQueryable<DeviceStatus> DeviceStatus { get; }
+        IQueryable<OrderStatus> OrderStatus { get; }
+        IQueryable<Person> Persons { get; }
+        IQueryable<Role> Roles { get; }
+        IQueryable<Order> Orders { get; }
+        IQueryable<DeviceHistory> DeviceHistory { get; }
+        IQueryable<Field> Fields { get; }
+        IQueryable<FieldGroup> FieldGroups { get; }
 
-    public class HwInfContext : DbContext
+        Device CreateDevice();
+        DeviceType CreateDeviceType();
+        DeviceStatus CreatDeviceStatus();
+        OrderStatus CreateOrderStatus();
+        Person CreatePerson();
+        Order CreateOrder();
+        DeviceHistory CReDeviceHistory();
+        Field CreaField();
+        FieldGroup CreteFieldGroup();
+        DeviceStatus CreateDeviceStatus();
+        DeviceMeta CreateDeviceMeta();
+
+        void SaveChanges();
+        void DeleteDeviceType(DeviceType dt);
+        void DeleteDeviceMeta(DeviceMeta dm);
+        void DeleteField(Field f);
+        void UpdateObject(object obj);
+        void Dispose();
+    }
+
+
+    public class HwInfContext : DbContext, IDAL
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(HwInfContext));
 
@@ -55,6 +90,125 @@ namespace HwInf.Common.DAL
 
                 throw;
             }
+        }
+
+        IQueryable<Device> IDAL.Devices => Devices
+            .Include(x => x.Type)
+            .Include(x => x.DeviceMeta)
+            .Include(x => x.Type.FieldGroups.Select(y => y.Fields));
+        IQueryable<DeviceMeta> IDAL.DeviceMeta => DeviceMeta;
+        IQueryable<DeviceType> IDAL.DeviceTypes => DeviceTypes
+            .Include(x => x.FieldGroups.Select(y => y.DeviceTypes));
+        IQueryable<DeviceStatus> IDAL.DeviceStatus => DeviceStatus;
+        IQueryable<OrderStatus> IDAL.OrderStatus => OrderStatus;
+        IQueryable<Person> IDAL.Persons => Persons;
+        IQueryable<Role> IDAL.Roles => Roles;
+        IQueryable<Order> IDAL.Orders => Orders;
+        IQueryable<DeviceHistory> IDAL.DeviceHistory => DeviceHistory;
+        IQueryable<Field> IDAL.Fields => Fields;
+        IQueryable<FieldGroup> IDAL.FieldGroups => FieldGroups
+            .Include(x => x.Fields);
+        public Device CreateDevice()
+        {
+            var dev = new Device();
+            Devices.Add(dev);
+            return dev;
+        }
+
+        public DeviceType CreateDeviceType()
+        {
+            var dt = new DeviceType();
+            DeviceTypes.Add(dt);
+            return dt;
+        }
+
+        public DeviceStatus CreatDeviceStatus()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public OrderStatus CreateOrderStatus()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Person CreatePerson()
+        {
+            var obj = new Person();
+            Persons.Add(obj);
+            return obj;
+        }
+
+        public Order CreateOrder()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public DeviceHistory CReDeviceHistory()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Field CreaField()
+        {
+            var obj = new Field();
+            Fields.Add(obj);
+
+            return obj;
+        }
+
+        public FieldGroup CreteFieldGroup()
+        {
+            var fg = new FieldGroup();
+            FieldGroups.Add(fg);
+            return fg;
+        }
+
+        void IDAL.SaveChanges()
+        {
+            SaveChanges();
+        }
+
+        public void DeleteDevice()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void DeleteDeviceMeta(DeviceMeta dm)
+        {
+            DeviceMeta.Remove(dm);
+        }
+
+
+        public void UpdateObject(object obj)
+        {
+            Entry(obj).State = EntityState.Modified;
+        }
+
+        public void DeleteDeviceType(DeviceType dt)
+        {
+            DeviceTypes.Remove(dt);
+        }
+
+        public void DeleteField(Field f)
+        {
+            Fields.Remove(f);
+        }
+        void IDAL.Dispose()
+        {
+            Dispose();
+        }
+
+        public DeviceStatus CreateDeviceStatus()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public DeviceMeta CreateDeviceMeta()
+        {
+            var dm = new DeviceMeta();
+            DeviceMeta.Add(dm);
+            return dm;
         }
     }
 }

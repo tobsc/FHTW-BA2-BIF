@@ -37,7 +37,7 @@ namespace HwInf.Controllers
         [Route("slug")]
         public IHttpActionResult GetSlug(string input, string entity)
         {
-            return Ok(SlugGenerator.GenerateSlug(input, entity));
+            return Ok(SlugGenerator.GenerateSlug(_bl, input, entity));
         }
 
         // GET: api/admin/devices/groups

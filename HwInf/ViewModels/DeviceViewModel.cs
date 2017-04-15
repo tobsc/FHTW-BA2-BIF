@@ -51,7 +51,10 @@ namespace HwInf.ViewModels
             target.IsActive = source.IsActive;
             target.CreateDate = source.CreateDate.ToShortDateString();
 
-            target.FieldGroups = source.Type.FieldGroups.Select(i => new {Slug = i.Slug, Name = i.Name}).ToList();
+            if (source.Type.FieldGroups != null)
+            {
+                target.FieldGroups = source.Type.FieldGroups.Select(i => new { Slug = i.Slug, Name = i.Name }).ToList();
+            }
         }
 
         public void ApplyChanges(Device obj, BL bl)
