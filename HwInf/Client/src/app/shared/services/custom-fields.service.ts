@@ -12,7 +12,8 @@ export class CustomFieldsService {
   ) { }
 
   public addFieldGroup(body: FieldGroup): Observable<FieldGroup> {
-    let bodyString = JSON.stringify(body);
+      let bodyString = JSON.stringify(body);
+      console.log(bodyString);
     let headers = new Headers({
       'Content-Type': 'application/json'
     });

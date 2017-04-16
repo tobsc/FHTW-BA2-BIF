@@ -1,18 +1,64 @@
-<div style="width: 300px; margin-bottom: 20px;">
-  <h3>Select multiple cities</h3>
-  <ng-select  [multiple]="true"
-              [items]="items"
-              [disabled]="disabled"
-              (data)="refreshValue($event)"
-              (selected)="selected($event)"
-              (removed)="removed($event)"
-              placeholder="No city selected"></ng-select>
-  <pre>{{itemsToString(value)}}</pre>
-  <div>
-    <button type="button" class="btn btn-primary"
-            [(ngModel)]="disabledV" btnCheckbox
-            btnCheckboxTrue="1" btnCheckboxFalse="0">
-      {{disabled === '1' ? 'Enable' : 'Disable'}}
-    </button>
-  </div>
+﻿<div class="x_panel">
+    <div class="x_title">
+        <h2>Feldgruppe <b>{{startFieldGroupName}}</b> editieren</h2>
+        <div class="close" style="transform: translate(17px,-3px)">
+            <span class="btn btn-danger" routerLink="/admin/geraete/felder/verwalten">&times;</span>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="x_content">
+        <alert type="warning" dismissible="true">
+            <strong>ACHTUNG!</strong> Hier werden Feldgruppen VERÄNDERT! Jegliche Änderungen sind nicht rückgängig machbar!
+        </alert>
+        <br>
+        <form [formGroup]="form" (ngSubmit)="onSubmit(form)" id="demo-form2" class="form-horizontal form-label-left">
+            <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-11" for="typename">
+                    Feldgruppenname
+                </label>
+                <div class="col-md-6 col-sm-6 col-xs-11">
+                    <input type="text" id="typename" required="required" class="form-control col-md-7 col-xs-12" formControlName="Name">
+                </div>
+            </div>
+
+            <div id="meta_fields" formArrayName="Fields">
+
+                <div class="form-group" *ngFor="let field of form.controls.Fields.controls; let i = index;">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                        Feld
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="row">
+
+                            <div class="col-xs-12">
+                                <div class="form-group" [formGroupName]="i">
+                                    <div class="field-select">
+                                        <input type="text" class="form-control" formControlName="Slug" value="">
+                                        <a class="btn btn-danger btn-rm-row" (click)="removeField(i)"><i class="fa fa-times" aria-hidden="true"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                    <button type="button" class="btn btn-default" (click)="addField()">Feldgruppe hinzufügen</button>
+                </div>
+            </div>
+            <div class="ln_solid"></div>
+            <div class="form-group">
+                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                    <div class="weiter-zurueck-btns">
+                        <button type="submit" class="btn btn-success" [disabled]="!form.valid">Ändern</button>
+                        <button routerLink="/admin/geraete/felder/verwalten" class="btn btn-danger" [disabled]="false">Abbrechen</button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
 </div>

@@ -1,11 +1,12 @@
 <div class="row">
-  <div class="col-xs-12 col-lg-6">
-    <hwinf-device-custom-fields-fieldgroups-add (fieldGroupsListUpdated)="pushData($event)"></hwinf-device-custom-fields-fieldgroups-add>
-
-
+  <div class="col-md-6 col-sm-6 col-xs-12">
+      <hwinf-device-custom-fields-fieldgroups-list></hwinf-device-custom-fields-fieldgroups-list>
   </div>
-  <div class="col-xs-12 col-lg-6">
-    <hwinf-device-custom-fields-fieldgroups-list></hwinf-device-custom-fields-fieldgroups-list>
+
+  <div class="col-md-6 col-sm-6 col-xs-12">
+      <router-outlet>
+      </router-outlet>
+    <!-- <hwinf-device-custom-fields-fieldgroups-add (fieldGroupsListUpdated)="pushData($event)"></hwinf-device-custom-fields-fieldgroups-add>-->
 
   </div>
 </div>

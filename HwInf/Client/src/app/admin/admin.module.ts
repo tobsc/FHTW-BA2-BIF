@@ -11,7 +11,8 @@ import { DeviceTypesAddComponent } from "./devices/device-types/device-types-add
 import { DeviceTypesEditComponent } from "./devices/device-types/device-types-edit/device-types-edit.component";
 import {DeviceCustomFieldsComponent} from "./devices/device-custom-fields/device-custom-fields.component";
 import {DeviceCustomFieldsFieldgroupsListComponent} from "./devices/device-custom-fields/device-custom-fields-fieldgroups-list/device-custom-fields-fieldgroups-list.component";
-import {DeviceCustomFieldsFieldgroupsAddComponent} from "./devices/device-custom-fields/device-custom-fields-fieldgroups-add/device-custom-fields-fieldgroups-add.component";
+import { DeviceCustomFieldsFieldgroupsAddComponent } from "./devices/device-custom-fields/device-custom-fields-fieldgroups-add/device-custom-fields-fieldgroups-add.component";
+import { DeviceCustomFieldsFieldgroupsEditComponent } from "./devices/device-custom-fields/device-custom-fields-fieldgroups-edit/device-custom-fields-fieldgroups-edit.component";
 import {Ng2AutoCompleteModule} from "ng2-auto-complete";
 import {FieldsToArrayPipe} from "./devices/device-add/fields-to-array.pipe";
 import {ToArrayPipe} from "../shared/pipes/to-array.pipe";
@@ -45,6 +46,7 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
         DeviceCustomFieldsComponent,
         DeviceCustomFieldsFieldgroupsListComponent,
         DeviceCustomFieldsFieldgroupsAddComponent,
+        DeviceCustomFieldsFieldgroupsEditComponent,
         FieldsToArrayPipe,
         ToArrayPipe,
         DeviceFormComponent,
