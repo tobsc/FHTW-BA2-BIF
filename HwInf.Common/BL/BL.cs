@@ -23,7 +23,7 @@ namespace HwInf.Common.BL
 
         public BL()
         {
-            
+            _dal = new HwInfContext();
         }
 
         public BL(IDAL dal)

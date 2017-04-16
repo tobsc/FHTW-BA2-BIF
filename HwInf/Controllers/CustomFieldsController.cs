@@ -11,6 +11,7 @@ using HwInf.Common.DAL;
 using HwInf.Common.BL;
 using HwInf.Common.Models;
 using HwInf.ViewModels;
+using log4net;
 using WebGrease.Css.Extensions;
 
 namespace HwInf.Controllers
@@ -19,11 +20,12 @@ namespace HwInf.Controllers
     [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
     public class CustomFieldsController : ApiController
     {
-        private readonly HwInfContext _db = new HwInfContext();
+        private readonly IDAL _db;
         private readonly BL _bl;
 
         public CustomFieldsController()
         {
+            _db = new HwInfContext();
             _bl = new BL(_db);
         }
 
