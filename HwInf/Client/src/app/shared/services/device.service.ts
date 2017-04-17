@@ -138,7 +138,7 @@ export class DeviceService {
             'Content-Type': 'application/json'
         });
         let options = new RequestOptions({ headers: headers });
-        return this.http.put(this.url + "types/slug/" + body.Slug, bodyString, options)
+        return this.http.put(this.url + "types/" + body.Slug, bodyString, options)
             .map((response: Response) => response.json());
     }
 

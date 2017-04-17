@@ -13,7 +13,6 @@ export class CustomFieldsService {
 
   public addFieldGroup(body: FieldGroup): Observable<FieldGroup> {
       let bodyString = JSON.stringify(body);
-      console.log(bodyString);
     let headers = new Headers({
       'Content-Type': 'application/json'
     });
@@ -37,5 +36,16 @@ export class CustomFieldsService {
   public getFieldGroupsOfTypeForFilter ( deviceTypeSlug: string = ''): Observable<FieldGroup[]> {
     return this.http.get('/api/customfields/filter/fieldgroups/' + deviceTypeSlug)
         .map((response: Response) => response.json());
+  }
+
+  public editFieldGroup(body: FieldGroup): Observable<FieldGroup> {
+      let bodyString = JSON.stringify(body);
+      console.log(bodyString);
+      let headers = new Headers({
+          'Content-Type': 'application/json'
+      });
+      let options = new RequestOptions({ headers: headers });
+      return this.http.put('/api/customfields/fieldgroups/'+ body.Slug, bodyString, options)
+          .map((response: Response) => response.json());
   }
 }

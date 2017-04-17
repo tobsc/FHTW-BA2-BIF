@@ -77,7 +77,7 @@ export class DeviceCustomFieldsFieldgroupsEditComponent implements OnInit {
 
         for (let fields of this.fieldGroup.Fields) {
             this.fields.push(this.fb.group({
-                Slug: [fields.Name, Validators.required]
+                Name: [fields.Name, Validators.required]
             }))
         }
 
@@ -88,7 +88,7 @@ export class DeviceCustomFieldsFieldgroupsEditComponent implements OnInit {
         this.form.controls['Name'].setValue(this.startFieldGroupName);
 
         return this.fb.group({
-            Slug: ['', Validators.required]
+            Name: ['', Validators.required]
         });
     }
 
@@ -109,10 +109,11 @@ export class DeviceCustomFieldsFieldgroupsEditComponent implements OnInit {
     onSubmit(form: NgForm) {
 
         this.fieldGroup.Name = form.value.Name;
+        this.fieldGroup.Fields = form.value.Fields;
 
-        ////FieldGroup not an array
-        //this.fieldGroup.FieldGroups = form.value.FieldGroups;
-
+        this.customFieldsService.editFieldGroup(this.fieldGroup).subscribe((item: FieldGroup) => {
+            console.log(item)
+        });
         //this.deviceService.editDeviceType(this.fieldGroup).subscribe(
         //    (next) => {
         //        this.deviceTypesListUpdated.emit(next);

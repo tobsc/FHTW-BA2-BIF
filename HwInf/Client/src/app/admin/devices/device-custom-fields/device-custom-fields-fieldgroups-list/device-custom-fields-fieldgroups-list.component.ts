@@ -30,4 +30,18 @@ export class DeviceCustomFieldsFieldgroupsListComponent implements OnInit {
     this.fieldGroups.push(item);
   }
 
+  removeDeviceType(index: number) {
+      this.fieldGroups.splice(index, 1);
+  }
+
+  onDelete(groupSlug: string, index: number) {
+
+      //api for deleting fieldgroup?
+      //this.customFieldsService.delete.deleteDeviceType(groupSlug)
+      //    .subscribe(
+      //    () => { this.removeDeviceType(index) },
+      //    (err) => console.log(err)
+      //    );
+  }
+
 }

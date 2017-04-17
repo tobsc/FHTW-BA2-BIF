@@ -114,11 +114,11 @@ export class DeviceTypesEditComponent implements OnInit {
         //FieldGroup not an array
         this.deviceType.FieldGroups = form.value.FieldGroups;
 
+        console.log(form.value.FieldGroups);
         this.deviceService.editDeviceType(this.deviceType).subscribe(
             (next) => {
                 this.deviceTypesListUpdated.emit(next);
-                this.form.reset();
-                this.clearFieldGroup();
+                
             },
             (error) => console.log(error),
             () => console.log('')
