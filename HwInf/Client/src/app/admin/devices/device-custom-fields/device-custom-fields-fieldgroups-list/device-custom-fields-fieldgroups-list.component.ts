@@ -35,9 +35,8 @@ export class DeviceCustomFieldsFieldgroupsListComponent implements OnInit {
   }
 
   onDelete(groupSlug: string, index: number) {
-
-      //api for deleting fieldgroup?
-      //this.customFieldsService.delete.deleteDeviceType(groupSlug)
+      //UNCOMMENT WHEN API CALL IS CREATED
+      //this.customFieldsService.deleteFieldGroup(groupSlug)
       //    .subscribe(
       //    () => { this.removeDeviceType(index) },
       //    (err) => console.log(err)

@@ -48,4 +48,8 @@ export class CustomFieldsService {
       return this.http.put('/api/customfields/fieldgroups/'+ body.Slug, bodyString, options)
           .map((response: Response) => response.json());
   }
+
+  public deleteFieldGroup(slug: string) {
+      return this.http.delete('/api/customfields/fieldgroups/' + slug);
+  }
 }
