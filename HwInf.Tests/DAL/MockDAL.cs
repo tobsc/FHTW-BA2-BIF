@@ -300,5 +300,10 @@ namespace HwInf.Tests.DAL
             _deviceMeta.Add(dm);
             return dm;
         }
+
+        public void DeleteFieldGroup(FieldGroup fg)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

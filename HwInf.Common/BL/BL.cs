@@ -243,6 +243,24 @@ namespace HwInf.Common.BL
             _dal.DeleteField(field);
         }
 
+        public void DeleteFieldGroup(FieldGroup obj)
+        {
+            if(!IsAdmin() && !IsVerwalter()) return;
+
+            var fg = _dal.DeviceTypes.SelectMany(i => i.FieldGroups).ToList();
+            if (!fg.Any(i => i.Slug.Equals(obj.Slug)))
+            {
+                obj.Fields.ToList().ForEach(i => _dal.DeleteField(i));
+                _dal.DeleteFieldGroup(obj);
+                
+            }
+            else
+            {
+                UpdateFieldGroup(obj);
+                obj.IsActive = false;
+            }
+        }
+
         #endregion
 
 

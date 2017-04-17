@@ -110,7 +110,6 @@ export class DeviceCustomFieldsFieldgroupsEditComponent implements OnInit {
 
         this.fieldGroup.Name = form.value.Name;
         this.fieldGroup.Fields = form.value.Fields;
-
         this.customFieldsService.editFieldGroup(this.fieldGroup).subscribe((item: FieldGroup) => {
             console.log(item)
         });

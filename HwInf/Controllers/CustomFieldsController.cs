@@ -185,7 +185,6 @@ namespace HwInf.Controllers
         /// <summary>
         /// Returns fieldgroups with used fields from type
         /// </summary>
-        /// <param name="typeSlug">DeviceType Slug</param>
         /// <returns></returns>
         [ResponseType(typeof(FieldGroupViewModel))]
         [Route("filter/fieldgroups/")]
@@ -286,9 +285,39 @@ namespace HwInf.Controllers
             });
 
             return Ok(res);
+        }
 
+        // DELETE: 
+        /// <summary>
+        /// Delete Fieldgroup
+        /// </summary>
+        /// <param name="slug">DeviceType Slug</param>
+        /// <returns></returns>
+        [Authorize(Roles = "Admin, Verwalter")]
+        [ResponseType(typeof(FieldGroupViewModel))]
+        [Route("fieldgroups/{slug}")]
+        public IHttpActionResult DeleteFieldGroup(string slug)
+        {
+            try
+            {
+                var obj = _bl.GetFieldGroups(slug);
+                _bl.DeleteFieldGroup(obj);
+                _bl.SaveChanges();
 
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!_bl.FieldGroupExists(slug))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
+            return Ok();
         }
 
 

@@ -24,5 +24,6 @@ namespace HwInf.Common.Models
         public string Slug { get; set; }
         public ICollection<Field> Fields { get; set; }
         public virtual ICollection<DeviceType> DeviceTypes { get; set; }
+        public bool IsActive { get; set; }
     }
 }

@@ -13,6 +13,7 @@ namespace HwInf.ViewModels
         public string Name { get; set; }
         public string Slug { get; set; }
         public ICollection<FieldViewModel> Fields { get; set; }
+        public bool IsActive { get; set; } = true;
 
 
         public FieldGroupViewModel()

@@ -39,6 +39,7 @@ namespace HwInf.Common.DAL
         void DeleteDeviceType(DeviceType dt);
         void DeleteDeviceMeta(DeviceMeta dm);
         void DeleteField(Field f);
+        void DeleteFieldGroup(FieldGroup fg);
         void UpdateObject(object obj);
         void Dispose();
     }
@@ -209,6 +210,11 @@ namespace HwInf.Common.DAL
             var dm = new DeviceMeta();
             DeviceMeta.Add(dm);
             return dm;
+        }
+
+        public void DeleteFieldGroup(FieldGroup fg)
+        {
+            FieldGroups.Remove(fg);
         }
     }
 }
