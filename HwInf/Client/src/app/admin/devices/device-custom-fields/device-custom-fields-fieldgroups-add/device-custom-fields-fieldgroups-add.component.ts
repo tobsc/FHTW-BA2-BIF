@@ -58,6 +58,9 @@ export class DeviceCustomFieldsFieldgroupsAddComponent implements OnInit {
         },
         (err) => console.log(err)
     );
+      //BAD HACK
+    location.reload();
   }
+
 
 }

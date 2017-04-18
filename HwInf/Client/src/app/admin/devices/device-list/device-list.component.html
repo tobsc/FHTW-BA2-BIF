@@ -89,7 +89,7 @@
           <td>{{device.CreateDate}}</td>
           <td title="({{device.Verwalter.Uid}}) {{device.Verwalter.Name}} {{device.Verwalter.LastName}}">{{device.Verwalter.Name}} {{device.Verwalter.LastName}}</td>
           <td>
-            <a routerLink="/admin/geraete/invnum/{{device.InvNum}}/" title="Gerät bearbeiten" class="btn btn-warning btn-sm" aria-label="Bearbeiten"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+            <a routerLink="/admin/geraete/verwalten/{{device.InvNum}}/" title="Gerät bearbeiten" class="btn btn-warning btn-sm" aria-label="Bearbeiten"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
             <a [routerLink]="['/admin/geraete/erstellen/', device.InvNum]" title="Gerät duplizieren" class="btn btn-info btn-sm" aria-label="Duplizieren"><i class="fa fa-files-o" aria-hidden="true"></i></a>
             <a (click)="onDelete(device.DeviceId, i)" title="Gerät löschen" class="btn btn-danger btn-sm" aria-label="Löschen">
               <i class="fa fa-trash-o" aria-hidden="true"></i>

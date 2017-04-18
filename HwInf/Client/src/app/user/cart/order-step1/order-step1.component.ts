@@ -39,7 +39,9 @@ export class OrderStep1Component implements OnInit {
     }
 
     private update(form: NgForm): void {
+        if (form.form.value.Tel != null && form.form.value.Tel != "" && form.form.value.Tel != this.user.Tel) {
             this.user.Tel = form.form.value.Tel;
+        }
             this.userService.updateUser(this.user)
                 .subscribe(
                     (next) => {

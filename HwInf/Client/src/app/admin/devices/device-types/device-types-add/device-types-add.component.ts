@@ -1,4 +1,5 @@
-import {Component, OnInit, Output, EventEmitter} from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 import {FormGroup, FormBuilder, Validators, FormArray, NgForm} from "@angular/forms";
 import {DeviceService} from "../../../../shared/services/device.service";
 import {DeviceType} from "../../../../shared/models/device-type.model";
@@ -20,7 +21,8 @@ export class DeviceTypesAddComponent implements OnInit {
   constructor(
       private fb: FormBuilder,
       private deviceService: DeviceService,
-      private customFieldsService: CustomFieldsService
+      private customFieldsService: CustomFieldsService,
+      private route: Router
   ) { }
 
   ngOnInit() {
@@ -73,6 +75,8 @@ export class DeviceTypesAddComponent implements OnInit {
         () => console.log('')
     );
 
+      //BAD HACK
+    location.reload();
   }
 
 }

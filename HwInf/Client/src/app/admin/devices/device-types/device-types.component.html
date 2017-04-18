@@ -4,7 +4,7 @@
 
   </div>
   <div class="col-md-6 col-sm-6 col-xs-12">
-      <router-outlet>
+      <router-outlet (deviceTypeListUpdated)="pushData($event)">
       </router-outlet>
     <!--<hwinf-device-types-add (deviceTypesListUpdated)="pushData($event)"></hwinf-device-types-add>-->
   </div>
