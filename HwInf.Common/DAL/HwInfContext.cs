@@ -22,7 +22,7 @@ namespace HwInf.Common.DAL
         IQueryable<DeviceHistory> DeviceHistory { get; }
         IQueryable<Field> Fields { get; }
         IQueryable<FieldGroup> FieldGroups { get; }
-
+        IQueryable<Setting> Settings { get; }
         Device CreateDevice();
         DeviceType CreateDeviceType();
         DeviceStatus CreatDeviceStatus();
@@ -34,12 +34,14 @@ namespace HwInf.Common.DAL
         FieldGroup CreteFieldGroup();
         DeviceStatus CreateDeviceStatus();
         DeviceMeta CreateDeviceMeta();
+        Setting CreateSetting();
 
         void SaveChanges();
         void DeleteDeviceType(DeviceType dt);
         void DeleteDeviceMeta(DeviceMeta dm);
         void DeleteField(Field f);
         void DeleteFieldGroup(FieldGroup fg);
+        void DeleteSetting(Setting s);
         void UpdateObject(object obj);
         void Dispose();
     }
@@ -65,6 +67,7 @@ namespace HwInf.Common.DAL
         public DbSet<DeviceHistory> DeviceHistory { get; set; }
         public DbSet<Field> Fields { get; set; }
         public DbSet<FieldGroup> FieldGroups { get; set; }
+        public DbSet<Setting> Settings { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -109,6 +112,7 @@ namespace HwInf.Common.DAL
         IQueryable<Field> IDAL.Fields => Fields;
         IQueryable<FieldGroup> IDAL.FieldGroups => FieldGroups
             .Include(x => x.Fields);
+        IQueryable<Setting> IDAL.Settings => Settings;
         public Device CreateDevice()
         {
             var dev = new Device();
@@ -215,6 +219,18 @@ namespace HwInf.Common.DAL
         public void DeleteFieldGroup(FieldGroup fg)
         {
             FieldGroups.Remove(fg);
+        }
+
+        public Setting CreateSetting()
+        {
+            var setting = new Setting();
+            Settings.Add(setting);
+            return setting;
+        }
+
+        public void DeleteSetting(Setting s)
+        {
+            Settings.Remove(s);
         }
     }
 }

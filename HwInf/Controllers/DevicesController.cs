@@ -22,7 +22,7 @@ namespace HwInf.Controllers
     {
         private readonly IDAL _db;
         private readonly BL _bl;
-        private readonly ILog _log = LogManager.GetLogger("Devices");
+        private readonly ILog _log = LogManager.GetLogger(typeof(DevicesController));
 
         public DevicesController()
         {
