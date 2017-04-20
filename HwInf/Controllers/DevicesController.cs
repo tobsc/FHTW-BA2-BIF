@@ -392,7 +392,7 @@ namespace HwInf.Controllers
                 }
             });
 
-
+            var response = new List<DeviceViewModel>();
 
             invNums
                 .Select(i => i.InvNum)
@@ -403,6 +403,8 @@ namespace HwInf.Controllers
                     vmdl.InvNum = i;
                     vmdl.ApplyChanges(d, _bl);
                     vmdl.Refresh(d);
+                    response.Add(new DeviceViewModel(d).LoadMeta(d));
+
                 });
 
             _bl.SaveChanges();
@@ -414,7 +416,7 @@ namespace HwInf.Controllers
                 _log.InfoFormat("Device '{0}({1})' added by '{2}'", n.InvNum, vmdl.Name, User.Identity.Name);
             }
 
-            return Ok(vmdl);
+            return Ok(response);
         }
 
         // POST: api/admin/devices/types
