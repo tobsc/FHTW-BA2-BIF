@@ -354,6 +354,11 @@ namespace HwInf.Common.BL
             return _dal.CreateOrderItem();
         }
 
+        public void UpdateOrderItem(OrderItem obj)
+        {
+            _dal.UpdateObject(obj);
+        }
+
         #endregion
 
         public void SaveChanges()

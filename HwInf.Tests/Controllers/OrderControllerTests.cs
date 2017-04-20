@@ -109,5 +109,52 @@ namespace HwInf.Tests.Controllers
             var objGetRes = objGet as NotFoundResult;
             Assert.NotNull(objGetRes);
         }
+
+        [Test]
+        public void ctr_should_update_order_items_status()
+        {
+
+            var obj = _bl.CreateOrderItem();
+            Assert.NotNull(obj);
+            obj.ItemId = 1;
+            obj.Device = _bl.GetSingleDevice("a5123");
+            obj.OrderStatus = _bl.GetOrderStatus("offen");
+
+            var objGet = _bl.GetOrderItem(1);
+            Assert.NotNull(objGet);
+
+            var res = ctr.PutOrderItem(objGet.ItemId, "akzeptiert") as OkNegotiatedContentResult<OrderItemViewModel>;
+            Assert.NotNull(res);
+            Assert.NotNull(res.Content);
+
+            var objGetEdit = _bl.GetOrderItem(1);
+            Assert.True(objGetEdit.OrderStatus.Slug.Equals("akzeptiert"));
+        }
+
+        [Test]
+        public void ctr_should_return_not_found_on_edit_when_order_status_not_found()
+        {
+
+            var obj = _bl.CreateOrderItem();
+            Assert.NotNull(obj);
+            obj.ItemId = 2;
+            obj.Device = _bl.GetSingleDevice("a5123");
+            obj.OrderStatus = _bl.GetOrderStatus("offen");
+
+            var objGet = _bl.GetOrderItem(2);
+            Assert.NotNull(objGet);
+
+            var res = ctr.PutOrderItem(objGet.ItemId, "test") as NotFoundResult;
+            Assert.NotNull(res);
+
+        }
+
+        [Test]
+        public void ctr_should_return_not_found_on_edit_when_order_item_not_found()
+        {
+            var res = ctr.PutOrderItem(78, "akzeptiert") as NotFoundResult;
+            Assert.NotNull(res);
+        }
     }
 }
+

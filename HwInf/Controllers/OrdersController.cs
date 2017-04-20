@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net;
@@ -105,14 +106,44 @@ namespace HwInf.Controllers
                 return BadRequest(ModelState);
             }
 
-            var order = _bl.CreateOrder();
-            vmdl.ApplyChanges(order, _bl);
-            vmdl.LoadOrderItems(order).Refresh(order);
+            var vmdls = SplitOrders(vmdl);
+
+            vmdls.ForEach(i =>
+            {
+                var order = _bl.CreateOrder();
+                i.ApplyChanges(order, _bl);
+                i.LoadOrderItems(order).Refresh(order);
+            });
 
             _bl.SaveChanges();
 
+            return Ok(vmdls);
+        }
+
+        /// <summary>
+        /// Change Status of Order Item
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="slug"></param>
+        /// <returns></returns>
+        [ResponseType(typeof(OrderItemViewModel))]
+        [Route("orderitem/{id}/{slug}")]
+        public IHttpActionResult PutOrderItem(int id, string slug)
+        {
+            var obj = _bl.GetOrderItem(id);
+            var status = _bl.GetOrderStatus(slug);
+
+            if (obj == null || status == null) return NotFound();
+          
+            _bl.UpdateOrderItem(obj);
+            obj.OrderStatus = status;
+
+            _bl.SaveChanges();
+
+            var vmdl = new OrderItemViewModel(obj);
             return Ok(vmdl);
         }
+
 
         /// <summary>
         /// Starts the RunTime Text Template and creates the contract as pdf
@@ -196,6 +227,29 @@ namespace HwInf.Controllers
             sw.Flush();
             stream.Seek(0, SeekOrigin.Begin);
             return stream;
+        }
+
+        private List<OrderViewModel> SplitOrders(OrderViewModel vmdl)
+        {
+
+            // Load Devices
+            vmdl.OrderItems
+                .ToList()
+                .ForEach(x => x.Device = new DeviceViewModel(_bl.GetSingleDevice(x.Device.InvNum)));
+
+            // Group by Verwalter
+            var devices = vmdl.OrderItems.GroupBy(i => i.Device.Verwalter).Select(x => x.ToList()).ToList();
+
+            // Create vmdls
+            var vmdls = new List<OrderViewModel>();
+            devices.ForEach(i =>
+            {
+                var tmp = new OrderViewModel(vmdl) {OrderItems = i.ToList()};
+                vmdls.Add(tmp);
+            });
+
+            return vmdls;
+
         }
     }
 }
