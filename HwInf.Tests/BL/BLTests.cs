@@ -452,6 +452,7 @@ namespace HwInf.Tests.BL
         public void bl_should_create_setting()
         {
             var obj = _bl.CreateSetting();
+            obj.Key = "random";
             Assert.NotNull(obj);
             Assert.True( obj.GetType().Name.Equals("Setting") );
         }
@@ -472,10 +473,12 @@ namespace HwInf.Tests.BL
         [Test]
         public void bl_should_return_null_when_no_setting_was_found()
         {
+            var key = Guid.NewGuid().ToString();
+
             var obj = _bl.CreateSetting();
-            obj.Key = "should_be_deleted";
+            obj.Key = key;
             _bl.DeleteSetting(obj);
-            var result = _bl.GetSetting(obj.Key);
+            var result = _bl.GetSetting(key);
             Assert.Null(result);
         }
     }
