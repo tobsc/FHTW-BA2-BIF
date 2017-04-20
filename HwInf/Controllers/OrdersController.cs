@@ -64,12 +64,31 @@ namespace HwInf.Controllers
         [Route("id/{id}")]
         public IHttpActionResult GetOrders(int id)
         {
-            var orders = _bl.GetOrders()
-                .ToList()
-                .Select(i => new OrderViewModel(i).LoadOrderItems(i))
-                .ToList();
+            var order = _bl.GetOrders(id);
 
-            return Ok(orders);
+            if(order == null) return NotFound();
+
+            var vmdl =  new OrderViewModel(order).LoadOrderItems(order);
+
+            return Ok(vmdl);
+        }
+
+        /// <summary>
+        /// Get Single Order by Guid
+        /// </summary>
+        /// <param name="guid"></param>
+        /// <returns></returns>
+        [ResponseType(typeof(OrderViewModel))]
+        [Route("guid/{guid}")]
+        public IHttpActionResult GetOrdersGuid(Guid guid)
+        {
+            var order = _bl.GetOrders(guid);
+
+            if (order == null) return NotFound();
+
+            var vmdl = new OrderViewModel(order).LoadOrderItems(order);
+
+            return Ok(vmdl);
         }
 
         /// <summary>

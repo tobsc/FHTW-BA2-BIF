@@ -309,10 +309,14 @@ namespace HwInf.Common.BL
 
         public Order GetOrders(int orderId)
         {
-            var orders = _dal.Orders
-                .SingleOrDefault(i => i.OrderId.Equals(orderId) && i.Entleiher.Uid.Equals(GetCurrentUid()));
+            if (!IsAdmin() && !IsVerwalter())
+            {
+               return _dal.Orders
+                    .SingleOrDefault(i => i.OrderId.Equals(orderId) && i.Entleiher.Uid.Equals(GetCurrentUid()));
+            }
 
-            return orders;
+            return _dal.Orders
+                    .SingleOrDefault(i => i.OrderId.Equals(orderId));
         }
 
         public Order GetOrders(Guid guid)

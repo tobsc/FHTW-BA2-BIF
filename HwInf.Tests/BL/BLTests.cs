@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Text;
@@ -47,6 +48,7 @@ namespace HwInf.Tests.BL
         {
             var device = _bl.CreateDevice();
             device.Name = "test";
+            device.InvNum = Guid.NewGuid().ToString();
             Assert.NotNull(device);
         }
 
@@ -65,6 +67,7 @@ namespace HwInf.Tests.BL
         {
             var id = 11;
             var obj = _bl.CreateDevice();
+            obj.InvNum = Guid.NewGuid().ToString();
             obj.DeviceId = id;
             var getObj = _bl.GetSingleDevice(id);
             Assert.True(obj.Equals(getObj));
@@ -76,6 +79,7 @@ namespace HwInf.Tests.BL
             var id = 1;
             var obj = _bl.CreateDevice();
             obj.DeviceId = id;
+            obj.InvNum = Guid.NewGuid().ToString();
             var getObj = _bl.GetSingleDevice(id+1);
             Assert.Null(getObj);
         }
@@ -134,6 +138,7 @@ namespace HwInf.Tests.BL
 
             var obj = _bl.CreateDevice();
             obj.DeviceId = 87;
+            obj.InvNum = Guid.NewGuid().ToString();
             var doesExist = _bl.DeviceExists(obj.DeviceId);
             Assert.True(doesExist);
         }
@@ -480,6 +485,153 @@ namespace HwInf.Tests.BL
             _bl.DeleteSetting(obj);
             var result = _bl.GetSetting(key);
             Assert.Null(result);
+        }
+
+        [Test]
+        public void bl_should_create_order()
+        {
+            var obj = _bl.CreateOrder();
+            Assert.NotNull(obj);
+            obj.OrderId = 1;
+            obj.OrderGuid = Guid.NewGuid();
+        }
+
+        [Test]
+        public void bl_should_return_order_by_id()
+        {
+            var id = 2;
+            var obj = _bl.CreateOrder();
+            Assert.NotNull(obj);
+            obj.OrderId = id;
+            obj.OrderGuid = Guid.NewGuid();
+
+            var getObj = _bl.GetOrders(id);
+            Assert.NotNull(getObj);
+            Assert.True(getObj.OrderId.Equals(id));
+        }
+
+        [Test]
+        public void bl_should_return_order_by_guid()
+        {
+            var id = 3;
+            var guid = Guid.NewGuid();
+            var obj = _bl.CreateOrder();
+            Assert.NotNull(obj);
+            obj.OrderId = id;
+            obj.OrderGuid = guid;
+
+            var getObj = _bl.GetOrders(guid);
+            Assert.NotNull(getObj);
+            Assert.True(getObj.OrderGuid.Equals(guid));
+        }
+
+        [Test]
+        public void bl_should_return_orders()
+        {
+            var id = 4;
+            var guid = Guid.NewGuid();
+            var obj = _bl.CreateOrder();
+            Assert.NotNull(obj);
+            obj.OrderId = id;
+            obj.OrderGuid = guid;
+
+            var getObj = _bl.GetOrders();
+            Assert.NotNull(getObj);
+        }
+
+        [Test]
+        public void bl_should_return_null_when_no_order_found_by_id()
+        {
+            var id = 5;
+            var guid = Guid.NewGuid();
+            var obj = _bl.CreateOrder();
+            Assert.NotNull(obj);
+            obj.OrderId = id;
+            obj.OrderGuid = guid;
+
+            var getObj = _bl.GetOrders(55);
+            Assert.Null(getObj);
+        }
+
+        [Test]
+        public void bl_should_return_null_when_no_order_found_by_guid()
+        {
+            var id = 6;
+            var guid = Guid.NewGuid();
+            var obj = _bl.CreateOrder();
+            Assert.NotNull(obj);
+            obj.OrderId = id;
+            obj.OrderGuid = guid;
+
+            var getObj = _bl.GetOrders(Guid.NewGuid());
+            Assert.Null(getObj);
+        }
+
+        [Test]
+        public void bl_should_return_order_status()
+        {
+            var getObj = _bl.GetOrderStatus();
+            Assert.NotNull(getObj);
+        }
+
+        [Test]
+        public void bl_should_return_order_status_by_slug()
+        {
+            var getObj = _bl.GetOrderStatus("offen");
+            Assert.NotNull(getObj);
+            Assert.True(getObj.Name.Equals("Offen"));
+        }
+
+        [Test]
+        public void bl_should_return_null_when_no_order_status_found_by_slug()
+        {
+            var getObj = _bl.GetOrderStatus("test");
+            Assert.Null(getObj);
+        }
+
+        [Test]
+        public void bl_should_create_order_item()
+        {
+            var obj = _bl.CreateOrderItem();
+            Assert.NotNull(obj);
+            obj.ItemId = 1;
+
+        }
+
+        [Test]
+        public void bl_should_return_order_items()
+        {
+            var obj = _bl.CreateOrderItem();
+            Assert.NotNull(obj);
+            obj.ItemId = 2;
+
+            var getObj = _bl.GetOrderItems();
+            Assert.NotNull(getObj);
+
+        }
+
+        [Test]
+        public void bl_should_return_order_item_by_id()
+        {
+            var id = 3;
+            var obj = _bl.CreateOrderItem();
+            Assert.NotNull(obj);
+            obj.ItemId = id;
+
+            var getObj = _bl.GetOrderItem(id);
+            Assert.NotNull(getObj);
+        }
+
+        [Test]
+        public void bl_should_return_null_when_order_item_not_found_by_id()
+        {
+            var id = 4;
+            var obj = _bl.CreateOrderItem();
+            Assert.NotNull(obj);
+            obj.ItemId = id;
+
+            var getObj = _bl.GetOrderItem(44);
+            Assert.Null(getObj);
         }
     }
 }

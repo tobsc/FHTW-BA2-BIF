@@ -11,11 +11,16 @@ namespace HwInf.ViewModels
     public class OrderViewModel
     {
 
+        public OrderViewModel()
+        {
+            
+        }
         public OrderViewModel(Order obj)
         {
             Refresh(obj);
         }
 
+        public int OrderId { get; set; }
         public DateTime Date { get; set; }
 
         public DateTime From { get; set; }
@@ -41,6 +46,7 @@ namespace HwInf.ViewModels
             var target = this;
             var source = obj;
 
+            target.OrderId = source.OrderId;
             target.OrderGuid = source.OrderGuid;
             target.Date = source.Date;
             target.From = source.From;

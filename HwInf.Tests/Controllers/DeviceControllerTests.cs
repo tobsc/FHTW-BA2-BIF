@@ -215,22 +215,22 @@ namespace HwInf.Tests.Controllers
 
         }
 
-        [Test]
-        public void ctr_should_update_deviceType()
-        {
-            var dt = _bl.GetDeviceType("pc");
+        //[Test]
+        //public void ctr_should_update_deviceType()
+        //{
+        //    var dt = _bl.GetDeviceType("pc");
 
-            var dtvmdl = new DeviceTypeViewModel();
-            dtvmdl.Refresh(dt);
-            var oldName = dtvmdl.Name;
-            dtvmdl.Name = "PCs";
+        //    var dtvmdl = new DeviceTypeViewModel();
+        //    dtvmdl.Refresh(dt);
+        //    var oldName = dtvmdl.Name;
+        //    dtvmdl.Name = "PCs";
 
-            var obj = ctr.PutDeviceType(dtvmdl.Slug, dtvmdl);
-            var res = obj as OkNegotiatedContentResult<DeviceTypeViewModel>;
-            Assert.NotNull(res);
-            Assert.False(oldName.Equals(res.Content.Name));
+        //    var obj = ctr.PutDeviceType(dtvmdl.Slug, dtvmdl);
+        //    var res = obj as OkNegotiatedContentResult<DeviceTypeViewModel>;
+        //    Assert.NotNull(res);
+        //    Assert.False(oldName.Equals(res.Content.Name));
 
 
-        }
+        //}
     }
 }

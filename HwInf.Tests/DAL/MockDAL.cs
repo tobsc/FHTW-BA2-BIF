@@ -23,6 +23,10 @@ namespace HwInf.Tests.DAL
         private List<Field> _fields;
         private List<Role> _roles;
 
+        private List<Order> _orders;
+        private List<OrderItem> _orderItems;
+        private List<OrderStatus> _orderStatus;
+
         private List<Setting> _settings;
 
         public MockDAL()
@@ -32,6 +36,15 @@ namespace HwInf.Tests.DAL
 
         public void Init()
         {
+
+            _orders = new List<Order>();
+            _orderItems = new List<OrderItem>();
+            _orderStatus = new List<OrderStatus>
+            {
+                new OrderStatus {Name = "Offen", Slug = "offen"},
+                new OrderStatus {Name = "Abgelehnt", Slug = "abgelehnt"},
+                new OrderStatus {Name = "Akzeptiert", Slug = "akzeptiert"},
+            };
 
             _settings = new List<Setting>
             {
@@ -200,14 +213,16 @@ namespace HwInf.Tests.DAL
         public IQueryable<DeviceMeta> DeviceMeta => _deviceMeta.AsQueryable();
         public IQueryable<DeviceType> DeviceTypes => _deviceTypes.AsQueryable();
         public IQueryable<DeviceStatus> DeviceStatus => _deviceStatus.AsQueryable();
-        public IQueryable<OrderStatus> OrderStatus { get; }
+        public IQueryable<OrderStatus> OrderStatus => _orderStatus.AsQueryable();
         public IQueryable<Person> Persons => _persons.AsQueryable();
         public IQueryable<Role> Roles => _roles.AsQueryable();
-        public IQueryable<Order> Orders { get; }
+        public IQueryable<Order> Orders => _orders.AsQueryable();
         public IQueryable<DeviceHistory> DeviceHistory { get; }
         public IQueryable<Field> Fields => _fields.AsQueryable();
         public IQueryable<FieldGroup> FieldGroups => _fieldGroups.AsQueryable();
         public IQueryable<Setting> Settings => _settings.AsQueryable();
+        public IQueryable<OrderItem> OrderItems => _orderItems.AsQueryable();
+
 
         public Device CreateDevice()
         {
@@ -242,7 +257,9 @@ namespace HwInf.Tests.DAL
 
         public Order CreateOrder()
         {
-            throw new System.NotImplementedException();
+            var obj = new Order();
+            _orders.Add(obj);
+            return obj;
         }
 
         public DeviceHistory CReDeviceHistory()
@@ -313,6 +330,18 @@ namespace HwInf.Tests.DAL
             _deviceMeta.Add(dm);
             return dm;
         }
+        public Setting CreateSetting()
+        {
+            var setting = new Setting();
+            _settings.Add(setting);
+            return setting;
+        }
+        public OrderItem CreateOrderItem()
+        {
+            var obj = new OrderItem();
+            _orderItems.Add(obj);
+            return obj;
+        }
 
         public void DeleteFieldGroup(FieldGroup fg)
         {
@@ -320,16 +349,12 @@ namespace HwInf.Tests.DAL
         }
 
 
-        public Setting CreateSetting()
-        {
-            var setting = new Setting();
-            _settings.Add(setting);
-            return setting;
-        }
 
         public void DeleteSetting(Setting s)
         {
             _settings.Remove(s);
         }
+
+
     }
 }

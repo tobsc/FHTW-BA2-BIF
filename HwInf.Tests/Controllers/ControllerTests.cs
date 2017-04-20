@@ -21,6 +21,7 @@ namespace HwInf.Tests.Controllers
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
             var subject = new ClaimsIdentity("Federation", ClaimTypes.Name, ClaimTypes.Role);
             subject.AddClaim(new Claim(ClaimTypes.Role, "Admin", ClaimValueTypes.String));
+            subject.AddClaim(new Claim(ClaimTypes.Name, "if15b032", ClaimValueTypes.String));
             Thread.CurrentPrincipal = new ClaimsPrincipal(subject);
         }
     }

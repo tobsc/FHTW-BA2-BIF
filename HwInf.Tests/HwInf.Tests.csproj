@@ -83,6 +83,7 @@
   <ItemGroup>
     <Compile Include="Controllers\ControllerHelper.cs" />
     <Compile Include="Controllers\ControllerTests.cs" />
+    <Compile Include="Controllers\OrderControllerTests.cs" />
     <Compile Include="Controllers\DeviceControllerTests.cs" />
     <Compile Include="BL\BLTests.cs" />
     <Compile Include="Controllers\SettingsControllerTests.cs" />

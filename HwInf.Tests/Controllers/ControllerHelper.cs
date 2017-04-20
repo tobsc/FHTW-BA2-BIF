@@ -72,5 +72,30 @@ namespace HwInf.Tests.Controllers
 
             return vmdl;
         }
+
+        public static OrderViewModel GetValidOrderViewModel()
+        {
+
+            var oi = new OrderItem
+            {
+                Device = _bl.GetSingleDevice("a5123"),
+                OrderStatus = _bl.GetOrderStatus("offen")
+            };
+
+            var vmdl = new OrderViewModel
+            {
+                Date = DateTime.Now,
+                EntleiherUid = "if15b032",
+                VerwalterUid = "if15b032",
+                From = DateTime.Now,
+                To = DateTime.Now,
+                OrderItems = new List<OrderItemViewModel>
+                {
+                    new OrderItemViewModel(oi)
+                }
+            };
+
+            return vmdl;
+        }
     }
 }
