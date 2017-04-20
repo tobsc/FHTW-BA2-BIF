@@ -36,6 +36,11 @@ namespace HwInf.ViewModels
 
         public void Refresh(Device obj)
         {
+            if (obj == null)
+            {
+                return;
+            }
+
             var target = this;
             var source = obj;
 

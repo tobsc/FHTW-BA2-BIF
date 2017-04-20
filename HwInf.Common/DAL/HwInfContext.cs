@@ -19,6 +19,7 @@ namespace HwInf.Common.DAL
         IQueryable<Person> Persons { get; }
         IQueryable<Role> Roles { get; }
         IQueryable<Order> Orders { get; }
+        IQueryable<OrderItem> OrderItems { get; }
         IQueryable<DeviceHistory> DeviceHistory { get; }
         IQueryable<Field> Fields { get; }
         IQueryable<FieldGroup> FieldGroups { get; }
@@ -34,6 +35,7 @@ namespace HwInf.Common.DAL
         FieldGroup CreteFieldGroup();
         DeviceStatus CreateDeviceStatus();
         DeviceMeta CreateDeviceMeta();
+        OrderItem CreateOrderItem();
 
         void SaveChanges();
         void DeleteDeviceType(DeviceType dt);
@@ -62,6 +64,7 @@ namespace HwInf.Common.DAL
         public DbSet<Person> Persons { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<DeviceHistory> DeviceHistory { get; set; }
         public DbSet<Field> Fields { get; set; }
         public DbSet<FieldGroup> FieldGroups { get; set; }
@@ -104,7 +107,10 @@ namespace HwInf.Common.DAL
         IQueryable<OrderStatus> IDAL.OrderStatus => OrderStatus;
         IQueryable<Person> IDAL.Persons => Persons;
         IQueryable<Role> IDAL.Roles => Roles;
-        IQueryable<Order> IDAL.Orders => Orders;
+        IQueryable<Order> IDAL.Orders => Orders
+            .Include(i => i.OrderItems)
+            .Include(i => i.OrderItems.Select(x => x.Device));
+        IQueryable<OrderItem> IDAL.OrderItems => OrderItems;
         IQueryable<DeviceHistory> IDAL.DeviceHistory => DeviceHistory;
         IQueryable<Field> IDAL.Fields => Fields;
         IQueryable<FieldGroup> IDAL.FieldGroups => FieldGroups
@@ -142,7 +148,9 @@ namespace HwInf.Common.DAL
 
         public Order CreateOrder()
         {
-            throw new System.NotImplementedException();
+            var obj = new Order();
+            Orders.Add(obj);
+            return obj;
         }
 
         public DeviceHistory CReDeviceHistory()
@@ -215,6 +223,13 @@ namespace HwInf.Common.DAL
         public void DeleteFieldGroup(FieldGroup fg)
         {
             FieldGroups.Remove(fg);
+        }
+
+        public OrderItem CreateOrderItem()
+        {
+            var obj = new OrderItem();
+            OrderItems.Add(obj);
+            return obj;
         }
     }
 }

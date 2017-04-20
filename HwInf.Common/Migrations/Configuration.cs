@@ -82,10 +82,10 @@ namespace HwInf.Common.Migrations
 
             var orderStatus = new List<OrderStatus>
                 {
-                    new OrderStatus { Description = "Offen" },
-                    new OrderStatus { Description = "Akzeptiert" },
-                    new OrderStatus { Description = "Abgelehnt" },
-                    new OrderStatus { Description = "Abgeschlossen" }
+                    new OrderStatus { Name = "Offen" , Slug = "offen"},
+                    new OrderStatus { Name = "Akzeptiert" , Slug = "aktzeptiert"},
+                    new OrderStatus { Name = "Abgelehnt", Slug = "abgelehnt"},
+                    new OrderStatus { Name = "Abgeschlossen", Slug = "abgeschlossen"}
                 };
 
             var roles = new List<Role>

@@ -60,7 +60,7 @@ namespace HwInf.Common.BL
         public Device GetSingleDevice(string deviceInvNum)
         {
             return _dal.Devices
-                .SingleOrDefault(i => i.InvNum == deviceInvNum);
+                .SingleOrDefault(i => i.InvNum.Equals(deviceInvNum));
         }
 
         public DeviceType GetDeviceType(int typeId)
@@ -318,6 +318,36 @@ namespace HwInf.Common.BL
         public Order GetOrders(Guid guid)
         {
             return _dal.Orders.SingleOrDefault(i => i.OrderGuid.Equals(guid));
+        }
+
+        public IEnumerable<OrderStatus> GetOrderStatus()
+        {
+            return _dal.OrderStatus;
+        }
+
+        public OrderStatus GetOrderStatus(string slug)
+        {
+            return _dal.OrderStatus.FirstOrDefault(i => i.Slug.Equals(slug));
+        }
+
+        public IEnumerable<OrderItem> GetOrderItems()
+        {
+            return _dal.OrderItems;
+        }
+
+        public OrderItem GetOrderItem(int id)
+        {
+            return _dal.OrderItems.FirstOrDefault(i => i.ItemId.Equals(id));
+        }
+
+        public Order CreateOrder()
+        {
+            return _dal.CreateOrder();
+        }
+
+        public OrderItem CreateOrderItem()
+        {
+            return _dal.CreateOrderItem();
         }
 
         #endregion

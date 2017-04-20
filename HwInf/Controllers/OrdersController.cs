@@ -13,6 +13,7 @@ using MigraDoc.DocumentObjectModel.IO;
 using MigraDoc.Rendering;
 using System.Net.Http.Headers;
 using HwInf.Common.BL;
+using log4net;
 
 
 namespace HwInf.Controllers
@@ -22,8 +23,21 @@ namespace HwInf.Controllers
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class OrdersController : ApiController
     {
-        private static readonly HwInfContext _db = new HwInfContext();
-        private static readonly BL _bl = new BL(_db);
+        private readonly IDAL _db;
+        private readonly BL _bl;
+        private readonly ILog _log = LogManager.GetLogger(typeof(OrdersController));
+
+        public OrdersController()
+        {
+            _db = new HwInfContext();
+            _bl = new BL(_db);
+        }
+
+        public OrdersController(IDAL db)
+        {
+            _db = db;
+            _bl = new BL(db);
+        }
 
         /// <summary>
         /// Get Orders
@@ -35,7 +49,7 @@ namespace HwInf.Controllers
         {
             var orders = _bl.GetOrders()
                 .ToList()
-                .Select(i => new OrderViewModel(i))
+                .Select(i => new OrderViewModel(i).LoadOrderItems(i))
                 .ToList();
 
             return Ok(orders);
@@ -52,10 +66,33 @@ namespace HwInf.Controllers
         {
             var orders = _bl.GetOrders()
                 .ToList()
-                .Select(i => new OrderViewModel(i))
+                .Select(i => new OrderViewModel(i).LoadOrderItems(i))
                 .ToList();
 
             return Ok(orders);
+        }
+
+        /// <summary>
+        /// Create Order
+        /// </summary>
+        /// <param name="vmdl"></param>
+        /// <returns></returns>
+        [ResponseType(typeof(OrderViewModel))]
+        [Route("")]
+        public IHttpActionResult PostOrder([FromBody]OrderViewModel vmdl)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var order = _bl.CreateOrder();
+            vmdl.ApplyChanges(order, _bl);
+            vmdl.LoadOrderItems(order).Refresh(order);
+
+            _bl.SaveChanges();
+
+            return Ok(vmdl);
         }
 
         /// <summary>

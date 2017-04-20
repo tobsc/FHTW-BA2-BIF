@@ -64,6 +64,9 @@ namespace HwInf
                 case "deviceType":
                     slugList = Bl.GetDeviceTypes().Select(i => i.Slug).ToList();
                     break;
+                case "orderStatus":
+                    slugList = Bl.GetOrderStatus().Select(i => i.Slug).ToList();
+                    break;
                 default:
                     break;
 
