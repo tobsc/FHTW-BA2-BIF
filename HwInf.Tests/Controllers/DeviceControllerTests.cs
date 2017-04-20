@@ -19,24 +19,15 @@ using HwInf.Tests.DAL;
 namespace HwInf.Tests.Controllers
 {
     [TestFixture]
-    public class DeviceControllerTests
+    public class DeviceControllerTests : ControllerTests
     {
-        private readonly IDAL _dal = new MockDAL();
-        private readonly Common.BL.BL _bl;
         private readonly DevicesController ctr;
-
 
         public DeviceControllerTests()
         {
-            _bl = new Common.BL.BL(_dal);
             ctr = new DevicesController(_dal);
 
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");           
-            var subject = new ClaimsIdentity("Federation", ClaimTypes.Name, ClaimTypes.Role);
-            subject.AddClaim(new Claim(ClaimTypes.Role, "Admin", ClaimValueTypes.String));
-            Thread.CurrentPrincipal = new ClaimsPrincipal(subject);
         }
-
         [Test]
         public void HelloWorld()
         {
@@ -149,7 +140,7 @@ namespace HwInf.Tests.Controllers
                 new AdditionalInvNumViewModel {InvNum = invNum2}
             };
             var obj = ctr.PostDevice(vmdl);
-            var res = obj as OkNegotiatedContentResult<DeviceViewModel>;
+            var res = obj as OkNegotiatedContentResult<List<DeviceViewModel>>;
             Assert.NotNull(res);
             Assert.NotNull(res.Content);
 

@@ -20,10 +20,10 @@ namespace HwInf.Tests.DAL
         private List<Field> _prozessorenFields;
         private List<Field> _anschluesseFields;
         private List<Field> _aufloesungFields;
-
         private List<Field> _fields;
-
         private List<Role> _roles;
+
+        private List<Setting> _settings;
 
         public MockDAL()
         {
@@ -32,6 +32,17 @@ namespace HwInf.Tests.DAL
 
         public void Init()
         {
+
+            _settings = new List<Setting>
+            {
+                new Setting { Key = "email_benachrichtigung", Value = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."},
+                new Setting { Key = "ws_anfang", Value = "1. September"},
+                new Setting { Key = "ws_ende", Value = "31. Jänner"},
+                new Setting { Key = "ss_anfang", Value = "1. September"},
+                new Setting { Key = "ss_ende", Value = "31. Jänner"},
+            };
+
+
             _deviceStatus = new List<DeviceStatus>
                 {
                     new DeviceStatus { Description = "Verfügbar", StatusId = 1},
@@ -196,6 +207,8 @@ namespace HwInf.Tests.DAL
         public IQueryable<DeviceHistory> DeviceHistory { get; }
         public IQueryable<Field> Fields => _fields.AsQueryable();
         public IQueryable<FieldGroup> FieldGroups => _fieldGroups.AsQueryable();
+        public IQueryable<Setting> Settings => _settings.AsQueryable();
+
         public Device CreateDevice()
         {
             var dev = new Device();
@@ -304,6 +317,19 @@ namespace HwInf.Tests.DAL
         public void DeleteFieldGroup(FieldGroup fg)
         {
             throw new NotImplementedException();
+        }
+
+
+        public Setting CreateSetting()
+        {
+            var setting = new Setting();
+            _settings.Add(setting);
+            return setting;
+        }
+
+        public void DeleteSetting(Setting s)
+        {
+            _settings.Remove(s);
         }
     }
 }

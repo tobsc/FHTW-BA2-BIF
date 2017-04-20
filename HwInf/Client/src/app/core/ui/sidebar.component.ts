@@ -24,16 +24,16 @@ export class SidebarComponent implements OnInit, CanActivate {
       private verwalterGuard: VerwalterGuard
   ) { }
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> |
-        boolean {
-        return this.verwalterGuard.canActivate();
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> |
+    boolean {
+    return this.verwalterGuard.canActivate();
   }
 
-    canActivateSettings(): boolean{
-        return this.adminGuard.canActivate();
-    }
+  canActivateSettings(): boolean{
+    return this.adminGuard.canActivate();
+  }
 
-    ngOnInit() {
+  ngOnInit() {
     this.deviceTypes = this.deviceService.getDeviceTypes();
   }
 

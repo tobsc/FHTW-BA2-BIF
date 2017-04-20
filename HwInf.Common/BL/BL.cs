@@ -421,8 +421,35 @@ namespace HwInf.Common.BL
             return result;
         }
 
+        #region Settings
 
-    #region Auth
+        public Setting GetSetting(string key)
+        {
+            return _dal.Settings.FirstOrDefault(i => i.Key.Equals(key));
+        }
+
+        public Setting CreateSetting()
+        {
+            if (!IsAdmin() && !IsVerwalter()) return null;
+
+            return _dal.CreateSetting();
+        }
+
+        public void DeleteSetting(Setting s)
+        {
+            _dal.DeleteSetting(s);
+        }
+
+        public void UpdateSetting(Setting s)
+        {
+            if (!IsAdmin() && !IsVerwalter()) return;
+
+            _dal.UpdateObject(s);
+        }
+
+        #endregion
+
+        #region Auth
 
         public bool IsAdmin()
         {
@@ -485,5 +512,8 @@ namespace HwInf.Common.BL
 
         #endregion
     }
+
+
+    
 
 }

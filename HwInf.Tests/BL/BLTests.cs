@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
@@ -440,5 +441,45 @@ namespace HwInf.Tests.BL
             Assert.False(isAdmin);
         }
 
+        [Test]
+        public void bl_should_return_setting_by_key()
+        {
+            Assert.NotNull(_bl.GetSetting("email_benachrichtigung"));
+        }
+
+
+        [Test]
+        public void bl_should_create_setting()
+        {
+            var obj = _bl.CreateSetting();
+            obj.Key = "random";
+            Assert.NotNull(obj);
+            Assert.True( obj.GetType().Name.Equals("Setting") );
+        }
+
+        [Test]
+        public void bl_should_update_setting()
+        {
+            var obj = _bl.GetSetting("email_benachrichtigung");
+            var randomString = "Anders";
+            obj.Value = randomString;
+
+            _bl.UpdateSetting(obj);
+            Assert.NotNull(obj);
+            var objEdit = _bl.GetSetting("email_benachrichtigung");
+            Assert.True(objEdit.Value.Equals(randomString));
+        }
+
+        [Test]
+        public void bl_should_return_null_when_no_setting_was_found()
+        {
+            var key = Guid.NewGuid().ToString();
+
+            var obj = _bl.CreateSetting();
+            obj.Key = key;
+            _bl.DeleteSetting(obj);
+            var result = _bl.GetSetting(key);
+            Assert.Null(result);
+        }
     }
 }
