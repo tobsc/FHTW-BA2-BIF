@@ -38,7 +38,7 @@ export class DeviceFilterComponent implements OnInit {
           .flatMap( i => this.customFieldsService.getFieldGroupsOfTypeForFilter(i))
           .subscribe(
               (data: FieldGroup[]) => {
-                this.fieldGroups = data;
+                this.fieldGroups = data.filter(i => i.Fields.length > 0);
                 this.isCollapsedArr = [];
                 this.fieldGroups.forEach(() => this.isCollapsedArr.push(true));
                 this.form = this.initForm();
@@ -47,18 +47,6 @@ export class DeviceFilterComponent implements OnInit {
                 this.fieldGroups.forEach((item, index) => {
                   this.addFieldGroup(item);
                 });
-
-//
-                console.log(this.form.value);
-
-                /*const flatten = arr => arr.reduce(
-                    (acc, val) => acc.concat(
-                        Array.isArray(val) ? flatten(val) : val
-                    ),[]);
-
-                flatten(this.fieldGroups.map(i => i.Fields)).forEach(() => {
-                  this.addDeviceMeta();
-                });*/
               }
           );
   }
