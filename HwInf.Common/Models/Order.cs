@@ -26,6 +26,8 @@ namespace HwInf.Common.Models
         public ICollection<OrderItem> OrderItems { get; set; }
         [Required]
         public Guid OrderGuid { get; set; }
+        [Required]
+        public string OrderReason { get; set; }
     }
 
     [Table("OrderItems")]
