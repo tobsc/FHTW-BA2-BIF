@@ -76,7 +76,7 @@ namespace HwInf.Controllers
         /// <param name="uid"></param>
         /// <returns></returns>
         [ResponseType(typeof(string))]
-        [Route("impersonate")]
+        [Route("impersonate/{uid}")]
         [Authorize(Roles = "Admin, Verwalter")]
         public IHttpActionResult GetImpersonate(string uid)
         {
