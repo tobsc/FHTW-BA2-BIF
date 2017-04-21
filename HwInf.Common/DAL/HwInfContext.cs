@@ -78,27 +78,6 @@ namespace HwInf.Common.DAL
             modelBuilder.HasDefaultSchema("public");
         }
 
-        public override int SaveChanges()
-        {
-            try
-            {
-                return base.SaveChanges();
-            }
-            catch (DbEntityValidationException ex)
-            {
-                foreach (var d in ex.EntityValidationErrors)
-                {
-                    Log.ErrorFormat("{0}", d.Entry.Entity.GetType().Name);
-                    foreach (var msg in d.ValidationErrors)
-                    {
-                        Log.ErrorFormat("\t{0} : {1}", msg.PropertyName, msg.ErrorMessage);
-                    }
-                }
-
-                throw;
-            }
-        }
-
         IQueryable<Device> IDAL.Devices => Devices
             .Include(x => x.Type)
             .Include(x => x.DeviceMeta)
@@ -246,6 +225,27 @@ namespace HwInf.Common.DAL
         public void DeleteSetting(Setting s)
         {
             Settings.Remove(s);
+        }
+
+        public override int SaveChanges()
+        {
+            try
+            {
+                return base.SaveChanges();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                foreach (var d in ex.EntityValidationErrors)
+                {
+                    Log.ErrorFormat("{0}", d.Entry.Entity.GetType().Name);
+                    foreach (var msg in d.ValidationErrors)
+                    {
+                        Log.ErrorFormat("\t{0} : {1}", msg.PropertyName, msg.ErrorMessage);
+                    }
+                }
+
+                throw;
+            }
         }
     }
 }

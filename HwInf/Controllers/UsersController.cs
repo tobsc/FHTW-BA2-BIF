@@ -6,6 +6,7 @@ using System.Web.Http.Description;
 using HwInf.Common.BL;
 using HwInf.Common.DAL;
 using HwInf.ViewModels;
+using log4net;
 
 namespace HwInf.Controllers
 {
@@ -13,13 +14,20 @@ namespace HwInf.Controllers
     [RoutePrefix("api/users")]
     public class UsersController : ApiController
     {
-        private readonly HwInfContext _db = new HwInfContext();
+        private readonly IDAL _db;
         private readonly BL _bl;
-
+        private readonly ILog _log = LogManager.GetLogger(typeof(UsersController).Name);
 
         public UsersController()
         {
+            _db = new HwInfContext();
             _bl = new BL(_db);
+        }
+
+        public UsersController(IDAL db)
+        {
+            _db = db;
+            _bl = new BL(db);
         }
 
         /// <summary>
@@ -70,6 +78,7 @@ namespace HwInf.Controllers
             vmdl.ApplyChangesTelRoom(obj);
             vmdl.Refresh(obj);
             _bl.SaveChanges();
+            _log.InfoFormat("User '{0}' updated by '{1}'", vmdl.Uid, User.Identity.Name);
 
             return Ok(vmdl);
         }
@@ -86,8 +95,8 @@ namespace HwInf.Controllers
 
             var p = _bl.GetUsers(uid);
             _bl.SetAdmin(p);
-            _bl.SaveChanges();  
-       
+            _bl.SaveChanges();
+            _log.InfoFormat("User '{0}' set to admin by '{1}'", p.Uid, User.Identity.Name);
 
 
             return Ok();

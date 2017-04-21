@@ -22,6 +22,7 @@ namespace HwInf.Controllers
     {
         private readonly IDAL _db;
         private readonly BL _bl;
+        private readonly ILog _log = LogManager.GetLogger(typeof(CustomFieldsController).Name);
 
         public CustomFieldsController()
         {
@@ -29,17 +30,10 @@ namespace HwInf.Controllers
             _bl = new BL(_db);
         }
 
-        // GET: api/admin/devices/groups
-        /// <summary>
-        /// Returns all Field Groups
-        /// </summary>
-        /// <param name="input">String</param>
-        /// <param name="entity">Entity Name (deviceType, fieldGroup)</param>
-        /// <returns></returns>
-        [Route("slug")]
-        public IHttpActionResult GetSlug(string input, string entity)
+        public CustomFieldsController(IDAL db)
         {
-            return Ok(SlugGenerator.GenerateSlug(_bl, input, entity));
+            _db = db;
+            _bl = new BL(db);
         }
 
         // GET: api/admin/devices/groups
@@ -91,6 +85,7 @@ namespace HwInf.Controllers
             var obj = _bl.CreateFieldGroup();
             vmdl.ApplyChanges(obj, _bl);
             _bl.SaveChanges();
+            _log.InfoFormat("New FieldGroup '{0}' created by '{1}'", vmdl.Name, User.Identity.Name);
             return Ok(vmdl);
         }
 
@@ -112,7 +107,7 @@ namespace HwInf.Controllers
 
             _bl.SaveChanges();
             vmdl.Refresh(field);
-
+            _log.InfoFormat("New Field '{0}' added to '{1}' by '{2}'", vmdl.Name, obj.Name, User.Identity.Name);
             return Ok(vmdl);
         }
 
@@ -132,14 +127,14 @@ namespace HwInf.Controllers
             _bl.UpdateFieldGroup(fg);
             fg.DeviceTypes.Add(dt);
             _bl.SaveChanges();
-
+            _log.InfoFormat("DeviceType '{0}' added to '{1}' by '{2}'", dt.Name, fg.Name, User.Identity.Name);
             return Ok();
         }
 
 
         // PUT: api/Devicee/5
         /// <summary>
-        /// Update a Devices
+        /// Update a FieldGroup
         /// </summary>
         /// <param name="slug"></param>
         /// <param name="vmdl"></param>
@@ -165,6 +160,7 @@ namespace HwInf.Controllers
                 vmdl.ApplyChanges(fg, _bl); 
 
                 _bl.SaveChanges();
+                _log.InfoFormat("FieldGroup '{0}' updated by '{1}'", vmdl.Name, User.Identity.Name);
 
             }
             catch (DbUpdateConcurrencyException)
@@ -303,6 +299,8 @@ namespace HwInf.Controllers
                 var obj = _bl.GetFieldGroups(slug);
                 _bl.DeleteFieldGroup(obj);
                 _bl.SaveChanges();
+                _log.InfoFormat("FieldGroup '{0}' deleted by '{1}'", obj.Name, User.Identity.Name);
+
 
             }
             catch (DbUpdateConcurrencyException)

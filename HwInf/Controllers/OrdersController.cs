@@ -26,7 +26,7 @@ namespace HwInf.Controllers
     {
         private readonly IDAL _db;
         private readonly BL _bl;
-        private readonly ILog _log = LogManager.GetLogger(typeof(OrdersController));
+        private readonly ILog _log = LogManager.GetLogger(typeof(OrdersController).Name);
 
         public OrdersController()
         {
@@ -116,6 +116,7 @@ namespace HwInf.Controllers
             });
 
             _bl.SaveChanges();
+            _log.InfoFormat("Order '{0}' created by '{1}'", vmdl.OrderGuid, User.Identity.Name);
 
             return Ok(vmdls);
         }
@@ -139,6 +140,8 @@ namespace HwInf.Controllers
             obj.OrderStatus = status;
 
             _bl.SaveChanges();
+
+            _log.InfoFormat("Status of ordered Device '{0}' changed to '{1}' by '{2}'", obj.Device.InvNum, status.Name, User.Identity.Name);
 
             var vmdl = new OrderItemViewModel(obj);
             return Ok(vmdl);

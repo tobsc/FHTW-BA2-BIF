@@ -16,7 +16,7 @@ namespace HwInf.Controllers
     {
         private readonly IDAL _dal;
         private readonly BL _bl;
-        private readonly ILog _log = LogManager.GetLogger(typeof(SettingsController));
+        private readonly ILog _log = LogManager.GetLogger(typeof(SettingsController).Name);
 
 
         public SettingsController()
@@ -83,6 +83,8 @@ namespace HwInf.Controllers
 
             _bl.SaveChanges();
 
+            _log.InfoFormat("New Setting '{0}' created by '{1}'", vmdl.Key, User.Identity.Name);
+
             return Ok(vmdl);
         }
 
@@ -115,6 +117,8 @@ namespace HwInf.Controllers
 
             _bl.SaveChanges();
 
+            _log.InfoFormat("Setting '{0}' updated by '{1}'", vmdl.Key, User.Identity.Name);
+
             return Ok(vmdl);
         }
 
@@ -131,6 +135,7 @@ namespace HwInf.Controllers
             
             _bl.DeleteSetting(setting);
             _bl.SaveChanges();
+            _log.InfoFormat("Setting '{0}' deleted by '{1}'", setting.Key, User.Identity.Name);
             return Ok();
         }
     }

@@ -9,6 +9,7 @@ using System.Web.Http.Description;
 using HwInf.Common.BL;
 using HwInf.Common.Models;
 using HwInf.ViewModels;
+using log4net;
 
 namespace HwInf.Controllers
 {
@@ -16,12 +17,20 @@ namespace HwInf.Controllers
     public class AuthController : ApiController
     {
 
-        private readonly HwInfContext _db = new HwInfContext();
+        private readonly IDAL _db;
         private readonly BL _bl;
+        private readonly ILog _log = LogManager.GetLogger(typeof(AuthController).Name);
 
         public AuthController()
         {
+            _db = new HwInfContext();
             _bl = new BL(_db);
+        }
+
+        public AuthController(IDAL db)
+        {
+            _db = db;
+            _bl = new BL(db);
         }
 
         [AllowAnonymous]
@@ -31,7 +40,11 @@ namespace HwInf.Controllers
         public IHttpActionResult SignIn(UserViewModel vmdl)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
-            if (!LDAPAuthenticator.Authenticate(vmdl.Uid, vmdl.Password).IsAuthenticated) return Unauthorized();
+            if (!LDAPAuthenticator.Authenticate(vmdl.Uid, vmdl.Password).IsAuthenticated)
+            {
+                _log.WarnFormat("Failed login attempt for '{0}'", vmdl.Uid);
+                return Unauthorized();
+            }
 
             Person p;
 

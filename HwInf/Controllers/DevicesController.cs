@@ -22,7 +22,7 @@ namespace HwInf.Controllers
     {
         private readonly IDAL _db;
         private readonly BL _bl;
-        private readonly ILog _log = LogManager.GetLogger(typeof(DevicesController));
+        private readonly ILog _log = LogManager.GetLogger(typeof(DevicesController).Name);
 
         public DevicesController()
         {
@@ -434,6 +434,8 @@ namespace HwInf.Controllers
             vmdl.ApplyChanges(dt, _bl);
             _bl.SaveChanges();
 
+            _log.InfoFormat("DeviceType '{0}' created by '{1}'", vmdl.Name, User.Identity.Name);
+
             vmdl.Refresh(dt);
             return Ok(vmdl);
         }
@@ -457,6 +459,7 @@ namespace HwInf.Controllers
                 var d = _bl.GetSingleDevice(id);
                 _bl.DeleteDevice(d);
                 _bl.SaveChanges();
+                _log.InfoFormat("Device '{0}({1})' deleted by '{2}'", d.InvNum, d.Name, User.Identity.Name);
             }
 
             return Ok();
@@ -481,6 +484,7 @@ namespace HwInf.Controllers
                 var dt = _bl.GetDeviceType(slug);
                 _bl.DeleteDeviceType(dt);
                 _bl.SaveChanges();
+                _log.InfoFormat("DeviceType '{0}' deleted by '{1}'", dt.Name, User.Identity.Name);
             }
 
             return Ok();
@@ -531,6 +535,8 @@ namespace HwInf.Controllers
                 dev.DeviceMeta.Clear();
                 vmdl.ApplyChanges(dev, _bl);
                 _bl.SaveChanges();
+
+                _log.InfoFormat("Device '{0}({1})' updated by '{2}'",vmdl.InvNum, vmdl.Name, User.Identity.Name);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -563,6 +569,8 @@ namespace HwInf.Controllers
 
                 vmdl.ApplyChanges(dt, _bl);
                 _bl.SaveChanges();
+
+                _log.InfoFormat("DeviceType '{0}' updated by '{1}'", vmdl.Name, User.Identity.Name);
 
             }
             catch (DbUpdateConcurrencyException)
