@@ -14,6 +14,9 @@ namespace HwInf.ViewModels
         public int ItemId { get; set; }
         public OrderStatusViewModel OrderStatus { get; set; }
         public DeviceViewModel Device { get; set; } 
+        public DateTime From { get; set; }
+        public DateTime To { get; set; }
+        public DateTime ReturnDate { get; set; }
 
         public OrderItemViewModel(OrderItem obj)
         {
@@ -44,7 +47,11 @@ namespace HwInf.ViewModels
             var source = this;
 
             target.Device = bl.GetSingleDevice(source.Device.InvNum);
-            target.OrderStatus = bl.GetOrderStatus(obj.OrderStatus.Slug);
+
+            target.OrderStatus = target.OrderStatus == null
+                ? bl.GetOrderStatus("offen")
+                : bl.GetOrderStatus(target.OrderStatus.Slug);
+
         }
     }
 }

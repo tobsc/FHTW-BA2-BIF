@@ -17,7 +17,6 @@ namespace HwInf.Common.Models
         public DateTime From { get; set; }
         [Required]
         public DateTime To { get; set; }
-        public DateTime ReturnDate { get; set; }
         [Required]
         public virtual Person Entleiher { get; set; }
         [Required]
@@ -38,6 +37,12 @@ namespace HwInf.Common.Models
         public int ItemId { get; set; }
         public virtual Device Device { get; set; }
         public virtual OrderStatus OrderStatus { get; set; }
+        [Required]
+        public DateTime From { get; set; }
+        [Required]
+        public DateTime To { get; set; }
+        public DateTime ReturnDate { get; set; }
+
 
     }
 

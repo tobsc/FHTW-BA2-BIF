@@ -114,7 +114,9 @@ namespace HwInf.ViewModels
             obj.OrderItems = OrderItems.Select(i => new OrderItem
             {
                 Device = bl.GetSingleDevice(i.Device.InvNum),
-                OrderStatus = bl.GetOrderStatus(i.OrderStatus.Slug) 
+                OrderStatus = bl.GetOrderStatus("offen"),
+                From = obj.From,
+                To = obj.To
             })
             .ToList();
         }

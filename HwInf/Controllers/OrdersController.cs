@@ -116,7 +116,11 @@ namespace HwInf.Controllers
             });
 
             _bl.SaveChanges();
-            _log.InfoFormat("Order '{0}' created by '{1}'", vmdl.OrderGuid, User.Identity.Name);
+            vmdls.ForEach(i =>
+            {
+                _log.InfoFormat("Order '{0}' created by '{1}'", i.OrderGuid, User.Identity.Name);
+            });
+            
 
             return Ok(vmdls);
         }
@@ -138,6 +142,11 @@ namespace HwInf.Controllers
           
             _bl.UpdateOrderItem(obj);
             obj.OrderStatus = status;
+
+            if (slug.Equals("abgeschlossen"))
+            {
+                obj.ReturnDate = DateTime.Now;
+            }
 
             _bl.SaveChanges();
 
