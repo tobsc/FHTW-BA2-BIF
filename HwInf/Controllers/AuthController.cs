@@ -71,6 +71,25 @@ namespace HwInf.Controllers
         }
 
         /// <summary>
+        /// Impersonate
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <returns></returns>
+        [ResponseType(typeof(string))]
+        [Route("impersonate")]
+        [Authorize(Roles = "Admin, Verwalter")]
+        public IHttpActionResult GetImpersonate(string uid)
+        {
+
+            var p = _bl.GetUsers(uid);
+
+            // Create new token from user
+            var token = _bl.CreateToken(p);
+
+            return Ok(new { token });
+        }
+
+        /// <summary>
         /// Returns a test token.
         /// </summary>
         /// <param name="minutes">Minutes</param>
