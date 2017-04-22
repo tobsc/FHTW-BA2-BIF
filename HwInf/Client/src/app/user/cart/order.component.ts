@@ -47,7 +47,7 @@ export class OrderComponent implements OnInit {
             case "/anfrage/schritt-3":
                 this.classname[1] = "done";
                 this.classname[2] = "done";
-                this.classname[3] = "selected";
+                this.classname[3] = "done";
                 break;
             default:
 

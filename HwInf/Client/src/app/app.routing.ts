@@ -10,6 +10,7 @@ import { OrderStep1Component } from "./user/cart/order-step1/order-step1.compone
 import { OrderStep2Component } from "./user/cart/order-step2/order-step2.component";
 import { OrderStep3Component } from "./user/cart/order-step3/order-step3.component";
 import { OrderComponent } from "./user/cart/order.component";
+import {OrderListComponent} from "./user/orders/order-list/order-list.component";
 
 const APP_ROUTES: Routes = [
     { path: '', component: HomeComponent, canActivate: [AuthGuard],
@@ -25,6 +26,7 @@ const APP_ROUTES: Routes = [
                             { path: 'schritt-2', component: OrderStep2Component, canActivate: [AuthGuard] },
                             { path: 'schritt-3', component: OrderStep3Component, canActivate: [AuthGuard] },]
                 },
+            { path: 'auftraege', component: OrderListComponent}
         ]
     },
     { path: 'admin', loadChildren: './admin/admin.module#AdminModule' },

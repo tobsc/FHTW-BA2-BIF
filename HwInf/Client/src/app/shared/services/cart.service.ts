@@ -24,7 +24,7 @@ export class CartService {
     }
 
     public getHash(uid: string) {
-        
+
             var hash = 0;
             if (uid.length == 0) return hash;
             for (let i = 0; i < uid.length; i++) {
@@ -35,7 +35,7 @@ export class CartService {
 
             console.log('cart_list' + hash);
             return hash;
-        
+
 
     }
 
@@ -49,9 +49,9 @@ export class CartService {
         if (!this.contains(item)) {
             this.items.push(item);
             this.updateData()
-            
+
         }
- 
+
     }
 
     public removeItem(index: number) {

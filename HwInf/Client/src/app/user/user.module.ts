@@ -21,6 +21,7 @@ import {AuthService} from "../authentication/auth.service";
 import {PubSubService} from "../shared/services/pub-sub.service";
 import { DeviceFilterComponent } from './devices/device-filter/device-filter.component';
 import {ConfirmDialogModule} from "../core/confirm-dialog/confirm-dialog.module";
+import { OrderListComponent } from './orders/order-list/order-list.component';
 
 
 export function jwtFactory(backend: XHRBackend, options: RequestOptions, router: Router, authService: AuthService, pubsub: PubSubService) {
@@ -37,7 +38,8 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
         OrderStep2Component,
         OrderComponent,
         OrderStep3Component,
-        DeviceFilterComponent
+        DeviceFilterComponent,
+        OrderListComponent
     ],
     imports: [
         CommonModule,

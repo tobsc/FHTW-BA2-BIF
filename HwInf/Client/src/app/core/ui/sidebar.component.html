@@ -21,11 +21,9 @@
               </li>
             </ul>
           </li>
-          <li dropdown><a dropdownToggle><i class="fa fa-edit"></i> Aufträge <span class="fa fa-chevron-down"></span></a>
+          <li [ngClass]="{current_parent_menu_item: router.url.match('.*/auftraege.*') }" dropdown><a dropdownToggle><i class="fa fa-edit"></i> Aufträge <span class="fa fa-chevron-down"></span></a>
             <ul class="nav child_menu">
-              <li><a href="auftraege.php">Alle</a></li>
-              <li><a href="auftraege.php">Aktuelle</a></li>
-              <li><a href="auftraege.php">Abgeschlossene</a></li>
+              <li routerLinkActive="current_menu_item" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/auftraege/">Alle</a></li>
             </ul>
           </li>
         </ul>
