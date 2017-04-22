@@ -28,9 +28,14 @@
           <td>{{ fieldGroup.Name }}</td>
           <td>
             <a routerLink="/admin/geraete/felder/edit/{{fieldGroup.Slug}}" title="Gerätetyp bearbeiten" class="btn btn-warning btn-sm" aria-label="Bearbeiten"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-            <a (click)="onDelete(fieldGroup.Slug, i)" routerLink="/admin/geraete/felder/verwalten" title="Gerätetyp löschen" class="btn btn-danger btn-sm" aria-label="Löschen">
-            <i class="fa fa-trash-o" aria-hidden="true"></i>
-            </a>
+
+
+            <hwinf-confirm-button (action)="onDelete(fieldGroup.Slug, i)" popOverTitle="Wirklich löschen?">
+              <button  routerLink="/admin/geraete/felder/verwalten" title="Gerätetyp löschen" class="btn btn-danger btn-sm" aria-label="Löschen">
+                <i class="fa fa-trash-o" aria-hidden="true"></i>
+              </button>
+            </hwinf-confirm-button>
+
           </td>
         </tr>
         </tbody>

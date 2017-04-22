@@ -10,7 +10,7 @@ export class ConfirmButtonComponent implements OnInit {
 
   @ViewChild('pop') pop: any;
   @Output('action') action = new EventEmitter();
-  @Input('title') title: string;
+  @Input('popOverTitle') title: string;
 
   constructor(private el: ElementRef) { }
 
@@ -18,10 +18,8 @@ export class ConfirmButtonComponent implements OnInit {
   }
 
   onAction() {
-
     this.action.emit();
     this.pop.hide();
-
   }
 
   onDismiss() {

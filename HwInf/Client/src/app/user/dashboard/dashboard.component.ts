@@ -19,6 +19,8 @@ export class DashboardComponent implements OnInit {
     this.deviceTypes = this.deviceService.getDeviceTypes();
   }
 
- 
+  onClick() {
+    console.log('yessss');
+  }
 
 }
