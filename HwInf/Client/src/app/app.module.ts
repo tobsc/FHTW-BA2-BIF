@@ -33,6 +33,7 @@ import { ErrorHandlerComponent } from "./shared/services/error-handler.component
 import { Daterangepicker } from 'ng2-daterangepicker';
 import {KeysPipe} from "./shared/pipes/keys.pipe";
 import {DeviceAddComponent} from "./admin/devices/device-add/device-add.component";
+import {OrderService} from "./shared/services/order.service";
 
 
 
@@ -80,7 +81,8 @@ export function feedbackHttpFactory(backend: XHRBackend, options: RequestOptions
         UserService,
         PubSubService,
         CustomFieldsService,
-        ErrorHandlerService
+        ErrorHandlerService,
+        OrderService
     ],
     bootstrap: [AppComponent]
 })

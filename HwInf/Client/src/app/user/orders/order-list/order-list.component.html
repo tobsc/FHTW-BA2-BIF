@@ -10,13 +10,25 @@
         <thead>
           <tr>
             <th>ID</th>
-            <th>Datum</th>
+            <th>Geräte</th>
+            <th>Von</th>
+            <th>Bis</th>
+            <th>Aktion</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td></td>
-            <td></td>
+          <tr *ngFor="let order of orders | async">
+            <td>{{order.OrderId}}</td>
+            <td>
+              <ul class="device-list">
+                <li *ngFor="let orderItem of order.OrderItems">
+                  {{orderItem.Device.Name}} ({{orderItem.Device.InvNum}})
+                </li>
+              </ul>
+            </td>
+            <td>{{order.From | date:'dd. MMMM yyyy'}}</td>
+            <td>{{order.To | date:'dd. MMMM yyyy'}}</td>
+            <td><button class="btn btn-xs btn-info">Details</button></td>
           </tr>
         </tbody>
       </table>

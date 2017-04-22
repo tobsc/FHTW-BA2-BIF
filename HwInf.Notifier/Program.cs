@@ -23,7 +23,7 @@ namespace ConsoleApplication1
         
         public Notifier(DateTime date)
         {
-            HwInfContext db = new HwInfContext();
+            /*HwInfContext db = new HwInfContext();
             Console.WriteLine("We now are looking into the DB");
             var uidlist = db.Orders.Where(i => i.ReturnDate == date).Select(i => i.Verwalter.Uid).ToList();
             Console.WriteLine("We now create the Mail");
@@ -51,6 +51,7 @@ namespace ConsoleApplication1
             {
                 Console.WriteLine("No Orders expiring today");
             }
+            */
         }
     }
 }

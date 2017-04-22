@@ -22,6 +22,10 @@ import {PubSubService} from "../shared/services/pub-sub.service";
 import { DeviceFilterComponent } from './devices/device-filter/device-filter.component';
 import {ConfirmDialogModule} from "../core/confirm-dialog/confirm-dialog.module";
 import { OrderListComponent } from './orders/order-list/order-list.component';
+import { OrderProcessComponent } from './orders/order-process/order-process.component';
+import { OrderProcessStep1Component } from './orders/order-process/order-process-step-1/order-process-step-1.component';
+import { OrderProcessStep2Component } from './orders/order-process/order-process-step-2/order-process-step-2.component';
+import { OrderProcessStep3Component } from './orders/order-process/order-process-step-3/order-process-step-3.component';
 
 
 export function jwtFactory(backend: XHRBackend, options: RequestOptions, router: Router, authService: AuthService, pubsub: PubSubService) {
@@ -39,7 +43,11 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
         OrderComponent,
         OrderStep3Component,
         DeviceFilterComponent,
-        OrderListComponent
+        OrderListComponent,
+        OrderProcessComponent,
+        OrderProcessStep1Component,
+        OrderProcessStep2Component,
+        OrderProcessStep3Component
     ],
     imports: [
         CommonModule,

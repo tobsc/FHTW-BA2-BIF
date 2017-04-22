@@ -11,6 +11,10 @@ import { OrderStep2Component } from "./user/cart/order-step2/order-step2.compone
 import { OrderStep3Component } from "./user/cart/order-step3/order-step3.component";
 import { OrderComponent } from "./user/cart/order.component";
 import {OrderListComponent} from "./user/orders/order-list/order-list.component";
+import {OrderProcessComponent} from "./user/orders/order-process/order-process.component";
+import {OrderProcessStep1Component} from "./user/orders/order-process/order-process-step-1/order-process-step-1.component";
+import {OrderProcessStep2Component} from "./user/orders/order-process/order-process-step-2/order-process-step-2.component";
+import {OrderProcessStep3Component} from "./user/orders/order-process/order-process-step-3/order-process-step-3.component";
 
 const APP_ROUTES: Routes = [
     { path: '', component: HomeComponent, canActivate: [AuthGuard],
@@ -20,11 +24,11 @@ const APP_ROUTES: Routes = [
             { path: 'geraete', component: DeviceListComponent, canActivate: [AuthGuard] },
             { path: 'geraete/typ/:type', component: DeviceListComponent, canActivate: [AuthGuard] },
             { path: 'warenkorb', component: CartComponent, canActivate: [AuthGuard], },
-            { path: 'anfrage', component: OrderComponent, canActivate: [AuthGuard], 
+            { path: 'anfrage', component: OrderProcessComponent, canActivate: [AuthGuard],
                 children: [{ path: '', redirectTo: 'schritt-1', pathMatch: 'full' },
-                            { path: 'schritt-1', component: OrderStep1Component, canActivate: [AuthGuard] },
-                            { path: 'schritt-2', component: OrderStep2Component, canActivate: [AuthGuard] },
-                            { path: 'schritt-3', component: OrderStep3Component, canActivate: [AuthGuard] },]
+                            { path: 'schritt-1', component: OrderProcessStep1Component, canActivate: [AuthGuard] },
+                            { path: 'schritt-2', component: OrderProcessStep2Component, canActivate: [AuthGuard] },
+                            { path: 'schritt-3', component: OrderProcessStep3Component, canActivate: [AuthGuard] },]
                 },
             { path: 'auftraege', component: OrderListComponent}
         ]
