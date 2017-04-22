@@ -1,0 +1,17 @@
+
+<template #popTemplate>
+  <div (clickOutside)="pop.hide()">
+  <button class="btn btn-success" (click)="onAction()">Ok</button>
+  <button class="btn btn-danger" (click)="onDismiss()">Abbrechen</button>
+  </div>
+</template>
+
+
+<a type="button"
+          [popover]="popTemplate"
+          [popoverTitle]="title"
+          #pop="bs-popover"
+          triggers="click"
+          >
+  <ng-content select="button"></ng-content>
+</a>
