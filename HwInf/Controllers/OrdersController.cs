@@ -148,9 +148,9 @@ namespace HwInf.Controllers
             var status = _bl.GetOrderStatus(slug);
 
             if (obj == null || status == null) return NotFound();
-          
-            _bl.UpdateOrderItem(obj);
+
             obj.OrderStatus = status;
+            _bl.UpdateOrderItem(obj);
 
             if (slug.Equals("abgeschlossen"))
             {

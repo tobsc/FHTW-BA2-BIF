@@ -116,7 +116,8 @@ namespace HwInf.ViewModels
                 From = obj.From,
                 To = obj.To,
                 Entleiher = bl.GetUsers(obj.Entleiher.Uid),
-                Verwalter = bl.GetUsers(i.Device.Verwalter.Uid)
+                Verwalter = bl.GetUsers(i.Device.Verwalter.Uid),
+                CreateDate = DateTime.Now
             })
             .ToList();
         }

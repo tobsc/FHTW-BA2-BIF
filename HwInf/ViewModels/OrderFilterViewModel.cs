@@ -10,9 +10,9 @@ namespace HwInf.ViewModels
 {
     public class OrderFilterViewModel
     {
-        public string Order { get; set; } = "ASC";
+        public string Order { get; set; } = "DESC";
         public string OrderBy { get; set; } = "OrderStatus";
-        public string OrderByFallback { get; set; } = "From";
+        public string OrderByFallback { get; set; } = "CreateDate";
         public ICollection<string> StatusQuery { get; set; } = new List<string>();
         public ICollection<string> UidQuery { get; set; } = new List<string>();
         public bool IsIncoming { get; set; } = false;

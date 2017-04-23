@@ -382,10 +382,10 @@ namespace HwInf.Common.BL
         public ICollection<OrderItem> GetFilteredOrderItems(
             ICollection<string> statusQuery, 
             ICollection<string> uidQuery,
-            string order = "DESC", 
-            string orderBy = "OrderStatus", 
-            string orderByFallback = "From", 
-            bool isIncoming = false  )
+            string order, 
+            string orderBy, 
+            string orderByFallback, 
+            bool isIncoming)
         {
 
             if (isIncoming && !IsAdmin() && !IsVerwalter())
