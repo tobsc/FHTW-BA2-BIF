@@ -13,6 +13,7 @@ using System.IO;
 using MigraDoc.DocumentObjectModel.IO;
 using MigraDoc.Rendering;
 using System.Net.Http.Headers;
+using System.Security;
 using HwInf.Common.BL;
 using log4net;
 
@@ -110,28 +111,38 @@ namespace HwInf.Controllers
         [Route("")]
         public IHttpActionResult PostOrder([FromBody]OrderViewModel vmdl)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                var vmdls = SplitOrders(vmdl);
+
+                vmdls.ForEach(i =>
+                {
+                    var order = _bl.CreateOrder();
+                    i.ApplyChanges(order, _bl);
+                    i.LoadOrderItems(order).Refresh(order);
+                });
+
+                _bl.SaveChanges();
+                vmdls.ForEach(i =>
+                {
+                    _log.InfoFormat("Order '{0}' created by '{1}'", i.OrderGuid, User.Identity.Name);
+                });
+
+
+                return Ok(vmdls);
+
+
             }
-
-            var vmdls = SplitOrders(vmdl);
-
-            vmdls.ForEach(i =>
+            catch(SecurityException)
             {
-                var order = _bl.CreateOrder();
-                i.ApplyChanges(order, _bl);
-                i.LoadOrderItems(order).Refresh(order);
-            });
-
-            _bl.SaveChanges();
-            vmdls.ForEach(i =>
-            {
-                _log.InfoFormat("Order '{0}' created by '{1}'", i.OrderGuid, User.Identity.Name);
-            });
-            
-
-            return Ok(vmdls);
+                return Unauthorized();
+            }
         }
 
         /// <summary>
@@ -155,11 +166,19 @@ namespace HwInf.Controllers
             if (slug.Equals("abgeschlossen"))
             {
                 obj.ReturnDate = DateTime.Now;
+                obj.Device.Status = _bl.GetDeviceStatus(1);
+                _log.InfoFormat("Status of Device '{0}' changed to '{1}' by '{2}'", obj.Device.InvNum, obj.Device.Status.Description, User.Identity.Name);
+            }
+
+            if (slug.Equals("akzeptiert"))
+            {
+                obj.Device.Status = _bl.GetDeviceStatus(2);
+                _log.InfoFormat("Status of Device '{0}' changed to '{1}' by '{2}'", obj.Device.InvNum, obj.Device.Status.Description, User.Identity.Name);
             }
 
             _bl.SaveChanges();
 
-            _log.InfoFormat("Status of ordered Device '{0}' changed to '{1}' by '{2}'", obj.Device.InvNum, status.Name, User.Identity.Name);
+            _log.InfoFormat("Status of Order Item '{0}' changed to '{1}' by '{2}'", obj.Device.InvNum, status.Name, User.Identity.Name);
 
             var vmdl = new OrderItemViewModel(obj);
             return Ok(vmdl);

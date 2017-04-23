@@ -10,6 +10,7 @@ using System.Data.SqlTypes;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using System.Runtime.Remoting.Messaging;
 using System.Security;
 using HwInf.Common.Models;
 using JWT;
@@ -106,21 +107,21 @@ namespace HwInf.Common.BL
         // Create
         public Device CreateDevice()
         {
-            if (!IsAdmin() && !IsVerwalter()) return null;
+            if (!IsAdmin() && !IsVerwalter()) throw new SecurityException();
  
             return _dal.CreateDevice();
         }
 
         public DeviceType CreateDeviceType()
         {
-            if (!IsAdmin() && !IsVerwalter()) return null;
+            if (!IsAdmin() && !IsVerwalter()) throw new SecurityException();
 
             return _dal.CreateDeviceType();
         }
 
         public DeviceStatus CreateDeviceStatus()
         {
-            if (!IsAdmin() && !IsVerwalter()) return null;
+            if (!IsAdmin() && !IsVerwalter()) throw new SecurityException();
 
             return _dal.CreateDeviceStatus();
         }
@@ -217,14 +218,14 @@ namespace HwInf.Common.BL
         // Create
         public FieldGroup CreateFieldGroup()
         {
-            if (!IsAdmin() && !IsVerwalter()) return null;
+            if (!IsAdmin() && !IsVerwalter()) throw new SecurityException();
 
             return _dal.CreteFieldGroup();
         }
 
         public Field CreateField()
         {
-            if (!IsAdmin() && !IsVerwalter()) return null;
+            if (!IsAdmin() && !IsVerwalter()) throw new SecurityException();
 
             return _dal.CreaField();
         }
@@ -385,12 +386,12 @@ namespace HwInf.Common.BL
             string order, 
             string orderBy, 
             string orderByFallback, 
-            bool isIncoming)
+            bool isAdminView)
         {
 
-            if (isIncoming && !IsAdmin() && !IsVerwalter())
+            if (isAdminView && !IsAdmin() && !IsVerwalter())
             {
-                return new List<OrderItem>();
+                throw new SecurityException();
             }
 
 
@@ -409,8 +410,11 @@ namespace HwInf.Common.BL
                     .ThenByDescending(i => i.GetType().GetProperty(orderByFallback, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
                     .ToList();
 
-
-            return !isIncoming ? result.Where(i => i.Entleiher.Uid.Equals(GetCurrentUid())).ToList() : result;
+            return !isAdminView ? 
+                result.Where(i => i.Entleiher.Uid.Equals(GetCurrentUid())).ToList() 
+                : IsAdmin() ? 
+                    result 
+                    : result.Where(i => i.Verwalter.Uid.Equals(GetCurrentUid())).ToList();
         }
 
 
@@ -476,7 +480,7 @@ namespace HwInf.Common.BL
 
         public Setting CreateSetting()
         {
-            if (!IsAdmin() && !IsVerwalter()) return null;
+            if (!IsAdmin() && !IsVerwalter()) throw new SecurityException();
 
             return _dal.CreateSetting();
         }
