@@ -3,11 +3,12 @@ import {Device} from "./device.model";
 export class OrderItem {
 
     constructor(
-        public ItemId: number,
-        public OrderStatus: OrderStatus,
-        public Device: Device,
-        public From: string,
-        public To: string,
-        public ReturnDate: string,
+        public ItemId: number = -1,
+        public OrderStatus: OrderStatus = null,
+        public Device: Device = null,
+        public From: string = null,
+        public To: string = null,
+        public ReturnDate: string = null,
+        public CreateDate: string = null
     ) {}
 }

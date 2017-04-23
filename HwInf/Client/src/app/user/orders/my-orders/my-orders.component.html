@@ -1,0 +1,19 @@
+<h1>Meine Geräte</h1>
+
+<hwinf-order-list [orderItems]="openOrderItems">
+  <div class="title">Offene Aufträge</div>
+</hwinf-order-list>
+<hwinf-order-list [orderItems]="activeOrderItems">
+  <div class="title">Aktive Aufträge</div>
+</hwinf-order-list>
+
+
+<button class="btn btn-default" (click)="onToggleShowClosedOrders()">
+  Abgeschlossene und abgelehnte Aufträge anzeigen
+  <span *ngIf="!showClosedOrders" class="fa fa-chevron-down"></span>
+  <span *ngIf="showClosedOrders" class="fa fa-chevron-up"></span>
+</button>
+
+<hwinf-order-list [orderItems]="closedOrderItems" *ngIf="showClosedOrders">
+  <div class="title">Abgeschlossene/Abgelehnte Aufträge</div>
+</hwinf-order-list>

@@ -7,8 +7,6 @@ import {Router, ActivatedRoute} from "@angular/router";
 import {OrderProcessService} from "../shared/order-process.service";
 var moment = require('moment');
 
-
-
 @Component({
   selector: 'hwinf-order-process-step-1',
   templateUrl: './order-process-step-1.component.html',

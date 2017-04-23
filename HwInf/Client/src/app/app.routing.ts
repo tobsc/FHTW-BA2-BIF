@@ -15,6 +15,7 @@ import {OrderProcessComponent} from "./user/orders/order-process/order-process.c
 import {OrderProcessStep1Component} from "./user/orders/order-process/order-process-step-1/order-process-step-1.component";
 import {OrderProcessStep2Component} from "./user/orders/order-process/order-process-step-2/order-process-step-2.component";
 import {OrderProcessStep3Component} from "./user/orders/order-process/order-process-step-3/order-process-step-3.component";
+import {MyOrdersComponent} from "./user/orders/my-orders/my-orders.component";
 
 const APP_ROUTES: Routes = [
     { path: '', component: HomeComponent, canActivate: [AuthGuard],
@@ -30,7 +31,7 @@ const APP_ROUTES: Routes = [
                             { path: 'schritt-2', component: OrderProcessStep2Component, canActivate: [AuthGuard] },
                             { path: 'schritt-3', component: OrderProcessStep3Component, canActivate: [AuthGuard] },]
                 },
-            { path: 'auftraege', component: OrderListComponent}
+            { path: 'meine-geraete', component: MyOrdersComponent}
         ]
     },
     { path: 'admin', loadChildren: './admin/admin.module#AdminModule' },

@@ -1,7 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {OrderService} from "../../../shared/services/order.service";
-import {Order} from "../../../shared/models/order.model";
-import {Observable} from "rxjs";
+import {Component, OnInit, Input} from '@angular/core';
+import {OrderItem} from "../../../shared/models/order-item.model";
 
 @Component({
   selector: 'hwinf-order-list',
@@ -10,12 +8,12 @@ import {Observable} from "rxjs";
 })
 export class OrderListComponent implements OnInit {
 
-  private orders: Observable<Order[]>;
+  @Input() private orderItems: OrderItem[];
 
-  constructor(private orderService: OrderService) { }
+  constructor() {}
 
   ngOnInit() {
-    this.orders = this.orderService.getOrders();
+
   }
 
 }

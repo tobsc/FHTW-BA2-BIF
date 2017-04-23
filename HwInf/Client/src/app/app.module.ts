@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {NgModule, LOCALE_ID} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpModule, XHRBackend, RequestOptions } from '@angular/http';
 
@@ -66,6 +66,7 @@ export function feedbackHttpFactory(backend: XHRBackend, options: RequestOptions
         BootstrapModalModule
     ],
     providers: [
+        { provide: LOCALE_ID, useValue: "de-DE" },
         {
             provide: FeedbackHttpService,
             useFactory: feedbackHttpFactory,
