@@ -1,0 +1,31 @@
+<div class="clearfix"></div>
+<div id="wizard" class="form_wizard wizard_horizontal" style="margin: 30px 0">
+    <ul class="wizard_steps">
+        <li>
+            <a [ngClass]="getClass(1)" routerLink="/anfrage/schritt-1">
+                <span class="step_no">1</span>
+                <span class="step_descr">
+                    Details
+                </span>
+            </a>
+        </li>
+        <li>
+            <a [ngClass]="getClass(2)"  routerLink="/anfrage/schritt-2">
+                <span class="step_no">2</span>
+                <span class="step_descr">
+                    Verifizieren
+                </span>
+            </a>
+        </li>
+        <li>
+            <a [ngClass]="getClass(3)"  routerLink="/anfrage/schritt-3">
+                <span class="step_no">3</span>
+                <span class="step_descr">
+                    Bestätigung
+                </span>
+            </a>
+        </li>
+    </ul>
+</div>
+
+<router-outlet></router-outlet>

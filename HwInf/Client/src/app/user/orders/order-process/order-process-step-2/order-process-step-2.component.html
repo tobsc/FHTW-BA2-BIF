@@ -1,0 +1,29 @@
+<div class="x_panel">
+  <div class="x_title">
+    <h2>Daten verifizieren</h2>
+    <div class="clearfix"></div>
+  </div>
+  <div class="x_content">
+    <div class="col-xs-12 col-md-6">
+      <dl>
+        <dt>Ausleihzeitspanne</dt>
+        <dd>{{order.From | date:'dd. MMMM yyyy'}} - {{order.To | date:'dd. MMMM yyyy'}}</dd>
+        <dt>Ausleihgrund</dt>
+        <dd>{{order.OrderReason}}</dd>
+      </dl>
+    </div>
+    <div class="col-xs-12 col-md-6">
+      <strong>Beantragte Geräte:</strong>
+      <ul>
+        <li *ngFor="let device of devices">
+          {{device.Name}}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<nav style="display: flex; justify-content: space-between">
+  <a (click)="onBack()" class="btn btn-warning">Zurück zu den Details</a>
+  <button (click)="onContinue()" type="submit" class="btn btn-success">Anfrage senden</button>
+</nav>

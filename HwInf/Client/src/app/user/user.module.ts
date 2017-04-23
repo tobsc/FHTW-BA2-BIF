@@ -26,6 +26,7 @@ import { OrderProcessComponent } from './orders/order-process/order-process.comp
 import { OrderProcessStep1Component } from './orders/order-process/order-process-step-1/order-process-step-1.component';
 import { OrderProcessStep2Component } from './orders/order-process/order-process-step-2/order-process-step-2.component';
 import { OrderProcessStep3Component } from './orders/order-process/order-process-step-3/order-process-step-3.component';
+import {OrderFormDataService} from "./orders/order-process/shared/order-form-data.service";
 
 
 export function jwtFactory(backend: XHRBackend, options: RequestOptions, router: Router, authService: AuthService, pubsub: PubSubService) {
