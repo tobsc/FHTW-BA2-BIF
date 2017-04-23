@@ -65,6 +65,24 @@ namespace HwInf.Controllers
         }
 
         /// <summary>
+        /// Returns List of Users.
+        /// </summary>
+        /// <returns>LastName, Name, Uid</returns>
+        [Authorize(Roles = "Verwalter, Admin")]
+        [ResponseType(typeof(UserViewModel))]
+        [Route("users")]
+        public IHttpActionResult GetUsers()
+        {
+            var vmdl = _bl.GetUsers()
+                .ToList()
+                .Select(i => new UserViewModel(i))
+                .ToList();
+
+            return Ok(vmdl);
+
+        }
+
+        /// <summary>
         /// Save Phonenumber
         /// </summary>
         /// <param name="vmdl"></param>
