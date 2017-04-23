@@ -40,6 +40,15 @@ namespace HwInf.Controllers
             _bl = new BL(db);
         }
 
+        [ResponseType(typeof(OrderViewModel))]
+    
+        [Route("filter")]
+        public IHttpActionResult PostFilter([FromBody] OrderFilterViewModel vmdl)
+        {
+            var result = vmdl.FilteredList(_bl).Select(i => new OrderItemViewModel(i)).ToList();
+            return Ok(result);
+        }
+
         /// <summary>
         /// Get Orders
         /// </summary>

@@ -37,7 +37,8 @@ namespace HwInf.ViewModels
             target.OrderStatus = new OrderStatusViewModel(source.OrderStatus);
             target.Device = new DeviceViewModel(source.Device);
             target.ItemId = source.ItemId;
-
+            target.To = source.To;
+            target.From = source.From;
 
         }
 
