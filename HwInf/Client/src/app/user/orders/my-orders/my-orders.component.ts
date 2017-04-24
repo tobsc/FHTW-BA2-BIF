@@ -34,7 +34,7 @@ export class MyOrdersComponent implements OnInit {
     this.activeOrderFilter.StatusQuery = ['akzeptiert'];
 
     this.closedOrderFilter = new OrderFilter();
-    this.closedOrderFilter.StatusQuery = ['geschlossen', 'abgelehnt'];
+    this.closedOrderFilter.StatusQuery = ['abgeschlossen', 'abgelehnt'];
 
     this.fetchData();
   }

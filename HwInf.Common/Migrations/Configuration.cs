@@ -83,7 +83,7 @@ namespace HwInf.Common.Migrations
             var orderStatus = new List<OrderStatus>
                 {
                     new OrderStatus { Name = "Offen" , Slug = "offen"},
-                    new OrderStatus { Name = "Akzeptiert" , Slug = "aktzeptiert"},
+                    new OrderStatus { Name = "Akzeptiert" , Slug = "akzeptiert"},
                     new OrderStatus { Name = "Abgelehnt", Slug = "abgelehnt"},
                     new OrderStatus { Name = "Abgeschlossen", Slug = "abgeschlossen"}
                 };
