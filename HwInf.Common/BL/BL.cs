@@ -294,8 +294,6 @@ namespace HwInf.Common.BL
         // Update
         public void UpdateUser(Person obj)
         {
-            if(!obj.Uid.Equals(GetCurrentUid()) && !IsAdmin && !IsVerwalter) throw new SecurityException();
-
             _dal.UpdateObject(obj);
         }
 
