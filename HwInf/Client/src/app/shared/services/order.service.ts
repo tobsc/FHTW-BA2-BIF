@@ -3,6 +3,8 @@ import {JwtHttpService} from "./jwt-http.service";
 import {Observable} from "rxjs";
 import {Order} from "../models/order.model";
 import {Response, RequestOptions, Headers} from "@angular/http";
+import {OrderFilter} from "../models/order-filter.model";
+import {OrderItem} from "../models/order-item.model";
 
 @Injectable()
 export class OrderService {
@@ -15,6 +17,16 @@ export class OrderService {
 
   public getOrders(): Observable<Order[]> {
     return this.http.get(this.url)
+        .map((response: Response) => response.json());
+  }
+
+  public getFilteredOrders(body: OrderFilter = null): Observable<OrderItem[]> {
+    let bodyString = !!body ? JSON.stringify(body) : '{}';
+    let headers = new Headers({
+      'Content-Type': 'application/json'
+    });
+    let options = new RequestOptions({headers: headers});
+    return this.http.post(this.url + 'filter', bodyString, options)
         .map((response: Response) => response.json());
   }
 

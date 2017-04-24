@@ -1,34 +1,39 @@
-<h1>Meine Aufträge</h1>
-
-<div class="x_panel">
-  <div class="x-title">
+<div class="x_panel" *ngIf="orderItems.length > 0">
+  <div class="x_title">
+      <h2><ng-content select=".title"></ng-content></h2>
     <div class="clearfix"></div>
   </div>
-  <div class="x-content">
+  <div class="x_content">
     <div class="table-responsive">
       <table class="table table-hover table-striped table-bordered">
         <thead>
           <tr>
             <th>ID</th>
-            <th>Geräte</th>
-            <th>Von</th>
-            <th>Bis</th>
+            <th>Erstellungsdatum</th>
+            <th>Inventarnummer</th>
+            <th>Gerätename</th>
+            <th>Verwalter</th>
+            <th>Ausleihdatum</th>
+            <th>Rückgabedatum</th>
+            <th>Status</th>
             <th>Aktion</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let order of orders | async">
-            <td>{{order.OrderId}}</td>
+          <tr *ngFor="let orderItem of orderItems">
+            <td>{{orderItem.ItemId}}</td>
+            <td>{{orderItem.CreateDate | date: 'dd. MMMM yyyy'}}</td>
+            <td>{{orderItem.Device.InvNum}}</td>
+            <td>{{orderItem.Device.Name}}</td>
             <td>
-              <ul class="device-list">
-                <li *ngFor="let orderItem of order.OrderItems">
-                  {{orderItem.Device.Name}} ({{orderItem.Device.InvNum}})
-                </li>
-              </ul>
+              <a href="mailto:{{orderItem.Device.Verwalter.Email}}">
+                {{orderItem.Device.Verwalter.Name}} {{orderItem.Device.Verwalter.LastName}}
+              </a>
             </td>
-            <td>{{order.From | date:'dd. MMMM yyyy'}}</td>
-            <td>{{order.To | date:'dd. MMMM yyyy'}}</td>
-            <td><button class="btn btn-xs btn-info">Details</button></td>
+            <td>{{orderItem.From | date: 'dd. MMMM yyyy'}}</td>
+            <td><strong>{{orderItem.To | date: 'dd. MMMM yyyy'}}</strong></td>
+            <td>{{orderItem.OrderStatus.Name}}</td>
+            <td><button class="btn btn-info btn-xs">Details</button></td>
           </tr>
         </tbody>
       </table>

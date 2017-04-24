@@ -96,8 +96,6 @@ namespace HwInf.ViewModels
             CreateOrderItems(obj, bl);
             target.Verwalter = target.OrderItems.Select(i => i.Device.Person).FirstOrDefault();
             target.OrderReason = source.OrderReason;
-
-
         }
 
         public OrderViewModel LoadOrderItems(Order obj)
@@ -116,7 +114,10 @@ namespace HwInf.ViewModels
                 Device = bl.GetSingleDevice(i.Device.InvNum),
                 OrderStatus = bl.GetOrderStatus("offen"),
                 From = obj.From,
-                To = obj.To
+                To = obj.To,
+                Entleiher = bl.GetUsers(obj.Entleiher.Uid),
+                Verwalter = bl.GetUsers(i.Device.Verwalter.Uid),
+                CreateDate = DateTime.Now
             })
             .ToList();
         }

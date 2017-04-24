@@ -40,6 +40,15 @@ namespace HwInf.Controllers
             _bl = new BL(db);
         }
 
+        [ResponseType(typeof(OrderViewModel))]
+    
+        [Route("filter")]
+        public IHttpActionResult PostFilter([FromBody] OrderFilterViewModel vmdl)
+        {
+            var result = vmdl.FilteredList(_bl).Select(i => new OrderItemViewModel(i)).ToList();
+            return Ok(result);
+        }
+
         /// <summary>
         /// Get Orders
         /// </summary>
@@ -139,9 +148,9 @@ namespace HwInf.Controllers
             var status = _bl.GetOrderStatus(slug);
 
             if (obj == null || status == null) return NotFound();
-          
-            _bl.UpdateOrderItem(obj);
+
             obj.OrderStatus = status;
+            _bl.UpdateOrderItem(obj);
 
             if (slug.Equals("abgeschlossen"))
             {

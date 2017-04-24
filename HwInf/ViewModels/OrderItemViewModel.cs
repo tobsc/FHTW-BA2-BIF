@@ -17,6 +17,7 @@ namespace HwInf.ViewModels
         public DateTime From { get; set; }
         public DateTime To { get; set; }
         public DateTime ReturnDate { get; set; }
+        public DateTime CreateDate { get; set; }
 
         public OrderItemViewModel(OrderItem obj)
         {
@@ -37,7 +38,9 @@ namespace HwInf.ViewModels
             target.OrderStatus = new OrderStatusViewModel(source.OrderStatus);
             target.Device = new DeviceViewModel(source.Device);
             target.ItemId = source.ItemId;
-
+            target.To = source.To;
+            target.From = source.From;
+            target.CreateDate = source.CreateDate;
 
         }
 
@@ -47,11 +50,15 @@ namespace HwInf.ViewModels
             var source = this;
 
             target.Device = bl.GetSingleDevice(source.Device.InvNum);
-
+            
             target.OrderStatus = target.OrderStatus == null
                 ? bl.GetOrderStatus("offen")
                 : bl.GetOrderStatus(target.OrderStatus.Slug);
 
+            if (target.CreateDate == DateTime.MinValue)
+            {
+                target.CreateDate = DateTime.Now;
+            } 
         }
     }
 }

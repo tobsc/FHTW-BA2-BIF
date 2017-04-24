@@ -378,6 +378,42 @@ namespace HwInf.Common.BL
 
         #endregion
 
+
+        public ICollection<OrderItem> GetFilteredOrderItems(
+            ICollection<string> statusQuery, 
+            ICollection<string> uidQuery,
+            string order, 
+            string orderBy, 
+            string orderByFallback, 
+            bool isIncoming)
+        {
+
+            if (isIncoming && !IsAdmin() && !IsVerwalter())
+            {
+                return new List<OrderItem>();
+            }
+
+
+            var orderItems = GetOrderItems().ToList();
+
+            var result = orderItems
+                .Where(i => !statusQuery.Any() || statusQuery.Contains(i.OrderStatus.Slug))
+                .Where(i => !uidQuery.Any() || uidQuery.Contains(i.Entleiher.Uid))
+                .ToList();
+
+            result = order.Equals("ASC")
+                ? result.OrderBy(i => i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
+                    .ThenBy(i => i.GetType().GetProperty(orderByFallback, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
+                    .ToList()
+                : result.OrderByDescending(i => i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
+                    .ThenByDescending(i => i.GetType().GetProperty(orderByFallback, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
+                    .ToList();
+
+
+            return !isIncoming ? result.Where(i => i.Entleiher.Uid.Equals(GetCurrentUid())).ToList() : result;
+        }
+
+
         public ICollection<Device> GetFilteredDevices
         (
             ICollection<DeviceMeta> meta,
@@ -396,9 +432,10 @@ namespace HwInf.Common.BL
             if (meta != null)
             {
                 List<List<DeviceMeta>> deviceMetaGroupedByFieldGroup = meta
-                    .Where(i => !String.IsNullOrWhiteSpace(i.FieldGroupSlug))
-                    .Where(i => !String.IsNullOrWhiteSpace(i.FieldSlug))
-                    .Where(i => !String.IsNullOrWhiteSpace(i.MetaValue))
+                    .Where(i => !String.IsNullOrWhiteSpace(i.FieldGroupSlug)
+                             && !String.IsNullOrWhiteSpace(i.FieldSlug)
+                             && !String.IsNullOrWhiteSpace(i.MetaValue)
+                             )
                     .GroupBy(i => i.FieldGroupSlug, i => i)
                     .ToList()
                     .Select(i => i.ToList())
