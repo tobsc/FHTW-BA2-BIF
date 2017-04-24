@@ -46,8 +46,21 @@ namespace HwInf.Controllers
         [Route("filter")]
         public IHttpActionResult PostFilter([FromBody] OrderFilterViewModel vmdl)
         {
-            var result = vmdl.FilteredList(_bl).Select(i => new OrderItemViewModel(i)).ToList();
-            return Ok(result);
+            try
+            {
+                var result = vmdl.FilteredList(_bl).Select(i => new OrderItemViewModel(i)).ToList();
+                return Ok(result);
+            }
+            catch (SecurityException)
+            {
+                _log.ErrorFormat("'{0}' tried to list Admin/Verwalter View from Orders", _bl.GetCurrentUid());
+                return Unauthorized();
+            }
+            catch (Exception ex)
+            {
+                _log.ErrorFormat("Exception: {0}", ex.Message);
+                return InternalServerError();
+            }
         }
 
         /// <summary>
@@ -58,12 +71,20 @@ namespace HwInf.Controllers
         [Route("")]
         public IHttpActionResult GetOrders()
         {
-            var orders = _bl.GetOrders()
-                .ToList()
-                .Select(i => new OrderViewModel(i).LoadOrderItems(i))
-                .ToList();
+            try
+            {
+                var orders = _bl.GetOrders()
+                    .ToList()
+                    .Select(i => new OrderViewModel(i).LoadOrderItems(i))
+                    .ToList();
 
-            return Ok(orders);
+                return Ok(orders);
+            }
+            catch (Exception ex)
+            {
+                _log.ErrorFormat("Exception: {0}", ex.Message);
+                return InternalServerError();
+            }
         }
 
         /// <summary>
@@ -75,13 +96,21 @@ namespace HwInf.Controllers
         [Route("id/{id}")]
         public IHttpActionResult GetOrders(int id)
         {
-            var order = _bl.GetOrders(id);
+            try
+            {
+                var order = _bl.GetOrders(id);
 
-            if(order == null) return NotFound();
+                if (order == null) return NotFound();
 
-            var vmdl =  new OrderViewModel(order).LoadOrderItems(order);
+                var vmdl = new OrderViewModel(order).LoadOrderItems(order);
 
-            return Ok(vmdl);
+                return Ok(vmdl);
+            }
+            catch (Exception ex)
+            {
+                _log.ErrorFormat("Exception: {0}", ex.Message);
+                return InternalServerError();
+            }
         }
 
         /// <summary>
@@ -93,13 +122,21 @@ namespace HwInf.Controllers
         [Route("guid/{guid}")]
         public IHttpActionResult GetOrdersGuid(Guid guid)
         {
-            var order = _bl.GetOrders(guid);
+            try
+            {
+                var order = _bl.GetOrders(guid);
 
-            if (order == null) return NotFound();
+                if (order == null) return NotFound();
 
-            var vmdl = new OrderViewModel(order).LoadOrderItems(order);
+                var vmdl = new OrderViewModel(order).LoadOrderItems(order);
 
-            return Ok(vmdl);
+                return Ok(vmdl);
+            }
+            catch (Exception ex)
+            {
+                _log.ErrorFormat("Exception: {0}", ex.Message);
+                return InternalServerError();
+            }
         }
 
         /// <summary>
@@ -113,7 +150,6 @@ namespace HwInf.Controllers
         {
             try
             {
-
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
@@ -134,14 +170,13 @@ namespace HwInf.Controllers
                     _log.InfoFormat("Order '{0}' created by '{1}'", i.OrderGuid, User.Identity.Name);
                 });
 
-
                 return Ok(vmdls);
 
-
             }
-            catch(SecurityException)
+            catch (Exception ex)
             {
-                return Unauthorized();
+                _log.ErrorFormat("Exception: {0}", ex.Message);
+                return InternalServerError();
             }
         }
 
@@ -151,37 +186,56 @@ namespace HwInf.Controllers
         /// <param name="id"></param>
         /// <param name="slug"></param>
         /// <returns></returns>
+        [Authorize(Roles = "Admin, Verwalter")]
         [ResponseType(typeof(OrderItemViewModel))]
         [Route("orderitem/{id}/{slug}")]
         public IHttpActionResult PutOrderItem(int id, string slug)
         {
-            var obj = _bl.GetOrderItem(id);
-            var status = _bl.GetOrderStatus(slug);
-
-            if (obj == null || status == null) return NotFound();
-
-            obj.OrderStatus = status;
-            _bl.UpdateOrderItem(obj);
-
-            if (slug.Equals("abgeschlossen"))
+            try
             {
-                obj.ReturnDate = DateTime.Now;
-                obj.Device.Status = _bl.GetDeviceStatus(1);
-                _log.InfoFormat("Status of Device '{0}' changed to '{1}' by '{2}'", obj.Device.InvNum, obj.Device.Status.Description, User.Identity.Name);
+
+                var obj = _bl.GetOrderItem(id);
+                var status = _bl.GetOrderStatus(slug);
+
+                if (obj == null || status == null) return NotFound();
+
+                obj.OrderStatus = status;
+                _bl.UpdateOrderItem(obj);
+
+                if (slug.Equals("abgeschlossen"))
+                {
+                    obj.ReturnDate = DateTime.Now;
+                    obj.Device.Status = _bl.GetDeviceStatus(1);
+                    _log.InfoFormat("Status of Device '{0}' changed to '{1}' by '{2}'", obj.Device.InvNum,
+                        obj.Device.Status.Description, User.Identity.Name);
+                }
+
+                if (slug.Equals("akzeptiert"))
+                {
+                    obj.Device.Status = _bl.GetDeviceStatus(2);
+                    _log.InfoFormat("Status of Device '{0}' changed to '{1}' by '{2}'", obj.Device.InvNum,
+                        obj.Device.Status.Description, User.Identity.Name);
+                }
+
+                _bl.SaveChanges();
+
+                _log.InfoFormat("Status of Order Item '{0}' changed to '{1}' by '{2}'", obj.Device.InvNum, status.Name,
+                    User.Identity.Name);
+
+                var vmdl = new OrderItemViewModel(obj);
+                return Ok(vmdl);
+            }
+            catch (SecurityException)
+            {
+                _log.ErrorFormat("Security: '{0}' tried to update OrderItem '{1}'", _bl.GetCurrentUid(), id);
+                return Unauthorized();
             }
 
-            if (slug.Equals("akzeptiert"))
+            catch (Exception ex)
             {
-                obj.Device.Status = _bl.GetDeviceStatus(2);
-                _log.InfoFormat("Status of Device '{0}' changed to '{1}' by '{2}'", obj.Device.InvNum, obj.Device.Status.Description, User.Identity.Name);
+                _log.ErrorFormat("Exception: '{0}'", ex.Message);
+                return InternalServerError();
             }
-
-            _bl.SaveChanges();
-
-            _log.InfoFormat("Status of Order Item '{0}' changed to '{1}' by '{2}'", obj.Device.InvNum, status.Name, User.Identity.Name);
-
-            var vmdl = new OrderItemViewModel(obj);
-            return Ok(vmdl);
         }
 
 

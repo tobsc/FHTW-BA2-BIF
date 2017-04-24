@@ -140,21 +140,21 @@ namespace HwInf.Common.BL
         // Update
         public void UpdateDevice(Device device)
         {
-            if (!IsAdmin() && !IsVerwalter()) return;
+            if (!IsAdmin() && !IsVerwalter()) throw new SecurityException();
 
             _dal.UpdateObject(device);
         }
 
         public void UpdateDeviceType(DeviceType dt)
         {
-            if (!IsAdmin() && !IsVerwalter()) return;
+            if (!IsAdmin() && !IsVerwalter()) throw new SecurityException();
 
             _dal.UpdateObject(dt);
         }
 
         public void DeleteDevice(Device d)
         {
-            if (!IsAdmin() && !IsVerwalter()) return;
+            if (!IsAdmin() && !IsVerwalter()) throw new SecurityException();
 
             var device = _dal.Devices.FirstOrDefault(i => d.InvNum.Equals(i.InvNum));
             UpdateDevice(device);
@@ -163,7 +163,7 @@ namespace HwInf.Common.BL
 
         public void DeleteDeviceType(DeviceType dt)
         {
-            if (!IsAdmin() && !IsVerwalter()) return;
+            if (!IsAdmin() && !IsVerwalter()) throw new SecurityException();
 
             if (!GetDevices(true, dt.Slug).Any())
             {
@@ -292,6 +292,8 @@ namespace HwInf.Common.BL
         // Update
         public void UpdateUser(Person obj)
         {
+            if(!obj.Uid.Equals(GetCurrentUid()) && !IsAdmin() && !IsVerwalter()) throw new SecurityException();
+
             _dal.UpdateObject(obj);
         }
 
@@ -357,6 +359,7 @@ namespace HwInf.Common.BL
 
         public void UpdateOrderItem(OrderItem obj)
         {
+            if (!IsAdmin() && !IsVerwalter()) throw new SecurityException();
             _dal.UpdateObject(obj);
         }
 
@@ -364,16 +367,7 @@ namespace HwInf.Common.BL
 
         public void SaveChanges()
         {
-            try
-            {
-                _dal.SaveChanges();
-            }
-            catch (DbEntityValidationException ex)
-            {
-
-                var a = ex.EntityValidationErrors;
-            }
-
+            _dal.SaveChanges();
         }
 
 
@@ -424,11 +418,16 @@ namespace HwInf.Common.BL
             string type = null,
             string order = "DESC",
             string orderBy = "Name",
-            int offset = 0,
-            int limit = 25,
-            bool onlyActive = true
+            bool onlyActive = true,
+            bool isVerwalterView = false
         )
         {
+
+            if (isVerwalterView && !IsAdmin() && !IsVerwalter())
+            {
+                throw new SecurityException();
+            }
+
             var dt = GetDeviceType(type);
             var devices = GetDevices(onlyActive, (string.IsNullOrWhiteSpace(type)) ? "" : dt.Slug).ToList();
             var result = devices;
@@ -468,7 +467,9 @@ namespace HwInf.Common.BL
                 .ToList();
 
 
-            return result;
+                return !isVerwalterView || IsAdmin() ? 
+                    result
+                   : result.Where(i => i.Person.Uid.Equals(GetCurrentUid())).ToList();
         }
 
         #region Settings
