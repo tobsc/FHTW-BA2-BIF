@@ -4,6 +4,6 @@ export class OrderFilter {
     public OrderByFallback: "CreateDate";
     public StatusQuery: string[] = [];
     public UidQuery: string[] = [];
-    public IsIncoming: boolean = false;
+    public IsAdminView: boolean = false;
     constructor() {}
 }

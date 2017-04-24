@@ -15,11 +15,11 @@ namespace HwInf.ViewModels
         public string OrderByFallback { get; set; } = "CreateDate";
         public ICollection<string> StatusQuery { get; set; } = new List<string>();
         public ICollection<string> UidQuery { get; set; } = new List<string>();
-        public bool IsIncoming { get; set; } = false;
+        public bool IsAdminView { get; set; } = false;
 
         public ICollection<OrderItem> FilteredList(BL bl)
         {
-            return bl.GetFilteredOrderItems(StatusQuery, UidQuery, Order, OrderBy, OrderByFallback, IsIncoming);
+            return bl.GetFilteredOrderItems(StatusQuery, UidQuery, Order, OrderBy, OrderByFallback, IsAdminView);
         }
     }
 }
