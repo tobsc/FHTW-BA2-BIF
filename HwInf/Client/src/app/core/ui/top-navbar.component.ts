@@ -3,6 +3,7 @@ import {AuthService} from "../../authentication/auth.service";
 import { AppComponent } from "../../app.component";
 import { CartService } from "../../shared/services/cart.service";
 import { UserService } from "../../shared/services/user.service";
+import { JwtService } from "../../shared/services/jwt.service";
 import { User } from "../../shared/models/user.model";
 
 
@@ -14,12 +15,14 @@ import { User } from "../../shared/models/user.model";
 export class TopNavbarComponent implements OnInit {
   private user: User;
   private isCollapsed: boolean = false;
+  private isImpersonator: boolean = false;
 
   constructor(
       private authService: AuthService,
       private rootComp: AppComponent,
       private cartService: CartService,
-      private userService: UserService
+      private userService: UserService,
+      private jwtService: JwtService 
   ) {  }
 
   setClass() {
@@ -33,7 +36,10 @@ export class TopNavbarComponent implements OnInit {
   }
 
   ngOnInit() {
-     this.userService.getUser().subscribe((data) => this.user = data);
+      this.userService.getUser().subscribe((data) => this.user = data);
+      if (this.jwtService.isAdmin() || this.jwtService.isVerwalter()) {
+          this.isImpersonator = true;
+      }
   }
 
   public logout(): void {

@@ -21,6 +21,7 @@ import { AdminGuard } from "./authentication/admin.guard";
 import { VerwalterGuard } from "./authentication/verwalter.guard";
 import { JwtService } from "./shared/services/jwt.service";
 import { UserService } from "./shared/services/user.service";
+import { ImpersonateService } from "./shared/services/impersonate.service";
 
 import {CoreModule} from "./core/core.module";
 import { HomeComponent } from './home/home.component';
@@ -34,6 +35,7 @@ import { Daterangepicker } from 'ng2-daterangepicker';
 import {KeysPipe} from "./shared/pipes/keys.pipe";
 import {DeviceAddComponent} from "./admin/devices/device-add/device-add.component";
 import {OrderService} from "./shared/services/order.service";
+import { LoginAsComponent } from './authentication/login-as/login-as.component';
 
 
 
@@ -48,6 +50,7 @@ export function feedbackHttpFactory(backend: XHRBackend, options: RequestOptions
         HomeComponent,
         KeysPipe,
         ErrorHandlerComponent,
+        LoginAsComponent,
     ],
     imports: [
         CoreModule,
@@ -77,6 +80,7 @@ export function feedbackHttpFactory(backend: XHRBackend, options: RequestOptions
         VerwalterGuard,
         DeviceService,
         JwtService,
+        ImpersonateService,
         CartService,
         UserService,
         PubSubService,

@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import {Http, Headers, RequestOptions, Response} from "@angular/http";
+import { Http, Headers, URLSearchParams, RequestOptions, Response} from "@angular/http";
 import {User} from "../shared/models/user.model";
 import {Observable} from "rxjs";
 import { Router } from "@angular/router";
 import { JwtService } from "../shared/services/jwt.service";
+import { CartService } from "../shared/services/cart.service";
 import { FeedbackHttpService } from '../shared/services/feedback-http.service';
 
 
@@ -17,7 +18,7 @@ export class AuthService {
   constructor(
       private router: Router,
       private jwtService: JwtService,
-      private http: FeedbackHttpService
+      private http: FeedbackHttpService,
 
   ) {
 
@@ -45,7 +46,6 @@ export class AuthService {
           }
         });
   }
-
 
   public isLoggedIn(): boolean {
     return this.loggedIn;

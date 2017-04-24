@@ -25,5 +25,9 @@
 
 <nav style="display: flex; justify-content: space-between">
   <a (click)="onBack()" class="btn btn-warning">Zurück zu den Details</a>
-  <button (click)="onContinue()" type="submit" class="btn btn-success">Anfrage senden</button>
+    <div>
+        <button class="btn btn-default" (click)="showContract()">Vertragsbedingungen anschauen...</button>
+        <button (click)="onContinue()" type="submit" class="btn btn-success">Anfrage senden</button>
+    </div>
+  
 </nav>

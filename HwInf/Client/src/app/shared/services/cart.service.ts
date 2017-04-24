@@ -10,8 +10,8 @@ export class CartService {
     private items: Device[] = [];
 
 
-    constructor(private router: Router, private jwtService:JwtService) {
-        if (!!localStorage.getItem('cart_list'+this.getHash(jwtService.getUid()))) {
+    constructor(private router: Router, private jwtService: JwtService) {
+        if (!!localStorage.getItem('cart_list' + this.getHash(jwtService.getUid()))) {
 
             this.items = JSON.parse(localStorage.getItem('cart_list' + this.getHash(jwtService.getUid())));
         }
@@ -32,8 +32,7 @@ export class CartService {
                 hash = ((hash << 5) - hash) + char;
                 hash = hash & hash; // Convert to 32bit integer
             }
-
-            console.log('cart_list' + hash);
+            console.log('cart_list' + hash + "  UID: "+ uid);
             return hash;
 
 
