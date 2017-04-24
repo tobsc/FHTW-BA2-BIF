@@ -22,6 +22,9 @@ namespace HwInf.Common.BL
     {
         private readonly IDAL _dal;
 
+        public bool IsAdmin => System.Threading.Thread.CurrentPrincipal.IsInRole("Admin");
+        public bool IsVerwalter => System.Threading.Thread.CurrentPrincipal.IsInRole("Verwalter");
+
         public BL()
         {
             _dal = new HwInfContext();
@@ -31,7 +34,6 @@ namespace HwInf.Common.BL
         {
             _dal = dal;
         }
-
 
         #region DAL
 
@@ -107,21 +109,21 @@ namespace HwInf.Common.BL
         // Create
         public Device CreateDevice()
         {
-            if (!IsAdmin() && !IsVerwalter()) throw new SecurityException();
+            if (!IsAdmin && !IsVerwalter) throw new SecurityException();
  
             return _dal.CreateDevice();
         }
 
         public DeviceType CreateDeviceType()
         {
-            if (!IsAdmin() && !IsVerwalter()) throw new SecurityException();
+            if (!IsAdmin && !IsVerwalter) throw new SecurityException();
 
             return _dal.CreateDeviceType();
         }
 
         public DeviceStatus CreateDeviceStatus()
         {
-            if (!IsAdmin() && !IsVerwalter()) throw new SecurityException();
+            if (!IsAdmin && !IsVerwalter) throw new SecurityException();
 
             return _dal.CreateDeviceStatus();
         }
@@ -140,21 +142,21 @@ namespace HwInf.Common.BL
         // Update
         public void UpdateDevice(Device device)
         {
-            if (!IsAdmin() && !IsVerwalter()) throw new SecurityException();
+            if (!IsAdmin && !IsVerwalter) throw new SecurityException();
 
             _dal.UpdateObject(device);
         }
 
         public void UpdateDeviceType(DeviceType dt)
         {
-            if (!IsAdmin() && !IsVerwalter()) throw new SecurityException();
+            if (!IsAdmin && !IsVerwalter) throw new SecurityException();
 
             _dal.UpdateObject(dt);
         }
 
         public void DeleteDevice(Device d)
         {
-            if (!IsAdmin() && !IsVerwalter()) throw new SecurityException();
+            if (!IsAdmin && !IsVerwalter) throw new SecurityException();
 
             var device = _dal.Devices.FirstOrDefault(i => d.InvNum.Equals(i.InvNum));
             UpdateDevice(device);
@@ -163,7 +165,7 @@ namespace HwInf.Common.BL
 
         public void DeleteDeviceType(DeviceType dt)
         {
-            if (!IsAdmin() && !IsVerwalter()) throw new SecurityException();
+            if (!IsAdmin && !IsVerwalter) throw new SecurityException();
 
             if (!GetDevices(true, dt.Slug).Any())
             {
@@ -218,14 +220,14 @@ namespace HwInf.Common.BL
         // Create
         public FieldGroup CreateFieldGroup()
         {
-            if (!IsAdmin() && !IsVerwalter()) throw new SecurityException();
+            if (!IsAdmin && !IsVerwalter) throw new SecurityException();
 
             return _dal.CreteFieldGroup();
         }
 
         public Field CreateField()
         {
-            if (!IsAdmin() && !IsVerwalter()) throw new SecurityException();
+            if (!IsAdmin && !IsVerwalter) throw new SecurityException();
 
             return _dal.CreaField();
         }
@@ -233,20 +235,20 @@ namespace HwInf.Common.BL
         // Update
         public void UpdateFieldGroup(FieldGroup obj)
         {
-            if (!IsAdmin() && !IsVerwalter()) return;
+            if (!IsAdmin && !IsVerwalter) return;
 
             _dal.UpdateObject(obj);
         }
 
         public void DeleteField(Field field)
         {
-            if (!IsAdmin() && !IsVerwalter()) return;
+            if (!IsAdmin && !IsVerwalter) return;
             _dal.DeleteField(field);
         }
 
         public void DeleteFieldGroup(FieldGroup obj)
         {
-            if(!IsAdmin() && !IsVerwalter()) return;
+            if(!IsAdmin && !IsVerwalter) return;
 
             var fg = _dal.DeviceTypes.SelectMany(i => i.FieldGroups).ToList();
             if (!fg.Any(i => i.Slug.Equals(obj.Slug)))
@@ -292,7 +294,7 @@ namespace HwInf.Common.BL
         // Update
         public void UpdateUser(Person obj)
         {
-            if(!obj.Uid.Equals(GetCurrentUid()) && !IsAdmin() && !IsVerwalter()) throw new SecurityException();
+            if(!obj.Uid.Equals(GetCurrentUid()) && !IsAdmin && !IsVerwalter) throw new SecurityException();
 
             _dal.UpdateObject(obj);
         }
@@ -306,13 +308,13 @@ namespace HwInf.Common.BL
         public IEnumerable<Order> GetOrders()
         {
             var orders = _dal.Orders;
-            return !IsAdmin() ? orders.Where(i => i.Entleiher.Uid.Equals(GetCurrentUid())) : orders;
+            return !IsAdmin ? orders.Where(i => i.Entleiher.Uid.Equals(GetCurrentUid())) : orders;
         }
 
 
         public Order GetOrders(int orderId)
         {
-            if (!IsAdmin() && !IsVerwalter())
+            if (!IsAdmin && !IsVerwalter)
             {
                return _dal.Orders
                     .SingleOrDefault(i => i.OrderId.Equals(orderId) && i.Entleiher.Uid.Equals(GetCurrentUid()));
@@ -359,7 +361,7 @@ namespace HwInf.Common.BL
 
         public void UpdateOrderItem(OrderItem obj)
         {
-            if (!IsAdmin() && !IsVerwalter()) throw new SecurityException();
+            if (!IsAdmin && !IsVerwalter) throw new SecurityException();
             _dal.UpdateObject(obj);
         }
 
@@ -383,7 +385,7 @@ namespace HwInf.Common.BL
             bool isAdminView)
         {
 
-            if (isAdminView && !IsAdmin() && !IsVerwalter())
+            if (isAdminView && !IsAdmin && !IsVerwalter)
             {
                 throw new SecurityException();
             }
@@ -406,7 +408,7 @@ namespace HwInf.Common.BL
 
             return !isAdminView ? 
                 result.Where(i => i.Entleiher.Uid.Equals(GetCurrentUid())).ToList() 
-                : IsAdmin() ? 
+                : IsAdmin ? 
                     result 
                     : result.Where(i => i.Verwalter.Uid.Equals(GetCurrentUid())).ToList();
         }
@@ -423,7 +425,7 @@ namespace HwInf.Common.BL
         )
         {
 
-            if (isVerwalterView && !IsAdmin() && !IsVerwalter())
+            if (isVerwalterView && !IsAdmin && !IsVerwalter)
             {
                 throw new SecurityException();
             }
@@ -467,7 +469,7 @@ namespace HwInf.Common.BL
                 .ToList();
 
 
-                return !isVerwalterView || IsAdmin() ? 
+                return !isVerwalterView || IsAdmin ? 
                     result
                    : result.Where(i => i.Person.Uid.Equals(GetCurrentUid())).ToList();
         }
@@ -481,7 +483,7 @@ namespace HwInf.Common.BL
 
         public Setting CreateSetting()
         {
-            if (!IsAdmin() && !IsVerwalter()) throw new SecurityException();
+            if (!IsAdmin && !IsVerwalter) throw new SecurityException();
 
             return _dal.CreateSetting();
         }
@@ -493,7 +495,7 @@ namespace HwInf.Common.BL
 
         public void UpdateSetting(Setting s)
         {
-            if (!IsAdmin() && !IsVerwalter()) return;
+            if (!IsAdmin && !IsVerwalter) return;
 
             _dal.UpdateObject(s);
         }
@@ -502,29 +504,15 @@ namespace HwInf.Common.BL
 
         #region Auth
 
-        public bool IsAdmin()
-        {
-            return System.Threading.Thread.CurrentPrincipal.IsInRole("Admin");
-        }
 
-        public bool IsAdmin(string uid)
+        public bool IsAdminUid(string uid)
         {
             return _dal.Persons.Any(i => i.Uid == uid && i.Role.Name.Equals("Admin"));
         }
 
-        public bool IsVerwalter()
-        {
-            return System.Threading.Thread.CurrentPrincipal.IsInRole("Verwalter");
-        }
-
-        public bool IsVerwalter(string uid)
-        {
-            return _dal.Persons.Any(i => i.Uid == uid && i.Role.Name.Equals("Verwalter"));
-        }
-
         public void SetAdmin(Person obj)
         {
-            if (!IsAdmin()) return;
+            if (!IsAdmin) throw new SecurityException();
             obj.Role = GetRole("Admin");
         }
 

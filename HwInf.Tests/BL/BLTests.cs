@@ -435,14 +435,14 @@ namespace HwInf.Tests.BL
         [Test]
         public void bl_should_return_isAdmin_true_when_admin()
         {
-            var isAdmin = _bl.IsAdmin();
+            var isAdmin = _bl.IsAdmin;
             Assert.True(isAdmin);
         }
 
         [Test]
         public void bl_should_return_isAdmin_false_when_not_admin()
         {
-            var isAdmin = _bl.IsAdmin("if15b032");
+            var isAdmin = _bl.IsAdminUid("if15b032");
             Assert.False(isAdmin);
         }
 

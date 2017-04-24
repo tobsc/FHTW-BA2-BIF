@@ -249,7 +249,7 @@ namespace HwInf.Controllers
         {
 
             var uid = _bl.GetOrders(id).Entleiher.Uid;
-            if (uid != _bl.GetCurrentUid() && !_bl.IsAdmin())
+            if (uid != _bl.GetCurrentUid() && !_bl.IsAdmin)
             {
                 return Unauthorized();
             }
