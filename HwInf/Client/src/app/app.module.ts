@@ -39,7 +39,6 @@ import { LoginAsComponent } from './authentication/login-as/login-as.component';
 
 
 
-
 export function feedbackHttpFactory(backend: XHRBackend, options: RequestOptions, router: Router, pubsub: PubSubService) {
     return new FeedbackHttpService(backend, options, router, pubsub);
 }

@@ -30,6 +30,9 @@ import {ModalModule} from "angular2-modal";
 import {ConfirmDialogModule} from "../core/confirm-dialog/confirm-dialog.module";
 import { AdminSettingsComponent } from './admin-settings/admin-settings.component';
 import { Daterangepicker } from 'ng2-daterangepicker';
+import { AdminOrdersComponent } from './admin-orders/admin-orders.component';
+import {UserModule} from "../user/user.module";
+import { AdminOrderListComponent } from './admin-orders/admin-order-list/admin-order-list.component';
 
 
 export function jwtFactory(backend: XHRBackend, options: RequestOptions, router: Router, authService: AuthService, pubsub: PubSubService) {
@@ -56,6 +59,8 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
         DeviceEditComponent,
         DeviceDuplicateComponent,
         AdminSettingsComponent,
+        AdminOrdersComponent,
+        AdminOrderListComponent,
     ],
     imports: [
         RouterModule,
@@ -68,7 +73,7 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
         AlertModule.forRoot(),
         ModalModule.forRoot(),
         Daterangepicker,
-        ConfirmDialogModule
+        ConfirmDialogModule,
     ],
     providers: [
         {
@@ -76,7 +81,7 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
             useFactory: jwtFactory,
             deps: [XHRBackend, RequestOptions, Router, AuthService, PubSubService]
         },
-    ]
+    ],
 })
 export class AdminModule {
 }

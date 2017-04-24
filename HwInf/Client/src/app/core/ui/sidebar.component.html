@@ -40,13 +40,9 @@
               <li routerLinkActive="current_menu_item" [routerLinkActiveOptions]="{exact:true}"><a href="geraete_status_verwalten.php">Gerätestatus</a></li>
             </ul>
           </li>
-          <li dropdown><a dropdownToggle><i class="fa fa-windows"></i> Aufträge <span class="fa fa-chevron-down"></span></a>
+          <li [ngClass]="{current_parent_menu_item: router.url.match('(.*admin\/orders.*)') }" dropdown><a dropdownToggle><i class="fa fa-windows"></i> Aufträge <span class="fa fa-chevron-down"></span></a>
             <ul class="nav child_menu">
-              <li><a href="auftraege_admin.php">Alle</a></li>
-              <li><a href="auftraege_admin.php">Anfragen</a></li>
-              <li><a href="auftraege_admin.php">Ausgeliehen</a></li>
-              <li><a href="auftraege_admin.php">Abgeschlossen</a></li>
-              <li><a href="auftraege_admin.php">Archiviert</a></li>
+              <li routerLinkActive="current_menu_item"><a routerLink="/admin/orders">Alle</a></li>
             </ul>
           </li>
           <li dropdown><a dropdownToggle><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Schäden <span class="fa fa-chevron-down"></span></a>

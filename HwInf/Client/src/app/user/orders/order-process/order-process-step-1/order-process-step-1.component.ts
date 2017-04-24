@@ -6,6 +6,7 @@ import {User} from "../../../../shared/models/user.model";
 import {Router, ActivatedRoute} from "@angular/router";
 import {OrderProcessService} from "../shared/order-process.service";
 var moment = require('moment');
+moment.locale('de');
 
 @Component({
   selector: 'hwinf-order-process-step-1',
