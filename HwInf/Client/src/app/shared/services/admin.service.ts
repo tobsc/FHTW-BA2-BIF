@@ -7,14 +7,16 @@ import { CartService } from "./cart.service";
 import { FeedbackHttpService } from './feedback-http.service';
 import { JwtHttpService } from "./jwt-http.service";
 import { Router } from "@angular/router";
+import { Setting } from "../models/setting.model";
 
 
 @Injectable()
-export class ImpersonateService {
+export class AdminService {
 
     private token: string;
     private loggedIn: boolean = false;
-    private url: string = "/api/auth/";
+    private authUrl: string = "/api/auth/";
+    private settingsUrl: string = "api/settings/";
 
     constructor(
         private jwtService: JwtService,
@@ -26,7 +28,7 @@ export class ImpersonateService {
     }
 
     public impersonate(user: User){
-        this.http.get(this.url + 'impersonate/' + user.Uid + '/')
+        this.http.get(this.authUrl + 'impersonate/' + user.Uid + '/')
             .map((response: Response) => response.json())
             .subscribe((data) => {
                 let token = data.token;
@@ -41,5 +43,10 @@ export class ImpersonateService {
                     location.reload();
                 }
             });
-  }
+    }
+
+    public getSetting(key:string): Observable<Setting> {
+        return this.http.get(this.settingsUrl + key)
+            .map((response: Response) => response.json());
+    }
 }

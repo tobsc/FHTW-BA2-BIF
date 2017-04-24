@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from "../../shared/services/user.service";
 import { User } from "../../shared/models/user.model";
-import { ImpersonateService } from "../../shared/services/impersonate.service";
+import { AdminService } from "../../shared/services/admin.service";
 import { Router } from "@angular/router";
 import { FormBuilder, FormGroup, FormArray, Validators, NgForm } from "@angular/forms";
 
@@ -19,7 +19,7 @@ export class LoginAsComponent implements OnInit {
     constructor(
         private userService: UserService,
         private fb: FormBuilder,
-        private impersonateService: ImpersonateService,
+        private adminService: AdminService,
         private router: Router,
     ) { }
 
@@ -44,7 +44,7 @@ export class LoginAsComponent implements OnInit {
 
     
     impersonate() {
-        this.impersonateService.impersonate(this.selectedUser)
+        this.adminService.impersonate(this.selectedUser)
         
     }
 

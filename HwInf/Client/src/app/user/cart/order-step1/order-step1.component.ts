@@ -67,5 +67,4 @@ export class OrderStep1Component implements OnInit {
         this.daterange.start = value.start;
         this.daterange.end = value.end;
     }
-    
 }

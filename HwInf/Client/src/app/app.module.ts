@@ -21,7 +21,7 @@ import { AdminGuard } from "./authentication/admin.guard";
 import { VerwalterGuard } from "./authentication/verwalter.guard";
 import { JwtService } from "./shared/services/jwt.service";
 import { UserService } from "./shared/services/user.service";
-import { ImpersonateService } from "./shared/services/impersonate.service";
+import { AdminService } from "./shared/services/admin.service";
 
 import {CoreModule} from "./core/core.module";
 import { HomeComponent } from './home/home.component';
@@ -81,7 +81,7 @@ export function feedbackHttpFactory(backend: XHRBackend, options: RequestOptions
         VerwalterGuard,
         DeviceService,
         JwtService,
-        ImpersonateService,
+        AdminService,
         CartService,
         UserService,
         PubSubService,
