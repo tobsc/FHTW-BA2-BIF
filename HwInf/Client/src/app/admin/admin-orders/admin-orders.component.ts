@@ -11,7 +11,9 @@ import {Order} from "../../shared/models/order.model";
 })
 export class AdminOrdersComponent implements OnInit {
 
-  private orders: Order;
+  private orders: Order[] = [];
+
+  private undoStack: any = [];
 
   constructor(
       private orderService: OrderService,
@@ -25,7 +27,9 @@ export class AdminOrdersComponent implements OnInit {
     this.orderService.getOrders().subscribe(data => this.orders = data);
   }
 
-  updateList() {
-    this.fetchData();
+  updateOrder(index: number, order: Order) {
+    this.orders[index] = order;
   }
+
+
 }

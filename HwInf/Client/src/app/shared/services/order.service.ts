@@ -50,4 +50,55 @@ export class OrderService {
     return this.http.post(this.url, bodyString, options)
         .map((response: Response) => response.json());
   }
+
+
+  public acceptOrder(body: Order): Observable<Order> {
+    let bodyString = JSON.stringify(body);
+    let headers = new Headers({
+      'Content-Type': 'application/json'
+    });
+    let options = new RequestOptions({headers: headers});
+    return this.http.put(`${this.url}order/accept`, bodyString, options)
+        .map((response: Response) => {return response.json();});
+  }
+
+  public lendOrder(body: any): Observable<Order> {
+    let bodyString = JSON.stringify(body);
+    let headers = new Headers({
+      'Content-Type': 'application/json'
+    });
+    let options = new RequestOptions({headers: headers});
+    return this.http.put(`${this.url}order/lend`, bodyString, options)
+        .map((response: Response) => response.json())
+  }
+
+  public resetOrder(body: any): Observable<Order> {
+    let bodyString = JSON.stringify(body);
+    let headers = new Headers({
+      'Content-Type': 'application/json'
+    });
+    let options = new RequestOptions({headers: headers});
+    return this.http.put(`${this.url}order/reset`, bodyString, options)
+        .map((response: Response) => response.json())
+  }
+
+  public declineOrder(body: any): Observable<Order> {
+    let bodyString = JSON.stringify(body);
+    let headers = new Headers({
+      'Content-Type': 'application/json'
+    });
+    let options = new RequestOptions({headers: headers});
+    return this.http.put(`${this.url}order/decline`, bodyString, options)
+        .map((response: Response) => response.json())
+  }
+
+  public returnOrder(body: any): Observable<Order> {
+    let bodyString = JSON.stringify(body);
+    let headers = new Headers({
+      'Content-Type': 'application/json'
+    });
+    let options = new RequestOptions({headers: headers});
+    return this.http.put(`${this.url}order/return`, bodyString, options)
+        .map((response: Response) => response.json())
+  }
 }

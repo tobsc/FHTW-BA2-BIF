@@ -194,7 +194,7 @@ namespace HwInf.Controllers
         /// <param name="vmdl"></param>
         /// <returns></returns>
         [Authorize(Roles = "Admin, Verwalter")]
-        [ResponseType(typeof(OrderItemViewModel))]
+        [ResponseType(typeof(OrderViewModel))]
         [Route("order/accept/")]
         public IHttpActionResult PutOrderAccept([FromBody]OrderViewModel vmdl)
         {
@@ -215,7 +215,7 @@ namespace HwInf.Controllers
 
                 vmdl.Accept(order, _bl);
                 _bl.SaveChanges();
-                vmdl.Refresh(order);
+                vmdl.LoadOrderItems(order).Refresh(order);
 
                 return Ok(vmdl);
             }
@@ -248,7 +248,7 @@ namespace HwInf.Controllers
 
                 vmdl.Lend(order, _bl);
                 _bl.SaveChanges();
-                vmdl.Refresh(order);
+                vmdl.LoadOrderItems(order).Refresh(order);
 
                 return Ok(vmdl);
             }
@@ -281,7 +281,8 @@ namespace HwInf.Controllers
 
                 vmdl.Reset(order, _bl);
                 _bl.SaveChanges();
-                vmdl.Refresh(order);
+               
+                vmdl.LoadOrderItems(order).Refresh(order);
 
                 return Ok(vmdl);
             }
@@ -314,7 +315,7 @@ namespace HwInf.Controllers
 
                 vmdl.Decline(order, _bl);
                 _bl.SaveChanges();
-                vmdl.Refresh(order);
+                vmdl.LoadOrderItems(order).Refresh(order);
 
                 return Ok(vmdl);
             }
@@ -347,7 +348,7 @@ namespace HwInf.Controllers
 
                 vmdl.Return(order, _bl);
                 _bl.SaveChanges();
-                vmdl.Refresh(order);
+                vmdl.LoadOrderItems(order).Refresh(order);
 
                 return Ok(vmdl);
             }

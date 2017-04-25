@@ -17,9 +17,7 @@ namespace HwInf.Common.Models
         public DateTime From { get; set; }
         [Required]
         public DateTime To { get; set; }
-        [Required]
         public virtual Person Entleiher { get; set; }
-        [Required]
         public virtual Person Verwalter { get; set; }
         [Required]
         public ICollection<OrderItem> OrderItems { get; set; }

@@ -12,6 +12,6 @@ export class OrderItem {
         public ReturnDate: string = null,
         public CreateDate: string = null,
         public Entleiher: User = null,
-        public OrderReason: string = null
+        public IsDecline: boolean = false
     ) {}
 }

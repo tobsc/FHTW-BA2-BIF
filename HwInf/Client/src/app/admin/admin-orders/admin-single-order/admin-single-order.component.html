@@ -1,0 +1,113 @@
+<div class="x_panel">
+  <div class="x_title">
+    ID: {{order.OrderId}} <span class="label label-default">{{order.OrderStatus.Name}}</span>
+    {{order.Verwalter.Uid}}
+    <div class="clearfix"></div>
+  </div>
+  <div class="x_content">
+
+    <div class="table-responsive">
+      <table class="table table-hover table-striped table-bordered">
+        <thead>
+        <tr>
+          <th>Entleiher</th>
+          <th>Geräte</th>
+          <th>Dauer</th>
+          <th>Grund</th>
+          <th>Anfragedatum</th>
+          <th>Aktion</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>{{order.Entleiher.Name}} {{order.Entleiher.LastName}} ({{order.Entleiher.Uid}})</td>
+          <td>
+            <ul class="list-unstyled">
+              <li *ngFor="let orderItem of order.OrderItems; let i = index">
+                <input style="display: none" type="checkbox" id="{{order.OrderId}}-{{i}}" />
+                <label htmlFor="{{order.OrderId}}-{{i}}">
+                  {{orderItem.Device.Name}} ({{orderItem.Device.InvNum}})
+                </label>
+                <span class="label label-default">{{orderItem.Device.Status.Description}}</span>
+              </li>
+            </ul>
+          </td>
+          <td>
+            <dl>
+              <dt>Von:</dt>
+              <dd>{{order.From | date:'dd. MMMM yyyy'}}</dd>
+              <dt>Bis:</dt>
+              <dd>{{order.To | date:'dd. MMMM yyyy'}}</dd>
+            </dl>
+          </td>
+          <td>{{order.OrderReason}}</td>
+          <td>
+            {{order.Date | date: 'dd. MMMM yyyy'}}
+          </td>
+          <td>
+
+            <hwinf-confirm-button *ngIf="order.OrderStatus.Slug === 'offen'"
+                                  (action)="onAccept()"
+                                  class="btn-block"
+                                  popOverTitle="Antrag akzeptieren?">
+              <button title="Antrag akzeptieren" class="btn btn-success btn-xs btn-block">
+                Antrag akzeptieren
+              </button>
+            </hwinf-confirm-button>
+
+            <hwinf-confirm-button *ngIf="order.OrderStatus.Slug === 'akzeptiert'"
+                                  (action)="onLend()"
+                                  class="btn-block"
+                                  [popOverTitle]="'Gerät'+ ((order.OrderItems.length > 1) ? 'e' : '') + ' übergeben?'">
+              <button [title]="'Gerät'+ ((order.OrderItems.length > 1) ? 'e' : '') + ' übergeben'" class="btn btn-info btn-xs btn-block">
+                Gerät <span *ngIf="order.OrderItems.length > 1">e</span> übergeben
+              </button>
+            </hwinf-confirm-button>
+
+            <hwinf-confirm-button *ngIf="order.OrderStatus.Slug === 'offen'"
+                                  (action)="onDecline()"
+                                  class="btn-block"
+                                  popOverTitle="Antrag ablehnen?">
+              <button title="Antrag ablehnen" class="btn btn-danger btn-xs btn-block">
+                Antrag ablehnen
+              </button>
+            </hwinf-confirm-button>
+
+            <hwinf-confirm-button *ngIf="order.OrderStatus.Slug === 'ausgeliehen'"
+                                  (action)="onReturn()"
+                                  class="btn-block"
+                                  popOverTitle="Vertrag abschließen?">
+              <button title="Antrag resetten" class="btn btn-success btn-xs btn-block">
+                Vertrag abschließen
+              </button>
+            </hwinf-confirm-button>
+            <!-- *ngIf="['akzeptiert', 'abgelehnt'].indexOf(order.OrderStatus.Slug) >= 0" -->
+            <hwinf-confirm-button
+                    (action)="onReset()"
+                    class="btn-block"
+                    popOverTitle="Antrag resetten?">
+              <button title="Antrag resetten" class="btn btn-warning btn-xs btn-block">
+                Antrag resetten
+              </button>
+            </hwinf-confirm-button>
+
+            <div class="row gutter-5" style="margin-top: 5px">
+              <div class="col-xs-6">
+                <button title="Vertrag drucken" class="btn btn-default btn-xs btn-block">
+                  <i class="fa fa-print" aria-hidden="true"></i>
+                </button>
+              </div>
+              <div class="col-xs-6">
+                <a class="btn btn-default btn-xs btn-block"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
+              </div>
+            </div>
+          </td>
+
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>

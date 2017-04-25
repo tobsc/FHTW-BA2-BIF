@@ -95,6 +95,15 @@ html {
   padding-left: 5px;
 }
 
+.gutter-5.row {
+  margin-right: -2.5px;
+  margin-left: -2.5px;
+}
+.gutter-5 > [class^="col-"], .gutter-10 > [class^=" col-"] {
+  padding-right: 2.5px;
+  padding-left: 2.5px;
+}
+
 
 .btn {
     margin:0;
