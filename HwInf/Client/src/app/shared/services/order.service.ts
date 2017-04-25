@@ -30,6 +30,16 @@ export class OrderService {
         .map((response: Response) => response.json());
   }
 
+  public updateOrderItem(id: number, statusSlug: string): Observable<OrderItem> {
+    let bodyString = JSON.stringify("");
+    let headers = new Headers({
+      'Content-Type': 'application/json'
+    });
+    let options = new RequestOptions({headers: headers});
+    return this.http.put(`${this.url}orderitem/${id}/${statusSlug}`, bodyString, options)
+        .map((response: Response) => response.json());
+  }
+
 
   public createOrder(body: any): Observable<Order> {
     let bodyString = JSON.stringify(body);

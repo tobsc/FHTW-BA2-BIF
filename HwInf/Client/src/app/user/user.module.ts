@@ -71,6 +71,9 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
             useFactory: jwtFactory,
             deps: [XHRBackend, RequestOptions, Router, AuthService, PubSubService]
         },
+    ],
+    exports: [
+        OrderListComponent,
     ]
 })
 export class UserModule {}

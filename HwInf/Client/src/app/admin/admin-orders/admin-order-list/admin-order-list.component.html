@@ -1,0 +1,51 @@
+<div class="x_panel" *ngIf="orderItems.length > 0">
+  <div class="x_title">
+    <h2><ng-content select=".title"></ng-content></h2>
+    <div class="clearfix"></div>
+  </div>
+  <div class="x_content">
+    <div class="table-responsive">
+      <table class="table table-hover table-striped table-bordered">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Erstellungsdatum</th>
+          <th>Inventarnummer</th>
+          <th>Gerätename</th>
+          <th>Entleiher</th>
+          <th>Ausleihdatum</th>
+          <th>Rückgabedatum</th>
+          <th>Entleihungsgrund</th>
+          <th>Zurückgegeben am</th>
+          <th>Status</th>
+          <th>Aktion</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let orderItem of orderItems">
+          <td>{{orderItem.ItemId}}</td>
+          <td>{{orderItem.CreateDate | date: 'dd. MMMM yyyy'}}</td>
+          <td>{{orderItem.Device.InvNum}}</td>
+          <td>{{orderItem.Device.Name}}</td>
+          <td>
+            <a href="mailto:{{orderItem.Device.Verwalter.Email}}">
+              {{orderItem.Entleiher.Name}} {{orderItem.Entleiher.LastName}}
+            </a>
+          </td>
+          <td>{{orderItem.From | date: 'dd. MMMM yyyy'}}</td>
+          <td><strong>{{orderItem.To | date: 'dd. MMMM yyyy'}}</strong></td>
+          <td>{{orderItem.OrderReason}}</td>
+          <td>{{ getReturnDate(orderItem.ReturnDate) }}</td>
+          <td>{{orderItem.OrderStatus.Name}}</td>
+          <td>
+            <button *ngIf="orderItem.OrderStatus.Slug === 'offen'" (click)="onAccept(orderItem.ItemId)" class="btn btn-success btn-xs">Akzeptieren</button>
+            <button *ngIf="orderItem.OrderStatus.Slug === 'offen'" (click)="onDecline(orderItem.ItemId)" class="btn btn-danger btn-xs">Ablehnen</button>
+            <button *ngIf="orderItem.OrderStatus.Slug === 'akzeptiert'" (click)="onReturn(orderItem.ItemId)" class="btn btn-info btn-xs">Abschliessen</button>
+
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

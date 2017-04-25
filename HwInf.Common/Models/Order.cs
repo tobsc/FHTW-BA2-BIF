@@ -51,7 +51,7 @@ namespace HwInf.Common.Models
     }
 
     [Table("OrderStatus")]
-    public class OrderStatus
+    public class OrderStatus : IComparable<OrderStatus>, IComparable
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -61,6 +61,16 @@ namespace HwInf.Common.Models
         [Required]
         public string Slug { get; set; }
 
+        public int CompareTo(OrderStatus other)
+        {
+            return StatusId.CompareTo(other.StatusId);
+        }
+
+        public int CompareTo(object obj)
+        {
+            var o = obj as OrderStatus;
+            return CompareTo(o);
+        }
     }
 
 }

@@ -12,6 +12,7 @@ using System.IO;
 using MigraDoc.DocumentObjectModel.IO;
 using MigraDoc.Rendering;
 using System.Net.Http.Headers;
+using System.Web.Http.Results;
 using HwInf.Common.BL;
 using log4net;
 
@@ -45,54 +46,59 @@ namespace HwInf.Controllers
         /// <param name="guid">Order guid</param>
         /// <returns></returns>
         [Route("{guid}")]
-        public HttpResponseMessage GetPrint(Guid guid)
+        public IHttpActionResult GetPrint(Guid guid)
         {
-
-            var order = _bl.GetOrders(guid);
-
-
-            var rpt = new Contract(order.OrderId, order.Entleiher.Uid);
-            // Report -> String
-            var text = rpt.TransformText();
-
-
-            // Stream für den DdlReader erzeugen
-            MemoryStream stream = CreateMDDLStream(text);
-            var errors = new DdlReaderErrors();
-            DdlReader rd = new DdlReader(stream, errors);
-
-            // MDDL einlesen
-            var doc = rd.ReadDocument();
-
-            // MigraDoc Dokument in ein PDF Rendern
-            PdfDocumentRenderer pdf = new PdfDocumentRenderer(true, PdfSharp.Pdf.PdfFontEmbedding.None);
-            pdf.Document = doc;
-            pdf.RenderDocument();
-            // Speichern
-            pdf.Save(AppDomain.CurrentDomain.BaseDirectory + "\\Ausleihvertrag.pdf");
-
-
-            HttpResponseMessage result;
-            var localFilePath = AppDomain.CurrentDomain.BaseDirectory + "\\Ausleihvertrag.pdf";
-
-            if (!File.Exists(localFilePath))
+            try
             {
-                result = Request.CreateResponse(HttpStatusCode.Gone);
+                var order = _bl.GetOrders(guid);
+                var rpt = new Contract(order.OrderId, order.Entleiher.Uid);
+                // Report -> String
+                var text = rpt.TransformText();
+
+
+                // Stream für den DdlReader erzeugen
+                MemoryStream stream = CreateMDDLStream(text);
+                var errors = new DdlReaderErrors();
+                DdlReader rd = new DdlReader(stream, errors);
+
+                // MDDL einlesen
+                var doc = rd.ReadDocument();
+
+                // MigraDoc Dokument in ein PDF Rendern
+                PdfDocumentRenderer pdf = new PdfDocumentRenderer(true, PdfSharp.Pdf.PdfFontEmbedding.None);
+                pdf.Document = doc;
+                pdf.RenderDocument();
+                // Speichern
+                pdf.Save(AppDomain.CurrentDomain.BaseDirectory + "\\Ausleihvertrag.pdf");
+
+
+                HttpResponseMessage result;
+                var localFilePath = AppDomain.CurrentDomain.BaseDirectory + "\\Ausleihvertrag.pdf";
+
+                if (!File.Exists(localFilePath))
+                {
+                    result = Request.CreateResponse(HttpStatusCode.Gone);
+                }
+                else
+                {
+                    // Serve the file to the client
+                    result = Request.CreateResponse(HttpStatusCode.OK);
+                    //result.Content = new StreamContent(new FileStream(localFilePath, FileMode.Open, FileAccess.Read));
+                    Byte[] bytes = File.ReadAllBytes(localFilePath);
+                    result.Content = new ByteArrayContent(bytes);
+                    result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
+                    result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
+                    result.Content.Headers.ContentDisposition.FileName = "Ausleih_Vertrag.pdf";
+                }
+
+                return Ok(result);
             }
-            else
+
+            catch (Exception ex)
             {
-                // Serve the file to the client
-                result = Request.CreateResponse(HttpStatusCode.OK);
-                //result.Content = new StreamContent(new FileStream(localFilePath, FileMode.Open, FileAccess.Read));
-                Byte[] bytes = File.ReadAllBytes(localFilePath);
-                result.Content = new ByteArrayContent(bytes);
-                result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
-                result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
-                result.Content.Headers.ContentDisposition.FileName = "Ausleih_Vertrag.pdf";
+                _log.ErrorFormat("Exception: '{0}'", ex.Message);
+                return InternalServerError();
             }
-
-
-            return result;
 
         }
 

@@ -18,6 +18,7 @@ namespace HwInf.ViewModels
         public DateTime To { get; set; }
         public DateTime ReturnDate { get; set; }
         public DateTime CreateDate { get; set; }
+        public Person Entleiher { get; set; }
 
         public OrderItemViewModel(OrderItem obj)
         {
@@ -41,6 +42,8 @@ namespace HwInf.ViewModels
             target.To = source.To;
             target.From = source.From;
             target.CreateDate = source.CreateDate;
+            target.Entleiher = source.Entleiher;
+            target.ReturnDate = source.ReturnDate;
 
         }
 

@@ -1,0 +1,19 @@
+<h1>Alle Aufträge</h1>
+
+<hwinf-admin-order-list (updateList)="updateList()" [orderItems]="openOrderItems">
+    <div class="title">Offene Anfragen</div>
+</hwinf-admin-order-list>
+<hwinf-admin-order-list (updateList)="updateList()" [orderItems]="activeOrderItems">
+    <div class="title">Aktive Aufträge</div>
+</hwinf-admin-order-list>
+
+
+<button class="btn btn-default" (click)="onToggleShowClosedOrders()">
+    Abgeschlossene und abgelehnte Aufträge anzeigen
+    <span *ngIf="!showClosedOrders" class="fa fa-chevron-down"></span>
+    <span *ngIf="showClosedOrders" class="fa fa-chevron-up"></span>
+</button>
+
+<hwinf-admin-order-list (updateList)="updateList()" [orderItems]="closedOrderItems" *ngIf="showClosedOrders">
+    <div class="title">Abgeschlossene/Abgelehnte Aufträge</div>
+</hwinf-admin-order-list>
