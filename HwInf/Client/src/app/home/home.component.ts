@@ -1,4 +1,6 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
+import { AdminService } from '../shared/services/admin.service';
+
 
 @Component({
   selector: 'hwinf-home',
@@ -11,7 +13,11 @@ export class HomeComponent implements OnInit, OnDestroy{
     console.log('I AM DESTROYED');
   }
 
-  constructor() { }
+    constructor(
+        private adminService: AdminService
+    ) { 
+        this.adminService.loadSemestreData();
+    }
 
   ngOnInit() {
 

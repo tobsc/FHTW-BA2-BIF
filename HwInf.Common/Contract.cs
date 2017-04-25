@@ -14,12 +14,12 @@ namespace HwInf.Common
     using System.Collections.Generic;
     using HwInf.Common.DAL;
     using System;
-
+    
     /// <summary>
     /// Class to produce the template output
     /// </summary>
-
-#line 1 "C:\Users\Valentin\Documents\__FH\ITP3\collab\HW-INF\HwInf.Common\Contract.tt"
+    
+    #line 1 "C:\Users\Valentin\Documents\__FH\ITP3\git\HW-INF\HwInf.Common\Contract.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "14.0.0.0")]
     public partial class Contract : ContractBase
     {
@@ -76,12 +76,12 @@ namespace HwInf.Common
 		}
 		
 		");
-
-#line 54 "C:\Users\Valentin\Documents\__FH\ITP3\collab\HW-INF\HwInf.Common\Contract.tt"
+            
+            #line 54 "C:\Users\Valentin\Documents\__FH\ITP3\git\HW-INF\HwInf.Common\Contract.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(getEntleiher()));
-
-#line default
-#line hidden
+            
+            #line default
+            #line hidden
             this.Write("\r\n\t\t\r\n\t\t\\paragraph [ Format { Font { Bold = true } LeftIndent = \"12cm\"} ]\r\n\t\t{\r\n\t" +
                     "\t\t-EntleiherIn-\r\n\t\t}\r\n\t\t\\paragraph\r\n\t\t{\r\n\t\t\twird der folgende Leihvertrag geschl" +
                     "ossen:\r\n\t\t}\r\n\t\t\\paragraph [ Format { Font { Size = 7.5 Bold = true}\r\n\t\t\t\t\t\t\t  Sp" +
@@ -164,12 +164,12 @@ namespace HwInf.Common
                     "paragraph [ Format { Font { Size = 7.5 Bold = true} SpaceAfter = \"0.5cm\"} ]\r\n\t\t{" +
                     "\r\n\t\t§ 6 Laufzeit und Ende des Vertrages\r\n\t\t}\r\n\t\t\\paragraph [ Format { SpaceAfter" +
                     " = \"0.25cm\"}]\r\n\t\t{\r\n\t\t");
-
-#line 186 "C:\Users\Valentin\Documents\__FH\ITP3\collab\HW-INF\HwInf.Common\Contract.tt"
+            
+            #line 186 "C:\Users\Valentin\Documents\__FH\ITP3\git\HW-INF\HwInf.Common\Contract.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(getZeitspanne()));
-
-#line default
-#line hidden
+            
+            #line default
+            #line hidden
             this.Write("\r\n\t\t}\r\n\t\t\\paragraph [ Format { Font { Size = 7.5} SpaceAfter = \"0.25cm\" } ]\r\n\t\t{\r" +
                     "\n\t\tDer/die EntleiherIn ist verpflichtet, das Gerät während dieser Zeit der Verle" +
                     "iherIn auf deren Verlangen jederzeit vorzuzeigen. Die\r\nVerleiherIn ist berechtig" +
@@ -194,34 +194,34 @@ namespace HwInf.Common
                     "er = \"0.5cm\"} ]\r\n\t\t{\r\n\t\t(3) Es gilt österreichisches Recht, Gerichtsstand ist da" +
                     "s sachlich zuständige Gericht in Wien.\r\n\t\t}\r\n\t\t\\paragraph [ Format { SpaceAfter " +
                     "= \"1cm\"} ]\r\n\t\t{\r\n\t\tWien, den ");
-
-#line 229 "C:\Users\Valentin\Documents\__FH\ITP3\collab\HW-INF\HwInf.Common\Contract.tt"
-            this.Write(DateTime.Now.Day.ToString("d2"));
-
-#line default
-#line hidden
+            
+            #line 229 "C:\Users\Valentin\Documents\__FH\ITP3\git\HW-INF\HwInf.Common\Contract.tt"
+ this.Write(DateTime.Now.Day.ToString("d2"));
+            
+            #line default
+            #line hidden
             this.Write(".");
-
-#line 229 "C:\Users\Valentin\Documents\__FH\ITP3\collab\HW-INF\HwInf.Common\Contract.tt"
-            this.Write(DateTime.Now.Month.ToString("d2"));
-
-#line default
-#line hidden
+            
+            #line 229 "C:\Users\Valentin\Documents\__FH\ITP3\git\HW-INF\HwInf.Common\Contract.tt"
+ this.Write(DateTime.Now.Month.ToString("d2"));
+            
+            #line default
+            #line hidden
             this.Write(".");
-
-#line 229 "C:\Users\Valentin\Documents\__FH\ITP3\collab\HW-INF\HwInf.Common\Contract.tt"
-            this.Write(DateTime.Now.Year.ToString());
-
-#line default
-#line hidden
+            
+            #line 229 "C:\Users\Valentin\Documents\__FH\ITP3\git\HW-INF\HwInf.Common\Contract.tt"
+this.Write(DateTime.Now.Year.ToString()); 
+            
+            #line default
+            #line hidden
             this.Write(@"		}
 		\paragraph 
-		{ 
-		_____________________________                    _____________________________
+		{ 
+		_____________________________                    _____________________________
 		}
 		\paragraph 
 		{
-		Unterschrift VerleiherIn                                      Unterschrift EntleiherIn
+		Unterschrift VerleiherIn                                      Unterschrift EntleiherIn
 		}
 	}
 	\section
@@ -236,11 +236,11 @@ namespace HwInf.Common
 		}
 		\paragraph  [Format { SpaceAfter = ""0.25cm""}]
 		{
-		O    in einwandfreiem Zustand und mit komplettem Zubehör (siehe Bestandsliste in der Anlage) übernommen
+		O    in einwandfreiem Zustand und mit komplettem Zubehör (siehe Bestandsliste in der Anlage) übernommen
 		}
 		\paragraph  [Format { SpaceAfter = ""0.25cm""}]
 		{
-		O    mit folgenden Mängeln/Schäden übernommen
+		O    mit folgenden Mängeln/Schäden übernommen
 		}
 		\paragraph  [Format { SpaceAfter = ""0.25cm"" LeftIndent =""1cm""}]
 		{
@@ -257,26 +257,26 @@ namespace HwInf.Common
 		\paragraph [ Format { SpaceAfter = ""1cm""} ]
 		{
 		Wien, den ");
-
-#line 272 "C:\Users\Valentin\Documents\__FH\ITP3\collab\HW-INF\HwInf.Common\Contract.tt"
-            this.Write(DateTime.Now.Day.ToString("d2"));
-
-#line default
-#line hidden
+            
+            #line 272 "C:\Users\Valentin\Documents\__FH\ITP3\git\HW-INF\HwInf.Common\Contract.tt"
+ this.Write(DateTime.Now.Day.ToString("d2"));
+            
+            #line default
+            #line hidden
             this.Write(".");
-
-#line 272 "C:\Users\Valentin\Documents\__FH\ITP3\collab\HW-INF\HwInf.Common\Contract.tt"
-            this.Write(DateTime.Now.Month.ToString("d2"));
-
-#line default
-#line hidden
+            
+            #line 272 "C:\Users\Valentin\Documents\__FH\ITP3\git\HW-INF\HwInf.Common\Contract.tt"
+ this.Write(DateTime.Now.Month.ToString("d2"));
+            
+            #line default
+            #line hidden
             this.Write(".");
-
-#line 272 "C:\Users\Valentin\Documents\__FH\ITP3\collab\HW-INF\HwInf.Common\Contract.tt"
-            this.Write(DateTime.Now.Year.ToString());
-
-#line default
-#line hidden
+            
+            #line 272 "C:\Users\Valentin\Documents\__FH\ITP3\git\HW-INF\HwInf.Common\Contract.tt"
+this.Write(DateTime.Now.Year.ToString()); 
+            
+            #line default
+            #line hidden
             this.Write(@"		}
 		\paragraph [ Format { SpaceAfter = ""1cm""}]
 		{
@@ -293,12 +293,12 @@ namespace HwInf.Common
 		Anlage
 		}
 		");
-
-#line 288 "C:\Users\Valentin\Documents\__FH\ITP3\collab\HW-INF\HwInf.Common\Contract.tt"
+            
+            #line 288 "C:\Users\Valentin\Documents\__FH\ITP3\git\HW-INF\HwInf.Common\Contract.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(getAnhang()));
-
-#line default
-#line hidden
+            
+            #line default
+            #line hidden
             this.Write(@"
 		\paragraph [ Format { SpaceAfter = ""1cm""
 							LeftIndent = ""1cm""}]
@@ -350,9 +350,9 @@ namespace HwInf.Common
             return this.GenerationEnvironment.ToString();
         }
     }
-
-#line default
-#line hidden
+    
+    #line default
+    #line hidden
     #region Base class
     /// <summary>
     /// Base class for this transformation
@@ -452,7 +452,7 @@ namespace HwInf.Common
             }
             // If we're starting off, or if the previous text ended with a newline,
             // we have to append the current indent first.
-            if (((this.GenerationEnvironment.Length == 0)
+            if (((this.GenerationEnvironment.Length == 0) 
                         || this.endsWithNewline))
             {
                 this.GenerationEnvironment.Append(this.currentIndentField);
@@ -570,7 +570,7 @@ namespace HwInf.Common
         /// </summary>
         public class ToStringInstanceHelper
         {
-            private System.IFormatProvider formatProviderField = global::System.Globalization.CultureInfo.InvariantCulture;
+            private System.IFormatProvider formatProviderField  = global::System.Globalization.CultureInfo.InvariantCulture;
             /// <summary>
             /// Gets or sets format provider to be used by ToStringWithCulture method.
             /// </summary>
@@ -578,13 +578,13 @@ namespace HwInf.Common
             {
                 get
                 {
-                    return this.formatProviderField;
+                    return this.formatProviderField ;
                 }
                 set
                 {
                     if ((value != null))
                     {
-                        this.formatProviderField = value;
+                        this.formatProviderField  = value;
                     }
                 }
             }

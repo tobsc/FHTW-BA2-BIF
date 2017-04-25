@@ -7,10 +7,12 @@ using HwInf.Common.BL;
 using HwInf.Common.DAL;
 using HwInf.ViewModels;
 using log4net;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace HwInf.Controllers
 {
-    [Authorize(Roles = "Admin, Verwalter")]
+    [Authorize]
     [RoutePrefix("api/settings")]
     [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
     public class SettingsController : ApiController
@@ -42,6 +44,7 @@ namespace HwInf.Controllers
 
                 if (setting == null)
                 {
+                    _log.WarnFormat("Not Found: Setting '{0}' not found", key);
                     return NotFound();
                 }
                 var vmdl = new SettingViewModel(setting);
@@ -51,6 +54,32 @@ namespace HwInf.Controllers
             catch (Exception ex)
             {
                 _log.ErrorFormat("Exception: '{0}'", ex.Message);
+                return InternalServerError();
+            }
+        }
+
+        [ResponseType(typeof(List<SettingViewModel>))]
+        [Route("")]
+        public IHttpActionResult GetSetting()
+        {
+            try
+            {
+                var settings = _bl.GetSettings();
+
+                if (settings == null)
+                {
+                    return NotFound();
+                }
+                var result = new List<SettingViewModel>();
+                settings.ToList().Select(i => new SettingViewModel(i)).ToList().ForEach(i =>
+                 {
+                     result.Add(i);
+                 });
+               
+                return Ok(result);
+            }
+            catch
+            {
                 return InternalServerError();
             }
         }
@@ -121,7 +150,11 @@ namespace HwInf.Controllers
 
                 var obj = _bl.GetSetting(vmdl.Key);
 
-                if (obj == null) return NotFound();
+                if (obj == null)
+                {
+                    _log.WarnFormat("Not Found: Setting '{0}' not found", vmdl.Key);
+                    return NotFound();
+                }
 
                 _bl.UpdateSetting(obj);
 
@@ -140,6 +173,51 @@ namespace HwInf.Controllers
             }
         }
 
+        [ResponseType(typeof(List<SettingViewModel>))]
+        [Route("multiple")]
+        public IHttpActionResult PutSettings([FromBody] List<SettingViewModel> vmdllist)
+        {
+            try
+            {
+                foreach (SettingViewModel vmdl in vmdllist)
+                {
+                    if (!ModelState.IsValid)
+                    {
+                        return BadRequest(ModelState);
+                    }
+
+                    if (string.IsNullOrWhiteSpace(vmdl.Key))
+                    {
+                        return BadRequest("Bitte einen Key für die Einstellung angeben.");
+                    }
+
+                    if (string.IsNullOrWhiteSpace(vmdl.Value))
+                    {
+                        return BadRequest("Bitte einen Value für die Einstellung angeben.");
+                    }
+
+                    var obj = _bl.GetSetting(vmdl.Key);
+
+                    if (obj == null) return NotFound();
+
+                    _bl.UpdateSetting(obj);
+
+                    vmdl.ApplyChanges(obj, _bl);
+
+                }
+                _bl.SaveChanges();
+
+                _log.InfoFormat("Setting '{0}' updated by '{1}'", vmdllist.ToString(), User.Identity.Name);
+
+                return Ok(vmdllist);
+            }
+            catch (Exception ex)
+            {
+                _log.ErrorFormat("Exception: '{0}'", ex.Message);
+                return InternalServerError();
+            }
+        }
+
 
         [Route("{key}")]
         public IHttpActionResult DeleteSetting(string key)
@@ -150,6 +228,7 @@ namespace HwInf.Controllers
 
                 if (setting == null)
                 {
+                    _log.WarnFormat("Not Found: Setting '{0}' not found", key);
                     return NotFound();
                 }
 

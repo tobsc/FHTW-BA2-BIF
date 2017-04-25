@@ -100,7 +100,11 @@ namespace HwInf.Controllers
             {
                 var order = _bl.GetOrders(id);
 
-                if (order == null) return NotFound();
+                if (order == null)
+                {
+                    _log.WarnFormat("Not Found: Order '{0}' not found", id);
+                    return NotFound();
+                }
 
                 var vmdl = new OrderViewModel(order).LoadOrderItems(order);
 
@@ -126,7 +130,11 @@ namespace HwInf.Controllers
             {
                 var order = _bl.GetOrders(guid);
 
-                if (order == null) return NotFound();
+                if (order == null)
+                {
+                    _log.WarnFormat("Not Found: Order '{0}' not found", guid);
+                    return NotFound();
+                }
 
                 var vmdl = new OrderViewModel(order).LoadOrderItems(order);
 
@@ -181,53 +189,39 @@ namespace HwInf.Controllers
         }
 
         /// <summary>
-        /// Change Status of Order Item
+        /// Accept Order
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="slug"></param>
+        /// <param name="vmdl"></param>
         /// <returns></returns>
         [Authorize(Roles = "Admin, Verwalter")]
         [ResponseType(typeof(OrderItemViewModel))]
-        [Route("orderitem/{id}/{slug}")]
-        public IHttpActionResult PutOrderItem(int id, string slug)
+        [Route("order/accept/")]
+        public IHttpActionResult PutOrderAccept([FromBody]OrderViewModel vmdl)
         {
             try
             {
+                var order = _bl.GetOrders(vmdl.OrderId);
+                var orderItems = order.OrderItems.ToList();
+                var changed = vmdl.OrderItems
+                    .Where(i => i.IsDeclined)
+                    .Select(i => i.ItemId)
+                    .ToList();
 
-                var obj = _bl.GetOrderItem(id);
-                var status = _bl.GetOrderStatus(slug);
+                orderItems
+                    .Where(i => changed.Contains(i.ItemId))
+                    .ToList()
+                    .ForEach(i => i.IsDeclined = true);
 
-                if (obj == null || status == null) return NotFound();
 
-                obj.OrderStatus = status;
-                _bl.UpdateOrderItem(obj);
-
-                if (slug.Equals("abgeschlossen"))
-                {
-                    obj.ReturnDate = DateTime.Now;
-                    obj.Device.Status = _bl.GetDeviceStatus(1);
-                    _log.InfoFormat("Status of Device '{0}' changed to '{1}' by '{2}'", obj.Device.InvNum,
-                        obj.Device.Status.Description, User.Identity.Name);
-                }
-
-                if (slug.Equals("akzeptiert"))
-                {
-                    obj.Device.Status = _bl.GetDeviceStatus(2);
-                    _log.InfoFormat("Status of Device '{0}' changed to '{1}' by '{2}'", obj.Device.InvNum,
-                        obj.Device.Status.Description, User.Identity.Name);
-                }
-
+                vmdl.Accept(order, _bl);
                 _bl.SaveChanges();
+                vmdl.Refresh(order);
 
-                _log.InfoFormat("Status of Order Item '{0}' changed to '{1}' by '{2}'", obj.Device.InvNum, status.Name,
-                    User.Identity.Name);
-
-                var vmdl = new OrderItemViewModel(obj);
                 return Ok(vmdl);
             }
             catch (SecurityException)
             {
-                _log.ErrorFormat("Security: '{0}' tried to update OrderItem '{1}'", _bl.GetCurrentUid(), id);
+                _log.ErrorFormat("Security: '{0}' tried to update Order '{1}'", _bl.GetCurrentUid(), vmdl.OrderId);
                 return Unauthorized();
             }
 
@@ -238,7 +232,139 @@ namespace HwInf.Controllers
             }
         }
 
+        /// <summary>
+        /// Lend Order
+        /// </summary>
+        /// <param name="vmdl"></param>
+        /// <returns></returns>
+        [Authorize(Roles = "Admin, Verwalter")]
+        [ResponseType(typeof(OrderItemViewModel))]
+        [Route("order/lend/")]
+        public IHttpActionResult PutOrderLend([FromBody]OrderViewModel vmdl)
+        {
+            try
+            {
+                var order = _bl.GetOrders(vmdl.OrderId);
 
+                vmdl.Lend(order, _bl);
+                _bl.SaveChanges();
+                vmdl.Refresh(order);
+
+                return Ok(vmdl);
+            }
+            catch (SecurityException)
+            {
+                _log.ErrorFormat("Security: '{0}' tried to update Order '{1}'", _bl.GetCurrentUid(), vmdl.OrderId);
+                return Unauthorized();
+            }
+
+            catch (Exception ex)
+            {
+                _log.ErrorFormat("Exception: '{0}'", ex.Message);
+                return InternalServerError();
+            }
+        }
+
+        /// <summary>
+        /// Reset Order
+        /// </summary>
+        /// <param name="vmdl"></param>
+        /// <returns></returns>
+        [Authorize(Roles = "Admin, Verwalter")]
+        [ResponseType(typeof(OrderItemViewModel))]
+        [Route("order/reset/")]
+        public IHttpActionResult PutOrderReset([FromBody]OrderViewModel vmdl)
+        {
+            try
+            {
+                var order = _bl.GetOrders(vmdl.OrderId);
+
+                vmdl.Reset(order, _bl);
+                _bl.SaveChanges();
+                vmdl.Refresh(order);
+
+                return Ok(vmdl);
+            }
+            catch (SecurityException)
+            {
+                _log.ErrorFormat("Security: '{0}' tried to update Order '{1}'", _bl.GetCurrentUid(), vmdl.OrderId);
+                return Unauthorized();
+            }
+
+            catch (Exception ex)
+            {
+                _log.ErrorFormat("Exception: '{0}'", ex.Message);
+                return InternalServerError();
+            }
+        }
+
+        /// <summary>
+        /// Decline Order
+        /// </summary>
+        /// <param name="vmdl"></param>
+        /// <returns></returns>
+        [Authorize(Roles = "Admin, Verwalter")]
+        [ResponseType(typeof(OrderItemViewModel))]
+        [Route("order/decline/")]
+        public IHttpActionResult PutOrderDecline([FromBody]OrderViewModel vmdl)
+        {
+            try
+            {
+                var order = _bl.GetOrders(vmdl.OrderId);
+
+                vmdl.Decline(order, _bl);
+                _bl.SaveChanges();
+                vmdl.Refresh(order);
+
+                return Ok(vmdl);
+            }
+            catch (SecurityException)
+            {
+                _log.ErrorFormat("Security: '{0}' tried to update Order '{1}'", _bl.GetCurrentUid(), vmdl.OrderId);
+                return Unauthorized();
+            }
+
+            catch (Exception ex)
+            {
+                _log.ErrorFormat("Exception: '{0}'", ex.Message);
+                return InternalServerError();
+            }
+        }
+
+        /// <summary>
+        /// Return Order
+        /// </summary>
+        /// <param name="vmdl"></param>
+        /// <returns></returns>
+        [Authorize(Roles = "Admin, Verwalter")]
+        [ResponseType(typeof(OrderItemViewModel))]
+        [Route("order/return/")]
+        public IHttpActionResult PutOrderReturn([FromBody]OrderViewModel vmdl)
+        {
+            try
+            {
+                var order = _bl.GetOrders(vmdl.OrderId);
+
+                vmdl.Return(order, _bl);
+                _bl.SaveChanges();
+                vmdl.Refresh(order);
+
+                return Ok(vmdl);
+            }
+            catch (SecurityException)
+            {
+                _log.ErrorFormat("Security: '{0}' tried to update Order '{1}'", _bl.GetCurrentUid(), vmdl.OrderId);
+                return Unauthorized();
+            }
+
+            catch (Exception ex)
+            {
+                _log.ErrorFormat("Exception: '{0}'", ex.Message);
+                return InternalServerError();
+            }
+        }
+
+       
         /// <summary>
         /// Starts the RunTime Text Template and creates the contract as pdf
         /// </summary>
