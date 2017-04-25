@@ -181,46 +181,150 @@ namespace HwInf.Controllers
         }
 
         /// <summary>
-        /// Change Status of Order Item
+        /// Accept OrderItem
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="slug"></param>
         /// <returns></returns>
         [Authorize(Roles = "Admin, Verwalter")]
         [ResponseType(typeof(OrderItemViewModel))]
-        [Route("orderitem/{id}/{slug}")]
-        public IHttpActionResult PutOrderItem(int id, string slug)
+        [Route("orderitem/accept/{id}")]
+        public IHttpActionResult PutOrderItemAccept(int id)
+        {
+            try
+            {
+                var obj = _bl.GetOrderItem(id);
+                var status = _bl.GetOrderStatus("akzeptiert");
+
+                if (obj == null || status == null) return NotFound();
+
+                _bl.UpdateOrderItem(obj);
+                obj.OrderStatus = status;
+                _bl.SaveChanges();
+
+                _log.InfoFormat("Status of Order Item '{0}' changed to '{1}' by '{2}'", obj.Device.InvNum, status.Name,User.Identity.Name);
+
+                var vmdl = new OrderItemViewModel(obj);
+                return Ok(vmdl);
+            }
+            catch (SecurityException)
+            {
+                _log.ErrorFormat("Security: '{0}' tried to update OrderItem '{1}'", _bl.GetCurrentUid(), id);
+                return Unauthorized();
+            }
+
+            catch (Exception ex)
+            {
+                _log.ErrorFormat("Exception: '{0}'", ex.Message);
+                return InternalServerError();
+            }
+        }
+
+        /// <summary>
+        /// Decline OrderItem
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Authorize(Roles = "Admin, Verwalter")]
+        [ResponseType(typeof(OrderItemViewModel))]
+        [Route("orderitem/accept/{id}")]
+        public IHttpActionResult PutOrderItemDecline(int id)
+        {
+            try
+            {
+                var obj = _bl.GetOrderItem(id);
+                var status = _bl.GetOrderStatus("abgelehnt");
+
+                if (obj == null || status == null) return NotFound();
+                _bl.UpdateOrderItem(obj);
+                obj.OrderStatus = status;
+                _bl.SaveChanges();
+
+                _log.InfoFormat("Status of Order Item '{0}' changed to '{1}' by '{2}'", obj.Device.InvNum, status.Name, User.Identity.Name);
+
+                var vmdl = new OrderItemViewModel(obj);
+                return Ok(vmdl);
+            }
+            catch (SecurityException)
+            {
+                _log.ErrorFormat("Security: '{0}' tried to update OrderItem '{1}'", _bl.GetCurrentUid(), id);
+                return Unauthorized();
+            }
+
+            catch (Exception ex)
+            {
+                _log.ErrorFormat("Exception: '{0}'", ex.Message);
+                return InternalServerError();
+            }
+        }
+
+        /// <summary>
+        /// Return OrderItem
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Authorize(Roles = "Admin, Verwalter")]
+        [ResponseType(typeof(OrderItemViewModel))]
+        [Route("orderitem/accept/{id}")]
+        public IHttpActionResult PutOrderItemReturn(int id)
         {
             try
             {
 
                 var obj = _bl.GetOrderItem(id);
-                var status = _bl.GetOrderStatus(slug);
+                var status = _bl.GetOrderStatus("abgeschlossen");
 
                 if (obj == null || status == null) return NotFound();
 
-                obj.OrderStatus = status;
                 _bl.UpdateOrderItem(obj);
+                obj.OrderStatus = status;
 
-                if (slug.Equals("abgeschlossen"))
-                {
-                    obj.ReturnDate = DateTime.Now;
-                    obj.Device.Status = _bl.GetDeviceStatus(1);
-                    _log.InfoFormat("Status of Device '{0}' changed to '{1}' by '{2}'", obj.Device.InvNum,
-                        obj.Device.Status.Description, User.Identity.Name);
-                }
-
-                if (slug.Equals("akzeptiert"))
-                {
-                    obj.Device.Status = _bl.GetDeviceStatus(2);
-                    _log.InfoFormat("Status of Device '{0}' changed to '{1}' by '{2}'", obj.Device.InvNum,
-                        obj.Device.Status.Description, User.Identity.Name);
-                }
-
+                obj.Device.Status = _bl.GetDeviceStatus(2);
                 _bl.SaveChanges();
 
-                _log.InfoFormat("Status of Order Item '{0}' changed to '{1}' by '{2}'", obj.Device.InvNum, status.Name,
-                    User.Identity.Name);
+                _log.InfoFormat("Status of Device '{0}' changed to '{1}' by '{2}'", obj.Device.InvNum, obj.Device.Status.Description, User.Identity.Name);
+                _log.InfoFormat("Status of Order Item '{0}' changed to '{1}' by '{2}'", obj.Device.InvNum, status.Name, User.Identity.Name);
+
+                var vmdl = new OrderItemViewModel(obj);
+                return Ok(vmdl);
+            }
+            catch (SecurityException)
+            {
+                _log.ErrorFormat("Security: '{0}' tried to update OrderItem '{1}'", _bl.GetCurrentUid(), id);
+                return Unauthorized();
+            }
+
+            catch (Exception ex)
+            {
+                _log.ErrorFormat("Exception: '{0}'", ex.Message);
+                return InternalServerError();
+            }
+        }
+
+        /// <summary>
+        /// Lend out OrderItem
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Authorize(Roles = "Admin, Verwalter")]
+        [ResponseType(typeof(OrderItemViewModel))]
+        [Route("orderitem/accept/{id}")]
+        public IHttpActionResult PutOrderItemLend(int id)
+        {
+            try
+            {
+                var obj = _bl.GetOrderItem(id);
+                var status = _bl.GetOrderStatus("ausgeliehen");
+
+                if (obj == null || status == null) return NotFound();
+
+                _bl.UpdateOrderItem(obj);
+                obj.OrderStatus = status;
+
+                obj.Device.Status = _bl.GetDeviceStatus(2);
+                _bl.SaveChanges();
+
+                _log.InfoFormat("Status of Device '{0}' changed to '{1}' by '{2}'", obj.Device.InvNum, obj.Device.Status.Description, User.Identity.Name);
+                _log.InfoFormat("Status of Order Item '{0}' changed to '{1}' by '{2}'", obj.Device.InvNum, status.Name, User.Identity.Name);
 
                 var vmdl = new OrderItemViewModel(obj);
                 return Ok(vmdl);

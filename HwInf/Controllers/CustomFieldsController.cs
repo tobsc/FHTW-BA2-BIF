@@ -164,6 +164,9 @@ namespace HwInf.Controllers
                 fg.Fields.Clear();
                 vmdl.ApplyChanges(fg, _bl); 
 
+                vmdl.Refresh(fg);
+
+
                 _bl.SaveChanges();
                 _log.InfoFormat("FieldGroup '{0}' updated by '{1}'", vmdl.Name, User.Identity.Name);
 

@@ -85,7 +85,8 @@ namespace HwInf.Common.Migrations
                     new OrderStatus { Name = "Offen" , Slug = "offen"},
                     new OrderStatus { Name = "Akzeptiert" , Slug = "akzeptiert"},
                     new OrderStatus { Name = "Abgelehnt", Slug = "abgelehnt"},
-                    new OrderStatus { Name = "Abgeschlossen", Slug = "abgeschlossen"}
+                    new OrderStatus { Name = "Abgeschlossen", Slug = "abgeschlossen"},
+                    new OrderStatus { Name = "Ausgeliehen", Slug = "ausgeliehen"}
                 };
 
             var roles = new List<Role>
@@ -129,37 +130,37 @@ namespace HwInf.Common.Migrations
                };
 
 
-            if (context.DeviceTypes.Count() < 1)
+            if (!context.DeviceTypes.Any())
             {
                 type.ForEach(s => context.DeviceTypes.Add(s));
             }
 
-            if (context.DeviceStatus.Count() < 1)
+            if (!context.DeviceStatus.Any())
             {
                 deviceStatus.ForEach(s => context.DeviceStatus.Add(s));
             }
 
-            if (context.OrderStatus.Count() < 1)
+            if (!context.OrderStatus.Any())
             {
                 orderStatus.ForEach(s => context.OrderStatus.Add(s));
             }
 
-            if (context.Roles.Count() < 1)
+            if (!context.Roles.Any())
             {
                 roles.ForEach(s => context.Roles.Add(s));
             }
 
-            if (context.Persons.Count() < 1)
+            if (!context.Persons.Any())
             {
                 persons.ForEach(s => context.Persons.Add(s));
             }
 
-            if (context.FieldGroups.Count() < 1)
+            if (!context.FieldGroups.Any())
             {
                 fieldGroup.ForEach(s => context.FieldGroups.Add(s));
             }
 
-            if (context.Devices.Count() < 1)
+            if (!context.Devices.Any())
             {
                 dev.ForEach(s => context.Devices.Add(s));
             }

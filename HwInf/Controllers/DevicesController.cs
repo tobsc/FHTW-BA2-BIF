@@ -520,7 +520,6 @@ namespace HwInf.Controllers
             {
                 var dt = _bl.GetDeviceType(slug);
                 _bl.UpdateDeviceType(dt);
-
                 vmdl.ApplyChanges(dt, _bl);
                 _bl.SaveChanges();
 

@@ -42,7 +42,6 @@ namespace HwInf.Common.Models
         [Required]
         public DateTime To { get; set; }
         public DateTime ReturnDate { get; set; }
-    
         [Required]
         public DateTime CreateDate { get; set; }
         public virtual Person Entleiher { get; set; }
