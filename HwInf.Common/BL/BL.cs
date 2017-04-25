@@ -305,8 +305,7 @@ namespace HwInf.Common.BL
 
         public IEnumerable<Order> GetOrders()
         {
-            var orders = _dal.Orders;
-            return !IsAdmin ? orders.Where(i => i.Entleiher.Uid.Equals(GetCurrentUid())) : orders;
+            return _dal.Orders;
         }
 
 
@@ -374,44 +373,97 @@ namespace HwInf.Common.BL
         #endregion
 
 
-        public ICollection<OrderItem> GetFilteredOrderItems(
-            ICollection<string> statusQuery, 
-            ICollection<string> uidQuery,
-            string order, 
-            string orderBy, 
-            string orderByFallback, 
-            bool isAdminView)
+        public ICollection<Order> GetFileteredOrders(
+            string statusSlug,
+            string order,
+            string orderBy,
+            string orderByFallback,
+            bool isAdminView
+        )
         {
+            if (isAdminView && !IsAdmin && !IsVerwalter)
+            {
+                throw new SecurityException();
+            }
 
-            //if (isAdminView && !IsAdmin && !IsVerwalter)
-            //{
-            //    throw new SecurityException();
-            //}
+            var result = GetOrders()
+                .Where(i => String.IsNullOrWhiteSpace(statusSlug) || i.OrderStatus.Slug.Equals(statusSlug))
+                .ToList();
 
 
-            //var orderItems = GetOrderItems().ToList();
+            result = order.Equals("ASC")
+                ? result.OrderBy(i => i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
+                    .ThenBy(i => i.GetType().GetProperty(orderByFallback, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
+                    .ToList()
+                : result.OrderByDescending(i => i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
+                    .ThenByDescending(i => i.GetType().GetProperty(orderByFallback, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
+                    .ToList();
 
-            //var result = orderItems
-            //    .Where(i => !statusQuery.Any() || statusQuery.Contains(i.OrderStatus.Slug))
-            //    .Where(i => !uidQuery.Any() || uidQuery.Contains(i.Entleiher.Uid))
-            //    .ToList();
-
-            //result = order.Equals("ASC")
-            //    ? result.OrderBy(i => i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
-            //        .ThenBy(i => i.GetType().GetProperty(orderByFallback, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
-            //        .ToList()
-            //    : result.OrderByDescending(i => i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
-            //        .ThenByDescending(i => i.GetType().GetProperty(orderByFallback, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
-            //        .ToList();
-
-            //return !isAdminView ? 
-            //    result.Where(i => i.Entleiher.Uid.Equals(GetCurrentUid())).ToList() 
-            //    : IsAdmin ? 
-            //        result 
-            //        : result.Where(i => i.Verwalter.Uid.Equals(GetCurrentUid())).ToList();
-            return new List<OrderItem>();
+            return !isAdminView ?
+                result.Where(i => i.Entleiher.Uid.Equals(GetCurrentUid())).ToList()
+                : IsAdmin ?
+                    result
+                    : result.Where(i => i.Verwalter.Uid.Equals(GetCurrentUid())).ToList();
         }
 
+        public ICollection<Order> SearchOrders(
+            string searchQuery,
+            string order,
+            string orderBy,
+            string orderByFallback, 
+            bool isAdminView )
+        {
+
+            if (isAdminView && !IsAdmin && !IsVerwalter)
+            {
+                throw new SecurityException();
+            }
+
+            searchQuery = searchQuery.ToLower();
+            var result = GetOrders().ToList();
+            if (isAdminView)
+            {
+                if (IsVerwalter) result = result
+                        .Where(i => i.Verwalter.Uid.Equals(GetCurrentUid()))
+                        .ToList();
+
+                result = result
+                    .Where(i => i.Entleiher.Uid.ToLower().Contains(searchQuery)
+                                || i.Entleiher.Name.ToLower().Contains(searchQuery)
+                                || i.Entleiher.LastName.ToLower().Contains(searchQuery)
+                                || i.OrderId.ToString().ToLower().Contains(searchQuery)
+                                || i.OrderItems
+                                    .ToList()
+                                    .Any(x => x.Device.Name.ToLower().Contains(searchQuery)
+                                              || x.Device.InvNum.ToLower().Contains(searchQuery)))
+                    .ToList();                
+            }
+            else
+            {
+                result = result
+                    .Where(i => i.Entleiher.Uid.Equals(GetCurrentUid()))
+                    .Where(i => i.Verwalter.Uid.ToLower().Contains(searchQuery)
+                        || i.Verwalter.Name.ToLower().Contains(searchQuery)
+                        || i.Verwalter.LastName.ToLower().Contains(searchQuery)
+                        || i.OrderId.ToString().ToLower().Contains(searchQuery)
+                        || i.OrderItems
+                            .ToList()
+                            .Any(x => x.Device.Name.ToLower().Contains(searchQuery)
+                                        || x.Device.InvNum.ToLower().Contains(searchQuery)))
+                    .ToList();
+                    
+            }
+
+            result = order.Equals("ASC")
+                ? result.OrderBy(i => i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
+                    .ThenBy(i => i.GetType().GetProperty(orderByFallback, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
+                    .ToList()
+                : result.OrderByDescending(i => i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
+                    .ThenByDescending(i => i.GetType().GetProperty(orderByFallback, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
+                    .ToList();
+
+            return result;
+        }
 
         public ICollection<Device> GetFilteredDevices
         (
