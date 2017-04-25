@@ -1,19 +1,76 @@
-<h1>Alle Aufträge</h1>
-
-<hwinf-admin-order-list (updateList)="updateList()" [orderItems]="openOrderItems">
-    <div class="title">Offene Anfragen</div>
-</hwinf-admin-order-list>
-<hwinf-admin-order-list (updateList)="updateList()" [orderItems]="activeOrderItems">
-    <div class="title">Aktive Aufträge</div>
-</hwinf-admin-order-list>
+<div class="clearfix"></div>
 
 
-<button class="btn btn-default" (click)="onToggleShowClosedOrders()">
-    Abgeschlossene und abgelehnte Aufträge anzeigen
-    <span *ngIf="!showClosedOrders" class="fa fa-chevron-down"></span>
-    <span *ngIf="showClosedOrders" class="fa fa-chevron-up"></span>
-</button>
+<div class="x_panel" *ngFor="let order of orders">
+    <div class="x_title">
+        ID: {{order.OrderId}} <span class="label label-default"></span>
+        <div class="clearfix"></div>
+    </div>
+    <div class="x_content">
 
-<hwinf-admin-order-list (updateList)="updateList()" [orderItems]="closedOrderItems" *ngIf="showClosedOrders">
-    <div class="title">Abgeschlossene/Abgelehnte Aufträge</div>
-</hwinf-admin-order-list>
+        <div class="table-responsive">
+            <table class="table table-hover table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Entleiher</th>
+                        <th>Geräte</th>
+                        <th>Dauer</th>
+                        <th>Grund</th>
+                        <th>Aktion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{order.EntleiherUid}}</td>
+                        <td>
+                            <ul class="list-unstyled">
+                                <li *ngFor="let orderItem of order.OrderItems; let i = index">
+                                    <input style="display: none" type="checkbox" id="{{order.OrderId}}-{{i}}" />
+                                    <label htmlFor="{{order.OrderId}}-{{i}}">
+                                        {{orderItem.Device.Name}} ({{orderItem.Device.InvNum}})
+                                    </label>
+                                    <span class="label label-default">{{orderItem.Device.Status.Description}}</span>
+                                </li>
+                            </ul>
+                        </td>
+                        <td>
+                            <dl>
+                                <dt>Von:</dt>
+                                <dd>{{order.From | date:'dd. MMMM yyyy'}}</dd>
+                                <dt>Bis:</dt>
+                                <dd>{{order.To | date:'dd. MMMM yyyy'}}</dd>
+                            </dl>
+                        </td>
+                        <td>{{order.OrderReason}}</td>
+                        <th>
+
+                            <hwinf-confirm-button class="btn-block" popOverTitle="Entleihung akzeptieren?">
+                                <button title="Antrag akzeptieren" class="btn btn-success btn-xs btn-block">
+                                    Antrag akzeptieren
+                                </button>
+                            </hwinf-confirm-button>
+
+                            <hwinf-confirm-button class="btn-block" popOverTitle="Antrag akzeptieren?">
+                                <button title="Antrag akzeptieren" class="btn btn-success btn-xs btn-block">
+                                    Antrag akzeptieren
+                                </button>
+                            </hwinf-confirm-button>
+
+                            <hwinf-confirm-button class="btn-block" popOverTitle="Antrag ablehnen?">
+                                <button title="Antrag ablehnen" class="btn btn-danger btn-xs btn-block">
+                                    Antrag ablehnen
+                                </button>
+                            </hwinf-confirm-button>
+
+                            <button title="Vertrag drucken" class="btn btn-default btn-xs btn-block">
+                                <i class="fa fa-print" aria-hidden="true"></i>
+                            </button>
+                            <a class="btn btn-default btn-xs btn-block"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
+                        </th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>

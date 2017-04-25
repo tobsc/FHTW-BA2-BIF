@@ -30,6 +30,12 @@ export class OrderProcessStep2Component implements OnInit {
   ) { }
 
   ngOnInit() {
+
+    if (!!this.orderFormDataService.getData().From) {
+      this.onBack();
+    }
+
+
     this.order = this.orderFormDataService.getData();
     this.devices = this.cartService.getItems();
 
