@@ -57,8 +57,7 @@ namespace HwInf.Controllers
                     .Select(i => new DeviceViewModel(i).LoadMeta(i))
                     .ToList();
 
-                var deviceList = new DeviceListViewModel(devices.Skip(offset).Take(limit), offset, limit, _bl,
-                    devices.Count);
+                var deviceList = new DeviceListViewModel(devices.Skip(offset).Take(limit), limit, devices.Count);
 
                 return Ok(deviceList);
 
@@ -158,7 +157,7 @@ namespace HwInf.Controllers
                     ? b.ToList()
                     : b.Skip(vmdl.Offset).Take(vmdl.Limit).ToList();
 
-                return Ok(new DeviceListViewModel(b, vmdl.Offset, vmdl.Limit, _bl, count));
+                return Ok(new DeviceListViewModel(b, vmdl.Limit, count));
             }
             catch (SecurityException)
             {

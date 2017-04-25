@@ -291,6 +291,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SlugGenerator.cs" />
     <Compile Include="ViewModels\AdditionalInvNumsViewModel.cs" />
+    <Compile Include="ViewModels\OrderListViewModel.cs" />
     <Compile Include="ViewModels\DeviceListViewModel.cs" />
     <Compile Include="ViewModels\FieldViewModel.cs" />
     <Compile Include="ViewModels\FieldGroupViewModel.cs" />
@@ -299,6 +300,7 @@
     <Compile Include="ViewModels\DeviceStatusViewModel.cs" />
     <Compile Include="ViewModels\DeviceTypeViewModel.cs" />
     <Compile Include="ViewModels\DeviceViewModel.cs" />
+    <Compile Include="ViewModels\OrderSearchViewModel.cs" />
     <Compile Include="ViewModels\OrderFilterViewModel.cs" />
     <Compile Include="ViewModels\FilterViewModel.cs" />
     <Compile Include="ViewModels\OrderStatusViewModel.cs" />

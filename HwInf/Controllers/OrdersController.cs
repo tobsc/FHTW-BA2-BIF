@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Common.CommandTrees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net;
@@ -48,8 +49,10 @@ namespace HwInf.Controllers
         {
             try
             {
-                var result = vmdl.FilteredList(_bl).Select(i => new OrderItemViewModel(i)).ToList();
-                return Ok(result);
+                var result = vmdl.FilteredList(_bl).Select(i => new OrderViewModel(i)).ToList();
+                var count = result.Count;
+
+                return Ok(new OrderListViewModel(result.Skip(vmdl.Offset).Take(vmdl.Limit), vmdl.Limit, count));
             }
             catch (SecurityException)
             {
@@ -69,6 +72,7 @@ namespace HwInf.Controllers
         /// <returns></returns>
         [ResponseType(typeof(OrderViewModel))]
         [Route("")]
+        [Authorize(Roles = "Admin, Verwalter")]
         public IHttpActionResult GetOrders()
         {
             try
@@ -116,6 +120,29 @@ namespace HwInf.Controllers
                 return InternalServerError();
             }
         }
+
+        /// <summary>
+        /// Get OrderStatus
+        /// </summary>
+        /// <returns></returns>
+        [ResponseType(typeof(OrderViewModel))]
+        [Route("orderstatus")]
+        public IHttpActionResult GetOrderStatus()
+        {
+            try
+            {
+                var vmdl = _bl.GetOrderStatus()
+                    .ToList();
+
+                return Ok(vmdl);
+            }
+            catch (Exception ex)
+            {
+                _log.ErrorFormat("Exception: {0}", ex.Message);
+                return InternalServerError();
+            }
+        }
+
 
         /// <summary>
         /// Get Single Order by Guid
@@ -364,7 +391,38 @@ namespace HwInf.Controllers
             }
         }
 
-       
+        /// <summary>
+        /// Search Orders
+        /// </summary>
+        /// <param name="vmdl"></param>
+        /// <returns></returns>
+        [ResponseType(typeof(OrderItemViewModel))]
+        [Route("search")]
+        public IHttpActionResult PostSearchOrders([FromBody]OrderSearchViewModel vmdl)
+        {
+            try
+            {
+                var result = vmdl.Seach(_bl)
+                    .Select(i => new OrderViewModel(i))
+                    .ToList();
+                var count = result.Count;
+
+                return Ok(new OrderListViewModel(result.Skip(vmdl.Offset).Take(vmdl.Limit), vmdl.Limit, count));
+            }
+            catch (SecurityException)
+            {
+                _log.ErrorFormat("Security: '{0}' tried to view Orders as Admin/Verwalter'", _bl.GetCurrentUid());
+                return Unauthorized();
+            }
+
+            catch (Exception ex)
+            {
+                _log.ErrorFormat("Exception: '{0}'", ex.Message);
+                return InternalServerError();
+            }
+        }
+
+
         /// <summary>
         /// Starts the RunTime Text Template and creates the contract as pdf
         /// </summary>

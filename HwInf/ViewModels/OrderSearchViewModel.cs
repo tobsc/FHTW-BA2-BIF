@@ -8,19 +8,19 @@ using MigraDoc.DocumentObjectModel.Shapes.Charts;
 
 namespace HwInf.ViewModels
 {
-    public class OrderFilterViewModel
+    public class OrderSearchViewModel
     {
         public string Order { get; set; } = "DESC";
         public string OrderBy { get; set; } = "OrderStatus";
         public string OrderByFallback { get; set; } = "Date";
+        public string SearchQuery { get; set; }
         public bool IsAdminView { get; set; } = false;
-        public string StatusSlug { get; set; } = null;
         public int Offset { get; set; } = 0;
         public int Limit { get; set; } = 25;
 
-        public ICollection<Order> FilteredList(BL bl)
+        public IEnumerable<Order> Seach(BL bl)
         {
-            return bl.GetFileteredOrders(StatusSlug, Order, OrderBy, OrderByFallback, IsAdminView);
+            return bl.SearchOrders(SearchQuery, Order, OrderBy, OrderByFallback, IsAdminView);
         }
     }
 }
