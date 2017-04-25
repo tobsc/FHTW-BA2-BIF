@@ -478,6 +478,11 @@ namespace HwInf.Common.BL
             return _dal.Settings.FirstOrDefault(i => i.Key.Equals(key));
         }
 
+        public IEnumerable<Setting> GetSettings()
+        {
+            return _dal.Settings;
+        }
+
         public Setting CreateSetting()
         {
             if (!IsAdmin() && !IsVerwalter()) throw new SecurityException();

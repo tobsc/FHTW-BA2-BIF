@@ -6,10 +6,12 @@ using HwInf.Common.BL;
 using HwInf.Common.DAL;
 using HwInf.ViewModels;
 using log4net;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace HwInf.Controllers
 {
-    [Authorize(Roles = "Admin, Verwalter")]
+    [Authorize]
     [RoutePrefix("api/settings")]
     [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
     public class SettingsController : ApiController
@@ -46,6 +48,32 @@ namespace HwInf.Controllers
                 var vmdl = new SettingViewModel(setting);
 
                 return Ok(vmdl);
+            }
+            catch
+            {
+                return InternalServerError();
+            }
+        }
+
+        [ResponseType(typeof(List<SettingViewModel>))]
+        [Route("")]
+        public IHttpActionResult GetSetting()
+        {
+            try
+            {
+                var settings = _bl.GetSettings();
+
+                if (settings == null)
+                {
+                    return NotFound();
+                }
+                var result = new List<SettingViewModel>();
+                settings.ToList().Select(i => new SettingViewModel(i)).ToList().ForEach(i =>
+                 {
+                     result.Add(i);
+                 });
+               
+                return Ok(result);
             }
             catch
             {

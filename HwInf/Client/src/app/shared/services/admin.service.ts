@@ -17,6 +17,7 @@ export class AdminService {
     private loggedIn: boolean = false;
     private authUrl: string = "/api/auth/";
     private settingsUrl: string = "api/settings/";
+    private settings: Setting[];
 
     constructor(
         private jwtService: JwtService,
@@ -45,8 +46,27 @@ export class AdminService {
             });
     }
 
-    public getSetting(key:string): Observable<Setting> {
-        return this.http.get(this.settingsUrl + key)
-            .map((response: Response) => response.json());
+    public getSetting(key: string): Observable<Setting> {
+
+        let setting = this.settings.filter(i => i.Key == key)[0];
+
+        if (!!setting) {
+            return Observable.of(setting);
+        }
+        else {
+            return this.http.get(this.settingsUrl + key)
+                .map((response: Response) => response.json());
+        }
     }
+
+    public loadSemestreData() {
+        return this.http.get(this.settingsUrl)
+            .map((response: Response) => response.json())
+            .subscribe(setting => { this.settings = setting });
+    }
+
+    public getSettings(): Setting[] {
+        return this.settings;
+    }
+    
 }

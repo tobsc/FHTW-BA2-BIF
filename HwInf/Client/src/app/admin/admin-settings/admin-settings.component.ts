@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from "@angular/router";
 import { AdminService } from "../../shared/services/admin.service";
 import { Setting } from "../../shared/models/setting.model";
+var moment = require('moment');
 
 
 @Component({
@@ -11,55 +12,43 @@ import { Setting } from "../../shared/models/setting.model";
 })
 export class AdminSettingsComponent implements OnInit {
 
-    private settings: Setting[] = [];
+    private settings: Setting[]=this.adminService.getSettings();
     private notification: Setting;
 
+
+    // DaterangePicker
+    public daterange: any = {};
+    private readonly DATE_FORMAT: string = 'DD.MM.YYYY';
     
     constructor(
         private adminService: AdminService
-    ) { }
+    ) {}
 
     ngOnInit() {
-        this.initSettings();
   }
 
-  // DaterangePicker
-  public daterange: any = {};
 
   // see original project for full list of options
   // can also be setup using the config service to apply to multiple pickers
-  public options: any = {
-      locale: { format: 'DD.MM' },
+  public optionsSS: any = {
+      autoUpdateInput: true,
+      locale: { format: this.DATE_FORMAT },
+      alwaysShowCalendars: false,   
+      startDate: this.settings[0].Value+".2017",
+      endDate: this.settings[1].Value+".2017",
+  };
+
+  public optionsWS: any = {
+      autoUpdateInput: true,
+      locale: { format: this.DATE_FORMAT },
       alwaysShowCalendars: false,
-      minDate: new Date(),
-      maxDate: "31.03.2017" //SEMESTERENDE
+      startDate: this.settings[2].Value + ".2017",
+      endDate: this.settings[3].Value + ".2017",
   };
 
   public selectedDate(value: any) {
       this.daterange.start = value.start;
       this.daterange.end = value.end;
-  }
-
-
-  public updateRangePicker() {
-      this.options.minDate = "01.01.2017";
-  }
-
-  public initSettings() {
-      this.getDateSettings();
-      this.getMailSettings();
-  }
-
-  public getDateSettings() {
-      this.adminService.getSetting('ss_start').subscribe(data => this.settings[0] = data);
-      this.adminService.getSetting('ss_end').subscribe(data => this.settings[1] = data);
-      this.adminService.getSetting('ws_start').subscribe(data => this.settings[2] = data);
-      this.adminService.getSetting('ws_end').subscribe(data => this.settings[3] = data);
-  }
-
-  public getMailSettings() {
-      this.adminService.getSetting('mail_notification_1').subscribe(data => this.notification = data);
-
   }
 
 }

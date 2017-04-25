@@ -390,6 +390,7 @@
     <TypeScriptCompile Include="Client\src\app\shared\models\field.model.ts" />
     <TypeScriptCompile Include="Client\src\app\shared\models\fieldgroup.model.ts" />
     <TypeScriptCompile Include="Client\src\app\shared\models\jwt.model.ts" />
+    <TypeScriptCompile Include="Client\src\app\shared\models\setting.model.ts" />
     <TypeScriptCompile Include="Client\src\app\shared\models\status.model.ts" />
     <TypeScriptCompile Include="Client\src\app\shared\models\user.model.ts" />
     <TypeScriptCompile Include="Client\src\app\shared\services\device.service.ts" />
