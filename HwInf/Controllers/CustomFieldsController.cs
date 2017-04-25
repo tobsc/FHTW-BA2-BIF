@@ -162,10 +162,13 @@ namespace HwInf.Controllers
                 var f = fg.Fields.ToList();
                 f.ForEach(i => _bl.DeleteField(i));
                 fg.Fields.Clear();
-                vmdl.ApplyChanges(fg, _bl); 
-
+                vmdl.ApplyChanges(fg, _bl);
                 vmdl.Refresh(fg);
 
+                var meta = _bl.GetDeviceMeta()
+                    .Where(i => i.FieldGroupSlug.Equals(slug))
+                    .ToList();
+                meta.ForEach(i => i.FieldGroupSlug = vmdl.Slug);
 
                 _bl.SaveChanges();
                 _log.InfoFormat("FieldGroup '{0}' updated by '{1}'", vmdl.Name, User.Identity.Name);
@@ -175,6 +178,7 @@ namespace HwInf.Controllers
             {
                 if (!_bl.FieldGroupExists(vmdl.Slug))
                 {
+                    _log.WarnFormat("Not Found: FieldGroup '{0}' not found", slug);
                     return NotFound();
                 }
                 else
@@ -315,6 +319,7 @@ namespace HwInf.Controllers
             {
                 if (!_bl.FieldGroupExists(slug))
                 {
+                    _log.WarnFormat("Not Found: FieldGroup '{0}' not found", slug);
                     return NotFound();
                 }
                 else

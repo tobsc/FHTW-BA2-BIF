@@ -100,7 +100,11 @@ namespace HwInf.Controllers
             {
                 var order = _bl.GetOrders(id);
 
-                if (order == null) return NotFound();
+                if (order == null)
+                {
+                    _log.WarnFormat("Not Found: Order '{0}' not found", id);
+                    return NotFound();
+                }
 
                 var vmdl = new OrderViewModel(order).LoadOrderItems(order);
 
@@ -126,7 +130,11 @@ namespace HwInf.Controllers
             {
                 var order = _bl.GetOrders(guid);
 
-                if (order == null) return NotFound();
+                if (order == null)
+                {
+                    _log.WarnFormat("Not Found: Order '{0}' not found", guid);
+                    return NotFound();
+                }
 
                 var vmdl = new OrderViewModel(order).LoadOrderItems(order);
 
@@ -195,7 +203,11 @@ namespace HwInf.Controllers
                 var obj = _bl.GetOrderItem(id);
                 var status = _bl.GetOrderStatus("akzeptiert");
 
-                if (obj == null || status == null) return NotFound();
+                if (obj == null || status == null)
+                {
+                    _log.WarnFormat("Not Found: OrderItem '{0}' not found", id);
+                    return NotFound();
+                }
 
                 _bl.UpdateOrderItem(obj);
                 obj.OrderStatus = status;
@@ -234,7 +246,11 @@ namespace HwInf.Controllers
                 var obj = _bl.GetOrderItem(id);
                 var status = _bl.GetOrderStatus("abgelehnt");
 
-                if (obj == null || status == null) return NotFound();
+                if (obj == null || status == null)
+                {
+                    _log.WarnFormat("Not Found: OrderItem '{0}' not found", id);
+                    return NotFound();
+                }
                 _bl.UpdateOrderItem(obj);
                 obj.OrderStatus = status;
                 _bl.SaveChanges();
@@ -273,7 +289,11 @@ namespace HwInf.Controllers
                 var obj = _bl.GetOrderItem(id);
                 var status = _bl.GetOrderStatus("abgeschlossen");
 
-                if (obj == null || status == null) return NotFound();
+                if (obj == null || status == null)
+                {
+                    _log.WarnFormat("Not Found: OrderItem '{0}' not found", id);
+                    return NotFound();
+                }
 
                 _bl.UpdateOrderItem(obj);
                 obj.OrderStatus = status;
@@ -315,7 +335,11 @@ namespace HwInf.Controllers
                 var obj = _bl.GetOrderItem(id);
                 var status = _bl.GetOrderStatus("ausgeliehen");
 
-                if (obj == null || status == null) return NotFound();
+                if (obj == null || status == null)
+                {
+                    _log.WarnFormat("Not Found: OrderItem '{0}' not found", id);
+                    return NotFound();
+                }
 
                 _bl.UpdateOrderItem(obj);
                 obj.OrderStatus = status;

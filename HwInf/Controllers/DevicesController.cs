@@ -89,6 +89,7 @@ namespace HwInf.Controllers
 
                 if (vmdl == null)
                 {
+                    _log.WarnFormat("Not Found: Devcie '{0}' not found", id);
                     return NotFound();
                 }
 
@@ -120,6 +121,7 @@ namespace HwInf.Controllers
 
                 if (vmdl == null)
                 {
+                    _log.WarnFormat("Not Found: Device '{0}' not found", invNum);
                     return NotFound();
                 }
 
@@ -366,6 +368,7 @@ namespace HwInf.Controllers
             {
                 if (!_bl.DeviceExists(id))
                 {
+                    _log.WarnFormat("Not Found: Device '{0}' not found", id);
                     return NotFound();
                 }
 
@@ -406,6 +409,7 @@ namespace HwInf.Controllers
 
                 if (_bl.GetDeviceType(slug) == null)
                 {
+                    _log.WarnFormat("Not Found: DeviceType '{0}' not found", slug);
                     return NotFound();
                 }
                 else
@@ -482,6 +486,7 @@ namespace HwInf.Controllers
             {
                 if (!_bl.DeviceExists(id))
                 {
+                    _log.WarnFormat("Not Found: Device '{0}' not found", id);
                     return NotFound();
                 }
                 else
@@ -530,6 +535,7 @@ namespace HwInf.Controllers
             {
                 if (_bl.GetDeviceType(slug) == null)
                 {
+                    _log.WarnFormat("Not Found: DeviceType '{0}' not found", slug);
                     return NotFound();
                 }
                 else

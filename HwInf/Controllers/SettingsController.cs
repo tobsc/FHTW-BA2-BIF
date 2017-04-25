@@ -44,6 +44,7 @@ namespace HwInf.Controllers
 
                 if (setting == null)
                 {
+                    _log.WarnFormat("Not Found: Setting '{0}' not found", key);
                     return NotFound();
                 }
                 var vmdl = new SettingViewModel(setting);
@@ -149,7 +150,11 @@ namespace HwInf.Controllers
 
                 var obj = _bl.GetSetting(vmdl.Key);
 
-                if (obj == null) return NotFound();
+                if (obj == null)
+                {
+                    _log.WarnFormat("Not Found: Setting '{0}' not found", vmdl.Key);
+                    return NotFound();
+                }
 
                 _bl.UpdateSetting(obj);
 
@@ -223,6 +228,7 @@ namespace HwInf.Controllers
 
                 if (setting == null)
                 {
+                    _log.WarnFormat("Not Found: Setting '{0}' not found", key);
                     return NotFound();
                 }
 
