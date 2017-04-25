@@ -4,7 +4,7 @@
             SS <span class="required">*</span>
         </label>
         <div class="col-md-6 col-sm-6 col-xs-12" name="parent">
-            <input type="text" name="daterangeInput" daterangepicker [options]="optionsSS" (selected)="selectedDate($event)" class="form-control col-md-7 col-xs-12" required />
+            <input type="text" name="daterangeInput" daterangepicker [options]="optionsSS" (selected)="selectedSSDate($event)" class="form-control col-md-7 col-xs-12" required />
         </div>
     </div>
     <div class="form-group">
@@ -12,7 +12,7 @@
             WS <span class="required">*</span>
         </label>
         <div class="col-md-6 col-sm-6 col-xs-12" name="parent">
-            <input type="text" name="daterangeInput" daterangepicker [options]="optionsWS" (selected)="selectedDate($event)" class="form-control col-md-7 col-xs-12" required />
+            <input type="text" name="daterangeInput" daterangepicker [options]="optionsWS" (selected)="selectedWSDate($event)" class="form-control col-md-7 col-xs-12" required />
         </div>
     </div>  
     <div class="form-group">
@@ -20,15 +20,15 @@
             Textblabla <span class="required">*</span>
         </label>
         <div class="col-md-6 col-sm-6 col-xs-12">
-            <input input class="form-control col-md-7 col-xs-12" placeholder="MAIL NOTIFICATION 1" name="Tel" type="text" ngModel required autofocus value="{{notification?.Value}}">
+            <input class="form-control col-md-7 col-xs-12" ngControl="notification.Value" [(ngModel)]="notification.Value" name="mail_value" type="text">
         </div>
     </div>
     <div class="form-group">
         <label class="control-label col-md-3 col-sm-3 col-xs-12">
         </label>
     </div>
-    <div>
-        <span (click)="updateRangePicker()"> update</span>
+    <div align="right">
+        <span class="btn btn-success" (click)="updateSettings()">test</span>
     </div>
     <div align="right">
         <button type="submit" class="btn btn-success" [disabled]="f.$invalid">Weiter</button>

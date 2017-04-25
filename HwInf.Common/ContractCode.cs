@@ -1,9 +1,7 @@
 ﻿using HwInf.Common.DAL;
+using HwInf.Common.Models;
 using System.Diagnostics;
 using System.Linq;
-
-//FRAGE: PRO Gerät ein Anhang? Oder sollen alle Geräte auf einmal aufgelistet werden und anschließend alles Zubehör?
-//FRAGE: ALLE Geräte auflisten bei Vertragsgegenstand? oder ein Gerät pro Marke,Typ,Invnummer und dann nochmal das selbe?
 
 namespace HwInf.Common
 {
@@ -26,9 +24,25 @@ namespace HwInf.Common
             var p = db.Persons.Single(i => i.Uid == this.uid);
 
 
-            string entleiherPart = "\\paragraph [ Format {SpaceAfter = \"1cm\" LeftIndent = \"2cm\"} ] {Name: " + p.Name + " " + p.LastName + "} \\paragraph [ Format {SpaceAfter = \"1cm\" LeftIndent = \"2cm\"} ] {Adresse: __________________________________ } \\paragraph [ Format {SpaceAfter = \"1cm\" LeftIndent = \"2cm\"} ] {Personenkennzahl: " + p.PersId + "} \\paragraph [ Format {SpaceAfter = \"1cm\" LeftIndent = \"2cm\"} ] {Studiengang: _______ } \\paragraph [ Format {SpaceAfter = \"1cm\" LeftIndent = \"2cm\"} ] {Telefon: " + p.Tel + "} \\paragraph [ Format {SpaceAfter = \"1cm\" LeftIndent = \"2cm\"} ] {Email: " + p.Email + "}";
+            string entleiherPart = "\\paragraph [ Format {SpaceAfter = \"1cm\" LeftIndent = \"2cm\"} ] {Name: " + p.Name + " " + p.LastName + "} \\paragraph [ Format {SpaceAfter = \"1cm\" LeftIndent = \"2cm\"} ] {Adresse: __________________________________ } \\paragraph [ Format {SpaceAfter = \"1cm\" LeftIndent = \"2cm\"} ] {Personenkennzahl: " + p.Uid + "} \\paragraph [ Format {SpaceAfter = \"1cm\" LeftIndent = \"2cm\"} ] {Studiengang: _______ } \\paragraph [ Format {SpaceAfter = \"1cm\" LeftIndent = \"2cm\"} ] {Telefon: " + p.Tel + "} \\paragraph [ Format {SpaceAfter = \"1cm\" LeftIndent = \"2cm\"} ] {Email: " + p.Email + "}";
 
             return entleiherPart;
+        }
+
+        public string getGeraete()
+        {
+            HwInfContext db = new HwInfContext();
+            var o = db.Orders.Single(i => i.OrderId == this.orderId);
+
+            string geraete = "";
+            foreach (OrderItem oi in o.OrderItems)
+            {
+                geraete += "\\paragraph[Format {SpaceAfter = \"0.5cm\" LeftIndent = \"1cm\"}]{Geräts der Marke "+oi.Device.Brand+" }\\paragraph[Format {SpaceAfter = \"0.5cm\"LeftIndent = \"1cm\"}]{ Typ}\\paragraph[Format {SpaceAfter = \"0.5cm\"LeftIndent = \"1cm\"}]{Inventarnummer: "+oi.Device.InvNum+"} \\paragraph[Format { Font { Size = 7.5} SpaceAfter = \"0.25cm\"} ] {mit Zubehör an den/ die EntleiherIn für die befristete Nutzung auch außerhalb der Zeiten der Lehrveranstaltungen nach § 6 Absatz 1 dieses Leihvertrages}";
+
+            }
+            geraete = "\\paragraph{HELLO ASDFSFADAF}";
+
+            return geraete;
         }
         public string getZeitspanne()
         {

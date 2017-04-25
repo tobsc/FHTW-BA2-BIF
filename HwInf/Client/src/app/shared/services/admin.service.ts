@@ -59,10 +59,53 @@ export class AdminService {
         }
     }
 
+    public updateSetting(body: Setting): Observable<Setting> {
+        let bodyString = JSON.stringify(body);
+        let headers = new Headers({
+            'Content-Type': 'application/json'
+        });
+        let options = new RequestOptions({ headers: headers });
+        return this.http.put(this.settingsUrl, bodyString, options)
+            .do(i => {
+                if (i.status == 200) {
+                    sessionStorage.setItem(body.Key, body.Value);
+                }
+            })
+            .map((response: Response) => response.json()).do(i => {
+            });
+    }
+
+    public updateSettings(body: Setting[]): Observable<Setting[]> {
+        let bodyString = JSON.stringify(body);
+        let headers = new Headers({
+            'Content-Type': 'application/json'
+        });
+        let options = new RequestOptions({ headers: headers });
+        return this.http.put(this.settingsUrl+"/multiple", bodyString, options)
+            .do(i => {
+                if (i.status == 200) {
+                    for (let set of body) {
+                        sessionStorage.setItem(set.Key, set.Value);
+                    }
+                }
+            })
+            .map((response: Response) => response.json()).do(i => {
+            });
+    }
+
     public loadSemestreData() {
         return this.http.get(this.settingsUrl)
             .map((response: Response) => response.json())
-            .subscribe(setting => { this.settings = setting });
+            .subscribe(setting => {
+                this.settings = setting;
+                if (sessionStorage.getItem("settings") != "true") {
+                    console.log("set storage");
+                    for (let set of this.settings) {
+                        sessionStorage.setItem(set.Key, set.Value);
+                    }
+                    sessionStorage.setItem("settings", "true");
+                }
+            });
     }
 
     public getSettings(): Setting[] {
