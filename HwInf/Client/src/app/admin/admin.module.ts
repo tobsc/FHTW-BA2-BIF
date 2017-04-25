@@ -28,6 +28,7 @@ import {AlertModule} from "ng2-bootstrap";
 import {DeviceDuplicateComponent} from "./devices/device-duplicate/device-duplicate.component";
 import {ModalModule} from "angular2-modal";
 import {ConfirmDialogModule} from "../core/confirm-dialog/confirm-dialog.module";
+import { AdminOrdersComponent } from './admin-orders/admin-orders.component';
 
 
 export function jwtFactory(backend: XHRBackend, options: RequestOptions, router: Router, authService: AuthService, pubsub: PubSubService) {
@@ -53,6 +54,7 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
         DeviceFormComponent,
         DeviceEditComponent,
         DeviceDuplicateComponent,
+        AdminOrdersComponent,
     ],
     imports: [
         RouterModule,

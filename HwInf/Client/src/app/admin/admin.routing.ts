@@ -13,7 +13,8 @@ import { DeviceCustomFieldsFieldgroupsAddComponent } from "./devices/device-cust
 import { VerwalterGuard } from "../authentication/verwalter.guard";
 import {DeviceEditComponent} from "./devices/device-edit/device-edit.component";
 import {PageNotFoundComponent} from "../core/page-not-found/page-not-found.component";
-import {DeviceDuplicateComponent} from "./devices/device-duplicate/device-duplicate.component";
+import { DeviceDuplicateComponent } from "./devices/device-duplicate/device-duplicate.component";
+import { AdminOrdersComponent } from "./admin-orders/admin-orders.component";
 
 const ADMIN_ROUTES: Routes = [
     { path: 'admin', component: HomeComponent, canActivate: [AuthGuard , VerwalterGuard],
@@ -34,7 +35,8 @@ const ADMIN_ROUTES: Routes = [
                      { path: 'verwalten', component: DeviceCustomFieldsFieldgroupsAddComponent, canActivate: [AuthGuard] },]
              },
             { path: 'geraete/verwalten/:invnum', component: DeviceEditComponent },
-            { path: '**', component: PageNotFoundComponent }
+            { path: '**', component: PageNotFoundComponent },
+            { path: 'orders', component: AdminOrdersComponent }
         ]
     }
 ];
