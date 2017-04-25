@@ -383,32 +383,33 @@ namespace HwInf.Common.BL
             bool isAdminView)
         {
 
-            if (isAdminView && !IsAdmin && !IsVerwalter)
-            {
-                throw new SecurityException();
-            }
+            //if (isAdminView && !IsAdmin && !IsVerwalter)
+            //{
+            //    throw new SecurityException();
+            //}
 
 
-            var orderItems = GetOrderItems().ToList();
+            //var orderItems = GetOrderItems().ToList();
 
-            var result = orderItems
-                .Where(i => !statusQuery.Any() || statusQuery.Contains(i.OrderStatus.Slug))
-                .Where(i => !uidQuery.Any() || uidQuery.Contains(i.Entleiher.Uid))
-                .ToList();
+            //var result = orderItems
+            //    .Where(i => !statusQuery.Any() || statusQuery.Contains(i.OrderStatus.Slug))
+            //    .Where(i => !uidQuery.Any() || uidQuery.Contains(i.Entleiher.Uid))
+            //    .ToList();
 
-            result = order.Equals("ASC")
-                ? result.OrderBy(i => i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
-                    .ThenBy(i => i.GetType().GetProperty(orderByFallback, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
-                    .ToList()
-                : result.OrderByDescending(i => i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
-                    .ThenByDescending(i => i.GetType().GetProperty(orderByFallback, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
-                    .ToList();
+            //result = order.Equals("ASC")
+            //    ? result.OrderBy(i => i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
+            //        .ThenBy(i => i.GetType().GetProperty(orderByFallback, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
+            //        .ToList()
+            //    : result.OrderByDescending(i => i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
+            //        .ThenByDescending(i => i.GetType().GetProperty(orderByFallback, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
+            //        .ToList();
 
-            return !isAdminView ? 
-                result.Where(i => i.Entleiher.Uid.Equals(GetCurrentUid())).ToList() 
-                : IsAdmin ? 
-                    result 
-                    : result.Where(i => i.Verwalter.Uid.Equals(GetCurrentUid())).ToList();
+            //return !isAdminView ? 
+            //    result.Where(i => i.Entleiher.Uid.Equals(GetCurrentUid())).ToList() 
+            //    : IsAdmin ? 
+            //        result 
+            //        : result.Where(i => i.Verwalter.Uid.Equals(GetCurrentUid())).ToList();
+            return new List<OrderItem>();
         }
 
 

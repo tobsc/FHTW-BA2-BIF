@@ -129,40 +129,53 @@ namespace HwInf.Common.Migrations
                 new Device { Name = "Acer PC", Brand = "Acer", Status = deviceStatus.Single(i => i.Description == "Verfügbar"), InvNum = "a5123", Type = type.Single(i => i.Slug == "pc"), CreateDate = DateTime.Now, Room = "A0.00", Person = persons.Single(i => i.LastName == "Calanog"), IsActive = true, DeviceMeta = meta.ToList()},
                };
 
+            var settings = new List<Setting>
+            {
+               new Setting { Key = "ss_start", Value = "15.02"},
+               new Setting { Key = "ss_end", Value = "30.06"},
+               new Setting { Key = "ws_end", Value = "31.01"},
+               new Setting { Key = "ws_start", Value = "25.10"},
+               new Setting { Key = "mail_notification_1", Value = "Test Text"},
+            };
+
+            if (!context.Settings.Any())
+            {
+                context.Settings.AddRange(settings);
+            }
 
             if (!context.DeviceTypes.Any())
             {
-                type.ForEach(s => context.DeviceTypes.Add(s));
+                context.DeviceTypes.AddRange(type);
             }
 
             if (!context.DeviceStatus.Any())
             {
-                deviceStatus.ForEach(s => context.DeviceStatus.Add(s));
+                context.DeviceStatus.AddRange(deviceStatus);
             }
 
             if (!context.OrderStatus.Any())
             {
-                orderStatus.ForEach(s => context.OrderStatus.Add(s));
+                context.OrderStatus.AddRange(orderStatus);
             }
 
             if (!context.Roles.Any())
             {
-                roles.ForEach(s => context.Roles.Add(s));
+                context.Roles.AddRange(roles);
             }
 
             if (!context.Persons.Any())
             {
-                persons.ForEach(s => context.Persons.Add(s));
+                context.Persons.AddRange(persons);
             }
 
             if (!context.FieldGroups.Any())
             {
-                fieldGroup.ForEach(s => context.FieldGroups.Add(s));
+                context.FieldGroups.AddRange(fieldGroup);
             }
 
             if (!context.Devices.Any())
             {
-                dev.ForEach(s => context.Devices.Add(s));
+                context.Devices.AddRange(dev);
             }
 
 

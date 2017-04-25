@@ -19,6 +19,7 @@ namespace HwInf.ViewModels
         public DateTime ReturnDate { get; set; }
         public DateTime CreateDate { get; set; }
         public Person Entleiher { get; set; }
+        public bool IsDeclined { get; set; } = false;
 
         public OrderItemViewModel(OrderItem obj)
         {
@@ -36,7 +37,6 @@ namespace HwInf.ViewModels
             var target = this;
             var source = obj;
 
-            target.OrderStatus = new OrderStatusViewModel(source.OrderStatus);
             target.Device = new DeviceViewModel(source.Device);
             target.ItemId = source.ItemId;
             target.To = source.To;
@@ -44,6 +44,7 @@ namespace HwInf.ViewModels
             target.CreateDate = source.CreateDate;
             target.Entleiher = source.Entleiher;
             target.ReturnDate = source.ReturnDate;
+            target.IsDeclined = source.IsDeclined;
 
         }
 
@@ -53,10 +54,7 @@ namespace HwInf.ViewModels
             var source = this;
 
             target.Device = bl.GetSingleDevice(source.Device.InvNum);
-            
-            target.OrderStatus = target.OrderStatus == null
-                ? bl.GetOrderStatus("offen")
-                : bl.GetOrderStatus(target.OrderStatus.Slug);
+            target.IsDeclined = source.IsDeclined;
 
             if (target.CreateDate == DateTime.MinValue)
             {
