@@ -512,11 +512,11 @@ namespace HwInf.Controllers
                 .ForEach(x => x.Device = new DeviceViewModel(_bl.GetSingleDevice(x.Device.InvNum)));
 
             // Group by Verwalter
-            var devices = vmdl.OrderItems.GroupBy(i => i.Device.Verwalter).Select(x => x.ToList()).ToList();
+            var groupedOrderItems = vmdl.OrderItems.GroupBy(i => i.Device.Verwalter.Uid).Select(x => x.ToList()).ToList();
 
             // Create vmdls
             var vmdls = new List<OrderViewModel>();
-            devices.ForEach(i =>
+            groupedOrderItems.ForEach(i =>
             {
                 var tmp = new OrderViewModel(vmdl) {OrderItems = i.ToList()};
                 vmdls.Add(tmp);
