@@ -50,13 +50,21 @@ export class LoginAsComponent implements OnInit {
 
         
     }
-
+    
     
     impersonate() {
-        console.log(this.selectedString);
         this.selectedUser = this.userDic[this.selectedString];
         this.adminService.impersonate(this.selectedUser)
         
+    }
+
+    isValid(): boolean {
+        if (!!this.selectedString) {
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 
 

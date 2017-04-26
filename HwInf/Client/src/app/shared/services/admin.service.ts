@@ -8,6 +8,7 @@ import { FeedbackHttpService } from './feedback-http.service';
 import { JwtHttpService } from "./jwt-http.service";
 import { Router } from "@angular/router";
 import { Setting } from "../models/setting.model";
+import {Log} from "../models/log.model";
 
 
 @Injectable()
@@ -106,6 +107,12 @@ export class AdminService {
                     sessionStorage.setItem("settings", "true");
                 }
             });
+    }
+
+
+    public getLog(): Observable<Log[]>  {
+        return this.http.get(this.settingsUrl + 'logs/')
+            .map((response: Response) => response.json());
     }
 
     public getSettings(): Setting[] {

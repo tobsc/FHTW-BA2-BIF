@@ -283,7 +283,6 @@
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\PrintController.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
-    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -306,6 +305,7 @@
     <Compile Include="ViewModels\OrderStatusViewModel.cs" />
     <Compile Include="ViewModels\OrderItemViewModel.cs" />
     <Compile Include="ViewModels\OrderViewModel.cs" />
+    <Compile Include="ViewModels\LogViewModel.cs" />
     <Compile Include="ViewModels\SettingViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
   </ItemGroup>
