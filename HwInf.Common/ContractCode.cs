@@ -7,7 +7,6 @@ namespace HwInf.Common
 {
     partial class Contract
     {
-        //private int orderId;
         private string uid;
         private int orderId;
         public Contract(int orderId, string uid)
@@ -35,6 +34,7 @@ namespace HwInf.Common
             var o = db.Orders.Single(i => i.OrderId == this.orderId);
 
             string geraete = "";
+
             foreach (OrderItem oi in o.OrderItems)
             {
                 geraete += "\\paragraph[Format {SpaceAfter = \"0.5cm\" LeftIndent = \"1cm\"}]{Geräts der Marke "+oi.Device.Brand+" }\\paragraph[Format {SpaceAfter = \"0.5cm\"LeftIndent = \"1cm\"}]{ Typ}\\paragraph[Format {SpaceAfter = \"0.5cm\"LeftIndent = \"1cm\"}]{Inventarnummer: "+oi.Device.InvNum+"} \\paragraph[Format { Font { Size = 7.5} SpaceAfter = \"0.25cm\"} ] {mit Zubehör an den/ die EntleiherIn für die befristete Nutzung auch außerhalb der Zeiten der Lehrveranstaltungen nach § 6 Absatz 1 dieses Leihvertrages}";
