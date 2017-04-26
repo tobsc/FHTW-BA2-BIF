@@ -249,12 +249,14 @@ namespace HwInf.Controllers
         /// </summary>
         /// <returns></returns>
         [Authorize(Roles = "Admin")]
-        [Route("log")]
+        [Route("logs")]
         public IHttpActionResult GetLog()
         {
             try
             {
-                return Ok(_bl.GetLog());
+                var vmdl = _bl.GetLog().Select(i => new LogViewModel(i));
+
+                return Ok(vmdl.OrderByDescending(i => i.Date));
             }
             catch (Exception ex)
             {
