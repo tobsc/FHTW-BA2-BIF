@@ -59,9 +59,9 @@
             <hwinf-confirm-button *ngIf="order.OrderStatus.Slug === 'akzeptiert'"
                                   (action)="onLend()"
                                   class="btn-block"
-                                  [popOverTitle]="'Gerät'+ ((order.OrderItems.length > 1) ? 'e' : '') + ' übergeben?'">
-              <button [title]="'Gerät'+ ((order.OrderItems.length > 1) ? 'e' : '') + ' übergeben'" class="btn btn-info btn-xs btn-block">
-                Gerät <span *ngIf="order.OrderItems.length > 1">e</span> übergeben
+                                  [popOverTitle]="'Geräte übergeben?'">
+              <button [title]="'Geräte übergeben'" class="btn btn-info btn-xs btn-block">
+                Geräte übergeben
               </button>
             </hwinf-confirm-button>
 

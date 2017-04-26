@@ -5,6 +5,7 @@ import {Order} from "../models/order.model";
 import {Response, RequestOptions, Headers} from "@angular/http";
 import {OrderFilter} from "../models/order-filter.model";
 import {OrderItem} from "../models/order-item.model";
+import {OrderList} from "../models/order-list.model";
 
 @Injectable()
 export class OrderService {
@@ -21,8 +22,8 @@ export class OrderService {
         .map((response: Response) => response.json());
   }
 
-  public getFilteredOrders(body: OrderFilter = null): Observable<OrderItem[]> {
-    let bodyString = !!body ? JSON.stringify(body) : '{}';
+  public getFilteredOrders(body: OrderFilter): Observable<OrderList> {
+    let bodyString = JSON.stringify(body);
     let headers = new Headers({
       'Content-Type': 'application/json'
     });

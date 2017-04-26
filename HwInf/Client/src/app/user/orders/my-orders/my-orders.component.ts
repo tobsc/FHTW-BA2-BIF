@@ -27,26 +27,14 @@ export class MyOrdersComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.openOrderFilter = new OrderFilter();
-    this.openOrderFilter.StatusQuery = ['offen'];
 
-    this.activeOrderFilter = new OrderFilter();
-    this.activeOrderFilter.StatusQuery = ['akzeptiert'];
-
-    this.closedOrderFilter = new OrderFilter();
-    this.closedOrderFilter.StatusQuery = ['abgeschlossen', 'abgelehnt'];
-
-    this.fetchData();
   }
 
   fetchData() {
-    this.orderService.getFilteredOrders(this.openOrderFilter).subscribe((data) => this.openOrderItems = data);
-    this.orderService.getFilteredOrders(this.activeOrderFilter).subscribe((data) => this.activeOrderItems = data);
-    this.orderService.getFilteredOrders(this.closedOrderFilter).subscribe((data) => this.closedOrderItems = data);
+
   }
 
   onToggleShowClosedOrders() {
-    this.showClosedOrders = !this.showClosedOrders;
   }
 
 }
