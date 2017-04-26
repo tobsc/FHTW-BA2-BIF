@@ -23,6 +23,7 @@ namespace HwInf.Common
         public Mail(int orderId)
         {
             _db = new HwInfContext();
+            _bl = new BL.BL(_db);
             smtpClient = new SmtpClient("localhost", 25);
             smtpClient.UseDefaultCredentials = true;
             smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
@@ -49,9 +50,10 @@ namespace HwInf.Common
             mail.To.Add(new MailAddress(to));
         }
 
-       public void MessageFormat(string status, Order order)
+       public void MessageFormat(string status, int orderId)
         {
-            switch(status)
+            Order order = _bl.GetOrders(orderId);
+            switch (status)
             {
                 case "accept": AcceptMessage(order); break;
                 case "decline": DeclineMessage(order); break;
@@ -81,7 +83,7 @@ namespace HwInf.Common
             mail.Body = "Es wurde eine neue Anfrage für eines/mehrere Ihrer Geräte erstellt";
             foreach (OrderItem ord in order.OrderItems)
             {
-                mail.Body = "Name : "+ord.Device.Name +"| InventarNummer: "+ ord.Device.InvNum+ "<br />";
+                mail.Body = "Name : "+ord.Device.Name +" | InventarNummer: "+ ord.Device.InvNum+ "<br />";
             }
         }
 

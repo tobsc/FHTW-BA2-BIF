@@ -118,5 +118,12 @@ namespace HwInf.Controllers
             stream.Seek(0, SeekOrigin.Begin);
             return stream;
         }
+        public void TestMail(string status, int orderId)
+        {
+            Mail mail = new Mail(orderId);
+            mail.MessageFormat(status, orderId);
+            mail.Send();
+        }
+
     }
 }
