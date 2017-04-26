@@ -378,7 +378,7 @@ namespace HwInf.Common.BL
 
 
         public ICollection<Order> GetFileteredOrders(
-            string statusSlug,
+            ICollection<string> statusSlugs,
             string order,
             string orderBy,
             string orderByFallback,
@@ -390,12 +390,14 @@ namespace HwInf.Common.BL
                 throw new SecurityException();
             }
 
-            var result = GetOrders()
-                .Where(i => String.IsNullOrWhiteSpace(statusSlug) || i.OrderStatus.Slug.Equals(statusSlug))
-                .ToList();
+            var result = GetOrders().ToList();
 
+            if (statusSlugs.Any())
+            {
+                result = result.Where(i => statusSlugs.Contains(i.OrderStatus.Slug)).ToList();
+            }
 
-            result = order.Equals("ASC")
+            result = order.Equals("ASC", StringComparison.OrdinalIgnoreCase)
                 ? result.OrderBy(i => i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
                     .ThenBy(i => i.GetType().GetProperty(orderByFallback, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
                     .ToList()

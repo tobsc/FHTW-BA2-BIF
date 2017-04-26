@@ -14,13 +14,13 @@ namespace HwInf.ViewModels
         public string OrderBy { get; set; } = "OrderStatus";
         public string OrderByFallback { get; set; } = "Date";
         public bool IsAdminView { get; set; } = false;
-        public string StatusSlug { get; set; } = null;
+        public ICollection<string> StatusSlugs { get; set; } = new List<string>();
         public int Offset { get; set; } = 0;
         public int Limit { get; set; } = 25;
 
         public ICollection<Order> FilteredList(BL bl)
         {
-            return bl.GetFileteredOrders(StatusSlug, Order, OrderBy, OrderByFallback, IsAdminView);
+            return bl.GetFileteredOrders(StatusSlugs, Order, OrderBy, OrderByFallback, IsAdminView);
         }
     }
 }
