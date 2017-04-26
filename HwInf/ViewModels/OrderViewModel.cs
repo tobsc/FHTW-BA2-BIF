@@ -57,6 +57,7 @@ namespace HwInf.ViewModels
             target.Date = source.Date;
             target.From = source.From;
             target.To = source.To;
+            target.OrderItems = source.OrderItems.Select(i => new OrderItemViewModel(i)).ToList();
             target.Verwalter = new UserViewModel(source.Verwalter);
             target.Entleiher = new UserViewModel(source.Entleiher);
             target.OrderReason = source.OrderReason;
