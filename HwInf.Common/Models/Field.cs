@@ -25,5 +25,6 @@ namespace HwInf.Common.Models
         public ICollection<Field> Fields { get; set; }
         public virtual ICollection<DeviceType> DeviceTypes { get; set; }
         public bool IsActive { get; set; }
+        public bool IsCountable { get; set; }
     }
 }

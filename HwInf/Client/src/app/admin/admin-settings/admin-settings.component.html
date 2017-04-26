@@ -1,0 +1,46 @@
+<form class="form-horizontal form-label-left" (ngSubmit)="update(f)" #f="ngForm">
+    <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="daterange">
+            SS <span class="required">*</span>
+        </label>
+        <div class="col-md-6 col-sm-6 col-xs-12" name="parent">
+            <input type="text" name="daterangeInput" daterangepicker [options]="optionsSS" (selected)="selectedSSDate($event)" class="form-control col-md-7 col-xs-12" required />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="daterange">
+            WS <span class="required">*</span>
+        </label>
+        <div class="col-md-6 col-sm-6 col-xs-12" name="parent">
+            <input type="text" name="daterangeInput" daterangepicker [options]="optionsWS" (selected)="selectedWSDate($event)" class="form-control col-md-7 col-xs-12" required />
+        </div>
+    </div>  
+    <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12">
+            Textblabla <span class="required">*</span>
+        </label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <input class="form-control col-md-7 col-xs-12" ngControl="notification.Value" [(ngModel)]="notification.Value" name="mail_value" type="text">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12">
+            Auftragsbestätigungs-Vorlage <span class="required">*</span>
+        </label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <input class="form-control col-md-7 col-xs-12" ngControl="mail_accept.Value" [(ngModel)]="mail_accept.Value" name="mail_acc" type="text">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12">
+        </label>
+    </div>
+    <div align="right">
+        <span class="btn btn-success" (click)="updateSettings()">test</span>
+    </div>
+    <div align="right">
+        <button type="submit" class="btn btn-success" [disabled]="f.$invalid">Weiter</button>
+    </div>
+</form>

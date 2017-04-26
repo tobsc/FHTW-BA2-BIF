@@ -14,6 +14,7 @@ namespace HwInf.ViewModels
         public string Slug { get; set; }
         public ICollection<FieldViewModel> Fields { get; set; }
         public bool IsActive { get; set; } = true;
+        public bool IsCountable { get; set; } = true;
 
 
         public FieldGroupViewModel()
@@ -34,6 +35,7 @@ namespace HwInf.ViewModels
             target.Name = source.Name;
             target.Slug = source.Slug;
             target.Fields = source.Fields.Select(i => new FieldViewModel(i)).ToList();
+            target.IsCountable = source.IsCountable;
         }
 
         public void ApplyChanges(FieldGroup fg, BL bl)
@@ -42,12 +44,10 @@ namespace HwInf.ViewModels
             var source = this;
 
             target.Name = source.Name;
-            if (target.Slug == null)
-            {
-                target.Slug = SlugGenerator.GenerateSlug(bl, source.Name, "fieldGroup");
-            }
+            target.Slug = SlugGenerator.GenerateSlug(bl, source.Name, "fieldGroup");
             target.Fields = new List<Field>();
             source.Fields.ForEach(i => target.Fields.Add(i));
+            target.IsCountable = source.IsCountable;
         }
 
     }

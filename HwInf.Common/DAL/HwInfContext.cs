@@ -1,6 +1,7 @@
 ﻿using System.CodeDom;
 using HwInf.Common.Migrations;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.Entity.Validation;
 using System.Linq;
@@ -89,9 +90,11 @@ namespace HwInf.Common.DAL
         IQueryable<OrderStatus> IDAL.OrderStatus => OrderStatus;
         IQueryable<Person> IDAL.Persons => Persons;
         IQueryable<Role> IDAL.Roles => Roles;
+
         IQueryable<Order> IDAL.Orders => Orders
             .Include(i => i.OrderItems)
-            .Include(i => i.OrderItems.Select(x => x.Device));
+            .Include(i => i.OrderItems.Select(x => x.Device))
+            .Include(i => i.OrderStatus);
         IQueryable<OrderItem> IDAL.OrderItems => OrderItems;
         IQueryable<DeviceHistory> IDAL.DeviceHistory => DeviceHistory;
         IQueryable<Field> IDAL.Fields => Fields;

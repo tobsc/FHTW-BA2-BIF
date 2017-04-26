@@ -27,6 +27,7 @@ import { OrderProcessStep1Component } from './orders/order-process/order-process
 import { OrderProcessStep2Component } from './orders/order-process/order-process-step-2/order-process-step-2.component';
 import { OrderProcessStep3Component } from './orders/order-process/order-process-step-3/order-process-step-3.component';
 import {OrderFormDataService} from "./orders/order-process/shared/order-form-data.service";
+import { MyOrdersComponent } from './orders/my-orders/my-orders.component';
 
 
 export function jwtFactory(backend: XHRBackend, options: RequestOptions, router: Router, authService: AuthService, pubsub: PubSubService) {
@@ -48,7 +49,8 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
         OrderProcessComponent,
         OrderProcessStep1Component,
         OrderProcessStep2Component,
-        OrderProcessStep3Component
+        OrderProcessStep3Component,
+        MyOrdersComponent
     ],
     imports: [
         CommonModule,
@@ -69,6 +71,9 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
             useFactory: jwtFactory,
             deps: [XHRBackend, RequestOptions, Router, AuthService, PubSubService]
         },
+    ],
+    exports: [
+        OrderListComponent,
     ]
 })
 export class UserModule {}

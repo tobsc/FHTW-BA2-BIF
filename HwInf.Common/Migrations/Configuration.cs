@@ -83,9 +83,10 @@ namespace HwInf.Common.Migrations
             var orderStatus = new List<OrderStatus>
                 {
                     new OrderStatus { Name = "Offen" , Slug = "offen"},
-                    new OrderStatus { Name = "Akzeptiert" , Slug = "aktzeptiert"},
+                    new OrderStatus { Name = "Akzeptiert" , Slug = "akzeptiert"},
                     new OrderStatus { Name = "Abgelehnt", Slug = "abgelehnt"},
-                    new OrderStatus { Name = "Abgeschlossen", Slug = "abgeschlossen"}
+                    new OrderStatus { Name = "Abgeschlossen", Slug = "abgeschlossen"},
+                    new OrderStatus { Name = "Ausgeliehen", Slug = "ausgeliehen"}
                 };
 
             var roles = new List<Role>
@@ -128,40 +129,53 @@ namespace HwInf.Common.Migrations
                 new Device { Name = "Acer PC", Brand = "Acer", Status = deviceStatus.Single(i => i.Description == "Verfügbar"), InvNum = "a5123", Type = type.Single(i => i.Slug == "pc"), CreateDate = DateTime.Now, Room = "A0.00", Person = persons.Single(i => i.LastName == "Calanog"), IsActive = true, DeviceMeta = meta.ToList()},
                };
 
-
-            if (context.DeviceTypes.Count() < 1)
+            var settings = new List<Setting>
             {
-                type.ForEach(s => context.DeviceTypes.Add(s));
+               new Setting { Key = "ss_start", Value = "15.02"},
+               new Setting { Key = "ss_end", Value = "30.06"},
+               new Setting { Key = "ws_end", Value = "31.01"},
+               new Setting { Key = "ws_start", Value = "25.10"},
+               new Setting { Key = "mail_notification_1", Value = "Test Text"},
+            };
+
+            if (!context.Settings.Any())
+            {
+                context.Settings.AddRange(settings);
             }
 
-            if (context.DeviceStatus.Count() < 1)
+            if (!context.DeviceTypes.Any())
             {
-                deviceStatus.ForEach(s => context.DeviceStatus.Add(s));
+                context.DeviceTypes.AddRange(type);
             }
 
-            if (context.OrderStatus.Count() < 1)
+            if (!context.DeviceStatus.Any())
             {
-                orderStatus.ForEach(s => context.OrderStatus.Add(s));
+                context.DeviceStatus.AddRange(deviceStatus);
             }
 
-            if (context.Roles.Count() < 1)
+            if (!context.OrderStatus.Any())
             {
-                roles.ForEach(s => context.Roles.Add(s));
+                context.OrderStatus.AddRange(orderStatus);
             }
 
-            if (context.Persons.Count() < 1)
+            if (!context.Roles.Any())
             {
-                persons.ForEach(s => context.Persons.Add(s));
+                context.Roles.AddRange(roles);
             }
 
-            if (context.FieldGroups.Count() < 1)
+            if (!context.Persons.Any())
             {
-                fieldGroup.ForEach(s => context.FieldGroups.Add(s));
+                context.Persons.AddRange(persons);
             }
 
-            if (context.Devices.Count() < 1)
+            if (!context.FieldGroups.Any())
             {
-                dev.ForEach(s => context.Devices.Add(s));
+                context.FieldGroups.AddRange(fieldGroup);
+            }
+
+            if (!context.Devices.Any())
+            {
+                context.Devices.AddRange(dev);
             }
 
 

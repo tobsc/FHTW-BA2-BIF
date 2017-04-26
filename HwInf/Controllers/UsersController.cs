@@ -1,6 +1,8 @@
-﻿using System.Data.Entity.Validation;
+﻿using System;
+using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.Linq;
+using System.Security;
 using System.Web.Http;
 using System.Web.Http.Description;
 using HwInf.Common.BL;
@@ -38,11 +40,19 @@ namespace HwInf.Controllers
         [Route("userdata")]
         public IHttpActionResult GetPersonByUid()
         {
-            var p = _bl.GetUsers(User.Identity.Name);
-            var vmdl = new UserViewModel(p);
+            try
+            {
+                var p = _bl.GetUsers(_bl.GetCurrentUid());
+                var vmdl = new UserViewModel(p);
 
-            return Ok(vmdl);
-           
+                return Ok(vmdl);
+            }
+            catch (Exception ex)
+            {
+                _log.ErrorFormat("Exception: {0}", ex.Message);
+                return InternalServerError();
+            }
+
         }
 
         /// <summary>
@@ -54,13 +64,48 @@ namespace HwInf.Controllers
         [Route("owners")]
         public IHttpActionResult GetOwners()
         {
-            var vmdl = _bl.GetUsers()
-                .Where(i => i.Role.Name != "User")
-                .ToList()
-                .Select(i => new UserViewModel(i))
-                .ToList();
+            try
+            {
+                var vmdl = _bl.GetUsers()
+                    .Where(i => i.Role.Name != "User")
+                    .ToList()
+                    .Select(i => new UserViewModel(i))
+                    .ToList();
 
-            return Ok(vmdl);
+                return Ok(vmdl);
+            }
+            catch (Exception ex)
+            {
+                _log.ErrorFormat("Exception: {0}", ex.Message);
+                return InternalServerError();
+            }
+
+        }
+
+        /// <summary>
+        /// Returns List of Users.
+        /// </summary>
+        /// <returns>LastName, Name, Uid</returns>
+        [Authorize(Roles = "Verwalter, Admin")]
+        [ResponseType(typeof(UserViewModel))]
+        [Route("users")]
+        public IHttpActionResult GetUsers()
+        {
+            try
+            {
+
+                var vmdl = _bl.GetUsers()
+                    .ToList()
+                    .Select(i => new UserViewModel(i))
+                    .ToList();
+
+                return Ok(vmdl);
+            }
+            catch (Exception ex)
+            {
+                _log.ErrorFormat("Exception: {0}", ex.Message);
+                return InternalServerError();
+            }
 
         }
 
@@ -72,15 +117,27 @@ namespace HwInf.Controllers
         [Route("update")]
         public IHttpActionResult PostUpdateUser([FromBody] UserViewModel vmdl)
         {
+            try
+            {
+                var obj = _bl.GetUsers(_bl.GetCurrentUid());
 
-            var obj = _bl.GetUsers(User.Identity.Name);
+                vmdl.ApplyChangesTelRoom(obj);
+                vmdl.Refresh(obj);
+                _bl.SaveChanges();
+                _log.InfoFormat("User '{0}' updated by '{1}'", vmdl.Uid, User.Identity.Name);
 
-            vmdl.ApplyChangesTelRoom(obj);
-            vmdl.Refresh(obj);
-            _bl.SaveChanges();
-            _log.InfoFormat("User '{0}' updated by '{1}'", vmdl.Uid, User.Identity.Name);
-
-            return Ok(vmdl);
+                return Ok(vmdl);
+            }
+            catch (SecurityException)
+            {
+                _log.ErrorFormat("'{0}' tried to Update user '{1}'", _bl.GetCurrentUid(), vmdl.Uid);
+                return Unauthorized();
+            }
+            catch (Exception ex)
+            {
+                _log.ErrorFormat("Exception: {0}", ex.Message);
+                return InternalServerError();
+            }
         }
 
         /// <summary>
@@ -92,14 +149,20 @@ namespace HwInf.Controllers
         [Authorize(Roles = "Admin")]
         public IHttpActionResult PutAddAdmin(string uid)
         {
+            try
+            {
+                var p = _bl.GetUsers(uid);
+                _bl.SetAdmin(p);
+                _bl.SaveChanges();
+                _log.InfoFormat("User '{0}' set to admin by '{1}'", p.Uid, User.Identity.Name);
 
-            var p = _bl.GetUsers(uid);
-            _bl.SetAdmin(p);
-            _bl.SaveChanges();
-            _log.InfoFormat("User '{0}' set to admin by '{1}'", p.Uid, User.Identity.Name);
-
-
-            return Ok();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _log.ErrorFormat("Exception: {0}", ex.Message);
+                return InternalServerError();
+            }
         }
 
 

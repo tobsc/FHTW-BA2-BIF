@@ -14,7 +14,9 @@ import { VerwalterGuard } from "../authentication/verwalter.guard";
 import {DeviceEditComponent} from "./devices/device-edit/device-edit.component";
 import {PageNotFoundComponent} from "../core/page-not-found/page-not-found.component";
 import { DeviceDuplicateComponent } from "./devices/device-duplicate/device-duplicate.component";
-import { AdminOrdersComponent } from "./admin-orders/admin-orders.component";
+import { AdminSettingsComponent } from "./admin-settings/admin-settings.component";
+import {AdminOrdersComponent} from "./admin-orders/admin-orders.component";
+
 
 const ADMIN_ROUTES: Routes = [
     { path: 'admin', component: HomeComponent, canActivate: [AuthGuard , VerwalterGuard],
@@ -24,19 +26,20 @@ const ADMIN_ROUTES: Routes = [
             { path: 'geraete/verwalten', component: DeviceListComponent },
             { path: 'geraete/erstellen', component: DeviceAddComponent },
             { path: 'geraete/erstellen/:invnum', component: DeviceDuplicateComponent },
-             { path: 'geraete/typen', component: DeviceTypesComponent,
+            { path: 'geraete/typen', component: DeviceTypesComponent,
                 children: [{ path: '', redirectTo: 'verwalten', pathMatch: 'full' },
                     { path: 'edit/:slug', component: DeviceTypesEditComponent, canActivate: [AuthGuard] },
                     { path: 'verwalten', component: DeviceTypesAddComponent, canActivate: [AuthGuard] },]
             },
-             { path: 'geraete/felder', component: DeviceCustomFieldsComponent,
-                 children: [{ path: '', redirectTo: 'verwalten', pathMatch: 'full' },
-                     { path: 'edit/:slug', component: DeviceCustomFieldsFieldgroupsEditComponent, canActivate: [AuthGuard] },
-                     { path: 'verwalten', component: DeviceCustomFieldsFieldgroupsAddComponent, canActivate: [AuthGuard] },]
-             },
+            { path: 'geraete/felder', component: DeviceCustomFieldsComponent,
+                children: [{ path: '', redirectTo: 'verwalten', pathMatch: 'full' },
+                    { path: 'edit/:slug', component: DeviceCustomFieldsFieldgroupsEditComponent, canActivate: [AuthGuard] },
+                    { path: 'verwalten', component: DeviceCustomFieldsFieldgroupsAddComponent, canActivate: [AuthGuard] },]
+            },
             { path: 'geraete/verwalten/:invnum', component: DeviceEditComponent },
-            { path: '**', component: PageNotFoundComponent },
-            { path: 'orders', component: AdminOrdersComponent }
+            { path: 'settings', component: AdminSettingsComponent },
+            { path: 'orders', component: AdminOrdersComponent },
+            { path: '**', component: PageNotFoundComponent }
         ]
     }
 ];

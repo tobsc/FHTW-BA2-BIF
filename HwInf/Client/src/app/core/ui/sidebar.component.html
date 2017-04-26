@@ -21,9 +21,9 @@
               </li>
             </ul>
           </li>
-          <li [ngClass]="{current_parent_menu_item: router.url.match('.*/auftraege.*') }" dropdown><a dropdownToggle><i class="fa fa-edit"></i> Aufträge <span class="fa fa-chevron-down"></span></a>
+          <li [ngClass]="{current_parent_menu_item: router.url.match('.*/meine-geraete.*') }" dropdown><a dropdownToggle><i class="fa fa-edit"></i> Meine Geräte <span class="fa fa-chevron-down"></span></a>
             <ul class="nav child_menu">
-              <li routerLinkActive="current_menu_item" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/auftraege/">Alle</a></li>
+              <li routerLinkActive="current_menu_item" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/meine-geraete/">Alle</a></li>
             </ul>
           </li>
         </ul>
@@ -40,13 +40,9 @@
               <li routerLinkActive="current_menu_item" [routerLinkActiveOptions]="{exact:true}"><a href="geraete_status_verwalten.php">Gerätestatus</a></li>
             </ul>
           </li>
-          <li dropdown><a dropdownToggle><i class="fa fa-windows"></i> Aufträge <span class="fa fa-chevron-down"></span></a>
+          <li [ngClass]="{current_parent_menu_item: router.url.match('(.*admin\/orders.*)') }" dropdown><a dropdownToggle><i class="fa fa-windows"></i> Aufträge <span class="fa fa-chevron-down"></span></a>
             <ul class="nav child_menu">
-              <li><a href="auftraege_admin.php">Alle</a></li>
-              <li><a href="auftraege_admin.php">Anfragen</a></li>
-              <li><a href="auftraege_admin.php">Ausgeliehen</a></li>
-              <li><a href="auftraege_admin.php">Abgeschlossen</a></li>
-              <li><a href="auftraege_admin.php">Archiviert</a></li>
+              <li routerLinkActive="current_menu_item"><a routerLink="/admin/orders">Alle</a></li>
             </ul>
           </li>
           <li dropdown><a dropdownToggle><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Schäden <span class="fa fa-chevron-down"></span></a>
@@ -58,7 +54,7 @@
           </li>
           <li dropdown *ngIf="canActivateSettings()"><a dropdownToggle><i class="fa fa-cog" aria-hidden="true"></i> Settings <span class="fa fa-chevron-down"></span></a>
             <ul class="nav child_menu">
-              <li><a href="page_403.html">Semesterdaten</a></li>
+              <li><a routerLink="/admin/settings">Semesterdaten</a></li>
               <li><a href="page_404.html">Texte</a></li>
             </ul>
           </li>

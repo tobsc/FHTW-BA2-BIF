@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { OrderService } from '../../shared/services/order.service';
-import { Order } from '../../shared/models/order.model';
-import { Observable } from 'rxjs';
+import {OrderService} from "../../shared/services/order.service";
+import {OrderFilter} from "../../shared/models/order-filter.model";
+import {OrderItem} from "../../shared/models/order-item.model";
 
 @Component({
   selector: 'hwinf-admin-orders',
@@ -10,15 +10,48 @@ import { Observable } from 'rxjs';
 })
 export class AdminOrdersComponent implements OnInit {
 
-    private orderService: OrderService;
-    private orders: Observable<Order[]>;
+  private openOrderFilter: OrderFilter;
+  private activeOrderFilter: OrderFilter;
+  private closedOrderFilter: OrderFilter;
 
-    constructor() {
-       
-    }
+  private openOrderItems: OrderItem[] = [];
+  private activeOrderItems: OrderItem[] = [];
+  private closedOrderItems: OrderItem[] = [];
 
-    ngOnInit() {
-        console.log(this.orderService.getOrders());
+  private showClosedOrders: boolean = false;
+
+  constructor(
+      private orderService: OrderService,
+  ) { }
+
+  ngOnInit() {
+    this.openOrderFilter = new OrderFilter();
+    this.openOrderFilter.StatusQuery = ['offen'];
+    this.openOrderFilter.IsAdminView = true;
+
+    this.activeOrderFilter = new OrderFilter();
+    this.activeOrderFilter.StatusQuery = ['akzeptiert'];
+    this.activeOrderFilter.IsAdminView = true;
+
+    this.closedOrderFilter = new OrderFilter();
+    this.closedOrderFilter.StatusQuery = ['abgeschlossen', 'abgelehnt'];
+    this.closedOrderFilter.IsAdminView = true;
+
+    this.fetchData();
+  }
+
+  fetchData() {
+    this.orderService.getFilteredOrders(this.openOrderFilter).subscribe((data) => this.openOrderItems = data);
+    this.orderService.getFilteredOrders(this.activeOrderFilter).subscribe((data) => this.activeOrderItems = data);
+    this.orderService.getFilteredOrders(this.closedOrderFilter).subscribe((data) => this.closedOrderItems = data);
+  }
+
+  onToggleShowClosedOrders() {
+    this.showClosedOrders = !this.showClosedOrders;
+  }
+
+  updateList() {
+    this.fetchData();
   }
 
 }

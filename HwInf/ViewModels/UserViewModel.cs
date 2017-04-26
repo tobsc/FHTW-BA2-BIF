@@ -87,7 +87,10 @@ namespace HwInf.ViewModels
             target.LastName = source.LastName;
             target.Uid = source.Uid;
             target.Email = source.Email;
-            target.Tel = source.Tel;
+            if (target.Tel == null)
+            {
+                target.Tel = source.Tel;
+            }
             if (target.Role == null)
             {
                 target.Role = bl.GetRole(source.Role);

@@ -10,6 +10,7 @@ using System.Data.SqlTypes;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using System.Runtime.Remoting.Messaging;
 using System.Security;
 using HwInf.Common.Models;
 using JWT;
@@ -21,6 +22,9 @@ namespace HwInf.Common.BL
     {
         private readonly IDAL _dal;
 
+        public bool IsAdmin => System.Threading.Thread.CurrentPrincipal.IsInRole("Admin");
+        public bool IsVerwalter => System.Threading.Thread.CurrentPrincipal.IsInRole("Verwalter");
+
         public BL()
         {
             _dal = new HwInfContext();
@@ -30,7 +34,6 @@ namespace HwInf.Common.BL
         {
             _dal = dal;
         }
-
 
         #region DAL
 
@@ -106,21 +109,21 @@ namespace HwInf.Common.BL
         // Create
         public Device CreateDevice()
         {
-            if (!IsAdmin() && !IsVerwalter()) return null;
+            if (!IsAdmin && !IsVerwalter) throw new SecurityException();
  
             return _dal.CreateDevice();
         }
 
         public DeviceType CreateDeviceType()
         {
-            if (!IsAdmin() && !IsVerwalter()) return null;
+            if (!IsAdmin && !IsVerwalter) throw new SecurityException();
 
             return _dal.CreateDeviceType();
         }
 
         public DeviceStatus CreateDeviceStatus()
         {
-            if (!IsAdmin() && !IsVerwalter()) return null;
+            if (!IsAdmin && !IsVerwalter) throw new SecurityException();
 
             return _dal.CreateDeviceStatus();
         }
@@ -139,21 +142,21 @@ namespace HwInf.Common.BL
         // Update
         public void UpdateDevice(Device device)
         {
-            if (!IsAdmin() && !IsVerwalter()) return;
+            if (!IsAdmin && !IsVerwalter) throw new SecurityException();
 
             _dal.UpdateObject(device);
         }
 
         public void UpdateDeviceType(DeviceType dt)
         {
-            if (!IsAdmin() && !IsVerwalter()) return;
+            if (!IsAdmin && !IsVerwalter) throw new SecurityException();
 
             _dal.UpdateObject(dt);
         }
 
         public void DeleteDevice(Device d)
         {
-            if (!IsAdmin() && !IsVerwalter()) return;
+            if (!IsAdmin && !IsVerwalter) throw new SecurityException();
 
             var device = _dal.Devices.FirstOrDefault(i => d.InvNum.Equals(i.InvNum));
             UpdateDevice(device);
@@ -162,7 +165,7 @@ namespace HwInf.Common.BL
 
         public void DeleteDeviceType(DeviceType dt)
         {
-            if (!IsAdmin() && !IsVerwalter()) return;
+            if (!IsAdmin && !IsVerwalter) throw new SecurityException();
 
             if (!GetDevices(true, dt.Slug).Any())
             {
@@ -217,14 +220,14 @@ namespace HwInf.Common.BL
         // Create
         public FieldGroup CreateFieldGroup()
         {
-            if (!IsAdmin() && !IsVerwalter()) return null;
+            if (!IsAdmin && !IsVerwalter) throw new SecurityException();
 
             return _dal.CreteFieldGroup();
         }
 
         public Field CreateField()
         {
-            if (!IsAdmin() && !IsVerwalter()) return null;
+            if (!IsAdmin && !IsVerwalter) throw new SecurityException();
 
             return _dal.CreaField();
         }
@@ -232,20 +235,20 @@ namespace HwInf.Common.BL
         // Update
         public void UpdateFieldGroup(FieldGroup obj)
         {
-            if (!IsAdmin() && !IsVerwalter()) return;
+            if (!IsAdmin && !IsVerwalter) return;
 
             _dal.UpdateObject(obj);
         }
 
         public void DeleteField(Field field)
         {
-            if (!IsAdmin() && !IsVerwalter()) return;
+            if (!IsAdmin && !IsVerwalter) return;
             _dal.DeleteField(field);
         }
 
         public void DeleteFieldGroup(FieldGroup obj)
         {
-            if(!IsAdmin() && !IsVerwalter()) return;
+            if(!IsAdmin && !IsVerwalter) return;
 
             var fg = _dal.DeviceTypes.SelectMany(i => i.FieldGroups).ToList();
             if (!fg.Any(i => i.Slug.Equals(obj.Slug)))
@@ -302,14 +305,13 @@ namespace HwInf.Common.BL
 
         public IEnumerable<Order> GetOrders()
         {
-            var orders = _dal.Orders;
-            return !IsAdmin() ? orders.Where(i => i.Entleiher.Uid.Equals(GetCurrentUid())) : orders;
+            return _dal.Orders;
         }
 
 
         public Order GetOrders(int orderId)
         {
-            if (!IsAdmin() && !IsVerwalter())
+            if (!IsAdmin && !IsVerwalter)
             {
                return _dal.Orders
                     .SingleOrDefault(i => i.OrderId.Equals(orderId) && i.Entleiher.Uid.Equals(GetCurrentUid()));
@@ -356,6 +358,7 @@ namespace HwInf.Common.BL
 
         public void UpdateOrderItem(OrderItem obj)
         {
+            if (!IsAdmin && !IsVerwalter) throw new SecurityException();
             _dal.UpdateObject(obj);
         }
 
@@ -363,20 +366,104 @@ namespace HwInf.Common.BL
 
         public void SaveChanges()
         {
-            try
-            {
-                _dal.SaveChanges();
-            }
-            catch (DbEntityValidationException ex)
-            {
-
-                var a = ex.EntityValidationErrors;
-            }
-
+            _dal.SaveChanges();
         }
 
 
         #endregion
+
+
+        public ICollection<Order> GetFileteredOrders(
+            string statusSlug,
+            string order,
+            string orderBy,
+            string orderByFallback,
+            bool isAdminView
+        )
+        {
+            if (isAdminView && !IsAdmin && !IsVerwalter)
+            {
+                throw new SecurityException();
+            }
+
+            var result = GetOrders()
+                .Where(i => String.IsNullOrWhiteSpace(statusSlug) || i.OrderStatus.Slug.Equals(statusSlug))
+                .ToList();
+
+
+            result = order.Equals("ASC")
+                ? result.OrderBy(i => i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
+                    .ThenBy(i => i.GetType().GetProperty(orderByFallback, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
+                    .ToList()
+                : result.OrderByDescending(i => i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
+                    .ThenByDescending(i => i.GetType().GetProperty(orderByFallback, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
+                    .ToList();
+
+            return !isAdminView ?
+                result.Where(i => i.Entleiher.Uid.Equals(GetCurrentUid())).ToList()
+                : IsAdmin ?
+                    result
+                    : result.Where(i => i.Verwalter.Uid.Equals(GetCurrentUid())).ToList();
+        }
+
+        public ICollection<Order> SearchOrders(
+            string searchQuery,
+            string order,
+            string orderBy,
+            string orderByFallback, 
+            bool isAdminView )
+        {
+
+            if (isAdminView && !IsAdmin && !IsVerwalter)
+            {
+                throw new SecurityException();
+            }
+
+            searchQuery = searchQuery.ToLower();
+            var result = GetOrders().ToList();
+            if (isAdminView)
+            {
+                if (IsVerwalter) result = result
+                        .Where(i => i.Verwalter.Uid.Equals(GetCurrentUid()))
+                        .ToList();
+
+                result = result
+                    .Where(i => i.Entleiher.Uid.ToLower().Contains(searchQuery)
+                                || i.Entleiher.Name.ToLower().Contains(searchQuery)
+                                || i.Entleiher.LastName.ToLower().Contains(searchQuery)
+                                || i.OrderId.ToString().ToLower().Contains(searchQuery)
+                                || i.OrderItems
+                                    .ToList()
+                                    .Any(x => x.Device.Name.ToLower().Contains(searchQuery)
+                                              || x.Device.InvNum.ToLower().Contains(searchQuery)))
+                    .ToList();                
+            }
+            else
+            {
+                result = result
+                    .Where(i => i.Entleiher.Uid.Equals(GetCurrentUid()))
+                    .Where(i => i.Verwalter.Uid.ToLower().Contains(searchQuery)
+                        || i.Verwalter.Name.ToLower().Contains(searchQuery)
+                        || i.Verwalter.LastName.ToLower().Contains(searchQuery)
+                        || i.OrderId.ToString().ToLower().Contains(searchQuery)
+                        || i.OrderItems
+                            .ToList()
+                            .Any(x => x.Device.Name.ToLower().Contains(searchQuery)
+                                        || x.Device.InvNum.ToLower().Contains(searchQuery)))
+                    .ToList();
+                    
+            }
+
+            result = order.Equals("ASC")
+                ? result.OrderBy(i => i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
+                    .ThenBy(i => i.GetType().GetProperty(orderByFallback, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
+                    .ToList()
+                : result.OrderByDescending(i => i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
+                    .ThenByDescending(i => i.GetType().GetProperty(orderByFallback, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
+                    .ToList();
+
+            return result;
+        }
 
         public ICollection<Device> GetFilteredDevices
         (
@@ -384,11 +471,16 @@ namespace HwInf.Common.BL
             string type = null,
             string order = "DESC",
             string orderBy = "Name",
-            int offset = 0,
-            int limit = 25,
-            bool onlyActive = true
+            bool onlyActive = true,
+            bool isVerwalterView = false
         )
         {
+
+            if (isVerwalterView && !IsAdmin && !IsVerwalter)
+            {
+                throw new SecurityException();
+            }
+
             var dt = GetDeviceType(type);
             var devices = GetDevices(onlyActive, (string.IsNullOrWhiteSpace(type)) ? "" : dt.Slug).ToList();
             var result = devices;
@@ -396,9 +488,10 @@ namespace HwInf.Common.BL
             if (meta != null)
             {
                 List<List<DeviceMeta>> deviceMetaGroupedByFieldGroup = meta
-                    .Where(i => !String.IsNullOrWhiteSpace(i.FieldGroupSlug))
-                    .Where(i => !String.IsNullOrWhiteSpace(i.FieldSlug))
-                    .Where(i => !String.IsNullOrWhiteSpace(i.MetaValue))
+                    .Where(i => !String.IsNullOrWhiteSpace(i.FieldGroupSlug)
+                             && !String.IsNullOrWhiteSpace(i.FieldSlug)
+                             && !String.IsNullOrWhiteSpace(i.MetaValue)
+                             )
                     .GroupBy(i => i.FieldGroupSlug, i => i)
                     .ToList()
                     .Select(i => i.ToList())
@@ -427,7 +520,9 @@ namespace HwInf.Common.BL
                 .ToList();
 
 
-            return result;
+                return !isVerwalterView || IsAdmin ? 
+                    result
+                   : result.Where(i => i.Person.Uid.Equals(GetCurrentUid())).ToList();
         }
 
         #region Settings
@@ -437,9 +532,14 @@ namespace HwInf.Common.BL
             return _dal.Settings.FirstOrDefault(i => i.Key.Equals(key));
         }
 
+        public IEnumerable<Setting> GetSettings()
+        {
+            return _dal.Settings;
+        }
+
         public Setting CreateSetting()
         {
-            if (!IsAdmin() && !IsVerwalter()) return null;
+            if (!IsAdmin && !IsVerwalter) throw new SecurityException();
 
             return _dal.CreateSetting();
         }
@@ -451,7 +551,7 @@ namespace HwInf.Common.BL
 
         public void UpdateSetting(Setting s)
         {
-            if (!IsAdmin() && !IsVerwalter()) return;
+            if (!IsAdmin && !IsVerwalter) return;
 
             _dal.UpdateObject(s);
         }
@@ -460,29 +560,15 @@ namespace HwInf.Common.BL
 
         #region Auth
 
-        public bool IsAdmin()
-        {
-            return System.Threading.Thread.CurrentPrincipal.IsInRole("Admin");
-        }
 
-        public bool IsAdmin(string uid)
+        public bool IsAdminUid(string uid)
         {
             return _dal.Persons.Any(i => i.Uid == uid && i.Role.Name.Equals("Admin"));
         }
 
-        public bool IsVerwalter()
-        {
-            return System.Threading.Thread.CurrentPrincipal.IsInRole("Verwalter");
-        }
-
-        public bool IsVerwalter(string uid)
-        {
-            return _dal.Persons.Any(i => i.Uid == uid && i.Role.Name.Equals("Verwalter"));
-        }
-
         public void SetAdmin(Person obj)
         {
-            if (!IsAdmin()) return;
+            if (!IsAdmin) throw new SecurityException();
             obj.Role = GetRole("Admin");
         }
 

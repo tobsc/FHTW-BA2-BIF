@@ -17,7 +17,7 @@ namespace HwInf.ViewModels
 
         }
 
-        public DeviceListViewModel(IEnumerable<DeviceViewModel> obj, int offset, int limit, BL bl, int count)
+        public DeviceListViewModel(IEnumerable<DeviceViewModel> obj, int limit, int count)
         {
             Devices = obj.ToList();
             MaxPages = limit == 0 ? 0 : (int)Math.Ceiling((double)count / limit);

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AdminService } from '../shared/services/admin.service';
 
 @Component({
   selector: 'hwinf-home',
@@ -7,7 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+    constructor(
+        private adminService: AdminService
+    ) { 
+        this.adminService.loadSemestreData();
+    }
 
   ngOnInit() {
   }

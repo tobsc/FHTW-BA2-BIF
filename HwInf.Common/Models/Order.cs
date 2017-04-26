@@ -27,6 +27,9 @@ namespace HwInf.Common.Models
         public Guid OrderGuid { get; set; }
         [Required]
         public string OrderReason { get; set; }
+        [Required]
+        public OrderStatus OrderStatus { get; set; }
+        public DateTime ReturnDate { get; set; }
     }
 
     [Table("OrderItems")]
@@ -36,18 +39,21 @@ namespace HwInf.Common.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ItemId { get; set; }
         public virtual Device Device { get; set; }
-        public virtual OrderStatus OrderStatus { get; set; }
         [Required]
         public DateTime From { get; set; }
         [Required]
         public DateTime To { get; set; }
         public DateTime ReturnDate { get; set; }
-
+        [Required]
+        public DateTime CreateDate { get; set; }
+        public virtual Person Entleiher { get; set; }
+        public virtual Person Verwalter { get; set; }
+        public bool IsDeclined { get; set; }
 
     }
 
     [Table("OrderStatus")]
-    public class OrderStatus
+    public class OrderStatus : IComparable<OrderStatus>, IComparable
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -57,6 +63,16 @@ namespace HwInf.Common.Models
         [Required]
         public string Slug { get; set; }
 
+        public int CompareTo(OrderStatus other)
+        {
+            return StatusId.CompareTo(other.StatusId);
+        }
+
+        public int CompareTo(object obj)
+        {
+            var o = obj as OrderStatus;
+            return CompareTo(o);
+        }
     }
 
 }

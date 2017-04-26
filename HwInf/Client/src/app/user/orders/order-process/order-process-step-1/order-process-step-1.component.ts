@@ -1,13 +1,14 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {OrderFormDataService} from "../shared/order-form-data.service";
 import {Order} from "../../../../shared/models/order.model";
-import {UserService} from "../../../../shared/services/user.service";
+import { UserService } from "../../../../shared/services/user.service";
+import { AdminService } from "../../../../shared/services/admin.service";
+import { Setting } from "../../../../shared/models/setting.model";
 import {User} from "../../../../shared/models/user.model";
 import {Router, ActivatedRoute} from "@angular/router";
 import {OrderProcessService} from "../shared/order-process.service";
 var moment = require('moment');
-
-
+moment.locale('de');
 
 @Component({
   selector: 'hwinf-order-process-step-1',
@@ -15,22 +16,14 @@ var moment = require('moment');
   styleUrls: ['./order-process-step-1.component.scss'],
 })
 export class OrderProcessStep1Component implements OnInit, OnDestroy {
-  private readonly DATE_FORMAT: string = 'DD. MMMM YYYY';
+  private readonly DATE_FORMAT: string = 'DD.MM.YYYY';
   private dateRangeString: string;
+  private dateSettings: Setting[] = this.adminService.getSettings();
+  private semester: string = "ss";
+  private semesterStart: string = this.dateSettings.filter(item => item.Key == this.semester+"_start")[0].Value;
+  private semesterEnd: string = this.dateSettings.filter(item => item.Key == this.semester + "_end")[0].Value;;
 
-  /**
-   * Daterangepicker options
-   */
-  private options: any = {
-    autoUpdateInput: false,
-    locale: { format: this.DATE_FORMAT },
-    alwaysShowCalendars: false,
-    minDate: moment().add(7, 'days').format(this.DATE_FORMAT),
-    maxDate: moment('30. Juni', 'DD. MMMM').format(this.DATE_FORMAT),
-    startDate: moment().add(7, 'days').format(this.DATE_FORMAT),
-    endDate: moment().add(14, 'days').format(this.DATE_FORMAT),
-    isInvalidDate: (date) =>  (date.format('dddd') === 'Sunday')
-  };
+ 
 
   private order: Order;
   private user: User = new User();
@@ -39,8 +32,24 @@ export class OrderProcessStep1Component implements OnInit, OnDestroy {
       private orderProcessService: OrderProcessService,
       private formdataService: OrderFormDataService,
       private userService: UserService,
+      private adminService: AdminService,
       private router: Router,
-  ) { }
+  ) {
+  }
+
+
+  /**
+* Daterangepicker options
+*/
+  private options: any = {
+      autoUpdateInput: true,
+      locale: { format: this.DATE_FORMAT },
+      alwaysShowCalendars: false,
+      minDate: this.semesterStart,
+      maxDate: this.semesterEnd,
+      startDate: moment().format(this.DATE_FORMAT),
+      endDate: moment().add(7, 'days').format(this.DATE_FORMAT)
+  };
 
   ngOnInit() {
 

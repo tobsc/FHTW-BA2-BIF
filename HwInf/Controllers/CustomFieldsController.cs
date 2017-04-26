@@ -16,6 +16,7 @@ using WebGrease.Css.Extensions;
 
 namespace HwInf.Controllers
 {
+    [Authorize]
     [RoutePrefix("api/customfields")]
     [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
     public class CustomFieldsController : ApiController
@@ -78,6 +79,7 @@ namespace HwInf.Controllers
         /// Add new FieldGroup
         /// </summary>
         /// <returns></returns>
+        [Authorize(Roles = "Admin, Verwalter")]
         [ResponseType(typeof(DeviceViewModel))]
         [Route("fieldgroups")]
         public IHttpActionResult PostGroup(FieldGroupViewModel vmdl)
@@ -94,6 +96,7 @@ namespace HwInf.Controllers
         /// Add new Field to FieldGroup
         /// </summary>
         /// <returns></returns>
+        [Authorize(Roles = "Admin, Verwalter")]
         [ResponseType(typeof(DeviceViewModel))]
         [Route("fields")]
         public IHttpActionResult PostField(string groupSlug, FieldViewModel vmdl)
@@ -116,6 +119,7 @@ namespace HwInf.Controllers
         /// Add DeviceType to FieldGroup
         /// </summary>
         /// <returns></returns>
+        [Authorize(Roles = "Admin, Verwalter")]
         [ResponseType(typeof(DeviceViewModel))]
         [Route("fieldgroups/types")]
         public IHttpActionResult PostGroupType(string typeSlug, string groupSlug)
@@ -140,6 +144,7 @@ namespace HwInf.Controllers
         /// <param name="vmdl"></param>
         /// <returns></returns>
         //[Authorize]
+        [Authorize(Roles = "Admin, Verwalter")]
         [HttpPut]
         [Route("fieldgroups/{slug}")]
         public IHttpActionResult PutFieldGroups(string slug, FieldGroupViewModel vmdl)
@@ -157,7 +162,13 @@ namespace HwInf.Controllers
                 var f = fg.Fields.ToList();
                 f.ForEach(i => _bl.DeleteField(i));
                 fg.Fields.Clear();
-                vmdl.ApplyChanges(fg, _bl); 
+                vmdl.ApplyChanges(fg, _bl);
+                vmdl.Refresh(fg);
+
+                var meta = _bl.GetDeviceMeta()
+                    .Where(i => i.FieldGroupSlug.Equals(slug))
+                    .ToList();
+                meta.ForEach(i => i.FieldGroupSlug = vmdl.Slug);
 
                 _bl.SaveChanges();
                 _log.InfoFormat("FieldGroup '{0}' updated by '{1}'", vmdl.Name, User.Identity.Name);
@@ -167,6 +178,7 @@ namespace HwInf.Controllers
             {
                 if (!_bl.FieldGroupExists(vmdl.Slug))
                 {
+                    _log.WarnFormat("Not Found: FieldGroup '{0}' not found", slug);
                     return NotFound();
                 }
                 else
@@ -307,6 +319,7 @@ namespace HwInf.Controllers
             {
                 if (!_bl.FieldGroupExists(slug))
                 {
+                    _log.WarnFormat("Not Found: FieldGroup '{0}' not found", slug);
                     return NotFound();
                 }
                 else
@@ -317,8 +330,6 @@ namespace HwInf.Controllers
 
             return Ok();
         }
-
-
 
 
         protected override void Dispose(bool disposing)
