@@ -377,7 +377,7 @@ namespace HwInf.Common.BL
         #endregion
 
 
-        public ICollection<Order> GetFileteredOrders(
+        public ICollection<Order> GetFilteredOrders(
             ICollection<string> statusSlugs,
             string order,
             string orderBy,

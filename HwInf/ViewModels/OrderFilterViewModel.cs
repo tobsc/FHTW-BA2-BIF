@@ -20,7 +20,7 @@ namespace HwInf.ViewModels
 
         public ICollection<Order> FilteredList(BL bl)
         {
-            return bl.GetFileteredOrders(StatusSlugs, Order, OrderBy, OrderByFallback, IsAdminView);
+            return bl.GetFilteredOrders(StatusSlugs, Order, OrderBy, OrderByFallback, IsAdminView);
         }
     }
 }
