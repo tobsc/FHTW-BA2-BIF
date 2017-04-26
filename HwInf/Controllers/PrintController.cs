@@ -63,35 +63,30 @@ namespace HwInf.Controllers
 
                 // MDDL einlesen
                 var doc = rd.ReadDocument();
-
+                stream.Close();
                 // MigraDoc Dokument in ein PDF Rendern
                 PdfDocumentRenderer pdf = new PdfDocumentRenderer(true, PdfSharp.Pdf.PdfFontEmbedding.None);
                 pdf.Document = doc;
                 pdf.RenderDocument();
-                // Speichern
-                pdf.Save(AppDomain.CurrentDomain.BaseDirectory + "\\Ausleihvertrag.pdf");
 
-
-                HttpResponseMessage result;
-                var localFilePath = AppDomain.CurrentDomain.BaseDirectory + "\\Ausleihvertrag.pdf";
-
-                if (!File.Exists(localFilePath))
+                using (var ms = new MemoryStream())
                 {
-                    result = Request.CreateResponse(HttpStatusCode.Gone);
-                }
-                else
-                {
+                    pdf.Save(ms, false);
+                    var buffer = new byte[ms.Length];
+                    ms.Seek(0, SeekOrigin.Begin);
+                    ms.Flush();
+                    ms.Read(buffer, 0, (int)ms.Length);
+
                     // Serve the file to the client
-                    result = Request.CreateResponse(HttpStatusCode.OK);
-                    //result.Content = new StreamContent(new FileStream(localFilePath, FileMode.Open, FileAccess.Read));
-                    Byte[] bytes = File.ReadAllBytes(localFilePath);
-                    result.Content = new ByteArrayContent(bytes);
+                    var result = Request.CreateResponse(HttpStatusCode.OK);
+                    result.Content = new ByteArrayContent(buffer);
                     result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
                     result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
-                    result.Content.Headers.ContentDisposition.FileName = "Ausleih_Vertrag.pdf";
+                    result.Content.Headers.ContentDisposition.FileName = "Vertrag.pdf";
+
+                    return result;
                 }
 
-                return result;
             }
 
             catch (Exception ex)
