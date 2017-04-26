@@ -33,21 +33,40 @@
 
             <div class="form-group">
                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bla">
-                    Textblabla <span class="required">*</span>
+                    Angenommener Auftrag - Vorlage (oben) <span class="required">*</span>
                 </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    <input class="form-control col-md-7 col-xs-12" id="accept" ngControl="mailAccept.Value" [(ngModel)]="mailAccept.Value" name="mail_accept" type="text">
+                    <input class="form-control col-md-7 col-xs-12" id="accept_above" ngControl="mailAccept_above.Value" [(ngModel)]="mailAccept_above.Value" name="mail_accept_above" type="text">
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bla">
-                    Textblabla <span class="required">*</span>
+                    Angenommener Auftrag - Vorlage (unten) <span class="required">*</span>
                 </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    <input class="form-control col-md-7 col-xs-12" id="decline" ngControl="mailDecline.Value" [(ngModel)]="mailDecline.Value" name="mail_decline" type="text">
+                    <input class="form-control col-md-7 col-xs-12" id="accept_below" ngControl="mailAccept_below.Value" [(ngModel)]="mailAccept_below.Value" name="mail_accept_below" type="text">
                 </div>
             </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bla">
+                    Abgelehnter Auftrag - Vorlage (oben)  <span class="required">*</span>
+                </label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input class="form-control col-md-7 col-xs-12" id="decline_above" ngControl="mailDecline_above.Value" [(ngModel)]="mailDecline_above.Value" name="mail_decline_above" type="text">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bla">
+                    Abgelehnter Auftrag - Vorlage (unten)  <span class="required">*</span>
+                </label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input class="form-control col-md-7 col-xs-12" id="decline_below" ngControl="mailDecline_below.Value" [(ngModel)]="mailDecline_below.Value" name="mail_decline_below" type="text">
+                </div>
+            </div>
+
             <div class="form-group">
                 <label class="control-label col-md-3 col-sm-3 col-xs-12">
                 </label>

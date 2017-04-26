@@ -34,17 +34,27 @@ export class AdminSettingsComponent implements OnInit {
         Key: "mail_notification_1",
         Value: sessionStorage.getItem("mail_notification_1")
     };
-    private mailAccept: Setting = {
-        Key: "accept_mail",
-        Value: sessionStorage.getItem("accept_mail")
+    private mailAccept_above: Setting = {
+        Key: "accept_mail_above",
+        Value: sessionStorage.getItem("accept_mail_above")
     }
 
-    private mailDecline: Setting = {
-        Key: "decline_mail",
-        Value: sessionStorage.getItem("decline_mail")
+    private mailAccept_below: Setting = {
+        Key: "accept_mail_below",
+        Value: sessionStorage.getItem("accept_mail_below")
     }
 
-    private setList: Setting[] = [this.ssStart, this.ssEnd, this.wsStart, this.wsEnd, this.notification, this.mailAccept, this.mailDecline];
+    private mailDecline_above: Setting = {
+        Key: "decline_mail_above",
+        Value: sessionStorage.getItem("decline_mail_above")
+    }
+
+    private mailDecline_below: Setting = {
+        Key: "decline_mail_below",
+        Value: sessionStorage.getItem("decline_mail_below")
+    }
+
+    private setList: Setting[] = [this.ssStart, this.ssEnd, this.wsStart, this.wsEnd, this.notification, this.mailAccept_above, this.mailAccept_below, this.mailDecline_above, this.mailDecline_below];
 
 
 

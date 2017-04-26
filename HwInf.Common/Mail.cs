@@ -24,7 +24,7 @@ namespace HwInf.Common
         {
             _db = new HwInfContext();
             _bl = new BL.BL(_db);
-            smtpClient = new SmtpClient("localhost", 25);
+            smtpClient = new SmtpClient("localhost", 8181);
             smtpClient.UseDefaultCredentials = true;
             smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
             smtpClient.EnableSsl = false;
@@ -35,6 +35,7 @@ namespace HwInf.Common
 
 
             mail = new MailMessage(from, to);
+            mail.IsBodyHtml = true;
             mail.Subject = "HwInf";
             mail.SubjectEncoding = Encoding.UTF8;
             
@@ -42,12 +43,6 @@ namespace HwInf.Common
             mail.BodyEncoding = Encoding.UTF8;
             ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
 
-        }
-
-
-        public void To(string to)
-        {
-            mail.To.Add(new MailAddress(to));
         }
 
        public void MessageFormat(string status, int orderId)
@@ -64,26 +59,35 @@ namespace HwInf.Common
 
         public void AcceptMessage(Order order)
         {
-            mail.Body = _bl.GetSetting("mail_accept").ToString();
-            mail.Body = "<br />";
+            mail.Body += _bl.GetSetting("accept_mail_above").Value;
+            mail.Body += "<br >";
             foreach (OrderItem ord in order.OrderItems)
             {
                 if(ord.IsDeclined == false)
                 {
-                    mail.Body = ord.Device.Name + " : akzeptiert <br />";
+                    mail.Body += ord.Device.Name + " : akzeptiert <br>";
                 }
                 else
                 {
-                    mail.Body = ord.Device.Name + " : abgelehnt <br />";
+                    mail.Body += ord.Device.Name + " : abgelehnt <br>";
                 }
                
             }
+            mail.Body += _bl.GetSetting("accept_mail_below").Value;
         }
 
         public void DeclineMessage(Order order)
         {
-            mail.Body = _bl.GetSetting("mail_decline").ToString();
+            mail.Body = _bl.GetSetting("decline_mail_above").Value;
             mail.Body = "<br />";
+
+            foreach (OrderItem ord in order.OrderItems)
+            {
+                 mail.Body = ord.Device.Name + " : abgelehnt <br />";
+             
+            }
+
+            mail.Body = _bl.GetSetting("decline_mail_below").Value;
         }
         public void NewOrderMessage(Order order)
         {
