@@ -3,6 +3,7 @@ import {OrderService} from "../../../shared/services/order.service";
 import {Order} from "../../../shared/models/order.model";
 import {OrderList} from "../../../shared/models/order-list.model";
 import {OrderFilter} from "../../../shared/models/order-filter.model";
+import {BehaviorSubject} from "rxjs";
 var moment = require('moment');
 moment.locale('de');
 
@@ -13,19 +14,22 @@ moment.locale('de');
     styleUrls: ['./admin-order-list.component.scss']
 })
 export class AdminOrderListComponent implements OnInit {
-    @Input() private filter: OrderFilter;
+
+    private _filter = new BehaviorSubject<OrderFilter>(new OrderFilter());
+
+    @Input()
+    private set filter(value) {
+        this._filter.next(value);
+    };
+
     private orders: Order[] = [];
 
     constructor(private orderService: OrderService) { }
 
     ngOnInit() {
-        this.fetchData();
-    }
-
-    fetchData(): void {
-        this.orderService.getFilteredOrders(this.filter)
+        this._filter
+            .flatMap((filter) => this.orderService.getFilteredOrders(filter))
             .subscribe((data: OrderList) => {
-                console.log(data);
                 this.orders = data.Orders;
             });
     }

@@ -1,3 +1,7 @@
 <div class="clearfix"></div>
 
 <hwinf-admin-order-list [filter]="filter" ></hwinf-admin-order-list>
+
+
+<button routerLink="/admin/orders/" [queryParams]="{status: 'abgeschlossen'}">abgeschlossen</button>
+<button routerLink="/admin/orders/">all</button>
