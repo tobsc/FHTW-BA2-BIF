@@ -30,6 +30,9 @@ namespace HwInf.ViewModels
             var source = obj;
 
             var split = source.Split(' ');
+
+            if (split.Length < 6) return; 
+
             var dateTime = split[0] + "T" + split[1].Replace(',', '.');
 
             target.Date = dateTime;
