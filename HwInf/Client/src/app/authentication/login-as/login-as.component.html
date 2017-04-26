@@ -11,11 +11,7 @@
                         <label>
                             Login Als:
                         </label>
-                        <select #selectedUser (change)="onChange($event.target.value)">
-                            <option *ngFor="let user of users" value="{{user.Uid}}">
-                                ({{user.Uid}}) {{user.LastName}} {{user.Name}}
-                            </option>
-                        </select>
+                        <input class="form-control" auto-complete [(ngModel)]="selectedString" [source]="stringForDic" type="text"/>
                         
                         <button (click)="impersonate()" type="submit" class="btn btn-success">"Anmelden"</button>
                 </div>

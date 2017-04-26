@@ -1,0 +1,58 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="HwInf.Common.DAL" #>
+
+\document
+[
+    Info
+    {
+        Title = "RueckgabeVertrag"
+        Subject = "Technikum Wien Rueckgabevertrag"
+        Author = "HW-INF.Technikum-Wien"
+    }
+]
+{
+	\section
+	{
+		\paragraph  [Format { Font { Bold = true} SpaceBefore = "1cm" SpaceAfter = "0.25cm"}]
+		{
+		Bestätigung der VerleiherIn über die Rückgabe des Gerätes:
+		}
+		\paragraph  [Format { SpaceAfter = "0.5cm"}]
+		{
+		Das oben genannte Gerät wurde heute (bitte ankreuzen und ggf. ergänzen)
+		}
+		\paragraph  [Format { SpaceAfter = "0.25cm"}]
+		{
+		O    in einwandfreiem Zustand und mit komplettem Zubehör (siehe Bestandsliste in der Anlage) zurückgegeben
+		}
+		\paragraph  [Format { SpaceAfter = "0.25cm"}]
+		{
+		O    mit folgenden Mängeln/Schäden zurückgegeben
+		}
+		\paragraph  [Format { SpaceAfter = "0.25cm" LeftIndent ="1cm"}]
+		{
+		...................................................
+		}
+		\paragraph  [Format { SpaceAfter = "0.25cm" LeftIndent ="1cm"}]
+		{
+		...................................................
+		}
+		\paragraph  [Format { SpaceAfter = "0.5cm" LeftIndent ="1cm"}]
+		{
+		...................................................
+		}
+		\paragraph [ Format { SpaceAfter = "1cm"} ]
+		{
+		Wien, den <# this.Write(DateTime.Now.Day.ToString("d2"));#>.<# this.Write(DateTime.Now.Month.ToString("d2"));#>.<#this.Write(DateTime.Now.Year.ToString()); #>
+		}
+		\paragraph [ Format { SpaceAfter = "1cm"}]
+		{
+		Unterschrift MitarbeiterIn des Instituts für Informatik: ......................................................................
+		}
+	}
+
+}
