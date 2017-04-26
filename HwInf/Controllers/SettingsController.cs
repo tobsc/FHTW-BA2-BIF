@@ -243,5 +243,24 @@ namespace HwInf.Controllers
                 return InternalServerError();
             }
         }
+
+        /// <summary>
+        /// Return Log 
+        /// </summary>
+        /// <returns></returns>
+        [Authorize(Roles = "Admin")]
+        [Route("log")]
+        public IHttpActionResult GetLog()
+        {
+            try
+            {
+                return Ok(_bl.GetLog());
+            }
+            catch (Exception ex)
+            {
+                _log.ErrorFormat("Exception: '{0}'", ex.Message);
+                return InternalServerError();
+            }
+        }
     }
 }
