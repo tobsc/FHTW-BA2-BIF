@@ -79,9 +79,9 @@ export class AdminSettingsComponent implements OnInit {
       this.wsEnd.Value = value.end.format("DD.MM");
   }
         
-  updateSettings() {
+  public updateSettings() {
       this.adminService.updateSettings(this.setList).subscribe(item => { console.log(item) },(error) => console.log(error));
   }
 
-
+    
 }
