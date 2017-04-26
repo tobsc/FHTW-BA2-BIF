@@ -13,7 +13,7 @@
           <li routerLinkActive="active"  >
             <a routerLink="/dashboard"><i class="fa fa-home"></i> Dashboard</a>
           </li>
-          <li dropdown [ngClass]="{current_parent_menu_item: router.url.match('^(?!.*admin).*geraete.*$') }"><a dropdownToggle><i class="fa fa-home"></i> Geräte <span class="fa fa-chevron-down"></span></a>
+          <li dropdown [ngClass]="{current_parent_menu_item: router.url.match('^(?!.*admin).*geraete.*$') }"><a dropdownToggle><i class="fa fa-desktop" aria-hidden="true"></i> Geräte <span class="fa fa-chevron-down"></span></a>
             <ul class="nav child_menu">
               <li routerLinkActive="current_menu_item" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/geraete">Alle</a></li>
               <li routerLinkActive="current_menu_item" *ngFor="let deviceType of deviceTypes | async">
@@ -21,7 +21,7 @@
               </li>
             </ul>
           </li>
-          <li [ngClass]="{current_parent_menu_item: router.url.match('.*/meine-geraete.*') }" dropdown><a dropdownToggle><i class="fa fa-edit"></i> Meine Geräte <span class="fa fa-chevron-down"></span></a>
+          <li [ngClass]="{current_parent_menu_item: router.url.match('.*/meine-geraete.*') }" dropdown><a dropdownToggle><i class="fa fa-edit"></i> Meine Aufträge <span class="fa fa-chevron-down"></span></a>
             <ul class="nav child_menu">
               <li routerLinkActive="current_menu_item" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/meine-geraete/">Alle</a></li>
             </ul>
@@ -31,7 +31,7 @@
       <div class="menu_section" *ngIf="canActivate()">
         <h3>Administration</h3>
         <ul class="nav side-menu">
-          <li [ngClass]="{current_parent_menu_item: router.url.match('(.*admin\/geraete.*)') }" dropdown><a dropdownToggle><i class="fa fa-bug"></i> Geräte <span class="fa fa-chevron-down"></span></a>
+          <li [ngClass]="{current_parent_menu_item: router.url.match('(.*admin\/geraete.*)') }" dropdown><a dropdownToggle><i class="fa fa-desktop" aria-hidden="true"></i> Geräte <span class="fa fa-chevron-down"></span></a>
             <ul class="nav child_menu">
               <li routerLinkActive="current_menu_item" [routerLinkActiveOptions]="{exact:false}"><a routerLink="/admin/geraete/verwalten">Geräte verwalten</a></li>
               <li routerLinkActive="current_menu_item" [routerLinkActiveOptions]="{exact:false}"><a routerLink="/admin/geraete/erstellen">Geräte hinzufügen</a></li>
@@ -40,9 +40,13 @@
               <li routerLinkActive="current_menu_item" [routerLinkActiveOptions]="{exact:true}"><a href="geraete_status_verwalten.php">Gerätestatus</a></li>
             </ul>
           </li>
-          <li [ngClass]="{current_parent_menu_item: router.url.match('(.*admin\/orders.*)') }" dropdown><a dropdownToggle><i class="fa fa-windows"></i> Aufträge <span class="fa fa-chevron-down"></span></a>
+          <li [ngClass]="{current_parent_menu_item: router.url.match('(.*admin\/orders.*)') }" dropdown><a dropdownToggle><i class="fa fa-edit"></i> Aufträge <span class="fa fa-chevron-down"></span></a>
             <ul class="nav child_menu">
-              <li routerLinkActive="current_menu_item"><a routerLink="/admin/orders">Alle</a></li>
+              <li routerLinkActive="current_menu_item"><a routerLink="/admin/orders/offen">Offene Anfragen</a></li>
+              <li routerLinkActive="current_menu_item"><a routerLink="/admin/orders/akzeptiert">Akzeptierte Anfragen</a></li>
+              <li routerLinkActive="current_menu_item"><a routerLink="/admin/orders/ausgeliehen">Ausgeliehene Geräte</a></li>
+              <li routerLinkActive="current_menu_item"><a routerLink="/admin/orders/abgelehnt">Abgelehnte Anfragen</a></li>
+              <li routerLinkActive="current_menu_item"><a routerLink="/admin/orders/abgeschlossen">Archiv</a></li>
             </ul>
           </li>
           <li dropdown><a dropdownToggle><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Schäden <span class="fa fa-chevron-down"></span></a>

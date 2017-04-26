@@ -22,10 +22,12 @@ export class AdminOrdersComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.route.queryParams.map(i => i['status']).subscribe(status => {
-      this.filter = new OrderFilter();
-      if (!!status)
-      this.filter.StatusSlugs.push(status);
+    this.route.params.map(i => i['status']).subscribe(status => {
+      console.log(status);
+      if (!!status) {
+        this.filter = new OrderFilter();
+        this.filter.StatusSlugs.push(status);
+      }
     });
   }
 }
