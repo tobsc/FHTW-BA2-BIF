@@ -46,12 +46,12 @@ namespace HwInf.Controllers
         /// <param name="guid">Order guid</param>
         /// <returns></returns>
         [Route("{guid}")]
-        public IHttpActionResult GetPrint(Guid guid)
+        public HttpResponseMessage GetPrint(Guid guid)
         {
             try
             {
                 var order = _bl.GetOrders(guid);
-                var rpt = new Contract(order.OrderId, order.Entleiher.Uid);
+                var rpt = new Contract(order);
                 // Report -> String
                 var text = rpt.TransformText();
 
@@ -91,13 +91,13 @@ namespace HwInf.Controllers
                     result.Content.Headers.ContentDisposition.FileName = "Ausleih_Vertrag.pdf";
                 }
 
-                return Ok(result);
+                return result;
             }
 
             catch (Exception ex)
             {
                 _log.ErrorFormat("Exception: '{0}'", ex.Message);
-                return InternalServerError();
+                return Request.CreateResponse(HttpStatusCode.InternalServerError); ;
             }
 
         }
