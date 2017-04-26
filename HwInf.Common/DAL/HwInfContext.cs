@@ -7,6 +7,7 @@ using System.Data.Entity.Validation;
 using System.Linq;
 using HwInf.Common.Models;
 using log4net;
+using System.Collections.Generic;
 
 namespace HwInf.Common.DAL
 {
@@ -25,6 +26,9 @@ namespace HwInf.Common.DAL
         IQueryable<Field> Fields { get; }
         IQueryable<FieldGroup> FieldGroups { get; }
         IQueryable<Setting> Settings { get; }
+        IQueryable<Damage> Damages { get; }
+        IQueryable<DamageStatus> DamageStatus { get; }
+
         Device CreateDevice();
         DeviceType CreateDeviceType();
         DeviceStatus CreatDeviceStatus();
@@ -38,6 +42,8 @@ namespace HwInf.Common.DAL
         DeviceMeta CreateDeviceMeta();
         OrderItem CreateOrderItem();
         Setting CreateSetting();
+        Damage CreateDamage();
+        DamageStatus CreateDamageStatus();
 
         void SaveChanges();
         void DeleteDeviceType(DeviceType dt);
@@ -45,6 +51,7 @@ namespace HwInf.Common.DAL
         void DeleteField(Field f);
         void DeleteFieldGroup(FieldGroup fg);
         void DeleteSetting(Setting s);
+        void DeleteDamage(Damage d);
         void UpdateObject(object obj);
         void Dispose();
     }
@@ -72,6 +79,8 @@ namespace HwInf.Common.DAL
         public DbSet<Field> Fields { get; set; }
         public DbSet<FieldGroup> FieldGroups { get; set; }
         public DbSet<Setting> Settings { get; set; }
+        public DbSet<Damage> Damages { get; set; }
+        public DbSet<DamageStatus> DamageStatus { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -101,6 +110,9 @@ namespace HwInf.Common.DAL
         IQueryable<FieldGroup> IDAL.FieldGroups => FieldGroups
             .Include(x => x.Fields);
         IQueryable<Setting> IDAL.Settings => Settings;
+        IQueryable<Damage> IDAL.Damages => Damages
+            .Include(i => i.DamageStatus);
+        IQueryable<DamageStatus> IDAL.DamageStatus => DamageStatus;
         public Device CreateDevice()
         {
             var dev = new Device();
@@ -121,6 +133,11 @@ namespace HwInf.Common.DAL
         }
 
         public OrderStatus CreateOrderStatus()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public DamageStatus CreateDamageStatus()
         {
             throw new System.NotImplementedException();
         }
@@ -228,6 +245,18 @@ namespace HwInf.Common.DAL
         public void DeleteSetting(Setting s)
         {
             Settings.Remove(s);
+        }
+
+        public Damage CreateDamage()
+        {
+            var damage = new Damage();
+            Damages.Add(damage);
+            return damage;
+        }
+
+        public void DeleteDamage(Damage d)
+        {
+            Damages.Remove(d);
         }
 
         public override int SaveChanges()

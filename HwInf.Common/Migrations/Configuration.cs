@@ -138,6 +138,18 @@ namespace HwInf.Common.Migrations
                new Setting { Key = "mail_notification_1", Value = "Test Text"},
             };
 
+            var damageStatus = new List<DamageStatus>
+            {
+                new DamageStatus { Name = "Gemeldet" , Slug = "gemeldet"},
+                new DamageStatus { Name = "In Bearbeitung" , Slug = "in-bearbeitung"},
+                new DamageStatus { Name = "Behoben", Slug = "behoben"}
+            };
+
+            var damages = new List<Damage>
+            {
+                new Damage { Date=DateTime.Now, Cause= persons.Single(i => i.LastName == "Sagl"), Reporter= persons.Single(i=> i.LastName=="Sagl"),  Description="Display oben rechts eingebrochen", Device=dev.Single(i=>i.InvNum=="a5123"), DamageStatus=damageStatus.Single(i => i.Slug=="gemeldet")},
+            };
+
             if (!context.Settings.Any())
             {
                 context.Settings.AddRange(settings);
@@ -176,6 +188,16 @@ namespace HwInf.Common.Migrations
             if (!context.Devices.Any())
             {
                 context.Devices.AddRange(dev);
+            }
+
+            if (!context.DamageStatus.Any())
+            {
+                context.DamageStatus.AddRange(damageStatus);
+            }
+
+            if (!context.Damages.Any())
+            {
+                context.Damages.AddRange(damages);
             }
 
 
