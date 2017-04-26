@@ -108,12 +108,12 @@ namespace HwInf.Controllers
         /// <param name="guid">Order guid</param>
         /// <returns></returns>
         [Route("return/{guid}")]
-        public IHttpActionResult GetReturn(Guid guid)
+        public HttpResponseMessage GetReturn(Guid guid)
         {
             try
             {
                 var order = _bl.GetOrders(guid);
-                var rpt = new ReturnContract(order.OrderId, order.Entleiher.Uid);
+                var rpt = new ReturnContract(order);
                 // Report -> String
                 var text = rpt.TransformText();
 
@@ -131,11 +131,11 @@ namespace HwInf.Controllers
                 pdf.Document = doc;
                 pdf.RenderDocument();
                 // Speichern
-                pdf.Save(AppDomain.CurrentDomain.BaseDirectory + "\\Rueckgabevertrag.pdf");
+                pdf.Save(AppDomain.CurrentDomain.BaseDirectory + "\\Ausleihvertrag.pdf");
 
 
                 HttpResponseMessage result;
-                var localFilePath = AppDomain.CurrentDomain.BaseDirectory + "\\Rueckgabevertrag.pdf";
+                var localFilePath = AppDomain.CurrentDomain.BaseDirectory + "\\Ausleihvertrag.pdf";
 
                 if (!File.Exists(localFilePath))
                 {
@@ -150,18 +150,17 @@ namespace HwInf.Controllers
                     result.Content = new ByteArrayContent(bytes);
                     result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
                     result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
-                    result.Content.Headers.ContentDisposition.FileName = "Rueckgabe_Vertrag.pdf";
+                    result.Content.Headers.ContentDisposition.FileName = "Ausleih_Vertrag.pdf";
                 }
 
-                return Ok(result);
+                return result;
             }
 
             catch (Exception ex)
             {
                 _log.ErrorFormat("Exception: '{0}'", ex.Message);
-                return InternalServerError();
+                return Request.CreateResponse(HttpStatusCode.InternalServerError); ;
             }
-
         }
 
 

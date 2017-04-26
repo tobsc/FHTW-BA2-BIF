@@ -29,73 +29,16 @@ namespace HwInf.Common
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write(@"
-\document
-[
-    Info
-    {
-        Title = ""RueckgabeVertrag""
-        Subject = ""Technikum Wien Rueckgabevertrag""
-        Author = ""HW-INF.Technikum-Wien""
-    }
-]
-{
-	\section
-	{
-		\paragraph  [Format { Font { Bold = true} SpaceBefore = ""1cm"" SpaceAfter = ""0.25cm""}]
-		{
-		Bestätigung der VerleiherIn über die Rückgabe des Gerätes:
-		}
-		\paragraph  [Format { SpaceAfter = ""0.5cm""}]
-		{
-		Das oben genannte Gerät wurde heute (bitte ankreuzen und ggf. ergänzen)
-		}
-		\paragraph  [Format { SpaceAfter = ""0.25cm""}]
-		{
-		O    in einwandfreiem Zustand und mit komplettem Zubehör (siehe Bestandsliste in der Anlage) zurückgegeben
-		}
-		\paragraph  [Format { SpaceAfter = ""0.25cm""}]
-		{
-		O    mit folgenden Mängeln/Schäden zurückgegeben
-		}
-		\paragraph  [Format { SpaceAfter = ""0.25cm"" LeftIndent =""1cm""}]
-		{
-		...................................................
-		}
-		\paragraph  [Format { SpaceAfter = ""0.25cm"" LeftIndent =""1cm""}]
-		{
-		...................................................
-		}
-		\paragraph  [Format { SpaceAfter = ""0.5cm"" LeftIndent =""1cm""}]
-		{
-		...................................................
-		}
-		\paragraph [ Format { SpaceAfter = ""1cm""} ]
-		{
-		Wien, den ");
+            this.Write("\r\n\\document\r\n[\r\n    Info\r\n    {\r\n        Title = \"RueckgabeVertrag\"\r\n        Subj" +
+                    "ect = \"Technikum Wien Rueckgabevertrag\"\r\n        Author = \"HW-INF.Technikum-Wien" +
+                    "\"\r\n    }\r\n]\r\n{\r\n\t\r\n\t");
             
-            #line 50 "C:\Users\Valentin\Documents\__FH\ITP3\git\HW-INF\HwInf.Common\ReturnContract.tt"
- this.Write(DateTime.Now.Day.ToString("d2"));
+            #line 19 "C:\Users\Valentin\Documents\__FH\ITP3\git\HW-INF\HwInf.Common\ReturnContract.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(generate()));
             
             #line default
             #line hidden
-            this.Write(".");
-            
-            #line 50 "C:\Users\Valentin\Documents\__FH\ITP3\git\HW-INF\HwInf.Common\ReturnContract.tt"
- this.Write(DateTime.Now.Month.ToString("d2"));
-            
-            #line default
-            #line hidden
-            this.Write(".");
-            
-            #line 50 "C:\Users\Valentin\Documents\__FH\ITP3\git\HW-INF\HwInf.Common\ReturnContract.tt"
-this.Write(DateTime.Now.Year.ToString()); 
-            
-            #line default
-            #line hidden
-            this.Write("\t\t}\r\n\t\t\\paragraph [ Format { SpaceAfter = \"1cm\"}]\r\n\t\t{\r\n\t\tUnterschrift Mitarbeite" +
-                    "rIn des Instituts für Informatik: .............................................." +
-                    "........................\r\n\t\t}\r\n\t}\r\n\r\n}");
+            this.Write("\r\n\r\n}");
             return this.GenerationEnvironment.ToString();
         }
     }
