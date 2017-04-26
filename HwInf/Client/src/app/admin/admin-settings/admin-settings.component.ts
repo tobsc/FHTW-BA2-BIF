@@ -30,9 +30,9 @@ export class AdminSettingsComponent implements OnInit {
         Key: "ws_end",
         Value: sessionStorage.getItem("ws_end")
     };
-    private notification: Setting = {
-        Key: "mail_notification_1",
-        Value: sessionStorage.getItem("mail_notification_1")
+    private newOrder: Setting = {
+        Key: "new_order_mail",
+        Value: sessionStorage.getItem("new_order_mail")
     };
     private mailAccept_above: Setting = {
         Key: "accept_mail_above",
@@ -54,7 +54,12 @@ export class AdminSettingsComponent implements OnInit {
         Value: sessionStorage.getItem("decline_mail_below")
     }
 
-    private setList: Setting[] = [this.ssStart, this.ssEnd, this.wsStart, this.wsEnd, this.notification, this.mailAccept_above, this.mailAccept_below, this.mailDecline_above, this.mailDecline_below];
+    private mailReminder: Setting = {
+        Key: "reminder_mail",
+        Value: sessionStorage.getItem("reminder_mail")
+    }
+
+    private setList: Setting[] = [this.ssStart, this.ssEnd, this.wsStart, this.wsEnd, this.newOrder, this.mailAccept_above, this.mailAccept_below, this.mailDecline_above, this.mailDecline_below, this.mailReminder];
 
 
 

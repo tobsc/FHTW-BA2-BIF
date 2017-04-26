@@ -78,23 +78,38 @@ namespace HwInf.Common
 
         public void DeclineMessage(Order order)
         {
-            mail.Body = _bl.GetSetting("decline_mail_above").Value;
-            mail.Body = "<br />";
+            mail.Body += _bl.GetSetting("decline_mail_above").Value;
+            mail.Body += "<br />";
 
             foreach (OrderItem ord in order.OrderItems)
             {
-                 mail.Body = ord.Device.Name + " : abgelehnt <br />";
+                 mail.Body += ord.Device.Name + " : abgelehnt <br />";
              
             }
 
-            mail.Body = _bl.GetSetting("decline_mail_below").Value;
+            mail.Body += _bl.GetSetting("decline_mail_below").Value;
         }
         public void NewOrderMessage(Order order)
         {
-            mail.Body = "Es wurde eine neue Anfrage für eines/mehrere Ihrer Geräte erstellt";
+            mail.To.Clear();
+            mail.To.Add(order.Verwalter.Email);
+            mail.Body += _bl.GetSetting("new_order_mail").Value+"<br>";
             foreach (OrderItem ord in order.OrderItems)
             {
-                mail.Body = "Name : "+ord.Device.Name +" | InventarNummer: "+ ord.Device.InvNum+ "<br />";
+                mail.Body += "Name : "+ord.Device.Name +" | InventarNummer: "+ ord.Device.InvNum+ "<br />";
+            }
+        }
+
+        public void ReminderMessage(int orderId)    
+        {
+            
+            Order order = _bl.GetOrders(orderId);
+            mail.Body += _bl.GetSetting("reminder_mail").Value+"<br>";
+            mail.Body += "Überfallig am: " + order.ReturnDate.ToShortDateString() + "<br>";
+
+            foreach(OrderItem ord in order.OrderItems)
+            {
+                mail.Body += ord.Device.Name + "<br>";
             }
         }
 

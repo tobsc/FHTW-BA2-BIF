@@ -205,6 +205,10 @@ namespace HwInf.Controllers
                     _log.InfoFormat("Order '{0}' created by '{1}'", i.OrderGuid, User.Identity.Name);
                 });
 
+ ///////////////// Mail Part
+                Mail mail = new Mail(vmdl.OrderId);
+                mail.MessageFormat(vmdl.OrderStatus.ToString(), vmdl.OrderId);
+                mail.Send();
                 return Ok(vmdls);
 
             }
@@ -243,6 +247,11 @@ namespace HwInf.Controllers
                 vmdl.Accept(order, _bl);
                 _bl.SaveChanges();
                 vmdl.Refresh(order);
+
+////////////////Mail Part
+                Mail mail = new Mail(vmdl.OrderId);
+                mail.MessageFormat(vmdl.OrderStatus.ToString(), vmdl.OrderId);
+                mail.Send();
 
                 return Ok(vmdl);
             }
@@ -342,6 +351,11 @@ namespace HwInf.Controllers
                 vmdl.Decline(order, _bl);
                 _bl.SaveChanges();
                 vmdl.Refresh(order);
+
+////////////////Mail Part
+                Mail mail = new Mail(vmdl.OrderId);
+                mail.MessageFormat(vmdl.OrderStatus.ToString(), vmdl.OrderId);
+                mail.Send();
 
                 return Ok(vmdl);
             }
