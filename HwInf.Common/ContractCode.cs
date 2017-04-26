@@ -33,8 +33,10 @@ namespace HwInf.Common
 
             foreach (var oi in o.OrderItems)
             {
-                geraete += "\\paragraph[Format {SpaceAfter = \"0.5cm\" LeftIndent = \"1cm\"}]{Geräts der Marke "+oi.Device.Brand+" }\\paragraph[Format {SpaceAfter = \"0.5cm\"LeftIndent = \"1cm\"}]{ Typ: "+oi.Device.Type.Name+"}\\paragraph[Format {SpaceAfter = \"0.5cm\"LeftIndent = \"1cm\"}]{Inventarnummer: "+oi.Device.InvNum+"} \\paragraph[Format { Font { Size = 7.5} SpaceAfter = \"0.25cm\"} ] {mit Zubehör an den/ die EntleiherIn für die befristete Nutzung auch außerhalb der Zeiten der Lehrveranstaltungen nach § 6 Absatz 1 dieses Leihvertrages}";
-
+                if (oi.IsDeclined == false)
+                {
+                    geraete += "\\paragraph[Format {SpaceAfter = \"0.5cm\" LeftIndent = \"1cm\"}]{Geräts der Marke " + oi.Device.Brand + " }\\paragraph[Format {SpaceAfter = \"0.5cm\"LeftIndent = \"1cm\"}]{ Typ: " + oi.Device.Type.Name + "}\\paragraph[Format {SpaceAfter = \"0.5cm\"LeftIndent = \"1cm\"}]{Inventarnummer: " + oi.Device.InvNum + "} \\paragraph[Format { Font { Size = 7.5} SpaceAfter = \"0.25cm\"} ] {mit Zubehör an den/ die EntleiherIn für die befristete Nutzung auch außerhalb der Zeiten der Lehrveranstaltungen nach § 6 Absatz 1 dieses Leihvertrages}";
+                }
             }
 
             return geraete;

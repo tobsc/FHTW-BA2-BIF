@@ -13,7 +13,7 @@
                         </label>
                         <input class="form-control" auto-complete [(ngModel)]="selectedString" [source]="stringForDic" type="text"/>
                         
-                        <button (click)="impersonate()" type="submit" class="btn btn-success">"Anmelden"</button>
+                        <button (click)="impersonate()" type="submit" class="btn btn-success" [disabled]="isValid()">"Anmelden"</button>
                 </div>
                 </div>
             </div>

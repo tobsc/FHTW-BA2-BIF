@@ -9,7 +9,8 @@ import {OrderItem} from "../models/order-item.model";
 @Injectable()
 export class OrderService {
 
-  private readonly url: string = '/api/orders/';
+    private readonly url: string = '/api/orders/';
+    private readonly printUrl: string = "/api/print/";
 
   constructor(private http: JwtHttpService) { }
 
@@ -49,5 +50,13 @@ export class OrderService {
     let options = new RequestOptions({headers: headers});
     return this.http.post(this.url, bodyString, options)
         .map((response: Response) => response.json());
+  }
+
+  public printOrder(orderGuid: string) {
+      window.open(this.printUrl + orderGuid);
+  }
+
+  public printReturn(orderGuid: string) {
+      window.open(this.printUrl + 'return/' + orderGuid);
   }
 }
