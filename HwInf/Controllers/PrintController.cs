@@ -46,12 +46,12 @@ namespace HwInf.Controllers
         /// <param name="guid">Order guid</param>
         /// <returns></returns>
         [Route("{guid}")]
-        public IHttpActionResult GetPrint(Guid guid)
+        public HttpResponseMessage GetPrint(Guid guid)
         {
             try
             {
                 var order = _bl.GetOrders(guid);
-                var rpt = new Contract(order.OrderId, order.Entleiher.Uid);
+                var rpt = new Contract(order);
                 // Report -> String
                 var text = rpt.TransformText();
 
@@ -63,43 +63,94 @@ namespace HwInf.Controllers
 
                 // MDDL einlesen
                 var doc = rd.ReadDocument();
-
+                stream.Close();
                 // MigraDoc Dokument in ein PDF Rendern
                 PdfDocumentRenderer pdf = new PdfDocumentRenderer(true, PdfSharp.Pdf.PdfFontEmbedding.None);
                 pdf.Document = doc;
                 pdf.RenderDocument();
-                // Speichern
-                pdf.Save(AppDomain.CurrentDomain.BaseDirectory + "\\Ausleihvertrag.pdf");
 
-
-                HttpResponseMessage result;
-                var localFilePath = AppDomain.CurrentDomain.BaseDirectory + "\\Ausleihvertrag.pdf";
-
-                if (!File.Exists(localFilePath))
+                using (var ms = new MemoryStream())
                 {
-                    result = Request.CreateResponse(HttpStatusCode.Gone);
-                }
-                else
-                {
+                    pdf.Save(ms, false);
+                    var buffer = new byte[ms.Length];
+                    ms.Seek(0, SeekOrigin.Begin);
+                    ms.Flush();
+                    ms.Read(buffer, 0, (int)ms.Length);
+
                     // Serve the file to the client
-                    result = Request.CreateResponse(HttpStatusCode.OK);
-                    //result.Content = new StreamContent(new FileStream(localFilePath, FileMode.Open, FileAccess.Read));
-                    Byte[] bytes = File.ReadAllBytes(localFilePath);
-                    result.Content = new ByteArrayContent(bytes);
+                    var result = Request.CreateResponse(HttpStatusCode.OK);
+                    result.Content = new ByteArrayContent(buffer);
                     result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
-                    result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
-                    result.Content.Headers.ContentDisposition.FileName = "Ausleih_Vertrag.pdf";
+                    result.Content.Headers.ContentType = new MediaTypeHeaderValue("document/pdf");
+                    result.Content.Headers.ContentDisposition.FileName = "Vertrag.pdf";
+
+                    return result;
                 }
 
-                return Ok(result);
             }
 
             catch (Exception ex)
             {
                 _log.ErrorFormat("Exception: '{0}'", ex.Message);
-                return InternalServerError();
+                return Request.CreateResponse(HttpStatusCode.InternalServerError); ;
             }
 
+        }
+
+        /// <summary>
+        /// Starts the RunTime Text Template and creates the return-contract as pdf
+        /// </summary>
+        /// <param name="guid">Order guid</param>
+        /// <returns></returns>
+        [Route("return/{guid}")]
+        public HttpResponseMessage GetReturn(Guid guid)
+        {
+            try
+            {
+                var order = _bl.GetOrders(guid);
+                var rpt = new ReturnContract(order);
+                // Report -> String
+                var text = rpt.TransformText();
+
+
+                // Stream für den DdlReader erzeugen
+                MemoryStream stream = CreateMDDLStream(text);
+                var errors = new DdlReaderErrors();
+                DdlReader rd = new DdlReader(stream, errors);
+
+                // MDDL einlesen
+                var doc = rd.ReadDocument();
+                stream.Close();
+                // MigraDoc Dokument in ein PDF Rendern
+                PdfDocumentRenderer pdf = new PdfDocumentRenderer(true, PdfSharp.Pdf.PdfFontEmbedding.None);
+                pdf.Document = doc;
+                pdf.RenderDocument();
+
+                using (var ms = new MemoryStream())
+                {
+                    pdf.Save(ms, false);
+                    var buffer = new byte[ms.Length];
+                    ms.Seek(0, SeekOrigin.Begin);
+                    ms.Flush();
+                    ms.Read(buffer, 0, (int)ms.Length);
+
+                    // Serve the file to the client
+                    var result = Request.CreateResponse(HttpStatusCode.OK);
+                    result.Content = new ByteArrayContent(buffer);
+                    result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
+                    result.Content.Headers.ContentType = new MediaTypeHeaderValue("document/pdf");
+                    result.Content.Headers.ContentDisposition.FileName = "RueckgabeVertrag.pdf";
+
+                    return result;
+                }
+
+            }
+
+            catch (Exception ex)
+            {
+                _log.ErrorFormat("Exception: '{0}'", ex.Message);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError); ;
+            }
         }
 
 

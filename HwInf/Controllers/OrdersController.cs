@@ -432,15 +432,15 @@ namespace HwInf.Controllers
         [Route("print/{id}")]
         public IHttpActionResult GetPrint(int id)
         {
-
-            var uid = _bl.GetOrders(id).Entleiher.Uid;
+            var order = _bl.GetOrders(id);
+            var uid = order.Entleiher.Uid;
             if (uid != _bl.GetCurrentUid() && !_bl.IsAdmin)
             {
                 return Unauthorized();
             }
 
 
-            var rpt = new Contract(id, uid);
+            var rpt = new Contract(order);
             // Report -> String
             var text = rpt.TransformText();
             
@@ -458,29 +458,25 @@ namespace HwInf.Controllers
             pdf.Document = doc;
             pdf.RenderDocument();
             // Speichern
-            pdf.Save(AppDomain.CurrentDomain.BaseDirectory+"\\Ausleihvertrag.pdf");
+            //pdf.Save(AppDomain.CurrentDomain.BaseDirectory+"\\Ausleihvertrag.pdf");
 
+            byte[] bytes = null;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                pdf.Save(stream, true);
+                bytes = stream.ToArray();
+            }
 
             HttpResponseMessage result;
-            var localFilePath = AppDomain.CurrentDomain.BaseDirectory + "\\Hello.pdf";
 
-            if (!File.Exists(localFilePath))
-            {
-                result = Request.CreateResponse(HttpStatusCode.Gone);
-            }
-            else
-            {
-                // Serve the file to the client
-                result = Request.CreateResponse(HttpStatusCode.OK);
-                //result.Content = new StreamContent(new FileStream(localFilePath, FileMode.Open, FileAccess.Read));
-                Byte[] bytes = File.ReadAllBytes(localFilePath);
-                result.Content = new ByteArrayContent(bytes);
-                result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
-                result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
-                result.Content.Headers.ContentDisposition.FileName = "Ausleih_Vertrag.pdf";
-            }
-
-
+            // Serve the file to the client
+            result = Request.CreateResponse(HttpStatusCode.OK);
+            //result.Content = new StreamContent(new FileStream(localFilePath, FileMode.Open, FileAccess.Read));
+            result.Content = new ByteArrayContent(bytes);
+            result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
+            result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
+            result.Content.Headers.ContentDisposition.FileName = "Vertrag.pdf";
+            
             return Ok(result);
 
         }
@@ -517,11 +513,11 @@ namespace HwInf.Controllers
                 .ForEach(x => x.Device = new DeviceViewModel(_bl.GetSingleDevice(x.Device.InvNum)));
 
             // Group by Verwalter
-            var devices = vmdl.OrderItems.GroupBy(i => i.Device.Verwalter).Select(x => x.ToList()).ToList();
+            var groupedOrderItems = vmdl.OrderItems.GroupBy(i => i.Device.Verwalter.Uid).Select(x => x.ToList()).ToList();
 
             // Create vmdls
             var vmdls = new List<OrderViewModel>();
-            devices.ForEach(i =>
+            groupedOrderItems.ForEach(i =>
             {
                 var tmp = new OrderViewModel(vmdl) {OrderItems = i.ToList()};
                 vmdls.Add(tmp);

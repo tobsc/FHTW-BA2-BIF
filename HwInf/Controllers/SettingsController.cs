@@ -243,5 +243,26 @@ namespace HwInf.Controllers
                 return InternalServerError();
             }
         }
+
+        /// <summary>
+        /// Return Log 
+        /// </summary>
+        /// <returns></returns>
+        [Authorize(Roles = "Admin")]
+        [Route("logs")]
+        public IHttpActionResult GetLog()
+        {
+            try
+            {
+                var vmdl = _bl.GetLog().Select(i => new LogViewModel(i));
+
+                return Ok(vmdl.OrderByDescending(i => i.Date));
+            }
+            catch (Exception ex)
+            {
+                _log.ErrorFormat("Exception: '{0}'", ex.Message);
+                return InternalServerError();
+            }
+        }
     }
 }

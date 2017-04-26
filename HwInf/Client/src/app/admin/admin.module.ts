@@ -33,6 +33,7 @@ import { Daterangepicker } from 'ng2-daterangepicker';
 import { AdminOrdersComponent } from './admin-orders/admin-orders.component';
 import { AdminOrderListComponent } from './admin-orders/admin-order-list/admin-order-list.component';
 import { AdminSingleOrderComponent } from './admin-orders/admin-single-order/admin-single-order.component';
+import { AdminLogsComponent } from './admin-logs/admin-logs.component';
 
 
 export function jwtFactory(backend: XHRBackend, options: RequestOptions, router: Router, authService: AuthService, pubsub: PubSubService) {
@@ -62,6 +63,7 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
         AdminOrdersComponent,
         AdminOrderListComponent,
         AdminSingleOrderComponent,
+        AdminLogsComponent,
     ],
     imports: [
         RouterModule,

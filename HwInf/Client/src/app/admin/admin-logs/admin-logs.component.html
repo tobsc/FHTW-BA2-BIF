@@ -1,0 +1,31 @@
+<h1>Logs</h1>
+<div class="x_panel">
+  <div class="x_title">
+    <h2><ng-content select=".title"></ng-content></h2>
+    <div class="clearfix"></div>
+  </div>
+  <div class="x_content">
+    <div class="table-responsive">
+      <table class="table table-hover table-striped table-bordered">
+        <thead>
+        <tr>
+          <th class="th-status">Log Typ</th>
+          <th class="th-date">Datum</th>
+          <th>Herkunft</th>
+          <th>Log Nachricht</th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor = "let log of logs">
+            <td *ngIf="log.LogType.indexOf('ERROR') > -1"><span class="label label-danger label-log-status">{{log.LogType}}</span></td>
+            <td *ngIf="log.LogType.indexOf('INFO') > -1"><span class="label label-info label-log-status">{{log.LogType}}</span></td>
+            <td *ngIf="log.LogType.indexOf('WARN') > -1"><span class="label label-warning label-log-status">{{log.LogType}}</span></td>
+            <td>{{log.Date | date: 'dd. MMMM yyyy HH:mm'}}</td>
+            <td>{{log.Origin}}</td>
+            <td>{{log.Message}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

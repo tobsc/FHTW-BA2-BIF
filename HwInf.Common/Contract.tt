@@ -72,27 +72,7 @@
 		{
 		(1) Gegenstand des Vertrages ist die Überlassung eines
 		}
-		\paragraph [ Format { SpaceAfter = "0.5cm"
-							LeftIndent = "1cm"}]
-		{
-			Geräts der Marke DAS MUSS NOCH GENERIERT WERDEN!!!!
-		}
-		\paragraph [ Format { SpaceAfter = "0.5cm"
-							LeftIndent = "1cm"}]
-		{
-			Typ
-		}
-		\paragraph [ Format { SpaceAfter = "0.5cm" 
-							LeftIndent = "1cm"}]
-		{
-		Inventarnummer:
-		}
-		\paragraph [ Format { Font { Size = 7.5} 
-							SpaceAfter = "0.25cm"} ]
-		{
-		mit Zubehör an den/die EntleiherIn für die befristete Nutzung auch außerhalb der Zeiten der Lehrveranstaltungen nach § 6 Absatz 1 dieses
-Leihvertrages
-		}
+		<#= getGeraete() #>
 		\paragraph [ Format { Font { Size = 7.5} 
 							SpaceAfter = "0.25cm"} ]
 		{

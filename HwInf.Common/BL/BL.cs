@@ -9,11 +9,15 @@ using System.Data.Entity.Validation;
 using System.Data.SqlTypes;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Reflection;
 using System.Runtime.Remoting.Messaging;
 using System.Security;
+using System.Text;
 using HwInf.Common.Models;
 using JWT;
+using log4net;
+using log4net.Appender;
 
 namespace HwInf.Common.BL
 {
@@ -555,6 +559,23 @@ namespace HwInf.Common.BL
 
             _dal.UpdateObject(s);
         }
+
+        public string[] GetLog()
+        {
+            if(!IsAdmin && !IsVerwalter) throw new SecurityException();
+
+            var h = (log4net.Repository.Hierarchy.Hierarchy)LogManager.GetRepository();
+            var appender = h.GetAppenders().SingleOrDefault(i => i.Name.Equals("FileRollingFileAppender")) as FileAppender;
+
+            string[] lines = {};
+            if (appender == null) return lines;
+            var file = appender.File;
+            lines = File.ReadAllLines(@file, Encoding.UTF8);
+
+            return lines;
+
+        }
+
 
         #endregion
 
