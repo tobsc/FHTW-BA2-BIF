@@ -64,19 +64,26 @@ namespace HwInf.Common
 
         public void AcceptMessage(Order order)
         {
-            mail.Body = "Ihre Anfrage für die angesuchten Geräte wurde bearbeitet: <br />";
+            mail.Body = _bl.GetSetting("mail_accept").ToString();
+            mail.Body = "<br />";
             foreach (OrderItem ord in order.OrderItems)
             {
-                //  if(!ord.Device.IsDeclined)
-                mail.Body = ord.Device.Name + " : akzeptiert <br />";
-                //else
-                // mail.Body = ord.Device.Name + " : abgelehnt <br />";
+                if(ord.IsDeclined == false)
+                {
+                    mail.Body = ord.Device.Name + " : akzeptiert <br />";
+                }
+                else
+                {
+                    mail.Body = ord.Device.Name + " : abgelehnt <br />";
+                }
+               
             }
         }
 
         public void DeclineMessage(Order order)
         {
-            mail.Body = "Ihre Anfrage wurde abgelehnt. Für Details besuchen Sie bitte <LinkZurSeite>";
+            mail.Body = _bl.GetSetting("mail_decline").ToString();
+            mail.Body = "<br />";
         }
         public void NewOrderMessage(Order order)
         {

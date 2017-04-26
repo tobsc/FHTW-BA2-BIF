@@ -34,12 +34,17 @@ export class AdminSettingsComponent implements OnInit {
         Key: "mail_notification_1",
         Value: sessionStorage.getItem("mail_notification_1")
     };
-    private mail_accept: Setting = {
-        Key: "mail_accept",
-        Value: sessionStorage.getItem("mail_accept")
+    private mailAccept: Setting = {
+        Key: "accept_mail",
+        Value: sessionStorage.getItem("accept_mail")
     }
 
-    private setList: Setting[] = [this.ssStart, this.ssEnd, this.wsStart, this.wsEnd, this.notification];
+    private mailDecline: Setting = {
+        Key: "decline_mail",
+        Value: sessionStorage.getItem("decline_mail")
+    }
+
+    private setList: Setting[] = [this.ssStart, this.ssEnd, this.wsStart, this.wsEnd, this.notification, this.mailAccept, this.mailDecline];
 
 
 

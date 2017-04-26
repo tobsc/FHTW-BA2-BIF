@@ -17,7 +17,7 @@
     </div>  
     <div class="form-group">
         <label class="control-label col-md-3 col-sm-3 col-xs-12">
-            Textblabla <span class="required">*</span>
+            Neue Geräteanfrage - Vorlage <span class="required">*</span>
         </label>
         <div class="col-md-6 col-sm-6 col-xs-12">
             <input class="form-control col-md-7 col-xs-12" ngControl="notification.Value" [(ngModel)]="notification.Value" name="mail_value" type="text">
@@ -26,13 +26,23 @@
 
     <div class="form-group">
         <label class="control-label col-md-3 col-sm-3 col-xs-12">
-            Auftragsbestätigungs-Vorlage <span class="required">*</span>
+            Akzeptierter Auftrag - Vorlage <span class="required">*</span>
         </label>
         <div class="col-md-6 col-sm-6 col-xs-12">
-            <input class="form-control col-md-7 col-xs-12" ngControl="mail_accept.Value" [(ngModel)]="mail_accept.Value" name="mail_acc" type="text">
+            <input class="form-control col-md-7 col-xs-12" ngControl="mailAccept.Value" [(ngModel)]="mailAccept.Value" name="accept_value" type="text">
         </div>
     </div>
 
+    <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12">
+            Abgelehnter Auftrag - Vorlage <span class="required">*</span>
+        </label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <input class="form-control col-md-7 col-xs-12" ngControl="mailDecline.Value" [(ngModel)]="mailDecline.Value" name="decline_value" type="text">
+        </div>
+    </div>
+
+   
     <div class="form-group">
         <label class="control-label col-md-3 col-sm-3 col-xs-12">
         </label>

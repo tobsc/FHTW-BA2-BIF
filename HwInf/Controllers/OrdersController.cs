@@ -423,64 +423,6 @@ namespace HwInf.Controllers
         }
 
 
-        /// <summary>
-        /// Starts the RunTime Text Template and creates the contract as pdf
-        /// </summary>
-        /// <param name="id">Order ID</param>
-        /// <returns></returns>
-        [Route("print/{id}")]
-        public IHttpActionResult GetPrint(int id)
-        {
-            var order = _bl.GetOrders(id);
-            var uid = order.Entleiher.Uid;
-            if (uid != _bl.GetCurrentUid() && !_bl.IsAdmin)
-            {
-                return Unauthorized();
-            }
-
-
-            var rpt = new Contract(order);
-            // Report -> String
-            var text = rpt.TransformText();
-            
-
-            // Stream für den DdlReader erzeugen
-            MemoryStream stream = CreateMDDLStream(text);
-            var errors = new DdlReaderErrors();
-            DdlReader rd = new DdlReader(stream, errors);
-
-            // MDDL einlesen
-            var doc = rd.ReadDocument();
-
-            // MigraDoc Dokument in ein PDF Rendern
-            PdfDocumentRenderer pdf = new PdfDocumentRenderer(true, PdfSharp.Pdf.PdfFontEmbedding.None);
-            pdf.Document = doc;
-            pdf.RenderDocument();
-            // Speichern
-            //pdf.Save(AppDomain.CurrentDomain.BaseDirectory+"\\Ausleihvertrag.pdf");
-
-            byte[] bytes = null;
-            using (MemoryStream ms = new MemoryStream())
-            {
-                pdf.Save(stream, true);
-                bytes = stream.ToArray();
-            }
-
-            HttpResponseMessage result;
-
-            // Serve the file to the client
-            result = Request.CreateResponse(HttpStatusCode.OK);
-            //result.Content = new StreamContent(new FileStream(localFilePath, FileMode.Open, FileAccess.Read));
-            result.Content = new ByteArrayContent(bytes);
-            result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
-            result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
-            result.Content.Headers.ContentDisposition.FileName = "Vertrag.pdf";
-            
-            return Ok(result);
-
-        }
-
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)
