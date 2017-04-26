@@ -52,9 +52,10 @@
               <li><a href="schaden.php">Archiv</a></li>
             </ul>
           </li>
-          <li dropdown *ngIf="canActivateSettings()"><a dropdownToggle><i class="fa fa-cog" aria-hidden="true"></i> Settings <span class="fa fa-chevron-down"></span></a>
+          <li [ngClass]="{current_parent_menu_item: router.url.match('(.*admin\/settings.*)') }"  dropdown *ngIf="canActivateSettings()"><a dropdownToggle><i class="fa fa-cog" aria-hidden="true"></i> Settings <span class="fa fa-chevron-down"></span></a>
             <ul class="nav child_menu">
-              <li><a routerLink="/admin/settings">Semesterdaten</a></li>
+              <li routerLinkActive="current_menu_item" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/admin/settings">Semesterdaten</a></li>
+              <li routerLinkActive="current_menu_item" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/admin/settings/logs">Logs</a></li>
               <li><a href="page_404.html">Texte</a></li>
             </ul>
           </li>

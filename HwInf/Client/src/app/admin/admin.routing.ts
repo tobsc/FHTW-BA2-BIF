@@ -16,6 +16,7 @@ import {PageNotFoundComponent} from "../core/page-not-found/page-not-found.compo
 import { DeviceDuplicateComponent } from "./devices/device-duplicate/device-duplicate.component";
 import { AdminSettingsComponent } from "./admin-settings/admin-settings.component";
 import {AdminOrdersComponent} from "./admin-orders/admin-orders.component";
+import {AdminLogsComponent} from "./admin-logs/admin-logs.component";
 
 const ADMIN_ROUTES: Routes = [
     { path: 'admin', component: HomeComponent, canActivate: [AuthGuard , VerwalterGuard],
@@ -38,6 +39,7 @@ const ADMIN_ROUTES: Routes = [
             { path: 'geraete/verwalten/:invnum', component: DeviceEditComponent },
             { path: 'settings', component: AdminSettingsComponent },
             { path: 'orders', component: AdminOrdersComponent },
+            { path: 'settings/logs', component: AdminLogsComponent },
             { path: '**', component: PageNotFoundComponent }
         ]
     }
