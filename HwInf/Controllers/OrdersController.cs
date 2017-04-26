@@ -202,13 +202,11 @@ namespace HwInf.Controllers
                 _bl.SaveChanges();
                 vmdls.ForEach(i =>
                 {
+                    SendMail(i);
                     _log.InfoFormat("Order '{0}' created by '{1}'", i.OrderGuid, User.Identity.Name);
                 });
 
- ///////////////// Mail Part
-                Mail mail = new Mail(vmdl.OrderId);
-                mail.MessageFormat(vmdl.OrderStatus.ToString(), vmdl.OrderId);
-                mail.Send();
+                
                 return Ok(vmdls);
 
             }
@@ -248,10 +246,8 @@ namespace HwInf.Controllers
                 _bl.SaveChanges();
                 vmdl.LoadOrderItems(order).Refresh(order);
 
-////////////////Mail Part
-                Mail mail = new Mail(vmdl.OrderId);
-                mail.MessageFormat(vmdl.OrderStatus.ToString(), vmdl.OrderId);
-                mail.Send();
+                ////////////////Mail Part
+                SendMail(vmdl);
 
                 return Ok(vmdl);
             }
@@ -353,10 +349,8 @@ namespace HwInf.Controllers
                 _bl.SaveChanges();
                 vmdl.LoadOrderItems(order).Refresh(order);
 
-////////////////Mail Part
-                Mail mail = new Mail(vmdl.OrderId);
-                mail.MessageFormat(vmdl.OrderStatus.ToString(), vmdl.OrderId);
-                mail.Send();
+                ////////////////Mail Part
+                SendMail(vmdl);
 
                 return Ok(vmdl);
             }
@@ -481,6 +475,21 @@ namespace HwInf.Controllers
 
             return vmdls;
 
+        }
+
+        private void SendMail(OrderViewModel vmdl)
+        {
+            try
+            {
+                Mail mail = new Mail(vmdl.OrderGuid);
+                mail.MessageFormat(vmdl.OrderStatus.Slug);
+                mail.Send();
+            }
+            catch(Exception ex)
+            {
+                _log.ErrorFormat("Exception: '{0}'", ex.Message);
+            }
+            
         }
     }
 }

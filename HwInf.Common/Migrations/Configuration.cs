@@ -152,7 +152,7 @@ namespace HwInf.Common.Migrations
 
             var damages = new List<Damage>
             {
-                new Damage { Date=DateTime.Now, Cause= persons.Single(i => i.LastName == "Sagl"), Reporter= persons.Single(i=> i.LastName=="Sagl"),  Description="Display oben rechts eingebrochen", Device=dev.Single(i=>i.InvNum=="a5123"), DamageStatus=damageStatus.Single(i => i.Slug=="gemeldet")},
+               new Damage { Date=DateTime.Now, Cause= persons.Single(i => i.LastName == "Sagl"), Reporter= persons.Single(i=> i.LastName=="Sagl"),  Description="Display oben rechts eingebrochen", Device=dev.Single(i=>i.InvNum=="a5123"), DamageStatus=damageStatus.Single(i => i.Slug=="gemeldet")},
             };
 
             if (!context.Settings.Any())

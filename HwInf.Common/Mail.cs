@@ -19,9 +19,11 @@ namespace HwInf.Common
         private readonly IDAL _db;
         private readonly BL.BL _bl;
         private readonly ILog _log = LogManager.GetLogger(typeof(Mail).Name);
+        private Order _order;
 
-        public Mail(int orderId)
+        public Mail(Guid orderGuid)
         {
+            
             _db = new HwInfContext();
             _bl = new BL.BL(_db);
             smtpClient = new SmtpClient("localhost", 8181);
@@ -29,8 +31,9 @@ namespace HwInf.Common
             smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
             smtpClient.EnableSsl = false;
 
-            Order order = _bl.GetOrders(orderId);
-            string to = order.Entleiher.Email;
+
+            _order = _bl.GetOrders(orderGuid);
+            string to = _order.Entleiher.Email;
             string from = "hwinf@technikum-wien.at";
 
 
@@ -45,14 +48,13 @@ namespace HwInf.Common
 
         }
 
-       public void MessageFormat(string status, int orderId)
+       public void MessageFormat(string status)
         {
-            Order order = _bl.GetOrders(orderId);
             switch (status)
             {
-                case "accept": AcceptMessage(order); break;
-                case "decline": DeclineMessage(order); break;
-                case "newOrder": NewOrderMessage(order); break;
+                case "akzeptiert": AcceptMessage(_order); break;
+                case "abgelehnt": DeclineMessage(_order); break;
+                case "offen": NewOrderMessage(_order); break;
                 default: mail.Body = status; break;
             }
         }
