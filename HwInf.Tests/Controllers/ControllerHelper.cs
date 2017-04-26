@@ -89,10 +89,44 @@ namespace HwInf.Tests.Controllers
                 OrderItems = new List<OrderItemViewModel>
                 {
                     new OrderItemViewModel(oi)
-                }
+                },
+                OrderGuid = Guid.NewGuid(),
+                OrderReason = "Unit Test"
             };
 
             return vmdl;
+        }
+
+        public static OrderSearchViewModel GetValidOrderSearchViewModel(string searchQuery, bool isAdminView)
+        {
+
+            var vmdl = new OrderSearchViewModel
+            {
+                SearchQuery = searchQuery,
+                IsAdminView = isAdminView
+            };
+
+            return vmdl;
+        }
+
+        public static Order GetValidOrderModel()
+        {
+            var obj = new Order
+            {
+                Date = DateTime.Now,
+                From = DateTime.Now,
+                To =  DateTime.Now,
+                Entleiher = _bl.GetUsers(_bl.GetCurrentUid()),
+                Verwalter = _bl.GetUsers(_bl.GetCurrentUid()),
+                OrderReason = "Unit Test",
+                OrderGuid = Guid.NewGuid(),
+                OrderStatus = _bl.GetOrderStatus("offen"),
+                OrderItems = new List<OrderItem>
+                {
+                    new OrderItem { CreateDate = DateTime.Now, Device = _bl.GetSingleDevice("a5123")}
+                }
+            };
+            return obj;
         }
     }
 }

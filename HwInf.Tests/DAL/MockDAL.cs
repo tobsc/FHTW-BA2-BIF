@@ -9,7 +9,7 @@ namespace HwInf.Tests.DAL
 {
     public class MockDAL: IDAL
     {
-
+        private int _counter = 1;
         private List<Device> _devices;
         private List<DeviceType> _deviceTypes;
         private List<DeviceStatus> _deviceStatus;
@@ -44,6 +44,8 @@ namespace HwInf.Tests.DAL
                 new OrderStatus {Name = "Offen", Slug = "offen"},
                 new OrderStatus {Name = "Abgelehnt", Slug = "abgelehnt"},
                 new OrderStatus {Name = "Akzeptiert", Slug = "akzeptiert"},
+                new OrderStatus {Name = "Ausgeliehen", Slug = "ausgeliehen"},
+                new OrderStatus {Name = "Abgeschlossen", Slug = "abgeschlossen"},
             };
 
             _settings = new List<Setting>
@@ -257,7 +259,7 @@ namespace HwInf.Tests.DAL
 
         public Order CreateOrder()
         {
-            var obj = new Order();
+            var obj = new Order {OrderId = _counter++};
             _orders.Add(obj);
             return obj;
         }
@@ -355,6 +357,21 @@ namespace HwInf.Tests.DAL
             _settings.Remove(s);
         }
 
+        public IQueryable<Damage> Damages { get; }
+        public IQueryable<DamageStatus> DamageStatus { get; }
+        public Damage CreateDamage()
+        {
+            throw new NotImplementedException();
+        }
 
+        public DamageStatus CreateDamageStatus()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteDamage(Damage d)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
