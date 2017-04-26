@@ -36,6 +36,7 @@ import { AdminSingleOrderComponent } from './admin-orders/admin-single-order/adm
 import { AdminLogsComponent } from './admin-logs/admin-logs.component';
 
 
+
 export function jwtFactory(backend: XHRBackend, options: RequestOptions, router: Router, authService: AuthService, pubsub: PubSubService) {
     return new JwtHttpService(backend, options, router, authService, pubsub);
 }

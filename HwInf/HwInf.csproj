@@ -278,6 +278,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\CustomFieldsController.cs" />
+    <Compile Include="Controllers\DamagesController.cs" />
     <Compile Include="Controllers\DevicesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
@@ -290,6 +291,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SlugGenerator.cs" />
     <Compile Include="ViewModels\AdditionalInvNumsViewModel.cs" />
+    <Compile Include="ViewModels\DamageStatusViewModel.cs" />
+    <Compile Include="ViewModels\DamageViewModel.cs" />
     <Compile Include="ViewModels\OrderListViewModel.cs" />
     <Compile Include="ViewModels\DeviceListViewModel.cs" />
     <Compile Include="ViewModels\FieldViewModel.cs" />

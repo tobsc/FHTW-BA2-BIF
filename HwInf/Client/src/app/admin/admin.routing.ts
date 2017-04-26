@@ -18,6 +18,7 @@ import { AdminSettingsComponent } from "./admin-settings/admin-settings.componen
 import {AdminOrdersComponent} from "./admin-orders/admin-orders.component";
 import {AdminLogsComponent} from "./admin-logs/admin-logs.component";
 
+
 const ADMIN_ROUTES: Routes = [
     { path: 'admin', component: HomeComponent, canActivate: [AuthGuard , VerwalterGuard],
         children: [

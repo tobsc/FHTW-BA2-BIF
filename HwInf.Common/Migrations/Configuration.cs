@@ -135,7 +135,24 @@ namespace HwInf.Common.Migrations
                new Setting { Key = "ss_end", Value = "30.06"},
                new Setting { Key = "ws_end", Value = "31.01"},
                new Setting { Key = "ws_start", Value = "25.10"},
-               new Setting { Key = "mail_notification_1", Value = "Test Text"},
+               new Setting { Key = "reminder_mail", Value = "bitte zurückbringen"},
+               new Setting { Key = "new_order_mail", Value = "Neue  Anfrage zu einem ihrer Geräte"},
+               new Setting { Key = "accept_mail_above", Value = "oben"},
+               new Setting { Key = "accept_mail_below", Value = "unten"},
+               new Setting { Key = "accept_decline_above", Value = "oben"},
+               new Setting { Key = "accept_decline_below", Value = "unten"},
+            };
+
+            var damageStatus = new List<DamageStatus>
+            {
+                new DamageStatus { Name = "Gemeldet" , Slug = "gemeldet"},
+                new DamageStatus { Name = "In Bearbeitung" , Slug = "in-bearbeitung"},
+                new DamageStatus { Name = "Behoben", Slug = "behoben"}
+            };
+
+            var damages = new List<Damage>
+            {
+                new Damage { Date=DateTime.Now, Cause= persons.Single(i => i.LastName == "Sagl"), Reporter= persons.Single(i=> i.LastName=="Sagl"),  Description="Display oben rechts eingebrochen", Device=dev.Single(i=>i.InvNum=="a5123"), DamageStatus=damageStatus.Single(i => i.Slug=="gemeldet")},
             };
 
             if (!context.Settings.Any())
@@ -176,6 +193,16 @@ namespace HwInf.Common.Migrations
             if (!context.Devices.Any())
             {
                 context.Devices.AddRange(dev);
+            }
+
+            if (!context.DamageStatus.Any())
+            {
+                context.DamageStatus.AddRange(damageStatus);
+            }
+
+            if (!context.Damages.Any())
+            {
+                context.Damages.AddRange(damages);
             }
 
 

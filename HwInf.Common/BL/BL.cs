@@ -629,9 +629,56 @@ namespace HwInf.Common.BL
         }
 
         #endregion
+
+        #region Damage
+        public Damage GetDamage(int id)
+        {
+            return _dal.Damages.FirstOrDefault(i => i.DamageId.Equals(id));
+        }
+
+        public IEnumerable<Damage> GetDamages()
+        {
+            return _dal.Damages;
+        }
+
+        public Damage CreateDamage()
+        {
+            if (!IsAdmin && !IsVerwalter) throw new SecurityException();
+
+            return _dal.CreateDamage();
+        }
+
+        public void DeleteDamage(Damage s)
+        {
+            _dal.DeleteDamage(s);
+        }
+
+        public void UpdateDamage(Damage s)
+        {
+            if (!IsAdmin && !IsVerwalter) return;
+
+            _dal.UpdateObject(s);
+        }
+  
+        public IEnumerable<DamageStatus> GetDamageStatus()
+        {
+            return _dal.DamageStatus;
+        }
+        
+        public DamageStatus GetDamageStatus(string slug)
+        {
+            return _dal.DamageStatus.FirstOrDefault(i => i.Slug.Equals(slug));
+        }
+
+        public bool DamageExists(int damageId)
+        {
+            return _dal.Damages.Any(i => i.DamageId == damageId);
+        }
+        #endregion
+
     }
 
 
-    
+
 
 }

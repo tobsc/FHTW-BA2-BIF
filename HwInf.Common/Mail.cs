@@ -1,10 +1,14 @@
-﻿using System;
+﻿using HwInf.Common.DAL;
+using log4net;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
+using HwInf.Common.BL;
+using HwInf.Common.Models;
 
 namespace HwInf.Common
 {
@@ -12,57 +16,115 @@ namespace HwInf.Common
     {
         private SmtpClient smtpClient;
         private MailMessage mail;
+        private readonly IDAL _db;
+        private readonly BL.BL _bl;
+        private readonly ILog _log = LogManager.GetLogger(typeof(Mail).Name);
 
-        public Mail()
+        public Mail(int orderId)
         {
-            smtpClient = new SmtpClient("localhost", 25);
+            _db = new HwInfContext();
+            _bl = new BL.BL(_db);
+            smtpClient = new SmtpClient("localhost", 8181);
             smtpClient.UseDefaultCredentials = true;
             smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
             smtpClient.EnableSsl = false;
 
+            Order order = _bl.GetOrders(orderId);
+            string to = order.Entleiher.Email;
+            string from = "hwinf@technikum-wien.at";
 
-            mail = new MailMessage();
+
+            mail = new MailMessage(from, to);
+            mail.IsBodyHtml = true;
             mail.Subject = "HwInf";
             mail.SubjectEncoding = Encoding.UTF8;
-            mail.From = new MailAddress("hwinf@technikum-wien.at");
+            
+           
             mail.BodyEncoding = Encoding.UTF8;
             ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
 
         }
 
-
-        public void To(string to)
+       public void MessageFormat(string status, int orderId)
         {
-            mail.To.Add(new MailAddress(to));
+            Order order = _bl.GetOrders(orderId);
+            switch (status)
+            {
+                case "accept": AcceptMessage(order); break;
+                case "decline": DeclineMessage(order); break;
+                case "newOrder": NewOrderMessage(order); break;
+                default: mail.Body = status; break;
+            }
         }
 
-        public void Message(string status)
+        public void AcceptMessage(Order order)
         {
-
-            if(status == "accept")
+            mail.Body += _bl.GetSetting("accept_mail_above").Value;
+            mail.Body += "<br >";
+            foreach (OrderItem ord in order.OrderItems)
             {
-                mail.Body = "Ihre Anfrage wurde akzeptiert.";
+                if(ord.IsDeclined == false)
+                {
+                    mail.Body += ord.Device.Name + " : akzeptiert <br>";
+                }
+                else
+                {
+                    mail.Body += ord.Device.Name + " : abgelehnt <br>";
+                }
+               
+            }
+            mail.Body += _bl.GetSetting("accept_mail_below").Value;
+        }
+
+        public void DeclineMessage(Order order)
+        {
+            mail.Body += _bl.GetSetting("decline_mail_above").Value;
+            mail.Body += "<br />";
+
+            foreach (OrderItem ord in order.OrderItems)
+            {
+                 mail.Body += ord.Device.Name + " : abgelehnt <br />";
+             
             }
 
-            else if(status == "decline")
+            mail.Body += _bl.GetSetting("decline_mail_below").Value;
+        }
+        public void NewOrderMessage(Order order)
+        {
+            mail.To.Clear();
+            mail.To.Add(order.Verwalter.Email);
+            mail.Body += _bl.GetSetting("new_order_mail").Value+"<br>";
+            foreach (OrderItem ord in order.OrderItems)
             {
-                mail.Body = "Ihre Anfrage wurde abgelehnt. Für Details besuchen Sie bitte <LinkZurSeite>";
+                mail.Body += "Name : "+ord.Device.Name +" | InventarNummer: "+ ord.Device.InvNum+ "<br />";
             }
+        }
 
-            else if(status == "newOrder")
-            {
-                mail.Body = "Es wurde eine neue Anfrge für eines Ihrer Geräte gestellt.";
-            } else
-            {
-                mail.Body = status;
-            }
+        public void ReminderMessage(int orderId)    
+        {
             
+            Order order = _bl.GetOrders(orderId);
+            mail.Body += _bl.GetSetting("reminder_mail").Value+"<br>";
+            mail.Body += "Überfallig am: " + order.ReturnDate.ToShortDateString() + "<br>";
+
+            foreach(OrderItem ord in order.OrderItems)
+            {
+                mail.Body += ord.Device.Name + "<br>";
+            }
         }
 
 
         public void Send()
         {
-            smtpClient.Send(mail);
+            try
+            {
+                smtpClient.Send(mail);
+            }
+            catch (Exception  ex)
+            {
+                _log.InfoFormat("Fehler beim senden" + ex.ToString());
+            }
+            
         }
     }
 }

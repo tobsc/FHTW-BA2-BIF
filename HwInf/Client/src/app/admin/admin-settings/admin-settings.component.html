@@ -24,21 +24,64 @@
             </div>
             <div class="form-group">
                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bla">
-                    Textblabla <span class="required">*</span>
+                    Neuer Auftrag - Vorlage <span class="required">*</span>
                 </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    <input class="form-control col-md-7 col-xs-12" id="bla" ngControl="notification.Value" [(ngModel)]="notification.Value" name="mail_value" type="text">
+                    <input class="form-control col-md-7 col-xs-12" id="new_order" ngControl="newOrder.Value" [(ngModel)]="newOrder.Value" name="new_order" type="text">
                 </div>
             </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bla">
+                    Angenommener Auftrag - Vorlage (oben) <span class="required">*</span>
+                </label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input class="form-control col-md-7 col-xs-12" id="accept_above" ngControl="mailAccept_above.Value" [(ngModel)]="mailAccept_above.Value" name="mail_accept_above" type="text">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bla">
+                    Angenommener Auftrag - Vorlage (unten) <span class="required">*</span>
+                </label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input class="form-control col-md-7 col-xs-12" id="accept_below" ngControl="mailAccept_below.Value" [(ngModel)]="mailAccept_below.Value" name="mail_accept_below" type="text">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bla">
+                    Abgelehnter Auftrag - Vorlage (oben)  <span class="required">*</span>
+                </label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input class="form-control col-md-7 col-xs-12" id="decline_above" ngControl="mailDecline_above.Value" [(ngModel)]="mailDecline_above.Value" name="mail_decline_above" type="text">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bla">
+                    Abgelehnter Auftrag - Vorlage (unten)  <span class="required">*</span>
+                </label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input class="form-control col-md-7 col-xs-12" id="decline_below" ngControl="mailDecline_below.Value" [(ngModel)]="mailDecline_below.Value" name="mail_decline_below" type="text">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bla">
+                    Reminder Mail - Vorlage <span class="required">*</span>
+                </label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input class="form-control col-md-7 col-xs-12" id="reminder" ngControl="mailReminder.Value" [(ngModel)]="mailReminder.Value" name="mail_reminder" type="text">
+                </div>
+            </div>
+
             <div class="form-group">
                 <label class="control-label col-md-3 col-sm-3 col-xs-12">
                 </label>
             </div>
             <div align="right">
-                <span class="btn btn-success" (click)="updateSettings()">test</span>
-            </div>
-            <div align="right">
-                <button type="submit" class="btn btn-success" [disabled]="f.$invalid">Weiter</button>
+                <span class="btn btn-success" (click)="updateSettings()">Speichern</span>
             </div>
         </form>
         <div class="ln_solid"></div>
