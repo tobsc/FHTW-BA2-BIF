@@ -13,8 +13,11 @@ import { FormBuilder, FormGroup, FormArray, Validators, NgForm } from "@angular/
 export class LoginAsComponent implements OnInit {
 
     private users: User[];
+    private userDic: { [search: string]: User; } = {};
+    private stringForDic: string[] = [];
     private form: FormGroup;
     private selectedUser: User;
+    private selectedString: string;
 
     constructor(
         private userService: UserService,
@@ -34,6 +37,12 @@ export class LoginAsComponent implements OnInit {
             .subscribe(
             (next) => {
                 this.users = next; 
+
+                this.users.forEach((user, index) => {
+                    this.userDic["(" + user.Uid + ") " + user.LastName + " " + user.Name] = user;
+                    this.stringForDic[index] = "(" + user.Uid + ") " + user.LastName + " " + user.Name;
+                }
+                );
                 this.selectedUser = this.users[0];
             },
             (error) => console.log(error)
@@ -44,13 +53,10 @@ export class LoginAsComponent implements OnInit {
 
     
     impersonate() {
+        console.log(this.selectedString);
+        this.selectedUser = this.userDic[this.selectedString];
         this.adminService.impersonate(this.selectedUser)
         
-    }
-
-    onChange(value) {
-        this.selectedUser = this.users.find(p => p.Uid == value);
-
     }
 
 
