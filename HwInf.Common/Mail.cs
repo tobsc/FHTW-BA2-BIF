@@ -124,7 +124,7 @@ namespace HwInf.Common
             }
             catch (Exception  ex)
             {
-                _log.InfoFormat("Fehler beim senden" + ex.ToString());
+                _log.InfoFormat("Fehler beim senden" + ex);
             }
             
         }

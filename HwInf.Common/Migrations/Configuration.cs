@@ -139,8 +139,8 @@ namespace HwInf.Common.Migrations
                new Setting { Key = "new_order_mail", Value = "Neue  Anfrage zu einem ihrer Geräte"},
                new Setting { Key = "accept_mail_above", Value = "oben"},
                new Setting { Key = "accept_mail_below", Value = "unten"},
-               new Setting { Key = "accept_decline_above", Value = "oben"},
-               new Setting { Key = "accept_decline_below", Value = "unten"},
+               new Setting { Key = "decline_mail_above", Value = "oben"},
+               new Setting { Key = "decline_mail_below", Value = "unten"},
             };
 
             var damageStatus = new List<DamageStatus>
