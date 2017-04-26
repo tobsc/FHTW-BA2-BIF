@@ -1,3 +1,8 @@
 <div class="clearfix"></div>
+<h1 *ngIf="currentStatus === 'offen'">Offene Anfragen</h1>
+<h1 *ngIf="currentStatus === 'akzeptiert'">Akzeptierte Anfragen</h1>
+<h1 *ngIf="currentStatus === 'ausgeliehen'">Ausgeliehene Geräte</h1>
+<h1 *ngIf="currentStatus === 'abgelehnt'">Abgelehnte Anfragen</h1>
+<h1 *ngIf="currentStatus === 'abgeschlossen'">Archiv</h1>
 
 <hwinf-admin-order-list [filter]="filter" ></hwinf-admin-order-list>

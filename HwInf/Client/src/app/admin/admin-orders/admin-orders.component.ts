@@ -6,6 +6,7 @@ import {Order} from "../../shared/models/order.model";
 import {OrderList} from "../../shared/models/order-list.model";
 import {ActivatedRoute} from "@angular/router";
 import {Filter} from "../../shared/models/filter.model";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'hwinf-admin-orders',
@@ -13,7 +14,7 @@ import {Filter} from "../../shared/models/filter.model";
   styleUrls: ['./admin-orders.component.scss']
 })
 export class AdminOrdersComponent implements OnInit {
-
+  private currentStatus = '';
   private filter: OrderFilter;
 
   constructor(
@@ -22,12 +23,16 @@ export class AdminOrdersComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.route.params.map(i => i['status']).subscribe(status => {
-      console.log(status);
-      if (!!status) {
-        this.filter = new OrderFilter();
-        this.filter.StatusSlugs.push(status);
-      }
-    });
+
+    this.route.params
+        .map(i => i['status'])
+        .subscribe(
+            status => {
+              let filter = new OrderFilter();
+              filter.StatusSlugs = [status];
+              this.currentStatus = status;
+              this.filter = filter;
+            }
+        );
   }
 }

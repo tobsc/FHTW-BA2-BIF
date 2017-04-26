@@ -1,1 +1,16 @@
+<div *ngIf="orders.length <= 0"><em>Keine Aufträge vorhanden!</em></div>
+<nav aria-label="...">
+    <ul class="pager">
+        <li class="previous"><a *ngIf="currentPage > 1" [routerLink]="[]" [queryParams]="{page: currentPage - 1}" skipLocationChange><span aria-hidden="true">&larr;</span> Vorherige Seite</a></li>
+        <li class="next"><a *ngIf="currentPage < maxPages" [routerLink]="[]" [queryParams]="{page: currentPage + 1}" skipLocationChange>Nächste Seite <span aria-hidden="true">&rarr;</span></a></li>
+    </ul>
+</nav>
+<div *ngIf="maxPages > 1" class="text-right">Seite {{currentPage}}/{{maxPages}}</div>
 <hwinf-admin-single-order *ngFor="let order of orders; let i = index" (updateOrder)="updateOrder(i, $event)" [order]="order"></hwinf-admin-single-order>
+<div *ngIf="maxPages > 1" class="text-right">Seite {{currentPage}}/{{maxPages}}</div>
+<nav aria-label="...">
+    <ul class="pager">
+        <li class="previous"><a *ngIf="currentPage > 1" [routerLink]="[]" [queryParams]="{page: currentPage - 1}" skipLocationChange><span aria-hidden="true">&larr;</span> Vorherige Seite</a></li>
+        <li class="next"><a *ngIf="currentPage < maxPages" [routerLink]="[]" [queryParams]="{page: currentPage + 1}" skipLocationChange>Nächste Seite <span aria-hidden="true">&rarr;</span></a></li>
+    </ul>
+</nav>

@@ -25,3 +25,7 @@ td {
     width: 10%;
   }
 }
+
+:host:last-child {
+  .x_panel {margin-bottom: 0}
+}

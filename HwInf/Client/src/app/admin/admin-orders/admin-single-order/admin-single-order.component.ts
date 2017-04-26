@@ -19,9 +19,7 @@ export class AdminSingleOrderComponent implements OnInit {
       private orderService: OrderService
   ) { }
 
-  ngOnInit(): void {
-    console.log("ON INIT");
-  }
+  ngOnInit(): void {}
 
   private accept() {
     return () => {

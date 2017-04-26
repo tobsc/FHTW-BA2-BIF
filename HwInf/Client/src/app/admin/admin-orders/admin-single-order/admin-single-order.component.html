@@ -1,7 +1,6 @@
 <div class="x_panel">
   <div class="x_title">
-    ID: {{order.OrderId}} <span class="label label-default">{{order.OrderStatus.Name}}</span>
-    {{order.Verwalter.Uid}}
+    ID: {{order.OrderId}}
     <div class="clearfix"></div>
   </div>
   <div class="x_content">
@@ -21,7 +20,11 @@
         </thead>
         <tbody>
         <tr>
-          <td>{{order.Entleiher.Name}} {{order.Entleiher.LastName}} ({{order.Entleiher.Uid}})</td>
+          <td>
+            <a href="mailto:{{order.Entleiher.Email}}">
+              {{order.Entleiher.Name}} {{order.Entleiher.LastName}} ({{order.Entleiher.Uid}})
+            </a>
+          </td>
           <td>
             <ul class="list-unstyled">
               <li *ngFor="let orderItem of order.OrderItems; let i = index">
@@ -99,7 +102,7 @@
                 </button>
               </div>
               <div class="col-xs-6">
-                <a class="btn btn-default btn-xs btn-block"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
+                <a href="mailto:{{order.Entleiher.Email}}" class="btn btn-default btn-xs btn-block"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
               </div>
             </div>
           </td>

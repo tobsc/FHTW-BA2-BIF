@@ -40,7 +40,7 @@ const ADMIN_ROUTES: Routes = [
             },
             { path: 'geraete/verwalten/:invnum', component: DeviceEditComponent },
             { path: 'settings', component: AdminSettingsComponent },
-            { path: 'orders', component: AdminOrdersComponent },
+            { path: 'orders', redirectTo: 'orders/offen', pathMatch: 'full'},
             { path: 'orders/:status', component: AdminOrdersComponent },
             { path: 'settings/logs', component: AdminLogsComponent },
             { path: '**', component: PageNotFoundComponent }

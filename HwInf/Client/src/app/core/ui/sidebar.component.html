@@ -42,11 +42,11 @@
           </li>
           <li [ngClass]="{current_parent_menu_item: router.url.match('(.*admin\/orders.*)') }" dropdown><a dropdownToggle><i class="fa fa-edit"></i> Aufträge <span class="fa fa-chevron-down"></span></a>
             <ul class="nav child_menu">
-              <li routerLinkActive="current_menu_item"><a routerLink="/admin/orders/offen">Offene Anfragen</a></li>
-              <li routerLinkActive="current_menu_item"><a routerLink="/admin/orders/akzeptiert">Akzeptierte Anfragen</a></li>
-              <li routerLinkActive="current_menu_item"><a routerLink="/admin/orders/ausgeliehen">Ausgeliehene Geräte</a></li>
-              <li routerLinkActive="current_menu_item"><a routerLink="/admin/orders/abgelehnt">Abgelehnte Anfragen</a></li>
-              <li routerLinkActive="current_menu_item"><a routerLink="/admin/orders/abgeschlossen">Archiv</a></li>
+              <li routerLinkActive="current_menu_item"><a routerLink="/admin/orders/offen" [queryParams]="{}">Offene Anfragen</a></li>
+              <li routerLinkActive="current_menu_item"><a routerLink="/admin/orders/akzeptiert" [queryParams]="{}">Akzeptierte Anfragen</a></li>
+              <li routerLinkActive="current_menu_item"><a routerLink="/admin/orders/ausgeliehen" [queryParams]="{}">Ausgeliehene Geräte</a></li>
+              <li routerLinkActive="current_menu_item"><a routerLink="/admin/orders/abgelehnt" [queryParams]="{}">Abgelehnte Anfragen</a></li>
+              <li routerLinkActive="current_menu_item"><a routerLink="/admin/orders/abgeschlossen" [queryParams]="{}">Archiv</a></li>
             </ul>
           </li>
           <li dropdown><a dropdownToggle><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Schäden <span class="fa fa-chevron-down"></span></a>
