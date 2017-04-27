@@ -34,10 +34,8 @@ import { ErrorHandlerService } from "./shared/services/error-handler.service";
 import { ErrorHandlerComponent } from "./shared/services/error-handler.component";
 import { Daterangepicker } from 'ng2-daterangepicker';
 import {KeysPipe} from "./shared/pipes/keys.pipe";
-import {DeviceAddComponent} from "./admin/devices/device-add/device-add.component";
 import {OrderService} from "./shared/services/order.service";
 import { LoginAsComponent } from './authentication/login-as/login-as.component';
-
 
 
 export function feedbackHttpFactory(backend: XHRBackend, options: RequestOptions, router: Router, pubsub: PubSubService) {

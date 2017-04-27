@@ -34,6 +34,7 @@ import { AdminOrdersComponent } from './admin-orders/admin-orders.component';
 import { AdminOrderListComponent } from './admin-orders/admin-order-list/admin-order-list.component';
 import { AdminSingleOrderComponent } from './admin-orders/admin-single-order/admin-single-order.component';
 import { AdminLogsComponent } from './admin-logs/admin-logs.component';
+import {OrderStatusLabelClassDirective} from "../shared/directives/order-status-label-class.directive";
 
 
 

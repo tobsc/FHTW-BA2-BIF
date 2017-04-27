@@ -8,6 +8,7 @@ import {DropdownModule, CollapseModule} from "ng2-bootstrap";
 import {RouterModule} from "@angular/router";
 import { PanelComponent } from './panel/panel.component';
 import { LoadingIncidcatorComponent } from './loading-indicator/loading-incidcator.component';
+import {OrderStatusLabelClassDirective} from "../shared/directives/order-status-label-class.directive";
 @NgModule({
     declarations: [
         TopNavbarComponent,
@@ -15,7 +16,8 @@ import { LoadingIncidcatorComponent } from './loading-indicator/loading-incidcat
         FooterComponent,
         PageNotFoundComponent,
         PanelComponent,
-        LoadingIncidcatorComponent
+        LoadingIncidcatorComponent,
+        OrderStatusLabelClassDirective
     ],
     imports: [
         CommonModule,
@@ -30,6 +32,7 @@ import { LoadingIncidcatorComponent } from './loading-indicator/loading-incidcat
         PageNotFoundComponent,
         PanelComponent,
         LoadingIncidcatorComponent,
+        OrderStatusLabelClassDirective
     ]
 })
 export class CoreModule {}
