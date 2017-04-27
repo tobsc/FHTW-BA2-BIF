@@ -1,4 +1,5 @@
 ﻿using HwInf.Common;
+using HwInf.Common.BL;
 using HwInf.Common.DAL;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,8 @@ namespace ConsoleApplication1
         
         public Notifier(DateTime date)
         {
+
+
             /*HwInfContext db = new HwInfContext();
             Console.WriteLine("We now are looking into the DB");
             var uidlist = db.Orders.Where(i => i.ReturnDate == date).Select(i => i.Verwalter.Uid).ToList();
@@ -52,6 +55,29 @@ namespace ConsoleApplication1
                 Console.WriteLine("No Orders expiring today");
             }
             */
+        }
+
+        public Notifier(DateTime date, string daysbefore)
+        {
+            HwInfContext db = new HwInfContext();
+            BL bl = new BL(db);
+
+            DateTime reminddate = getReminderDate(date, daysbefore);
+            var orderlist = db.Orders.Where(i => i.ReturnDate <= reminddate).Select(i => i.OrderGuid).ToList();
+            if(orderlist.Count() > 0)
+            {
+                foreach(var order in orderlist)
+                {
+                    Mail mail = new Mail(order);
+                    mail.ReminderMessage(order);
+                    mail.Send();
+                }
+            }
+        }
+
+        public DateTime getReminderDate(DateTime date, string daysbefore)
+        {     
+            return date.AddDays(Int32.Parse(daysbefore));
         }
     }
 }

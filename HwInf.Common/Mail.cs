@@ -102,10 +102,10 @@ namespace HwInf.Common
             }
         }
 
-        public void ReminderMessage(int orderId)    
+        public void ReminderMessage(Guid orderGuid)    
         {
             
-            Order order = _bl.GetOrders(orderId);
+            Order order = _bl.GetOrders(orderGuid);
             mail.Body += _bl.GetSetting("reminder_mail").Value+"<br>";
             mail.Body += "Überfallig am: " + order.ReturnDate.ToShortDateString() + "<br>";
 

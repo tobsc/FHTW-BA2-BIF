@@ -59,7 +59,12 @@ export class AdminSettingsComponent implements OnInit {
         Value: sessionStorage.getItem("reminder_mail")
     }
 
-    private setList: Setting[] = [this.ssStart, this.ssEnd, this.wsStart, this.wsEnd, this.newOrder, this.mailAccept_above, this.mailAccept_below, this.mailDecline_above, this.mailDecline_below, this.mailReminder];
+    private daysBefore: Setting = {
+        Key: "days_before_remidner",
+        Value: sessionStorage.getItem("days_before_reminder")
+    }
+
+    private setList: Setting[] = [this.ssStart, this.ssEnd, this.wsStart, this.wsEnd, this.newOrder, this.mailAccept_above, this.mailAccept_below, this.mailDecline_above, this.mailDecline_below, this.mailReminder, this.daysBefore];
 
 
 

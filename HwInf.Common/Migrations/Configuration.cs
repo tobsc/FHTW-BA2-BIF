@@ -141,6 +141,7 @@ namespace HwInf.Common.Migrations
                new Setting { Key = "accept_mail_below", Value = "unten"},
                new Setting { Key = "decline_mail_above", Value = "oben"},
                new Setting { Key = "decline_mail_below", Value = "unten"},
+               new Setting { Key = "days_before_reminder", Value = "7" },
             };
 
             var damageStatus = new List<DamageStatus>
