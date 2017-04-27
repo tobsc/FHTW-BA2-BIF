@@ -27,6 +27,7 @@ namespace HwInf.ViewModels
         private string Role { get; set; }
         public string Room { get; set; }
         public string Password { get; set; }
+        public string Studiengang { get; set; }
 
         public void Refresh(Person obj)
         {
@@ -48,6 +49,7 @@ namespace HwInf.ViewModels
             target.Role = source.Role.Name;
             target.Room = source.Room;
             target.Password = null;
+            target.Studiengang = source.Studiengang;
         }
 
         public void Refresh(LDAPUserParameters obj)
@@ -64,6 +66,7 @@ namespace HwInf.ViewModels
             target.Name = source.Firstname;
             target.LastName = source.Lastname;
             target.Email = source.Mail;
+            target.Studiengang = source.StudiengangKuerzel;
 
             switch (source.PersonalType)
             {
@@ -96,6 +99,10 @@ namespace HwInf.ViewModels
                 target.Role = bl.GetRole(source.Role);
             }
             target.Room = source.Room;
+            if (target.Studiengang == null)
+            {
+                target.Studiengang = source.Studiengang;
+            }
             
 
         }

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {AdminService} from "../../shared/services/admin.service";
-import {Log} from "../../shared/models/log.model";
 
 @Component({
   selector: 'hwinf-admin-logs',
@@ -9,7 +8,7 @@ import {Log} from "../../shared/models/log.model";
 })
 export class AdminLogsComponent implements OnInit {
 
-  private logs: Log[];
+  private logs: string[];
 
   constructor(
       private adminService: AdminService

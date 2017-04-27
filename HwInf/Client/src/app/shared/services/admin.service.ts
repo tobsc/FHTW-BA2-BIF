@@ -8,8 +8,6 @@ import { FeedbackHttpService } from './feedback-http.service';
 import { JwtHttpService } from "./jwt-http.service";
 import { Router } from "@angular/router";
 import { Setting } from "../models/setting.model";
-import {Log} from "../models/log.model";
-
 
 @Injectable()
 export class AdminService {
@@ -110,7 +108,7 @@ export class AdminService {
     }
 
 
-    public getLog(): Observable<Log[]>  {
+    public getLog(): Observable<string[]>  {
         return this.http.get(this.settingsUrl + 'logs/')
             .map((response: Response) => response.json());
     }

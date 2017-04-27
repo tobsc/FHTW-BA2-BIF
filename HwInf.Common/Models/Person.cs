@@ -23,6 +23,7 @@ namespace HwInf.Common.Models
         [Required]
         public virtual Role Role { get; set; }
         public string Room { get; set; }
+        public string Studiengang { get; set; }
         public int CompareTo(Person obj)
         {
             return LastName.CompareTo(obj.LastName);

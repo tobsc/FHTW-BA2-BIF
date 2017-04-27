@@ -78,11 +78,12 @@ namespace HwInf.Controllers
                     ms.Read(buffer, 0, (int)ms.Length);
 
                     // Serve the file to the client
-                    var result = Request.CreateResponse(HttpStatusCode.OK);
-                    result.Content = new ByteArrayContent(buffer);
-                    result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("inline");
+
+                    var result = new HttpResponseMessage(HttpStatusCode.OK) {Content = new ByteArrayContent(buffer)};
+                    result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
                     result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
-                    result.Content.Headers.ContentDisposition.FileName = "Vertrag.pdf";
+                    result.Content.Headers.ContentDisposition.FileName = "Vertrag_"+ order.OrderId + ".pdf";
+
 
                     return result;
                 }
@@ -135,11 +136,10 @@ namespace HwInf.Controllers
                     ms.Read(buffer, 0, (int)ms.Length);
 
                     // Serve the file to the client
-                    var result = Request.CreateResponse(HttpStatusCode.OK);
-                    result.Content = new ByteArrayContent(buffer);
-                    result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
-                    result.Content.Headers.ContentType = new MediaTypeHeaderValue("document/pdf");
-                    result.Content.Headers.ContentDisposition.FileName = "RueckgabeVertrag.pdf";
+                    var result = new HttpResponseMessage(HttpStatusCode.OK) {Content = new ByteArrayContent(buffer)};
+                    result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("inline");
+                    result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
+                    result.Content.Headers.ContentDisposition.FileName = "Rueckgabe" + order.OrderId + ".pdf";
 
                     return result;
                 }
