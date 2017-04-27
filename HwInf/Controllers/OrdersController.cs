@@ -17,7 +17,7 @@ using System.Net.Http.Headers;
 using System.Security;
 using HwInf.Common.BL;
 using log4net;
-
+using System.Threading.Tasks;
 
 namespace HwInf.Controllers
 {
@@ -202,7 +202,8 @@ namespace HwInf.Controllers
                 _bl.SaveChanges();
                 vmdls.ForEach(i =>
                 {
-                    SendMail(i);
+                    Task task = new Task(() => SendMail(i));
+                    task.Start();
                     _log.InfoFormat("Order '{0}' created by '{1}'", i.OrderGuid, User.Identity.Name);
                 });
 
@@ -247,7 +248,8 @@ namespace HwInf.Controllers
                 vmdl.LoadOrderItems(order).Refresh(order);
 
                 ////////////////Mail Part
-                SendMail(vmdl);
+                Task task = new Task(() => SendMail(vmdl));
+                task.Start();
 
                 return Ok(vmdl);
             }
@@ -350,7 +352,8 @@ namespace HwInf.Controllers
                 vmdl.LoadOrderItems(order).Refresh(order);
 
                 ////////////////Mail Part
-                SendMail(vmdl);
+                Task task = new Task(() => SendMail(vmdl));
+                task.Start();
 
                 return Ok(vmdl);
             }
@@ -490,6 +493,27 @@ namespace HwInf.Controllers
                 _log.ErrorFormat("Exception: '{0}'", ex.Message);
             }
             
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="date"></param>
+        /// <param name="daysbefore"></param>
+        [ResponseType(typeof(Notifier))]
+        [Route("")]
+        private IHttpActionResult testreminder(DateTime date, string daysbefore)
+        {
+            try
+            {
+                Notifier notify = new Notifier(date, daysbefore);
+                return Ok(notify);
+            }
+            catch (Exception ex)
+            {
+                _log.ErrorFormat("Exception: '{0}'", ex.Message);
+                return InternalServerError(); ;
+            }
         }
     }
 }

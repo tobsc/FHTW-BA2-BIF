@@ -100,6 +100,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Setting.cs" />
+    <Compile Include="Notifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReturnContract.cs">
       <AutoGen>True</AutoGen>

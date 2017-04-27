@@ -63,7 +63,7 @@ namespace ConsoleApplication1
             BL bl = new BL(db);
 
             DateTime reminddate = getReminderDate(date, daysbefore);
-            var orderlist = db.Orders.Where(i => i.ReturnDate <= reminddate).Select(i => i.OrderGuid).ToList();
+            var orderlist = db.Orders.Where(i => i.To.ToShortDateString() == reminddate.ToShortDateString()).Select(i => i.OrderGuid).ToList();
             if(orderlist.Count() > 0)
             {
                 foreach(var order in orderlist)

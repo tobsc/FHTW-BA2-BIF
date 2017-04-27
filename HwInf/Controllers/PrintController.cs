@@ -175,5 +175,6 @@ namespace HwInf.Controllers
             stream.Seek(0, SeekOrigin.Begin);
             return stream;
         }
+
     }
 }
