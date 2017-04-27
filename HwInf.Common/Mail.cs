@@ -107,7 +107,7 @@ namespace HwInf.Common
 
             Order order = _bl.GetOrders(orderGuid);
             mail.Body += _bl.GetSetting("reminder_mail").Value + "<br>";
-            mail.Body += "Überfallig am: " + order.ReturnDate.ToShortDateString() + "<br>";
+            mail.Body += "Überfallig am: " + order.To.ToShortDateString() + "<br>";
 
             foreach (OrderItem ord in order.OrderItems)
             {

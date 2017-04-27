@@ -14,7 +14,8 @@ namespace ConsoleApplication1
         static void Main(string[] args)
         {
             Console.WriteLine("We now create the Notifier");
-            Notifier notify = new Notifier(DateTime.Now.Date);
+            Notifier notify = new Notifier(DateTime.Now.Date, "14");
+            Console.ReadKey();
             
         }
     }
@@ -62,8 +63,9 @@ namespace ConsoleApplication1
             HwInfContext db = new HwInfContext();
             BL bl = new BL(db);
 
-            DateTime reminddate = getReminderDate(date, daysbefore);
-            var orderlist = db.Orders.Where(i => i.To.ToShortDateString() == reminddate.ToShortDateString()).Select(i => i.OrderGuid).ToList();
+            var reminddate = getReminderDate(date, daysbefore);
+            var orderlist = bl.GetOrders().Where(i => i.To.Date == reminddate.Date).Select(i => i.OrderGuid).ToList(); 
+             
             if(orderlist.Count() > 0)
             {
                 foreach(var order in orderlist)
