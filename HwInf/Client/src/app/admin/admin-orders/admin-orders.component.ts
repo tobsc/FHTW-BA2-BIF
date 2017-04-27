@@ -29,7 +29,7 @@ export class AdminOrdersComponent implements OnInit {
         .subscribe(
             status => {
               let filter = new OrderFilter();
-              filter.StatusSlugs = [status];
+              filter.StatusSlugs = (status === 'archiv') ? ['abgeschlossen', 'abgelehnt'] : [status];
               this.currentStatus = status;
               this.filter = filter;
             }

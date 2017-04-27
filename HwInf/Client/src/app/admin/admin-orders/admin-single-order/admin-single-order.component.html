@@ -80,9 +80,9 @@
             <hwinf-confirm-button *ngIf="order.OrderStatus.Slug === 'ausgeliehen'"
                                   (action)="onReturn()"
                                   class="btn-block"
-                                  popOverTitle="Vertrag abschließen?">
+                                  popOverTitle="Ausleihung beenden?">
               <button title="Antrag resetten" class="btn btn-success btn-xs btn-block">
-                Vertrag abschließen
+                Ausleihung beenden
               </button>
             </hwinf-confirm-button>
             <!-- *ngIf="['akzeptiert', 'abgelehnt'].indexOf(order.OrderStatus.Slug) >= 0" -->
