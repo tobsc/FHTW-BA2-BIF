@@ -84,7 +84,6 @@
     <Compile Include="Models\Damage.cs" />
     <Compile Include="Models\Device.cs" />
     <Compile Include="Models\DeviceMeta.cs" />
-    <Compile Include="Models\DeviceHistory.cs" />
     <Compile Include="Models\Field.cs" />
     <Compile Include="Models\DeviceStatus.cs" />
     <Compile Include="Models\DeviceType.cs" />

@@ -219,7 +219,6 @@ namespace HwInf.Tests.DAL
         public IQueryable<Person> Persons => _persons.AsQueryable();
         public IQueryable<Role> Roles => _roles.AsQueryable();
         public IQueryable<Order> Orders => _orders.AsQueryable();
-        public IQueryable<DeviceHistory> DeviceHistory { get; }
         public IQueryable<Field> Fields => _fields.AsQueryable();
         public IQueryable<FieldGroup> FieldGroups => _fieldGroups.AsQueryable();
         public IQueryable<Setting> Settings => _settings.AsQueryable();
@@ -264,12 +263,7 @@ namespace HwInf.Tests.DAL
             return obj;
         }
 
-        public DeviceHistory CReDeviceHistory()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Field CreaField()
+        public Field CreateField()
         {
             var obj = new Field();
             obj.Slug = "test";
@@ -278,7 +272,7 @@ namespace HwInf.Tests.DAL
             return obj;
         }
 
-        public FieldGroup CreteFieldGroup()
+        public FieldGroup CreateFieldGroup()
         {
             var fg = new FieldGroup();
             fg.Slug = "test";

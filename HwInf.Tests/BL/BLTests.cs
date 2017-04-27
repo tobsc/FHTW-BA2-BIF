@@ -354,7 +354,7 @@ namespace HwInf.Tests.BL
         [Test]
         public void bl_should_return_deviceStatus()
         {
-            var obj = _bl.GetDeviceStatus();
+            var obj = _bl.GetDeviceStatuses();
             Assert.NotNull(obj);
         }
 

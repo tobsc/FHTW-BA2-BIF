@@ -22,7 +22,6 @@ namespace HwInf.Common.DAL
         IQueryable<Role> Roles { get; }
         IQueryable<Order> Orders { get; }
         IQueryable<OrderItem> OrderItems { get; }
-        IQueryable<DeviceHistory> DeviceHistory { get; }
         IQueryable<Field> Fields { get; }
         IQueryable<FieldGroup> FieldGroups { get; }
         IQueryable<Setting> Settings { get; }
@@ -35,9 +34,8 @@ namespace HwInf.Common.DAL
         OrderStatus CreateOrderStatus();
         Person CreatePerson();
         Order CreateOrder();
-        DeviceHistory CReDeviceHistory();
-        Field CreaField();
-        FieldGroup CreteFieldGroup();
+        Field CreateField();
+        FieldGroup CreateFieldGroup();
         DeviceStatus CreateDeviceStatus();
         DeviceMeta CreateDeviceMeta();
         OrderItem CreateOrderItem();
@@ -75,7 +73,6 @@ namespace HwInf.Common.DAL
         public DbSet<Role> Roles { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
-        public DbSet<DeviceHistory> DeviceHistory { get; set; }
         public DbSet<Field> Fields { get; set; }
         public DbSet<FieldGroup> FieldGroups { get; set; }
         public DbSet<Setting> Settings { get; set; }
@@ -105,7 +102,6 @@ namespace HwInf.Common.DAL
             .Include(i => i.OrderItems.Select(x => x.Device))
             .Include(i => i.OrderStatus);
         IQueryable<OrderItem> IDAL.OrderItems => OrderItems;
-        IQueryable<DeviceHistory> IDAL.DeviceHistory => DeviceHistory;
         IQueryable<Field> IDAL.Fields => Fields;
         IQueryable<FieldGroup> IDAL.FieldGroups => FieldGroups
             .Include(x => x.Fields);
@@ -156,12 +152,7 @@ namespace HwInf.Common.DAL
             return obj;
         }
 
-        public DeviceHistory CReDeviceHistory()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Field CreaField()
+        public Field CreateField()
         {
             var obj = new Field();
             Fields.Add(obj);
@@ -169,7 +160,7 @@ namespace HwInf.Common.DAL
             return obj;
         }
 
-        public FieldGroup CreteFieldGroup()
+        public FieldGroup CreateFieldGroup()
         {
             var fg = new FieldGroup();
             FieldGroups.Add(fg);
