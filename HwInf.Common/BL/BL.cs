@@ -44,6 +44,7 @@ namespace HwInf.Common.BL
 
         #region Devices
 
+
         // Read
         public IEnumerable<Device> GetDevices(bool onlyActive = true, string typeSlug = "")
         {
@@ -102,7 +103,7 @@ namespace HwInf.Common.BL
                 .SingleOrDefault(i => i.StatusId == statusId);
         }
 
-        public IQueryable<DeviceStatus> GetDeviceStatus()
+        public IQueryable<DeviceStatus> GetDeviceStatuses()
         {
             return _dal.DeviceStatus;
         }
@@ -228,14 +229,14 @@ namespace HwInf.Common.BL
         {
             if (!IsAdmin && !IsVerwalter) throw new SecurityException();
 
-            return _dal.CreteFieldGroup();
+            return _dal.CreateFieldGroup();
         }
 
         public Field CreateField()
         {
             if (!IsAdmin && !IsVerwalter) throw new SecurityException();
 
-            return _dal.CreaField();
+            return _dal.CreateField();
         }
 
         // Update

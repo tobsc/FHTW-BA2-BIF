@@ -6,6 +6,7 @@ export class FieldGroup {
         public Name: string,
         public Slug: string,
         public IsActive: boolean,
-        public Fields: Field[]
+        public Fields: Field[],
+        public IsCountable: boolean
     ) { }
 }

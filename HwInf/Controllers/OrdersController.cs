@@ -16,6 +16,7 @@ using MigraDoc.Rendering;
 using System.Net.Http.Headers;
 using System.Security;
 using HwInf.Common.BL;
+using HwInf.Common.Models;
 using log4net;
 using System.Threading.Tasks;
 
@@ -125,13 +126,14 @@ namespace HwInf.Controllers
         /// Get OrderStatus
         /// </summary>
         /// <returns></returns>
-        [ResponseType(typeof(OrderViewModel))]
+        [ResponseType(typeof(List<OrderStatusViewModel>))]
         [Route("orderstatus")]
         public IHttpActionResult GetOrderStatus()
         {
             try
             {
                 var vmdl = _bl.GetOrderStatus()
+                    .Select(i => new OrderStatusViewModel(i))
                     .ToList();
 
                 return Ok(vmdl);

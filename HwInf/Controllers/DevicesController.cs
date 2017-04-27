@@ -39,6 +39,21 @@ namespace HwInf.Controllers
             _bl = new BL(db);
         }
 
+
+        [ResponseType(typeof(List<DeviceStatusViewModel>))]
+        [Route("status")]
+
+        public IHttpActionResult GetDeviceStatuses()
+        {
+
+
+            var vmdls = _bl.GetDeviceStatuses()
+                .ToList()
+                .Select(i => new DeviceStatusViewModel(i));
+
+            return Ok(vmdls);
+        }
+
         // GET: api/devices/
         /// <summary>
         /// Returns a list of all devices

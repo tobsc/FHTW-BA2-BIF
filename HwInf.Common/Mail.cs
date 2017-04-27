@@ -26,10 +26,7 @@ namespace HwInf.Common
             
             _db = new HwInfContext();
             _bl = new BL.BL(_db);
-            smtpClient = new SmtpClient("localhost", 8181);
-            smtpClient.UseDefaultCredentials = true;
-            smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-            smtpClient.EnableSsl = false;
+           
 
 
             _order = _bl.GetOrders(orderGuid);
@@ -116,11 +113,20 @@ namespace HwInf.Common
         }
 
 
-        public void Send()
+        public async Task Send()
         {
             try
             {
-                smtpClient.Send(mail);
+
+                using (smtpClient = new SmtpClient("localhost", 8181))
+                {
+
+                    smtpClient.UseDefaultCredentials = true;
+                    smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+                    smtpClient.EnableSsl = false;
+
+                    await smtpClient.SendMailAsync(mail);
+                }
             }
             catch (Exception  ex)
             {

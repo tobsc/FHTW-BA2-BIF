@@ -55,7 +55,8 @@ export class AdminOrderListComponent implements OnInit {
 
 
     updateOrder(index: number, order: Order) {
-        this.orders.splice(index,1);
+        //this.orders.splice(index,1);
+        this.orders[index] = order;
     }
 
 }
