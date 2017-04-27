@@ -22,7 +22,7 @@ export class DeviceListComponent implements OnInit, OnDestroy {
   private currentPage: number = 1;
   private subscription: Subscription;
   private currentType: DeviceType;
-  private devices: Device[];
+  private devices: Device[] = [];
   private filter: Filter;
 
   constructor(
