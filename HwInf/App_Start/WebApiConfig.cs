@@ -27,6 +27,11 @@ namespace HwInf
                 routeTemplate: "api/{controller}/{action}"
                 );
 
+            config.Routes.MapHttpRoute(
+                name: "Print",
+                routeTemplate: "{controller}/{action}"
+                );
+
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
 
             config.MessageHandlers.Add(new AuthHandler());

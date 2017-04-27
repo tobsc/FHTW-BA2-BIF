@@ -20,7 +20,7 @@ using log4net;
 namespace HwInf.Controllers
 {
 
-    [RoutePrefix("api/print")]
+    [RoutePrefix("print")]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class PrintController : ApiController
     {
@@ -80,7 +80,7 @@ namespace HwInf.Controllers
                     // Serve the file to the client
 
                     var result = new HttpResponseMessage(HttpStatusCode.OK) {Content = new ByteArrayContent(buffer)};
-                    result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
+                    result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("inline");
                     result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
                     result.Content.Headers.ContentDisposition.FileName = "Vertrag_"+ order.OrderId + ".pdf";
 
