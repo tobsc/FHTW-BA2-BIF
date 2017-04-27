@@ -49,7 +49,8 @@ namespace HwInf.Controllers
 
             var vmdl = _bl.GetFieldGroups()
                 .ToList()
-                .Select(i => new FieldGroupViewModel(i));
+                .Select(i => new FieldGroupViewModel(i))
+                .ToList();
 
             return Ok(vmdl);
         }
@@ -68,8 +69,9 @@ namespace HwInf.Controllers
 
             var vmdl = _bl.GetFieldGroups()
                 .ToList()
-                .Where(i => i.DeviceTypes.Contains(dt))
-                .Select(i => new FieldGroupViewModel(i));
+                .Where(i => i.DeviceTypes == null || i.DeviceTypes.Contains(dt))
+                .Select(i => new FieldGroupViewModel(i))
+                .ToList();
 
             return Ok(vmdl);
         }
@@ -173,6 +175,9 @@ namespace HwInf.Controllers
                 _bl.SaveChanges();
                 _log.InfoFormat("FieldGroup '{0}' updated by '{1}'", vmdl.Name, User.Identity.Name);
 
+                vmdl.Refresh(fg);
+                return Ok(vmdl);
+
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -186,8 +191,6 @@ namespace HwInf.Controllers
                     throw;
                 }
             }
-
-            return StatusCode(HttpStatusCode.NoContent);
         }
         // GET: 
         /// <summary>
@@ -256,7 +259,7 @@ namespace HwInf.Controllers
 
             var vmdl = _bl.GetFieldGroups()
                 .ToList()
-                .Where(i => i.DeviceTypes.Contains(dt))
+                .Where(i => i.DeviceTypes == null || i.DeviceTypes.Contains(dt))
                 .Select(i => new FieldGroupViewModel(i))
                 .ToList();
 

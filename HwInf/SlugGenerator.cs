@@ -72,6 +72,7 @@ namespace HwInf
 
             }
 
+            if (!slugList.Any()) return value;
             var filter = "(" + value + "){1}[-]*[0-9]*";
             var duplicatesList = slugList.Where(x => Regex.IsMatch(x, filter, RegexOptions.IgnoreCase)).ToList();
 

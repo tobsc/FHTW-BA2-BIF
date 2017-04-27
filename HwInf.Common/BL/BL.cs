@@ -79,6 +79,8 @@ namespace HwInf.Common.BL
 
         public DeviceType GetDeviceType(string typeSlug)
         {
+
+            if (typeSlug == null) return null;
             return
                 _dal.DeviceTypes
                     .SingleOrDefault(i => i.Slug.ToLower().Equals(typeSlug.ToLower()));

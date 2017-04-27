@@ -272,6 +272,7 @@ namespace HwInf.Tests.DAL
         public Field CreaField()
         {
             var obj = new Field();
+            obj.Slug = "test";
             _fields.Add(obj);
 
             return obj;
@@ -280,6 +281,7 @@ namespace HwInf.Tests.DAL
         public FieldGroup CreteFieldGroup()
         {
             var fg = new FieldGroup();
+            fg.Slug = "test";
             _fieldGroups.Add(fg);
             return fg;
         }

@@ -46,7 +46,12 @@ namespace HwInf.ViewModels
             target.Name = source.Name;
             target.Slug = SlugGenerator.GenerateSlug(bl, source.Name, "fieldGroup");
             target.Fields = new List<Field>();
-            source.Fields.ForEach(i => target.Fields.Add(i));
+            source.Fields.ForEach(i =>
+            {
+                var f = bl.CreateField();
+                i.ApplyChanges(f, bl);
+                target.Fields.Add(f);
+            });
             target.IsCountable = source.IsCountable;
         }
 

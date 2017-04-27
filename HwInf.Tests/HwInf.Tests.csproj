@@ -87,6 +87,7 @@
     <Compile Include="Controllers\DeviceControllerTests.cs" />
     <Compile Include="BL\BLTests.cs" />
     <Compile Include="Controllers\PrintControllerTests.cs" />
+    <Compile Include="Controllers\CustomFieldsControllerTests.cs" />
     <Compile Include="Controllers\SettingsControllerTests.cs" />
     <Compile Include="DAL\MockDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -128,5 +128,36 @@ namespace HwInf.Tests.Controllers
             };
             return obj;
         }
+
+        public static FieldGroupViewModel GetvalidFieldGroupViewModel()
+        {
+            var fvmdl = new FieldViewModel
+            {
+                Name = "TestField",
+                Slug = SlugGenerator.GenerateSlug(_bl, "TestField", "field")
+            };
+
+            var vmdl = new FieldGroupViewModel
+            {
+                Name = "Test",
+                Slug = SlugGenerator.GenerateSlug(_bl, "Test", "fieldGroup"),
+                Fields = new List<FieldViewModel>
+                {
+                    fvmdl
+                },               
+            };
+
+            return vmdl;
+        }
+
+        public static FieldViewModel GetValidFieldViewModel()
+        {
+            var vmdl = new FieldViewModel
+            {
+                Name = "TestField"
+            };
+
+            return vmdl;
+        }
     }
 }
