@@ -23,7 +23,8 @@ export class DeviceCustomFieldsFieldgroupsAddComponent implements OnInit {
   ngOnInit() {
     this.form = this.fb.group({
       Name: ['', Validators.required],
-      Fields: this.fb.array([])
+      Fields: this.fb.array([]),
+      IsCountable: [false, Validators.required]
     });
     this.fields = <FormArray>this.form.controls['Fields'];
   }
@@ -58,7 +59,6 @@ export class DeviceCustomFieldsFieldgroupsAddComponent implements OnInit {
         },
         (err) => console.log(err)
     );
-      //BAD HACK
   }
 
 

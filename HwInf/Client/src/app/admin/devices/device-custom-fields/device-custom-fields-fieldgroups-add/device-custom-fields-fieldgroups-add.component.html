@@ -10,6 +10,9 @@
     <br>
     <form [formGroup]="form" (ngSubmit)="onSubmit(form)" id="demo-form2" class="form-horizontal form-label-left">
 
+
+
+
       <div class="form-group">
         <label class="control-label col-md-3 col-sm-3 col-xs-11" for="typename">
           Feldgruppen Name
@@ -19,9 +22,17 @@
         </div>
       </div>
 
+      <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-11" for="countable">
+          Abzählbar
+        </label>
+        <div class="col-md-6 col-sm-6 col-xs-11">
+          <input type="checkbox" id="countable" formControlName="IsCountable">
+        </div>
+      </div>
+
+
       <div id="meta_fields" formArrayName="Fields">
-
-
         <div class="form-group" *ngFor="let field of form.controls.Fields.controls; let i = index;">
           <label class="control-label col-md-3 col-sm-3 col-xs-12">
             Feld
