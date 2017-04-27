@@ -70,7 +70,7 @@ namespace HwInf.ViewModels
             target.Name = source.Name;
             target.InvNum = source.InvNum;
             target.Brand = source.Marke;
-            target.Status = bl.GetDeviceStatus(1);
+            target.Status = bl.GetDeviceStatus(source.Status.StatusId);
             target.Type = bl.GetDeviceType(source.DeviceType.Slug);
             target.Person = bl.GetUsers(source.Verwalter.Uid);
             target.Room = source.Raum;

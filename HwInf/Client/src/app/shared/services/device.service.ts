@@ -8,6 +8,7 @@ import { IDictionary } from "../../shared/common/dictionary.interface";
 import { Dictionary } from "../../shared/common/dictionary.class";
 import { DeviceComponent } from "../models/component.model";
 import {DeviceList} from "../models/device-list.model";
+import {Status} from "../models/status.model";
 
 @Injectable()
 export class DeviceService {
@@ -60,6 +61,11 @@ export class DeviceService {
             .map((response: Response) => response.json());
     }
 
+    public getDeviceStatuses(): Observable<Status[]> {
+        return this.http.get(this.url + 'status')
+            .map((response: Response) => response.json());
+    }
+   
     /**
      * Returns all device types. e.g Notebook, PC, Monitor, ...
      * @returns {Observable<DeviceType[]>}

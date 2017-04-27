@@ -10,6 +10,7 @@ import {FieldGroup} from "../../../shared/models/fieldgroup.model";
 import {User} from "../../../shared/models/user.model";
 import {Device} from "../../../shared/models/device.model";
 import {DeviceMeta} from "../../../shared/models/device-meta.model";
+import {Status} from "../../../shared/models/status.model";
 
 
 @Component({
@@ -26,6 +27,7 @@ export class DeviceFormComponent implements OnInit {
   private formFieldGroups: FormArray;
   private invNums: FormArray;
   private deviceTypes: Observable<DeviceType[]>;
+  private deviceStatuses: Observable<Status[]>;
   private fieldGroups: FieldGroup[];
   private owners: User[];
   private currentDevice: Device;
@@ -46,6 +48,8 @@ export class DeviceFormComponent implements OnInit {
 
   init() {
     this.deviceTypes = this.deviceService.getDeviceTypes();
+    this.deviceStatuses = this.deviceService.getDeviceStatuses();
+
     this.userService.getOwners()
         .subscribe(
             (next) => {
@@ -111,6 +115,7 @@ export class DeviceFormComponent implements OnInit {
 
     if (this.feature === 'edit') {
       this.form.get('InvNum').setValue(device.InvNum);
+      this.form.get('Status').setValue(device.Status);
     }
   }
 
@@ -129,6 +134,7 @@ export class DeviceFormComponent implements OnInit {
       DeviceType: this.initDeviceType(),
       Person: this.initPerson(),
       FieldGroups: this.fb.array([]),
+      Status: this.initStatus()
     });
   }
 
@@ -166,6 +172,13 @@ export class DeviceFormComponent implements OnInit {
   private initPerson(uid: string = ''): FormGroup {
     return this.fb.group({
       Uid: [uid, Validators.required]
+    });
+  }
+
+  private initStatus(id: number = 1): FormGroup {
+    return this.fb.group({
+      StatusId: [id, Validators.required],
+      Description: ['']
     });
   }
 
@@ -313,6 +326,7 @@ export class DeviceFormComponent implements OnInit {
       AdditionalInvNums: this.fb.array(
           form.value.AdditionalInvNums
       ),
+      Status: [form.value.Status]
     });
     let deviceMeta: FormArray = <FormArray>resultForm.controls['DeviceMeta'];
 
