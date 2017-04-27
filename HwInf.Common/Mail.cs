@@ -23,10 +23,13 @@ namespace HwInf.Common
 
         public Mail(Guid orderGuid)
         {
-            
+
             _db = new HwInfContext();
             _bl = new BL.BL(_db);
-           
+            smtpClient = new SmtpClient("localhost", 8181);
+            smtpClient.UseDefaultCredentials = true;
+            smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+            smtpClient.EnableSsl = false;
 
 
             _order = _bl.GetOrders(orderGuid);
@@ -38,14 +41,14 @@ namespace HwInf.Common
             mail.IsBodyHtml = true;
             mail.Subject = "HwInf";
             mail.SubjectEncoding = Encoding.UTF8;
-            
-           
+
+
             mail.BodyEncoding = Encoding.UTF8;
             ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
 
         }
 
-       public void MessageFormat(string status)
+        public void MessageFormat(string status)
         {
             switch (status)
             {
@@ -62,7 +65,7 @@ namespace HwInf.Common
             mail.Body += "<br >";
             foreach (OrderItem ord in order.OrderItems)
             {
-                if(ord.IsDeclined == false)
+                if (ord.IsDeclined == false)
                 {
                     mail.Body += ord.Device.Name + " : akzeptiert <br>";
                 }
@@ -70,7 +73,7 @@ namespace HwInf.Common
                 {
                     mail.Body += ord.Device.Name + " : abgelehnt <br>";
                 }
-               
+
             }
             mail.Body += _bl.GetSetting("accept_mail_below").Value;
         }
@@ -82,8 +85,8 @@ namespace HwInf.Common
 
             foreach (OrderItem ord in order.OrderItems)
             {
-                 mail.Body += ord.Device.Name + " : abgelehnt <br />";
-             
+                mail.Body += ord.Device.Name + " : abgelehnt <br />";
+
             }
 
             mail.Body += _bl.GetSetting("decline_mail_below").Value;
@@ -92,47 +95,38 @@ namespace HwInf.Common
         {
             mail.To.Clear();
             mail.To.Add(order.Verwalter.Email);
-            mail.Body += _bl.GetSetting("new_order_mail").Value+"<br>";
+            mail.Body += _bl.GetSetting("new_order_mail").Value + "<br>";
             foreach (OrderItem ord in order.OrderItems)
             {
-                mail.Body += "Name : "+ord.Device.Name +" | InventarNummer: "+ ord.Device.InvNum+ "<br />";
+                mail.Body += "Name : " + ord.Device.Name + " | InventarNummer: " + ord.Device.InvNum + "<br />";
             }
         }
 
-        public void ReminderMessage(Guid orderGuid)    
+        public void ReminderMessage(Guid orderGuid)
         {
-            
+
             Order order = _bl.GetOrders(orderGuid);
-            mail.Body += _bl.GetSetting("reminder_mail").Value+"<br>";
+            mail.Body += _bl.GetSetting("reminder_mail").Value + "<br>";
             mail.Body += "Überfallig am: " + order.ReturnDate.ToShortDateString() + "<br>";
 
-            foreach(OrderItem ord in order.OrderItems)
+            foreach (OrderItem ord in order.OrderItems)
             {
                 mail.Body += ord.Device.Name + "<br>";
             }
         }
 
 
-        public async Task Send()
+        public void Send()
         {
             try
             {
-
-                using (smtpClient = new SmtpClient("localhost", 8181))
-                {
-
-                    smtpClient.UseDefaultCredentials = true;
-                    smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-                    smtpClient.EnableSsl = false;
-
-                    await smtpClient.SendMailAsync(mail);
-                }
+                smtpClient.Send(mail);
             }
-            catch (Exception  ex)
+            catch (Exception ex)
             {
                 _log.InfoFormat("Fehler beim senden" + ex);
             }
-            
+
         }
     }
 }
