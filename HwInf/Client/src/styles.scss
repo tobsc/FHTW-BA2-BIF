@@ -113,6 +113,10 @@ html {
     margin:0;
 }
 
+ng2-auto-complete {
+  z-index: 99 !important;
+}
+
 
 .form-control {
   z-index: 0;

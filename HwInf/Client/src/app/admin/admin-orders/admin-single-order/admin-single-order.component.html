@@ -97,20 +97,18 @@
 
             <div class="row gutter-5" style="margin-top: 5px">
               <div class="col-xs-6">
-                <button title="Vertrag drucken" class="btn btn-default btn-xs btn-block">
+                <a href="/api/print/{{order.OrderGuid}}" target="_blank" title="Vertrag drucken" class="btn btn-default btn-xs btn-block">
                   <i class="fa fa-print" aria-hidden="true"></i>
-                </button>
+                </a>
               </div>
               <div class="col-xs-6">
                 <a href="mailto:{{order.Entleiher.Email}}" class="btn btn-default btn-xs btn-block"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
               </div>
             </div>
           </td>
-
         </tr>
         </tbody>
       </table>
     </div>
-
   </div>
 </div>

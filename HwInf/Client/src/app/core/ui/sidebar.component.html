@@ -31,7 +31,7 @@
       <div class="menu_section" *ngIf="canActivate()">
         <h3>Administration</h3>
         <ul class="nav side-menu">
-          <li [ngClass]="{current_parent_menu_item: router.url.match('(.*admin\/geraete.*)') }" dropdown><a dropdownToggle><i class="fa fa-desktop" aria-hidden="true"></i> Geräte <span class="fa fa-chevron-down"></span></a>
+          <li [ngClass]="{current_parent_menu_item: router.url.match('(.*admin\/geraete.*)') }" dropdown><a dropdownToggle><i class="fa fa-desktop" aria-hidden="true"></i> Geräteverwaltung <span class="fa fa-chevron-down"></span></a>
             <ul class="nav child_menu">
               <li routerLinkActive="current_menu_item" [routerLinkActiveOptions]="{exact:false}"><a routerLink="/admin/geraete/verwalten">Geräte verwalten</a></li>
               <li routerLinkActive="current_menu_item" [routerLinkActiveOptions]="{exact:false}"><a routerLink="/admin/geraete/erstellen">Geräte hinzufügen</a></li>

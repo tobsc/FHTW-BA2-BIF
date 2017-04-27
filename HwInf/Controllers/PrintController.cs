@@ -80,8 +80,8 @@ namespace HwInf.Controllers
                     // Serve the file to the client
                     var result = Request.CreateResponse(HttpStatusCode.OK);
                     result.Content = new ByteArrayContent(buffer);
-                    result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
-                    result.Content.Headers.ContentType = new MediaTypeHeaderValue("document/pdf");
+                    result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("inline");
+                    result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
                     result.Content.Headers.ContentDisposition.FileName = "Vertrag.pdf";
 
                     return result;
