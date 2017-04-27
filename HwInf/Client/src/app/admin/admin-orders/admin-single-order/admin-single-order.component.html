@@ -32,7 +32,7 @@
                 <label htmlFor="{{order.OrderId}}-{{i}}">
                   {{orderItem.Device.Name}} ({{orderItem.Device.InvNum}})
                 </label>
-                <span class="label label-default">{{orderItem.Device.Status.Description}}</span>
+                <span hwinfDeviceStatusLabelClass [deviceStatus]="orderItem.Device.Status">{{orderItem.Device.Status.Description}}</span>
               </li>
             </ul>
           </td>

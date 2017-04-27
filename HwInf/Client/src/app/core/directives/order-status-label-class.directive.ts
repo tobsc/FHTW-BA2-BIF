@@ -1,5 +1,5 @@
 import {Directive, HostBinding, Input, OnInit} from '@angular/core';
-import {OrderStatus} from "../models/order-status.model";
+import {OrderStatus} from "../../shared/models/order-status.model";
 
 @Directive({
   selector: '[hwinfOrderStatusLabelClass]'
@@ -13,8 +13,6 @@ export class OrderStatusLabelClassDirective implements OnInit{
   constructor() {
   }
   ngOnInit(): void {
-
-    console.log(this.orderStatus.Slug);
 
     switch (this.orderStatus.Slug) {
       case 'offen':
