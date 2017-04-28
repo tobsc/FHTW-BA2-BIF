@@ -16,8 +16,11 @@
 
         <tbody>
         <tr class=" pointer" *ngFor="let row of rows; let i = index;">
-          <td class="name-row" (click)="row.isCollapsed = !row.isCollapsed">
-            {{ row.fieldGroup.Name }}
+          <td >
+            <div class="name-row" (click)="row.isCollapsed = !row.isCollapsed">
+              <div>{{ row.fieldGroup.Name }}</div>
+              <div><i class="fa " [ngClass]="{'fa-chevron-up': !row.isCollapsed, 'fa-chevron-down': row.isCollapsed}" aria-hidden="true"></i></div>
+            </div>
             <div [collapse]="row.isCollapsed">
               <div class="ln_solid"></div>
               <hwinf-device-custom-fields-fieldgroups-form *ngIf="!row.isCollapsed" [fieldGroup]="row.fieldGroup" (fieldGroupsListUpdated)="onSave(i, $event)" submitButtonName="Speichern"></hwinf-device-custom-fields-fieldgroups-form>
