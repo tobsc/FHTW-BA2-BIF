@@ -2,13 +2,10 @@
   <div class="row">
     <div class="col-xs-12">
       <div class="x_panel">
-
         <div class="x_title">
           <h2>Geräte Details</h2>
           <div class="clearfix"></div>
         </div>
-
-
         <div class="row">
           <div class="col-xs-12 col-md-6">
             <div class="form-group">
@@ -17,14 +14,12 @@
               </label>
               <input id="Name" name="Name" class="form-control" type="text" formControlName="Name">
             </div>
-
             <div class="form-group">
               <label htmlFor="Marke">
                 Marke
               </label>
               <input id="Marke" name="Marke" class="form-control" type="text" formControlName="Marke">
             </div>
-
             <div class="form-group" formGroupName="DeviceType">
               <label for="type">
                 Typ
@@ -35,20 +30,16 @@
                 </option>
               </select>
             </div>
-
             <div class="form-group" formGroupName="Status">
               <label for="status">
                 Status
               </label>
               <select id="status" class="form-control" formControlName="StatusId">
-
                 <option *ngFor="let deviceStatus of deviceStatuses | async; let i = index" [selected]="i == 0" [ngValue]="deviceStatus.StatusId">
                   {{deviceStatus.Description}}
                 </option>
               </select>
             </div>
-
-
           </div>
           <div class="col-xs-12 col-md-6">
             <div class="form-group">
@@ -57,9 +48,6 @@
               </label>
               <input id="Raum" name="Raum" class="form-control" type="text" formControlName="Raum">
             </div>
-
-
-
             <div class="form-group" formGroupName="Person">
               <label htmlFor="Person">
                 Verwalter
@@ -70,19 +58,13 @@
                   ({{owner.Uid}}) {{owner.LastName}} {{owner.Name}}
                 </option>
               </select>
-
-              <!--input auto-complete [source]="owners" id="Person" name="Person" class="form-control" type="text" formControlName="Uid"-->
             </div>
-
             <div class="form-group">
               <label htmlFor="InvNum">
                 Inventarnummer
               </label>
               <input id="InvNum" name="InvNum" class="form-control" type="text" formControlName="InvNum">
             </div>
-
-
-
             <div formArrayName="AdditionalInvNums">
               <div class="form-group" *ngFor="let invNum of form.controls.AdditionalInvNums.controls; let i = index">
                 <div [formGroupName]="i">
@@ -90,36 +72,22 @@
                     {{i+2}}. Inventarnummer
                   </label>
                   <div class="input-group">
-
                     <input id="InvNum-{{i}}" name="InvNum-{{i}}" class="form-control" type="text" formControlName="InvNum">
-
                     <span class="input-group-btn">
-                                      <button type="button" class="btn btn-danger" (click)="removeInvNum(i)" style="margin-right: 0"><i class="fa fa-times" aria-hidden="true"></i></button>
-                                  </span>
+                      <button type="button" class="btn btn-danger" (click)="removeInvNum(i)" style="margin-right: 0"><i class="fa fa-times" aria-hidden="true"></i></button>
+                    </span>
                   </div>
                 </div>
               </div>
             </div>
-
             <button *ngIf="feature !== 'edit'" class="btn btn-warning btn-xs" type="button" (click)="addInvNum()">
               <i class="fa fa-plus-square-o" aria-hidden="true"></i>
               Weitere Inventarnummer hinzufügen
             </button>
-
-
           </div><!-- col-xs-12 col-md-6 -->
-
         </div>
-
-
-
       </div><!-- x_panel -->
-
-
-
       <div class="form-group" formArrayName="FieldGroups">
-
-
         <div class="row gutter-10 auto-clear">
           <div class="col-xs-12 col-md-6 col-lg-4" *ngFor="let fieldGroup of form.controls.FieldGroups.controls; let i = index">
             <div class="x_panel">
@@ -134,10 +102,10 @@
                   <div *ngFor="let field of fieldGroup.controls.Fields.controls; let j = index">
                     <div class="form-group" [formGroupName]="j">
                       <div class="row">
-                        <div class="col-xs-3" style="padding-right: 0">
+                        <div style="padding-right: 0" [ngClass]="{hidden: fieldGroups[i].IsCountable, 'col-xs-3': !fieldGroups[i].IsCountable}">
                           <input min="1" class="quantity form-control" type="number" formControlName="Quantity">
                         </div>
-                        <div class="col-xs-9">
+                        <div [ngClass]="{'col-xs-12': fieldGroups[i].IsCountable}">
                           <div class="input-group">
                             <input class="form-control" auto-complete [source]="fieldGroups[i].Fields | fieldsToArrayPipe" type="text" formControlName="Name">
                             <span class="input-group-btn">
