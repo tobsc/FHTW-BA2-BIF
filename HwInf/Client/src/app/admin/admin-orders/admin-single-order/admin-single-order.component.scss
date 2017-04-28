@@ -3,7 +3,7 @@ input:checked + label {
   text-decoration: line-through;
 }
 
-td {
+th {
   &:nth-child(1) {
     width: 10%;
   }
@@ -22,7 +22,7 @@ td {
   }
 
   &:nth-child(6) {
-    width: 10%;
+    width: 200px;
   }
 }
 
