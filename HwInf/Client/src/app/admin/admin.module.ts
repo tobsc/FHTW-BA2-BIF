@@ -24,7 +24,7 @@ import {JwtHttpService} from "../shared/services/jwt-http.service";
 import {DeviceFormComponent} from "./devices/device-form/device-form.component";
 import {DeviceEditComponent} from "./devices/device-edit/device-edit.component";
 import {DeviceAddComponent} from "./devices/device-add/device-add.component";
-import {AlertModule} from "ng2-bootstrap";
+import {AlertModule, CollapseModule} from "ng2-bootstrap";
 import {DeviceDuplicateComponent} from "./devices/device-duplicate/device-duplicate.component";
 import {ModalModule} from "angular2-modal";
 import {ConfirmDialogModule} from "../core/confirm-dialog/confirm-dialog.module";
@@ -35,6 +35,7 @@ import { AdminOrderListComponent } from './admin-orders/admin-order-list/admin-o
 import { AdminSingleOrderComponent } from './admin-orders/admin-single-order/admin-single-order.component';
 import { AdminLogsComponent } from './admin-logs/admin-logs.component';
 import {OrderStatusLabelClassDirective} from "../core/directives/order-status-label-class.directive";
+import { DeviceCustomFieldsFieldgroupsFormComponent } from './devices/device-custom-fields/device-custom-fields-fieldgroups-form/device-custom-fields-fieldgroups-form.component';
 
 
 
@@ -66,6 +67,7 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
         AdminOrderListComponent,
         AdminSingleOrderComponent,
         AdminLogsComponent,
+        DeviceCustomFieldsFieldgroupsFormComponent,
     ],
     imports: [
         RouterModule,
@@ -77,6 +79,7 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
         adminRouting,
         AlertModule.forRoot(),
         ModalModule.forRoot(),
+        CollapseModule.forRoot(),
         Daterangepicker,
         ConfirmDialogModule,
     ],

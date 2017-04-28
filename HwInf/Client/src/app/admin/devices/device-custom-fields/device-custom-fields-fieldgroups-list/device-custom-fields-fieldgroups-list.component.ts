@@ -12,6 +12,7 @@ import {FieldGroup} from "../../../../shared/models/fieldgroup.model";
 export class DeviceCustomFieldsFieldgroupsListComponent implements OnInit {
 
   private fieldGroups: FieldGroup[] = [];
+    private rows: any[];
 
   constructor(private customFieldsService: CustomFieldsService) { }
 
@@ -23,15 +24,18 @@ export class DeviceCustomFieldsFieldgroupsListComponent implements OnInit {
     this.customFieldsService.getFieldGroups()
         .subscribe((data) => {
           this.fieldGroups = data;
+            this.rows = data.map(i => ({isCollapsed: true, fieldGroup: i}));
         });
   }
 
-  pushData(item: FieldGroup) {
-    this.fieldGroups.push(item);
+  pushData(fieldGroup: FieldGroup) {
+    this.fieldGroups.push(fieldGroup);
+      this.rows.unshift({isCollapsed:true, fieldGroup: fieldGroup});
   }
 
   removeDeviceType(index: number) {
       this.fieldGroups.splice(index, 1);
+      this.rows.splice(index, 1);
   }
 
   onDelete(groupSlug: string, index: number) {
@@ -39,6 +43,18 @@ export class DeviceCustomFieldsFieldgroupsListComponent implements OnInit {
           .subscribe(
           () => { this.removeDeviceType(index) },
           (err) => console.log(err)
+          );
+  }
+
+  onSave(i, fieldGroup) {
+      this.customFieldsService.editFieldGroup(fieldGroup)
+          .subscribe(
+              (success) => {
+                  console.log(success);
+                  this.rows[i].fieldGroup = success;
+                  this.rows[i].isCollapsed = true;
+              },
+              (error) => console.log(error)
           );
   }
 
