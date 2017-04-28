@@ -1,0 +1,35 @@
+<p>
+  device-types-edit-form works!
+</p>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit(form)" id="demo-form2" class="form-horizontal form-label-left">
+
+    <div class="form-group">
+        <label for="typename">
+            Gerätetypen Name
+        </label>
+        <input type="text" id="typename" required="required" class="form-control" formControlName="Name">
+    </div>
+
+    <div id="meta_fields" formArrayName="FieldGroups">
+        <div class="form-group" *ngFor="let field of form.controls.FieldGroups.controls; let i = index;">
+            <label>
+                Feld
+            </label>
+            <div class="form-group" [formGroupName]="i">
+                <div class="field-select">
+                    <input type="text" class="form-control" formControlName="Name">
+                    <a class="btn btn-danger btn-rm-row" (click)="removeField(i)"><i class="fa fa-times" aria-hidden="true"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <button type="button" class="btn btn-default" (click)="addField()">Feld hinzufügen</button>
+    </div>
+    <div class="ln_solid"></div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-success" [disabled]="!form.valid">{{submitButtonName}}</button>
+    </div>
+</form>

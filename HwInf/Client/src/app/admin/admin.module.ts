@@ -36,6 +36,7 @@ import { AdminSingleOrderComponent } from './admin-orders/admin-single-order/adm
 import { AdminLogsComponent } from './admin-logs/admin-logs.component';
 import {OrderStatusLabelClassDirective} from "../core/directives/order-status-label-class.directive";
 import { DeviceCustomFieldsFieldgroupsFormComponent } from './devices/device-custom-fields/device-custom-fields-fieldgroups-form/device-custom-fields-fieldgroups-form.component';
+import { DeviceTypesEditFormComponent } from './devices/device-types/device-types-edit-form/device-types-edit-form.component';
 
 
 
@@ -68,6 +69,7 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
         AdminSingleOrderComponent,
         AdminLogsComponent,
         DeviceCustomFieldsFieldgroupsFormComponent,
+        DeviceTypesEditFormComponent,
     ],
     imports: [
         RouterModule,
