@@ -26,13 +26,15 @@
             </a>
           </td>
           <td>
-            <ul class="list-unstyled">
-              <li *ngFor="let orderItem of order.OrderItems; let i = index">
-                <input style="display: none" type="checkbox" id="{{order.OrderId}}-{{i}}" />
-                <label htmlFor="{{order.OrderId}}-{{i}}">
-                  {{orderItem.Device.Name}} ({{orderItem.Device.InvNum}})
-                </label>
+
+            <ul class="list-group">
+              <li class="list-group-item" *ngFor="let orderItem of order.OrderItems; let i = index" [ngClass]="{'declined-order-item': orderItem.IsDeclined}">
+                <button *ngIf="order.OrderStatus.Slug === 'offen'" (click)="orderItem.IsDeclined = !orderItem.IsDeclined" type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span *ngIf="!orderItem.IsDeclined" aria-hidden="true">&times;</span>
+                  <span *ngIf="orderItem.IsDeclined" aria-hidden="true">&#43;</span>
+                </button>
                 <span hwinfDeviceStatusLabelClass [deviceStatus]="orderItem.Device.Status">{{orderItem.Device.Status.Description}}</span>
+                  <span class="device-name">{{orderItem.Device.Name}} ({{orderItem.Device.InvNum}})</span>
               </li>
             </ul>
           </td>
@@ -53,12 +55,13 @@
             <hwinf-confirm-button *ngIf="order.OrderStatus.Slug === 'offen'"
                                   (action)="onAccept()"
                                   class="btn-block"
-                                  popOverTitle="Antrag akzeptieren?">
+                                  popOverTitle="Antrag akzeptieren?"
+
+            >
               <button title="Antrag akzeptieren" class="btn btn-success btn-xs btn-block">
                 Antrag akzeptieren
               </button>
             </hwinf-confirm-button>
-
             <hwinf-confirm-button *ngIf="order.OrderStatus.Slug === 'akzeptiert'"
                                   (action)="onLend()"
                                   class="btn-block"
@@ -85,7 +88,6 @@
                 Ausleihung beenden
               </button>
             </hwinf-confirm-button>
-            <!-- *ngIf="['akzeptiert', 'abgelehnt'].indexOf(order.OrderStatus.Slug) >= 0" -->
             <hwinf-confirm-button
                     (action)="onReset()"
                     class="btn-block"

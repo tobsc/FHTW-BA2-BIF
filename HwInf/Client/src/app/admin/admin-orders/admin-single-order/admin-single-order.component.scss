@@ -29,3 +29,9 @@ th {
 :host:last-child {
   .x_panel {margin-bottom: 0}
 }
+
+
+.declined-order-item {
+  opacity: 0.4;
+  .device-name { text-decoration: line-through; }
+}

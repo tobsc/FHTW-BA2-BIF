@@ -20,6 +20,7 @@ export class DeviceTypesListComponent implements OnInit {
   fetchData() {
     this.deviceService.getDeviceTypes()
         .subscribe((data) => {
+            console.log(data);
           this.deviceTypes = data;
         });
   }
