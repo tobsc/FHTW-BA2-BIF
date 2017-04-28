@@ -24,7 +24,7 @@
     "angular2-modal": "^2.0.3",
     "core-js": "^2.4.1",
     "ng2-auto-complete": "^0.11.1",
-    "ng2-bootstrap": "^1.4.0",
+    "ng2-bootstrap": "1.4.0",
     "ng2-datepicker": "^1.8.2",
     "ng2-daterange-picker": "^1.0.3",
     "ng2-daterangepicker": "^2.0.3",
