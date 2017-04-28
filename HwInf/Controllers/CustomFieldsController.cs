@@ -89,6 +89,7 @@ namespace HwInf.Controllers
             var obj = _bl.CreateFieldGroup();
             vmdl.ApplyChanges(obj, _bl);
             _bl.SaveChanges();
+            vmdl.Refresh(obj);
             _log.InfoFormat("New FieldGroup '{0}' created by '{1}'", vmdl.Name, User.Identity.Name);
             return Ok(vmdl);
         }

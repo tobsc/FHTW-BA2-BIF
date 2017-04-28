@@ -27,17 +27,12 @@ const ADMIN_ROUTES: Routes = [
             { path: 'geraete/verwalten', component: DeviceListComponent },
             { path: 'geraete/erstellen', component: DeviceAddComponent },
             { path: 'geraete/erstellen/:invnum', component: DeviceDuplicateComponent },
+            { path: 'geraete/felder', component: DeviceCustomFieldsComponent },
             { path: 'geraete/typen', component: DeviceTypesComponent,
                 children: [
                     { path: '', redirectTo: 'verwalten', pathMatch: 'full' },
                     { path: 'edit/:slug', component: DeviceTypesEditComponent, canActivate: [AuthGuard] },
                     { path: 'verwalten', component: DeviceTypesAddComponent, canActivate: [AuthGuard] },]
-            },
-            { path: 'geraete/felder', component: DeviceCustomFieldsComponent,
-                children: [
-                    { path: '', redirectTo: 'verwalten', pathMatch: 'full' },
-                    { path: 'edit/:slug', component: DeviceCustomFieldsFieldgroupsEditComponent, canActivate: [AuthGuard] },
-                    { path: 'verwalten', component: DeviceCustomFieldsFieldgroupsAddComponent, canActivate: [AuthGuard] },]
             },
             { path: 'geraete/verwalten/:invnum', component: DeviceEditComponent },
             { path: 'settings', component: AdminSettingsComponent },
