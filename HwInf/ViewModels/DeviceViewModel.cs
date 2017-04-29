@@ -58,7 +58,7 @@ namespace HwInf.ViewModels
 
             if (source.Type.FieldGroups != null)
             {
-                target.FieldGroups = source.Type.FieldGroups.Select(i => new { Slug = i.Slug, Name = i.Name }).ToList();
+                target.FieldGroups = source.Type.FieldGroups.Select(i => new { Slug = i.Slug, Name = i.Name, IsCountable = i.IsCountable }).ToList();
             }
         }
 

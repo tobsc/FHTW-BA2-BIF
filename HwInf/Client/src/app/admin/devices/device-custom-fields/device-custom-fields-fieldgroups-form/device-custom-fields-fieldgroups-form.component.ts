@@ -17,6 +17,7 @@ export class DeviceCustomFieldsFieldgroupsFormComponent implements OnInit {
 
   @Output() fieldGroupsListUpdated = new EventEmitter<FieldGroup>();
   @Input() submitButtonName: string;
+
   @Input()
   private set fieldGroup(fieldGroup) {
     this.fieldGroup$.next(fieldGroup);
@@ -35,9 +36,6 @@ export class DeviceCustomFieldsFieldgroupsFormComponent implements OnInit {
   }
 
   fillFormWithValues(fieldGroup) {
-
-    console.log("i am called");
-
     if(!!fieldGroup && !!fieldGroup.Fields)  {
       this.form.get('Name').setValue(fieldGroup.Name);
       this.form.get('Slug').setValue((fieldGroup.Slug));

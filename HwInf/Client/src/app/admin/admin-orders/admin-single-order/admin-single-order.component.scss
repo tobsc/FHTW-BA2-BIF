@@ -3,7 +3,7 @@ input:checked + label {
   text-decoration: line-through;
 }
 
-td {
+th {
   &:nth-child(1) {
     width: 10%;
   }
@@ -22,10 +22,16 @@ td {
   }
 
   &:nth-child(6) {
-    width: 10%;
+    width: 200px;
   }
 }
 
 :host:last-child {
   .x_panel {margin-bottom: 0}
+}
+
+
+.declined-order-item {
+  opacity: 0.4;
+  .device-name { text-decoration: line-through; }
 }

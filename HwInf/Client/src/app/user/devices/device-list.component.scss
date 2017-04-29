@@ -1,0 +1,28 @@
+/*CSS3 multiple columns.*/
+/* Get em size for colums: 184/16 */
+.responsive-list
+{
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  @media screen and (max-width: 769px){
+    flex-direction: column;
+  }
+
+  &>div {
+    padding: 10px;
+    width: 200px;
+  }
+}
+/*remove standard list and bullet formatting from ul*/
+.responsive-list ul
+{
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+/* correct webkit/chrome uneven margin on the first column*/
+.responsive-list ul li:first-child
+{
+  margin-top:0px;
+}
