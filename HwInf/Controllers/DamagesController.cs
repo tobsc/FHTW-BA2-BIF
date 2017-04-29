@@ -93,6 +93,38 @@ namespace HwInf.Controllers
         }
 
         /// <summary>
+        /// Get Damages by InvNum of Device
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [ResponseType(typeof(DamageViewModel))]
+        [Route("invnum/{invnum}")]
+        public IHttpActionResult GetDamages(string invNum)
+        {
+            try
+            {
+                var damages = _bl.GetDamages(invNum).ToList()
+                    .Select(i => new DamageViewModel(i))
+                    .ToList();
+                ;
+
+                if (damages == null)
+                {
+                    _log.WarnFormat("Not Found: Damage by Device '{0}' not found", invNum);
+                    return NotFound();
+                }
+
+                
+                return Ok(damages);
+            }
+            catch (Exception ex)
+            {
+                _log.ErrorFormat("Exception: {0}", ex.Message);
+                return InternalServerError();
+            }
+        }
+
+        /// <summary>
         /// Get DamageStatus
         /// </summary>
         /// <returns></returns>

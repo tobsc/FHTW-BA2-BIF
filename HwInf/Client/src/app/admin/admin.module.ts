@@ -36,6 +36,10 @@ import { AdminSingleOrderComponent } from './admin-orders/admin-single-order/adm
 import { AdminLogsComponent } from './admin-logs/admin-logs.component';
 import {OrderStatusLabelClassDirective} from "../core/directives/order-status-label-class.directive";
 import { DeviceCustomFieldsFieldgroupsFormComponent } from './devices/device-custom-fields/device-custom-fields-fieldgroups-form/device-custom-fields-fieldgroups-form.component';
+import { DamagesComponent } from './devices/damages/damages.component';
+import { DamagesListComponent } from './devices/damages/damages-list/damages-list.component';
+import { DamagesAddComponent } from './devices/damages/damages-add/damages-add.component';
+import { DamageFormComponent } from './devices/damages/damage-form/damage-form.component';
 
 
 
@@ -68,6 +72,10 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
         AdminSingleOrderComponent,
         AdminLogsComponent,
         DeviceCustomFieldsFieldgroupsFormComponent,
+        DamagesComponent,
+        DamagesListComponent,
+        DamagesAddComponent,
+        DamageFormComponent,
     ],
     imports: [
         RouterModule,

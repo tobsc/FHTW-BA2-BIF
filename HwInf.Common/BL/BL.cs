@@ -639,6 +639,11 @@ namespace HwInf.Common.BL
             return _dal.Damages.FirstOrDefault(i => i.DamageId.Equals(id));
         }
 
+        public IEnumerable<Damage> GetDamages(string invNum)
+        {
+            return _dal.Damages.Where(i => i.Device.InvNum.Equals(invNum));
+        }
+
         public IEnumerable<Damage> GetDamages()
         {
             return _dal.Damages;

@@ -90,6 +90,7 @@
           <td>
             <a routerLink="/admin/geraete/verwalten/{{device.InvNum}}/" title="Gerät bearbeiten" class="btn btn-warning btn-sm" aria-label="Bearbeiten"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
             <a [routerLink]="['/admin/geraete/erstellen/', device.InvNum]" title="Gerät duplizieren" class="btn btn-info btn-sm" aria-label="Duplizieren"><i class="fa fa-files-o" aria-hidden="true"></i></a>
+            <a [routerLink]="['/admin/geraete/schaden/', device.InvNum]" title="Geräteschäden verwalten" class="btn btn-warning btn-sm" aria-label="Schäden"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></a>
 
             <hwinf-confirm-button (action)="onDelete(device.DeviceId, i)" popOverTitle="Wirklich löschen?">
               <button title="Gerät löschen" class="btn btn-danger btn-sm" aria-label="Löschen">

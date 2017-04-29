@@ -1,0 +1,40 @@
+<div class="x_panel">
+    <div class="x_title">
+        <h2>Schäden verwalten</h2>
+        <div class="clearfix"></div>
+    </div>
+    <div class="x_content">
+        <div class="table-responsive">
+            <table id="datatable" class="table table-striped bulk_action table-bordered">
+                <thead>
+                    <tr class="headings">
+                        <th class="column-title">Name</th>
+                        <th style="width: 90px" class="column-title">Aktion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="pointer" *ngFor="let row of rows; let i = index;">
+                        <td>
+                            <div class="name-row" (click)="row.isCollapsed = !row.isCollapsed">
+                                <div>{{row.damage.DamageId}}: "{{row.damage.Description}}"</div>
+                                <div><i class="fa " [ngClass]="{'fa-chevron-up': !row.isCollapsed, 'fa-chevron-down': row.isCollapsed}" aria-hidden="true"></i></div>
+                            </div>
+                            <div [collapse]="row.isCollapsed">
+                                <div class="ln_solid"></div>
+                                <hwinf-damage-form *ngIf="!row.isCollapsed" [currentDamage]="row.damage" (fieldGroupsListUpdated)="onSave(i, $event)" submitButtonName="Speichern"></hwinf-damage-form>
+                            </div>
+                        </td>
+                        <td>
+                            <a title=" bearbeiten" (click)="row.isCollapsed = !row.isCollapsed" class="btn btn-warning btn-xs" aria-label="Bearbeiten"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                            <hwinf-confirm-button (action)="onDelete(row.fieldGroup.Slug, i)" popOverTitle="Wirklich löschen?">
+                                <button title="Gerätetyp löschen" class="btn btn-danger btn-xs" aria-label="Löschen">
+                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                </button>
+                            </hwinf-confirm-button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

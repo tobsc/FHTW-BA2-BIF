@@ -37,6 +37,8 @@ import {KeysPipe} from "./shared/pipes/keys.pipe";
 import {OrderService} from "./shared/services/order.service";
 import { LoginAsComponent } from './authentication/login-as/login-as.component';
 
+import { DamageService } from './shared/services/damage.service';
+
 
 export function feedbackHttpFactory(backend: XHRBackend, options: RequestOptions, router: Router, pubsub: PubSubService) {
     return new FeedbackHttpService(backend, options, router, pubsub);
@@ -86,7 +88,8 @@ export function feedbackHttpFactory(backend: XHRBackend, options: RequestOptions
         PubSubService,
         CustomFieldsService,
         ErrorHandlerService,
-        OrderService
+        OrderService,
+        DamageService
     ],
     bootstrap: [AppComponent]
 })

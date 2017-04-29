@@ -16,7 +16,14 @@ import {PageNotFoundComponent} from "../core/page-not-found/page-not-found.compo
 import { DeviceDuplicateComponent } from "./devices/device-duplicate/device-duplicate.component";
 import { AdminSettingsComponent } from "./admin-settings/admin-settings.component";
 import {AdminOrdersComponent} from "./admin-orders/admin-orders.component";
-import {AdminLogsComponent} from "./admin-logs/admin-logs.component";
+import { AdminLogsComponent } from "./admin-logs/admin-logs.component";
+import { DamagesComponent } from "./devices/damages/damages.component";
+import { DamagesListComponent } from "./devices/damages/damages-list/damages-list.component";
+import { DamagesEditComponent } from "./devices/damages/damages-edit/damages-edit.component";
+import { DamagesAddComponent } from "./devices/damages/damages-add/damages-add.component";
+
+
+
 
 
 const ADMIN_ROUTES: Routes = [
@@ -31,9 +38,11 @@ const ADMIN_ROUTES: Routes = [
             { path: 'geraete/typen', component: DeviceTypesComponent,
                 children: [
                     { path: '', redirectTo: 'verwalten', pathMatch: 'full' },
-                    { path: 'edit/:slug', component: DeviceTypesEditComponent, canActivate: [AuthGuard] },
-                    { path: 'verwalten', component: DeviceTypesAddComponent, canActivate: [AuthGuard] },]
+                    { path: 'edit/:slug', component: DeviceTypesEditComponent },
+                    { path: 'verwalten', component: DeviceTypesAddComponent },]
             },
+            { path: 'geraete/schaden/:invnum', component: DamagesListComponent},
+            { path: 'geraete/schaden/add', component: DamagesAddComponent},
             { path: 'geraete/verwalten/:invnum', component: DeviceEditComponent },
             { path: 'settings', component: AdminSettingsComponent },
             { path: 'orders', redirectTo: 'orders/offen', pathMatch: 'full'},

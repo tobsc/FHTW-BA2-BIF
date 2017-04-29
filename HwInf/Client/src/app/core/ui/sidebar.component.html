@@ -47,13 +47,13 @@
               <li routerLinkActive="current_menu_item"><a routerLink="/admin/orders/archiv" [queryParams]="{}">Archiv</a></li>
             </ul>
           </li>
-          <li dropdown><a dropdownToggle><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Schäden <span class="fa fa-chevron-down"></span></a>
-            <ul class="nav child_menu">
-              <li><a href="schaden.php">Schaden hinzufügen</a></li>
-              <li><a href="schaden.php">Historie anzeigen</a></li>
-              <li><a href="schaden.php">Archiv</a></li>
-            </ul>
-          </li>
+            <li [ngClass]="{current_parent_menu_item: router.url.match('(.*admin\/geraete\/schaden.*)') }" dropdown *ngIf="canActivateSettings()">
+                <a dropdownToggle><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Schäden <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                    <li routerLinkActive="current_menu_item" [routerLinkActiveOptions]="{exact:false}"><a routerLink="/admin/geraete/schaden/add" [queryParams]="{}">Schaden hinzufügen</a></li>
+                </ul>
+            </li>
+
           <li [ngClass]="{current_parent_menu_item: router.url.match('(.*admin\/settings.*)') }"  dropdown *ngIf="canActivateSettings()"><a dropdownToggle><i class="fa fa-cog" aria-hidden="true"></i> Settings <span class="fa fa-chevron-down"></span></a>
             <ul class="nav child_menu">
               <li routerLinkActive="current_menu_item" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/admin/settings">Settings</a></li>

@@ -388,6 +388,8 @@
     <TypeScriptCompile Include="Client\src\app\shared\common\dictionary.class.ts" />
     <TypeScriptCompile Include="Client\src\app\shared\common\dictionary.interface.ts" />
     <TypeScriptCompile Include="Client\src\app\shared\models\component.model.ts" />
+    <TypeScriptCompile Include="Client\src\app\shared\models\damage-status.model.ts" />
+    <TypeScriptCompile Include="Client\src\app\shared\models\damage.model.ts" />
     <TypeScriptCompile Include="Client\src\app\shared\models\device-meta.model.ts" />
     <TypeScriptCompile Include="Client\src\app\shared\models\device-type.model.ts" />
     <TypeScriptCompile Include="Client\src\app\shared\models\device.model.ts" />

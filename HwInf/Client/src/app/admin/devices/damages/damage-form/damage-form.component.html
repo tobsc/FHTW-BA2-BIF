@@ -1,0 +1,61 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit(form)" id="demo-form2" class="form-horizontal form-label-left">
+
+    <div class="form-group">
+        <label for="beschreibung">
+            Beschreibung:
+        </label>
+        <input type="text" id="typename" required="required" class="form-control" formControlName="Description">
+    </div>
+
+    <div class="form-group">
+        <label>
+            Gemeldet am:
+        </label>
+        <div class="field-select">
+            <input type="text" class="form-control" value="{{currentDamage.Date}}" [disabled]="true">
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label>
+            Verursacher:
+        </label>
+        <div class="field-select">
+            <input type="text" class="form-control" formControlName="Cause">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>
+            Melder:
+        </label>
+        <div class="field-select">
+            <input type="text" class="form-control" formControlName="Reporter">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>
+            Gerät:
+        </label>
+        <div class="field-select">
+            <input type="text" class="form-control" formControlName="Device">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>
+            DamageStatus:
+        </label>
+        <div class="field-select">
+            <input type="text" class="form-control" value="{{currentDamage.DamageStatus.Name}}">
+        </div>
+    </div>
+
+    <div class="ln_solid"></div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-success" [disabled]="!form.valid">{{submitButtonName}}</button>
+    </div>
+
+</form>
