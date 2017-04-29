@@ -12,11 +12,11 @@
                         <th style="width: 90px" class="column-title">Aktion</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="truncate">
                     <tr class="pointer" *ngFor="let row of rows; let i = index;">
                         <td>
                             <div class="name-row" (click)="row.isCollapsed = !row.isCollapsed">
-                                <div>"{{row.damage?.Description}}"</div>
+                                <div class="truncate">{{row.damage?.DamageId}}: "{{row.damage?.Description}}"</div>
                                 <div><i class="fa " [ngClass]="{'fa-chevron-up': !row.isCollapsed, 'fa-chevron-down': row.isCollapsed}" aria-hidden="true"></i></div>
                             </div>
                             <div [collapse]="row.isCollapsed">

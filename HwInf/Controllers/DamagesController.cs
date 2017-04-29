@@ -115,7 +115,7 @@ namespace HwInf.Controllers
                 }
 
                 
-                return Ok(damages);
+                return Ok(damages.OrderByDescending(i=>i.DamageId));
             }
             catch (Exception ex)
             {
