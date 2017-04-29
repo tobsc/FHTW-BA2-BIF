@@ -16,7 +16,7 @@ export class OrderStatusLabelClassDirective implements OnInit{
 
     switch (this.orderStatus.Slug) {
       case 'offen':
-        this.currentClass = 'label label-info';
+        this.currentClass = 'label label-warning';
       break;
 
       case 'akzeptiert':
@@ -24,7 +24,7 @@ export class OrderStatusLabelClassDirective implements OnInit{
       break;
 
       case 'ausgeliehen':
-        this.currentClass = 'label label-warning';
+        this.currentClass = 'label label-info';
       break;
 
       case 'abgelehnt':

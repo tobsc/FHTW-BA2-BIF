@@ -42,7 +42,7 @@ export class AdminOrderListComponent implements OnInit {
             .flatMap(i => this._filter)
             .flatMap(filter => {
                 let tmpFilter = filter;
-                tmpFilter.Limit = 10;
+                tmpFilter.Limit = 3;
                 tmpFilter.Offset = (this.currentPage-1) * tmpFilter.Limit;
                 return this.orderService.getFilteredOrders(tmpFilter);
             })

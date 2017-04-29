@@ -1,5 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
-import {OrderItem} from "../../../shared/models/order-item.model";
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'hwinf-order-list',
@@ -8,12 +7,9 @@ import {OrderItem} from "../../../shared/models/order-item.model";
 })
 export class OrderListComponent implements OnInit {
 
-  @Input() private orderItems: OrderItem[];
-
-  constructor() {}
+  constructor() { }
 
   ngOnInit() {
-
   }
 
 }

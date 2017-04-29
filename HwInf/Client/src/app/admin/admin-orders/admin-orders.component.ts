@@ -23,7 +23,6 @@ export class AdminOrdersComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
     this.route.params
         .map(i => i['status'])
         .subscribe(
