@@ -190,10 +190,11 @@ namespace HwInf.Controllers
         /// <summary>
         /// Returns all device types
         /// </summary>
+        /// <param name="showEmptyDeviceTypes"></param>
         /// <returns></returns>
         [ResponseType(typeof(List<string>))]
         [Route("types")]
-        public IHttpActionResult GetDeviceTypes()
+        public IHttpActionResult GetDeviceTypes(bool showEmptyDeviceTypes = true)
         {
             try
             {
@@ -202,8 +203,12 @@ namespace HwInf.Controllers
                     .Select(i => new DeviceTypeViewModel(i).LoadFieldGroups(i))
                     .ToList();
 
+                if (showEmptyDeviceTypes) return Ok(deviceTypes);
 
-                return Ok(deviceTypes);
+                var devices = _bl.GetDevices().GroupBy(i => i.Type.Slug).Select(i => i.Key).ToList();
+                deviceTypes = deviceTypes.Where(i => devices.Contains(i.Slug)).ToList();
+
+                return Ok(deviceTypes.OrderBy(i => i.Name));
             }
             catch
             {

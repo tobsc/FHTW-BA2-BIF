@@ -23,8 +23,9 @@ export class DeviceCustomFieldsFieldgroupsListComponent implements OnInit {
   fetchData() {
     this.customFieldsService.getFieldGroups()
         .subscribe((data) => {
-          this.fieldGroups = data;
-            this.rows = data.map(i => ({isCollapsed: true, fieldGroup: i}));
+          this.fieldGroups = data.filter(i => i.IsActive);
+            console.log(this.fieldGroups);
+            this.rows = this.fieldGroups.map(i => ({isCollapsed: true, fieldGroup: i}));
         });
   }
 

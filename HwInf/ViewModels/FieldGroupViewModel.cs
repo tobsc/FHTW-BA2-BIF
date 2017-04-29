@@ -36,6 +36,7 @@ namespace HwInf.ViewModels
             target.Slug = source.Slug;
             target.Fields = source.Fields.Select(i => new FieldViewModel(i)).ToList();
             target.IsCountable = source.IsCountable;
+            target.IsActive = source.IsActive;
         }
 
         public void ApplyChanges(FieldGroup fg, BL bl)
