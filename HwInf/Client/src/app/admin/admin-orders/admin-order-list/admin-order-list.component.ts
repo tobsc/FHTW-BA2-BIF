@@ -18,7 +18,6 @@ export class AdminOrderListComponent implements OnInit {
 
     private _filter = new BehaviorSubject<OrderFilter>(new OrderFilter());
     private maxPages: number = -1;
-    private currentPage: number = 1;
 
     @Input()
     private set filter(value) {
@@ -26,6 +25,14 @@ export class AdminOrderListComponent implements OnInit {
     };
 
     private orders: Order[] = [];
+    private currentPage: number = 1;
+    private isAscending: boolean = true;
+    private totalItems: number;
+    private itemsPerPage: number = 10;
+    private orderBy: string = 'date';
+    private order: string = "DESC";
+    private maxSize: number = 8;
+    private myfilter: OrderFilter;
 
     constructor(
         private orderService: OrderService,
@@ -35,24 +42,41 @@ export class AdminOrderListComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams
-            .do(params => {
-                if(!!params['page'])
-                    this.currentPage = +params['page']
-            })
             .flatMap(i => this._filter)
             .flatMap(filter => {
                 let tmpFilter = filter;
-                tmpFilter.Limit = 3;
+                tmpFilter.Limit = this.itemsPerPage;
                 tmpFilter.Offset = (this.currentPage-1) * tmpFilter.Limit;
+                tmpFilter.IsAdminView = true;
+                tmpFilter.Order = this.order;
+                tmpFilter.OrderBy = this.orderBy;
+
                 return this.orderService.getFilteredOrders(tmpFilter);
             })
             .subscribe((data: OrderList) => {
                 this.orders = data.Orders;
                 this.maxPages = data.MaxPages;
+                this.totalItems = data.TotalItems;
+                console.log("sub");
             });
     }
 
+    fetchData() {}
 
+    public pageChanged(event: any): void {
+        this.currentPage = event.page;
+        this.fetchData()
+    }
+
+    public onChangeOrder(orderBy : string) {
+        orderBy = JSON.parse(orderBy);
+        this.isAscending = !this.isAscending;
+        this.myfilter.Order = orderBy['o'];
+        this.order = orderBy['o'];
+        this.orderBy = orderBy['by'];
+        this.myfilter.OrderBy = orderBy['by'];
+        this.fetchData();
+    }
 
     updateOrder(index: number, order: Order) {
         //this.orders.splice(index,1);

@@ -1,6 +1,5 @@
-import {Component, OnInit, OnDestroy} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {DeviceService} from "../../../shared/services/device.service";
-import {Subscription} from "rxjs";
 import {Device} from "../../../shared/models/device.model";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Filter} from "../../../shared/models/filter.model";
@@ -12,18 +11,18 @@ import {User} from "../../../shared/models/user.model";
     templateUrl: './device-list.component.html',
     styleUrls: ['./device-list.component.scss']
 })
-export class DeviceListComponent implements OnInit, OnDestroy {
+export class DeviceListComponent implements OnInit {
 
     private currentPage: number = 1;
-    private maxPages: number = 0;
-    private subscription: Subscription;
     private devices: Device[];
     private filter: Filter;
     private isAscending: boolean = true;
     private deviceTypes: DeviceType[];
     private owners: User[];
     private totalItems: number;
-    private itemsPerPage: number = 6;
+    private itemsPerPage: number = 2;
+    private orderBy: string = 'name';
+    private maxSize: number = 8;
 
     constructor(
         private userService: UserService,
@@ -33,16 +32,14 @@ export class DeviceListComponent implements OnInit, OnDestroy {
     ) {}
 
     public pageChanged(event: any): void {
-        console.log('Page changed to: ' + event.page);
-        console.log('Number items per page: ' + event.itemsPerPage);
         this.currentPage = event.page;
-        this.fetchDataPagination()
+        this.fetchData()
     }
     ngOnInit() {
         this.filter = new Filter();
         this.filter.DeviceType = '';
         this.filter.Order = 'ASC';
-        this.filter.OrderBy = 'name';
+        this.filter.OrderBy = this.orderBy;
         this.filter.Limit = this.itemsPerPage;
         this.filter.Offset = (this.currentPage-1) * this.filter.Limit;
 
@@ -57,38 +54,12 @@ export class DeviceListComponent implements OnInit, OnDestroy {
         this.fetchData();
     }
 
+
     fetchData() {
-
-        if (typeof(this.subscription) !== 'undefined') this.subscription.unsubscribe(); // hack: prevent queryParams subscription to fire multiple times TODO: find a non hacky way
-
-        this.subscription = this.route.queryParams
-            .map((params) => ({ page: params['page'], orderby: params['orderby'] }))
-            .flatMap((params) => {
-                if (params.page) {
-                    let pagenumber = +params.page;
-                    if (pagenumber > 0) {
-                        this.currentPage = pagenumber ;
-                        this.filter.Offset = (this.currentPage-1) * this.filter.Limit;
-                    }
-                }
-                if ( params.orderby ) {
-                    this.filter.OrderBy = params.orderby;
-                }
-                return this.deviceService.getFilteredDevices(this.filter).publishReplay().refCount();
-            })
-            .subscribe((data) => {
-                this.maxPages = data.MaxPages;
-                this.devices = data.Devices;
-                this.totalItems = data.TotalItems;
-            });
-    }
-
-    fetchDataPagination() {
 
         this.filter.Offset = (this.currentPage-1) * this.filter.Limit;
         return this.deviceService.getFilteredDevices(this.filter)
             .subscribe((data) => {
-                this.maxPages = data.MaxPages;
                 this.devices = data.Devices;
                 this.totalItems = data.TotalItems;
             });
@@ -107,22 +78,18 @@ export class DeviceListComponent implements OnInit, OnDestroy {
             );
     }
 
-    public onChangeOrder(orderBy : string = 'name') {
+    public onChangeOrder(orderBy : string) {
         this.isAscending = !this.isAscending;
         this.filter.Order = (this.isAscending) ? 'ASC' : 'DESC';
         this.filter.OrderBy = orderBy;
-        this.fetchDataPagination();
+        this.orderBy = orderBy;
+        this.fetchData();
     }
 
     public onDeviceTypeChange(val: string) {
         this.router.navigate(['/admin/geraete/verwalten'], {skipLocationChange: true, queryParams: {'page' : 1, 'orderby' : this.filter.OrderBy}});
         this.filter.DeviceType = val;
         this.fetchData();
-    }
-
-    ngOnDestroy(): void {
-        this.subscription.unsubscribe();
-        console.log('IM AM DESTROYED');
     }
 
 }

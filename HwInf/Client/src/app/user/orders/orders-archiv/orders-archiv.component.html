@@ -1,2 +1,22 @@
 <h1>Meine Geräte</h1>
+<pagination [directionLinks]="false" [boundaryLinks]="true" [totalItems]="totalItems"
+            [(ngModel)]="currentPage" [itemsPerPage]="itemsPerPage" (pageChanged)="pageChanged($event)"
+            lastText="Letzte" firstText="Erste" [maxSize]="maxSize" [rotate]="false">
+</pagination>
+<span style="float:right">
+    <select style="display: inline; width: auto;" class="form-control" (change)="onChangeOrder($event.target.value)">
+        <option value="" hidden>Sortieren</option>
+        <option value='{"by":"date","o":"ASC"}'>Datum</option>
+        <option value='{"by":"date","o":"DESC"}'>Datum, desc</option>
+        <option value='{"by":"verwalter","o":"ASC"}'>Verwalter</option>
+        <option value='{"by":"verwalter","o":"DESC"}'>Verwalter, desc</option>
+        <option value='{"by":"orderstatus","o":"ASC"}'>Status</option>
+        <option value='{"by":"orderstatus","o":"DESC"}'>Status, desc</option>
+    </select>
+</span>
 <hwinf-single-order *ngFor="let order of orders" [order]="order"></hwinf-single-order>
+
+<pagination [directionLinks]="false" [boundaryLinks]="true" [totalItems]="totalItems"
+            [(ngModel)]="currentPage" [itemsPerPage]="itemsPerPage" (pageChanged)="pageChanged($event)"
+            lastText="Letzte" firstText="Erste" [maxSize]="maxSize" [rotate]="false">
+</pagination>

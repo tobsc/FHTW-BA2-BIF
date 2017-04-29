@@ -102,10 +102,10 @@
                   <div *ngFor="let field of fieldGroup.controls.Fields.controls; let j = index">
                     <div class="form-group" [formGroupName]="j">
                       <div class="row">
-                        <div style="padding-right: 0" [ngClass]="{hidden: fieldGroups[i].IsCountable, 'col-xs-3': !fieldGroups[i].IsCountable}">
+                        <div style="padding-right: 0" [ngClass]="{hidden: !fieldGroups[i].IsCountable, 'col-xs-3': fieldGroups[i].IsCountable}">
                           <input min="1" class="quantity form-control" type="number" formControlName="Quantity">
                         </div>
-                        <div [ngClass]="{'col-xs-12': fieldGroups[i].IsCountable}">
+                        <div [ngClass]="{'col-xs-12': !fieldGroups[i].IsCountable}">
                           <div class="input-group">
                             <input class="form-control" auto-complete [source]="fieldGroups[i].Fields | fieldsToArrayPipe" type="text" formControlName="Name">
                             <span class="input-group-btn">

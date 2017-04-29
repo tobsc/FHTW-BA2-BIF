@@ -1,10 +1,8 @@
 <h1>Geräte verwalten</h1>
-<nav aria-label="...">
-  <ul class="pager">
-    <li class="previous"><a *ngIf="currentPage > 1" routerLink="/admin/geraete/verwalten" [queryParams]="{page: currentPage - 1, orderby: filter.OrderBy}" skipLocationChange><span aria-hidden="true">&larr;</span> Vorherige Seite</a></li>
-    <li class="next"><a *ngIf="currentPage < maxPages" routerLink="/admin/geraete/verwalten" [queryParams]="{page: currentPage + 1, orderby: filter.OrderBy}" skipLocationChange>Nächste Seite <span aria-hidden="true">&rarr;</span></a></li>
-  </ul>
-</nav>
+<pagination [directionLinks]="false" [boundaryLinks]="true" [totalItems]="totalItems"
+            [(ngModel)]="currentPage" [itemsPerPage]="itemsPerPage" (pageChanged)="pageChanged($event)"
+            lastText="Letzte" firstText="Erste" [maxSize]="maxSize" [rotate]="false">
+</pagination>
 <div class="text-right">
 </div>
 
@@ -15,7 +13,7 @@
       <option *ngFor="let dt of deviceTypes" value="{{dt.Slug}}">{{dt.Name}}</option>
     </select>
     <div class="pull-right">
-      {{currentPage}}/{{maxPages == 0 ? "?" : maxPages}}
+      {{totalItems}} Geräte
     </div>
     <div class="clearfix"></div>
   </div>
@@ -25,37 +23,37 @@
         <thead>
         <tr>
           <th class="th-status">Status</th> <!-- TODO: order by status-->
-          <th [ngClass]="{active: router.url.match('orderby=invnum') }"
-              (click)="onChangeOrder(invnum)"
+          <th [ngClass]="{active: this.orderBy.match('invnum') }"
+              (click)="onChangeOrder('invnum')"
               title="Nach Inventarnummer sortieren">
             InvNum
             <i *ngIf="!isAscending" class="fa fa-sort-amount-desc" aria-hidden="true"></i>
             <i *ngIf="isAscending" class="fa fa-sort-amount-asc" aria-hidden="true"></i>
           </th>
           <th class="th-name"
-              [ngClass]="{active: router.url.match('orderby=name') }"
-              (click)="onChangeOrder(name)"
+              [ngClass]="{active: this.orderBy.match('name') }"
+              (click)="onChangeOrder('name')"
               title="Nach Name sortieren">
             Name
             <i *ngIf="!isAscending" class="fa fa-sort-amount-desc" aria-hidden="true"></i>
             <i *ngIf="isAscending" class="fa fa-sort-amount-asc" aria-hidden="true"></i>
           </th>
-          <th [ngClass]="{active: router.url.match('orderby=type') }"
-              (click)="onChangeOrder(type)"
+          <th [ngClass]="{active: this.orderBy.match('type') }"
+              (click)="onChangeOrder('type')"
               title="Nach Typ sortieren">
             Typ
             <i *ngIf="!isAscending" class="fa fa-sort-amount-desc" aria-hidden="true"></i>
             <i *ngIf="isAscending" class="fa fa-sort-amount-asc" aria-hidden="true"></i>
           </th>
-          <th [ngClass]="{active: router.url.match('orderby=createdate') }"
-              (click)="onChangeOrder(createdate)"
+          <th [ngClass]="{active: this.orderBy.match('createdate') }"
+              (click)="onChangeOrder('createdate')"
               title="Nach Erstellungsdatum sortieren">
             Erstellt am
             <i *ngIf="!isAscending" class="fa fa-sort-amount-desc" aria-hidden="true"></i>
             <i *ngIf="isAscending" class="fa fa-sort-amount-asc" aria-hidden="true"></i>
           </th>
-          <th [ngClass]="{active: router.url.match('orderby=person') }"
-              (click)="onChangeOrder(person)"
+          <th [ngClass]="{active: this.orderBy.match('person') }"
+              (click)="onChangeOrder('person')"
               title="Nach Verwalter sortieren">
             Verwalter
             <i *ngIf="!isAscending" class="fa fa-sort-amount-desc" aria-hidden="true"></i>
@@ -91,16 +89,12 @@
 
     <div class="ln_solid"></div>
     <div class="pull-right">
-      {{currentPage}}/{{maxPages == 0 ? "?" : maxPages}}
+      {{totalItems}} Geräte
     </div>
-    total: {{totalItems}}
   </div>
 </div>
+
 <pagination [directionLinks]="false" [boundaryLinks]="true" [totalItems]="totalItems"
-            [(ngModel)]="currentPage" [itemsPerPage]="itemsPerPage" (pageChanged)="pageChanged($event)"></pagination>
-<nav aria-label="...">
-  <ul class="pager">
-    <li class="previous"><a *ngIf="currentPage > 1" routerLink="/admin/geraete/verwalten" [queryParams]="{page: currentPage - 1, orderby: filter.OrderBy}" skipLocationChange><span aria-hidden="true">&larr;</span> Vorherige Seite</a></li>
-    <li class="next"><a *ngIf="currentPage < maxPages" routerLink="/admin/geraete/verwalten" [queryParams]="{page: currentPage + 1, orderby: filter.OrderBy}" skipLocationChange>Nächste Seite <span aria-hidden="true">&rarr;</span></a></li>
-  </ul>
-</nav>
+            [(ngModel)]="currentPage" [itemsPerPage]="itemsPerPage" (pageChanged)="pageChanged($event)"
+            lastText="Letzte" firstText="Erste" [maxSize]="maxSize" [rotate]="false">
+</pagination>
