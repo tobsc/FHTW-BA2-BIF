@@ -28,12 +28,24 @@ export class DamagesListComponent implements OnInit {
           this.damageService.getDamagesByInvNum(this.invNum).subscribe((data) => {
               this.damages = data;
               this.rows = data.map(i => ({ isCollapsed: true, damage: i }));
-              this.fetchData();
             });
         });
   }
 
-  fetchData() {
-      console.log(this.damages);
+  pushData(dmg: Damage) {
+      this.damages.unshift(dmg);
+      this.rows.unshift({ isCollapsed: true, damage: dmg });
+  }
+
+  onSave(i, damage) {
+      this.damageService.updateDamage(damage)
+          .subscribe(
+          (success) => {
+              console.log(success);
+              this.rows[i].damage = success;
+              this.rows[i].isCollapsed = true;
+          },
+          (error) => console.log(error)
+          );
   }
 }

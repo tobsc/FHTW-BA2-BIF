@@ -34,6 +34,11 @@ export class UserService {
             });
     }
 
+    public getUsers(): Observable<User[]> {
+        return this.http.get(this.url + 'users')
+            .map((response: Response) => response.json());
+    }
+
     public getOwners(): Observable<User[]> {
         return this.http.get(this.url + '/owners')
             .map((response: Response) => response.json());

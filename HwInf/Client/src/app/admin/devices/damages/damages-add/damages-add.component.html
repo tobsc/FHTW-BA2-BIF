@@ -1,3 +1,9 @@
-<p>
-  damages-add works!
-</p>
+<div class="x_panel">
+    <div class="x_title">
+        <h2>Neuen Schaden hinzufügen</h2>
+        <div class="clearfix"></div>
+    </div>
+    <div class="x_content">
+        <hwinf-damage-form #f (damageUpdated)="addDamage($event, f)" submitButtonName="Erstellen" [showDate]="false"></hwinf-damage-form>
+    </div>
+</div>

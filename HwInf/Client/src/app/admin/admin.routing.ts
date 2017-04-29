@@ -19,7 +19,6 @@ import {AdminOrdersComponent} from "./admin-orders/admin-orders.component";
 import { AdminLogsComponent } from "./admin-logs/admin-logs.component";
 import { DamagesComponent } from "./devices/damages/damages.component";
 import { DamagesListComponent } from "./devices/damages/damages-list/damages-list.component";
-import { DamagesEditComponent } from "./devices/damages/damages-edit/damages-edit.component";
 import { DamagesAddComponent } from "./devices/damages/damages-add/damages-add.component";
 
 
@@ -41,7 +40,7 @@ const ADMIN_ROUTES: Routes = [
                     { path: 'edit/:slug', component: DeviceTypesEditComponent },
                     { path: 'verwalten', component: DeviceTypesAddComponent },]
             },
-            { path: 'geraete/schaden/:invnum', component: DamagesListComponent},
+            { path: 'geraete/schaden/:invnum', component: DamagesComponent},
             { path: 'geraete/schaden/add', component: DamagesAddComponent},
             { path: 'geraete/verwalten/:invnum', component: DeviceEditComponent },
             { path: 'settings', component: AdminSettingsComponent },

@@ -4,51 +4,55 @@
         <label for="beschreibung">
             Beschreibung:
         </label>
-        <input type="text" id="typename" required="required" class="form-control" formControlName="Description">
+        <textarea  id="typename" required="required" class="form-control" formControlName="Description"></textarea>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" *ngIf="showDate">
         <label>
             Gemeldet am:
         </label>
         <div class="field-select">
-            <input type="text" class="form-control" value="{{currentDamage.Date}}" [disabled]="true">
+            <input type="text" class="form-control" formControlName="Date">
         </div>
     </div>
     
-    <div class="form-group">
+    <div class="form-group" formGroupName="Cause">
         <label>
             Verursacher:
         </label>
         <div class="field-select">
-            <input type="text" class="form-control" formControlName="Cause">
+            <input type="text" class="form-control" formControlName="Uid">
         </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" formGroupName="Reporter">
         <label>
             Melder:
         </label>
         <div class="field-select">
-            <input type="text" class="form-control" formControlName="Reporter">
+            <input type="text" class="form-control" formControlName="Uid" >
         </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" formGroupName="Device">
         <label>
-            Gerät:
+            Geräteinventarnummer:
         </label>
         <div class="field-select">
-            <input type="text" class="form-control" formControlName="Device">
+            <input type="text" class="form-control" formControlName="InvNum">
         </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" formGroupName="DamageStatus">
         <label>
             DamageStatus:
         </label>
         <div class="field-select">
-            <input type="text" class="form-control" value="{{currentDamage.DamageStatus.Name}}">
+            <select class="select2_group form-control" name="value1" id="damage" formControlName="Slug">
+                <option *ngFor="let damageStatus of damageStati" value="{{damageStatus.Slug}}">
+                    {{damageStatus.Name}}
+                </option>
+            </select>
         </div>
     </div>
 

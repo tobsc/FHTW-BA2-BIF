@@ -37,7 +37,7 @@ export class DamageService {
         let bodyString = JSON.stringify(damage);
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
-        return this.http.post(this.url + 'id/' + damage.DamageId, bodyString, options)
+        return this.http.put(this.url + 'id/' + damage.DamageId, bodyString, options)
             .map((response: Response) => {
                 let token = response.json() && response.json().token;
                 if (token) {

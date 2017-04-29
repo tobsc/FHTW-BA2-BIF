@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { DamagesListComponent } from "./damages-list/damages-list.component";
+import { Damage } from "../../../shared/models/damage.model";
 import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
@@ -7,14 +9,15 @@ import { ActivatedRoute, Router } from "@angular/router";
   styleUrls: ['./damages.component.scss']
 })
 export class DamagesComponent implements OnInit {
+    @ViewChild(DamagesListComponent) private list: DamagesListComponent;
 
-    private invNum: string;
+    constructor() { }
 
-    constructor(
-        ) { }
+    ngOnInit() {
+    }
 
-  ngOnInit() {
-      
-  }
+    pushData(item: Damage) {
+        this.list.pushData(item);
+    }
 
 }
