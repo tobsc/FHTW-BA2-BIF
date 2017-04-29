@@ -199,7 +199,7 @@ namespace HwInf.Controllers
             {
                 var deviceTypes = _bl.GetDeviceTypes()
                     .ToList()
-                    .Select(i => new DeviceTypeViewModel(i))  // LoadComponents?
+                    .Select(i => new DeviceTypeViewModel(i).LoadFieldGroups(i))
                     .ToList();
 
 
