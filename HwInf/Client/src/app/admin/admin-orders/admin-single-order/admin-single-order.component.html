@@ -56,9 +56,8 @@
                                   (action)="onAccept()"
                                   class="btn-block"
                                   popOverTitle="Antrag akzeptieren?"
-
             >
-              <button title="Antrag akzeptieren" class="btn btn-success btn-xs btn-block">
+              <button [disabled]="!canAccept()" [title]="(canAccept()) ? 'Antrag akzeptieren' : 'Der Antrag kann nicht ohne Geräte akzeptiert werden.'" class="btn btn-success btn-xs btn-block">
                 Antrag akzeptieren
               </button>
             </hwinf-confirm-button>
@@ -88,14 +87,14 @@
                 Ausleihung beenden
               </button>
             </hwinf-confirm-button>
-            <hwinf-confirm-button
+            <!--hwinf-confirm-button
                     (action)="onReset()"
                     class="btn-block"
                     popOverTitle="Antrag wiederherstellen?">
               <button title="Antrag wiederherstellen" class="btn btn-warning btn-xs btn-block">
                 Antrag wiederherstellen
               </button>
-            </hwinf-confirm-button>
+            </hwinf-confirm-button-->
 
             <div class="row gutter-5" style="margin-top: 5px">
               <div class="col-xs-6">
