@@ -21,13 +21,14 @@ import {AuthService} from "../authentication/auth.service";
 import {PubSubService} from "../shared/services/pub-sub.service";
 import { DeviceFilterComponent } from './devices/device-filter/device-filter.component';
 import {ConfirmDialogModule} from "../core/confirm-dialog/confirm-dialog.module";
-import { OrderListComponent } from './orders/order-list/order-list.component';
 import { OrderProcessComponent } from './orders/order-process/order-process.component';
 import { OrderProcessStep1Component } from './orders/order-process/order-process-step-1/order-process-step-1.component';
 import { OrderProcessStep2Component } from './orders/order-process/order-process-step-2/order-process-step-2.component';
 import { OrderProcessStep3Component } from './orders/order-process/order-process-step-3/order-process-step-3.component';
-import {OrderFormDataService} from "./orders/order-process/shared/order-form-data.service";
 import { MyOrdersComponent } from './orders/my-orders/my-orders.component';
+import { OrdersArchivComponent } from './orders/orders-archiv/orders-archiv.component';
+import { OrderListComponent } from './orders/order-list/order-list.component';
+import { SingleOrderComponent } from './orders/single-order/single-order.component';
 
 
 export function jwtFactory(backend: XHRBackend, options: RequestOptions, router: Router, authService: AuthService, pubsub: PubSubService) {
@@ -45,12 +46,14 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
         OrderComponent,
         OrderStep3Component,
         DeviceFilterComponent,
-        OrderListComponent,
         OrderProcessComponent,
         OrderProcessStep1Component,
         OrderProcessStep2Component,
         OrderProcessStep3Component,
-        MyOrdersComponent
+        MyOrdersComponent,
+        OrdersArchivComponent,
+        OrderListComponent,
+        SingleOrderComponent
     ],
     imports: [
         CommonModule,
@@ -71,9 +74,6 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
             useFactory: jwtFactory,
             deps: [XHRBackend, RequestOptions, Router, AuthService, PubSubService]
         },
-    ],
-    exports: [
-        OrderListComponent,
     ]
 })
 export class UserModule {}

@@ -32,7 +32,7 @@
                   <span *ngIf="orderItem.IsDeclined" aria-hidden="true">&#43;</span>
                 </button>
                 <div style="width:85%">
-                <span style="display: inline-block; width: 100px; margin-right: 5px;" hwinfDeviceStatusLabelClass [deviceStatus]="orderItem.Device.Status">{{orderItem.Device.Status.Description}}</span>
+                  <span style="display: inline-block; width: 100px; margin-right: 5px;" hwinfDeviceStatusLabelClass [deviceStatus]="orderItem.Device.Status">{{orderItem.Device.Status.Description}}</span>
                   <span class="device-name">({{orderItem.Device.InvNum}}) {{orderItem.Device.Name}} </span>
                 </div>
               </li>

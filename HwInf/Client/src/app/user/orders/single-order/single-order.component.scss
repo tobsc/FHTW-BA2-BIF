@@ -1,0 +1,41 @@
+input:checked + label {
+  color:red;
+  text-decoration: line-through;
+}
+
+th {
+  &:nth-child(1) {
+    width: 10%;
+  }
+
+  &:nth-child(2) {
+    width: 40%;
+  }
+  &:nth-child(3) {
+    width: 10%;
+  }
+  &:nth-child(4) {
+    width: 20%;
+  }
+  &:nth-child(5) {
+    width: 10%;
+  }
+
+  &:nth-child(6) {
+    width: 200px;
+  }
+}
+
+:host:last-child {
+  .x_panel {margin-bottom: 0}
+}
+
+
+.declined-order-item {
+  opacity: 0.4;
+  .device-name { text-decoration: line-through; }
+}
+
+table {
+  margin-bottom: 5px;
+}
