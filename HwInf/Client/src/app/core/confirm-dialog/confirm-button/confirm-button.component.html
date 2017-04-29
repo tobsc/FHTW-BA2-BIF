@@ -1,8 +1,8 @@
 
 <template #popTemplate>
-  <div (clickOutside)="pop.hide()">
-  <button class="btn btn-success" (click)="onAction()">Ok</button>
-  <button class="btn btn-danger" (click)="onDismiss()">Abbrechen</button>
+  <div class="popover-body" (clickOutside)="pop.hide()">
+  <button class="btn btn-success btn-sm" (click)="onAction()"><i class="fa fa-check" aria-hidden="true"></i></button>
+  <button class="btn btn-danger btn-sm" (click)="onDismiss()"><i class="fa fa-times" aria-hidden="true"></i></button>
   </div>
 </template>
 

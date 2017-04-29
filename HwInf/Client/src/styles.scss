@@ -127,3 +127,10 @@ ng2-auto-complete {
     justify-content:space-between;
     align-items:center;
 }
+
+.truncate {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

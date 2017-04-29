@@ -53,6 +53,7 @@ namespace HwInf.ViewModels
                 target.Fields.Add(f);
             });
             target.IsCountable = source.IsCountable;
+            target.IsActive = source.IsActive;
         }
 
     }

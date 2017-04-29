@@ -35,7 +35,9 @@ export class OrderProcessStep2Component implements OnInit {
     this.devices = this.cartService.getItems();
 
     this.order.OrderItems = this.devices.map(i => {
-      return new OrderItem(null, null, i);
+      let orderItem = new OrderItem();
+      orderItem.Device = i;
+      return orderItem;
     })
   }
 

@@ -57,7 +57,7 @@ namespace HwInf.Controllers
             }
             catch (SecurityException)
             {
-                _log.ErrorFormat("'{0}' tried to list Admin/Verwalter View from Orders", _bl.GetCurrentUid());
+                _log.WarnFormat("'{0}' tried to list Admin/Verwalter View from Orders", _bl.GetCurrentUid());
                 return Unauthorized();
             }
             catch (Exception ex)
@@ -257,7 +257,7 @@ namespace HwInf.Controllers
             }
             catch (SecurityException)
             {
-                _log.ErrorFormat("Security: '{0}' tried to update Order '{1}'", _bl.GetCurrentUid(), vmdl.OrderId);
+                _log.WarnFormat("Security: '{0}' tried to update Order '{1}'", _bl.GetCurrentUid(), vmdl.OrderId);
                 return Unauthorized();
             }
 
@@ -290,7 +290,7 @@ namespace HwInf.Controllers
             }
             catch (SecurityException)
             {
-                _log.ErrorFormat("Security: '{0}' tried to update Order '{1}'", _bl.GetCurrentUid(), vmdl.OrderId);
+                _log.WarnFormat("Security: '{0}' tried to update Order '{1}'", _bl.GetCurrentUid(), vmdl.OrderId);
                 return Unauthorized();
             }
 
@@ -324,7 +324,7 @@ namespace HwInf.Controllers
             }
             catch (SecurityException)
             {
-                _log.ErrorFormat("Security: '{0}' tried to update Order '{1}'", _bl.GetCurrentUid(), vmdl.OrderId);
+                _log.WarnFormat("Security: '{0}' tried to update Order '{1}'", _bl.GetCurrentUid(), vmdl.OrderId);
                 return Unauthorized();
             }
 
@@ -361,7 +361,7 @@ namespace HwInf.Controllers
             }
             catch (SecurityException)
             {
-                _log.ErrorFormat("Security: '{0}' tried to update Order '{1}'", _bl.GetCurrentUid(), vmdl.OrderId);
+                _log.WarnFormat("Security: '{0}' tried to update Order '{1}'", _bl.GetCurrentUid(), vmdl.OrderId);
                 return Unauthorized();
             }
 
@@ -394,7 +394,7 @@ namespace HwInf.Controllers
             }
             catch (SecurityException)
             {
-                _log.ErrorFormat("Security: '{0}' tried to update Order '{1}'", _bl.GetCurrentUid(), vmdl.OrderId);
+                _log.WarnFormat("Security: '{0}' tried to update Order '{1}'", _bl.GetCurrentUid(), vmdl.OrderId);
                 return Unauthorized();
             }
 
@@ -425,7 +425,7 @@ namespace HwInf.Controllers
             }
             catch (SecurityException)
             {
-                _log.ErrorFormat("Security: '{0}' tried to view Orders as Admin/Verwalter'", _bl.GetCurrentUid());
+                _log.WarnFormat("Security: '{0}' tried to view Orders as Admin/Verwalter'", _bl.GetCurrentUid());
                 return Unauthorized();
             }
 

@@ -26,13 +26,17 @@
             </a>
           </td>
           <td>
-            <ul class="list-unstyled">
-              <li *ngFor="let orderItem of order.OrderItems; let i = index">
-                <input style="display: none" type="checkbox" id="{{order.OrderId}}-{{i}}" />
-                <label htmlFor="{{order.OrderId}}-{{i}}">
-                  {{orderItem.Device.Name}} ({{orderItem.Device.InvNum}})
-                </label>
-                <span hwinfDeviceStatusLabelClass [deviceStatus]="orderItem.Device.Status">{{orderItem.Device.Status.Description}}</span>
+
+            <ul class="list-group">
+              <li style="cursor:pointer" (click)="orderItem.IsDeclined = !orderItem.IsDeclined"  class="list-group-item" *ngFor="let orderItem of order.OrderItems; let i = index" [ngClass]="{'declined-order-item': orderItem.IsDeclined}">
+                <button *ngIf="order.OrderStatus.Slug === 'offen'" type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span *ngIf="!orderItem.IsDeclined" aria-hidden="true">&times;</span>
+                  <span *ngIf="orderItem.IsDeclined" aria-hidden="true">&#43;</span>
+                </button>
+                <div style="width:85%">
+                <span style="display: inline-block; width: 100px; margin-right: 5px;" hwinfDeviceStatusLabelClass [deviceStatus]="orderItem.Device.Status">{{orderItem.Device.Status.Description}}</span>
+                  <span class="device-name">({{orderItem.Device.InvNum}}) {{orderItem.Device.Name}} </span>
+                </div>
               </li>
             </ul>
           </td>
@@ -53,12 +57,12 @@
             <hwinf-confirm-button *ngIf="order.OrderStatus.Slug === 'offen'"
                                   (action)="onAccept()"
                                   class="btn-block"
-                                  popOverTitle="Antrag akzeptieren?">
-              <button title="Antrag akzeptieren" class="btn btn-success btn-xs btn-block">
+                                  popOverTitle="Antrag akzeptieren?"
+            >
+              <button [disabled]="!canAccept()" [title]="(canAccept()) ? 'Antrag akzeptieren' : 'Der Antrag kann nicht ohne Geräte akzeptiert werden.'" class="btn btn-success btn-xs btn-block">
                 Antrag akzeptieren
               </button>
             </hwinf-confirm-button>
-
             <hwinf-confirm-button *ngIf="order.OrderStatus.Slug === 'akzeptiert'"
                                   (action)="onLend()"
                                   class="btn-block"
@@ -81,19 +85,18 @@
                                   (action)="onReturn()"
                                   class="btn-block"
                                   popOverTitle="Ausleihung beenden?">
-              <button title="Antrag resetten" class="btn btn-success btn-xs btn-block">
+              <button title="Ausleihung beenden" class="btn btn-success btn-xs btn-block">
                 Ausleihung beenden
               </button>
             </hwinf-confirm-button>
-            <!-- *ngIf="['akzeptiert', 'abgelehnt'].indexOf(order.OrderStatus.Slug) >= 0" -->
-            <hwinf-confirm-button
+            <!--hwinf-confirm-button
                     (action)="onReset()"
                     class="btn-block"
-                    popOverTitle="Antrag resetten?">
-              <button title="Antrag resetten" class="btn btn-warning btn-xs btn-block">
-                Antrag resetten
+                    popOverTitle="Antrag wiederherstellen?">
+              <button title="Antrag wiederherstellen" class="btn btn-warning btn-xs btn-block">
+                Antrag wiederherstellen
               </button>
-            </hwinf-confirm-button>
+            </hwinf-confirm-button-->
 
             <div class="row gutter-5" style="margin-top: 5px">
               <div class="col-xs-6">
