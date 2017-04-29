@@ -91,7 +91,8 @@ namespace HwInf.Common.DAL
             .Include(x => x.Type.FieldGroups.Select(y => y.Fields));
         IQueryable<DeviceMeta> IDAL.DeviceMeta => DeviceMeta;
         IQueryable<DeviceType> IDAL.DeviceTypes => DeviceTypes
-            .Include(x => x.FieldGroups.Select(y => y.DeviceTypes));
+            .Include(x => x.FieldGroups.Select(y => y.DeviceTypes))
+            .Include(x => x.FieldGroups.Select(y => y.Fields));
         IQueryable<DeviceStatus> IDAL.DeviceStatus => DeviceStatus;
         IQueryable<OrderStatus> IDAL.OrderStatus => OrderStatus;
         IQueryable<Person> IDAL.Persons => Persons;
@@ -104,7 +105,8 @@ namespace HwInf.Common.DAL
         IQueryable<OrderItem> IDAL.OrderItems => OrderItems;
         IQueryable<Field> IDAL.Fields => Fields;
         IQueryable<FieldGroup> IDAL.FieldGroups => FieldGroups
-            .Include(x => x.Fields);
+            .Include(x => x.Fields)
+            .Include(x => x.DeviceTypes);
         IQueryable<Setting> IDAL.Settings => Settings;
         IQueryable<Damage> IDAL.Damages => Damages
             .Include(i => i.DamageStatus);

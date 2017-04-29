@@ -34,7 +34,7 @@ export class SidebarComponent implements OnInit, CanActivate {
   }
 
   ngOnInit() {
-    this.deviceTypes = this.deviceService.getDeviceTypes();
+    this.deviceTypes = this.deviceService.getDeviceTypes(false);
   }
 
 }

@@ -12,7 +12,7 @@ namespace HwInf.ViewModels
         public int DeviceTypeId { get; set; }
         public string Slug { get; set; }
         public string Name { get; set; }
-        public ICollection<FieldGroup> FieldGroups { get; set; }
+        public ICollection<FieldGroupViewModel> FieldGroups { get; set; }
         public bool IsActive { get; set; } = true;
 
 
@@ -57,6 +57,17 @@ namespace HwInf.ViewModels
 
             target.IsActive = source.IsActive;
 
+        }
+
+        public DeviceTypeViewModel LoadFieldGroups(DeviceType obj)
+        {
+            if (obj.FieldGroups == null) return this;
+
+            FieldGroups = obj.FieldGroups
+                .Select(i => new FieldGroupViewModel(i))
+                .ToList();
+
+            return this;
         }
 
     }

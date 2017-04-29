@@ -130,7 +130,7 @@ namespace HwInf.Controllers
             }
             catch (SecurityException)
             {
-                _log.ErrorFormat("'{0}' tried to Update user '{1}'", _bl.GetCurrentUid(), vmdl.Uid);
+                _log.WarnFormat("'{0}' tried to Update user '{1}'", _bl.GetCurrentUid(), vmdl.Uid);
                 return Unauthorized();
             }
             catch (Exception ex)

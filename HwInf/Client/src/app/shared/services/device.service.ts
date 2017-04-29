@@ -70,8 +70,15 @@ export class DeviceService {
      * Returns all device types. e.g Notebook, PC, Monitor, ...
      * @returns {Observable<DeviceType[]>}
      */
-    public getDeviceTypes(): Observable<DeviceType[]> {
-        return this.http.get(this.url + 'types')
+    public getDeviceTypes(showEmptyDeviceTypes : boolean = true): Observable<DeviceType[]> {
+        let params: URLSearchParams = new URLSearchParams();
+        params.set('showEmptyDeviceTypes', showEmptyDeviceTypes + '');
+
+        let options = new RequestOptions({
+            search: params,
+        });
+
+        return this.http.get(this.url + 'types', options)
             .map((response: Response) => response.json());
     }
 

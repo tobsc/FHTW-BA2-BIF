@@ -64,11 +64,11 @@ namespace HwInf.Common.Migrations
 
             var fieldGroup = new List<FieldGroup>
             {
-                new FieldGroup {Slug = "anschluesse", Name = "Anschlüsse", Fields = anschluessefields.ToList(), DeviceTypes = type.Where(i => i.Slug == "pc" || i.Slug == "notebook" || i.Slug == "monitor").ToList(), IsActive = true},
-                new FieldGroup {Slug = "prozessoren", Name = "Prozessoren", Fields = prozessorfields.ToList(), DeviceTypes = type.Where(i => i.Slug == "pc" || i.Slug == "notebook").ToList(), IsActive = true},
-                new FieldGroup {Slug = "bilschirmdiagonale", Name = "Bildschirmdiagonale", Fields = monitorfields.ToList(), DeviceTypes = type.Where(i => i.Slug == "monitor" || i.Slug == "notebook").ToList(), IsActive = true},
-                new FieldGroup {Slug = "aufloesung", Name = "Auflösung", Fields = aufloesungfields.ToList(), DeviceTypes = type.Where(i => i.Slug == "monitor" || i.Slug == "notebook").ToList(), IsActive = true},
-                new FieldGroup {Slug = "kapazitaet", Name = "Kapazität", Fields = festplattefields.ToList(), DeviceTypes = type.Where(i => i.Slug == "festplatte").ToList(), IsActive = true}
+                new FieldGroup {Slug = "anschluesse", Name = "Anschlüsse", Fields = anschluessefields.ToList(), DeviceTypes = type.Where(i => i.Slug == "pc" || i.Slug == "notebook" || i.Slug == "monitor").ToList(), IsActive = true, IsCountable = true},
+                new FieldGroup {Slug = "prozessoren", Name = "Prozessoren", Fields = prozessorfields.ToList(), DeviceTypes = type.Where(i => i.Slug == "pc" || i.Slug == "notebook").ToList(), IsActive = true, IsCountable = true},
+                new FieldGroup {Slug = "bilschirmdiagonale", Name = "Bildschirmdiagonale", Fields = monitorfields.ToList(), DeviceTypes = type.Where(i => i.Slug == "monitor" || i.Slug == "notebook").ToList(), IsActive = true, IsCountable = true},
+                new FieldGroup {Slug = "aufloesung", Name = "Auflösung", Fields = aufloesungfields.ToList(), DeviceTypes = type.Where(i => i.Slug == "monitor" || i.Slug == "notebook").ToList(), IsActive = true, IsCountable = true},
+                new FieldGroup {Slug = "kapazitaet", Name = "Kapazität", Fields = festplattefields.ToList(), DeviceTypes = type.Where(i => i.Slug == "festplatte").ToList(), IsActive = true, IsCountable = true}
             };
 
 

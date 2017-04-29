@@ -22,7 +22,7 @@
             </label>
             <input type="hidden" formControlName="FieldGroupSlug" value="{{fieldGroup.Slug}}" ngModel="{{fieldGroup.Slug}}">
             <input type="hidden" formControlName="FieldSlug" value="{{field.Slug}}" ngModel="{{field.Slug}}">
-            <input type="number" min="1" value="1" formControlName="Value" ngModel="1">
+            <input type="number" min="1" value="1" formControlName="Value" ngModel="1" *ngIf="fieldGroup.IsCountable">
           </div>
         </div>
       </div>

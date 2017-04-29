@@ -25,6 +25,10 @@ export class AdminSingleOrderComponent {
     );
   }
 
+  canAccept(): boolean {
+    return this.order.OrderItems.filter(i => !i.IsDeclined).length > 0;
+  }
+
   onDecline(): void {
     this.orderService.declineOrder(this.order).subscribe(
         (success) => { this.updateOrder.emit(success); },

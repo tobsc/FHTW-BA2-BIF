@@ -228,7 +228,8 @@ namespace HwInf.Controllers
                 {
                     Name = i.Name,
                     Slug = i.Slug,
-                    Fields = new List<FieldViewModel>()
+                    Fields = new List<FieldViewModel>(),
+                    IsCountable = i.IsCountable
                 };
 
                 i.Fields.ForEach(y =>
@@ -284,7 +285,8 @@ namespace HwInf.Controllers
                 {
                     Name = i.Name,
                     Slug = i.Slug,
-                    Fields = new List<FieldViewModel>()
+                    Fields = new List<FieldViewModel>(),
+                    IsCountable = i.IsCountable
                 };
 
                 i.Fields.ForEach(y =>

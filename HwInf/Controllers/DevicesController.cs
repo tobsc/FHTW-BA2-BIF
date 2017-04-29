@@ -176,7 +176,7 @@ namespace HwInf.Controllers
             }
             catch (SecurityException)
             {
-                _log.ErrorFormat("'{0}' tried to list Devices as Admin/Verwalter", _bl.GetCurrentUid());
+                _log.WarnFormat("'{0}' tried to list Devices as Admin/Verwalter", _bl.GetCurrentUid());
                 return Unauthorized();
             }
             catch (Exception ex)
@@ -190,20 +190,25 @@ namespace HwInf.Controllers
         /// <summary>
         /// Returns all device types
         /// </summary>
+        /// <param name="showEmptyDeviceTypes"></param>
         /// <returns></returns>
         [ResponseType(typeof(List<string>))]
         [Route("types")]
-        public IHttpActionResult GetDeviceTypes()
+        public IHttpActionResult GetDeviceTypes(bool showEmptyDeviceTypes = true)
         {
             try
             {
                 var deviceTypes = _bl.GetDeviceTypes()
                     .ToList()
-                    .Select(i => new DeviceTypeViewModel(i))  // LoadComponents?
+                    .Select(i => new DeviceTypeViewModel(i).LoadFieldGroups(i))
                     .ToList();
 
+                if (showEmptyDeviceTypes) return Ok(deviceTypes);
 
-                return Ok(deviceTypes);
+                var devices = _bl.GetDevices().GroupBy(i => i.Type.Slug).Select(i => i.Key).ToList();
+                deviceTypes = deviceTypes.Where(i => devices.Contains(i.Slug)).ToList();
+
+                return Ok(deviceTypes.OrderBy(i => i.Name));
             }
             catch
             {
@@ -320,7 +325,7 @@ namespace HwInf.Controllers
             }
             catch (SecurityException)
             {
-                _log.ErrorFormat("Security: '{0}' tried to create Device '{1}'", _bl.GetCurrentUid(), vmdl.InvNum);
+                _log.WarnFormat("Security: '{0}' tried to create Device '{1}'", _bl.GetCurrentUid(), vmdl.InvNum);
                 return Unauthorized();
             }
 
@@ -357,7 +362,7 @@ namespace HwInf.Controllers
             }
             catch (SecurityException)
             {
-                _log.ErrorFormat("Security: '{0}' tried to create DeviceType '{1}'", _bl.GetCurrentUid(), vmdl.Name);
+                _log.WarnFormat("Security: '{0}' tried to create DeviceType '{1}'", _bl.GetCurrentUid(), vmdl.Name);
                 return Unauthorized();
             }
 
@@ -396,7 +401,7 @@ namespace HwInf.Controllers
             }
             catch (SecurityException)
             {
-                _log.ErrorFormat("Security: '{0}' tried to delete Device '{1}'", _bl.GetCurrentUid(), id);
+                _log.WarnFormat("Security: '{0}' tried to delete Device '{1}'", _bl.GetCurrentUid(), id);
                 return Unauthorized();
             }
 
@@ -439,7 +444,7 @@ namespace HwInf.Controllers
             }
             catch (SecurityException)
             {
-                _log.ErrorFormat("Security: '{0}' tried to delete DeviceType '{1}'", _bl.GetCurrentUid(), slug);
+                _log.WarnFormat("Security: '{0}' tried to delete DeviceType '{1}'", _bl.GetCurrentUid(), slug);
                 return Unauthorized();
             }
 
@@ -510,7 +515,7 @@ namespace HwInf.Controllers
             }
             catch (SecurityException)
             {
-                _log.ErrorFormat("Security: '{0}' tried to update Device '{1}'", vmdl.InvNum);
+                _log.WarnFormat("Security: '{0}' tried to update Device '{1}'", vmdl.InvNum);
             }
             catch (Exception ex)
             {
@@ -559,7 +564,7 @@ namespace HwInf.Controllers
             }
             catch (SecurityException)
             {
-                _log.ErrorFormat("Security: '{0}' tried to update DeviceType '{1}'", _bl.GetCurrentUid(), slug);
+                _log.WarnFormat("Security: '{0}' tried to update DeviceType '{1}'", _bl.GetCurrentUid(), slug);
                 return Unauthorized();
             }
 

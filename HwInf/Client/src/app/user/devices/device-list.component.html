@@ -16,10 +16,9 @@
     </div>
 </div>
 
-<div *ngIf="devices.length <= 0"><em>Keine Geräte gefunden!</em></div>
 
 
-<div class="row gutter-10" *ngIf="devices.length > 0">
+<div class="row gutter-10">
         <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3">
 
             <hwinf-device-filter
@@ -29,8 +28,8 @@
             </hwinf-device-filter>
 
         </div>
-
-        <div class="col-xs-12 col-sm-7 col-md-8 col-lg-9">
+        <div class="col-xs-12 col-sm-7 col-md-8 col-lg-9" *ngIf="devices.length <= 0"><em>Keine Geräte gefunden!</em></div>
+        <div class="col-xs-12 col-sm-7 col-md-8 col-lg-9" *ngIf="devices.length > 0">
 
             <div class="x_panel" >
                 <div class="x_title">
@@ -62,9 +61,9 @@
                                         <div *ngFor="let fieldGroup of device.FieldGroups">
                                             <strong>{{fieldGroup.Name}}</strong>
                                             <div *ngFor="let metaData of getMetaDataOfFieldGroup(fieldGroup.Slug, device.DeviceMeta)">
-                                                <span *ngIf="(!fieldGroup.IsCountable) && (metaData.Value > 1)">{{metaData.Value}}&times; </span>
+                                                <span *ngIf="(fieldGroup.IsCountable) && (metaData.Value > 1)">{{metaData.Value}}&times; </span>
                                                 {{metaData.Field}}
-                                                <span *ngIf="(fieldGroup.IsCountable) || (metaData.Value == 1)"></span>
+                                                <span *ngIf="(!fieldGroup.IsCountable) || (metaData.Value == 1)"></span>
                                             </div>
                                         </div>
                                     </div>
