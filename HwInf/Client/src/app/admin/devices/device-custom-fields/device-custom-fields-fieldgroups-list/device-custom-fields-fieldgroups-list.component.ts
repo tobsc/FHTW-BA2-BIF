@@ -29,7 +29,7 @@ export class DeviceCustomFieldsFieldgroupsListComponent implements OnInit {
   }
 
   pushData(fieldGroup: FieldGroup) {
-    this.fieldGroups.push(fieldGroup);
+    this.fieldGroups.unshift(fieldGroup);
       this.rows.unshift({isCollapsed:true, fieldGroup: fieldGroup});
   }
 

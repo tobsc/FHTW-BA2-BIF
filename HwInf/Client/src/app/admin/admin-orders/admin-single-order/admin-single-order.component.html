@@ -14,8 +14,6 @@
           <th>Dauer</th>
           <th>Grund</th>
           <th>Anfragedatum</th>
-          <th>Aktion</th>
-
         </tr>
         </thead>
         <tbody>
@@ -52,66 +50,48 @@
           <td>
             {{order.Date | date: 'dd. MMMM yyyy'}}
           </td>
-          <td>
-
-            <hwinf-confirm-button *ngIf="order.OrderStatus.Slug === 'offen'"
-                                  (action)="onAccept()"
-                                  class="btn-block"
-                                  popOverTitle="Antrag akzeptieren?"
-            >
-              <button [disabled]="!canAccept()" [title]="(canAccept()) ? 'Antrag akzeptieren' : 'Der Antrag kann nicht ohne Geräte akzeptiert werden.'" class="btn btn-success btn-xs btn-block">
-                Antrag akzeptieren
-              </button>
-            </hwinf-confirm-button>
-            <hwinf-confirm-button *ngIf="order.OrderStatus.Slug === 'akzeptiert'"
-                                  (action)="onLend()"
-                                  class="btn-block"
-                                  [popOverTitle]="'Geräte übergeben?'">
-              <button [title]="'Geräte übergeben'" class="btn btn-info btn-xs btn-block">
-                Geräte übergeben
-              </button>
-            </hwinf-confirm-button>
-
-            <hwinf-confirm-button *ngIf="order.OrderStatus.Slug === 'offen'"
-                                  (action)="onDecline()"
-                                  class="btn-block"
-                                  popOverTitle="Antrag ablehnen?">
-              <button title="Antrag ablehnen" class="btn btn-danger btn-xs btn-block">
-                Antrag ablehnen
-              </button>
-            </hwinf-confirm-button>
-
-            <hwinf-confirm-button *ngIf="order.OrderStatus.Slug === 'ausgeliehen'"
-                                  (action)="onReturn()"
-                                  class="btn-block"
-                                  popOverTitle="Ausleihung beenden?">
-              <button title="Ausleihung beenden" class="btn btn-success btn-xs btn-block">
-                Ausleihung beenden
-              </button>
-            </hwinf-confirm-button>
-            <!--hwinf-confirm-button
-                    (action)="onReset()"
-                    class="btn-block"
-                    popOverTitle="Antrag wiederherstellen?">
-              <button title="Antrag wiederherstellen" class="btn btn-warning btn-xs btn-block">
-                Antrag wiederherstellen
-              </button>
-            </hwinf-confirm-button-->
-
-            <div class="row gutter-5" style="margin-top: 5px">
-              <div class="col-xs-6">
-                <a href="/print/{{order.OrderGuid}}" target="_blank" title="Vertrag drucken" class="btn btn-default btn-xs btn-block">
-                  <i class="fa fa-print" aria-hidden="true"></i>
-                </a>
-              </div>
-              <div class="col-xs-6">
-                <a href="mailto:{{order.Entleiher.Email}}" class="btn btn-default btn-xs btn-block"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
-              </div>
-            </div>
-          </td>
         </tr>
         </tbody>
       </table>
+
+      <div class="action text-right">
+
+      <hwinf-confirm-button *ngIf="order.OrderStatus.Slug === 'offen'"
+                            (action)="onAccept()"
+                            popOverTitle="Antrag akzeptieren?"
+      >
+        <button [disabled]="!canAccept()" [title]="(canAccept()) ? 'Antrag akzeptieren' : 'Der Antrag kann nicht ohne Geräte akzeptiert werden.'" class="btn btn-success btn-xs">
+          Antrag akzeptieren
+        </button>
+      </hwinf-confirm-button>
+      <hwinf-confirm-button *ngIf="order.OrderStatus.Slug === 'akzeptiert'"
+                            (action)="onLend()"
+                            [popOverTitle]="'Geräte übergeben?'">
+        <button [title]="'Geräte übergeben'" class="btn btn-info btn-xs">
+          Geräte übergeben
+        </button>
+      </hwinf-confirm-button>
+
+      <hwinf-confirm-button *ngIf="order.OrderStatus.Slug === 'offen'"
+                            (action)="onDecline()"
+                            popOverTitle="Antrag ablehnen?">
+        <button title="Antrag ablehnen" class="btn btn-danger btn-xs">
+          Antrag ablehnen
+        </button>
+      </hwinf-confirm-button>
+
+      <hwinf-confirm-button *ngIf="order.OrderStatus.Slug === 'ausgeliehen'"
+                            (action)="onReturn()"
+                            popOverTitle="Ausleihung beenden?">
+        <button title="Ausleihung beenden" class="btn btn-success btn-xs">
+          Ausleihung beenden
+        </button>
+      </hwinf-confirm-button>
+      <a href="/print/{{order.OrderGuid}}" target="_blank" title="Vertrag drucken" class="btn btn-default btn-xs">
+        <i class="fa fa-print" aria-hidden="true"></i>
+      </a>
+      <a href="mailto:{{order.Entleiher.Email}}" class="btn btn-default btn-xs"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
+    </div>
     </div>
   </div>
 </div>
