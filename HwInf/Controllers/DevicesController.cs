@@ -176,7 +176,7 @@ namespace HwInf.Controllers
             }
             catch (SecurityException)
             {
-                _log.ErrorFormat("'{0}' tried to list Devices as Admin/Verwalter", _bl.GetCurrentUid());
+                _log.WarnFormat("'{0}' tried to list Devices as Admin/Verwalter", _bl.GetCurrentUid());
                 return Unauthorized();
             }
             catch (Exception ex)
@@ -320,7 +320,7 @@ namespace HwInf.Controllers
             }
             catch (SecurityException)
             {
-                _log.ErrorFormat("Security: '{0}' tried to create Device '{1}'", _bl.GetCurrentUid(), vmdl.InvNum);
+                _log.WarnFormat("Security: '{0}' tried to create Device '{1}'", _bl.GetCurrentUid(), vmdl.InvNum);
                 return Unauthorized();
             }
 
@@ -357,7 +357,7 @@ namespace HwInf.Controllers
             }
             catch (SecurityException)
             {
-                _log.ErrorFormat("Security: '{0}' tried to create DeviceType '{1}'", _bl.GetCurrentUid(), vmdl.Name);
+                _log.WarnFormat("Security: '{0}' tried to create DeviceType '{1}'", _bl.GetCurrentUid(), vmdl.Name);
                 return Unauthorized();
             }
 
@@ -396,7 +396,7 @@ namespace HwInf.Controllers
             }
             catch (SecurityException)
             {
-                _log.ErrorFormat("Security: '{0}' tried to delete Device '{1}'", _bl.GetCurrentUid(), id);
+                _log.WarnFormat("Security: '{0}' tried to delete Device '{1}'", _bl.GetCurrentUid(), id);
                 return Unauthorized();
             }
 
@@ -439,7 +439,7 @@ namespace HwInf.Controllers
             }
             catch (SecurityException)
             {
-                _log.ErrorFormat("Security: '{0}' tried to delete DeviceType '{1}'", _bl.GetCurrentUid(), slug);
+                _log.WarnFormat("Security: '{0}' tried to delete DeviceType '{1}'", _bl.GetCurrentUid(), slug);
                 return Unauthorized();
             }
 
@@ -510,7 +510,7 @@ namespace HwInf.Controllers
             }
             catch (SecurityException)
             {
-                _log.ErrorFormat("Security: '{0}' tried to update Device '{1}'", vmdl.InvNum);
+                _log.WarnFormat("Security: '{0}' tried to update Device '{1}'", vmdl.InvNum);
             }
             catch (Exception ex)
             {
@@ -559,7 +559,7 @@ namespace HwInf.Controllers
             }
             catch (SecurityException)
             {
-                _log.ErrorFormat("Security: '{0}' tried to update DeviceType '{1}'", _bl.GetCurrentUid(), slug);
+                _log.WarnFormat("Security: '{0}' tried to update DeviceType '{1}'", _bl.GetCurrentUid(), slug);
                 return Unauthorized();
             }
 
