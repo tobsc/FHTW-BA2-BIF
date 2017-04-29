@@ -24,7 +24,7 @@ import {JwtHttpService} from "../shared/services/jwt-http.service";
 import {DeviceFormComponent} from "./devices/device-form/device-form.component";
 import {DeviceEditComponent} from "./devices/device-edit/device-edit.component";
 import {DeviceAddComponent} from "./devices/device-add/device-add.component";
-import {AlertModule, CollapseModule} from "ng2-bootstrap";
+import {AlertModule, CollapseModule, PaginationModule} from "ng2-bootstrap";
 import {DeviceDuplicateComponent} from "./devices/device-duplicate/device-duplicate.component";
 import {ModalModule} from "angular2-modal";
 import {ConfirmDialogModule} from "../core/confirm-dialog/confirm-dialog.module";
@@ -90,6 +90,7 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
         CollapseModule.forRoot(),
         Daterangepicker,
         ConfirmDialogModule,
+        PaginationModule.forRoot(),
     ],
     providers: [
         {

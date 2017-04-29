@@ -7,7 +7,6 @@ import {Filter} from "../../../shared/models/filter.model";
 import {DeviceType} from "../../../shared/models/device-type.model";
 import {UserService} from "../../../shared/services/user.service";
 import {User} from "../../../shared/models/user.model";
-
 @Component({
     selector: 'hwinf-device-list',
     templateUrl: './device-list.component.html',
@@ -23,6 +22,8 @@ export class DeviceListComponent implements OnInit, OnDestroy {
     private isAscending: boolean = true;
     private deviceTypes: DeviceType[];
     private owners: User[];
+    private totalItems: number;
+    private itemsPerPage: number = 6;
 
     constructor(
         private userService: UserService,
@@ -31,12 +32,18 @@ export class DeviceListComponent implements OnInit, OnDestroy {
         private router: Router
     ) {}
 
+    public pageChanged(event: any): void {
+        console.log('Page changed to: ' + event.page);
+        console.log('Number items per page: ' + event.itemsPerPage);
+        this.currentPage = event.page;
+        this.fetchDataPagination()
+    }
     ngOnInit() {
         this.filter = new Filter();
         this.filter.DeviceType = '';
         this.filter.Order = 'ASC';
         this.filter.OrderBy = 'name';
-        this.filter.Limit = 10;
+        this.filter.Limit = this.itemsPerPage;
         this.filter.Offset = (this.currentPage-1) * this.filter.Limit;
 
 
@@ -72,6 +79,18 @@ export class DeviceListComponent implements OnInit, OnDestroy {
             .subscribe((data) => {
                 this.maxPages = data.MaxPages;
                 this.devices = data.Devices;
+                this.totalItems = data.TotalItems;
+            });
+    }
+
+    fetchDataPagination() {
+
+        this.filter.Offset = (this.currentPage-1) * this.filter.Limit;
+        return this.deviceService.getFilteredDevices(this.filter)
+            .subscribe((data) => {
+                this.maxPages = data.MaxPages;
+                this.devices = data.Devices;
+                this.totalItems = data.TotalItems;
             });
     }
 
@@ -88,10 +107,11 @@ export class DeviceListComponent implements OnInit, OnDestroy {
             );
     }
 
-    public onChangeOrder() {
+    public onChangeOrder(orderBy : string = 'name') {
         this.isAscending = !this.isAscending;
         this.filter.Order = (this.isAscending) ? 'ASC' : 'DESC';
-        this.fetchData();
+        this.filter.OrderBy = orderBy;
+        this.fetchDataPagination();
     }
 
     public onDeviceTypeChange(val: string) {
