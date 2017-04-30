@@ -16,21 +16,21 @@
         </div>
     </div>
     
-    <div class="form-group" formGroupName="Cause">
+    <div class="form-group">
         <label>
             Verursacher:
         </label>
         <div class="field-select">
-            <input type="text" class="form-control" formControlName="Uid">
+            <input class="form-control" auto-complete formControlName="Cause" [source]="users" [value-formatter]="myValueFormatter" [list-formatter]="myValueFormatter"/>
         </div>
     </div>
 
-    <div class="form-group" formGroupName="Reporter">
+    <div class="form-group">
         <label>
             Melder:
         </label>
         <div class="field-select">
-            <input type="text" class="form-control" formControlName="Uid" >
+            <input class="form-control" auto-complete formControlName="Reporter" [source]="users" [value-formatter]="myValueFormatter" [list-formatter]="myValueFormatter"/>
         </div>
     </div>
 

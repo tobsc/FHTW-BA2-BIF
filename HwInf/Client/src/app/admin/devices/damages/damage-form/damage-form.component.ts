@@ -5,6 +5,7 @@ import { Damage } from "../../../../shared/models/damage.model";
 import { DamageStatus } from "../../../../shared/models/damage-status.model";
 import { DamageService } from "../../../../shared/services/damage.service";
 import { UserService } from "../../../../shared/services/user.service";
+import { User } from "../../../../shared/models/user.model";
 import { BehaviorSubject, Subject } from "rxjs";
 
 @Component({
@@ -17,6 +18,8 @@ export class DamageFormComponent implements OnInit {
     private form: FormGroup;
     private damageInfo: FormArray;
     private damageStati: DamageStatus[];
+
+    private users: User[];
 
     @Output() damageUpdated = new EventEmitter<Damage>();
     @Input() submitButtonName: string;
@@ -33,6 +36,9 @@ export class DamageFormComponent implements OnInit {
 
     ngOnInit() {
         this.damageService.getDamageStati().subscribe(i => { this.damageStati = i; });
+        this.userService.getUsers().subscribe(i => {
+            this.users = i;
+        });
         this.form = this.initForm();
         this.fillFormWithValues(this.currentDamage);
     }
@@ -41,37 +47,31 @@ export class DamageFormComponent implements OnInit {
         if (!!damage && !!damage.Reporter && !!damage.Description) {
             
             if (!!damage.Cause) {
-                this.form.get('Cause').get('Uid').setValue(damage.Cause.Uid);
+                this.form.get('Cause').setValue(damage.Cause);
             }
             else {
-                this.form.get('Cause').get('Uid').setValue('');
+                this.form.get('Cause').setValue('');
             }
             this.form.get('Date').setValue(damage.Date);
             
-            this.form.get('Reporter').get('Uid').setValue(damage.Reporter.Uid);
+            this.form.get('Reporter').setValue(damage.Reporter);
             this.form.get('Description').setValue(damage.Description);
             this.form.get('Device').get('InvNum').setValue(damage.Device.InvNum);
             this.form.get('DamageStatus').get('Slug').setValue(damage.DamageStatus.Slug);
         }
         else {
-            this.userService.getUser().subscribe(i => this.form.get('Reporter').get('Uid').setValue(i.Uid));
+            this.userService.getUser().subscribe(i => this.form.get('Reporter').setValue(i));
         }
     }
 
     initForm() {
         return this.fb.group({
-            Cause: this.initPerson(),
+            Cause: [''],
             Date: [{ value: '', disabled: true }],
-            Reporter: this.initPerson(),
+            Reporter: [''],
             Description: ['', Validators.required],
             Device: this.initDevice(),
             DamageStatus: this.initDamageStatus(),
-        });
-    }
-
-    private initPerson(uid: string = ''): FormGroup {
-        return this.fb.group({
-            Uid: [uid, Validators.required]
         });
     }
 
@@ -96,7 +96,11 @@ export class DamageFormComponent implements OnInit {
         if (this.currentDamage != null) {
             damage.DamageId = this.currentDamage.DamageId;
         }
-        this.damageUpdated.emit(damage);
+        console.log(damage);
+        //this.damageUpdated.emit(damage);
     }
 
+    myValueFormatter(data: any): string {
+        return "(" + data.Uid + ") " + data.LastName + " " + data.Name;
+    }
 }
