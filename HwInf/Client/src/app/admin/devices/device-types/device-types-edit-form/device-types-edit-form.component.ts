@@ -23,7 +23,6 @@ export class DeviceTypesEditFormComponent implements OnInit {
     @Input()
     private set deviceType(deviceType) {
         this.deviceType$.next(deviceType);
-        // console.log(deviceType);
     }
     constructor(
         private fb: FormBuilder,
@@ -54,12 +53,9 @@ export class DeviceTypesEditFormComponent implements OnInit {
         console.log("i am called");
         console.log(deviceType);
 
-        //console.log(deviceType.Name);
             this.form.get('Name').setValue(deviceType.Name);
-          //  console.log(deviceType.Name);
             this.form.get('Slug').setValue((deviceType.Slug));
             deviceType.FieldGroups.forEach(i => this.addFieldGroup(i.Name));
-         //   deviceType.FieldGroups.forEach(i => this.form.get('FieldGroups').setValue({ Name: deviceType.Name }))
            
         
     }
@@ -80,12 +76,10 @@ export class DeviceTypesEditFormComponent implements OnInit {
     }
 
     addFieldGroup(field: string = '') {
-        console.log(field);
         this.fieldgroups.push(this.initFieldGroup(field));
     }
 
     initFieldGroup(field: string = '') {
-       // console.log(field);
         return this.fb.group({
             Name: [field, Validators.required]
         });
@@ -101,8 +95,10 @@ export class DeviceTypesEditFormComponent implements OnInit {
     }
 
     onSubmit(form: NgForm) {
+        console.log(form.controls);
         let deviceType: DeviceType = form.value;
         deviceType.FieldGroups.IsActive = true;
+        console.log(deviceType);
         this.deviceTypesListUpdated.emit(deviceType);
     }
 
