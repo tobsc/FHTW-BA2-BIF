@@ -97,14 +97,26 @@ export class DamageFormComponent implements OnInit {
     }
 
     initForm() {
-        return this.fb.group({
-            Cause: [''],
-            Date: [{ value: '', disabled: true }],
-            Reporter: [''],
-            Description: ['', Validators.required],
-            Device: [''],
-            DamageStatus: this.initDamageStatus(),
-        });
+        if (this.showDate) {
+            return this.fb.group({
+                Cause: [''],
+                Date: [{ value: '', disabled: true }],
+                Reporter: [''],
+                Description: ['', Validators.required],
+                Device: [{ value: '', disabled: true }],
+                DamageStatus: this.initDamageStatus(),
+            });
+        }
+        else {
+            return this.fb.group({
+                Cause: [''],
+                Date: [{ value: '', disabled: true }],
+                Reporter: [''],
+                Description: ['', Validators.required],
+                Device: [''],
+                DamageStatus: this.initDamageStatus(),
+            });
+        }
     }
 
     private initDamageStatus(slug: string = ''): FormGroup {
