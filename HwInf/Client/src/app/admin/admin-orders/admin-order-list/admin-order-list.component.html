@@ -3,6 +3,15 @@
             [(ngModel)]="currentPage" [itemsPerPage]="itemsPerPage" (pageChanged)="pageChanged($event)"
             lastText="Letzte" firstText="Erste" [maxSize]="maxSize" [rotate]="false">
 </pagination>
+<span style="float:right">
+    <select style="display: inline; width: auto;" class="form-control" (change)="onChangeOrder($event.target.value)">
+        <option value="" hidden>Sortieren</option>
+        <option value='{"by":"date","o":"ASC"}'>Datum</option>
+        <option value='{"by":"date","o":"DESC"}'>Datum, desc</option>
+        <option value='{"by":"entleiher","o":"ASC"}'>Entleiher</option>
+        <option value='{"by":"entleiher","o":"DESC"}'>Entleiher, desc</option>
+    </select>
+</span>
 <div *ngIf="maxPages > 1" class="text-right">Seite {{currentPage}}/{{maxPages}}</div>
 <hwinf-admin-single-order *ngFor="let order of orders; let i = index" (updateOrder)="updateOrder(i, $event)" [order]="order"></hwinf-admin-single-order>
 <div *ngIf="maxPages > 1" class="text-right">Seite {{currentPage}}/{{maxPages}}</div>

@@ -28,11 +28,11 @@ export class AdminOrderListComponent implements OnInit {
     private currentPage: number = 1;
     private isAscending: boolean = true;
     private totalItems: number;
-    private itemsPerPage: number = 10;
+    private itemsPerPage: number = 2;
     private orderBy: string = 'date';
     private order: string = "DESC";
     private maxSize: number = 8;
-    private myfilter: OrderFilter;
+    private myfilter: OrderFilter = new OrderFilter();
 
     constructor(
         private orderService: OrderService,
@@ -44,6 +44,7 @@ export class AdminOrderListComponent implements OnInit {
         this.route.queryParams
             .flatMap(i => this._filter)
             .flatMap(filter => {
+                this.currentPage = 1;
                 let tmpFilter = filter;
                 tmpFilter.Limit = this.itemsPerPage;
                 tmpFilter.Offset = (this.currentPage-1) * tmpFilter.Limit;
@@ -59,13 +60,29 @@ export class AdminOrderListComponent implements OnInit {
                 this.totalItems = data.TotalItems;
                 console.log("sub");
             });
+
     }
 
-    fetchData() {}
+    fetchData() {
+
+        this.myfilter.StatusSlugs = this._filter.value.StatusSlugs;
+        this.myfilter.Order = this.order;
+        this.myfilter.OrderBy = this.orderBy;
+        this.myfilter.Limit = this.itemsPerPage;
+        this.myfilter.IsAdminView = true;
+        this.myfilter.Offset = (this.currentPage-1) * this.myfilter.Limit;
+        this.orderService.getFilteredOrders(this.myfilter)
+            .subscribe(
+                data => {
+                    this.orders = data.Orders;
+                    this.totalItems = data.TotalItems;
+                }
+            )
+    }
 
     public pageChanged(event: any): void {
         this.currentPage = event.page;
-        this.fetchData()
+        this.fetchData();
     }
 
     public onChangeOrder(orderBy : string) {
