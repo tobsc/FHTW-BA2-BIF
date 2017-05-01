@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit(form)" id="demo-form2" class="form-horizontal form-label-left">
+﻿<form [formGroup]="form" (ngSubmit)="onSubmit(form)" id="demo-form2" class="form-horizontal form-label-left">
 
     <div class="form-group">
         <label for="beschreibung">
@@ -34,12 +34,12 @@
         </div>
     </div>
 
-    <div class="form-group" formGroupName="Device">
+    <div class="form-group">
         <label>
-            Ger�teinventarnummer:
+            Gerät:
         </label>
         <div class="field-select">
-            <input type="text" class="form-control" formControlName="InvNum">
+            <input class="form-control" auto-complete formControlName="Device" [source]="stringForDevDic">
         </div>
     </div>
 

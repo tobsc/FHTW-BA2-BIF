@@ -40,8 +40,8 @@ const ADMIN_ROUTES: Routes = [
                     { path: 'edit/:slug', component: DeviceTypesEditComponent },
                     { path: 'verwalten', component: DeviceTypesAddComponent },]
             },
-            { path: 'geraete/schaden/:invnum', component: DamagesComponent},
-            { path: 'geraete/schaden/add', component: DamagesAddComponent},
+            { path: 'schaden/verwalten/:invnum', component: DamagesComponent},
+            { path: 'schaden/add', component: DamagesAddComponent},
             { path: 'geraete/verwalten/:invnum', component: DeviceEditComponent },
             { path: 'settings', component: AdminSettingsComponent },
             { path: 'orders', redirectTo: 'orders/offen', pathMatch: 'full'},
