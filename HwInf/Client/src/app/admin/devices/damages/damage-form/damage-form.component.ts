@@ -19,7 +19,14 @@ export class DamageFormComponent implements OnInit {
     private damageInfo: FormArray;
     private damageStati: DamageStatus[];
 
+    //for auto-complete tofuix [object Object]-bug
     private users: User[];
+    private userDic: { [search: string]: User; } = {};
+    private stringForDic: string[] = [];
+    private selectedUser: User;
+    private selectedString: string;
+    private ownUser: User;
+    private ownString: string;
 
     @Output() damageUpdated = new EventEmitter<Damage>();
     @Input() submitButtonName: string;
@@ -35,32 +42,43 @@ export class DamageFormComponent implements OnInit {
 
 
     ngOnInit() {
+        this.form = this.initForm();
+
         this.damageService.getDamageStati().subscribe(i => { this.damageStati = i; });
         this.userService.getUsers().subscribe(i => {
             this.users = i;
+
+            //dictionary with custom strings as keys
+            this.users.forEach((user, index) => {
+                this.userDic[this.objectFormatter(user)] = user;
+                this.stringForDic[index] = this.objectFormatter(user);
+            });
         });
-        this.form = this.initForm();
-        this.fillFormWithValues(this.currentDamage);
+        this.userService.getUser().subscribe(i => {
+            this.ownUser = i;
+            
+            this.fillFormWithValues(this.currentDamage);
+        });
+        
     }
 
     fillFormWithValues(damage) {
         if (!!damage && !!damage.Reporter && !!damage.Description) {
-            
             if (!!damage.Cause) {
-                this.form.get('Cause').setValue(damage.Cause);
+                this.form.get('Cause').setValue(this.objectFormatter(damage.Cause));
             }
             else {
                 this.form.get('Cause').setValue('');
             }
             this.form.get('Date').setValue(damage.Date);
             
-            this.form.get('Reporter').setValue(damage.Reporter);
+            this.form.get('Reporter').setValue(this.objectFormatter(damage.Reporter));
             this.form.get('Description').setValue(damage.Description);
             this.form.get('Device').get('InvNum').setValue(damage.Device.InvNum);
             this.form.get('DamageStatus').get('Slug').setValue(damage.DamageStatus.Slug);
         }
         else {
-            this.userService.getUser().subscribe(i => this.form.get('Reporter').setValue(i));
+            this.form.get('Reporter').setValue(this.objectFormatter(this.ownUser));
         }
     }
 
@@ -93,14 +111,15 @@ export class DamageFormComponent implements OnInit {
 
     onSubmit(form: NgForm) {
         let damage: Damage = form.value;
+        damage.Cause = this.userDic[form.value.Cause];
+        damage.Reporter = this.userDic[form.value.Reporter];
         if (this.currentDamage != null) {
             damage.DamageId = this.currentDamage.DamageId;
         }
-        console.log(damage);
-        //this.damageUpdated.emit(damage);
+        this.damageUpdated.emit(damage);
     }
 
-    myValueFormatter(data: any): string {
+    objectFormatter(data: any): string {
         return "(" + data.Uid + ") " + data.LastName + " " + data.Name;
     }
 }
