@@ -41,8 +41,9 @@ export class DamagesListComponent implements OnInit {
       this.damageService.updateDamage(damage)
           .subscribe(
           (success) => {
-              console.log(success);
-              this.rows[i].damage = success;
+              //updates the values that were sent in response (Description and DamageStatus)
+              this.rows[i].damage.Description = success.Description;
+              this.rows[i].damage.DamageStatus = success.DamageStatus;
               this.rows[i].isCollapsed = true;
           },
           (error) => console.log(error)

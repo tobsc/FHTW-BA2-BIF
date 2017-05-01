@@ -99,9 +99,9 @@ export class DamageFormComponent implements OnInit {
     initForm() {
         if (this.showDate) {
             return this.fb.group({
-                Cause: [''],
+                Cause: [{ value: '', disabled: true }],
                 Date: [{ value: '', disabled: true }],
-                Reporter: [''],
+                Reporter: [{ value: '', disabled: true }],
                 Description: ['', Validators.required],
                 Device: [{ value: '', disabled: true }],
                 DamageStatus: this.initDamageStatus(),
@@ -138,6 +138,7 @@ export class DamageFormComponent implements OnInit {
         if (this.currentDamage != null) {
             damage.DamageId = this.currentDamage.DamageId;
         }
+        console.log(damage);
         this.damageUpdated.emit(damage);
     }
 
