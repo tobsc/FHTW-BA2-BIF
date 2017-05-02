@@ -7,18 +7,17 @@ namespace HwInf.Common
 {
     partial class Contract
     {
-        private Order o;
+        private Order _order;
         public Contract(Order order)
         {
-            o = order;
+            _order = order;
         }
 
         //returns part of contract where borrower is stated
         public string getEntleiher()
         {
 
-            HwInfContext db = new HwInfContext();
-            var p = o.Entleiher;
+            var p = _order.Entleiher;
 
 
             string entleiherPart = "\\paragraph [ Format {SpaceAfter = \"1cm\" LeftIndent = \"2cm\"} ] {Name: " + p.Name + " " + p.LastName + "} \\paragraph [ Format {SpaceAfter = \"1cm\" LeftIndent = \"2cm\"} ] {Adresse: __________________________________ } \\paragraph [ Format {SpaceAfter = \"1cm\" LeftIndent = \"2cm\"} ] {Personenkennzahl: " + p.Uid + "} \\paragraph [ Format {SpaceAfter = \"1cm\" LeftIndent = \"2cm\"} ] {Studiengang: _______ } \\paragraph [ Format {SpaceAfter = \"1cm\" LeftIndent = \"2cm\"} ] {Telefon: " + p.Tel + "} \\paragraph [ Format {SpaceAfter = \"1cm\" LeftIndent = \"2cm\"} ] {Email: " + p.Email + "}";
@@ -31,7 +30,7 @@ namespace HwInf.Common
 
             string geraete = "";
 
-            foreach (var oi in o.OrderItems)
+            foreach (var oi in _order.OrderItems)
             {
                 if (oi.IsDeclined == false)
                 {
@@ -45,12 +44,12 @@ namespace HwInf.Common
         {
 
 
-            string zeitspannePart = "(1) Das Gerät wird für die Zeit vom " + o.From.ToString("dd.MM/yyyy") + " bis " + o.To.Date.ToString("dd.MM.yyyy") + " entliehen.";
+            string zeitspannePart = "(1) Das Gerät wird für die Zeit vom " + _order.From.ToString("dd.MM/yyyy") + " bis " + _order.To.Date.ToString("dd.MM.yyyy") + " entliehen.";
             return zeitspannePart;
         }
         public string getAnhang()
         {
-            var p = o.Entleiher;
+            var p = _order.Entleiher;
 
 
             string anhangPart = "\\paragraph [ Format { SpaceAfter = \"1cm\"}]{zum Leihvertrag zwischen der FH Technikum Wien und " + p.Name + " " + p.LastName + "}\\paragraph  [ Format { SpaceAfter = \"1cm\"}]{Bestandsliste des Zubehörs für das}\\paragraph [ Format { SpaceAfter = \"1cm\" LeftIndent = \"1cm\"}]{Gerät der Marke DAS MUSS NOCH GENERIERT WERDEN!!!!}\\paragraph [ Format { SpaceAfter = \"1cm\" LeftIndent = \"1cm\"}]{Typ}\\paragraph [ Format { SpaceAfter = \"1cm\" LeftIndent = \"1cm\"}]{Inventarnummer:}";
