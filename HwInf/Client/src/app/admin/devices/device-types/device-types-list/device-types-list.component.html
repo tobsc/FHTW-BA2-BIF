@@ -9,28 +9,28 @@
       <table id="datatable" class="table table-striped table-hover bulk_action table-bordered">
         <thead>
         <tr class="headings">
-          <th style="width:50px;">
-            <input type="checkbox" id="check-all" class="flat">
-          </th>
           <th class="column-title">Name</th>
-          <th class="column-title">Aktion</th>
-          <th class="bulk-actions" colspan="7">
-            <a class="antoo" style="font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
-          </th>
+          <th style="width: 90px" class="column-title">Aktion</th>
         </tr>
         </thead>
 
         <tbody>
-          <tr class="pointer" *ngFor="let deviceType of deviceTypes; let i = index;" [ngClass]="{ 'even': i%2==0, 'odd': i%2!=0 }">
-            <td class="a-center ">
-              <input type="checkbox" class="flat" name="table_records">
-            </td>
-            <td>{{ deviceType.Name }}</td>
+          <tr class="pointer" *ngFor="let row of rows; let i = index;">
             <td>
-                <a routerLink="/admin/geraete/typen/edit/{{deviceType.Slug}}" title="Gerätetyp bearbeiten" class="btn btn-warning btn-sm" aria-label="Bearbeiten"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                <div class="name-row" (click)="row.isCollapsed = !row.isCollapsed">
+                    <div>{{ row.deviceType?.Name }}</div>
+                    <div><i class="fa " [ngClass]="{'fa-chevron-up': !row.isCollapsed, 'fa-chevron-down': row.isCollapsed}" aria-hidden="true"></i></div>
+                </div>
+                <div [collapse]="row.isCollapsed">
+                    <div class="ln_solid"></div>
+                    <hwinf-device-types-edit-form *ngIf="!row.isCollapsed" [deviceType]="row.deviceType" (deviceTypesListUpdated)="onSave(i, $event)" submitButtonName="Speichern"></hwinf-device-types-edit-form>
+                </div>
+            </td>
+            <td>
+                <a title="Gerätetyp bearbeiten" (click)="row.isCollapsed = !row.isCollapsed" class="btn btn-warning btn-xs" aria-label="Bearbeiten"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
 
               <hwinf-confirm-button (action)="onDelete(deviceType.Slug, i)" popOverTitle="Wirklich löschen?">
-                <button routerLink="/admin/geraete/typen/verwalten" title="Gerätetyp löschen" class="btn btn-danger btn-sm" aria-label="Löschen">
+                <button title="Gerätetyp löschen" class="btn btn-danger btn-xs" aria-label="Löschen">
                   <i class="fa fa-trash-o" aria-hidden="true"></i>
                 </button>
               </hwinf-confirm-button>
@@ -40,8 +40,5 @@
         </tbody>
       </table>
     </div>
-
-    <a (click)="fetchData()">refresh</a>
-
   </div>
 </div>

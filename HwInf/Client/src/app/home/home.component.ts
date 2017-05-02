@@ -10,7 +10,6 @@ import { AdminService } from '../shared/services/admin.service';
 export class HomeComponent implements OnInit, OnDestroy{
   ngOnDestroy(): void {
 
-    console.log('I AM DESTROYED');
   }
 
     constructor(
@@ -21,7 +20,6 @@ export class HomeComponent implements OnInit, OnDestroy{
 
   ngOnInit() {
 
-    console.log("I AM CREATED");
 
   }
 

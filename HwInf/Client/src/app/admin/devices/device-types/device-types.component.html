@@ -1,12 +1,11 @@
 <div class="row">
   <div class="col-md-6 col-sm-6 col-xs-12">
-    <hwinf-device-types-list></hwinf-device-types-list>
+    
+    <hwinf-device-types-add (deviceTypesListUpdated)="pushData($event)"></hwinf-device-types-add>
+  </div>
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        <hwinf-device-types-list></hwinf-device-types-list>
 
-  </div>
-  <div class="col-md-6 col-sm-6 col-xs-12">
-      <router-outlet (deviceTypeListUpdated)="pushData($event)">
-      </router-outlet>
-    <!--<hwinf-device-types-add (deviceTypesListUpdated)="pushData($event)"></hwinf-device-types-add>-->
-  </div>
+    </div>
 </div>
 

@@ -31,8 +31,7 @@ export class CartService {
                 var char = uid.charCodeAt(i);
                 hash = ((hash << 5) - hash) + char;
                 hash = hash & hash; // Convert to 32bit integer
-            }
-            console.log('cart_list' + hash + "  UID: "+ uid);
+            }        
             return hash;
 
 
@@ -42,9 +41,7 @@ export class CartService {
         return this.amount.asObservable();
     }
 
-    public addItem(item: Device) {
-        console.log("following object has been recieved");
-        console.log(item);
+    public addItem(item: Device) {      
         if (!this.contains(item)) {
             this.items.push(item);
             this.updateData()

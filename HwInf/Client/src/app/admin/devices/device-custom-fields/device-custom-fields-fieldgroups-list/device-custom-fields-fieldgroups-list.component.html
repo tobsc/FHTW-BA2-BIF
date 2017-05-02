@@ -15,7 +15,7 @@
         </thead>
 
         <tbody>
-        <tr class=" pointer" *ngFor="let row of rows; let i = index;">
+        <tr class="pointer" *ngFor="let row of rows; let i = index;">
           <td >
             <div class="name-row" (click)="row.isCollapsed = !row.isCollapsed">
               <div>{{ row.fieldGroup.Name }}</div>

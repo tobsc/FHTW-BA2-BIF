@@ -9,28 +9,33 @@ import {DeviceService} from "../../../../shared/services/device.service";
 })
 export class DeviceTypesListComponent implements OnInit {
 
-  private deviceTypes: DeviceType[] = [];
+    private deviceTypes: DeviceType[] = [];
+    private rows: any[];
+    
 
   constructor(private deviceService: DeviceService) { }
 
   ngOnInit() {
-    this.fetchData();
+      this.fetchData();
   }
 
   fetchData() {
     this.deviceService.getDeviceTypes()
         .subscribe((data) => {
-            console.log(data);
-          this.deviceTypes = data;
+            this.deviceTypes = data;
+          
+            this.rows = data.map(i => ({ isCollapsed: true, deviceType: i }));
         });
   }
 
-  pushData(item: DeviceType) {
-    this.deviceTypes.push(item);
+  pushData(deviceType: DeviceType) {
+      this.deviceTypes.push(deviceType);
+      this.rows.unshift({ isCollapsed: true, deviceType: deviceType });
   }
 
   removeDeviceType(index: number) {
       this.deviceTypes.splice(index, 1);
+      this.rows.splice(index, 1);
   }
 
   onDelete(typeSlug: string, index: number) {
@@ -41,5 +46,19 @@ export class DeviceTypesListComponent implements OnInit {
           (err) => console.log(err)
           );
   }
+
+  onSave(i, deviceType) {
+      this.deviceService.editDeviceType(deviceType)
+          .subscribe(
+          (success) => {
+           
+              this.rows[i].deviceType = success;
+              this.rows[i].isCollapsed = true;
+          },
+           (error) => console.log(error)
+      );
+  }
+
+ 
 
 }
