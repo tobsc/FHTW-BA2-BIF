@@ -2,11 +2,11 @@
   <div formArrayName="FieldGroup">
     <div *ngFor="let fieldGroup of fieldGroups; let i = index" [formGroupName]="i">
       <div class="x_panel">
-        <div class="x_title">
+        <div class="x_title" (click)="onCollapse(i)" style="cursor: pointer;">
           {{fieldGroup.Name}}
           <ul class="nav navbar-right panel_toolbox">
             <li>
-              <a class="collapse-link" (click)="onCollapse(i)">
+              <a class="collapse-link" >
                 <i *ngIf="!isCollapsedArr[i]" class="fa fa-chevron-up"></i>
                 <i *ngIf="isCollapsedArr[i]" class="fa fa-chevron-down"></i>
               </a>
