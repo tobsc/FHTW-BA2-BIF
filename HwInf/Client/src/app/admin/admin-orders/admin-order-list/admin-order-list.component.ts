@@ -28,7 +28,7 @@ export class AdminOrderListComponent implements OnInit {
     private currentPage: number = 1;
     private isAscending: boolean = true;
     private totalItems: number;
-    private itemsPerPage: number = 2;
+    private itemsPerPage: number = 10;
     private orderBy: string = 'date';
     private order: string = "DESC";
     private maxSize: number = 8;
@@ -58,7 +58,6 @@ export class AdminOrderListComponent implements OnInit {
                 this.orders = data.Orders;
                 this.maxPages = data.MaxPages;
                 this.totalItems = data.TotalItems;
-                console.log("sub");
             });
 
     }

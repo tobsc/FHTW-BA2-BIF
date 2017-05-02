@@ -10,7 +10,7 @@ import {Order} from "../../../shared/models/order.model";
 })
 export class OrdersArchivComponent implements OnInit {
 
-  private orders: Order[];
+  private orders: Order[] = [];
   private currentPage: number = 1;
   private isAscending: boolean = true;
   private totalItems: number;

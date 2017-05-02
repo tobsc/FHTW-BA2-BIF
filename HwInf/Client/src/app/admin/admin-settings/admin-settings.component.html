@@ -1,94 +1,111 @@
-<h1>Settings</h1>
+ï»¿<h1>Settings</h1>
 <div class="x_panel">
     <div class="x_title">
         <h2>Settings</h2>
         <div class="clearfix"></div>
     </div>
     <div class="x_content">
-        <form class="form-horizontal form-label-left" (ngSubmit)="update(f)" #f="ngForm">
-            <div class="form-group">
-                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="optionsSS">
-                    SS <span class="required">*</span>
-                </label>
-                <div class="col-md-6 col-sm-6 col-xs-12" name="parent">
-                    <input type="text" name="daterangeInput" id="optionsSS" daterangepicker [options]="optionsSS" (selected)="selectedSSDate($event)" class="form-control col-md-7 col-xs-12" required />
+        <form class="" (ngSubmit)="update(f)" #f="ngForm">
+            <div class="row gutter-10">
+                <div class="col-xs-12 col-md-6">
+                    <div class="form-group">
+                        <label for="optionsSS">
+                            Sommersemester
+                        </label>
+                        <div name="parent">
+                            <input class="form-control" type="text" name="daterangeInput" id="optionsSS" daterangepicker [options]="optionsSS" (selected)="selectedSSDate($event)" required />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-6">
+                    <div class="form-group">
+                        <label for="optionsWS">
+                            Wintersemester
+                        </label>
+                        <div name="parent">
+                            <input class="form-control" type="text" name="daterangeInput" id="optionsWS" daterangepicker [options]="optionsWS" (selected)="selectedWSDate($event)" required />
+                        </div>
+                    </div>
                 </div>
             </div>
+            <div class="ln_solid"></div>
             <div class="form-group">
-                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="optionsWS">
-                    WS <span class="required">*</span>
+                <label for="new_order">
+                    Neuer Auftrag - Vorlage
                 </label>
-                <div class="col-md-6 col-sm-6 col-xs-12" name="parent">
-                    <input type="text" name="daterangeInput" id="optionsWS" daterangepicker [options]="optionsWS" (selected)="selectedWSDate($event)" class="form-control col-md-7 col-xs-12" required />
+                <div>
+                    <textarea class="form-control" id="new_order" ngControl="newOrder.Value" [(ngModel)]="newOrder.Value" name="new_order" rows="5"></textarea>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bla">
-                    Neuer Auftrag - Vorlage <span class="required">*</span>
-                </label>
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <input class="form-control col-md-7 col-xs-12" id="new_order" ngControl="newOrder.Value" [(ngModel)]="newOrder.Value" name="new_order" type="text">
+            <div class="ln_solid"></div>
+            <div class="row gutter-10">
+                <div class="col-xs-12 col-md-6">
+                    <div class="form-group">
+                        <label for="accept_above">
+                            Angenommener Auftrag - Vorlage (oben) <span class="required">*</span>
+                        </label>
+                        <div>
+                            <textarea class="form-control" id="accept_above" ngControl="mailAccept_above.Value" [(ngModel)]="mailAccept_above.Value" name="mail_accept_above" rows="5"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-6">
+                    <div class="form-group">
+                        <label for="accept_below">
+                            Angenommener Auftrag - Vorlage (unten) <span class="required">*</span>
+                        </label>
+                        <div>
+                            <textarea class="form-control" id="accept_below" ngControl="mailAccept_below.Value" [(ngModel)]="mailAccept_below.Value" name="mail_accept_below" rows="5"></textarea>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <div class="form-group">
-                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bla">
-                    Angenommener Auftrag - Vorlage (oben) <span class="required">*</span>
-                </label>
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <input class="form-control col-md-7 col-xs-12" id="accept_above" ngControl="mailAccept_above.Value" [(ngModel)]="mailAccept_above.Value" name="mail_accept_above" type="text">
+            <div class="ln_solid"></div>
+            <div class="row gutter-10">
+                <div class="col-xs-12 col-md-6">
+                    <div class="form-group">
+                        <label for="decline_above">
+                            Abgelehnter Auftrag - Vorlage (oben)  <span class="required">*</span>
+                        </label>
+                        <div>
+                            <textarea class="form-control" id="decline_above" ngControl="mailDecline_above.Value" [(ngModel)]="mailDecline_above.Value" name="mail_decline_above" rows="5"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-6">
+                    <div class="form-group">
+                        <label for="decline_below">
+                            Abgelehnter Auftrag - Vorlage (unten)  <span class="required">*</span>
+                        </label>
+                        <div>
+                            <textarea class="form-control" id="decline_below" ngControl="mailDecline_below.Value" [(ngModel)]="mailDecline_below.Value" name="mail_decline_below" rows="5"></textarea>
+                        </div>
+                    </div>
                 </div>
             </div>
-
+            <div class="ln_solid"></div>
             <div class="form-group">
-                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bla">
-                    Angenommener Auftrag - Vorlage (unten) <span class="required">*</span>
-                </label>
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <input class="form-control col-md-7 col-xs-12" id="accept_below" ngControl="mailAccept_below.Value" [(ngModel)]="mailAccept_below.Value" name="mail_accept_below" type="text">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bla">
-                    Abgelehnter Auftrag - Vorlage (oben)  <span class="required">*</span>
-                </label>
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <input class="form-control col-md-7 col-xs-12" id="decline_above" ngControl="mailDecline_above.Value" [(ngModel)]="mailDecline_above.Value" name="mail_decline_above" type="text">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bla">
-                    Abgelehnter Auftrag - Vorlage (unten)  <span class="required">*</span>
-                </label>
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <input class="form-control col-md-7 col-xs-12" id="decline_below" ngControl="mailDecline_below.Value" [(ngModel)]="mailDecline_below.Value" name="mail_decline_below" type="text">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bla">
+                <label for="reminder">
                     Reminder Mail - Vorlage <span class="required">*</span>
                 </label>
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <input class="form-control col-md-7 col-xs-12" id="reminder" ngControl="mailReminder.Value" [(ngModel)]="mailReminder.Value" name="mail_reminder" type="text">
+                <div>
+                    <textarea class="form-control" id="reminder" ngControl="mailReminder.Value" [(ngModel)]="mailReminder.Value" name="mail_reminder" rows="5"></textarea>
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bla">
-                    Reminder Mail - Anzahl der Tage vor der Rückgabe der Geräte <span class="required">*</span>
+                <label for="days_before">
+                    Reminder Mail - Anzahl der Tage vor der RÃ¼ckgabe der GerÃ¤te <span class="required">*</span>
                 </label>
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <input class="form-control col-md-7 col-xs-12" id="days_before" ngControl="daysBefore.Value" [(ngModel)]="daysBefore.Value" name="days_before" type="text">
+                <div>
+                    <input class="form-control" id="days_before" ngControl="daysBefore.Value" [(ngModel)]="daysBefore.Value" name="days_before" type="text">
                 </div>
             </div>
 
 
 
             <div class="form-group">
-                <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                <label>
                 </label>
             </div>
             <div align="right">

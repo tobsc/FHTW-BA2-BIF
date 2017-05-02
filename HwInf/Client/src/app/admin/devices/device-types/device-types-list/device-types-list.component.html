@@ -29,7 +29,7 @@
             <td>
                 <a title="Gerätetyp bearbeiten" (click)="row.isCollapsed = !row.isCollapsed" class="btn btn-warning btn-xs" aria-label="Bearbeiten"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
 
-              <hwinf-confirm-button (action)="onDelete(deviceType.Slug, i)" popOverTitle="Wirklich löschen?">
+              <hwinf-confirm-button (action)="onDelete(row.deviceType.Slug, i)" popOverTitle="Wirklich löschen?">
                 <button title="Gerätetyp löschen" class="btn btn-danger btn-xs" aria-label="Löschen">
                   <i class="fa fa-trash-o" aria-hidden="true"></i>
                 </button>

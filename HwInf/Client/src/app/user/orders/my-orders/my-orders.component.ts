@@ -10,7 +10,7 @@ import {OrderFilter} from "../../../shared/models/order-filter.model";
 })
 export class MyOrdersComponent implements OnInit {
 
-  private orders: Order[];
+  private orders: Order[] = [];
   private currentPage: number = 1;
   private isAscending: boolean = true;
   private totalItems: number;
