@@ -27,7 +27,7 @@
           <td>
 
             <ul class="list-group">
-              <li style="cursor:pointer" (click)="orderItem.IsDeclined = !orderItem.IsDeclined"  class="list-group-item" *ngFor="let orderItem of order.OrderItems; let i = index" [ngClass]="{'declined-order-item': orderItem.IsDeclined}">
+              <li [ngStyle]="{'cursor': (order.OrderStatus.Slug === 'offen') ? 'pointer' : 'default'}" (click)="(order.OrderStatus.Slug === 'offen') && (orderItem.IsDeclined = !orderItem.IsDeclined)"  class="list-group-item" *ngFor="let orderItem of order.OrderItems; let i = index" [ngClass]="{'declined-order-item': orderItem.IsDeclined}">
                 <button *ngIf="order.OrderStatus.Slug === 'offen'" type="button" class="close" data-dismiss="alert" aria-label="Close">
                   <span *ngIf="!orderItem.IsDeclined" aria-hidden="true">&times;</span>
                   <span *ngIf="orderItem.IsDeclined" aria-hidden="true">&#43;</span>

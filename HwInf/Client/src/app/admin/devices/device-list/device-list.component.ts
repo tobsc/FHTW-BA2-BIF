@@ -20,7 +20,7 @@ export class DeviceListComponent implements OnInit {
     private deviceTypes: DeviceType[];
     private owners: User[];
     private totalItems: number;
-    private itemsPerPage: number = 10;
+    private itemsPerPage: number = 2;
     private orderBy: string = 'name';
     private maxSize: number = 8;
 
@@ -35,6 +35,7 @@ export class DeviceListComponent implements OnInit {
         this.currentPage = event.page;
         this.fetchData()
     }
+
     ngOnInit() {
         this.filter = new Filter();
         this.filter.DeviceType = '';

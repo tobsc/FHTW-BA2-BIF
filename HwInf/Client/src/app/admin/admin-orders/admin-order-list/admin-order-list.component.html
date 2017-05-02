@@ -1,8 +1,11 @@
 <div *ngIf="orders.length <= 0"><em>Keine Aufträge vorhanden!</em></div>
-<pagination [directionLinks]="false" [boundaryLinks]="true" [totalItems]="totalItems"
-            [(ngModel)]="currentPage" [itemsPerPage]="itemsPerPage" (pageChanged)="pageChanged($event)"
-            lastText="Letzte" firstText="Erste" [maxSize]="maxSize" [rotate]="false">
-</pagination>
+<div class="text-center">
+    <pagination [directionLinks]="false" [boundaryLinks]="true" [totalItems]="totalItems"
+                [(ngModel)]="currentPage" [itemsPerPage]="itemsPerPage"
+                lastText="Letzte" firstText="Erste" [maxSize]="maxSize" [rotate]="false">
+    </pagination>
+</div>
+
 <span style="float:right">
     <select style="display: inline; width: auto;" class="form-control" (change)="onChangeOrder($event.target.value)">
         <option value="" hidden>Sortieren</option>
@@ -15,7 +18,9 @@
 <div *ngIf="maxPages > 1" class="text-right">Seite {{currentPage}}/{{maxPages}}</div>
 <hwinf-admin-single-order *ngFor="let order of orders; let i = index" (updateOrder)="updateOrder(i, $event)" [order]="order"></hwinf-admin-single-order>
 <div *ngIf="maxPages > 1" class="text-right">Seite {{currentPage}}/{{maxPages}}</div>
-<pagination [directionLinks]="false" [boundaryLinks]="true" [totalItems]="totalItems"
-            [(ngModel)]="currentPage" [itemsPerPage]="itemsPerPage" (pageChanged)="pageChanged($event)"
-            lastText="Letzte" firstText="Erste" [maxSize]="maxSize" [rotate]="false">
-</pagination>
+<div class="text-center">
+    <pagination [directionLinks]="false" [boundaryLinks]="true" [totalItems]="totalItems"
+                [(ngModel)]="currentPage" [itemsPerPage]="itemsPerPage" (pageChanged)="pageChanged($event)"
+                lastText="Letzte" firstText="Erste" [maxSize]="maxSize" [rotate]="false">
+    </pagination>
+</div>
