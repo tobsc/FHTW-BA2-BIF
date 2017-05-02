@@ -1,4 +1,11 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit(form)" id="demo-form2" class="form-horizontal form-label-left">
+﻿<form [formGroup]="form" (ngSubmit)="onSubmit(form)" id="demo-form2" class="form-horizontal form-label-left">
+
+    <div class="form-group">
+        <label for="typename">
+            Gerätetypen Name
+        </label>
+        <input type="text" id="typename" required="required" class="form-control" formControlName="Name">
+    </div>
 
     <div id="meta_fields" formArrayName="FieldGroups">
         <div class="form-group" *ngFor="let field of form.controls.FieldGroups.controls; let i = index;">
@@ -8,8 +15,10 @@
            
             <div class="form-group" [formGroupName]="i">
                 <div class="field-select">
-                    <select id="fieldgroups" class="form-control" formControlName="Name">
-                        <option *ngFor="let group of allgroups; let x = index;" [ngValue]="group.Name">
+
+
+                    <select id="fieldgroups" class="form-control" formControlName="Slug">
+                        <option *ngFor="let group of allgroups; let x = index;" [ngValue]="group.Slug">
                             {{group.Name}}
                         </option>
                     </select>
@@ -21,9 +30,10 @@
     </div>
 
     <div class="form-group">
-        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-            <button type="button" class="btn btn-default glyphicon glyphicon-plus" (click)="addFieldGroup()"> FeldGruppe hinzuf�gen</button>
-        </div>
+        <button type="button" class="btn btn-default" (click)="addFieldGroup()">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            Feldgruppe hinzufügen
+        </button>
     </div>
     <div class="ln_solid"></div>
     <div class="form-group">

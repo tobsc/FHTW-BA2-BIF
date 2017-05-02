@@ -23,7 +23,7 @@ export class DeviceTypesListComponent implements OnInit {
     this.deviceService.getDeviceTypes()
         .subscribe((data) => {
             this.deviceTypes = data;
-            console.log(data);
+          
             this.rows = data.map(i => ({ isCollapsed: true, deviceType: i }));
         });
   }
@@ -51,7 +51,7 @@ export class DeviceTypesListComponent implements OnInit {
       this.deviceService.editDeviceType(deviceType)
           .subscribe(
           (success) => {
-              console.log(success);
+           
               this.rows[i].deviceType = success;
               this.rows[i].isCollapsed = true;
           },

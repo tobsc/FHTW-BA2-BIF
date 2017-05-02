@@ -20,7 +20,6 @@ export class DashboardComponent implements OnInit {
   }
 
   onClick() {
-    console.log('yessss');
   }
 
 }

@@ -7,6 +7,7 @@ export class DeviceType {
     public Slug: string;
     public FieldGroups: FieldGroup;
     public PermaLink;
+    public IsActive = true;
     constructor() {}
 
 }

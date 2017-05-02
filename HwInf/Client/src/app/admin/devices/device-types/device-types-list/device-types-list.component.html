@@ -18,7 +18,7 @@
           <tr class="pointer" *ngFor="let row of rows; let i = index;">
             <td>
                 <div class="name-row" (click)="row.isCollapsed = !row.isCollapsed">
-                    <div>{{ row.deviceType.Name }}</div>
+                    <div>{{ row.deviceType?.Name }}</div>
                     <div><i class="fa " [ngClass]="{'fa-chevron-up': !row.isCollapsed, 'fa-chevron-down': row.isCollapsed}" aria-hidden="true"></i></div>
                 </div>
                 <div [collapse]="row.isCollapsed">

@@ -31,7 +31,7 @@ export class DeviceTypesEditFormComponent implements OnInit {
         this.customFieldsService.getFieldGroups()
             .subscribe((data) => {
                 this.allgroups = data;
-                console.log(data);
+        
             });
     }
 
@@ -40,6 +40,7 @@ export class DeviceTypesEditFormComponent implements OnInit {
         this.form = this.initForm();
         this.fieldgroups = <FormArray>this.form.controls['FieldGroups'];
         this.deviceType$.subscribe((deviceType) => {
+
             this.fillFormWithValues(deviceType);
         });
        
@@ -49,13 +50,15 @@ export class DeviceTypesEditFormComponent implements OnInit {
     }
 
     fillFormWithValues(deviceType) {
-
-        console.log("i am called");
-        console.log(deviceType);
-
+        if (!!deviceType && !!deviceType.FieldGroups)
+        {
             this.form.get('Name').setValue(deviceType.Name);
             this.form.get('Slug').setValue((deviceType.Slug));
-            deviceType.FieldGroups.forEach(i => this.addFieldGroup(i.Name));
+            deviceType.FieldGroups.forEach(i => this.addFieldGroup(i));
+        }
+      
+
+        
            
         
     }
@@ -64,7 +67,7 @@ export class DeviceTypesEditFormComponent implements OnInit {
         return this.fb.group({
             Name: ['', Validators.required],
             Slug: [''],
-            IsActive: [false],
+         //   IsActive: [false],
             FieldGroups: this.fb.array([])
         });
     }
@@ -75,13 +78,14 @@ export class DeviceTypesEditFormComponent implements OnInit {
         }
     }
 
-    addFieldGroup(field: string = '') {
-        this.fieldgroups.push(this.initFieldGroup(field));
+    addFieldGroup(fieldgroup: FieldGroup = new FieldGroup()) {
+        this.fieldgroups.push(this.initFieldGroup(fieldgroup));
     }
 
-    initFieldGroup(field: string = '') {
+    initFieldGroup(fieldgroup  : FieldGroup = new FieldGroup()) {
         return this.fb.group({
-            Name: [field, Validators.required]
+            Slug: [fieldgroup.Slug, Validators.required],
+            Name: [fieldgroup.Name, ]
         });
     }
 
@@ -95,11 +99,12 @@ export class DeviceTypesEditFormComponent implements OnInit {
     }
 
     onSubmit(form: NgForm) {
-        console.log(form.controls);
         let deviceType: DeviceType = form.value;
+     
         deviceType.FieldGroups.IsActive = true;
-        console.log(deviceType);
+       
         this.deviceTypesListUpdated.emit(deviceType);
+
     }
 
 }

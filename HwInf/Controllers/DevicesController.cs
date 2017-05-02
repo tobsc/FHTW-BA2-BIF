@@ -543,6 +543,8 @@ namespace HwInf.Controllers
                 _bl.SaveChanges();
 
                 _log.InfoFormat("DeviceType '{0}' updated by '{1}'", vmdl.Name, User.Identity.Name);
+                vmdl.Refresh(dt);
+                return Ok(vmdl);
 
             }
             catch (DbUpdateConcurrencyException)
@@ -569,7 +571,7 @@ namespace HwInf.Controllers
                 return InternalServerError();
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+           
 
         }
 
