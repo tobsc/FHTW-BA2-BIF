@@ -47,10 +47,13 @@ namespace HwInf.Controllers
             try
             {
                 var damages = _bl.GetDamages()
-                    .ToList()
-                    .Select(i => new DamageViewModel(i))
-                    .ToList();
-
+                         .ToList()
+                         .Select(i => new DamageViewModel(i))
+                         .ToList();
+                if (_bl.IsVerwalter)
+                {
+                    damages = damages.Where(i => i.Reporter.Uid == _bl.GetCurrentUid()).ToList();
+                }
 
                 return Ok(damages);
 
@@ -103,10 +106,14 @@ namespace HwInf.Controllers
         {
             try
             {
-                var damages = _bl.GetDamages(invNum).ToList()
-                    .Select(i => new DamageViewModel(i))
-                    .ToList();
-                ;
+                var damages = _bl.GetDamages(invNum)
+                         .ToList()
+                         .Select(i => new DamageViewModel(i))
+                         .ToList();
+                if (_bl.IsVerwalter)
+                {
+                    damages = damages.Where(i => i.Reporter.Uid == _bl.GetCurrentUid()).ToList();
+                }
 
                 if (damages == null)
                 {

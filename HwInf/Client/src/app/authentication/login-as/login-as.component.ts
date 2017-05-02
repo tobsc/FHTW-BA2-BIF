@@ -33,7 +33,7 @@ export class LoginAsComponent implements OnInit {
     init() {
 
         
-        this.userService.getOwners()
+        this.userService.getUsers()
             .subscribe(
             (next) => {
                 this.users = next; 

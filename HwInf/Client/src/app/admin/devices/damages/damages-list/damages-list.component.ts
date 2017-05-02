@@ -15,6 +15,7 @@ export class DamagesListComponent implements OnInit {
     private rows: any[];
     private damages: Damage[];
     private invNum: string;
+    private showDeviceInvNum: boolean=false;
 
   constructor(
       private deviceService: DeviceService,
@@ -25,10 +26,19 @@ export class DamagesListComponent implements OnInit {
   ngOnInit() {
       this.route.params.subscribe((params: Params) => {
           this.invNum = params['invnum'];
-          this.damageService.getDamagesByInvNum(this.invNum).subscribe((data) => {
-              this.damages = data;
-              this.rows = data.map(i => ({ isCollapsed: true, damage: i }));
-            });
+          if (this.invNum) {
+              this.damageService.getDamagesByInvNum(this.invNum).subscribe((data) => {
+                  this.damages = data;
+                  this.rows = data.map(i => ({ isCollapsed: true, damage: i }));
+              });
+          }
+          else {
+              this.showDeviceInvNum = true;
+              this.damageService.getDamages().subscribe((data) => {
+                  this.damages = data;
+                  this.rows = data.map(i => ({ isCollapsed: true, damage: i }));
+              });
+          }
         });
   }
 
@@ -41,8 +51,9 @@ export class DamagesListComponent implements OnInit {
       this.damageService.updateDamage(damage)
           .subscribe(
           (success) => {
-              //updates the values that were sent in response (Description and DamageStatus)
+              //updates the values that were sent in response (Description, Cause and DamageStatus)
               this.rows[i].damage.Description = success.Description;
+              this.rows[i].damage.Cause = success.Cause;
               this.rows[i].damage.DamageStatus = success.DamageStatus;
               this.rows[i].isCollapsed = true;
           },

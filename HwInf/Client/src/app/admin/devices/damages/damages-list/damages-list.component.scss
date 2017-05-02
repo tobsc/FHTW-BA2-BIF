@@ -1,0 +1,20 @@
+.name-row {
+  &:hover { cursor: pointer; }
+  display: flex;
+  justify-content: space-between;
+}
+
+th{
+    &:nth-child(1){
+        width:5%;
+    }
+    &:nth-child(1){
+        width:10;
+    }
+    &:nth-child(3){
+        width:80%;
+    }
+    &:nth-child(4){
+        width:5%;
+    }
+}

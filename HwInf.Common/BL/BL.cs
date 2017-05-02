@@ -641,6 +641,10 @@ namespace HwInf.Common.BL
 
         public IEnumerable<Damage> GetDamages(string invNum)
         {
+            if (String.IsNullOrWhiteSpace(invNum))
+            {
+                return _dal.Damages;
+            }
             return _dal.Damages.Where(i => i.Device.InvNum.Equals(invNum));
         }
 

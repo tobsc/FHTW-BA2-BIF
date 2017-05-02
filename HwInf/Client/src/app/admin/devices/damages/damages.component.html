@@ -1,9 +1,9 @@
 ﻿<div class="row gutter-10">
     <div class="col-md-6 col-sm-6 col-xs-12">
-        <hwinf-damages-list></hwinf-damages-list>
+        <hwinf-damages-add (damageUpdated)="pushData($event)"></hwinf-damages-add>
     </div>
     <div class="col-md-6 col-sm-6 col-xs-12">
-        <hwinf-damages-add (damageUpdated)="pushData($event)"></hwinf-damages-add>
+        <hwinf-damages-list></hwinf-damages-list>
     </div>
 </div>
 

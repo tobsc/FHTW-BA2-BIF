@@ -40,7 +40,7 @@ export class UserService {
     }
 
     public getOwners(): Observable<User[]> {
-        return this.http.get(this.url + '/owners')
+        return this.http.get(this.url + 'owners')
             .map((response: Response) => response.json());
     }
 }

@@ -8,6 +8,8 @@
             <table id="datatable" class="table table-striped bulk_action table-bordered">
                 <thead>
                     <tr class="headings">
+                        <th class="column-title">ID</th>
+                        <th class="column-title" *ngIf="showDeviceInvNum">Gerät</th>
                         <th class="column-title">Name</th>
                         <th style="width: 90px" class="column-title">Aktion</th>
                     </tr>
@@ -15,8 +17,14 @@
                 <tbody class="truncate">
                     <tr class="pointer" *ngFor="let row of rows; let i = index;">
                         <td>
+                            <div>{{row.damage?.DamageId}}</div>
+                        </td>
+                        <td *ngIf="showDeviceInvNum">
+                            <div>{{row.damage?.Device.InvNum}}</div>
+                        </td>
+                        <td>
                             <div class="name-row" (click)="row.isCollapsed = !row.isCollapsed">
-                                <div class="truncate">{{row.damage?.DamageId}}: "{{row.damage?.Description}}"</div>
+                                <div class="truncate">{{row.damage?.Description}}</div>
                                 <div><i class="fa " [ngClass]="{'fa-chevron-up': !row.isCollapsed, 'fa-chevron-down': row.isCollapsed}" aria-hidden="true"></i></div>
                             </div>
                             <div [collapse]="row.isCollapsed">

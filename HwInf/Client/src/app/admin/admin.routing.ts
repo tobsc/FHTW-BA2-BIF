@@ -40,7 +40,8 @@ const ADMIN_ROUTES: Routes = [
                     { path: 'edit/:slug', component: DeviceTypesEditComponent },
                     { path: 'verwalten', component: DeviceTypesAddComponent },]
             },
-            { path: 'schaden/verwalten/:invnum', component: DamagesComponent},
+            { path: 'schaden/geraet/:invnum', component: DamagesComponent },
+            { path: 'schaden/verwalten', component: DamagesListComponent },
             { path: 'schaden/add', component: DamagesAddComponent},
             { path: 'geraete/verwalten/:invnum', component: DeviceEditComponent },
             { path: 'settings', component: AdminSettingsComponent },

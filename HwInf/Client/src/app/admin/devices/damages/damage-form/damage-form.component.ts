@@ -99,7 +99,7 @@ export class DamageFormComponent implements OnInit {
     initForm() {
         if (this.showDate) {
             return this.fb.group({
-                Cause: [{ value: '', disabled: true }],
+                Cause: [{ value: ''}],
                 Date: [{ value: '', disabled: true }],
                 Reporter: [{ value: '', disabled: true }],
                 Description: ['', Validators.required],
@@ -111,7 +111,7 @@ export class DamageFormComponent implements OnInit {
             return this.fb.group({
                 Cause: [''],
                 Date: [{ value: '', disabled: true }],
-                Reporter: [''],
+                Reporter: [{value: '', disabled: true}],
                 Description: ['', Validators.required],
                 Device: [''],
                 DamageStatus: this.initDamageStatus(),
