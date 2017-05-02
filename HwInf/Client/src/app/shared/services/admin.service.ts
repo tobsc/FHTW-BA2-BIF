@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, URLSearchParams, RequestOptions, Response } from "@angular/http";
+import { Headers, RequestOptions, Response } from "@angular/http";
 import { User } from "../models/user.model";
 import { Observable } from "rxjs";
 import { JwtService } from "./jwt.service";
 import { CartService } from "./cart.service";
-import { FeedbackHttpService } from './feedback-http.service';
 import { JwtHttpService } from "./jwt-http.service";
 import { Router } from "@angular/router";
 import { Setting } from "../models/setting.model";

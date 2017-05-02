@@ -4,5 +4,6 @@ export class DeviceList {
         public CurrentPage: number,
         public MaxPages: number,
         public Devices: Device[],
+        public TotalItems: number,
     ) {}
 }

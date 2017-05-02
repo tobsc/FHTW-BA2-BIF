@@ -9,7 +9,7 @@ namespace HwInf.ViewModels
     public class OrderListViewModel
     {
         public int MaxPages { get; set; }
-        public int Results { get; set; }
+        public int TotalItems { get; set; }
 
         public IEnumerable<OrderViewModel> Orders { get; set; }
 
@@ -22,7 +22,7 @@ namespace HwInf.ViewModels
         public OrderListViewModel(IEnumerable<OrderViewModel> obj, int limit, int count)
         {
             Orders = obj.ToList();
-            Results = count;
+            TotalItems = count;
             MaxPages = limit == 0 ? 0 : (int)Math.Ceiling((double)count / limit);
         }
 
