@@ -1,8 +1,11 @@
 <h1>Meine Geräte</h1>
-<pagination [directionLinks]="false" [boundaryLinks]="true" [totalItems]="totalItems"
-            [(ngModel)]="currentPage" [itemsPerPage]="itemsPerPage" (pageChanged)="pageChanged($event)"
-            lastText="Letzte" firstText="Erste" [maxSize]="maxSize" [rotate]="false">
-</pagination>
+<div class="text-center">
+    <pagination [directionLinks]="false" [boundaryLinks]="true" [totalItems]="totalItems"
+                [(ngModel)]="currentPage" [itemsPerPage]="itemsPerPage"
+                lastText="Letzte" firstText="Erste" [maxSize]="maxSize" [rotate]="false">
+    </pagination>
+</div>
+
 <span style="float:right">
     <select style="display: inline; width: auto;" class="form-control" (change)="onChangeOrder($event.target.value)">
         <option value="" hidden>Sortieren</option>
@@ -17,7 +20,9 @@
 <div class="clearfix"></div>
 
 <hwinf-single-order *ngFor="let order of orders" [order]="order"></hwinf-single-order>
-<pagination [directionLinks]="false" [boundaryLinks]="true" [totalItems]="totalItems"
-            [(ngModel)]="currentPage" [itemsPerPage]="itemsPerPage" (pageChanged)="pageChanged($event)"
-            lastText="Letzte" firstText="Erste" [maxSize]="maxSize" [rotate]="false">
-</pagination>
+<div class="text-center">
+    <pagination [directionLinks]="false" [boundaryLinks]="true" [totalItems]="totalItems"
+                [(ngModel)]="currentPage" [itemsPerPage]="itemsPerPage" (pageChanged)="pageChanged($event)"
+                lastText="Letzte" firstText="Erste" [maxSize]="maxSize" [rotate]="false">
+    </pagination>
+</div>
