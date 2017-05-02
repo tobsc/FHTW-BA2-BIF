@@ -9,14 +9,14 @@ namespace HwInf.Common
 {
     public class Notifier
     {
-
+        private readonly HwInfContext db = new HwInfContext();
+        private readonly BL.BL bl;
         public Notifier(DateTime date, string daysbefore)
         {
-            HwInfContext db = new HwInfContext();
-            BL.BL bl = new BL.BL(db);
+            bl = new BL.BL(db);
 
             DateTime reminddate = getReminderDate(date, daysbefore);
-            var orderlist = db.Orders.Where(i => i.To.ToShortDateString() == reminddate.ToShortDateString()).Select(i => i.OrderGuid).ToList();
+            var orderlist = bl.GetOrders().Where(i => i.To.ToShortDateString() == reminddate.ToShortDateString()).Select(i => i.OrderGuid).ToList();
             if (orderlist.Count() > 0)
             {
                 foreach (var order in orderlist)
