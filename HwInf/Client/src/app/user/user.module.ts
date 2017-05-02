@@ -6,7 +6,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { DeviceListComponent } from './devices/device-list.component';
 import { DevicesStatusDirective } from './devices/devices-status.directive';
 import { CoreModule } from "../core/core.module";
-import {AccordionModule, CollapseModule} from "ng2-bootstrap";
+import {AccordionModule, CollapseModule, PaginationModule} from "ng2-bootstrap";
 import { CartComponent } from './cart/cart.component';
 import { OrderStep1Component } from './cart/order-step1/order-step1.component';
 import { OrderStep2Component } from './cart/order-step2/order-step2.component';
@@ -66,7 +66,8 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
         CollapseModule.forRoot(),
         BootstrapModalModule,
         ReactiveFormsModule,
-        ConfirmDialogModule
+        ConfirmDialogModule,
+        PaginationModule.forRoot(),
     ],
     providers: [
         {

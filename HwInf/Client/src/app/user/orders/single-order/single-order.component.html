@@ -1,6 +1,7 @@
 <div class="x_panel">
   <div class="x_title">
-    <span style="float:right" hwinfOrderStatusLabelClass [orderStatus]="order.OrderStatus">{{order.OrderStatus.Name}}</span> ID: {{order.OrderId}}
+    <span hwinfOrderStatusLabelClass [orderStatus]="order.OrderStatus">{{order.OrderStatus.Name}}</span>
+    <span style="float:right">ID: {{order.OrderId}}</span>
     <div class="clearfix"></div>
   </div>
   <div class="x_content">
@@ -27,6 +28,11 @@
 
             <ul class="list-group">
               <li class="list-group-item" *ngFor="let orderItem of order.OrderItems; let i = index" [ngClass]="{'declined-order-item': orderItem.IsDeclined}">
+                <!--
+                <span style="display: inline-block; width: 100px; margin-right: 5px;" class="label label-danger" *ngIf="orderItem.IsDeclined">Abgelehnt</span>
+                <span style="display: inline-block; width: 100px; margin-right: 5px;" class="label label-warning" *ngIf="order.OrderStatus.Slug.match('offen')">Offen</span>
+                <span style="display: inline-block; width: 100px; margin-right: 5px;" class="label label-success" *ngIf="(!orderItem.IsDeclined) && (!order.OrderStatus.Slug.match('offen'))">Akzeptiert</span>
+                -->
                 <span class="device-name">({{orderItem.Device.InvNum}}) {{orderItem.Device.Name}} </span>
               </li>
             </ul>
