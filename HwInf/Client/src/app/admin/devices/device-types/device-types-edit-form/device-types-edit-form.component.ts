@@ -30,8 +30,7 @@ export class DeviceTypesEditFormComponent implements OnInit {
     ) {
         this.customFieldsService.getFieldGroups()
             .subscribe((data) => {
-                this.allgroups = data;
-        
+                this.allgroups = data.filter(i => i.Slug !== 'zubehor');
             });
     }
 
@@ -54,7 +53,7 @@ export class DeviceTypesEditFormComponent implements OnInit {
         {
             this.form.get('Name').setValue(deviceType.Name);
             this.form.get('Slug').setValue((deviceType.Slug));
-            deviceType.FieldGroups.forEach(i => this.addFieldGroup(i));
+            deviceType.FieldGroups.filter(i => i.Slug !== 'zubehor').forEach(i => this.addFieldGroup(i));
         }
       
 

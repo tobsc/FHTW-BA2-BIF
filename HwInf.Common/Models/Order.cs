@@ -47,6 +47,8 @@ namespace HwInf.Common.Models
         public virtual Person Entleiher { get; set; }
         public virtual Person Verwalter { get; set; }
         public bool IsDeclined { get; set; }
+        public IEnumerable<string> Accessories { get; set; }
+
 
     }
 

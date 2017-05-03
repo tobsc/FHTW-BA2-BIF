@@ -13,13 +13,14 @@ namespace HwInf.ViewModels
 
         public int ItemId { get; set; }
         public OrderStatusViewModel OrderStatus { get; set; }
-        public DeviceViewModel Device { get; set; } 
+        public DeviceViewModel Device { get; set; }
         public DateTime From { get; set; }
         public DateTime To { get; set; }
         public DateTime ReturnDate { get; set; }
         public DateTime CreateDate { get; set; }
         public Person Entleiher { get; set; }
         public bool IsDeclined { get; set; } = false;
+        public IEnumerable<string> Accessories { get; set; }
 
         public OrderItemViewModel(OrderItem obj)
         {
@@ -45,7 +46,7 @@ namespace HwInf.ViewModels
             target.Entleiher = source.Entleiher;
             target.ReturnDate = source.ReturnDate;
             target.IsDeclined = source.IsDeclined;
-
+            target.Accessories = source.Accessories.ToList();
         }
 
         public void ApplyChanges(OrderItem obj, BL bl)
@@ -55,6 +56,7 @@ namespace HwInf.ViewModels
 
             target.Device = bl.GetSingleDevice(source.Device.InvNum);
             target.IsDeclined = source.IsDeclined;
+            target.Accessories = source.Accessories.ToList();
 
             if (target.CreateDate == DateTime.MinValue)
             {

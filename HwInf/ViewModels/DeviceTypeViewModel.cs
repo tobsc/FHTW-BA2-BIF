@@ -53,6 +53,7 @@ namespace HwInf.ViewModels
                 var fgs = source.FieldGroups.Select(i => bl.GetFieldGroups(i.Slug)).ToList();
                 fgs.RemoveAll(i => i == null);
                 fgs.ForEach(i => target.FieldGroups.Add(i));
+                target.FieldGroups.Add(bl.GetFieldGroups("zubehor"));
             }
 
             target.IsActive = source.IsActive;
