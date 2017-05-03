@@ -1,0 +1,28 @@
+.field-select {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.btn-rm-row {
+  margin: 0 0 0 10px;
+}
+
+.accessory-tag{
+  color: #FFF;
+  display: inline-block;
+  background-color: #666;
+  -webkit-border-radius:3px;
+  -moz-border-radius:3px;
+  border-radius:3px;
+  margin: 0 3px 3px;
+  padding: 3px 6px;
+  .close {
+    margin-left: 4px;
+    -webkit-transform: translateY(1px);
+    -moz-transform: translateY(1px);
+    -ms-transform: translateY(1px);
+    -o-transform: translateY(1px);
+    transform: translateY(1px);
+  }
+}

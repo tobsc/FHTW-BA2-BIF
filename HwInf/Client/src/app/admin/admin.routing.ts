@@ -20,6 +20,7 @@ import { AdminLogsComponent } from "./admin-logs/admin-logs.component";
 import { DamagesComponent } from "./devices/damages/damages.component";
 import { DamagesListComponent } from "./devices/damages/damages-list/damages-list.component";
 import { DamagesAddComponent } from "./devices/damages/damages-add/damages-add.component";
+import {DeviceAccessoriesComponent} from "./devices/device-accessories/device-accessories.component";
 
 
 
@@ -36,10 +37,10 @@ const ADMIN_ROUTES: Routes = [
             { path: 'geraete/erstellen/:invnum', component: DeviceDuplicateComponent },
             { path: 'geraete/felder', component: DeviceCustomFieldsComponent },
             { path: 'geraete/typen', component: DeviceTypesComponent },
+            { path: 'geraete/zubehoer', component: DeviceAccessoriesComponent },
             { path: 'schaden/geraet/:invnum', component: DamagesComponent },
             { path: 'schaden/verwalten', component: DamagesListComponent },
             { path: 'schaden/add', component: DamagesAddComponent},
-           
             { path: 'settings', component: AdminSettingsComponent },
             { path: 'orders', redirectTo: 'orders/offen', pathMatch: 'full'},
             { path: 'orders/:status', component: AdminOrdersComponent },

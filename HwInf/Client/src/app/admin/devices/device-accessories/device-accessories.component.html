@@ -1,0 +1,28 @@
+<div class="clearfix"></div>
+<div *ngFor="let alert of alerts">
+  <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
+</div>
+<div class="x_panel">
+  <div class="x_title">
+    <h2>Zubehör bearbeiten</h2>
+    <div class="clearfix"></div>
+  </div>
+  <div class="x_content">
+    <form (ngSubmit)="onAdd(i)">
+      <div class="col-xs-12 col-md-6 col-md-offset-3">
+        <div class="input-group">
+          <input #i type="text" class="form-control" placeholder="Zubehör hinzufügen" tooltip="Zubehör bereits vorhanden" triggers=":focusout :keydown" #pop="bs-tooltip">
+          <span class="input-group-btn">
+            <button class="btn btn-success" type="submit">+</button>
+          </span>
+        </div>
+      </div>
+    </form>
+
+    <div class="accessory-tag" *ngFor="let tag of tags; let i = index">
+      {{tag}} <button (click)="onDelete(i)" type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    </div>
+    <div class="ln_solid"></div>
+    <button (click)="onSubmit()" type="button" class="btn btn-success">Speichern</button>
+  </div>
+</div>

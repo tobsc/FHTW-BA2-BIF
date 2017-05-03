@@ -24,7 +24,7 @@ import {JwtHttpService} from "../shared/services/jwt-http.service";
 import {DeviceFormComponent} from "./devices/device-form/device-form.component";
 import {DeviceEditComponent} from "./devices/device-edit/device-edit.component";
 import {DeviceAddComponent} from "./devices/device-add/device-add.component";
-import {AlertModule, CollapseModule, PaginationModule} from "ng2-bootstrap";
+import {AlertModule, CollapseModule, PaginationModule, TooltipModule} from "ng2-bootstrap";
 import {DeviceDuplicateComponent} from "./devices/device-duplicate/device-duplicate.component";
 import {ModalModule} from "angular2-modal";
 import {ConfirmDialogModule} from "../core/confirm-dialog/confirm-dialog.module";
@@ -34,15 +34,13 @@ import { AdminOrdersComponent } from './admin-orders/admin-orders.component';
 import { AdminOrderListComponent } from './admin-orders/admin-order-list/admin-order-list.component';
 import { AdminSingleOrderComponent } from './admin-orders/admin-single-order/admin-single-order.component';
 import { AdminLogsComponent } from './admin-logs/admin-logs.component';
-import {OrderStatusLabelClassDirective} from "../core/directives/order-status-label-class.directive";
 import { DeviceCustomFieldsFieldgroupsFormComponent } from './devices/device-custom-fields/device-custom-fields-fieldgroups-form/device-custom-fields-fieldgroups-form.component';
 import { DamagesComponent } from './devices/damages/damages.component';
 import { DamagesListComponent } from './devices/damages/damages-list/damages-list.component';
 import { DamagesAddComponent } from './devices/damages/damages-add/damages-add.component';
 import { DamageFormComponent } from './devices/damages/damage-form/damage-form.component';
 import { DeviceTypesEditFormComponent } from './devices/device-types/device-types-edit-form/device-types-edit-form.component';
-
-
+import { DeviceAccessoriesComponent } from './devices/device-accessories/device-accessories.component';
 
 export function jwtFactory(backend: XHRBackend, options: RequestOptions, router: Router, authService: AuthService, pubsub: PubSubService) {
     return new JwtHttpService(backend, options, router, authService, pubsub);
@@ -78,6 +76,7 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
         DamagesAddComponent,
         DamageFormComponent,
         DeviceTypesEditFormComponent,
+        DeviceAccessoriesComponent,
     ],
     imports: [
         RouterModule,
@@ -93,6 +92,7 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
         Daterangepicker,
         ConfirmDialogModule,
         PaginationModule.forRoot(),
+        TooltipModule.forRoot(),
     ],
     providers: [
         {
