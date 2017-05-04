@@ -10,6 +10,7 @@ import { PanelComponent } from './panel/panel.component';
 import { LoadingIncidcatorComponent } from './loading-indicator/loading-incidcator.component';
 import {OrderStatusLabelClassDirective} from "./directives/order-status-label-class.directive";
 import {DeviceStatusLabelClassDirective} from "./directives/device-status-label-class.directive";
+import {ExcludeFieldGroupPipe} from "../shared/pipes/exclude-field-group.pipe";
 @NgModule({
     declarations: [
         TopNavbarComponent,
@@ -20,6 +21,7 @@ import {DeviceStatusLabelClassDirective} from "./directives/device-status-label-
         LoadingIncidcatorComponent,
         OrderStatusLabelClassDirective,
         DeviceStatusLabelClassDirective,
+        ExcludeFieldGroupPipe,
     ],
     imports: [
         CommonModule,
@@ -36,6 +38,7 @@ import {DeviceStatusLabelClassDirective} from "./directives/device-status-label-
         LoadingIncidcatorComponent,
         OrderStatusLabelClassDirective,
         DeviceStatusLabelClassDirective,
+        ExcludeFieldGroupPipe,
     ]
 })
 export class CoreModule {}

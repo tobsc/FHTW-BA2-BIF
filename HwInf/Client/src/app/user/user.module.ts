@@ -29,6 +29,7 @@ import { MyOrdersComponent } from './orders/my-orders/my-orders.component';
 import { OrdersArchivComponent } from './orders/orders-archiv/orders-archiv.component';
 import { OrderListComponent } from './orders/order-list/order-list.component';
 import { SingleOrderComponent } from './orders/single-order/single-order.component';
+import { OrderConfirmComponent } from './orders/order-process/order-confirm/order-confirm.component';
 
 
 export function jwtFactory(backend: XHRBackend, options: RequestOptions, router: Router, authService: AuthService, pubsub: PubSubService) {
@@ -53,7 +54,8 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
         MyOrdersComponent,
         OrdersArchivComponent,
         OrderListComponent,
-        SingleOrderComponent
+        SingleOrderComponent,
+        OrderConfirmComponent
     ],
     imports: [
         CommonModule,
