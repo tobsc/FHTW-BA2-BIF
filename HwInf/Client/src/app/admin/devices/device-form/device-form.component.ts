@@ -140,7 +140,7 @@ export class DeviceFormComponent implements OnInit {
       Marke: ['', Validators.required],
       Raum: ['', Validators.required],
       DeviceType: this.initDeviceType(),
-      Person: [ '' ],
+      Person: [ '', Validators.required ],
       FieldGroups: this.fb.array([]),
       Status: this.initStatus()
     });
