@@ -36,7 +36,7 @@ namespace HwInf.Common
                 {
                     geraete += "\\paragraph[Format {SpaceAfter = \"0.5cm\" LeftIndent = \"1cm\"}]{Geräts der Marke " + oi.Device.Brand + " }\\paragraph[Format {SpaceAfter = \"0.5cm\"LeftIndent = \"1cm\"}]{ Typ: " + oi.Device.Type.Name + "}\\paragraph[Format {SpaceAfter = \"0.5cm\"LeftIndent = \"1cm\"}]{Inventarnummer: " + oi.Device.InvNum + "}";
 
-                    if (oi.Accessories.Count() > 0)
+                    if (oi.Accessories.Any())
                     {
                         geraete += "{ SpaceAfter = \"0.5cm\"LeftIndent = \"1cm\"}]{Zubehör: ";
                         oi.Accessories.ToList().ForEach(i => geraete += i+" ");
