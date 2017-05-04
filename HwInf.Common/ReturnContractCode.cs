@@ -1,4 +1,5 @@
-﻿using HwInf.Common.Models;
+﻿using HwInf.Common.DAL;
+using HwInf.Common.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,29 +11,41 @@ namespace HwInf.Common
     partial class ReturnContract
     {
         private Order o;
+        private readonly IDAL _db;
+        private readonly BL.BL _bl;
+
         public ReturnContract(Order order)
         {
             this.o = order;
+            _db = new HwInfContext();
+            _bl = new BL.BL(_db);
         }
 
         public string generate()
         {
             string text = "";
-            foreach(OrderItem oi in o.OrderItems)
+            var damages = _bl.GetDamages();
+
+            foreach (OrderItem oi in o.OrderItems)
             {
                 if (oi.IsDeclined == false)
                 {
                     text += "\\section{\\paragraph[Format { Font { Bold = true} SpaceBefore = \"1cm\" SpaceAfter = \"0.25cm\"}]{Bestätigung der VerleiherIn über die Rückgabe des Gerätes:}\\paragraph[Format {SpaceAfter = \"0.5cm\" LeftIndent = \"1cm\"}]{Geräts der Marke " + oi.Device.Brand + " }\\paragraph[Format {SpaceAfter = \"0.5cm\"LeftIndent = \"1cm\"}]{ Typ: " + oi.Device.Type.Name + "}\\paragraph[Format {SpaceAfter = \"0.5cm\"LeftIndent = \"1cm\"}]{Inventarnummer: " + oi.Device.InvNum + "}\\paragraph[Format { SpaceAfter = \"0.5cm\"}]{Das oben genannte Gerät wurde heute}";
 
-                    //CHECK IF DAMAGED WHEN RETURNED
-                    //Derzeit nur BS in der IF
-                    if (oi.CreateDate< DateTime.Now)
+                    //sollte alle schäden zurückgeben, die vom oi sind und in der zeit passiert sind, und von dem User 
+                    var damagesOfItem = damages.Where(i => i.Device == oi.Device)
+                                                .Where(i => i.Date >= o.From)
+                                                .Where(i => i.Date <= o.To)
+                                                .Where(i => i.Cause == o.Entleiher);
+                    if (damagesOfItem.Count()>0)
                     {
-                        text += "\\paragraph[Format { SpaceAfter = \"0.25cm\"}]{O  in einwandfreiem Zustand und mit komplettem Zubehör zurückgegeben}";
-                    }
+                        text += "\\paragraph[Format { SpaceAfter = \"0.25cm\"}]{ mit folgenden Mängeln/ Schäden zurückgegeben}";
+
+                        damagesOfItem.ToList().ForEach(i => text += "\\paragraph[Format {SpaceAfter = \"0.5cm\" LeftIndent = \"1cm\"}]{ - " + i.Description + "}");
+                        }
                     else
                     {
-                        text += "\\paragraph[Format { SpaceAfter = \"0.25cm\"}]{O  mit folgenden Mängeln/ Schäden zurückgegeben}\\paragraph[Format { SpaceAfter = \"0.25cm\" LeftIndent = \"1cm\"}]{...................................................}\\paragraph[Format { SpaceAfter = \"0.25cm\" LeftIndent = \"1cm\"}]{...................................................}\\paragraph[Format { SpaceAfter = \"0.5cm\" LeftIndent = \"1cm\"}]{...................................................}";
+                        text += "\\paragraph[Format { SpaceAfter = \"0.25cm\"}]{O  in einwandfreiem Zustand und mit komplettem Zubehör zurückgegeben}";
                     }
                     text+="\\paragraph[Format {SpaceAfter = \"1cm\"} ]{Wien, den " + DateTime.Now.Day.ToString("d2") + "." + DateTime.Now.Month.ToString("d2") + "." + DateTime.Now.Year.ToString() + "}\\paragraph[Format { SpaceAfter = \"1cm\"}{Unterschrift MitarbeiterIn des Instituts für Informatik: ......................................................................}}";
                 }

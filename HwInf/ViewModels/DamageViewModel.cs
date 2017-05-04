@@ -67,7 +67,14 @@ namespace HwInf.ViewModels
 
             
             target.Description = source.Description;
-            target.Cause = bl.GetUsers(source.Cause.Uid);
+            if (source.Cause == null)
+            {
+                target.Cause = null;
+            }
+            else
+            {
+                target.Cause = bl.GetUsers(source.Cause.Uid);
+            }
             target.DamageStatus = source.DamageStatus == null
                 ? bl.GetDamageStatus("gemeldet")
                 : bl.GetDamageStatus(source.DamageStatus.Slug);
