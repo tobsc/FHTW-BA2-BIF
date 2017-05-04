@@ -50,10 +50,9 @@ export class CartService {
     }
 
     public addItem(item: Device) {      
-        if (!this.contains(item)) {
+        if (this.contains(item)==-1) {
             this.items.push(item);
             this.updateData()
-
         }
 
     }
