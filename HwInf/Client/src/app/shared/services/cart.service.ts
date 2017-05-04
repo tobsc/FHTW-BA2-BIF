@@ -3,6 +3,7 @@ import { Device } from "../models/device.model";
 import { Subject, Observable } from "rxjs";
 import { Router } from "@angular/router";
 import { JwtService } from "./jwt.service";
+import { DeviceService } from "./device.service";
 
 @Injectable()
 export class CartService {
@@ -10,7 +11,7 @@ export class CartService {
     private items: Device[] = [];
 
 
-    constructor(private router: Router, private jwtService: JwtService) {
+    constructor(private router: Router, private jwtService: JwtService, private deviceService: DeviceService) {
         if (!!localStorage.getItem('cart_list' + this.getHash(jwtService.getUid()))) {
 
             this.items = JSON.parse(localStorage.getItem('cart_list' + this.getHash(jwtService.getUid())));
@@ -37,6 +38,13 @@ export class CartService {
 
     }
 
+    public updateCart(dev: Device) {
+        let index = this.contains(dev);
+        if (index>=0) {
+            this.deviceService.getDevice(dev.InvNum).subscribe(i => this.items[index] = i);
+        }
+    }
+
     public getAmount(): Observable<number> {
         return this.amount.asObservable();
     }
@@ -55,13 +63,13 @@ export class CartService {
         this.updateData();
     }
 
-    private contains(item: Device): boolean {
-        for (let device of this.items) {
-            if (device.DeviceId == item.DeviceId) {
-                return true;
+    private contains(item: Device): number {
+        for (let i = 0; i < this.items.length; i++) {
+            if (this.items[i].DeviceId == item.DeviceId) {
+                return i;
             }
         }
-        return false;
+        return -1;
     }
 
     public clear() {

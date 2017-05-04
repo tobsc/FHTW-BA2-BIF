@@ -33,7 +33,7 @@ namespace HwInf.Common
                     text += "\\section{\\paragraph[Format { Font { Bold = true} SpaceBefore = \"1cm\" SpaceAfter = \"0.25cm\"}]{Bestätigung der VerleiherIn über die Rückgabe des Gerätes:}\\paragraph[Format {SpaceAfter = \"0.5cm\" LeftIndent = \"1cm\"}]{Geräts der Marke " + oi.Device.Brand + " }\\paragraph[Format {SpaceAfter = \"0.5cm\"LeftIndent = \"1cm\"}]{ Typ: " + oi.Device.Type.Name + "}\\paragraph[Format {SpaceAfter = \"0.5cm\"LeftIndent = \"1cm\"}]{Inventarnummer: " + oi.Device.InvNum + "}\\paragraph[Format { SpaceAfter = \"0.5cm\"}]{Das oben genannte Gerät wurde heute}";
 
                     //sollte alle schäden zurückgeben, die vom oi sind und in der zeit passiert sind, und von dem User 
-                    var damagesOfItem = damages.Where(i => i.Device == oi.Device)
+                    var damagesOfItem = damages.Where(i => i.Device.InvNum == oi.Device.InvNum)
                                                 .Where(i => i.Date >= o.From)
                                                 .Where(i => i.Date <= o.To)
                                                 .Where(i => i.Cause == o.Entleiher);

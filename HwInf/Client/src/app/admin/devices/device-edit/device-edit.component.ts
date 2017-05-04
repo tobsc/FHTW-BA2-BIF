@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Device} from "../../../shared/models/device.model";
-import {DeviceService} from "../../../shared/services/device.service";
+import { DeviceService } from "../../../shared/services/device.service";
+import { CartService } from "../../../shared/services/cart.service";
 
 @Component({
   selector: 'hwinf-device-edit',
@@ -10,7 +11,8 @@ import {DeviceService} from "../../../shared/services/device.service";
 export class DeviceEditComponent implements OnInit {
 
   constructor(
-      private deviceService: DeviceService
+      private deviceService: DeviceService,
+      private cartService: CartService
   ) { }
 
   ngOnInit() {
@@ -18,7 +20,10 @@ export class DeviceEditComponent implements OnInit {
 
   onSubmit(device: Device) {
     this.deviceService.editDevice(device).subscribe(
-        (next) => { console.log(next) },
+        (next) => {
+            console.log(next);
+            this.cartService.updateCart(next);
+        },
         (error) => { console.log(error) }
     );
   }

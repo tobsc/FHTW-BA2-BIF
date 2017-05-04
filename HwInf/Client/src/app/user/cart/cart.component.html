@@ -21,22 +21,23 @@
                                         <div *ngFor="let device of devices; let i = index">
                                             <div class="col-md-12">
                                                 <accordion-group>
-                                                    <div accordion-heading class="alert-dismissible">
+                                                    <div accordion-heading>
                                                         <strong>{{device.Name}} </strong>
-                                                            <div class="close" style="transform: translate(17px,-3px)">
-                                                                <span class="btn btn-danger" (click)="removeItem(i)">&times;</span>
-                                                            </div>
-                                                            <div class="text-muted pull-right" style="font-size: 0.8em; padding-right: 5px">Inventarnummer: {{device.InvNum}}</div>
-
-                                                        </div>
+                                                        <div class="text-muted pull-right" style="font-size: 0.8em">Inventarnummer: {{device.InvNum}}</div>
+                                                    </div>
                                                     <div id="{{device.InvNum}}" class="panel-collapse" role="tabpanel" attr.aria-labelledby="headingTwo" attr.aria-expanded="true">
-                                                        <div *ngFor="let meta of device.DeviceMeta">
-                                                            {{meta.Value}}x {{meta.Field}}
-                                                        </div>
-                                                        <div *ngFor="let fieldGroup of device.FieldGroups">
-                                                            {{fieldGroup.Name}}
-                                                            <div *ngFor="let metaData of getMetaDataOfFieldGroup(fieldGroup.Slug, device.DeviceMeta)">
-                                                                {{metaData.Value}}x {{metaData.Field}}
+                                                        <div class="responsive-list">
+                                                            <div>
+                                                                <strong>Marke:</strong>
+                                                                <div>{{device.Marke}}</div>
+                                                            </div>
+                                                            <div *ngFor="let fieldGroup of device.FieldGroups">
+                                                                <strong>{{fieldGroup.Name}}</strong>
+                                                                <div *ngFor="let metaData of getMetaDataOfFieldGroup(fieldGroup.Slug, device.DeviceMeta)">
+                                                                    <span *ngIf="(fieldGroup.IsCountable) && (metaData.Value > 1)">{{metaData.Value}}&times; </span>
+                                                                    {{metaData.Field}}
+                                                                    <span *ngIf="(!fieldGroup.IsCountable) || (metaData.Value == 1)"></span>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>

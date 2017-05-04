@@ -44,13 +44,7 @@ export class CartComponent implements OnInit {
         }
     }
 
-    public getMetaDataOfFieldGroup(slug: string, metaData: DeviceMeta[]) {
-        let result: DeviceMeta[] = [];
-        for (let deviceMeta of metaData) {
-            if (deviceMeta.FieldGroupSlug === slug) {
-                result.push(deviceMeta);
-            }
-        }
-        return result;
+    public getMetaDataOfFieldGroup(slug: string, metaData: DeviceMeta[]): DeviceMeta[] {
+        return metaData.filter((i) => i.FieldGroupSlug === slug);
     }
 }
