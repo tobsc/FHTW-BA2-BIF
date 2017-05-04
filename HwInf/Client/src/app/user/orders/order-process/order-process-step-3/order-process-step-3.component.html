@@ -1,14 +1,38 @@
 <div class="x_panel">
   <div class="x_title">
-    Anfrage erfolgreich!
+    <h2>Daten verifizieren</h2>
     <div class="clearfix"></div>
   </div>
   <div class="x_content">
-    <h1 class="StepTitle">Ihre Anfrage wurde bestätigt</h1>
-    <p>
-      Ihre Anfrage wird nun an den Verwalter gesendet und Sie werden in Kürze Rückmeldung per Mail erhalten.
-    </p>
-    <button class="btn btn-success" routerLink="/">Zurück zum Home-Screen</button>
+    <div class="col-xs-12 col-md-6">
+      <dl>
+        <dt>Ausleihzeitspanne</dt>
+        <dd>{{order.From | date:'dd. MMMM yyyy'}} - {{order.To | date:'dd. MMMM yyyy'}}</dd>
+        <dt>Ausleihgrund</dt>
+        <dd>{{order.OrderReason}}</dd>
+      </dl>
+    </div>
+    <div class="col-xs-12 col-md-6">
+      <strong>Beantragte Geräte:</strong>
+      <ul>
+        <li *ngFor="let orderItem of order.OrderItems">
+          {{orderItem.Device.Name}}
+          <ul>
+            <li *ngFor="let accessory of orderItem.Accessories">
+              {{accessory}}
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>
 
+<nav style="display: flex; justify-content: space-between">
+  <a (click)="onBack()" class="btn btn-warning">Zurück zum Zubehör auswählen</a>
+  <div>
+    <button class="btn btn-default" (click)="showContract()">Vertragsbedingungen anschauen...</button>
+    <button (click)="onContinue()" type="submit" class="btn btn-success">Anfrage senden</button>
+  </div>
+
+</nav>

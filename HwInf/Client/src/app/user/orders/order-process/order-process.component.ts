@@ -39,6 +39,11 @@ export class OrderProcessComponent implements OnInit, OnDestroy {
       case "/anfrage/schritt-3":
         this.classname[1] = "done";
         this.classname[2] = "done";
+        this.classname[3] = "selected";
+        break;
+      case "/anfrage/bestaetigung":
+        this.classname[1] = "done";
+        this.classname[2] = "done";
         this.classname[3] = "done";
         break;
       default:

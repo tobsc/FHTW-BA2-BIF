@@ -1,33 +1,38 @@
 <div class="x_panel">
   <div class="x_title">
-    <h2>Daten verifizieren</h2>
+    <h2>Zubehör auswählen</h2>
     <div class="clearfix"></div>
   </div>
   <div class="x_content">
-    <div class="col-xs-12 col-md-6">
-      <dl>
-        <dt>Ausleihzeitspanne</dt>
-        <dd>{{order.From | date:'dd. MMMM yyyy'}} - {{order.To | date:'dd. MMMM yyyy'}}</dd>
-        <dt>Ausleihgrund</dt>
-        <dd>{{order.OrderReason}}</dd>
-      </dl>
-    </div>
-    <div class="col-xs-12 col-md-6">
-      <strong>Beantragte Geräte:</strong>
-      <ul>
-        <li *ngFor="let device of devices">
-          {{device.Name}}
-        </li>
-      </ul>
-    </div>
+
+
+      <div class="row">
+          <div class="col-xs-12 col-md-6 col-lg-3" *ngFor="let orderItem of order.OrderItems; let i = index">
+              <div class="panel panel-default" >
+                  <!-- Default panel contents -->
+                  <div class="panel-heading">{{orderItem.Device.Name}}</div>
+                  <!-- List group -->
+                  <ul class="list-group">
+                      <li class="list-group-item" *ngFor="let accessory of getAccessoriesOfOrderItem(orderItem)">
+                          <label>
+                              <input type="checkbox" name="value" (change)="onChange($event, i)" [value]="accessory">
+                              {{accessory}}
+                          </label>
+                      </li>
+                  </ul>
+              </div>
+          </div>
+      </div>
+
+
+
   </div>
 </div>
 
 <nav style="display: flex; justify-content: space-between">
   <a (click)="onBack()" class="btn btn-warning">Zurück zu den Details</a>
     <div>
-        <button class="btn btn-default" (click)="showContract()">Vertragsbedingungen anschauen...</button>
-        <button (click)="onContinue()" type="submit" class="btn btn-success">Anfrage senden</button>
+        <button (click)="onContinue()" type="submit" class="btn btn-success">Weiter</button>
     </div>
   
 </nav>

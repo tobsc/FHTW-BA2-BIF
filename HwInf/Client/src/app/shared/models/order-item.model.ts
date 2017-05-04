@@ -11,5 +11,6 @@ export class OrderItem {
     public CreateDate: string;
     public Entleiher: User;
     public IsDeclined: boolean;
+    public Accessories: string[];
     constructor() {}
 }

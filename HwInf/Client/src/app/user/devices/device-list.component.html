@@ -58,12 +58,14 @@
                                         <div><strong>Marke:</strong>
                                             <div>{{device.Marke}}</div>
                                         </div>
-                                        <div *ngFor="let fieldGroup of device.FieldGroups">
-                                            <strong>{{fieldGroup.Name}}</strong>
-                                            <div *ngFor="let metaData of getMetaDataOfFieldGroup(fieldGroup.Slug, device.DeviceMeta)">
-                                                <span *ngIf="(fieldGroup.IsCountable) && (metaData.Value > 1)">{{metaData.Value}}&times; </span>
-                                                {{metaData.Field}}
-                                                <span *ngIf="(!fieldGroup.IsCountable) || (metaData.Value == 1)"></span>
+                                        <div *ngFor="let fieldGroup of device.FieldGroups | excludeFieldGroup: 'zubehor'">
+                                            <div *ngIf="getMetaDataOfFieldGroup(fieldGroup.Slug, device.DeviceMeta).length > 0">
+                                                <strong>{{fieldGroup.Name}}</strong>
+                                                <div *ngFor="let metaData of getMetaDataOfFieldGroup(fieldGroup.Slug, device.DeviceMeta)">
+                                                    <span *ngIf="(fieldGroup.IsCountable) && (metaData.Value > 1)">{{metaData.Value}}&times; </span>
+                                                    {{metaData.Field}}
+                                                    <span *ngIf="(!fieldGroup.IsCountable) || (metaData.Value == 1)"></span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
