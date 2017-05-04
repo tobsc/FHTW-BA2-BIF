@@ -60,7 +60,7 @@ export class AdminSettingsComponent implements OnInit {
     }
 
     private daysBefore: Setting = {
-        Key: "days_before_remidner",
+        Key: "days_before_reminder",
         Value: sessionStorage.getItem("days_before_reminder")
     }
 

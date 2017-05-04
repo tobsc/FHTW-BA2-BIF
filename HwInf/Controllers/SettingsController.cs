@@ -198,7 +198,11 @@ namespace HwInf.Controllers
 
                     var obj = _bl.GetSetting(vmdl.Key);
 
-                    if (obj == null) return NotFound();
+                    if (obj == null)
+                    {
+                        _log.InfoFormat("Setting '{0}' not found", vmdl.Key);
+                        return NotFound();
+                    }
 
                     _bl.UpdateSetting(obj);
 

@@ -14,7 +14,7 @@ export class AdminService {
     private token: string;
     private loggedIn: boolean = false;
     private authUrl: string = "/api/auth/";
-    private settingsUrl: string = "api/settings/";
+    private settingsUrl: string = "/api/settings/";
     private settings: Setting[];
 
     constructor(
@@ -79,7 +79,7 @@ export class AdminService {
             'Content-Type': 'application/json'
         });
         let options = new RequestOptions({ headers: headers });
-        return this.http.put(this.settingsUrl+"/multiple", bodyString, options)
+        return this.http.put(this.settingsUrl+"multiple", bodyString, options)
             .do(i => {
                 if (i.status == 200) {
                     for (let set of body) {
