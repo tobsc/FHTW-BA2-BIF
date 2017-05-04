@@ -21,7 +21,7 @@
             Verursacher:
         </label>
         <div class="field-select">
-            <input class="form-control" auto-complete formControlName="Cause" [source]="stringForDic"/>
+            <input class="form-control" auto-complete [accept-user-input]="false" formControlName="Cause" [source]="stringForDic"/>
         </div>
     </div>
 
@@ -30,7 +30,7 @@
             Melder:
         </label>
         <div class="field-select">
-            <input class="form-control" auto-complete formControlName="Reporter" [source]="stringForDic"/>
+            <input class="form-control" auto-complete [accept-user-input]="false" formControlName="Reporter" [source]="stringForDic"/>
         </div>
     </div>
 

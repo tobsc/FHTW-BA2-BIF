@@ -48,16 +48,12 @@
               </label>
               <input id="Raum" name="Raum" class="form-control" type="text" formControlName="Raum">
             </div>
-            <div class="form-group" formGroupName="Person">
+            <div class="form-group">
               <label htmlFor="Person">
                 Verwalter
-              </label>
-
-              <select class="form-control" id="Person" name="Person" formControlName="Uid">
-                <option *ngFor="let owner of owners" value="{{owner.Uid}}">
-                  ({{owner.Uid}}) {{owner.LastName}} {{owner.Name}}
-                </option>
-              </select>
+              </label>        
+                <div class="field-select"></div>
+                    <input class="form-control" auto-complete formControlName="Person" [accept-user-input]="false" [source]="stringForDic"/>             
             </div>
             <div class="form-group">
               <label htmlFor="InvNum">

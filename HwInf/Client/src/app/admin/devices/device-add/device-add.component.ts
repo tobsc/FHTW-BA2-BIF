@@ -19,6 +19,7 @@ export class DeviceAddComponent implements OnInit {
   }
 
   onSubmit(device: Device) {
+
     this.deviceService.addNewDevice(device).subscribe(
         (next) => {
           this.alerts.push({
@@ -36,6 +37,7 @@ export class DeviceAddComponent implements OnInit {
           });
         }
     );
+ 
   }
 
 }

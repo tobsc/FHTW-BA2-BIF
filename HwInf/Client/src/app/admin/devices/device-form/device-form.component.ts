@@ -28,11 +28,14 @@ export class DeviceFormComponent implements OnInit {
   private invNums: FormArray;
   private deviceTypes: Observable<DeviceType[]>;
   private deviceStatuses: Observable<Status[]>;
-  private fieldGroups: FieldGroup[];
-  private owners: User[];
+  private fieldGroups: FieldGroup[];  
   private currentDevice: Device;
   private formDeviceType: FormGroup;
   private currentTypeSlug: string;
+
+  private owners: User[];
+  private ownerDic: { [search: string]: User; } = {};
+  private stringForDic: string[] = [];
 
   constructor(
       private deviceService: DeviceService,
@@ -51,12 +54,17 @@ export class DeviceFormComponent implements OnInit {
     this.deviceStatuses = this.deviceService.getDeviceStatuses();
 
     this.userService.getOwners()
-        .subscribe(
-            (next) => {
-              this.owners = next; //.map(i => `(${i.Uid}) ${i.Name} ${i.LastName}`);
-            },
-            (error) => console.log(error)
-        );
+        .subscribe(i => {
+            this.owners = i;
+
+            this.owners.forEach((owner, index) => {
+                this.ownerDic[this.userFormatter(owner)] = owner;
+                this.stringForDic[index] = this.userFormatter(owner);
+            });
+        });
+          
+
+    
 
     this.form = this.initForm();
     this.formDeviceType = <FormGroup>this.form.controls['DeviceType'];
@@ -110,7 +118,7 @@ export class DeviceFormComponent implements OnInit {
     this.form.get('Name').setValue(device.Name);
     this.form.get('Marke').setValue(device.Marke);
     this.form.get('Raum').setValue(device.Raum);
-    this.form.get('Person').setValue({Uid: device.Verwalter.Uid});
+    this.form.get('Person').setValue(this.userFormatter(device.Verwalter));
     this.form.get('DeviceType').setValue({Slug: device.DeviceType.Slug });
 
     if (this.feature === 'edit') {
@@ -132,7 +140,7 @@ export class DeviceFormComponent implements OnInit {
       Marke: ['', Validators.required],
       Raum: ['', Validators.required],
       DeviceType: this.initDeviceType(),
-      Person: this.initPerson(),
+      Person: [ '', Validators.required ],
       FieldGroups: this.fb.array([]),
       Status: this.initStatus()
     });
@@ -162,17 +170,6 @@ export class DeviceFormComponent implements OnInit {
    */
   public removeInvNum(index: number): void {
     this.invNums.removeAt(index);
-  }
-
-  /**
-   * Initializes a new Person form group
-   * @param uid
-   * @returns {FormGroup}
-   */
-  private initPerson(uid: string = ''): FormGroup {
-    return this.fb.group({
-      Uid: [uid, Validators.required]
-    });
   }
 
   private initStatus(id: number = 1): FormGroup {
@@ -321,7 +318,7 @@ export class DeviceFormComponent implements OnInit {
       Marke: [form.value.Marke, Validators.required],
       Raum: [form.value.Raum, Validators.required],
       DeviceType: this.initDeviceType(form.value.DeviceType.Slug),
-      Verwalter: this.initPerson(form.value.Person.Uid),
+      Verwalter: this.ownerDic[form.value.Person],
       DeviceMeta: this.fb.array([]),
       AdditionalInvNums: this.fb.array(
           form.value.AdditionalInvNums
@@ -337,5 +334,9 @@ export class DeviceFormComponent implements OnInit {
           })
         });
     return <Device>resultForm.value;
+  }
+  
+  userFormatter(data: any): string {
+      return "(" + data.Uid + ") " + data.LastName + " " + data.Name;
   }
 }
