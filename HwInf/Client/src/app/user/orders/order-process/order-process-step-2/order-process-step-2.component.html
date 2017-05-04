@@ -8,13 +8,11 @@
         {{orderItem.Device.Name}}
           <div class="checkbox" *ngFor="let accessory of getAccessoriesOfOrderItem(orderItem)">
               <label>
-                <input type="checkbox" name="value" ngModel>
+                <input type="checkbox" name="value" (change)="onChange($event, i)" [value]="accessory">
                 {{accessory}}
               </label>
           </div>
       </div>
-
-    <button (click)="onChange(f)">test</button>
   </div>
 </div>
 
