@@ -46,7 +46,7 @@ namespace HwInf.ViewModels
             target.Entleiher = source.Entleiher;
             target.ReturnDate = source.ReturnDate;
             target.IsDeclined = source.IsDeclined;
-            target.Accessories = source.Accessories.ToList();
+            target.Accessories = source.Accessories?.ToList() ?? new List<string>();
         }
 
         public void ApplyChanges(OrderItem obj, BL bl)
@@ -56,7 +56,7 @@ namespace HwInf.ViewModels
 
             target.Device = bl.GetSingleDevice(source.Device.InvNum);
             target.IsDeclined = source.IsDeclined;
-            target.Accessories = source.Accessories.ToList();
+            target.Accessories = source.Accessories?.ToList() ?? new List<string>();
 
             if (target.CreateDate == DateTime.MinValue)
             {

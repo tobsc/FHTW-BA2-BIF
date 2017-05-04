@@ -7,10 +7,7 @@ import {FieldGroup} from "../models/fieldgroup.model";
 export class ExcludeFieldGroupPipe implements PipeTransform {
 
   transform(value: FieldGroup[], args?: any): any {
-
-    console.log(value);
-
-    return value.filter(i => args.indexOf(i.Slug) < 0 && i.Fields.length > 0);
+    return value.filter(i => args.indexOf(i.Slug));
   }
 
 }

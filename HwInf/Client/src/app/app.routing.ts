@@ -29,7 +29,7 @@ const APP_ROUTES: Routes = [
                     { path: 'schritt-1', component: OrderProcessStep1Component, canActivate: [AuthGuard] },
                     { path: 'schritt-2', component: OrderProcessStep2Component, canActivate: [AuthGuard] },
                     { path: 'schritt-3', component: OrderProcessStep3Component, canActivate: [AuthGuard] },
-                    { path: 'bestaeigung', component: OrderConfirmComponent, canActivate: [AuthGuard] },
+                    { path: 'bestaetigung', component: OrderConfirmComponent, canActivate: [AuthGuard] },
                 ]
             },
             { path: 'login-as', component: LoginAsComponent, canActivate: [AuthGuard]},

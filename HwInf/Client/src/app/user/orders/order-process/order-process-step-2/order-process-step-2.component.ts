@@ -1,14 +1,10 @@
 ﻿import {Component, OnInit, OnDestroy} from '@angular/core';
-import {OrderProcessService} from "../shared/order-process.service";
 import {Router} from "@angular/router";
 import {OrderFormDataService} from "../shared/order-form-data.service";
 import {Order} from "../../../../shared/models/order.model";
-import {Observable} from "rxjs";
 import {CartService} from "../../../../shared/services/cart.service";
 import {Device} from "../../../../shared/models/device.model";
-import {OrderService} from "../../../../shared/services/order.service";
 import { OrderItem } from "../../../../shared/models/order-item.model";
-import { Overlay } from 'angular2-modal';
 import { Modal } from 'angular2-modal/plugins/bootstrap';
 
 @Component({
@@ -17,7 +13,6 @@ import { Modal } from 'angular2-modal/plugins/bootstrap';
   styleUrls: ['./order-process-step-2.component.scss']
 })
 export class OrderProcessStep2Component implements OnInit, OnDestroy {
-
 
   private order: Order;
   private devices: Device[];

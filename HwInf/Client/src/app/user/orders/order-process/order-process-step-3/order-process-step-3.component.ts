@@ -17,29 +17,19 @@ import { Modal } from 'angular2-modal/plugins/bootstrap';
 export class OrderProcessStep3Component implements OnInit {
 
   private order: Order;
-  private devices: Device[];
   constructor(
       private orderFormDataService: OrderFormDataService,
       private orderService: OrderService,
-      private cartService: CartService,
       private router: Router,
       public modal: Modal
   ) { }
 
   ngOnInit() {
-
     this.order = this.orderFormDataService.getData();
-    this.devices = this.cartService.getItems();
-
-    this.order.OrderItems = this.devices.map(i => {
-      let orderItem = new OrderItem();
-      orderItem.Device = i;
-      return orderItem;
-    })
   }
 
   onBack() {
-    this.router.navigate(['/anfrage/schritt-1']);
+    this.router.navigate(['/anfrage/schritt-2']);
   }
 
   onContinue() {
@@ -47,14 +37,12 @@ export class OrderProcessStep3Component implements OnInit {
     let x = ({
       From: this.order.From,
       To: this.order.To,
-      OrderItems: [] = this.devices.map(device => {
-        return ({Device: device});
-      }),
+      OrderItems: this.order.OrderItems,
       OrderReason: this.order.OrderReason
     });
 
     this.orderService.createOrder(x).subscribe(
-        () => { this.router.navigate(['/anfrage/schritt-3']); },
+        () => { this.router.navigate(['/anfrage/bestaetigung']); },
         (err) => {console.log(err)}
     );
 
