@@ -51,7 +51,7 @@ namespace HwInf.Controllers
             try
             {
                 var order = _bl.GetOrders(guid);
-                var rpt = new Contract(order);
+                var rpt = new Contract(order, _bl);
                 // Report -> String
                 var text = rpt.TransformText();
 
@@ -92,7 +92,7 @@ namespace HwInf.Controllers
 
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: '{0}'", ex.Message);
+                _log.ErrorFormat("Exception: '{0}'", ex);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError); ;
             }
 
@@ -109,7 +109,7 @@ namespace HwInf.Controllers
             try
             {
                 var order = _bl.GetOrders(guid);
-                var rpt = new ReturnContract(order);
+                var rpt = new ReturnContract(order, _bl);
                 // Report -> String
                 var text = rpt.TransformText();
 
@@ -148,7 +148,7 @@ namespace HwInf.Controllers
 
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: '{0}'", ex.Message);
+                _log.ErrorFormat("Exception: '{0}'", ex);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError); ;
             }
         }

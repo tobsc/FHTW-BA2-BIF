@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {DeviceService} from "../../shared/services/device.service";
-import {Observable} from "rxjs";
-import {DeviceType} from "../../shared/models/device-type.model";
+import {Device} from "../../shared/models/device.model";
+import {OrderService} from "../../shared/services/order.service";
+import {Order} from "../../shared/models/order.model";
+import {OrderFilter} from "../../shared/models/order-filter.model";
+import {OrderItem} from "../../shared/models/order-item.model";
 
 @Component({
   selector: 'hwinf-dashboard',
@@ -10,16 +13,42 @@ import {DeviceType} from "../../shared/models/device-type.model";
 })
 export class DashboardComponent implements OnInit {
 
-  private deviceTypes: Observable<DeviceType[]>;
+  private myOrders: Order[];
+  private totalItems: number;
+  private filter: OrderFilter;
 
-  constructor(private deviceService: DeviceService) { }
+  private orderOpen: number;
+  private orderAccept: number;
+  private orderLend: number;
 
-  ngOnInit() {
+  constructor(private orderService: OrderService) { }
 
-    this.deviceTypes = this.deviceService.getDeviceTypes();
+  ngOnInit(): void {
+
+    this.filter = new OrderFilter();
+    this.filter.StatusSlugs = ['offen', 'akzeptiert', 'ausgeliehen'];
+    this.filter.Order = 'DESC';
+    this.filter.OrderBy = 'orderstatus';
+    this.filter.Limit = 100;
+    this.filter.Offset = 0;
+
+    this.fetchData();
   }
 
-  onClick() {
+  fetchData() {
+
+    this.orderService.getFilteredOrders(this.filter)
+        .subscribe(
+            data => {
+              this.myOrders = data.Orders;
+              this.totalItems = data.TotalItems;
+              this.orderOpen = data.Orders.filter(i => i.OrderStatus.StatusId === 1).length;
+              this.orderAccept = data.Orders.filter(i => i.OrderStatus.StatusId === 2).length;
+              let devs = data.Orders.filter(i => i.OrderStatus.StatusId == 5).map(i => i.OrderItems);
+              this.orderLend = [].concat.apply([], devs).length;
+
+            }
+        )
   }
 
 }

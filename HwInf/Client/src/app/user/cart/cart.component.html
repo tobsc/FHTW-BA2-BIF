@@ -21,10 +21,14 @@
                                         <div *ngFor="let device of devices; let i = index">
                                             <div class="col-md-12">
                                                 <accordion-group>
-                                                    <div accordion-heading>
+                                                    <div accordion-heading class="alert-dismissible">
                                                         <strong>{{device.Name}} </strong>
-                                                        <div class="text-muted pull-right" style="font-size: 0.8em">Inventarnummer: {{device.InvNum}}</div>
+                                                        <div class="close" style="transform: translate(17px,-3px)">
+                                                            <span class="btn btn-danger" (click)="removeItem(i)">&times;</span>
+                                                        </div>
+                                                        <div class="text-muted pull-right" style="font-size: 0.8em; padding-right: 5px">Inventarnummer: {{device.InvNum}}</div>
                                                     </div>
+
                                                     <div id="{{device.InvNum}}" class="panel-collapse" role="tabpanel" attr.aria-labelledby="headingTwo" attr.aria-expanded="true">
                                                         <div class="responsive-list">
                                                             <div>

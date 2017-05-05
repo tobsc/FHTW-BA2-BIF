@@ -1,19 +1,25 @@
 <div class="clearfix"></div>
-<ul>
-  <li *ngFor="let dt of deviceTypes | async">
-    {{dt.DeviceTypeId}}<br>{{dt.Name}}
-  </li>
-</ul>
+<div class="col-md-6 col-sm-6 col-xs-12">
+  <hwinf-panel>
+    <div class="hwinf-panel__heading">
+      Hw-Inf
+    </div>
+    <div class="hwinf-panel__content">
+      Willkommen bei Hw-Inf
+    </div>
+  </hwinf-panel>
+</div>
+<div class="col-md-6 col-sm-6 col-xs-12">
+  <hwinf-panel>
+    <div class="hwinf-panel__heading">
+      Meine Geräte
+    </div>
+    <div class="hwinf-panel__content">
+      <a routerLink="/meine-geraete" class="list-group-item"><span class="badge">{{orderOpen}}</span>Offene Anfragen</a>
+      <a routerLink="/meine-geraete" class="list-group-item"><span class="badge">{{orderAccept}}</span>Akzeptierte Anfragen</a>
+      <a routerLink="/meine-geraete" class="list-group-item"><span class="badge">{{orderLend}}</span>Derzeit ausgeliehene Geräte</a>
+    </div>
+  </hwinf-panel>
+</div>
 
-<hwinf-panel>
-  <div class="hwinf-panel__heading">
-    test
-  </div>
-  <div class="hwinf-panel__content">
-    HELLLOOO
-  </div>
-</hwinf-panel>
 
-<hwinf-confirm-button (action)="onClick()" title="Wirklich löschen?">
-  <button class="btn btn-success">test</button>
-</hwinf-confirm-button>
