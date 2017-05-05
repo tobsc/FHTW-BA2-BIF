@@ -29,7 +29,14 @@ namespace HwInf.Common
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write(@"\document
+            this.Write("\n");
+            this.Write("\n");
+            this.Write("\n");
+            this.Write("\n");
+            this.Write("\n");
+            this.Write("\n");
+            this.Write(@"
+\document
 [
     Info
     {
@@ -77,7 +84,7 @@ namespace HwInf.Common
 		
 		");
             
-            #line 54 "C:\Users\Valentin\Documents\__FH\ITP3\git\HW-INF\HwInf.Common\Contract.tt"
+            #line 1 "C:\Users\Valentin\Documents\__FH\ITP3\git\HW-INF\HwInf.Common\Contract.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(getEntleiher()));
             
             #line default
@@ -97,271 +104,140 @@ namespace HwInf.Common
 		{
 		§ 1 Vertragsgegenstand
 		}
-		\paragraph [ Format { Font { Size = 7.5}
-							  SpaceAfter = ""0.5cm""
-							  LeftIndent = ""1cm""} ]
-		{
-		(1) Gegenstand des Vertrages ist die Überlassung eines
-		}
+		
 		");
             
-            #line 75 "C:\Users\Valentin\Documents\__FH\ITP3\git\HW-INF\HwInf.Common\Contract.tt"
+            #line 1 "C:\Users\Valentin\Documents\__FH\ITP3\git\HW-INF\HwInf.Common\Contract.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(getGeraete()));
             
             #line default
             #line hidden
-            this.Write("\r\n\t\t\\paragraph [ Format { Font { Size = 7.5} \r\n\t\t\t\t\t\t\tSpaceAfter = \"0.25cm\"} ]\r\n\t" +
-                    "\t{\r\n\t\tDas Zubehör ist in der als Anlage zu diesem Vertrag beigefügten Bestandsli" +
-                    "ste aufgeführt. Die Bestandsliste ist Bestandteil dieses\r\nVertrages. Entleiherin" +
-                    " oder Entleiher können nur Studierende der FH Technikum Wien sein. Ein Anspruch " +
-                    "auf Abschluss oder Verlängerung\r\ndes Leihvertrages besteht nicht.\r\n\t\t}\r\n\t\t\\parag" +
-                    "raph [ Format { Font { Size = 7.5}\r\n\t\t\t\t\t\t\t  SpaceAfter = \"1cm\"} ]\r\n\t\t{\r\n\t\t(2)  " +
-                    "  Die Leihe erfolgt im Rahmen der Ausbildung zur Unterstützung bei Projekten ode" +
-                    "r als befristete Übergangslösung.\r\n\t\t}\r\n\t\t\\paragraph [ Format { Font { Size = 7." +
-                    "5 Bold = true} \r\n\t\t\t\t\t\t\t\tSpaceAfter = \"0.25cm\"} ]\r\n\t\t{\r\n\t\t§ 2 Vertragsgemäßer Ge" +
-                    "brauch, Ausschluss von der Nutzung\r\n\t\t}\r\n\t\t\\paragraph [ Format { Font { Size = 7" +
-                    ".5} SpaceAfter = \"1cm\"} ]\r\n\t\t{\r\n\t\t(1)    Das Gerät wird ausschließlich für Zweck" +
-                    "e von Forschung, Lehre und Studium entliehen. Eine Nutzung für gewerbliche,\r\nerw" +
-                    "erbswirtschaftliche, private oder sonstige Zwecke, die mit dem in § 1 Abs. 2 gen" +
-                    "annten Ausbildungszweck nicht vereinbar sind, ist\r\nuntersagt.\r\n\t\t}\r\n\t}\r\n\t\\sectio" +
-                    "n\r\n\t{\r\n\t\t\\paragraph [ Format { Font { Size = 7.5} SpaceAfter = \"0.25cm\"} ]\r\n\t\t{\r" +
-                    "\n\t\t(2)    Eine Weitergabe bzw. Überlassung des Gebrauchs des entliehenen Gerätes" +
-                    " an Dritte ist untersagt. Technische Ressourcen des\r\nGerätes dürfen Dritten nich" +
-                    "t zugänglich gemacht werden. Die auf dem Gerät installierten Programme und Softw" +
-                    "are dürfen vom/von\r\nder EntleiherIn nicht kopiert werden. Der/die EntleiherIn er" +
-                    "hält ein vorinstalliertes System und muss das System während der Leihzeit\r\nselbs" +
-                    "t administrieren. Es bestehen keine Ansprüche auf regelmäßige Wartung des System" +
-                    "s seitens der VerleiherIn. Eingriffe in die\r\nHardware bzw. die Ausstattung des G" +
-                    "erätes durch den/die EntleiherIn sind nicht gestattet. Solange der/die Entleiher" +
-                    "In das Gerät\r\nausgeliehen hat, darf er/sie eigene legal erworbene Software insta" +
-                    "llieren, soweit diese zur Erfüllung des Ausbildungszweckes\r\nerforderlich ist. Di" +
-                    "e VerleiherIn übernimmt für diesen Fall jedoch keine Gewähr für die Nutzbarkeit " +
-                    "des Geräts.\r\n\t\t}\r\n\t\t\\paragraph [ Format { Font { Size = 7.5} SpaceAfter = \"1cm\"}" +
-                    " ]\r\n\t\t{\r\n\t\t(3)    Die VerleiherIn kann den/die EntleiherIn von der weiteren Nutz" +
-                    "ung des Gerätes ausschließen, wenn dieser/diese schuldhaft\r\nseinen/ihren Pflicht" +
-                    "en aus dieser Vereinbarung nicht nachkommt, das Gerät für strafbare Handlungen m" +
-                    "issbraucht oder der\r\nFachhochschule Technikum Wien durch sonstiges rechtswidrige" +
-                    "s Nutzerverhalten Nachteile entstehen.\r\n\t\t}\r\n\t\t\\paragraph [ Format { Font { Size" +
-                    " = 7.5 Bold = true} } ]\r\n\t\t{\r\n\t\t\t§ 3 Ausgabe und Rückgabe des Gerätes\r\n\t\t}\r\n\t\t\\p" +
-                    "aragraph [ Format { Font { Size = 7.5} SpaceAfter = \"0.25cm\" } ]\r\n\t\t{\r\n\t\t\tDas Ge" +
-                    "rät nebst Zubehör wird von dem in dieser Vereinbarung genannten Institut ausgege" +
-                    "ben. Bei diesem Institut ist das Gerät nebst\r\nZubehör auch wieder zurückzugeben." +
-                    "\r\n\t\t}\r\n\t\t\\paragraph [ Format { Font { Size = 7.5 Bold = true} } ]\r\n\t\t{\r\n\t\t\t§ 4 M" +
-                    "ängel, Sorgfaltspflichten und Haftung\r\n\t\t}\r\n\t\t\\paragraph [ Format { Font { Size " +
-                    "= 7.5} SpaceAfter = \"0.25cm\" } ]\r\n\t\t{\r\n\t\t(1) Der/die EntleiherIn hat sich bei de" +
-                    "r Übergabe von dem ordnungsgemäßen Zustand des Gerätes zu überzeugen und festges" +
-                    "tellte\r\nMängel und Schäden oder fehlendes Zubehör unverzüglich dem Fachbereich a" +
-                    "nzuzeigen. Unterlässt der/die EntleiherIn die Anzeige,\r\nso gilt das Gerät als in" +
-                    " mangelfreiem Zustand und mit dem genannten Zubehör übergeben, es sei denn, dass" +
-                    " es sich um einen\r\nMangel handelt, der bei der Untersuchung nicht erkennbar war." +
-                    " Zeigt sich später ein solcher Mangel, so muss die Anzeige\r\nunverzüglich schrift" +
-                    "lich an Herrn Benedikt Salzbrunn (salzbrunn@technikum-wien.at) bzw. dessen Vertr" +
-                    "etung gemacht werden,\r\nanderenfalls ist der Einwand ausgeschlossen, ein mangelha" +
-                    "ftes Gerät erhalten zu haben.\r\n\t\t}\r\n\t\t\\paragraph [ Format { Font { Size = 7.5} S" +
-                    "paceAfter = \"0.25cm\" } ]\r\n\t\t{\r\n\t\t(2) Der/die EntleiherIn verpflichtet sich zur s" +
-                    "orgfältigen Behandlung des Gerätes und des Zubehörs sowie dieses vor Verlusten (" +
-                    "auch\r\nDiebstahl) und Beschädigungen zu schützen.\r\n\t\t}\r\n\t\t\\paragraph [ Format { F" +
-                    "ont { Size = 7.5} SpaceAfter = \"0.25cm\"} ]\r\n\t\t{\r\n\t\t(3) Der/die EntleiherIn hat V" +
-                    "erluste sowie alle Mängel und Schäden des Gerätes, die während der Leihzeit auft" +
-                    "reten, unverzüglich dem\r\nausgebenden Fachbereich zu melden. Auf Verlangen ist ei" +
-                    "n schriftlicher Schadensbericht vorzulegen. Der Diebstahl des Gerätes ist\r\ndarüb" +
-                    "er hinaus unverzüglich der Polizei anzuzeigen. Die Reparaturabwicklung bei aufge" +
-                    "tretenen Mängeln und Schäden des Gerätes\r\nerfolgt ausschließlich über die IT-Abt" +
-                    "eilung des Technikum Wien. Der/die EntleiherIn darf Reparaturen weder selbst dur" +
-                    "chführen noch\r\nin Auftrag geben.\r\n\t\t}\r\n\t\t\\paragraph [ Format { Font { Size = 7.5" +
-                    "} SpaceAfter = \"0.25cm\" } ]\r\n\t\t{\r\n\t\t(4) Der/die EntleiherIn haftet der Verleiher" +
-                    "In für die von ihm/ihr schuldhaft verursachten Schäden an der Leihgabe sowie für" +
-                    " alle\r\nsonstigen Schäden, die dadurch entstehen, dass der/die EntleiherIn schuld" +
-                    "haft seinen/ihren Pflichten aus dieser Vereinbarung nicht\r\nnachkommt. Dem/der En" +
-                    "tleiherIn obliegt der Beweis, dass ein schuldhaftes Verhalten nicht vorgelegen h" +
-                    "abe. Für Schäden an der\r\nLeihgabe, die durch vertragswidrigen Gebrauch entstehen" +
-                    ", haftet der/die EntleiherIn unabhängig vom Verschulden.\r\n\t\t}\r\n\t\t\\paragraph [ Fo" +
-                    "rmat { Font { Size = 7.5 Bold = true} SpaceAfter = \"0.5cm\"} ]\r\n\t\t{\r\n\t\t§ 6 Laufze" +
-                    "it und Ende des Vertrages\r\n\t\t}\r\n\t\t\\paragraph [ Format { SpaceAfter = \"0.25cm\"}]\r" +
-                    "\n\t\t{\r\n\t\t");
+            this.Write("\n\t\t\\paragraph [ Format { Font { Size = 7.5} \n\t\t\t\t\t\t\tSpaceAfter = \"0.25cm\"} ]\n\t\t{\n" +
+                    "\t\tDas Zubehör ist in der als Anlage zu diesem Vertrag beigefügten Bestandsliste " +
+                    "aufgeführt. Die Bestandsliste ist Bestandteil dieses\nVertrages. Entleiherin oder" +
+                    " Entleiher können nur Studierende der FH Technikum Wien sein. Ein Anspruch auf A" +
+                    "bschluss oder Verlängerung\ndes Leihvertrages besteht nicht.\n\t\t}\n\t\t\\paragraph [ F" +
+                    "ormat { Font { Size = 7.5}\n\t\t\t\t\t\t\t  SpaceAfter = \"1cm\"} ]\n\t\t{\n\t\t(2)    Die Leihe" +
+                    " erfolgt im Rahmen der Ausbildung zur Unterstützung bei Projekten oder als befri" +
+                    "stete Übergangslösung.\n\t\t}\n\t\t\\paragraph [ Format { Font { Size = 7.5 Bold = true" +
+                    "} \n\t\t\t\t\t\t\t\tSpaceAfter = \"0.25cm\"} ]\n\t\t{\n\t\t§ 2 Vertragsgemäßer Gebrauch, Ausschlu" +
+                    "ss von der Nutzung\n\t\t}\n\t\t\\paragraph [ Format { Font { Size = 7.5} SpaceAfter = \"" +
+                    "1cm\"} ]\n\t\t{\n\t\t(1)    Das Gerät wird ausschließlich für Zwecke von Forschung, Leh" +
+                    "re und Studium entliehen. Eine Nutzung für gewerbliche,\nerwerbswirtschaftliche, " +
+                    "private oder sonstige Zwecke, die mit dem in § 1 Abs. 2 genannten Ausbildungszwe" +
+                    "ck nicht vereinbar sind, ist\nuntersagt.\n\t\t}\n\t\t\\paragraph [ Format { Font { Size " +
+                    "= 7.5} SpaceAfter = \"0.25cm\"} ]\n\t\t{\n\t\t(2)    Eine Weitergabe bzw. Überlassung de" +
+                    "s Gebrauchs des entliehenen Gerätes an Dritte ist untersagt. Technische Ressourc" +
+                    "en des\nGerätes dürfen Dritten nicht zugänglich gemacht werden. Die auf dem Gerät" +
+                    " installierten Programme und Software dürfen vom/von\nder EntleiherIn nicht kopie" +
+                    "rt werden. Der/die EntleiherIn erhält ein vorinstalliertes System und muss das S" +
+                    "ystem während der Leihzeit\nselbst administrieren. Es bestehen keine Ansprüche au" +
+                    "f regelmäßige Wartung des Systems seitens der VerleiherIn. Eingriffe in die\nHard" +
+                    "ware bzw. die Ausstattung des Gerätes durch den/die EntleiherIn sind nicht gesta" +
+                    "ttet. Solange der/die EntleiherIn das Gerät\nausgeliehen hat, darf er/sie eigene " +
+                    "legal erworbene Software installieren, soweit diese zur Erfüllung des Ausbildung" +
+                    "szweckes\nerforderlich ist. Die VerleiherIn übernimmt für diesen Fall jedoch kein" +
+                    "e Gewähr für die Nutzbarkeit des Geräts.\n\t\t}\n\t\t\\paragraph [ Format { Font { Size" +
+                    " = 7.5} SpaceAfter = \"1cm\"} ]\n\t\t{\n\t\t(3)    Die VerleiherIn kann den/die Entleihe" +
+                    "rIn von der weiteren Nutzung des Gerätes ausschließen, wenn dieser/diese schuldh" +
+                    "aft\nseinen/ihren Pflichten aus dieser Vereinbarung nicht nachkommt, das Gerät fü" +
+                    "r strafbare Handlungen missbraucht oder der\nFachhochschule Technikum Wien durch " +
+                    "sonstiges rechtswidriges Nutzerverhalten Nachteile entstehen.\n\t\t}\n\t\t\\paragraph [" +
+                    " Format { Font { Size = 7.5 Bold = true} } ]\n\t\t{\n\t\t\t§ 3 Ausgabe und Rückgabe des" +
+                    " Gerätes\n\t\t}\n\t\t\\paragraph [ Format { Font { Size = 7.5} SpaceAfter = \"0.25cm\" } " +
+                    "]\n\t\t{\n\t\t\tDas Gerät nebst Zubehör wird von dem in dieser Vereinbarung genannten I" +
+                    "nstitut ausgegeben. Bei diesem Institut ist das Gerät nebst\nZubehör auch wieder " +
+                    "zurückzugeben.\n\t\t}\n\t\t\\paragraph [ Format { Font { Size = 7.5 Bold = true} } ]\n\t\t" +
+                    "{\n\t\t\t§ 4 Mängel, Sorgfaltspflichten und Haftung\n\t\t}\n\t\t\\paragraph [ Format { Font" +
+                    " { Size = 7.5} SpaceAfter = \"0.25cm\" } ]\n\t\t{\n\t\t(1) Der/die EntleiherIn hat sich " +
+                    "bei der Übergabe von dem ordnungsgemäßen Zustand des Gerätes zu überzeugen und f" +
+                    "estgestellte\nMängel und Schäden oder fehlendes Zubehör unverzüglich dem Fachbere" +
+                    "ich anzuzeigen. Unterlässt der/die EntleiherIn die Anzeige,\nso gilt das Gerät al" +
+                    "s in mangelfreiem Zustand und mit dem genannten Zubehör übergeben, es sei denn, " +
+                    "dass es sich um einen\nMangel handelt, der bei der Untersuchung nicht erkennbar w" +
+                    "ar. Zeigt sich später ein solcher Mangel, so muss die Anzeige\nunverzüglich schri" +
+                    "ftlich an Herrn Benedikt Salzbrunn (salzbrunn@technikum-wien.at) bzw. dessen Ver" +
+                    "tretung gemacht werden,\nanderenfalls ist der Einwand ausgeschlossen, ein mangelh" +
+                    "aftes Gerät erhalten zu haben.\n\t\t}\n\t\t\\paragraph [ Format { Font { Size = 7.5} Sp" +
+                    "aceAfter = \"0.25cm\" } ]\n\t\t{\n\t\t(2) Der/die EntleiherIn verpflichtet sich zur sorg" +
+                    "fältigen Behandlung des Gerätes und des Zubehörs sowie dieses vor Verlusten (auc" +
+                    "h\nDiebstahl) und Beschädigungen zu schützen.\n\t\t}\n\t\t\\paragraph [ Format { Font { " +
+                    "Size = 7.5} SpaceAfter = \"0.25cm\"} ]\n\t\t{\n\t\t(3) Der/die EntleiherIn hat Verluste " +
+                    "sowie alle Mängel und Schäden des Gerätes, die während der Leihzeit auftreten, u" +
+                    "nverzüglich dem\nausgebenden Fachbereich zu melden. Auf Verlangen ist ein schrift" +
+                    "licher Schadensbericht vorzulegen. Der Diebstahl des Gerätes ist\ndarüber hinaus " +
+                    "unverzüglich der Polizei anzuzeigen. Die Reparaturabwicklung bei aufgetretenen M" +
+                    "ängeln und Schäden des Gerätes\nerfolgt ausschließlich über die IT-Abteilung des " +
+                    "Technikum Wien. Der/die EntleiherIn darf Reparaturen weder selbst durchführen no" +
+                    "ch\nin Auftrag geben.\n\t\t}\n\t\t\\paragraph [ Format { Font { Size = 7.5} SpaceAfter =" +
+                    " \"0.25cm\" } ]\n\t\t{\n\t\t(4) Der/die EntleiherIn haftet der VerleiherIn für die von i" +
+                    "hm/ihr schuldhaft verursachten Schäden an der Leihgabe sowie für alle\nsonstigen " +
+                    "Schäden, die dadurch entstehen, dass der/die EntleiherIn schuldhaft seinen/ihren" +
+                    " Pflichten aus dieser Vereinbarung nicht\nnachkommt. Dem/der EntleiherIn obliegt " +
+                    "der Beweis, dass ein schuldhaftes Verhalten nicht vorgelegen habe. Für Schäden a" +
+                    "n der\nLeihgabe, die durch vertragswidrigen Gebrauch entstehen, haftet der/die En" +
+                    "tleiherIn unabhängig vom Verschulden.\n\t\t}\n\t\t\\paragraph [ Format { Font { Size = " +
+                    "7.5 Bold = true} SpaceAfter = \"0.5cm\"} ]\n\t\t{\n\t\t§ 6 Laufzeit und Ende des Vertrag" +
+                    "es\n\t\t}\n\t\t\\paragraph [ Format { SpaceAfter = \"0.25cm\"}]\n\t\t{\n\t\t");
             
-            #line 166 "C:\Users\Valentin\Documents\__FH\ITP3\git\HW-INF\HwInf.Common\Contract.tt"
+            #line 1 "C:\Users\Valentin\Documents\__FH\ITP3\git\HW-INF\HwInf.Common\Contract.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(getZeitspanne()));
             
             #line default
             #line hidden
-            this.Write("\r\n\t\t}\r\n\t\t\\paragraph [ Format { Font { Size = 7.5} SpaceAfter = \"0.25cm\" } ]\r\n\t\t{\r" +
-                    "\n\t\tDer/die EntleiherIn ist verpflichtet, das Gerät während dieser Zeit der Verle" +
-                    "iherIn auf deren Verlangen jederzeit vorzuzeigen. Die\r\nVerleiherIn ist berechtig" +
-                    "t, die Leihe jederzeit zu kündigen.\r\n\t\t}\r\n\t\t\\paragraph [ Format { Font { Size = " +
-                    "7.5}} ]\r\n\t\t{\r\n\t\t(2) Der Vertrag endet jedenfalls unabhängig von dem in Absatz (1" +
-                    ") genannten Termin:\r\n\t\t}\r\n\t\t\\paragraph [ Format { Font { Size = 7.5}} ]\r\n\t\t{\r\n\t\t" +
-                    "a) wenn der/die EntleiherIn nicht mehr Studierende(r) der FH Technikum Wien ist," +
-                    "\r\n\t\t}\r\n\t\t\\paragraph [ Format { Font { Size = 7.5} SpaceAfter = \"0.25cm\"} ]\r\n\t\t{\r" +
-                    "\n\t\tb) in den Fällen des § 2 Absatz 3 dieses Leihvertrages.\r\n\t\t}\r\n\t\t\\paragraph [ " +
-                    "Format { Font { Size = 7.5} SpaceAfter = \"0.25cm\"} ]\r\n\t\t{\r\n\t\t(3) Mit dem Ende de" +
-                    "s Vertrages ist das Gerät nebst Zubehör unaufgefordert und unverzüglich zurückzu" +
-                    "geben.\r\n\t\t}\r\n\t\t\\paragraph [ Format { Font { Size = 7.5 Bold = true} SpaceAfter =" +
-                    " \"0.5cm\"} ]\r\n\t\t{\r\n\t\t§ 7 Nebenbestimmungen\r\n\t\t}\r\n\t\t\\paragraph [ Format { Font { S" +
-                    "ize = 7.5} SpaceAfter = \"0.25cm\"} ]\r\n\t\t{\r\n\t\t(1) Änderungen und Ergänzungen diese" +
-                    "r Vereinbarung sowie Nebenabreden bedürfen der Schriftform.\r\n\t\t}\r\n\t\t\\paragraph [" +
-                    " Format { Font { Size = 7.5} SpaceAfter = \"0.25cm\"} ]\r\n\t\t{\r\n\t\t(2) Sollte eine Be" +
-                    "stimmung dieses Vertrages unwirksam oder undurchführbar sein, beeinträchtigt die" +
-                    "s nicht die Geltung der übrigen\r\nBestimmungen dieses Vertrages. Die Vertragspart" +
-                    "eien werden sich in einem solchen Fall bemühen, die unwirksame oder\r\nundurchführ" +
-                    "bare Bestimmung durch eine andere zu ersetzen, die der zu ersetzenden Bestimmung" +
-                    " möglichst nahe kommt.\r\n\t\t}\r\n\t\t\\paragraph [ Format { Font { Size = 7.5} SpaceAft" +
-                    "er = \"0.5cm\"} ]\r\n\t\t{\r\n\t\t(3) Es gilt österreichisches Recht, Gerichtsstand ist da" +
-                    "s sachlich zuständige Gericht in Wien.\r\n\t\t}\r\n\t\t\\paragraph [ Format { SpaceAfter " +
-                    "= \"1cm\"} ]\r\n\t\t{\r\n\t\tWien, den ");
+            this.Write("\n\t\t}\n\t\t\\paragraph [ Format { Font { Size = 7.5} SpaceAfter = \"0.25cm\" } ]\n\t\t{\n\t\tD" +
+                    "er/die EntleiherIn ist verpflichtet, das Gerät während dieser Zeit der Verleiher" +
+                    "In auf deren Verlangen jederzeit vorzuzeigen. Die\nVerleiherIn ist berechtigt, di" +
+                    "e Leihe jederzeit zu kündigen.\n\t\t}\n\t\t\\paragraph [ Format { Font { Size = 7.5}} ]" +
+                    "\n\t\t{\n\t\t(2) Der Vertrag endet jedenfalls unabhängig von dem in Absatz (1) genannt" +
+                    "en Termin:\n\t\t}\n\t\t\\paragraph [ Format { Font { Size = 7.5}} ]\n\t\t{\n\t\ta) wenn der/d" +
+                    "ie EntleiherIn nicht mehr Studierende(r) der FH Technikum Wien ist,\n\t\t}\n\t\t\\parag" +
+                    "raph [ Format { Font { Size = 7.5} SpaceAfter = \"0.25cm\"} ]\n\t\t{\n\t\tb) in den Fäll" +
+                    "en des § 2 Absatz 3 dieses Leihvertrages.\n\t\t}\n\t\t\\paragraph [ Format { Font { Siz" +
+                    "e = 7.5} SpaceAfter = \"0.25cm\"} ]\n\t\t{\n\t\t(3) Mit dem Ende des Vertrages ist das G" +
+                    "erät nebst Zubehör unaufgefordert und unverzüglich zurückzugeben.\n\t\t}\n\t\t\\paragra" +
+                    "ph [ Format { Font { Size = 7.5 Bold = true} SpaceAfter = \"0.5cm\"} ]\n\t\t{\n\t\t§ 7 N" +
+                    "ebenbestimmungen\n\t\t}\n\t\t\\paragraph [ Format { Font { Size = 7.5} SpaceAfter = \"0." +
+                    "25cm\"} ]\n\t\t{\n\t\t(1) Änderungen und Ergänzungen dieser Vereinbarung sowie Nebenabr" +
+                    "eden bedürfen der Schriftform.\n\t\t}\n\t\t\\paragraph [ Format { Font { Size = 7.5} Sp" +
+                    "aceAfter = \"0.25cm\"} ]\n\t\t{\n\t\t(2) Sollte eine Bestimmung dieses Vertrages unwirks" +
+                    "am oder undurchführbar sein, beeinträchtigt dies nicht die Geltung der übrigen\nB" +
+                    "estimmungen dieses Vertrages. Die Vertragsparteien werden sich in einem solchen " +
+                    "Fall bemühen, die unwirksame oder\nundurchführbare Bestimmung durch eine andere z" +
+                    "u ersetzen, die der zu ersetzenden Bestimmung möglichst nahe kommt.\n\t\t}\n\t\t\\parag" +
+                    "raph [ Format { Font { Size = 7.5} SpaceAfter = \"0.5cm\"} ]\n\t\t{\n\t\t(3) Es gilt öst" +
+                    "erreichisches Recht, Gerichtsstand ist das sachlich zuständige Gericht in Wien.\n" +
+                    "\t\t}\n\t\t\\paragraph [ Format { SpaceAfter = \"1cm\"} ]\n\t\t{\n\t\tWien, den ");
             
-            #line 209 "C:\Users\Valentin\Documents\__FH\ITP3\git\HW-INF\HwInf.Common\Contract.tt"
+            #line 1 "C:\Users\Valentin\Documents\__FH\ITP3\git\HW-INF\HwInf.Common\Contract.tt"
  this.Write(DateTime.Now.Day.ToString("d2"));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 209 "C:\Users\Valentin\Documents\__FH\ITP3\git\HW-INF\HwInf.Common\Contract.tt"
+            #line 1 "C:\Users\Valentin\Documents\__FH\ITP3\git\HW-INF\HwInf.Common\Contract.tt"
  this.Write(DateTime.Now.Month.ToString("d2"));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 209 "C:\Users\Valentin\Documents\__FH\ITP3\git\HW-INF\HwInf.Common\Contract.tt"
+            #line 1 "C:\Users\Valentin\Documents\__FH\ITP3\git\HW-INF\HwInf.Common\Contract.tt"
 this.Write(DateTime.Now.Year.ToString()); 
             
             #line default
             #line hidden
-            this.Write(@"		}
-		\paragraph 
-		{ 
-		_____________________________                    _____________________________
-		}
-		\paragraph 
-		{
-		Unterschrift VerleiherIn                                      Unterschrift EntleiherIn
-		}
-	}
-	\section
-	{
-		\paragraph  [Format { Font { Bold = true} SpaceBefore = ""1cm"" SpaceAfter = ""0.25cm""}]
-		{
-		Bestätigung des/der EntleiherIn über die Übernahme des Gerätes:
-		}
-		\paragraph  [Format { SpaceAfter = ""0.5cm""}]
-		{
-		Das oben genannte Gerät wurde heute (bitte ankreuzen und ggf. ergänzen)
-		}
-		\paragraph  [Format { SpaceAfter = ""0.25cm""}]
-		{
-		O    in einwandfreiem Zustand und mit komplettem Zubehör (siehe Bestandsliste in der Anlage) übernommen
-		}
-		\paragraph  [Format { SpaceAfter = ""0.25cm""}]
-		{
-		O    mit folgenden Mängeln/Schäden übernommen
-		}
-		\paragraph  [Format { SpaceAfter = ""0.25cm"" LeftIndent =""1cm""}]
-		{
-		...................................................
-		}
-		\paragraph  [Format { SpaceAfter = ""0.25cm"" LeftIndent =""1cm""}]
-		{
-		...................................................
-		}
-		\paragraph  [Format { SpaceAfter = ""0.5cm"" LeftIndent =""1cm""}]
-		{
-		...................................................
-		}
-		\paragraph [ Format { SpaceAfter = ""1cm""} ]
-		{
-		Wien, den ");
+            this.Write("\n\t\t}\n\t\t\\paragraph \n\t\t{ \n\t\t_____________________________                    ______" +
+                    "_______________________\n\t\t}\n\t\t\\paragraph \n\t\t{\n\t\tUnterschrift VerleiherIn        " +
+                    "                              Unterschrift EntleiherIn\n\t\t}\n\t}\n\t");
             
-            #line 252 "C:\Users\Valentin\Documents\__FH\ITP3\git\HW-INF\HwInf.Common\Contract.tt"
- this.Write(DateTime.Now.Day.ToString("d2"));
+            #line 1 "C:\Users\Valentin\Documents\__FH\ITP3\git\HW-INF\HwInf.Common\Contract.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(getHandoff()));
             
             #line default
             #line hidden
-            this.Write(".");
-            
-            #line 252 "C:\Users\Valentin\Documents\__FH\ITP3\git\HW-INF\HwInf.Common\Contract.tt"
- this.Write(DateTime.Now.Month.ToString("d2"));
-            
-            #line default
-            #line hidden
-            this.Write(".");
-            
-            #line 252 "C:\Users\Valentin\Documents\__FH\ITP3\git\HW-INF\HwInf.Common\Contract.tt"
-this.Write(DateTime.Now.Year.ToString()); 
-            
-            #line default
-            #line hidden
-            this.Write(@"		}
-		\paragraph [ Format { SpaceAfter = ""1cm""}]
-		{
-		Unterschrift des/der EntleiherIn:......................................................................
-		}
-	}
-	\section
-	{
-		\paragraph [ Format { Font { Size = 14 Bold = true }
-                              SpaceBefore = ""1cm""
-							  SpaceAfter = ""1cm""
-							  LeftIndent = ""6.6cm""} ]
-		{
-		Anlage
-		}
-		");
-            
-            #line 268 "C:\Users\Valentin\Documents\__FH\ITP3\git\HW-INF\HwInf.Common\Contract.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(getAnhang()));
-            
-            #line default
-            #line hidden
-            this.Write(@"
-		\paragraph [ Format { SpaceAfter = ""1cm""
-							LeftIndent = ""1cm""}]
-		{
-		(unzutreffendes bitte deutlich durchstreichen)
-		}
-		\paragraph [ Format { SpaceAfter = ""0.25cm""
-							LeftIndent = ""1cm""}]
-		{
-		1. Gerät
-		}
-		\paragraph [ Format { SpaceAfter = ""0.25cm""
-							LeftIndent = ""1cm""}]
-		{
-		2. Netzkabel
-		}
-		\paragraph [ Format { SpaceAfter = ""0.25cm""
-							LeftIndent = ""1cm""}]
-		{
-		3. Schutzhülle
-		}
-		\paragraph [ Format { SpaceAfter = ""0.25cm""
-							LeftIndent = ""1cm""}]
-		{
-		4. Original-Schachtel und Bedienungsanleitung
-		}
-		\paragraph [ Format { SpaceAfter = ""0.5cm""
-							LeftIndent = ""1cm""}]
-		{
-		5. Kopfhörer
-		}
-		\paragraph [ Format { SpaceAfter = ""0.25cm""
-							LeftIndent = ""1cm""}]
-		{
-		6. _______________
-		}
-		\paragraph [ Format { SpaceAfter = ""0.5cm""
-							LeftIndent = ""1cm""}]
-		{
-		7. _______________
-		}
-
-
-
-
-
-	}
-}");
+            this.Write("\n}");
             return this.GenerationEnvironment.ToString();
         }
     }
