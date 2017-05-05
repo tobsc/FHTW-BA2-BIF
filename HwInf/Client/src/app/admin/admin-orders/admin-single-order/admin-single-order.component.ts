@@ -9,7 +9,8 @@ import {BehaviorSubject} from "rxjs";
   templateUrl: './admin-single-order.component.html',
   styleUrls: ['./admin-single-order.component.scss']
 })
-export class AdminSingleOrderComponent {
+export class AdminSingleOrderComponent implements OnInit {
+
 
   @Input() order: Order;
   @Output() updateOrder: EventEmitter<Order> = new EventEmitter<Order>();
@@ -17,6 +18,10 @@ export class AdminSingleOrderComponent {
   constructor(
       private orderService: OrderService
   ) { }
+
+  ngOnInit(): void {
+    console.log(this.order);
+  }
 
   onAccept(): void {
     this.orderService.acceptOrder(this.order).subscribe(

@@ -1,7 +1,16 @@
 <div class="x_panel">
   <div class="x_title">
-    <span style="float:left" hwinfOrderStatusLabelClass [orderStatus]="order.OrderStatus">{{order.OrderStatus.Name}}</span>
-    <span style="float:right">ID: {{order.OrderId}}</span>
+
+    <div class="pull-left">
+      <span hwinfOrderStatusLabelClass [orderStatus]="order.OrderStatus">{{order.OrderStatus.Name}}</span>
+      <span>ID: {{order.OrderId}}</span>
+    </div>
+
+
+
+
+
+
     <div class="clearfix"></div>
   </div>
   <div class="x_content">
@@ -27,14 +36,19 @@
           <td>
 
             <ul class="list-group">
-              <li [ngStyle]="{'cursor': (order.OrderStatus.Slug === 'offen') ? 'pointer' : 'default'}" (click)="(order.OrderStatus.Slug === 'offen') && (orderItem.IsDeclined = !orderItem.IsDeclined)"  class="list-group-item" *ngFor="let orderItem of order.OrderItems; let i = index" [ngClass]="{'declined-order-item': orderItem.IsDeclined}">
-                <button *ngIf="order.OrderStatus.Slug === 'offen'" type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <li [ngStyle]="{'cursor': (order.OrderStatus.Slug === 'offen') ? 'pointer' : 'default'}" (click)="(order.OrderStatus.Slug === 'offen') && (orderItem.IsDeclined = !orderItem.IsDeclined)" class="list-group-item" *ngFor="let orderItem of order.OrderItems; let i = index" [ngClass]="{'declined-order-item': orderItem.IsDeclined}">
+                <button  *ngIf="order.OrderStatus.Slug === 'offen'" type="button" class="close" data-dismiss="alert" aria-label="Close">
                   <span *ngIf="!orderItem.IsDeclined" aria-hidden="true">&times;</span>
                   <span *ngIf="orderItem.IsDeclined" aria-hidden="true">&#43;</span>
                 </button>
                 <div style="width:85%">
                   <span style="display: inline-block; width: 100px; margin-right: 5px;" hwinfDeviceStatusLabelClass [deviceStatus]="orderItem.Device.Status">{{orderItem.Device.Status.Description}}</span>
                   <span class="device-name">({{orderItem.Device.InvNum}}) {{orderItem.Device.Name}} </span>
+                  <ul>
+                    <li *ngFor="let accessory of orderItem.Accessories">
+                      {{accessory}}
+                    </li>
+                  </ul>
                 </div>
               </li>
             </ul>
@@ -55,43 +69,55 @@
         </tbody>
       </table>
 
-      <div class="action text-right">
+      <div class="action">
 
-      <hwinf-confirm-button *ngIf="order.OrderStatus.Slug === 'offen'"
-                            (action)="onAccept()"
-                            popOverTitle="Antrag akzeptieren?"
-      >
-        <button [disabled]="!canAccept()" [title]="(canAccept()) ? 'Antrag akzeptieren' : 'Der Antrag kann nicht ohne Geräte akzeptiert werden.'" class="btn btn-success btn-xs">
-          Antrag akzeptieren
-        </button>
-      </hwinf-confirm-button>
-      <hwinf-confirm-button *ngIf="order.OrderStatus.Slug === 'akzeptiert'"
-                            (action)="onLend()"
-                            [popOverTitle]="'Geräte übergeben?'">
-        <button [title]="'Geräte übergeben'" class="btn btn-info btn-xs">
-          Geräte übergeben
-        </button>
-      </hwinf-confirm-button>
+        <div class="pull-right">
+          <a *ngIf="order.OrderStatus.Slug !== 'offen'" href="/print/{{order.OrderGuid}}" target="_blank" title="Vertrag drucken" class="btn btn-default btn-xs">
+            <i class="fa fa-print" aria-hidden="true"></i> Vertrag drucken
+          </a>
+          <a *ngIf="['abgeschlossen', 'ausgeliehen'].indexOf(order.OrderStatus.Slug) >= 0" href="/print/return/{{order.OrderGuid}}" target="_blank" title="Rückgabebestätigung drucken" class="btn btn-default btn-xs">
+            <i class="fa fa-print" aria-hidden="true"></i> Rückgabebestätigung drucken
+          </a>
+          <a href="mailto:{{order.Entleiher.Email}}" title="E-Mail senden" class="btn btn-default btn-xs">
+            <i class="fa fa-envelope-o" aria-hidden="true"></i> E-Mail senden
+          </a>
+          <a class="btn btn-default btn-xs" title="Schaden melden">
+            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Schaden melden
+          </a>
+        </div>
+        <div class="pull-left">
+          <hwinf-confirm-button *ngIf="order.OrderStatus.Slug === 'offen'"
+                                (action)="onAccept()"
+                                popOverTitle="Antrag akzeptieren?"
+          >
+            <button [disabled]="!canAccept()" [title]="(canAccept()) ? 'Antrag akzeptieren' : 'Der Antrag kann nicht ohne Geräte akzeptiert werden.'" class="btn btn-success btn-xs">
+              Antrag akzeptieren
+            </button>
+          </hwinf-confirm-button>
+          <hwinf-confirm-button *ngIf="order.OrderStatus.Slug === 'akzeptiert'"
+                                (action)="onLend()"
+                                [popOverTitle]="'Geräte übergeben?'">
+            <button [title]="'Geräte übergeben'" class="btn btn-info btn-xs">
+              Geräte übergeben
+            </button>
+          </hwinf-confirm-button>
 
-      <hwinf-confirm-button *ngIf="order.OrderStatus.Slug === 'offen'"
-                            (action)="onDecline()"
-                            popOverTitle="Antrag ablehnen?">
-        <button title="Antrag ablehnen" class="btn btn-danger btn-xs">
-          Antrag ablehnen
-        </button>
-      </hwinf-confirm-button>
+          <hwinf-confirm-button *ngIf="order.OrderStatus.Slug === 'offen'"
+                                (action)="onDecline()"
+                                popOverTitle="Antrag ablehnen?">
+            <button title="Antrag ablehnen" class="btn btn-danger btn-xs">
+              Antrag ablehnen
+            </button>
+          </hwinf-confirm-button>
 
-      <hwinf-confirm-button *ngIf="order.OrderStatus.Slug === 'ausgeliehen'"
-                            (action)="onReturn()"
-                            popOverTitle="Ausleihung beenden?">
-        <button title="Ausleihung beenden" class="btn btn-success btn-xs">
-          Ausleihung beenden
-        </button>
-      </hwinf-confirm-button>
-      <a href="/print/{{order.OrderGuid}}" target="_blank" title="Vertrag drucken" class="btn btn-default btn-xs">
-        <i class="fa fa-print" aria-hidden="true"></i>
-      </a>
-      <a href="mailto:{{order.Entleiher.Email}}" class="btn btn-default btn-xs"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
+          <hwinf-confirm-button *ngIf="order.OrderStatus.Slug === 'ausgeliehen'"
+                                (action)="onReturn()"
+                                popOverTitle="Ausleihung beenden?">
+            <button title="Ausleihung beenden" class="btn btn-success btn-xs">
+              Ausleihung beenden
+            </button>
+          </hwinf-confirm-button>
+        </div>
     </div>
     </div>
   </div>

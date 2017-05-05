@@ -35,7 +35,7 @@ export class DamageFormComponent implements OnInit {
     
     @Output() damageUpdated = new EventEmitter<Damage>();
     @Input() submitButtonName: string;
-    @Input() currentDamage: Damage=null;
+    @Input() currentDamage: Damage;
     @Input() showDate: boolean;
 
     constructor(
@@ -44,8 +44,6 @@ export class DamageFormComponent implements OnInit {
         private userService: UserService,
         private deviceService: DeviceService
     ) { }
-
-
 
     ngOnInit() {
         this.form = this.initForm();

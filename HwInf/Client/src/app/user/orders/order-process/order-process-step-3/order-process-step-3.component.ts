@@ -41,6 +41,8 @@ export class OrderProcessStep3Component implements OnInit {
       OrderReason: this.order.OrderReason
     });
 
+    console.log(x);
+
     this.orderService.createOrder(x).subscribe(
         () => { this.router.navigate(['/anfrage/bestaetigung']); },
         (err) => {console.log(err)}
