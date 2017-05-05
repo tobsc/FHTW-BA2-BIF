@@ -19,6 +19,7 @@ namespace HwInf.Common.Models
         public string Email { get; set; }
         public string Tel { get; set; }
         [Required]
+        [Index(IsUnique = true)]
         public string Uid { get; set; }
         [Required]
         public virtual Role Role { get; set; }
