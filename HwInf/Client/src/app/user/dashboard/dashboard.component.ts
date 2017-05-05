@@ -44,7 +44,7 @@ export class DashboardComponent implements OnInit {
               this.totalItems = data.TotalItems;
               this.orderOpen = data.Orders.filter(i => i.OrderStatus.StatusId === 1).length;
               this.orderAccept = data.Orders.filter(i => i.OrderStatus.StatusId === 2).length;
-              let devs = data.Orders.map(i => i.OrderItems);
+              let devs = data.Orders.filter(i => i.OrderStatus.StatusId == 5).map(i => i.OrderItems);
               this.orderLend = [].concat.apply([], devs).length;
 
             }
