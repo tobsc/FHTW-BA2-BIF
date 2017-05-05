@@ -650,7 +650,7 @@ namespace HwInf.Common.BL
 
         public IEnumerable<Damage> GetDamages()
         {
-            return _dal.Damages;
+            return _dal.Damages.Any() ? _dal.Damages:null;
         }
 
         public Damage CreateDamage()

@@ -79,6 +79,7 @@ namespace HwInf.Tests.Controllers
             var oi = new OrderItem
             {
                 Device = _bl.GetSingleDevice("a5123"),
+                Accessories = "Maus,Tastatur"
             };
 
             var vmdl = new OrderViewModel

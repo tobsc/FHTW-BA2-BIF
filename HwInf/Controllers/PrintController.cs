@@ -93,7 +93,7 @@ namespace HwInf.Controllers
             catch (Exception ex)
             {
                 _log.ErrorFormat("Exception: '{0}'", ex);
-                return Request.CreateResponse(HttpStatusCode.InternalServerError); ;
+                return new HttpResponseMessage(HttpStatusCode.InternalServerError);
             }
 
         }
@@ -149,7 +149,7 @@ namespace HwInf.Controllers
             catch (Exception ex)
             {
                 _log.ErrorFormat("Exception: '{0}'", ex);
-                return Request.CreateResponse(HttpStatusCode.InternalServerError); ;
+                return new HttpResponseMessage(HttpStatusCode.InternalServerError);
             }
         }
 

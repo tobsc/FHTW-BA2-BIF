@@ -27,6 +27,9 @@ namespace HwInf.Tests.DAL
         private List<OrderItem> _orderItems;
         private List<OrderStatus> _orderStatus;
 
+        private List<Damage> _damages;
+        private List<DamageStatus> _damageStatus;
+
         private List<Setting> _settings;
 
         public MockDAL()
@@ -205,6 +208,15 @@ namespace HwInf.Tests.DAL
 
                };
 
+            _damageStatus = new List<DamageStatus>
+            {
+                new DamageStatus()
+            };
+            _damages = new List<Damage>
+            {
+                new Damage()
+            };
+
             _fields = _prozessorenFields.Concat(_aufloesungFields).Concat(_anschluesseFields).ToList();
             _deviceMeta = meta.Concat(nmeta).Concat(nbmeta).ToList();
             
@@ -223,6 +235,8 @@ namespace HwInf.Tests.DAL
         public IQueryable<FieldGroup> FieldGroups => _fieldGroups.AsQueryable();
         public IQueryable<Setting> Settings => _settings.AsQueryable();
         public IQueryable<OrderItem> OrderItems => _orderItems.AsQueryable();
+        public IQueryable<Damage> Damages => _damages.AsQueryable();
+        public IQueryable<DamageStatus> DamageStatus => _damageStatus.AsQueryable();
 
 
         public Device CreateDevice()
@@ -353,8 +367,7 @@ namespace HwInf.Tests.DAL
             _settings.Remove(s);
         }
 
-        public IQueryable<Damage> Damages { get; }
-        public IQueryable<DamageStatus> DamageStatus { get; }
+
         public Damage CreateDamage()
         {
             throw new NotImplementedException();

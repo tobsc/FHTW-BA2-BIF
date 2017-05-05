@@ -80,9 +80,10 @@ namespace HwInf.Common
                     text += "\\section{\\paragraph[Format { Font { Bold = true} SpaceBefore = \"1cm\" SpaceAfter = \"0.25cm\"}]{Bestätigung der VerleiherIn über die Übernahme des Gerätes:}\\paragraph[Format {SpaceAfter = \"0.5cm\" LeftIndent = \"1cm\"}]{Geräts der Marke " + oi.Device.Brand + " }\\paragraph[Format {SpaceAfter = \"0.5cm\"LeftIndent = \"1cm\"}]{ Typ: " + oi.Device.Type.Name + "}\\paragraph[Format {SpaceAfter = \"0.5cm\"LeftIndent = \"1cm\"}]{Inventarnummer: " + oi.Device.InvNum + "}\\paragraph[Format { SpaceAfter = \"0.5cm\"}]{Das oben genannte Gerät wurde heute}";
 
                     //sollte alle schäden zurückgeben, die vom oi sind und derzeit gemeldet sind
-                    var damagesOfItem = damages.Where(i => i.Device.InvNum == oi.Device.InvNum)
+                    var damagesOfItem = damages.Where(i => i.Device == null || i.Device.InvNum == oi.Device.InvNum)
                                                 .Where(i => i.Date <= DateTime.Now)
-                                                .Where(i => i.DamageStatus.Slug == "gemeldet");
+                                                .Where(i => i.DamageStatus == null || i.DamageStatus.Slug == "gemeldet")
+                                                .ToList();
                     if (damagesOfItem.Any())
                     {
                         text += "\\paragraph[Format { SpaceAfter = \"0.25cm\"}]{ mit folgenden Mängeln/ Schäden übernommen}";

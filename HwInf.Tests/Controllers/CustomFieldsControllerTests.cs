@@ -51,11 +51,10 @@ namespace HwInf.Tests.Controllers
         public void ctr_should_create_field_group()
         {
             var vmdl = ControllerHelper.GetvalidFieldGroupViewModel();
-            vmdl.Slug = "test-1";
             Assert.NotNull(vmdl);
             var res = ctr.PostGroup(vmdl) as OkNegotiatedContentResult<FieldGroupViewModel>;
             Assert.NotNull(res);
-            var obj = _bl.GetFieldGroups("test-1");
+            var obj = _bl.GetFieldGroups("test");
             Assert.True(obj.Slug.Equals(vmdl.Slug));
         }
 
@@ -81,7 +80,7 @@ namespace HwInf.Tests.Controllers
             vmdl.Fields.SingleOrDefault(i => i.Slug.Equals("intel-i5")).Name = "Intel Core i5";
             var res = ctr.PutFieldGroups(vmdl.Slug, vmdl) as OkNegotiatedContentResult<FieldGroupViewModel>;
             Assert.NotNull(res);
-            var obj2 = _bl.GetFieldGroups("prozessoren-1");
+            var obj2 = _bl.GetFieldGroups("prozessoren");
             Assert.True(obj2.Fields.Any(i => i.Name.Equals("Intel Core i5")));
         }
 
