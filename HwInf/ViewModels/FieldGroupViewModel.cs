@@ -34,7 +34,7 @@ namespace HwInf.ViewModels
 
             target.Name = source.Name;
             target.Slug = source.Slug;
-            target.Fields = source.Fields.Select(i => new FieldViewModel(i)).ToList();
+            target.Fields = source.Fields.Select(i => new FieldViewModel(i)).OrderBy(i => i.Name).ToList();
             target.IsCountable = source.IsCountable;
             target.IsActive = source.IsActive;
         }

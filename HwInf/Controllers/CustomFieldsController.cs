@@ -241,7 +241,7 @@ namespace HwInf.Controllers
                 res.Add(fieldGroup);
             });
 
-            return Ok(res);
+            return Ok(res.OrderBy(i => i.Name));
 
 
 

@@ -58,7 +58,7 @@ namespace HwInf.ViewModels
 
             if (source.Type.FieldGroups != null)
             {
-                target.FieldGroups = source.Type.FieldGroups.Select(i => new { Slug = i.Slug, Name = i.Name, IsCountable = i.IsCountable }).ToList();
+                target.FieldGroups = source.Type.FieldGroups.Select(i => new { Slug = i.Slug, Name = i.Name, IsCountable = i.IsCountable }).OrderBy(i => i.Name).ToList();
             }
         }
 
@@ -85,7 +85,8 @@ namespace HwInf.ViewModels
         public DeviceViewModel LoadMeta(Device d)
         {
             DeviceMeta = d.DeviceMeta
-                .Select(i => new DeviceMetaViewModel(i));
+                .Select(i => new DeviceMetaViewModel(i))
+                .OrderBy(i => i.FieldGroup);
 
               
             return this; // fluent interface
