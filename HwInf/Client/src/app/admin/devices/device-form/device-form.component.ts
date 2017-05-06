@@ -37,6 +37,10 @@ export class DeviceFormComponent implements OnInit {
   private ownerDic: { [search: string]: User; } = {};
   private stringForDic: string[] = [];
 
+  //private mask = ['([A-Za-z0-9]{2}\+){2}([A-Za-z0-9]{4})'];
+  private r = /[A-Za-z0-9]/;
+  private mask = [this.r,this.r, '+', this.r, this.r, '+', this.r, this.r, this.r, this.r];
+
   constructor(
       private deviceService: DeviceService,
       private customFieldsService: CustomFieldsService,
