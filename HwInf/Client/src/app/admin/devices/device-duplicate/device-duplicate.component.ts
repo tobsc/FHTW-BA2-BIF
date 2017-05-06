@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Device} from "../../../shared/models/device.model";
-import {DeviceService} from "../../../shared/services/device.service";
+import { DeviceService } from "../../../shared/services/device.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'hwinf-device-duplicate',
@@ -12,6 +13,7 @@ export class DeviceDuplicateComponent implements OnInit {
   public alerts: any = [];
   constructor(
       private deviceService: DeviceService,
+      private router:Router
   ) { }
 
   ngOnInit() {
@@ -20,11 +22,8 @@ export class DeviceDuplicateComponent implements OnInit {
   onSubmit(device: Device) {
     this.deviceService.addNewDevice(device).subscribe(
         (next) => {
-          this.alerts.push({
-            type: 'success',
-            msg: `Das Gerät <strong>${next.Name}</strong> wurde erfolgreich hinzugefügt!`,
-            timeout: 5000
-          });
+          this.router.navigate(["/admin/geraete/verwalten"]);
+
         },
         (error) => {
           let msg = JSON.parse(error._body).Message;

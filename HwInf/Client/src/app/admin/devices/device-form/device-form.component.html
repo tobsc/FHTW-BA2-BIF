@@ -8,28 +8,29 @@
         </div>
         <div class="row">
           <div class="col-xs-12 col-md-6">
-            <div class="form-group">
-              <label htmlFor="name">
-                Name
-              </label>
-              <input id="Name" name="Name" class="form-control" type="text" formControlName="Name">
-            </div>
+              <div class="form-group" formGroupName="DeviceType">
+                  <label for="type">
+                      Typ
+                  </label>
+                  <select id="type" class="form-control" (ngModelChange)="onSelectedTypeChange($event)" formControlName="Slug">
+                      <option *ngFor="let deviceType of deviceTypes | async; let i = index" [selected]="i == 0" [ngValue]="deviceType.Slug">
+                          {{deviceType.Name}}
+                      </option>
+                  </select>
+              </div>
+              
             <div class="form-group">
               <label htmlFor="Marke">
                 Marke
               </label>
               <input id="Marke" name="Marke" class="form-control" type="text" formControlName="Marke">
             </div>
-            <div class="form-group" formGroupName="DeviceType">
-              <label for="type">
-                Typ
-              </label>
-              <select id="type" class="form-control" (ngModelChange)="onSelectedTypeChange($event)" formControlName="Slug">
-                <option *ngFor="let deviceType of deviceTypes | async; let i = index" [selected]="i == 0" [ngValue]="deviceType.Slug">
-                  {{deviceType.Name}}
-                </option>
-              </select>
-            </div>
+              <div class="form-group">
+                  <label htmlFor="name">
+                      Name
+                  </label>
+                  <input id="Name" name="Name" class="form-control" type="text" formControlName="Name">
+              </div>
             <div class="form-group" formGroupName="Status">
               <label for="status">
                 Status
@@ -49,7 +50,7 @@
               <input id="Raum" name="Raum" class="form-control" type="text" formControlName="Raum">
             </div>
             <div class="form-group">
-              <label htmlFor="Person">
+              <label htmlFor="Person">  
                 Verwalter
               </label>        
                 <div class="field-select"></div>
@@ -59,7 +60,7 @@
               <label htmlFor="InvNum">
                 Inventarnummer
               </label>
-              <input id="InvNum" name="InvNum" class="form-control" type="text" formControlName="InvNum">
+              <input id="InvNum" name="InvNum" class="form-control" type="text" formControlName="InvNum" pattern="([A-Za-z0-9]{2}\+){2}([A-Za-z0-9]{4})" placeholder="XX+XX+XXXX">
             </div>
             <div formArrayName="AdditionalInvNums">
               <div class="form-group" *ngFor="let invNum of form.controls.AdditionalInvNums.controls; let i = index">

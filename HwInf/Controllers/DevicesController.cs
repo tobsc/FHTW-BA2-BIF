@@ -124,11 +124,12 @@ namespace HwInf.Controllers
         /// <param name="invNum">Device InvNum</param>
         /// <returns></returns>
         [ResponseType(typeof(DeviceViewModel))]
-        [Route("invnum/{invNum}")]
+        [Route("invnum")]
         public IHttpActionResult GetDevice(string invNum)
         {
             try
             {
+                invNum = invNum.Replace(" ", "+");
                 var d = _bl.GetSingleDevice(invNum);
                 var vmdl = new DeviceViewModel(d).LoadMeta(d);
 
@@ -491,7 +492,7 @@ namespace HwInf.Controllers
 
 
 
-                var dev = _bl.GetSingleDevice(vmdl.InvNum);
+                var dev = _bl.GetSingleDevice(vmdl.DeviceId);
                 _bl.UpdateDevice(dev);
                 var dm = dev.DeviceMeta.ToList();
                 dm.ForEach(i => _bl.DeleteMeta(i));

@@ -37,7 +37,7 @@ export class TopNavbarComponent implements OnInit {
 
   ngOnInit() {
       this.userService.getUser().subscribe((data) => this.user = data);
-      if (this.jwtService.isAdmin() || this.jwtService.isVerwalter()) {
+      if (this.jwtService.isAdmin() /*|| this.jwtService.isVerwalter()*/) {
           this.isImpersonator = true;
       }
   }

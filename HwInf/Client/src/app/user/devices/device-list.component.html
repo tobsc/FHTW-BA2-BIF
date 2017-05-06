@@ -43,7 +43,7 @@
 
                             <accordion-group>
                                 <div accordion-heading>
-                                    <strong>{{device.Name}} </strong>
+                                    <strong>{{device.Marke}} {{device.Name}} </strong>
                                     <ul class="list-inline" style="display: inline-block; margin-bottom: 0">
                                         <li style="font-size: 0.8em" class="text-muted" *ngFor="let metaData of device.DeviceMeta">
                                             {{metaData.Value}}x {{metaData.Field}}
@@ -51,13 +51,10 @@
 
                                     </ul>
 
-                                    <div class="text-muted pull-right" style="font-size: 0.8em">Inventarnummer: {{device.InvNum}}</div>
                                 </div>
                                 <div id="{{device.InvNum}}" class="panel-collapse" role="tabpanel" attr.aria-labelledby="headingTwo" attr.aria-expanded="true">
                                     <div class="responsive-list">
-                                        <div><strong>Marke:</strong>
-                                            <div>{{device.Marke}}</div>
-                                        </div>
+
                                         <div *ngFor="let fieldGroup of device.FieldGroups | excludeFieldGroup: 'zubehor'">
                                             <div *ngIf="getMetaDataOfFieldGroup(fieldGroup.Slug, device.DeviceMeta).length > 0">
                                                 <strong>{{fieldGroup.Name}}</strong>

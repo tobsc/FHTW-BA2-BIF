@@ -75,15 +75,11 @@
           <a *ngIf="order.OrderStatus.Slug !== 'offen'" href="/print/{{order.OrderGuid}}" target="_blank" title="Vertrag drucken" class="btn btn-default btn-xs">
             <i class="fa fa-print" aria-hidden="true"></i> Vertrag drucken
           </a>
-          <a *ngIf="['abgeschlossen', 'ausgeliehen'].indexOf(order.OrderStatus.Slug) >= 0" href="/print/return/{{order.OrderGuid}}" target="_blank" title="Rückgabebestätigung drucken" class="btn btn-default btn-xs">
-            <i class="fa fa-print" aria-hidden="true"></i> Rückgabebestätigung drucken
-          </a>
+         
           <a href="mailto:{{order.Entleiher.Email}}" title="E-Mail senden" class="btn btn-default btn-xs">
             <i class="fa fa-envelope-o" aria-hidden="true"></i> E-Mail senden
           </a>
-          <a class="btn btn-default btn-xs" title="Schaden melden">
-            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Schaden melden
-          </a>
+          
         </div>
         <div class="pull-left">
           <hwinf-confirm-button *ngIf="order.OrderStatus.Slug === 'offen'"
@@ -110,6 +106,13 @@
             </button>
           </hwinf-confirm-button>
 
+            <a class="btn btn-default btn-xs" title="Schaden melden">
+                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Schaden vermerken
+            </a>
+            <a *ngIf="['abgeschlossen', 'ausgeliehen'].indexOf(order.OrderStatus.Slug) >= 0" href="/print/return/{{order.OrderGuid}}" target="_blank" title="Rückgabebestätigung drucken" class="btn btn-default btn-xs">
+                <i class="fa fa-print" aria-hidden="true"></i> Rückgabebestätigung drucken
+            </a>
+
           <hwinf-confirm-button *ngIf="order.OrderStatus.Slug === 'ausgeliehen'"
                                 (action)="onReturn()"
                                 popOverTitle="Ausleihung beenden?">
@@ -117,6 +120,7 @@
               Ausleihung beenden
             </button>
           </hwinf-confirm-button>
+            
         </div>
     </div>
     </div>

@@ -2,7 +2,9 @@
 import {Component, OnInit} from "@angular/core";
 import {DeviceService} from "../../../shared/services/device.service";
 import {Device} from "../../../shared/models/device.model";
-import {ErrorHandlerService} from "../../../shared/services/error-handler.service";
+import { ErrorHandlerService } from "../../../shared/services/error-handler.service";
+import { Router } from "@angular/router";
+
 @Component({
   selector: 'hwinf-device-add',
   templateUrl: './device-add.component.html',
@@ -13,6 +15,7 @@ export class DeviceAddComponent implements OnInit {
   public alerts: any = [];
   constructor(
       private deviceService: DeviceService,
+      private router:Router
   ) { }
 
   ngOnInit() {
@@ -22,11 +25,8 @@ export class DeviceAddComponent implements OnInit {
 
     this.deviceService.addNewDevice(device).subscribe(
         (next) => {
-          this.alerts.push({
-            type: 'success',
-            msg: `Das Gerät ${next.Name} wurde erfolgreich hinzugefügt!`,
-            timeout: 5000
-          });
+          this.router.navigate(["/admin/geraete/verwalten"]);
+
         },
         (error) => {
           let msg = JSON.parse(error._body).Message;

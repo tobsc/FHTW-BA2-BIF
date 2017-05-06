@@ -56,8 +56,15 @@ export class DeviceService {
             .map((response: Response) => response.json());
     }
 
-    public getDevice(invNum: string): Observable<Device> {
-        return this.http.get(this.url + 'invnum/' + encodeURI(invNum))
+    public getDevice(invNum: string,
+        params: URLSearchParams = new URLSearchParams()
+    ): Observable<Device> {
+        params.set('InvNum', invNum);
+        let options = new RequestOptions({
+            search: params,
+        });
+        console.log(invNum);
+        return this.http.get(this.url + 'invnum/', options)
             .map((response: Response) => response.json());
     }
 
