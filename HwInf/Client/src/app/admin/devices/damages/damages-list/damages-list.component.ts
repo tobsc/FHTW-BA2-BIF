@@ -27,6 +27,7 @@ export class DamagesListComponent implements OnInit {
       this.route.params.subscribe((params: Params) => {
           this.invNum = params['invnum'];
           if (this.invNum) {
+              console.log(this.invNum);
               this.damageService.getDamagesByInvNum(this.invNum).subscribe((data) => {
                   this.damages = data;
                   this.rows = data.map(i => ({ isCollapsed: true, damage: i }));

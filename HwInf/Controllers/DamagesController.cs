@@ -101,11 +101,12 @@ namespace HwInf.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [ResponseType(typeof(DamageViewModel))]
-        [Route("invnum/{invnum}")]
+        [Route("invnum")]
         public IHttpActionResult GetDamages(string invNum)
         {
             try
             {
+                invNum = invNum.Replace(" ", "+");
                 var damages = _bl.GetDamages(invNum)
                          .ToList()
                          .Select(i => new DamageViewModel(i))

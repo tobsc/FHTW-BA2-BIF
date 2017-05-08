@@ -1,4 +1,5 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
+import { ActivatedRoute, Router, Params } from "@angular/router";
 import { CustomFieldsService } from "../../../../shared/services/custom-fields.service";
 import { FormBuilder, Validators, FormArray, FormGroup, NgForm } from "@angular/forms";
 import { Damage } from "../../../../shared/models/damage.model";
@@ -29,6 +30,7 @@ export class DamageFormComponent implements OnInit {
     private ownUser: User;
     private ownString: string;
 
+    private startDevice: Device;
     private devices: Device[];
     private deviceDic: { [search: string]: Device; } = {};
     private stringForDevDic: string[] = [];
@@ -42,10 +44,17 @@ export class DamageFormComponent implements OnInit {
         private fb: FormBuilder,
         private damageService: DamageService,
         private userService: UserService,
-        private deviceService: DeviceService
+        private deviceService: DeviceService,
+        private route: ActivatedRoute,
     ) { }
 
     ngOnInit() {
+        this.route.params.subscribe((params: Params) => {
+            let invNum = params['invnum'];
+            if (invNum) {
+                this.deviceService.getDevice(invNum).subscribe(i => this.startDevice = i);
+            }
+        });
         this.form = this.initForm();
 
         this.damageService.getDamageStati().subscribe(i => { this.damageStati = i; });
@@ -90,6 +99,9 @@ export class DamageFormComponent implements OnInit {
             this.form.get('DamageStatus').get('Slug').setValue(damage.DamageStatus.Slug);
         }
         else {
+            if (!!this.startDevice) {
+                this.form.get('Device').setValue(this.deviceFormatter(this.startDevice));
+            }
             this.form.get('Reporter').setValue(this.userFormatter(this.ownUser));
         }
     }
@@ -126,6 +138,9 @@ export class DamageFormComponent implements OnInit {
     public resetForm(): void {
         this.form.reset();
         this.form.get('Reporter').setValue(this.userFormatter(this.ownUser));
+        if (!!this.startDevice) {
+            this.form.get('Device').setValue(this.deviceFormatter(this.startDevice));
+        }
     }
 
     onSubmit(form: NgForm) {

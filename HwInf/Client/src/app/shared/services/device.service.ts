@@ -63,7 +63,6 @@ export class DeviceService {
         let options = new RequestOptions({
             search: params,
         });
-        console.log(invNum);
         return this.http.get(this.url + 'invnum/', options)
             .map((response: Response) => response.json());
     }
