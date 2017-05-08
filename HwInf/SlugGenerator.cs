@@ -3,12 +3,15 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using HwInf.Common.BL;
+using log4net;
+using System;
 
 namespace HwInf
 {
     public class SlugGenerator
     {
         private static BL Bl;
+        private static readonly ILog _log = LogManager.GetLogger(typeof(SlugGenerator).Name);
 
         public static string GenerateSlug(BL bl, string value, string entity = null)
         {
@@ -51,37 +54,45 @@ namespace HwInf
         {
 
             var slugList = new List<string>();
-
-            switch (entity)
+            try
             {
-                case "fieldGroup":
-                    slugList = Bl.GetFieldGroups().Select(i => i.Slug).ToList();
-                    break;
+                switch (entity)
+                {
+                    case "fieldGroup":
+                        slugList = Bl.GetFieldGroups().Select(i => i.Slug).ToList();
+                        break;
 
-                case "field":
-                    slugList = Bl.GetFields().Select(i => i.Slug).ToList();
-                    break;
-                case "deviceType":
-                    slugList = Bl.GetDeviceTypes().Select(i => i.Slug).ToList();
-                    break;
-                case "orderStatus":
-                    slugList = Bl.GetOrderStatus().Select(i => i.Slug).ToList();
-                    break;
-                default:
-                    break;
+                    case "field":
+                        slugList = Bl.GetFields().Select(i => i.Slug).ToList();
+                        break;
+                    case "deviceType":
+                        slugList = Bl.GetDeviceTypes().Select(i => i.Slug).ToList();
+                        break;
+                    case "orderStatus":
+                        slugList = Bl.GetOrderStatus().Select(i => i.Slug).ToList();
+                        break;
+                    default:
+                        break;
+
+                }
+
+                if (!slugList.Any()) return value;
+                var filter = "(" + value + "){1}[-]*[0-9]*";
+                var duplicatesList = slugList.Where(x => Regex.IsMatch(x, filter, RegexOptions.IgnoreCase)).ToList();
+
+                if (duplicatesList.Count != 0)
+                {
+                    value = value + "-" + duplicatesList.Count;
+                }
+                return value;
 
             }
-
-            if (!slugList.Any()) return value;
-            var filter = "(" + value + "){1}[-]*[0-9]*";
-            var duplicatesList = slugList.Where(x => Regex.IsMatch(x, filter, RegexOptions.IgnoreCase)).ToList();
-
-            if (duplicatesList.Count != 0)
+            catch (Exception ex)
             {
-                value = value + "-" + duplicatesList.Count;
+                _log.ErrorFormat("Exception: {0}", ex.Message);
+                throw;
             }
 
-            return value;
         }
     }
 }
