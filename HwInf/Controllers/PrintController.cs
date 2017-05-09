@@ -63,8 +63,6 @@ namespace HwInf.Controllers
 
                 // MDDL einlesen
                 Document doc = rd.ReadDocument();
-                Style style = doc.Styles[StyleNames.Normal];
-                style.Font.Name = "Arial";
                 stream.Close();
                 // MigraDoc Dokument in ein PDF Rendern
                 PdfDocumentRenderer pdf = new PdfDocumentRenderer(true, PdfSharp.Pdf.PdfFontEmbedding.None);
@@ -123,8 +121,6 @@ namespace HwInf.Controllers
 
                 // MDDL einlesen
                 Document doc = rd.ReadDocument();
-                Style style = doc.Styles[StyleNames.Normal];
-                style.Font.Name = "Arial";
                 stream.Close();
                 // MigraDoc Dokument in ein PDF Rendern
                 PdfDocumentRenderer pdf = new PdfDocumentRenderer(true, PdfSharp.Pdf.PdfFontEmbedding.None);
