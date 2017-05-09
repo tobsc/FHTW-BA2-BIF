@@ -66,6 +66,8 @@ namespace HwInf.Controllers
                 stream.Close();
                 // MigraDoc Dokument in ein PDF Rendern
                 PdfDocumentRenderer pdf = new PdfDocumentRenderer(true, PdfSharp.Pdf.PdfFontEmbedding.None);
+                MigraDoc.DocumentObjectModel.Style style = doc.Styles["Normal"];
+                style.Font.Name = "Arial";
                 pdf.Document = doc;
                 pdf.RenderDocument();
 
@@ -124,7 +126,10 @@ namespace HwInf.Controllers
                 stream.Close();
                 // MigraDoc Dokument in ein PDF Rendern
                 PdfDocumentRenderer pdf = new PdfDocumentRenderer(true, PdfSharp.Pdf.PdfFontEmbedding.None);
+                MigraDoc.DocumentObjectModel.Style style = doc.Styles["Normal"];
+                style.Font.Name = "Arial";
                 pdf.Document = doc;
+                
                 pdf.RenderDocument();
 
                 using (var ms = new MemoryStream())
