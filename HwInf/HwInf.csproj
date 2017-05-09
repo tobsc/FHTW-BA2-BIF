@@ -102,28 +102,28 @@
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MigraDoc.DocumentObjectModel, Version=1.32.4334.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\PDFsharp-MigraDoc-GDI.1.32.4334.0\lib\net20\MigraDoc.DocumentObjectModel.dll</HintPath>
+    <Reference Include="MigraDoc.DocumentObjectModel, Version=1.32.3887.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp-MigraDoc-GDI-dasz.1.32.3887.0\lib\net35\MigraDoc.DocumentObjectModel.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MigraDoc.Rendering, Version=1.32.4334.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\PDFsharp-MigraDoc-GDI.1.32.4334.0\lib\net20\MigraDoc.Rendering.dll</HintPath>
+    <Reference Include="MigraDoc.Rendering, Version=1.32.3887.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp-MigraDoc-GDI-dasz.1.32.3887.0\lib\net35\MigraDoc.Rendering.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MigraDoc.RtfRendering, Version=1.32.4334.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\PDFsharp-MigraDoc-GDI.1.32.4334.0\lib\net20\MigraDoc.RtfRendering.dll</HintPath>
+    <Reference Include="MigraDoc.RtfRendering, Version=1.32.3887.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp-MigraDoc-GDI-dasz.1.32.3887.0\lib\net35\MigraDoc.RtfRendering.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Npgsql, Version=3.1.8.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
       <HintPath>..\packages\Npgsql.3.1.8\lib\net451\Npgsql.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PdfSharp, Version=1.32.3057.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\PDFsharp-MigraDoc-GDI.1.32.4334.0\lib\net20\PdfSharp.dll</HintPath>
+    <Reference Include="PdfSharp, Version=1.32.3887.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp-MigraDoc-GDI-dasz.1.32.3887.0\lib\net35\PdfSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PdfSharp.Charting, Version=1.32.3057.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\PDFsharp-MigraDoc-GDI.1.32.4334.0\lib\net20\PdfSharp.Charting.dll</HintPath>
+    <Reference Include="PdfSharp.Charting, Version=1.32.3887.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp-MigraDoc-GDI-dasz.1.32.3887.0\lib\net35\PdfSharp.Charting.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Swashbuckle.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cd1bb07a5ac7c7bc, processorArchitecture=MSIL">
@@ -256,6 +256,18 @@
     <Content Include="Client\src\app\admin\devices\device-types\device-types-add\device-types-add.component.scss" />
     <Content Include="Client\src\app\admin\devices\device-types\device-types-list\device-types-list.component.scss" />
     <Content Include="Client\src\app\admin\devices\device-types\device-types.component.scss" />
+    <EmbeddedResource Include="FontHacks\Arial.Bold.fontdat" />
+    <EmbeddedResource Include="FontHacks\Arial.fontdat" />
+    <EmbeddedResource Include="FontHacks\Arial.Italic.fontdat" />
+    <EmbeddedResource Include="FontHacks\Microsoft Sans Serif.Bold.fontdat" />
+    <EmbeddedResource Include="FontHacks\Microsoft Sans Serif.fontdat" />
+    <EmbeddedResource Include="FontHacks\Microsoft Sans Serif.Italic.fontdat" />
+    <EmbeddedResource Include="FontHacks\Times New Roman.Bold.fontdat" />
+    <EmbeddedResource Include="FontHacks\Times New Roman.fontdat" />
+    <EmbeddedResource Include="FontHacks\Times New Roman.Italic.fontdat" />
+    <EmbeddedResource Include="FontHacks\Verdana.Bold.fontdat" />
+    <EmbeddedResource Include="FontHacks\Verdana.fontdat" />
+    <EmbeddedResource Include="FontHacks\Verdana.Italic.fontdat" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\jquery-1.10.2.js" />
     <Content Include="scripts\jquery-1.10.2.min.js" />
