@@ -19,7 +19,7 @@ namespace HwInf
 
         protected void Application_Start()
         {
-            PdfSharp.Fonts.OpenType.FontDataConfig.ResourceAssembly = typeof(HwInf.WebApiApplication).Assembly;
+            PdfSharp.Fonts.OpenType.FontDataConfig.ResourceAssembly = typeof(WebApiApplication).Assembly;
             log4net.Config.XmlConfigurator.Configure();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             AreaRegistration.RegisterAllAreas();
