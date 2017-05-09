@@ -98,7 +98,7 @@ namespace HwInf.Controllers
         /// <summary>
         /// Get Damages by InvNum of Device
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="invNum"></param>
         /// <returns></returns>
         [ResponseType(typeof(DamageViewModel))]
         [Route("invnum")]
@@ -193,6 +193,7 @@ namespace HwInf.Controllers
         /// Update a Damage
         /// </summary>
         /// <param name="id">Damage Id</param>
+        /// <param name="vmdl">DamageViewModel</param>
         /// <returns></returns>
         [ResponseType(typeof(DamageViewModel))]
         [Route("id/{id}")]

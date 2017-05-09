@@ -15,7 +15,7 @@ using System.Net.Http.Headers;
 using System.Web.Http.Results;
 using HwInf.Common.BL;
 using log4net;
-
+using MigraDoc.DocumentObjectModel;
 
 namespace HwInf.Controllers
 {
@@ -62,12 +62,12 @@ namespace HwInf.Controllers
                 DdlReader rd = new DdlReader(stream, errors);
 
                 // MDDL einlesen
-                var doc = rd.ReadDocument();
+                Document doc = rd.ReadDocument();
+                Style style = doc.Styles["Normal"];
+                style.Font.Name = "Arial";
                 stream.Close();
                 // MigraDoc Dokument in ein PDF Rendern
                 PdfDocumentRenderer pdf = new PdfDocumentRenderer(true, PdfSharp.Pdf.PdfFontEmbedding.None);
-                MigraDoc.DocumentObjectModel.Style style = doc.Styles["Normal"];
-                style.Font.Name = "Arial";
                 pdf.Document = doc;
                 pdf.RenderDocument();
 
@@ -122,14 +122,13 @@ namespace HwInf.Controllers
                 DdlReader rd = new DdlReader(stream, errors);
 
                 // MDDL einlesen
-                var doc = rd.ReadDocument();
+                Document doc = rd.ReadDocument();
+                Style style = doc.Styles["Normal"];
+                style.Font.Name = "Arial";
                 stream.Close();
                 // MigraDoc Dokument in ein PDF Rendern
                 PdfDocumentRenderer pdf = new PdfDocumentRenderer(true, PdfSharp.Pdf.PdfFontEmbedding.None);
-                MigraDoc.DocumentObjectModel.Style style = doc.Styles["Normal"];
-                style.Font.Name = "Arial";
                 pdf.Document = doc;
-                
                 pdf.RenderDocument();
 
                 using (var ms = new MemoryStream())
