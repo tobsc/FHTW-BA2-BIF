@@ -48,11 +48,11 @@ namespace HwInf
             }
             catch (SignatureVerificationException ex)
             {
-                errorResponse = request.CreateErrorResponse(HttpStatusCode.Unauthorized, ex.Message);
+                errorResponse = request.CreateErrorResponse(HttpStatusCode.Unauthorized, ex);
             }
             catch (Exception ex)
             {
-                errorResponse = request.CreateErrorResponse(HttpStatusCode.Unauthorized, ex.Message);
+                errorResponse = request.CreateErrorResponse(HttpStatusCode.Unauthorized, ex);
             }
 
 
