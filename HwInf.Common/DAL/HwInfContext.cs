@@ -8,6 +8,7 @@ using System.Linq;
 using HwInf.Common.Models;
 using log4net;
 using System.Collections.Generic;
+using System;
 
 namespace HwInf.Common.DAL
 {
@@ -27,6 +28,7 @@ namespace HwInf.Common.DAL
         IQueryable<Setting> Settings { get; }
         IQueryable<Damage> Damages { get; }
         IQueryable<DamageStatus> DamageStatus { get; }
+        IQueryable<Accessory> Accessories { get; }
 
         Device CreateDevice();
         DeviceType CreateDeviceType();
@@ -42,6 +44,7 @@ namespace HwInf.Common.DAL
         Setting CreateSetting();
         Damage CreateDamage();
         DamageStatus CreateDamageStatus();
+        Accessory CreateAccessory();
 
         void SaveChanges();
         void DeleteDeviceType(DeviceType dt);
@@ -50,6 +53,7 @@ namespace HwInf.Common.DAL
         void DeleteFieldGroup(FieldGroup fg);
         void DeleteSetting(Setting s);
         void DeleteDamage(Damage d);
+        void DeleteAccessory(Accessory a);
         void UpdateObject(object obj);
         void Dispose();
     }
@@ -78,6 +82,7 @@ namespace HwInf.Common.DAL
         public DbSet<Setting> Settings { get; set; }
         public DbSet<Damage> Damages { get; set; }
         public DbSet<DamageStatus> DamageStatus { get; set; }
+        public DbSet<Accessory> Accessories { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -111,6 +116,8 @@ namespace HwInf.Common.DAL
         IQueryable<Damage> IDAL.Damages => Damages
             .Include(i => i.DamageStatus);
         IQueryable<DamageStatus> IDAL.DamageStatus => DamageStatus;
+        IQueryable<Accessory> IDAL.Accessories => Accessories;
+
         public Device CreateDevice()
         {
             var dev = new Device();
@@ -235,6 +242,13 @@ namespace HwInf.Common.DAL
             return setting;
         }
 
+        public Accessory CreateAccessory()
+        {
+            var accessory = new Accessory();
+            Accessories.Add(accessory);
+            return accessory;
+        }
+
         public void DeleteSetting(Setting s)
         {
             Settings.Remove(s);
@@ -250,6 +264,11 @@ namespace HwInf.Common.DAL
         public void DeleteDamage(Damage d)
         {
             Damages.Remove(d);
+        }
+
+        public void DeleteAccessory(Accessory a)
+        {
+            Accessories.Remove(a);
         }
 
         public override int SaveChanges()

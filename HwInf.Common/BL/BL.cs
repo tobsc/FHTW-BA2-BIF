@@ -239,6 +239,8 @@ namespace HwInf.Common.BL
             return _dal.CreateField();
         }
 
+
+
         // Update
         public void UpdateFieldGroup(FieldGroup obj)
         {
@@ -246,6 +248,7 @@ namespace HwInf.Common.BL
 
             _dal.UpdateObject(obj);
         }
+
 
         public void DeleteField(Field field)
         {
@@ -273,6 +276,43 @@ namespace HwInf.Common.BL
 
         #endregion
 
+        #region Accessories
+        public IQueryable<Accessory> GetAccessories()
+        {
+            return _dal.Accessories;
+        }
+
+        public Accessory GetAccessory(string slug)
+        {
+            return _dal.Accessories.SingleOrDefault(i => slug.Equals(i.Slug));
+        }
+        public Accessory GetAccessory(int id)
+        {
+            return _dal.Accessories.SingleOrDefault(i => id.Equals(i.AccessoryId));
+        }
+
+        public Accessory CreateAccessory()
+        {
+            if (!IsAdmin && !IsVerwalter) throw new SecurityException();
+
+            return _dal.CreateAccessory();
+        }
+
+        public void DeleteAccessory(Accessory a)
+        {
+            if (!IsAdmin && !IsVerwalter) throw new SecurityException();
+
+            _dal.DeleteAccessory(a);
+        }
+
+        public void UpdateAccessory(Accessory a)
+        {
+            if (!IsAdmin && !IsVerwalter) throw new SecurityException();
+
+            _dal.UpdateObject(a);
+        }
+
+        #endregion
 
         #region Users
 
