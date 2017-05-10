@@ -9,6 +9,7 @@ import { Dictionary } from "../../shared/common/dictionary.class";
 import { DeviceComponent } from "../models/component.model";
 import {DeviceList} from "../models/device-list.model";
 import {Status} from "../models/status.model";
+import {Accessory} from "../models/accessory.model";
 
 @Injectable()
 export class DeviceService {
@@ -165,4 +166,27 @@ export class DeviceService {
         return this.http.delete(this.url + "types/" + slug);
     }
 
+    public getAccessories(): Observable<Accessory[]> {
+            let x = new Accessory();
+            x.AccessoryId = 1;
+            x.Name = "Maus";
+            x.Slug = "maus";
+            let y = new Accessory();
+            y.AccessoryId = 2;
+            y.Name = "Tastatur";
+            y.Slug = "tastatur";
+            return Observable.of([x,y]);
+    }
+
+    public addAccessory(body: Accessory): Observable<Accessory> {
+        return Observable.of(body);
+    }
+
+    public deleteAccessory(slug: string): Observable<boolean> {
+        return Observable.of(true);
+    }
+
+    public updateAccessory(body: Accessory): Observable<Accessory> {
+        return Observable.of(body);
+    }
 }
