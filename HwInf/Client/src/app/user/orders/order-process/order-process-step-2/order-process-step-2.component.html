@@ -13,10 +13,10 @@
                   <div class="panel-heading">{{orderItem.Device.Name}}</div>
                   <!-- List group -->
                   <ul class="list-group">
-                      <li class="list-group-item" *ngFor="let accessory of getAccessoriesOfOrderItem(orderItem)">
+                      <li class="list-group-item" *ngFor="let accessory of accessories | async">
                           <label>
-                              <input type="checkbox" name="value" (change)="onChange($event, i)" [value]="accessory">
-                              {{accessory}}
+                              <input type="checkbox" name="value" (change)="onChange($event, i)" [value]="accessory.Name">
+                              {{accessory.Name}}
                           </label>
                       </li>
                   </ul>

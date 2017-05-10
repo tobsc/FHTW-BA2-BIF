@@ -593,6 +593,7 @@ namespace HwInf.Controllers
             try
             {
                 var vmdls = _bl.GetAccessories()
+                    .ToList()
                     .Select(i => new AccessoryViewModel(i))
                     .ToList();
 
@@ -665,7 +666,7 @@ namespace HwInf.Controllers
         /// </summary>
         /// <returns></returns>
         [ResponseType(typeof(DeviceViewModel))]
-        [Route("accessories")]
+        [Route("accessories/{slug}")]
         public IHttpActionResult PutAccessory(string slug, [FromBody] AccessoryViewModel vmdl)
         {
             try

@@ -55,7 +55,7 @@
                                 <div id="{{device.InvNum}}" class="panel-collapse" role="tabpanel" attr.aria-labelledby="headingTwo" attr.aria-expanded="true">
                                     <div class="responsive-list">
 
-                                        <div *ngFor="let fieldGroup of device.FieldGroups | excludeFieldGroup: 'zubehor'">
+                                        <div *ngFor="let fieldGroup of device.FieldGroups">
                                             <div *ngIf="getMetaDataOfFieldGroup(fieldGroup.Slug, device.DeviceMeta).length > 0">
                                                 <strong>{{fieldGroup.Name}}</strong>
                                                 <div *ngFor="let metaData of getMetaDataOfFieldGroup(fieldGroup.Slug, device.DeviceMeta)">

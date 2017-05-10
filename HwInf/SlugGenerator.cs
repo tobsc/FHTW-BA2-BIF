@@ -71,6 +71,9 @@ namespace HwInf
                     case "orderStatus":
                         slugList = Bl.GetOrderStatus().Select(i => i.Slug).ToList();
                         break;
+                    case "accessory":
+                        slugList = Bl.GetAccessories().Select(i => i.Slug).ToList();
+                        break;
                     default:
                         break;
 

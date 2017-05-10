@@ -45,11 +45,11 @@ export class DeviceAccessoryListComponent implements OnInit {
 
       this.deviceService.deleteAccessory(this.rows[index].accessory.Slug)
           .subscribe(
-
               (success) => {
                   this.rows.splice(index,1);
+                  console.log(success);
               },
-            (error) => console.log(error)
+              (error) => console.log(error)
 
           );
 

@@ -46,7 +46,7 @@ namespace HwInf.ViewModels
             var target = obj;
             var source = this;
 
-            if (source.Name == null) SlugGenerator.GenerateSlug(bl, "field");
+            if (target.Slug == null) target.Slug = SlugGenerator.GenerateSlug(bl, source.Name, "accessory");
             target.Name = source.Name;
 
         }

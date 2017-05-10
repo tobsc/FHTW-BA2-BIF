@@ -1,6 +1,7 @@
 import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 import {DeviceService} from "../../../../shared/services/device.service";
 import {Accessory} from "../../../../shared/models/accessory.model";
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'hwinf-device-accessory-add',
@@ -17,13 +18,12 @@ export class DeviceAccessoryAddComponent implements OnInit {
   }
 
   onSubmit(f) {
-    this.deviceService.addAccessory(f).subscribe(
+    this.deviceService.addAccessory(f.value).subscribe(
         (success) => {
-          console.log(success);
           this.accessoriesUpdated.emit(success);
+          f.reset();
         },
         (err) => console.log(err)
-
   );
   }
 

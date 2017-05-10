@@ -139,7 +139,7 @@ export class DeviceService {
 
     public deleteDevice(id: number) {
         return this.http.delete(this.url +"id/" + id)
-            ;
+            .map((response: Response) => response.json());
     }
 
     public addNewDeviceType(body: DeviceType): Observable<DeviceType> {
@@ -167,26 +167,31 @@ export class DeviceService {
     }
 
     public getAccessories(): Observable<Accessory[]> {
-            let x = new Accessory();
-            x.AccessoryId = 1;
-            x.Name = "Maus";
-            x.Slug = "maus";
-            let y = new Accessory();
-            y.AccessoryId = 2;
-            y.Name = "Tastatur";
-            y.Slug = "tastatur";
-            return Observable.of([x,y]);
+        return this.http.get(this.url + 'accessories/')
+            .map((response: Response) => response.json());
     }
 
     public addAccessory(body: Accessory): Observable<Accessory> {
-        return Observable.of(body);
+        let bodyString = JSON.stringify(body);
+        let headers = new Headers({
+            'Content-Type': 'application/json'
+        });
+        let options = new RequestOptions({headers: headers});
+        return this.http.post(this.url + 'accessories', bodyString, options)
+            .map((response: Response) => response.json());
     }
 
-    public deleteAccessory(slug: string): Observable<boolean> {
-        return Observable.of(true);
+    public deleteAccessory(slug: string) {
+        return this.http.delete(this.url +"accessories/" + slug);
     }
 
     public updateAccessory(body: Accessory): Observable<Accessory> {
-        return Observable.of(body);
+        let bodyString = JSON.stringify(body);
+        let headers = new Headers({
+            'Content-Type': 'application/json'
+        });
+        let options = new RequestOptions({ headers: headers });
+        return this.http.put(this.url + "accessories/" + body.Slug, bodyString, options)
+            .map((response: Response) => response.json());
     }
 }
