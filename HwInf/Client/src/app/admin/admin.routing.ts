@@ -20,7 +20,9 @@ import { AdminLogsComponent } from "./admin-logs/admin-logs.component";
 import { DamagesComponent } from "./devices/damages/damages.component";
 import { DamagesListComponent } from "./devices/damages/damages-list/damages-list.component";
 import { DamagesAddComponent } from "./devices/damages/damages-add/damages-add.component";
-import {DeviceAccessoriesComponent} from "./devices/device-accessories/device-accessories.component";
+import { DeviceAccessoriesComponent } from "./devices/device-accessories/device-accessories.component";
+import { EditAdminsComponent } from "./admin-settings/edit-admins/edit-admins.component";
+import { AddAdminComponent } from "./admin-settings/edit-admins/add-admin/add-admin.component";
 
 
 
@@ -45,6 +47,8 @@ const ADMIN_ROUTES: Routes = [
             { path: 'orders', redirectTo: 'orders/offen', pathMatch: 'full'},
             { path: 'orders/:status', component: AdminOrdersComponent },
             { path: 'settings/logs', component: AdminLogsComponent },
+            { path: 'settings/edit-admin', component: EditAdminsComponent },
+            { path: 'settings/add-admin', component: AddAdminComponent },
             { path: '**', component: PageNotFoundComponent }
         ]
     }

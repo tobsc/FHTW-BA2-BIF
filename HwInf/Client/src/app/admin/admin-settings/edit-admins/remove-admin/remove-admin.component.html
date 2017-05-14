@@ -1,0 +1,39 @@
+<div class="x_panel">
+    <div class="x_title">
+        <h2>User von Admins entfernen</h2>
+        <div class="clearfix"></div>
+    </div>
+    <div class="x_content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="x_panel">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" htmlFor="removeadmin">
+                                    Username:
+                                </label>
+                                <input class="form-control" id="removeadmin" auto-complete [accept-user-input]="false" [(ngModel)]="selectedString" [source]="stringForDic" type="text" />
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" htmlFor="setverwalter">
+                                    Verwalter:
+                                </label>
+                                <input id="setverwalter" [(ngModel)]="roleType.role" name="role" value="Verwalter" type="radio" />
+                                <label class="control-label" htmlFor="setuser">
+                                    User:
+                                </label>
+                                <input id="setuser" [(ngModel)]="roleType.role" name="role" value="User" type="radio" />
+                            </div>
+                            <div class="form-group">
+                                <button (click)="removeadmin()" type="submit" class="btn btn-success" [disabled]="isValid()">User von Admins entfernen</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+

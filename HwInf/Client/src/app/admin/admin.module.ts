@@ -42,6 +42,9 @@ import { DamageFormComponent } from './devices/damages/damage-form/damage-form.c
 import { DeviceTypesEditFormComponent } from './devices/device-types/device-types-edit-form/device-types-edit-form.component';
 import { DeviceAccessoriesComponent } from './devices/device-accessories/device-accessories.component';
 import {TextMaskModule} from "angular2-text-mask";
+import { AddAdminComponent } from './admin-settings/edit-admins/add-admin/add-admin.component';
+import { EditAdminsComponent } from './admin-settings/edit-admins/edit-admins.component';
+import { RemoveAdminComponent } from './admin-settings/edit-admins/remove-admin/remove-admin.component';
 
 export function jwtFactory(backend: XHRBackend, options: RequestOptions, router: Router, authService: AuthService, pubsub: PubSubService) {
     return new JwtHttpService(backend, options, router, authService, pubsub);
@@ -78,6 +81,9 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
         DamageFormComponent,
         DeviceTypesEditFormComponent,
         DeviceAccessoriesComponent,
+        AddAdminComponent,
+        EditAdminsComponent,
+        RemoveAdminComponent,
     ],
     imports: [
         RouterModule,

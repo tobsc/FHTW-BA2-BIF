@@ -82,6 +82,33 @@ namespace HwInf.Controllers
 
         }
 
+        ///<summary>
+        ///Returns List of Admins.
+        ///</summary>
+        ///<returns>LastName, Name, Uid</returns>
+        [Authorize(Roles = "Verwalter, Admin")]
+        [ResponseType(typeof(UserViewModel))]
+        [Route("admins")]
+        public IHttpActionResult GetAdmins()
+        {
+            try
+            {
+
+                var vmdl = _bl.GetUsers()
+                    .Where(i => i.Role.Name == "Admin")
+                    .ToList()
+                    .Select(i => new UserViewModel(i))
+                    .ToList();
+
+                return Ok(vmdl);
+            }
+            catch (Exception ex)
+            {
+                _log.ErrorFormat("Exception: {0}", ex.Message);
+                return InternalServerError();
+            }
+        }
+
         /// <summary>
         /// Returns List of Users.
         /// </summary>
@@ -145,9 +172,9 @@ namespace HwInf.Controllers
         /// </summary>
         /// <param name="uid"></param>
         /// <returns></returns>
-        [Route("admin")]
+        [Route("admin/{uid}")]
         [Authorize(Roles = "Admin")]
-        public IHttpActionResult PutAddAdmin(string uid)
+        public IHttpActionResult GetAddAdmin(string uid)
         {
             try
             {
@@ -155,6 +182,32 @@ namespace HwInf.Controllers
                 _bl.SetAdmin(p);
                 _bl.SaveChanges();
                 _log.InfoFormat("User '{0}' set to admin by '{1}'", p.Uid, User.Identity.Name);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _log.ErrorFormat("Exception: {0}", ex.Message);
+                return InternalServerError();
+            }
+        }
+
+        /// <summary>
+        /// Remove Admin
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <param name="role"></param>
+        /// <returns></returns>
+        [Route("admin/remove/{uid}/{role}")]
+        [Authorize(Roles = "Admin")]
+        public IHttpActionResult GetRemoveAdmin(string uid, string role)
+        {
+            try
+            {
+                var p = _bl.GetUsers(uid);
+                p.Role = _bl.GetRole(role);
+                _bl.SaveChanges();
+                _log.InfoFormat("User '{0}' set to '{1}' by '{2}'", p.Uid, role, User.Identity.Name);
 
                 return Ok();
             }

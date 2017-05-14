@@ -15,6 +15,7 @@ export class AdminService {
     private loggedIn: boolean = false;
     private authUrl: string = "/api/auth/";
     private settingsUrl: string = "/api/settings/";
+    private userUrl: string = "/api/users/";
     private settings: Setting[];
 
     constructor(
@@ -42,6 +43,17 @@ export class AdminService {
                     location.reload();
                 }
             });
+    }
+
+    public addAdmin(user: User) {
+       
+        return this.http.get(this.userUrl + "admin/" + user.Uid);
+      
+    }
+
+    public removeAdmin(user: User, role: string) {
+
+        return this.http.get(this.userUrl + "admin/" + user.Uid + "/" + role);
     }
 
     public getSetting(key: string): Observable<Setting> {

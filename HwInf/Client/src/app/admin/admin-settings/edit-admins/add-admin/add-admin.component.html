@@ -1,0 +1,29 @@
+<div class="x_panel">
+    <div class="x_title">
+        <h2>User zu Admins hinzufügen</h2>
+        <div class="clearfix"></div>
+    </div>
+    <div class="x_content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="x_panel">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" htmlFor="setadmin">
+                                    Username:
+                                </label>
+                                <input class="form-control" id="setadmin" auto-complete [accept-user-input]="false" [(ngModel)]="selectedString" [source]="stringForDic" type="text" />
+                            </div>
+                            <div class="form-group">
+                                <button (click)="addadmin()" type="submit" class="btn btn-success" [disabled]="isValid()">User zu Admin machen</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+        

@@ -598,6 +598,7 @@ namespace HwInf.Common.BL
             obj.Role = GetRole("Admin");
         }
 
+
         public string GetCurrentUid()
         {
             return System.Threading.Thread.CurrentPrincipal.Identity.Name;
