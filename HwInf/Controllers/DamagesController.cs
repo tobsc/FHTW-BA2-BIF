@@ -60,7 +60,7 @@ namespace HwInf.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex.Message);
+                _log.ErrorFormat("Exception: {0}", ex);
                 return InternalServerError();
             }
         }
@@ -90,7 +90,7 @@ namespace HwInf.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex.Message);
+                _log.ErrorFormat("Exception: {0}", ex);
                 return InternalServerError();
             }
         }
@@ -98,14 +98,15 @@ namespace HwInf.Controllers
         /// <summary>
         /// Get Damages by InvNum of Device
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="invNum"></param>
         /// <returns></returns>
         [ResponseType(typeof(DamageViewModel))]
-        [Route("invnum/{invnum}")]
+        [Route("invnum")]
         public IHttpActionResult GetDamages(string invNum)
         {
             try
             {
+                invNum = invNum.Replace(" ", "+");
                 var damages = _bl.GetDamages(invNum)
                          .ToList()
                          .Select(i => new DamageViewModel(i))
@@ -126,7 +127,7 @@ namespace HwInf.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex.Message);
+                _log.ErrorFormat("Exception: {0}", ex);
                 return InternalServerError();
             }
         }
@@ -148,7 +149,7 @@ namespace HwInf.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex.Message);
+                _log.ErrorFormat("Exception: {0}", ex);
                 return InternalServerError();
             }
         }
@@ -183,7 +184,7 @@ namespace HwInf.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex.Message);
+                _log.ErrorFormat("Exception: {0}", ex);
                 return InternalServerError();
             }
         }
@@ -192,6 +193,7 @@ namespace HwInf.Controllers
         /// Update a Damage
         /// </summary>
         /// <param name="id">Damage Id</param>
+        /// <param name="vmdl">DamageViewModel</param>
         /// <returns></returns>
         [ResponseType(typeof(DamageViewModel))]
         [Route("id/{id}")]
@@ -230,7 +232,7 @@ namespace HwInf.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex.Message);
+                _log.ErrorFormat("Exception: {0}", ex);
                 return InternalServerError();
             }
 

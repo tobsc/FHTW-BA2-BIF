@@ -79,7 +79,7 @@ namespace HwInf.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex.Message);
+                _log.ErrorFormat("Exception: {0}", ex);
                 return InternalServerError();
             }
         }
@@ -111,7 +111,7 @@ namespace HwInf.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex.Message);
+                _log.ErrorFormat("Exception: {0}", ex);
                 return InternalServerError();
             }
 
@@ -144,7 +144,7 @@ namespace HwInf.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex.Message);
+                _log.ErrorFormat("Exception: {0}", ex);
                 return InternalServerError();
             }
 
@@ -182,7 +182,7 @@ namespace HwInf.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex.Message);
+                _log.ErrorFormat("Exception: {0}", ex);
                 return InternalServerError();
             }
         }
@@ -332,7 +332,7 @@ namespace HwInf.Controllers
 
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex.Message);
+                _log.ErrorFormat("Exception: {0}", ex);
                 return InternalServerError();
             }
         }
@@ -369,7 +369,7 @@ namespace HwInf.Controllers
 
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: '{0}'", ex.Message);
+                _log.ErrorFormat("Exception: '{0}'", ex);
                 return InternalServerError();
             }
         }
@@ -408,7 +408,7 @@ namespace HwInf.Controllers
 
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex.Message);
+                _log.ErrorFormat("Exception: {0}", ex);
                 return InternalServerError();
             }
         }
@@ -451,7 +451,7 @@ namespace HwInf.Controllers
 
             catch(Exception ex)
             {
-                _log.ErrorFormat("Exception: '{0}'", ex.Message);
+                _log.ErrorFormat("Exception: '{0}'", ex);
                 return InternalServerError();
             }
         }
@@ -520,7 +520,7 @@ namespace HwInf.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex.Message);
+                _log.ErrorFormat("Exception: {0}", ex);
                 return InternalServerError();
             }
 
@@ -573,12 +573,156 @@ namespace HwInf.Controllers
 
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex.Message);
+                _log.ErrorFormat("Exception: {0}", ex);
                 return InternalServerError();
             }
 
            
 
+        }
+
+        // GET: api/devices/accessories/
+        /// <summary>
+        /// Edit DeviceType
+        /// </summary>
+        /// <returns></returns>
+        [ResponseType(typeof(DeviceViewModel))]
+        [Route("accessories")]
+        public IHttpActionResult GetAccessories()
+        {
+            try
+            {
+                var vmdls = _bl.GetAccessories()
+                    .ToList()
+                    .Select(i => new AccessoryViewModel(i))
+                    .ToList();
+
+                return Ok(vmdls);
+            }
+            catch (Exception ex)
+            {
+                _log.ErrorFormat("Exception: {0}", ex);
+                return InternalServerError();
+            }
+        }
+
+        // GET: api/devices/accessories/{slug}
+        /// <summary>
+        /// Edit DeviceType
+        /// </summary>
+        /// <param name="slug">Accessory slug</param>
+        /// <returns></returns>
+        [ResponseType(typeof(DeviceViewModel))]
+        [Route("accessories/{slug}")]
+        public IHttpActionResult GetAccessory(string slug)
+        {
+            try
+            {
+                var obj = _bl.GetAccessory(slug);
+                if (obj == null) return NotFound();
+
+                return Ok(new AccessoryViewModel(obj));
+            }
+            catch (Exception ex)
+            {
+                _log.ErrorFormat("Exception: {0}", ex);
+                return InternalServerError();
+            }
+        }
+
+        // POST: api/devices/accessories/
+        /// <summary>
+        /// Edit DeviceType
+        /// </summary>
+        /// <returns></returns>
+        [ResponseType(typeof(DeviceViewModel))]
+        [Route("accessories")]
+        public IHttpActionResult PostAccessory([FromBody] AccessoryViewModel vmdl)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                var obj = _bl.CreateAccessory();
+                vmdl.ApplyChanges(obj, _bl);
+                _bl.SaveChanges();
+                vmdl.Refresh(obj);
+
+                return Ok(vmdl);
+            }
+            catch (Exception ex)
+            {
+                _log.ErrorFormat("Exception: {0}", ex);
+                return InternalServerError();
+            }
+        }
+
+        // PUT: api/devices/accessories/
+        /// <summary>
+        /// Edit DeviceType
+        /// </summary>
+        /// <returns></returns>
+        [ResponseType(typeof(DeviceViewModel))]
+        [Route("accessories/{slug}")]
+        public IHttpActionResult PutAccessory(string slug, [FromBody] AccessoryViewModel vmdl)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                var obj = _bl.GetAccessory(slug);
+                if (obj == null) return NotFound();
+
+                _bl.UpdateAccessory(obj);
+                vmdl.ApplyChanges(obj, _bl);
+                _bl.SaveChanges();
+                vmdl.Refresh(obj);
+
+                return Ok(vmdl);
+            }
+            catch (Exception ex)
+            {
+                _log.ErrorFormat("Exception: {0}", ex);
+                return InternalServerError();
+            }
+        }
+
+        // DELETE: api/devices/accessories/{slug}
+        /// <summary>
+        /// Edit DeviceType
+        /// </summary>
+        /// <param name="slug">Accessory Slug</param>
+        /// <returns></returns>
+        [ResponseType(typeof(DeviceViewModel))]
+        [Route("accessories/{slug}")]
+        public IHttpActionResult DeleteAccessory(string slug)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                var obj = _bl.GetAccessory(slug);
+                if (obj == null) return NotFound();
+
+                _bl.DeleteAccessory(obj);
+                _bl.SaveChanges();
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _log.ErrorFormat("Exception: {0}", ex);
+                return InternalServerError();
+            }
         }
 
         protected override void Dispose(bool disposing)

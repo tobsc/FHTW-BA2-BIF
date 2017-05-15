@@ -9,6 +9,7 @@ import { Dictionary } from "../../shared/common/dictionary.class";
 import { DeviceComponent } from "../models/component.model";
 import {DeviceList} from "../models/device-list.model";
 import {Status} from "../models/status.model";
+import {Accessory} from "../models/accessory.model";
 
 @Injectable()
 export class DeviceService {
@@ -63,7 +64,6 @@ export class DeviceService {
         let options = new RequestOptions({
             search: params,
         });
-        console.log(invNum);
         return this.http.get(this.url + 'invnum/', options)
             .map((response: Response) => response.json());
     }
@@ -139,7 +139,7 @@ export class DeviceService {
 
     public deleteDevice(id: number) {
         return this.http.delete(this.url +"id/" + id)
-            ;
+            .map((response: Response) => response.json());
     }
 
     public addNewDeviceType(body: DeviceType): Observable<DeviceType> {
@@ -166,4 +166,32 @@ export class DeviceService {
         return this.http.delete(this.url + "types/" + slug);
     }
 
+    public getAccessories(): Observable<Accessory[]> {
+        return this.http.get(this.url + 'accessories/')
+            .map((response: Response) => response.json());
+    }
+
+    public addAccessory(body: Accessory): Observable<Accessory> {
+        let bodyString = JSON.stringify(body);
+        let headers = new Headers({
+            'Content-Type': 'application/json'
+        });
+        let options = new RequestOptions({headers: headers});
+        return this.http.post(this.url + 'accessories', bodyString, options)
+            .map((response: Response) => response.json());
+    }
+
+    public deleteAccessory(slug: string) {
+        return this.http.delete(this.url +"accessories/" + slug);
+    }
+
+    public updateAccessory(body: Accessory): Observable<Accessory> {
+        let bodyString = JSON.stringify(body);
+        let headers = new Headers({
+            'Content-Type': 'application/json'
+        });
+        let options = new RequestOptions({ headers: headers });
+        return this.http.put(this.url + "accessories/" + body.Slug, bodyString, options)
+            .map((response: Response) => response.json());
+    }
 }

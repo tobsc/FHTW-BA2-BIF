@@ -14,16 +14,18 @@
     </div>
     <div class="col-xs-12 col-md-6">
       <strong>Beantragte Geräte:</strong>
-      <ul>
-        <li *ngFor="let orderItem of order.OrderItems">
-          {{orderItem.Device.Name}}
-          <ul>
-            <li *ngFor="let accessory of orderItem.Accessories">
+
+      <div class="panel panel-default" *ngFor="let orderItem of order.OrderItems">
+        <!-- Default panel contents -->
+        <div class="panel-heading">{{orderItem.Device.Name}}</div>
+        <!-- List group -->
+        <ul class="list-group">
+          <li class="list-group-item" *ngFor="let accessory of orderItem.Accessories">
               {{accessory}}
-            </li>
-          </ul>
-        </li>
-      </ul>
+          </li>
+        </ul>
+      </div>
+
     </div>
   </div>
 </div>

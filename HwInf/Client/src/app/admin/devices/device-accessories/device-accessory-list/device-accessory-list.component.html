@@ -1,0 +1,43 @@
+<div class="x_panel">
+  <div class="x_title">
+    <h2>Zubehör bearbeiten</h2>
+    <div class="clearfix"></div>
+  </div>
+  <div class="x_content">
+
+    <div class="table-responsive">
+      <table id="datatable" class="table table-striped bulk_action table-bordered">
+        <thead>
+        <tr class="headings">
+          <th class="column-title">Name</th>
+          <th style="width: 90px" class="column-title">Aktion</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr class="pointer" *ngFor="let row of rows; let i = index;">
+          <td >
+              <div *ngIf="row.isCollapsed">{{ row.accessory.Name }}</div>
+            <div *ngIf="!row.isCollapsed">
+              <div class="form-group">
+                <input #i type="text" class="form-control" [ngModel]="row.accessory.Name">
+              </div>
+              <div class="form-group">
+                <button class="btn btn-success" (click)="onSave(row, i);">Speichern</button>
+              </div>
+            </div>
+          </td>
+          <td>
+            <a title="Zubehör bearbeiten" (click)="row.isCollapsed = !row.isCollapsed" class="btn btn-warning btn-xs" aria-label="Bearbeiten"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+            <hwinf-confirm-button (action)="onDelete(i)" popOverTitle="Wirklich löschen?">
+              <button  title="Zubehör löschen" class="btn btn-danger btn-xs" aria-label="Löschen">
+                <i class="fa fa-trash-o" aria-hidden="true"></i>
+              </button>
+            </hwinf-confirm-button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

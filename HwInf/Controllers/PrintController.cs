@@ -15,7 +15,7 @@ using System.Net.Http.Headers;
 using System.Web.Http.Results;
 using HwInf.Common.BL;
 using log4net;
-
+using MigraDoc.DocumentObjectModel;
 
 namespace HwInf.Controllers
 {
@@ -62,7 +62,7 @@ namespace HwInf.Controllers
                 DdlReader rd = new DdlReader(stream, errors);
 
                 // MDDL einlesen
-                var doc = rd.ReadDocument();
+                Document doc = rd.ReadDocument();
                 stream.Close();
                 // MigraDoc Dokument in ein PDF Rendern
                 PdfDocumentRenderer pdf = new PdfDocumentRenderer(true, PdfSharp.Pdf.PdfFontEmbedding.None);
@@ -120,7 +120,7 @@ namespace HwInf.Controllers
                 DdlReader rd = new DdlReader(stream, errors);
 
                 // MDDL einlesen
-                var doc = rd.ReadDocument();
+                Document doc = rd.ReadDocument();
                 stream.Close();
                 // MigraDoc Dokument in ein PDF Rendern
                 PdfDocumentRenderer pdf = new PdfDocumentRenderer(true, PdfSharp.Pdf.PdfFontEmbedding.None);

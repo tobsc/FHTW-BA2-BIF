@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { JwtHttpService } from "./jwt-http.service";
-import { Headers, RequestOptions, Response } from "@angular/http";
+import { Headers, RequestOptions, Response, URLSearchParams } from "@angular/http";
 import { Observable } from "rxjs";
 import { Damage } from "../models/damage.model";
 import { DamageStatus } from "../models/damage-status.model";
@@ -23,8 +23,14 @@ export class DamageService {
             .map((response: Response) => response.json());
     }
 
-    public getDamagesByInvNum(invnum: string): Observable<Damage[]> {
-        return this.http.get(this.url + 'invnum/' + invnum)
+    public getDamagesByInvNum(invnum: string,
+        params: URLSearchParams = new URLSearchParams()
+    ): Observable<Damage[]> {
+        params.set('InvNum', invnum);
+        let options = new RequestOptions({
+            search: params,
+        }); 
+        return this.http.get(this.url + 'invnum/', options)
             .map((response: Response) => response.json());
     }
 

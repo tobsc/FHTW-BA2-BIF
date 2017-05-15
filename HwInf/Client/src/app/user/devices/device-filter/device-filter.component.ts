@@ -38,7 +38,7 @@ export class DeviceFilterComponent implements OnInit {
           .flatMap( i => this.customFieldsService.getFieldGroupsOfTypeForFilter(i))
           .subscribe(
               (data: FieldGroup[]) => {
-                this.fieldGroups = data.filter(i => i.Fields.length > 0 && i.Slug !== 'zubehor');
+                this.fieldGroups = data.filter(i => i.Fields.length > 0);
                 this.isCollapsedArr = [];
                 this.fieldGroups.forEach(() => this.isCollapsedArr.push(true));
                 this.form = this.initForm();

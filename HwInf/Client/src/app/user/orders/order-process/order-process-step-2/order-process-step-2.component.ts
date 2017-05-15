@@ -6,6 +6,9 @@ import {CartService} from "../../../../shared/services/cart.service";
 import {Device} from "../../../../shared/models/device.model";
 import { OrderItem } from "../../../../shared/models/order-item.model";
 import { Modal } from 'angular2-modal/plugins/bootstrap';
+import {Accessory} from "../../../../shared/models/accessory.model";
+import {DeviceService} from "../../../../shared/services/device.service";
+import {Observable} from "rxjs/Observable";
 
 @Component({
   selector: 'hwinf-order-process-step-2',
@@ -16,9 +19,11 @@ export class OrderProcessStep2Component implements OnInit, OnDestroy {
 
   private order: Order;
   private devices: Device[];
+  private accessories: Observable<Accessory[]>;
   constructor(
       private orderFormDataService: OrderFormDataService,
       private cartService: CartService,
+      private deviceService: DeviceService,
       private router: Router,
       public modal: Modal
   ) { }
@@ -32,7 +37,7 @@ export class OrderProcessStep2Component implements OnInit, OnDestroy {
       orderItem.Accessories = [];
       return orderItem;
     });
-    console.log( this.order);
+    this.accessories = this.deviceService.getAccessories();
   }
 
   onChange(ev, index: number) {
@@ -42,10 +47,6 @@ export class OrderProcessStep2Component implements OnInit, OnDestroy {
     else {
       this.order.OrderItems[index].Accessories = this.order.OrderItems[index].Accessories.filter(i => i != ev.target.value);
     }
-  }
-
-  getAccessoriesOfOrderItem(item: OrderItem) {
-    return item.Device.DeviceMeta.filter(i => i.FieldGroupSlug === 'zubehor').map(i => i.Field);
   }
 
   onBack() {

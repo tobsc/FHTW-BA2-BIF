@@ -8,10 +8,6 @@ import { DevicesStatusDirective } from './devices/devices-status.directive';
 import { CoreModule } from "../core/core.module";
 import {AccordionModule, CollapseModule, PaginationModule} from "ng2-bootstrap";
 import { CartComponent } from './cart/cart.component';
-import { OrderStep1Component } from './cart/order-step1/order-step1.component';
-import { OrderStep2Component } from './cart/order-step2/order-step2.component';
-import { OrderComponent } from './cart/order.component';
-import { OrderStep3Component } from './cart/order-step3/order-step3.component';
 import { Daterangepicker } from 'ng2-daterangepicker';
 import { ModalModule } from 'angular2-modal';
 import { BootstrapModalModule } from 'angular2-modal/plugins/bootstrap';
@@ -42,10 +38,6 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
         DeviceListComponent,
         DevicesStatusDirective,
         CartComponent,
-        OrderStep1Component,
-        OrderStep2Component,
-        OrderComponent,
-        OrderStep3Component,
         DeviceFilterComponent,
         OrderProcessComponent,
         OrderProcessStep1Component,

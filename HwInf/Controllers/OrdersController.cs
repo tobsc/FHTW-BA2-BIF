@@ -62,7 +62,7 @@ namespace HwInf.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex.Message);
+                _log.ErrorFormat("Exception: {0}", ex);
                 return InternalServerError();
             }
         }
@@ -87,7 +87,7 @@ namespace HwInf.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex.Message);
+                _log.ErrorFormat("Exception: {0}", ex);
                 return InternalServerError();
             }
         }
@@ -117,7 +117,7 @@ namespace HwInf.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex.Message);
+                _log.ErrorFormat("Exception: {0}", ex);
                 return InternalServerError();
             }
         }
@@ -140,7 +140,7 @@ namespace HwInf.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex.Message);
+                _log.ErrorFormat("Exception: {0}", ex);
                 return InternalServerError();
             }
         }
@@ -171,7 +171,7 @@ namespace HwInf.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex.Message);
+                _log.ErrorFormat("Exception: {0}", ex);
                 return InternalServerError();
             }
         }
@@ -263,7 +263,7 @@ namespace HwInf.Controllers
 
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: '{0}'", ex.Message);
+                _log.ErrorFormat("Exception: '{0}'", ex);
                 return InternalServerError();
             }
         }
@@ -296,7 +296,7 @@ namespace HwInf.Controllers
 
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: '{0}'", ex.Message);
+                _log.ErrorFormat("Exception: '{0}'", ex);
                 return InternalServerError();
             }
         }
@@ -330,7 +330,7 @@ namespace HwInf.Controllers
 
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: '{0}'", ex.Message);
+                _log.ErrorFormat("Exception: '{0}'", ex);
                 return InternalServerError();
             }
         }
@@ -367,7 +367,7 @@ namespace HwInf.Controllers
 
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: '{0}'", ex.Message);
+                _log.ErrorFormat("Exception: '{0}'", ex);
                 return InternalServerError();
             }
         }
@@ -400,7 +400,7 @@ namespace HwInf.Controllers
 
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: '{0}'", ex.Message);
+                _log.ErrorFormat("Exception: '{0}'", ex);
                 return InternalServerError();
             }
         }
@@ -431,7 +431,7 @@ namespace HwInf.Controllers
 
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: '{0}'", ex.Message);
+                _log.ErrorFormat("Exception: '{0}'", ex);
                 return InternalServerError();
             }
         }
@@ -492,7 +492,7 @@ namespace HwInf.Controllers
             }
             catch(Exception ex)
             {
-                _log.ErrorFormat("Exception: '{0}'", ex.Message);
+                _log.ErrorFormat("Exception: '{0}'", ex);
             }
             
         }
@@ -513,7 +513,7 @@ namespace HwInf.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: '{0}'", ex.Message);
+                _log.ErrorFormat("Exception: '{0}'", ex);
                 return InternalServerError(); ;
             }
         }

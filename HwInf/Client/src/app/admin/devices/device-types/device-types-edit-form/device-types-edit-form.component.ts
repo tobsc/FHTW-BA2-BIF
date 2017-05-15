@@ -53,7 +53,7 @@ export class DeviceTypesEditFormComponent implements OnInit {
         {
             this.form.get('Name').setValue(deviceType.Name);
             this.form.get('Slug').setValue((deviceType.Slug));
-            deviceType.FieldGroups.filter(i => i.Slug !== 'zubehor').forEach(i => this.addFieldGroup(i));
+            deviceType.FieldGroups.forEach(i => this.addFieldGroup(i));
         }
       
 

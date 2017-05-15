@@ -69,8 +69,6 @@ namespace HwInf.Common.Migrations
                 new FieldGroup {Slug = "bilschirmdiagonale", Name = "Bildschirmdiagonale", Fields = monitorfields.ToList(), DeviceTypes = type.Where(i => i.Slug == "monitor" || i.Slug == "notebook").ToList(), IsActive = true, IsCountable = true},
                 new FieldGroup {Slug = "aufloesung", Name = "Auflösung", Fields = aufloesungfields.ToList(), DeviceTypes = type.Where(i => i.Slug == "monitor" || i.Slug == "notebook").ToList(), IsActive = true, IsCountable = true},
                 new FieldGroup {Slug = "kapazitaet", Name = "Kapazität", Fields = festplattefields.ToList(), DeviceTypes = type.Where(i => i.Slug == "festplatte").ToList(), IsActive = true, IsCountable = true},
-                new FieldGroup {Slug = "zubehor", Name = "Zubehör", IsCountable = false, DeviceTypes = type.ToList()}
-
             };
 
 

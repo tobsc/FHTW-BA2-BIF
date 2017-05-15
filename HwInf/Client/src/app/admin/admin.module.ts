@@ -45,6 +45,8 @@ import {TextMaskModule} from "angular2-text-mask";
 import { AddAdminComponent } from './admin-settings/edit-admins/add-admin/add-admin.component';
 import { EditAdminsComponent } from './admin-settings/edit-admins/edit-admins.component';
 import { RemoveAdminComponent } from './admin-settings/edit-admins/remove-admin/remove-admin.component';
+import { DeviceAccessoryListComponent } from './devices/device-accessories/device-accessory-list/device-accessory-list.component';
+import { DeviceAccessoryAddComponent } from './devices/device-accessories/device-accessory-add/device-accessory-add.component';
 
 export function jwtFactory(backend: XHRBackend, options: RequestOptions, router: Router, authService: AuthService, pubsub: PubSubService) {
     return new JwtHttpService(backend, options, router, authService, pubsub);
@@ -84,6 +86,9 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
         AddAdminComponent,
         EditAdminsComponent,
         RemoveAdminComponent,
+        DeviceAccessoryListComponent,
+        DeviceAccessoryAddComponent,
+
     ],
     imports: [
         RouterModule,
