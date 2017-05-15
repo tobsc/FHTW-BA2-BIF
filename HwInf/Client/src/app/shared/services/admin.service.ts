@@ -53,7 +53,7 @@ export class AdminService {
 
     public removeAdmin(user: User, role: string) {
 
-        return this.http.get(this.userUrl + "admin/" + user.Uid + "/" + role);
+        return this.http.get(this.userUrl + "admin/remove/" + user.Uid + "/" + role);
     }
 
     public getSetting(key: string): Observable<Setting> {
