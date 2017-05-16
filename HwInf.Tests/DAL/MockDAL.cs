@@ -382,5 +382,16 @@ namespace HwInf.Tests.DAL
         {
             throw new NotImplementedException();
         }
+
+        public IQueryable<Accessory> Accessories { get; }
+        public Accessory CreateAccessory()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteAccessory(Accessory a)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
