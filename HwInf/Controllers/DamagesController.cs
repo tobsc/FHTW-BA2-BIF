@@ -49,6 +49,7 @@ namespace HwInf.Controllers
                 var damages = _bl.GetDamages()
                          .ToList()
                          .Select(i => new DamageViewModel(i))
+                         .Where(i=> i.DamageStatus.Slug != "behoben")
                          .ToList();
                 if (_bl.IsVerwalter)
                 {
@@ -110,6 +111,7 @@ namespace HwInf.Controllers
                 var damages = _bl.GetDamages(invNum)
                          .ToList()
                          .Select(i => new DamageViewModel(i))
+                         .Where(i=> i.DamageStatus.Slug != "behoben")
                          .ToList();
                 if (_bl.IsVerwalter)
                 {
