@@ -27,8 +27,13 @@ namespace HwInf.Common
             _db = new HwInfContext();
             _bl = new BL.BL(_db);
 
-            var cred = new NetworkCredential("itp", "");
-            smtpClient = new SmtpClient("localhost", 25);
+            var un = Properties.Settings.Default.mailUserName;
+            var pw = Properties.Settings.Default.mailPassword;
+            var ms = Properties.Settings.Default.mailServer;
+            var port = Properties.Settings.Default.mailPort;
+
+            var cred = new NetworkCredential(un, pw);
+            smtpClient = new SmtpClient(ms, port);
             smtpClient.UseDefaultCredentials = false;
             smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
             smtpClient.EnableSsl = false;
@@ -126,7 +131,7 @@ namespace HwInf.Common
             }
             catch (Exception ex)
             {
-                _log.InfoFormat("Fehler beim senden" + ex);
+                _log.WarnFormat("Fehler beim senden" + ex);
             }
 
         }
