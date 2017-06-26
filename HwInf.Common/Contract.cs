@@ -57,15 +57,17 @@ namespace HwInf.Common
 		{
 			Leihvertrag
 		}
-		\paragraph 
+		\paragraph [Format SpaceAfter = ""0.2cm""]
 		{
 			Zwischen
 		}
-		\paragraph [ Format {LeftIndent = ""1cm""} ]
+		\paragraph [ Format {LeftIndent = ""1cm""
+							SpaceAfter = ""0.2cm""} ]
 		{
 			der Fachhochschule Technikum Wien,
 		}
-		\paragraph [ Format {LeftIndent = ""1cm""} ]
+		\paragraph [ Format {LeftIndent = ""1cm""
+							SpaceAfter = ""0.2cm""} ]
 		{
 			vertreten durch eine/n MitarbeiterIn des Instituts für Informatik
 		}
@@ -77,7 +79,7 @@ namespace HwInf.Common
 		{
 			-VerleiherIn-
 		}
-		\paragraph 
+		\paragraph [Format SpaceAfter = ""0.3cm""]
 		{
 			und
 		}
