@@ -104,6 +104,7 @@ export class DeviceFormComponent implements OnInit {
    * @param device
    */
   private fillFormWIthMetaData(device: Device) {
+      
     device.FieldGroups
         .forEach( (fieldgroup, index) => {
           this.getFieldGroups(index).removeAt(0);
