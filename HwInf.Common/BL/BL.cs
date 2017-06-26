@@ -646,8 +646,9 @@ namespace HwInf.Common.BL
 
         public string CreateToken(Person p)
         {
+            var hours = Properties.Settings.Default.tokenValidityPeriod;
             var unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            var expiry = Math.Round((DateTime.UtcNow.AddHours(2) - unixEpoch).TotalSeconds);
+            var expiry = Math.Round((DateTime.UtcNow.AddHours(hours) - unixEpoch).TotalSeconds);
             var issuedAt = Math.Round((DateTime.UtcNow - unixEpoch).TotalSeconds);
             var notBefore = Math.Round((DateTime.UtcNow.AddMonths(6) - unixEpoch).TotalSeconds);
 
