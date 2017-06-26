@@ -342,6 +342,6 @@ export class DeviceFormComponent implements OnInit {
   }
   
   userFormatter(data: any): string {
-      return "(" + data.Uid + ") " + data.LastName + " " + data.Name;
+      return /*"(" + data.Uid + ") " +*/ data.LastName + " " + data.Name;
   }
 }
