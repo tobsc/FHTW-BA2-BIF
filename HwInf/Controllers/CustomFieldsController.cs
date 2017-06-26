@@ -71,6 +71,7 @@ namespace HwInf.Controllers
                 .ToList()
                 .Where(i => i.DeviceTypes == null || i.DeviceTypes.Contains(dt))
                 .Select(i => new FieldGroupViewModel(i))
+                .OrderBy(i => i.Name)
                 .ToList();
 
             return Ok(vmdl);

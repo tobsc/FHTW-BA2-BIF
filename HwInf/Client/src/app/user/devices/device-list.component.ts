@@ -72,6 +72,7 @@ export class DeviceListComponent implements OnInit, OnDestroy {
       );
   }
 
+    
   ngOnDestroy(): void {
       this.subscription.unsubscribe();  
   }

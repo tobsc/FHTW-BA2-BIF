@@ -104,6 +104,7 @@ export class DeviceFormComponent implements OnInit {
    * @param device
    */
   private fillFormWIthMetaData(device: Device) {
+      
     device.FieldGroups
         .forEach( (fieldgroup, index) => {
           this.getFieldGroups(index).removeAt(0);
@@ -341,6 +342,6 @@ export class DeviceFormComponent implements OnInit {
   }
   
   userFormatter(data: any): string {
-      return "(" + data.Uid + ") " + data.LastName + " " + data.Name;
+      return /*"(" + data.Uid + ") " +*/ data.LastName + " " + data.Name;
   }
 }

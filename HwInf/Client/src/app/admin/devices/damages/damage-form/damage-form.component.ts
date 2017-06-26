@@ -93,7 +93,7 @@ export class DamageFormComponent implements OnInit {
             }
             this.form.get('Date').setValue(damage.Date);
             
-            this.form.get('Reporter').setValue(this.userFormatter(damage.Reporter));
+            this.form.get('Reporter').setValue(this.adminFormatter(damage.Reporter));
             this.form.get('Description').setValue(damage.Description);
             this.form.get('Device').setValue(this.deviceFormatter(damage.Device));
             this.form.get('DamageStatus').get('Slug').setValue(damage.DamageStatus.Slug);
@@ -102,7 +102,7 @@ export class DamageFormComponent implements OnInit {
             if (!!this.startDevice) {
                 this.form.get('Device').setValue(this.deviceFormatter(this.startDevice));
             }
-            this.form.get('Reporter').setValue(this.userFormatter(this.ownUser));
+            this.form.get('Reporter').setValue(this.adminFormatter(this.ownUser));
         }
     }
 
@@ -157,6 +157,10 @@ export class DamageFormComponent implements OnInit {
 
     userFormatter(data: any): string {
         return "(" + data.Uid + ") " + data.LastName + " " + data.Name;
+    }
+
+    adminFormatter(data: any): string {
+        return data.LastName + " " + data.Name;
     }
 
     deviceFormatter(data: any): string {

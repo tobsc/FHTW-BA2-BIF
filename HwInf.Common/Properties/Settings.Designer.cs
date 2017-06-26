@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace HwInf.Properties {
+namespace HwInf.Common.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -25,10 +25,10 @@ namespace HwInf.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("secretKey")]
-        public string secret {
+        [global::System.Configuration.DefaultSettingValueAttribute("4000")]
+        public int tokenValidityPeriod {
             get {
-                return ((string)(this["secret"]));
+                return ((int)(this["tokenValidityPeriod"]));
             }
         }
     }

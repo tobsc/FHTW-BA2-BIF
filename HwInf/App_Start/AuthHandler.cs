@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -33,7 +34,7 @@ namespace HwInf
                 var token = bearerToken.StartsWith("Bearer ") ? bearerToken.Substring(7) : bearerToken;
 
                 //var secret = ConfigurationManager.AppSettings.Get("jwtKey");
-                var secret = "secretKey";
+                var secret = Properties.Settings.Default.secret;
 
                 Thread.CurrentPrincipal = ValidateToken(
                     token,
