@@ -26,11 +26,12 @@ namespace HwInf.Common
 
             _db = new HwInfContext();
             _bl = new BL.BL(_db);
-            smtpClient = new SmtpClient("localhost", 8181);
-            smtpClient.UseDefaultCredentials = true;
+            var cred = new NetworkCredential("itp", "");
+            smtpClient = new SmtpClient("localhost", 25);
+            smtpClient.UseDefaultCredentials = false;
             smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
             smtpClient.EnableSsl = false;
-
+            smtpClient.Credentials = cred;
 
             _order = _bl.GetOrders(orderGuid);
             string to = _order.Entleiher.Email;
