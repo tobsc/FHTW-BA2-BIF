@@ -21,7 +21,7 @@ export class DeviceListComponent implements OnInit {
     private owners: User[];
     private totalItems: number;
     private itemsPerPage: number = 25;
-    private orderBy: string = 'name';
+    private orderBy: string = 'createdate';
     private maxSize: number = 8;
 
     constructor(
@@ -39,7 +39,7 @@ export class DeviceListComponent implements OnInit {
     ngOnInit() {
         this.filter = new Filter();
         this.filter.DeviceType = '';
-        this.filter.Order = 'ASC';
+        this.filter.Order = 'DESC';
         this.filter.OrderBy = this.orderBy;
         this.filter.Limit = this.itemsPerPage;
         this.filter.Offset = (this.currentPage-1) * this.filter.Limit;

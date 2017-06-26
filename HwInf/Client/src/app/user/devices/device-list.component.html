@@ -1,4 +1,4 @@
-<div class="page-title">
+﻿<div class="page-title">
     <div class="title_left">
         <h1><span *ngIf="currentType!=null">{{currentType.Name}}</span>
             <span *ngIf="currentType==null">Alle</span></h1>
@@ -30,6 +30,12 @@
         </div>
         <div class="col-xs-12 col-sm-7 col-md-8 col-lg-9" *ngIf="devices.length <= 0"><em>Keine Geräte gefunden!</em></div>
         <div class="col-xs-12 col-sm-7 col-md-8 col-lg-9" *ngIf="devices.length > 0">
+            <div class="cartmessage">
+                <div *ngFor="let alert of alerts">
+                    <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
+                </div>
+            </div>
+            
 
             <div class="x_panel" >
                 <div class="x_title">

@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+﻿import {Component, OnInit, OnDestroy} from '@angular/core';
 import {DeviceService} from "../../shared/services/device.service";
 import {ActivatedRoute} from "@angular/router";
 import {Subscription, Observable} from "rxjs";
@@ -24,6 +24,7 @@ export class DeviceListComponent implements OnInit, OnDestroy {
   private currentType: DeviceType;
   private devices: Device[] = [];
   private filter: Filter;
+  private alerts: any = [];
 
   constructor(
       private deviceService: DeviceService,
@@ -52,13 +53,19 @@ export class DeviceListComponent implements OnInit, OnDestroy {
             this.filter.Offset = (this.currentPage-1) * this.filter.Limit;
             return this.deviceService.getFilteredDevices(this.filter)
         })
-        .subscribe((data) => {
+          .subscribe((data) => {
+           
             this.devices = data.Devices;
         });
   }
 
   public addItem(device: Device): void {
       this.cartService.addItem(device);
+      this.alerts.push({
+          type: 'success',
+          msg: `Das Gerät ${device.Name} wurde zum Warenkorb hinzufefügt.`,
+          timeout: 5000
+      });
   }
 
   public getMetaDataOfFieldGroup(slug: string, metaData: DeviceMeta[]): DeviceMeta[] {

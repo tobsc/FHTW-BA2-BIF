@@ -24,12 +24,15 @@ namespace HwInf.Common
         public Mail(Guid orderGuid)
         {
 
+            var bla = new NetworkCredential("if15b049", "Miro1111");
+
             _db = new HwInfContext();
             _bl = new BL.BL(_db);
-            smtpClient = new SmtpClient("localhost", 8181);
+            smtpClient = new SmtpClient("mail.technikum-wien.at", 587);
             smtpClient.UseDefaultCredentials = true;
             smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-            smtpClient.EnableSsl = false;
+            smtpClient.EnableSsl = true;
+            smtpClient.Credentials = bla;
 
 
             _order = _bl.GetOrders(orderGuid);

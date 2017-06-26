@@ -25,7 +25,7 @@ export class DeviceAddComponent implements OnInit {
 
     this.deviceService.addNewDevice(device).subscribe(
         (next) => {
-          this.router.navigate(["/admin/geraete/verwalten"]);
+            this.router.navigate(['/admin/geraete/verwalten'], { skipLocationChange: true, queryParams: { 'page': 1, 'orderby': 'createdate' } });
 
         },
         (error) => {
