@@ -34,15 +34,6 @@ namespace HwInf.Common.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("localhost")]
-        public string mailServer {
-            get {
-                return ((string)(this["mailServer"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("25")]
         public int mailPort {
             get {
@@ -65,6 +56,15 @@ namespace HwInf.Common.Properties {
         public string mailPassword {
             get {
                 return ((string)(this["mailPassword"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("localhost")]
+        public string mailServer {
+            get {
+                return ((string)(this["mailServer"]));
             }
         }
     }

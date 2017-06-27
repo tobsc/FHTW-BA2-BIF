@@ -41,7 +41,7 @@ namespace HwInf.Common
 
             _order = _bl.GetOrders(orderGuid);
             string to = _order.Entleiher.Email;
-            string from = "hwinf@technikum-wien.at";
+            string from = "noreply@hw-inf.technikum-wien.at";
 
 
             mail = new MailMessage(from, to);
