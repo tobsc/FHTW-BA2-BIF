@@ -134,3 +134,9 @@ ng2-auto-complete {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.grayout {
+    opacity: 0.6;
+    filter: alpha(opacity = 60);
+    font-size: small;
+}
