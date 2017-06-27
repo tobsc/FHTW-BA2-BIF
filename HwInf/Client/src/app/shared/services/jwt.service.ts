@@ -56,4 +56,8 @@ export class JwtService {
   public checkToken(): boolean {
       return !!this.getToken();
   }
+
+    public isLoggedInAs(): boolean {
+        return this.parseJwt(this.getToken()).isLoggedInAs == '1';
+    }
 }

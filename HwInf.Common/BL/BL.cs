@@ -662,7 +662,8 @@ namespace HwInf.Common.BL
                 {"displayName", p.Name + " " +p.LastName},
                 {"nbf", notBefore},
                 {"iat", issuedAt},
-                {"exp", expiry}
+                {"exp", expiry},
+                {"isLoggedInAs", IsAdminUid(p.Uid) || IsAdmin ? "1" : "0" }
             };
 
             //var secret = ConfigurationManager.AppSettings.Get("jwtKey");

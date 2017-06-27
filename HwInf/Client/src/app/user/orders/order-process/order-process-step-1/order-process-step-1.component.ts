@@ -3,6 +3,7 @@ import {OrderFormDataService} from "../shared/order-form-data.service";
 import {Order} from "../../../../shared/models/order.model";
 import { UserService } from "../../../../shared/services/user.service";
 import { AdminService } from "../../../../shared/services/admin.service";
+import { JwtService } from "../../../../shared/services/jwt.service";
 import { Setting } from "../../../../shared/models/setting.model";
 import {User} from "../../../../shared/models/user.model";
 import {Router, ActivatedRoute} from "@angular/router";
@@ -34,6 +35,7 @@ export class OrderProcessStep1Component implements OnInit, OnDestroy {
       private userService: UserService,
       private adminService: AdminService,
       private router: Router,
+      private jwtService: JwtService,
   ) {
   }
 
@@ -45,8 +47,8 @@ export class OrderProcessStep1Component implements OnInit, OnDestroy {
       autoUpdateInput: true,
       locale: { format: this.DATE_FORMAT },
       alwaysShowCalendars: false,
-      minDate: this.semesterStart,
-      maxDate: this.semesterEnd,
+      minDate: this.jwtService.isLoggedInAs() ? false : moment().format(this.DATE_FORMAT) > this.semesterStart ? moment().format(this.DATE_FORMAT) : this.semesterStart,
+      maxDate: this.jwtService.isLoggedInAs() ? false : this.semesterEnd,
       startDate: moment().format(this.DATE_FORMAT),
       endDate: moment().add(7, 'days').format(this.DATE_FORMAT)
   };
@@ -103,4 +105,6 @@ export class OrderProcessStep1Component implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.formdataService.setData(this.order);
   }
+
+  
 }
