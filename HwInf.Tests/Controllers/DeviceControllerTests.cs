@@ -205,8 +205,6 @@ namespace HwInf.Tests.Controllers
             device.Name = "Neuer Name";
             ctr.PutDevice(1011, device);
 
-            var obj2 = ctr.GetDevice("a5123");
-            var res2 = obj as OkNegotiatedContentResult<DeviceViewModel>;
             Assert.NotNull(res);
             Assert.NotNull(res.Content);
             var device2 = res.Content;

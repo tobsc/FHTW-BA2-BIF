@@ -60,12 +60,6 @@ namespace HwInf.Tests.Controllers
 
         public static DeviceViewModel GetInValidDeviceViewModel()
         {
-            var p = _bl.GetUsers("if15b032");
-            var uvmdl = new UserViewModel(p);
-            var dt = _bl.GetDeviceType("festplatte");
-            var dtvmdl = new DeviceTypeViewModel(dt);
-            var ds = _bl.GetDeviceStatus(1);
-            var dsvmdl = new DeviceStatusViewModel(ds);
             var vmdl = new DeviceViewModel
             {
             };
