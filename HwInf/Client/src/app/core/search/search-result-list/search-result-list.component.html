@@ -6,10 +6,11 @@
 
 <div class="x_panel">
     <div class="x_title">
-        <div>Suchergebnisse für "{{searchText}}"</div>   
+        <div>Suchergebnisse für <strong><em>"{{searchText}}"</em></strong> ... {{totalItems}} Geräte gefunden.</div>   
 
     </div>
-    <div class="x_content">
+    
+    <div class="x_content" (scrolledToBottom)="onLoadMore()" hwinfTrackscroll>
         <accordion [closeOthers]=false class="accordion">
             <div *ngFor="let device of devices">
 

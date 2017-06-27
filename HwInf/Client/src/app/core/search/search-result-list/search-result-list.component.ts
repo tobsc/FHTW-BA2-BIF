@@ -23,6 +23,10 @@ export class SearchResultListComponent implements OnInit {
     private devices: Device[] = [];
     private searchText: string;
     private alerts: any = [];
+    private page: number = 1;
+    private limit: number = 20;
+    private totalItems: number = 0;
+   
 
     constructor(private deviceService: DeviceService,
         private pubSubSearchService: PubSubSearchService,
@@ -39,12 +43,15 @@ export class SearchResultListComponent implements OnInit {
            this.route.queryParams
             .flatMap(
                 params => { console.log(params);
-                     this.searchText = params["searchText"];
-                    return this.deviceService.getSearch(this.searchText);
+                    this.searchText = params["searchText"];
+                    let offset = (this.page - 1) * this.limit;
+                    return this.deviceService.getSearch(this.searchText, this.limit, offset);
                 }).subscribe(
-                    data => {
-                    this.devices = data.Devices;
-                }
+               data => {
+                        this.totalItems = data.TotalItems;
+                        this.devices = data.Devices;
+                        this.page = 1;
+                    }
             ) 
     }
 
@@ -59,6 +66,22 @@ export class SearchResultListComponent implements OnInit {
             msg: `Das Gerät ${device.Name} wurde zum Warenkorb hinzufefügt.`,
             timeout: 5000
         });
+    }
+
+    public onLoadMore() {
+        if (this.totalItems > this.devices.length) {
+            this.page++;
+            let offset = (this.page - 1) * this.limit;
+            this.deviceService.getSearch(this.searchText, this.limit, offset).subscribe(
+                data => {
+                    if (data.Devices.length > 0) {
+                        this.devices = this.devices.concat(data.Devices);
+                    }
+                }
+            )
+        }
+        
+       
     }
     
 }

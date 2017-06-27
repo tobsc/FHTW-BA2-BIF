@@ -15,6 +15,7 @@ import { SearchComponent } from './search/search.component';
 import { FormsModule } from "@angular/forms";
 import { SearchResultListComponent } from './search/search-result-list/search-result-list.component';
 import { AlertModule } from 'ng2-bootstrap';
+import { TrackscrollDirective } from './directives/trackscroll.directive';
 @NgModule({
     declarations: [
         TopNavbarComponent,
@@ -28,6 +29,7 @@ import { AlertModule } from 'ng2-bootstrap';
         ExcludeFieldGroupPipe,
         SearchComponent,
         SearchResultListComponent,
+        TrackscrollDirective,
     ],
     imports: [
         CommonModule,
