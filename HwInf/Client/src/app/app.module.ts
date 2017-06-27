@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import {NgModule, LOCALE_ID} from '@angular/core';
+import {NgModule, LOCALE_ID, enableProdMode} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpModule, XHRBackend, RequestOptions } from '@angular/http';
 
@@ -43,6 +43,8 @@ import { DamageService } from './shared/services/damage.service';
 export function feedbackHttpFactory(backend: XHRBackend, options: RequestOptions, router: Router, pubsub: PubSubService) {
     return new FeedbackHttpService(backend, options, router, pubsub);
 }
+
+enableProdMode();
 @NgModule({
     declarations: [
         AppComponent,

@@ -23,7 +23,6 @@ import { OrderProcessStep2Component } from './orders/order-process/order-process
 import { OrderProcessStep3Component } from './orders/order-process/order-process-step-3/order-process-step-3.component';
 import { MyOrdersComponent } from './orders/my-orders/my-orders.component';
 import { OrdersArchivComponent } from './orders/orders-archiv/orders-archiv.component';
-import { OrderListComponent } from './orders/order-list/order-list.component';
 import { SingleOrderComponent } from './orders/single-order/single-order.component';
 import { OrderConfirmComponent } from './orders/order-process/order-confirm/order-confirm.component';
 import { AlertModule } from 'ng2-bootstrap';
@@ -47,7 +46,6 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
         OrderProcessStep3Component,
         MyOrdersComponent,
         OrdersArchivComponent,
-        OrderListComponent,
         SingleOrderComponent,
         OrderConfirmComponent,
         DashboardOrderListComponent
