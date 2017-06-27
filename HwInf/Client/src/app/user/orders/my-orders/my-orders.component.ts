@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {OrderService} from "../../../shared/services/order.service";
 import {Order} from "../../../shared/models/order.model";
-import {OrderFilter} from "../../../shared/models/order-filter.model";
+import { OrderFilter } from "../../../shared/models/order-filter.model";
+var moment = require('moment');
+moment.locale('de');
 
 @Component({
   selector: 'hwinf-my-orders',
@@ -25,7 +27,7 @@ export class MyOrdersComponent implements OnInit {
   ngOnInit(): void {
 
     this.filter = new OrderFilter();
-    this.filter.StatusSlugs = ['offen', 'akzeptiert', 'ausgeliehen'];
+    this.filter.StatusSlugs = ['offen', 'akzeptiert', 'ausgeliehen', 'abgelehnt'];
     this.filter.Order = this.order;
     this.filter.OrderBy = this.orderBy;
     this.filter.Limit = this.itemsPerPage;
@@ -39,8 +41,12 @@ export class MyOrdersComponent implements OnInit {
     this.filter.Offset = (this.currentPage-1) * this.filter.Limit;
     this.orderService.getFilteredOrders(this.filter)
         .subscribe(
-            data => {
-              this.orders = data.Orders;
+        data => {          
+                this.orders = data.Orders.filter(i => {
+                    var dateFrom = moment(i.ReturnDate).add(7, 'd').format('YYYY-MM-DD');
+                   return (i.OrderStatus.Slug == 'abgelehnt' && moment().isBefore(dateFrom)) ||
+                        i.OrderStatus.Slug != 'abgelehnt';
+                });
               this.totalItems = data.TotalItems;
             }
         )

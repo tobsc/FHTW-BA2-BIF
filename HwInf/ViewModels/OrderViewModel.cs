@@ -166,6 +166,7 @@ namespace HwInf.ViewModels
         public void Decline(Order obj, BL bl)
         {
             obj.OrderStatus = bl.GetOrderStatus("abgelehnt");
+            obj.ReturnDate = DateTime.Now;
         }
 
         public void Reset(Order obj, BL bl)
