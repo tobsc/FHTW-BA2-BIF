@@ -13,9 +13,11 @@ namespace ConsoleApplication1
     {
         static void Main(string[] args)
         {
-            var notify = new Notifier();
+            HwInfContext db = new HwInfContext();
+            BL bl = new BL(db);
+            var notify = new Notifier(bl);
             notify.Send();
-            var reminder = new Reminder();
+            var reminder = new Reminder(bl);
             reminder.SendReminder();
             Console.ReadKey();       
         }
@@ -24,10 +26,8 @@ namespace ConsoleApplication1
     public class Notifier
     {
         private readonly List<Guid> _orderList;
-        public Notifier()
+        public Notifier(BL bl)
         {
-            HwInfContext db = new HwInfContext();
-            BL bl = new BL(db);
             var remindDate = GetReminderDate(bl.GetSetting("days_before_reminder").Value);
             _orderList = bl.GetOrders()
                 .Where(i => i.To.Date == remindDate.Date)
@@ -55,10 +55,8 @@ namespace ConsoleApplication1
     public class Reminder
     {
         private readonly List<Guid> _orderList;
-        public Reminder()
+        public Reminder(BL bl)
         {
-            HwInfContext db = new HwInfContext();
-            BL bl = new BL(db);
             _orderList = bl.GetOrders()
                 .Where(i => i.To.Date.AddDays(1) == DateTime.Now.Date)
                 .Where(i => i.OrderStatus.Slug.Equals("ausgeliehen"))
