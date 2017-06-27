@@ -1,25 +1,24 @@
 <div class="clearfix"></div>
-<div class="col-md-6 col-sm-6 col-xs-12">
+<div class="col-md-12 col-sm-12 col-xs-12">
   <hwinf-panel>
     <div class="hwinf-panel__heading">
       Hw-Inf
     </div>
     <div class="hwinf-panel__content">
-      Willkommen bei Hw-Inf
+        <h1> Willkommen bei Hw-Inf </h1>  
     </div>
   </hwinf-panel>
 </div>
-<div class="col-md-6 col-sm-6 col-xs-12">
-  <hwinf-panel>
-    <div class="hwinf-panel__heading">
-      Meine Geräte
-    </div>
-    <div class="hwinf-panel__content">
-      <a routerLink="/meine-geraete" class="list-group-item"><span class="badge">{{orderOpen}}</span>Offene Anfragen</a>
-      <a routerLink="/meine-geraete" class="list-group-item"><span class="badge">{{orderAccept}}</span>Akzeptierte Anfragen</a>
-      <a routerLink="/meine-geraete" class="list-group-item"><span class="badge">{{orderLend}}</span>Derzeit ausgeliehene Geräte</a>
-    </div>
-  </hwinf-panel>
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <hwinf-panel>
+        <div class="hwinf-panel__heading">
+            Meine Geräte
+        </div>
+        <div class="hwinf-panel__content">
+            <hwinf-dashboard-order-list></hwinf-dashboard-order-list>
+        </div>
+
+    </hwinf-panel>
 </div>
 
 

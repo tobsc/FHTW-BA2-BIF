@@ -27,6 +27,7 @@ import { OrderListComponent } from './orders/order-list/order-list.component';
 import { SingleOrderComponent } from './orders/single-order/single-order.component';
 import { OrderConfirmComponent } from './orders/order-process/order-confirm/order-confirm.component';
 import { AlertModule } from 'ng2-bootstrap';
+import { DashboardOrderListComponent } from './dashboard/dashboard-order-list/dashboard-order-list.component';
 
 
 export function jwtFactory(backend: XHRBackend, options: RequestOptions, router: Router, authService: AuthService, pubsub: PubSubService) {
@@ -48,7 +49,8 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
         OrdersArchivComponent,
         OrderListComponent,
         SingleOrderComponent,
-        OrderConfirmComponent
+        OrderConfirmComponent,
+        DashboardOrderListComponent
     ],
     imports: [
         CommonModule,
