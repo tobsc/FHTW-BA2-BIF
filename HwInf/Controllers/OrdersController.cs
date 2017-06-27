@@ -406,6 +406,44 @@ namespace HwInf.Controllers
         }
 
         /// <summary>
+        /// Return Order
+        /// </summary>
+        /// <param name="vmdl"></param>
+        /// <returns></returns>
+        [Authorize]
+        [ResponseType(typeof(OrderItemViewModel))]
+        [Route("order/abort/")]
+        public IHttpActionResult PutOrderAbort([FromBody]OrderViewModel vmdl)
+        {
+            try
+            {
+                var order = _bl.GetOrders(vmdl.OrderId);
+                if (!order.Entleiher.Uid.Equals(_bl.GetCurrentUid()) || !order.OrderStatus.Slug.Equals("offen"))
+                {
+                    _log.WarnFormat("'{0}' failed to abort Order '{1}'", _bl.GetCurrentUid(),  vmdl.OrderId);
+                    return BadRequest("Der Auftrag kann nicht abgebrochen werden.");
+                }               
+                vmdl.Abort(order, _bl);
+                _bl.SaveChanges();
+                _log.InfoFormat("'{0}' successfully aborted Order '{1}'", _bl.GetCurrentUid(), vmdl.OrderId);
+                vmdl.Refresh(order);
+
+                return Ok(vmdl);
+            }
+            catch (SecurityException)
+            {
+                _log.WarnFormat("Security: '{0}' tried to abort Order '{1}'", _bl.GetCurrentUid(), vmdl.OrderId);
+                return Unauthorized();
+            }
+
+            catch (Exception ex)
+            {
+                _log.ErrorFormat("Exception: '{0}'", ex);
+                return InternalServerError();
+            }
+        }
+
+        /// <summary>
         /// Search Orders
         /// </summary>
         /// <param name="vmdl"></param>

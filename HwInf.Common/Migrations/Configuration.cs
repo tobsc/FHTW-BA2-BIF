@@ -24,7 +24,7 @@ namespace HwInf.Common.Migrations
                     new DeviceStatus { Description = "Verfügbar" },
                     new DeviceStatus { Description = "Ausgeliehen" },
                     new DeviceStatus { Description = "In Reparatur" },
-                    new DeviceStatus { Description = "Archiviert" },
+                    new DeviceStatus { Description = "Archiviert" }                       
                 };
 
             var orderStatus = new List<OrderStatus>
@@ -33,7 +33,8 @@ namespace HwInf.Common.Migrations
                     new OrderStatus { Name = "Akzeptiert" , Slug = "akzeptiert"},
                     new OrderStatus { Name = "Abgelehnt", Slug = "abgelehnt"},
                     new OrderStatus { Name = "Abgeschlossen", Slug = "abgeschlossen"},
-                    new OrderStatus { Name = "Ausgeliehen", Slug = "ausgeliehen"}
+                    new OrderStatus { Name = "Ausgeliehen", Slug = "ausgeliehen"},
+                    new OrderStatus { Name = "Abgebrochen", Slug = "abgebrochen"}
                 };
 
             var roles = new List<Role>

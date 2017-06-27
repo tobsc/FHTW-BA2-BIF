@@ -61,4 +61,8 @@ export class MyOrdersComponent implements OnInit {
     this.fetchData();
   }
 
+    public onDeleteOrder(index: number) {
+        this.orders.splice(index, 1);
+    }
+
 }

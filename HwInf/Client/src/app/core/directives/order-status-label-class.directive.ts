@@ -32,9 +32,12 @@ export class OrderStatusLabelClassDirective implements OnInit{
       break;
 
       case 'abgeschlossen':
+      case 'abgebrochen':
       default:
         this.currentClass = 'label label-default';
       break;
+      
+
     }
   }
 

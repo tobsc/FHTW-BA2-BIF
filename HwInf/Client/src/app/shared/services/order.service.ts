@@ -94,6 +94,16 @@ export class OrderService {
         .map((response: Response) => response.json())
   }
 
+  public abortOrder(body: any): Observable<Order> {
+      let bodyString = JSON.stringify(body);
+      let headers = new Headers({
+          'Content-Type': 'application/json'
+      });
+      let options = new RequestOptions({ headers: headers });
+      return this.http.put(`${this.url}order/abort`, bodyString, options)
+          .map((response: Response) => response.json())
+  }
+
   public returnOrder(body: any): Observable<Order> {
     let bodyString = JSON.stringify(body);
     let headers = new Headers({

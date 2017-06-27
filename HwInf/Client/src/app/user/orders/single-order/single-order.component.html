@@ -52,6 +52,16 @@
         </tr>
         </tbody>
       </table>
-    </div>
+        <div class="pull-left">
+            <hwinf-confirm-button *ngIf="order.OrderStatus.Slug === 'offen'"
+                                  (action)="onAbort()"
+                                  popOverTitle="Antrag wirklich abbrechen?">
+                <button  [title]="Abbrechen" class="btn btn-danger btn-xs">
+                    Antrag abbrechen
+                </button>
+            </hwinf-confirm-button>
+        </div>
+
+        </div>
   </div>
 </div>

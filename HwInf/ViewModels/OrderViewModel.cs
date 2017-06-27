@@ -152,6 +152,13 @@ namespace HwInf.ViewModels
                 .ForEach(i => i.Device.Status = bl.GetDeviceStatus(2));
         }
 
+        public void Abort(Order obj, BL bl)
+        {
+            obj.OrderStatus = bl.GetOrderStatus("abgebrochen");
+            
+            obj.ReturnDate = DateTime.Now;
+        }
+
         public void Lend(Order obj, BL bl)
         {
             obj.OrderStatus = bl.GetOrderStatus("ausgeliehen");

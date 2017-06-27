@@ -19,7 +19,7 @@
 </span>
 <div class="clearfix"></div>
 
-<hwinf-single-order *ngFor="let order of orders" [order]="order"></hwinf-single-order>
+<hwinf-single-order *ngFor="let order of orders; let i = index" [order]="order" (deleteOrder)="onDeleteOrder(i)"></hwinf-single-order>
 <div class="text-center">
     <pagination [directionLinks]="false" [boundaryLinks]="true" [totalItems]="totalItems"
                 [(ngModel)]="currentPage" [itemsPerPage]="itemsPerPage" (pageChanged)="pageChanged($event)"
