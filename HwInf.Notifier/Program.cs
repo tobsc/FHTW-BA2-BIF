@@ -13,73 +13,68 @@ namespace ConsoleApplication1
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("We now create the Notifier");
-            Notifier notify = new Notifier(DateTime.Now.Date, "14");
-            Console.ReadKey();
-            
+            var notify = new Notifier();
+            notify.Send();
+            var reminder = new Reminder();
+            reminder.SendReminder();
+            Console.ReadKey();       
         }
     }
 
     public class Notifier
     {
-        
-        public Notifier(DateTime date)
-        {
-
-
-            /*HwInfContext db = new HwInfContext();
-            Console.WriteLine("We now are looking into the DB");
-            var uidlist = db.Orders.Where(i => i.ReturnDate == date).Select(i => i.Verwalter.Uid).ToList();
-            Console.WriteLine("We now create the Mail");
-            if (uidlist.Count() > 0)
-            {
-                foreach (var uid in uidlist)
-                {
-                    var mailadress = db.Persons.Where(i => i.Uid == uid).Select(i => i.Email).SingleOrDefault();
-                    var act = @"Liebe/r StudentIn, 
-                    Sie haben bei uns ein oder mehrere Geräte ausgeborgt, und heute ist der vereinbarte Termin für die Rückgabe.
-                    Bitte vergessen Sie es nicht!
-                    Mit freundlichen Grüßen,
-                    Ihr HW-Inf Team
-                
-                    PS: Dies ist eine automatische Mail. Bitte nicht darauf Antowrten";
-
-                    Mail mail = new Mail();
-                    mail.To(mailadress);
-                    mail.Message(act);
-                    mail.Send();
-
-                }
-            }
-            else
-            {
-                Console.WriteLine("No Orders expiring today");
-            }
-            */
-        }
-
-        public Notifier(DateTime date, string daysbefore)
+        private readonly List<Guid> _orderList;
+        public Notifier()
         {
             HwInfContext db = new HwInfContext();
             BL bl = new BL(db);
-
-            var reminddate = getReminderDate(date, daysbefore);
-            var orderlist = bl.GetOrders().Where(i => i.To.Date == reminddate.Date).Select(i => i.OrderGuid).ToList(); 
-             
-            if(orderlist.Count() > 0)
-            {
-                foreach(var order in orderlist)
-                {
-                    Mail mail = new Mail(order);
-                    mail.ReminderMessage(order);
-                    mail.Send();
-                }
-            }
+            var remindDate = GetReminderDate(bl.GetSetting("days_before_reminder").Value);
+            _orderList = bl.GetOrders()
+                .Where(i => i.To.Date == remindDate.Date)
+                .Where(i => i.OrderStatus.Slug.Equals("ausgeliehen"))
+                .Select(i => i.OrderGuid)
+                .ToList();
         }
 
-        public DateTime getReminderDate(DateTime date, string daysbefore)
+        public DateTime GetReminderDate(string daysbefore)
         {     
-            return date.AddDays(Int32.Parse(daysbefore));
+            return DateTime.Now.Date.AddDays(Int32.Parse(daysbefore));
+        }
+        public void Send()
+        {
+            if (!_orderList.Any()) return;
+            foreach (var order in _orderList)
+            {
+                Mail mail = new Mail(order);
+                mail.ReminderMessage(order);
+                mail.Send();
+            }
+        }
+    }
+
+    public class Reminder
+    {
+        private readonly List<Guid> _orderList;
+        public Reminder()
+        {
+            HwInfContext db = new HwInfContext();
+            BL bl = new BL(db);
+            _orderList = bl.GetOrders()
+                .Where(i => i.To.Date.AddDays(1) == DateTime.Now.Date)
+                .Where(i => i.OrderStatus.Slug.Equals("ausgeliehen"))
+                .Select(i => i.OrderGuid)
+                .ToList();
+        }
+
+        public void SendReminder()
+        {
+            if (!_orderList.Any()) return;
+            foreach (var order in _orderList)
+            {
+                Mail mail = new Mail(order);
+                mail.ReminderMessage(order);
+                mail.Send();
+            }
         }
     }
 }
