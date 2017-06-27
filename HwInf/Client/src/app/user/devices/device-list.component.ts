@@ -25,6 +25,8 @@ export class DeviceListComponent implements OnInit, OnDestroy {
   private devices: Device[] = [];
   private filter: Filter;
   private alerts: any = [];
+  private totalItems: number = 0;
+  private limit: number = 20;
 
   constructor(
       private deviceService: DeviceService,
@@ -49,12 +51,13 @@ export class DeviceListComponent implements OnInit, OnDestroy {
             this.filter.DeviceType = type;
             this.filter.Order = 'ASC';
             this.filter.OrderBy = 'name';
-            this.filter.Limit = 10;
+            this.filter.Limit = this.limit;
             this.filter.Offset = (this.currentPage-1) * this.filter.Limit;
             return this.deviceService.getFilteredDevices(this.filter)
         })
           .subscribe((data) => {
-           
+
+            this.totalItems = data.TotalItems;
             this.devices = data.Devices;
         });
   }
@@ -73,12 +76,33 @@ export class DeviceListComponent implements OnInit, OnDestroy {
   }
 
   public onFilterChanged(metaQuery): void {
+      
       this.filter.MetaQuery = metaQuery;
+      this.currentPage = 1;
+      this.filter.Offset = (this.currentPage - 1) * this.filter.Limit;
       this.deviceService.getFilteredDevices(this.filter).subscribe(
-          (data) => this.devices = data.Devices
+          (data) => {
+              
+              this.devices = data.Devices;
+              this.totalItems = data.TotalItems;
+          }
       );
   }
 
+  public onLoadMore() {
+        
+        if (this.totalItems > this.devices.length) {
+            this.currentPage++;
+            this.filter.Offset = (this.currentPage - 1) * this.filter.Limit;
+            this.deviceService.getFilteredDevices(this.filter).subscribe(
+                data => {
+                    if (data.Devices.length > 0) {
+                        this.devices = this.devices.concat(data.Devices);
+                    }
+                }
+            )
+        }
+    }
     
   ngOnDestroy(): void {
       this.subscription.unsubscribe();  

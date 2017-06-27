@@ -34,7 +34,7 @@
                     <div *ngIf="currentType==null">Alle</div>
 
                 </div>
-                <div class="x_content">
+                <div class="x_content" (scrolledToBottom)="onLoadMore()" hwinfTrackscroll>
                     <accordion [closeOthers]=false class="accordion">
                         <div *ngFor="let device of devices">
 

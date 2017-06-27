@@ -50,6 +50,7 @@ import { TrackscrollDirective } from './directives/trackscroll.directive';
         OrderStatusLabelClassDirective,
         DeviceStatusLabelClassDirective,
         ExcludeFieldGroupPipe,
+        TrackscrollDirective,
     ]
 })
 export class CoreModule {}
