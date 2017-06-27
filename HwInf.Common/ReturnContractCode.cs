@@ -32,8 +32,7 @@ namespace HwInf.Common
 
                     //sollte alle schäden zurückgeben, die vom oi sind und derzeit gemeldet sind
                     var damagesOfItem = damages.Where(i => i.Device.InvNum == oi.Device.InvNum)
-                                                .Where(i => i.Date >= o.From)
-                                                .Where(i => i.Date <= o.To)
+                                                .Where(i => i.Date.Date >= o.From.Date)
                                                 .Where(i => i.Cause.Uid == o.Entleiher.Uid);
                     if (damagesOfItem.Any())
                     {
