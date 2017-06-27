@@ -1,0 +1,10 @@
+﻿<form (ngSubmit)="executeSearch(searchText.value)" #f="ngForm">
+    <div class="form-group top_search">
+        <div class="input-group">
+            <input #searchText type="text" class="form-control" placeholder="Gerätenamen suchen...">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+            </span>
+        </div>
+    </div>
+</form>

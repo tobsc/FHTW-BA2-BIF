@@ -13,7 +13,8 @@ import {OrderProcessStep3Component} from "./user/orders/order-process/order-proc
 import {MyOrdersComponent} from "./user/orders/my-orders/my-orders.component";
 import {LoginAsComponent} from "./authentication/login-as/login-as.component";
 import {OrdersArchivComponent} from "./user/orders/orders-archiv/orders-archiv.component";
-import {OrderConfirmComponent} from "./user/orders/order-process/order-confirm/order-confirm.component";
+import { OrderConfirmComponent } from "./user/orders/order-process/order-confirm/order-confirm.component";
+import { SearchResultListComponent } from "./core/search/search-result-list/search-result-list.component";
 
 const APP_ROUTES: Routes = [
     { path: '', component: HomeComponent, canActivate: [AuthGuard],
@@ -22,6 +23,7 @@ const APP_ROUTES: Routes = [
             { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
             { path: 'geraete', component: DeviceListComponent, canActivate: [AuthGuard] },
             { path: 'geraete/typ/:type', component: DeviceListComponent, canActivate: [AuthGuard] },
+            { path: 'suche', component: SearchResultListComponent, canActivate: [AuthGuard] },
             { path: 'warenkorb', component: CartComponent, canActivate: [AuthGuard], },
             { path: 'anfrage', component: OrderProcessComponent, canActivate: [AuthGuard],
                 children: [

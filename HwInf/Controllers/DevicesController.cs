@@ -84,6 +84,43 @@ namespace HwInf.Controllers
             }
         }
 
+        // GET: api/devices/search
+        /// <summary>
+        /// Returns a list of all devices
+        /// </summary>
+        /// <param name="searchText"></param>
+        /// <param name="limit">Limit</param>
+        /// <param name="offset">Offset</param>
+        /// <returns></returns>
+        [ResponseType(typeof(DeviceViewModel))]
+        [Route("search")]
+        public IHttpActionResult GetSearch(string searchText, int limit = 25, int offset = 0)
+        {
+            try
+            {
+                var result = searchText.ToLower().Split(new char[] { ' ', ',' }).ToList();
+                var devices = _bl.GetDevices()
+                    .ToList()
+                    .Select(i => new DeviceViewModel(i).LoadMeta(i))
+                    .ToList();
+                result.ForEach(i =>
+                {
+                    devices = devices.Where(x => x.Name.ToLower().Contains(i) || x.Marke.ToLower().Contains(i))
+                              .ToList();
+                });
+
+                var deviceList = new DeviceListViewModel(devices.Skip(offset).Take(limit), limit, devices.Count);
+
+                return Ok(deviceList);
+
+            }
+            catch (Exception ex)
+            {
+                _log.ErrorFormat("Exception: {0}", ex);
+                return InternalServerError();
+            }
+        }
+
 
         // GET: api/devices/id/{id}
         /// <summary>

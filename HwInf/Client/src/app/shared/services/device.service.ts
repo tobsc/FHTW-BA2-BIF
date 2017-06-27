@@ -47,6 +47,24 @@ export class DeviceService {
             .map((response: Response) => response.json());
     }
 
+    public getSearch(
+        searchText: string = "",
+        limit: number = 100,
+        offset: number = 0,
+        params: URLSearchParams = new URLSearchParams()
+    ): Observable<DeviceList> {
+
+        params.set('searchText', searchText + '');
+        params.set('limit', limit + '');
+        params.set('offset', offset + '');
+
+        let options = new RequestOptions({
+            search: params,
+        });
+        return this.http.get(this.url + 'search', options)
+            .map((response: Response) => response.json());
+    }
+
     public getFilteredDevices(body: any): Observable<DeviceList> {
         let bodyString = JSON.stringify(body);
         let headers = new Headers({
@@ -194,4 +212,6 @@ export class DeviceService {
         return this.http.put(this.url + "accessories/" + body.Slug, bodyString, options)
             .map((response: Response) => response.json());
     }
+
+
 }

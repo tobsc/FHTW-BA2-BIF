@@ -36,7 +36,7 @@ import { Daterangepicker } from 'ng2-daterangepicker';
 import {KeysPipe} from "./shared/pipes/keys.pipe";
 import {OrderService} from "./shared/services/order.service";
 import { LoginAsComponent } from './authentication/login-as/login-as.component';
-
+import { PubSubSearchService } from "./shared/services/pub-sub-search.service";
 import { DamageService } from './shared/services/damage.service';
 
 
@@ -89,7 +89,8 @@ export function feedbackHttpFactory(backend: XHRBackend, options: RequestOptions
         CustomFieldsService,
         ErrorHandlerService,
         OrderService,
-        DamageService
+        DamageService,
+        PubSubSearchService,
     ],
     bootstrap: [AppComponent]
 })

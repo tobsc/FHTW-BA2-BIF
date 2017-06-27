@@ -1,0 +1,52 @@
+﻿<div class="cartmessage">
+    <div *ngFor="let alert of alerts">
+        <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
+    </div>
+</div>
+
+<div class="x_panel">
+    <div class="x_title">
+        <div>Suchergebnisse für "{{searchText}}"</div>   
+
+    </div>
+    <div class="x_content">
+        <accordion [closeOthers]=false class="accordion">
+            <div *ngFor="let device of devices">
+
+                <accordion-group>
+                    <div accordion-heading>
+                        <strong>{{device.Marke}} {{device.Name}} </strong>
+                        <ul class="list-inline" style="display: inline-block; margin-bottom: 0">
+                            <li style="font-size: 0.8em" class="text-muted" *ngFor="let metaData of device.DeviceMeta">
+                                <span *ngIf="metaData.Value > 1">{{metaData.Value}}x </span>
+                                {{metaData.Field}}
+                            </li>
+
+                        </ul>
+
+                    </div>
+                    <div id="{{device.InvNum}}" class="panel-collapse" role="tabpanel" attr.aria-labelledby="headingTwo" attr.aria-expanded="true">
+                        <div class="responsive-list">
+
+                            <div *ngFor="let fieldGroup of device.FieldGroups">
+                                <div *ngIf="getMetaDataOfFieldGroup(fieldGroup.Slug, device.DeviceMeta).length > 0">
+                                    <strong>{{fieldGroup.Name}}</strong>
+                                    <div *ngFor="let metaData of getMetaDataOfFieldGroup(fieldGroup.Slug, device.DeviceMeta)">
+                                        <span *ngIf="(fieldGroup.IsCountable) && (metaData.Value > 1)">{{metaData.Value}}&times; </span>
+                                        {{metaData.Field}}
+                                        <span *ngIf="(!fieldGroup.IsCountable) || (metaData.Value == 1)"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-success btn-xs" (click)="addItem(device)">
+                            Zum Warenkorb hinzufügen
+                            <i class="fa fa-cart-plus" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </accordion-group>
+            </div>
+        </accordion>
+    </div>
+</div>
+

@@ -17,12 +17,15 @@
           </ul>
         </li>
           
-        <li role="presentation" class="dropdown">
-          <a routerLink="/warenkorb" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
-              <i class="glyphicon glyphicon-shopping-cart fa-2x" aria-hidden="true"></i>
-             <span class="badge bg-green">{{cartService.getCount()}}</span>
-          </a>
-        </li>
+          <li role="presentation" class="dropdown">
+              <a routerLink="/warenkorb" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                  <i class="glyphicon glyphicon-shopping-cart fa-2x" aria-hidden="true"></i>
+                  <span class="badge bg-green">{{cartService.getCount()}}</span>
+              </a>
+          </li>
+          <li>
+              <hwinf-search></hwinf-search>
+          </li>
             </ul>
         </nav>
     </div>
