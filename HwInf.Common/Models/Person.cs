@@ -27,7 +27,7 @@ namespace HwInf.Common.Models
         public string Studiengang { get; set; }
         public int CompareTo(Person obj)
         {
-            return LastName.CompareTo(obj.LastName);
+            return Uid.CompareTo(obj.Uid);
         }
 
         public int CompareTo(object obj)

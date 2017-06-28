@@ -88,8 +88,6 @@ namespace HwInf.Tests.Controllers
 
             ctr.DeleteSetting(key);
 
-            var test = ctr.GetSetting(key);
-
             var notFoundResult = ctr.GetSetting(key) as NotFoundResult;
             Assert.NotNull(notFoundResult);
         }
