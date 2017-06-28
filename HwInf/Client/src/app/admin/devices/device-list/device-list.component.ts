@@ -4,7 +4,8 @@ import {Device} from "../../../shared/models/device.model";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Filter} from "../../../shared/models/filter.model";
 import {DeviceType} from "../../../shared/models/device-type.model";
-import {UserService} from "../../../shared/services/user.service";
+import { UserService } from "../../../shared/services/user.service";
+import { JwtService } from "../../../shared/services/jwt.service";
 import {User} from "../../../shared/models/user.model";
 @Component({
     selector: 'hwinf-device-list',
@@ -27,6 +28,7 @@ export class DeviceListComponent implements OnInit {
     constructor(
         private userService: UserService,
         private deviceService: DeviceService,
+        private jwtService: JwtService,
         private route: ActivatedRoute,
         private router: Router
     ) {}
@@ -42,7 +44,8 @@ export class DeviceListComponent implements OnInit {
         this.filter.Order = 'DESC';
         this.filter.OrderBy = this.orderBy;
         this.filter.Limit = this.itemsPerPage;
-        this.filter.Offset = (this.currentPage-1) * this.filter.Limit;
+        this.filter.Offset = (this.currentPage - 1) * this.filter.Limit;
+        this.filter.IsVerwalterView = this.jwtService.isVerwalter();
 
 
         this.deviceService.getDeviceTypes().subscribe(
@@ -58,7 +61,7 @@ export class DeviceListComponent implements OnInit {
 
     fetchData() {
 
-        this.filter.Offset = (this.currentPage-1) * this.filter.Limit;
+        this.filter.Offset = (this.currentPage - 1) * this.filter.Limit;
         return this.deviceService.getFilteredDevices(this.filter)
             .subscribe((data) => {
                 this.devices = data.Devices;
