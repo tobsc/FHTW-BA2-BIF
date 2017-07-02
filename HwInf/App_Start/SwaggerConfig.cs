@@ -9,6 +9,7 @@ using System.Web.Http.Description;
 using System.Linq;
 using System.Web.Http.Filters;
 using System.Collections.Generic;
+using System.Configuration;
 
 [assembly: PreApplicationStartMethod(typeof(SwaggerConfig), "Register")]
 
@@ -18,6 +19,9 @@ namespace HwInf
     {
         public static void Register()
         {
+            if (ConfigurationManager.AppSettings["DisableSwagger"] == "true")
+                return;
+
             var thisAssembly = typeof(SwaggerConfig).Assembly;
 
             GlobalConfiguration.Configuration 
