@@ -13,6 +13,10 @@ using log4net;
 
 namespace HwInf.Controllers
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Controller managing User Login and Impersonation
+    /// </summary>
     [RoutePrefix("api/auth")]
     public class AuthController : ApiController
     {
@@ -33,6 +37,14 @@ namespace HwInf.Controllers
             _bl = new BL(db);
         }
 
+        /// <summary>
+        /// Sign into HW-INF
+        /// </summary>
+        /// <remarks>Signs a user in.</remarks>
+        /// <param name="vmdl">User as &#x60;UserViewModel&#x60;</param>
+        /// <response code="401">An error occured, unauthorized</response>
+        /// <response code="500">An error occured, please read log files</response>
+        /// <response code="200"></response>
         [AllowAnonymous]
         [ResponseType(typeof(string))]
         [Route("login")]
@@ -71,11 +83,14 @@ namespace HwInf.Controllers
         }
 
         /// <summary>
-        /// Impersonate
+        /// Impersonate User
         /// </summary>
-        /// <param name="uid"></param>
-        /// <returns></returns>
-        [ResponseType(typeof(string))]
+        /// <remarks>Lets an Admin log into another users Account and returns a new JWT</remarks>
+        /// <param name="uid">UID of user one want to login to</param>
+        /// <response code="500">An error occured, please read log files</response>
+        /// <response code="200"></response>
+        /// <produces>application/json</produces>
+        [ResponseType(typeof(JsonWebToken))]
         [Route("impersonate/{uid}")]
         [Authorize(Roles = "Admin, Verwalter")]
         public IHttpActionResult GetImpersonate(string uid)
@@ -89,38 +104,39 @@ namespace HwInf.Controllers
             return Ok(new { token });
         }
 
-        /// <summary>
-        /// Returns a test token.
-        /// </summary>
-        /// <param name="minutes">Minutes</param>
-        /// <param name="role">Admin, User, Verwalter</param>
-        /// <param name="uid">UID</param>
-        /// <returns></returns>
-        [Route("testToken/{minutes}/{role}")]
-        public IHttpActionResult CreateTestToken(int minutes = 1, string role = "User", string uid = "test")
-        {
-            var unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            var expiry = Math.Round((DateTime.UtcNow.AddMinutes(minutes) - unixEpoch).TotalSeconds);
-            var issuedAt = Math.Round((DateTime.UtcNow - unixEpoch).TotalSeconds);
-            var notBefore = Math.Round((DateTime.UtcNow.AddMonths(6) - unixEpoch).TotalSeconds);
+        ///// <summary>
+        ///// Returns a test token.
+        ///// </summary>
+        ///// <param name="minutes">Minutes</param>
+        ///// <param name="role">Admin, User, Verwalter</param>
+        ///// <param name="uid">UID</param>
+        ///// <returns></returns>
+
+        //[Route("testToken/{minutes}/{role}")]
+        //public IHttpActionResult CreateTestToken(int minutes = 1, string role = "User", string uid = "test")
+        //{
+        //    var unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        //    var expiry = Math.Round((DateTime.UtcNow.AddMinutes(minutes) - unixEpoch).TotalSeconds);
+        //    var issuedAt = Math.Round((DateTime.UtcNow - unixEpoch).TotalSeconds);
+        //    var notBefore = Math.Round((DateTime.UtcNow.AddMonths(6) - unixEpoch).TotalSeconds);
 
 
-            var payload = new Dictionary<string, object>
-            {
-                {"uid", uid},
-                {"role", role  },
-                {"nbf", notBefore},
-                {"iat", issuedAt},
-                {"exp", expiry}
-            };
+        //    var payload = new Dictionary<string, object>
+        //    {
+        //        {"uid", uid},
+        //        {"role", role  },
+        //        {"nbf", notBefore},
+        //        {"iat", issuedAt},
+        //        {"exp", expiry}
+        //    };
 
-            //var secret = ConfigurationManager.AppSettings.Get("jwtKey");
-            const string apikey = "secretKey";
+        //    //var secret = ConfigurationManager.AppSettings.Get("jwtKey");
+        //    const string apikey = "secretKey";
 
-            var token = JsonWebToken.Encode(payload, apikey, JwtHashAlgorithm.HS256);
+        //    var token = JsonWebToken.Encode(payload, apikey, JwtHashAlgorithm.HS256);
 
-            return Ok(new { token });
-        }
+        //    return Ok(new { token });
+        //}
 
         protected override void Dispose(bool disposing)
         {

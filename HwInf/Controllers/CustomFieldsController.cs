@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.Http.Results;
 using HwInf.Common.DAL;
 using HwInf.Common.BL;
 using HwInf.Common.Models;
@@ -16,6 +17,10 @@ using WebGrease.Css.Extensions;
 
 namespace HwInf.Controllers
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Controller managing Custom Fields
+    /// </summary>
     [Authorize]
     [RoutePrefix("api/customfields")]
     [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
@@ -37,12 +42,16 @@ namespace HwInf.Controllers
             _bl = new BL(db);
         }
 
-        // GET: api/admin/devices/groups
         /// <summary>
-        /// Returns all Field Groups
+        /// Returns all FieldGroups
         /// </summary>
-        /// <returns></returns>
-        [ResponseType(typeof(IQueryable<FieldGroupViewModel>))]
+        /// <remarks>
+        /// Returns a List of all &#x60;FieldGroups&#x60; and their &#x60;Fields&#x60;. 
+        /// A &#x60;FieldGroup&#x60; represents a component of a &#x60;Device&#x60; (e.g: CPU, GPU, OS)
+        /// </remarks>
+        /// <response code="500">An error occured, please read log files</response>
+        /// <response code="200"></response>
+        [ResponseType(typeof(List<FieldGroupViewModel>))]
         [Route("fieldgroups")]
         public IHttpActionResult GetGroups()
         {
@@ -56,12 +65,14 @@ namespace HwInf.Controllers
         }
 
 
-        // POST: api/admin/devices/types
         /// <summary>
         /// Return FieldGroups of a DeviceType
         /// </summary>
-        /// <returns>List of FieldGroups</returns>
-        [ResponseType(typeof(FieldGroupViewModel))]
+        /// <remarks>Returns a list of &#x60;Fieldgroups&#x60; belonging to a &#x60;DeviceType&#x60; (e.g. PC, Notebook, TV) </remarks>
+        /// <response code="500">An error occured, please read log files</response>
+        /// <response code="200"></response>
+        /// <param name="typeSlug">Internal unique name of a &#x60;DeviceType&#x60;</param>
+        [ResponseType(typeof(List<FieldGroupViewModel>))]
         [Route("fieldgroups/{typeSlug}")]
         public IHttpActionResult GetGroupsOfDeviceType(string typeSlug)
         {
@@ -77,13 +88,15 @@ namespace HwInf.Controllers
             return Ok(vmdl);
         }
 
-        // POST: api/admin/devices/groups
         /// <summary>
         /// Add new FieldGroup
         /// </summary>
-        /// <returns></returns>
+        /// <remarks>Add a new &#x60;FieldGroup&#x60;. A &#x60;FieldGroup&#x60; represents a component of a &#x60;Device&#x60; (e.g: CPU, GPU, OS)</remarks>
+        /// <response code="500">An error occured, please read log files</response>
+        /// <response code="200"></response>
+        /// <param name="vmdl">New &#x60;FieldGroup&#x60; as &#x60;FieldGroupViewModel&#x60;</param>
         [Authorize(Roles = "Admin, Verwalter")]
-        [ResponseType(typeof(DeviceViewModel))]
+        [ResponseType(typeof(FieldGroupViewModel))]
         [Route("fieldgroups")]
         public IHttpActionResult PostGroup(FieldGroupViewModel vmdl)
         {
@@ -95,13 +108,20 @@ namespace HwInf.Controllers
             return Ok(vmdl);
         }
 
-        // POST: api/admin/devices/groups/fields
         /// <summary>
         /// Add new Field to FieldGroup
         /// </summary>
-        /// <returns></returns>
+        /// <remarks>
+        /// Add a new &#x60;Field&#x60; to a &#x60;FieldGroup&#x60;. 
+        /// A &#x60;Fieldgroup&#x60; represents a component of a &#x60;Device&#x60; (e.g: CPU, GPU, OS).
+        /// A &#x60;Field&#x60; represents a specific component(e.g: i5-4590, Windows 10)
+        /// </remarks>
+        /// <response code="500">An error occured, please read log files</response>
+        /// <response code="200"></response>
+        /// <param name="groupSlug">Unique name of a &#x60;FieldGroup&#x60;</param>
+        /// <param name="vmdl">New Field as &#x60;FieldViewModel&#x60;</param>
         [Authorize(Roles = "Admin, Verwalter")]
-        [ResponseType(typeof(DeviceViewModel))]
+        [ResponseType(typeof(FieldViewModel))]
         [Route("fields")]
         public IHttpActionResult PostField(string groupSlug, FieldViewModel vmdl)
         {
@@ -118,13 +138,19 @@ namespace HwInf.Controllers
             return Ok(vmdl);
         }
 
-        // POST: api/admin/devices/groups/types
         /// <summary>
         /// Add DeviceType to FieldGroup
         /// </summary>
-        /// <returns></returns>
+        /// <remarks>
+        /// Add a &#x60;DeviceType&#x60; (e.g: PC, TV) to a &#x60;FieldGroup&#x60;
+        /// A &#x60;Fieldgroup&#x60; represents a component of a &#x60;Device&#x60; (e.g: CPU, GPU, OS).
+        /// </remarks>
+        /// <response code="500">An error occured, please read log files</response>
+        /// <response code="200"></response>
+        /// <param name="typeSlug">Unique name of a &#x60;DeviceType&#x60;</param>
+        /// <param name="groupSlug">Unique name of a &#x60;FieldGroup&#x60;</param>
         [Authorize(Roles = "Admin, Verwalter")]
-        [ResponseType(typeof(DeviceViewModel))]
+        [ResponseType(typeof(OkResult))]
         [Route("fieldgroups/types")]
         public IHttpActionResult PostGroupType(string typeSlug, string groupSlug)
         {
@@ -140,16 +166,20 @@ namespace HwInf.Controllers
         }
 
 
-        // PUT: api/Devicee/5
         /// <summary>
         /// Update a FieldGroup
         /// </summary>
-        /// <param name="slug"></param>
-        /// <param name="vmdl"></param>
-        /// <returns></returns>
-        //[Authorize]
+        /// <remarks>Update a &#x60;FieldGroup&#x60;. A &#x60;Fieldgroup&#x60; represents a component of a &#x60;Device&#x60; (e.g: CPU, GPU, OS).</remarks>
+        /// <param name="slug">Unique name of a &#x60;FieldGroup&#x60;</param>
+        /// <param name="vmdl">Updated &#x60;FieldGroup&#x60; as &#x60;FieldGroupViewModel&#x60;</param>
+        /// <response code="500">An error occured, please read log files</response>
+        /// <response code="400">An error occured, slug and vmdl.slug have to be equivalent</response>
+        /// <response code="404">An error occured, &#x60;FieldGroup&#x60; not found</response>
+        /// <response code="200"></response>
+
         [Authorize(Roles = "Admin, Verwalter")]
         [HttpPut]
+        [ResponseType(typeof(FieldGroupViewModel))]
         [Route("fieldgroups/{slug}")]
         public IHttpActionResult PutFieldGroups(string slug, FieldGroupViewModel vmdl)
         {
@@ -194,11 +224,15 @@ namespace HwInf.Controllers
                 }
             }
         }
-        // GET: 
         /// <summary>
-        /// Returns fieldgroups with used fields from type
+        /// Returns FieldGroups with used Field
         /// </summary>
-        /// <returns></returns>
+        /// <remarks>
+        /// Used for the filter.
+        /// Only returns &#x60;Fields&#x60; of a &#x60;FieldGroup&#x60; which have a &#x60;Device&#x60; using them.
+        /// </remarks>
+        /// <response code="500">An error occured, please read log files</response>
+        /// <response code="200"></response>
         [ResponseType(typeof(FieldGroupViewModel))]
         [Route("filter/fieldgroups/")]
         public IHttpActionResult GetFieldGroupsUsedFields()
@@ -250,10 +284,17 @@ namespace HwInf.Controllers
 
         // GET: 
         /// <summary>
-        /// Returns fieldgroups with used fields from type
+        /// Returns FieldGroups with used Fields from DeviceType
         /// </summary>
-        /// <param name="typeSlug">DeviceType Slug</param>
-        /// <returns></returns>
+        /// <remarks>
+        /// Used for the filter.
+        /// Only returns &#x60;Fields&#x60; of a &#x60;FieldGroup&#x60; which have a &#x60;Device&#x60; using them for a specific &#x60;DeviceType&#x60;.
+        /// </remarks>
+        /// <param name="typeSlug">Unique name of a &#x60;DeviceType&#x60;</param>
+        /// <response code="500">An error occured, please read log files</response>
+        /// <response code="200"></response>
+
+
         [ResponseType(typeof(FieldGroupViewModel))]
         [Route("filter/fieldgroups/{typeslug}")]
         public IHttpActionResult GetFieldGroupsUsedFieldsType(string typeSlug)
@@ -304,10 +345,15 @@ namespace HwInf.Controllers
 
         // DELETE: 
         /// <summary>
-        /// Delete Fieldgroup
+        /// Delete FieldGroup
         /// </summary>
-        /// <param name="slug">DeviceType Slug</param>
-        /// <returns></returns>
+        /// <remarks>
+        /// Delete a &#x60;FieldGroup&#x60;
+        /// &#x60;FieldGroups&#x60; are not removed from the Database if they are used by any &#x60;Device&#x60;
+        /// </remarks>
+        /// <param name="slug">Unique name for a &#x60;FieldGroup&#x60;</param>
+        /// <response code="500">An error occured, please read log files</response>
+        /// <response code="200">&#x60;FieldGroup&#x60; deleted</response>
         [Authorize(Roles = "Admin, Verwalter")]
         [ResponseType(typeof(FieldGroupViewModel))]
         [Route("fieldgroups/{slug}")]

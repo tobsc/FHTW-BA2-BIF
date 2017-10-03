@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Security;
 using System.Web.Http;
 using System.Web.Http.Description;
-using System.Web.Security;
+using System.Web.Http.Results;
 using HwInf.Common.DAL;
 using HwInf.Common.BL;
 using HwInf.Common.Models;
@@ -39,7 +35,12 @@ namespace HwInf.Controllers
             _bl = new BL(db);
         }
 
-
+        /// <summary>
+        /// Returns List of DeviceStatus
+        /// </summary>
+        /// <remarks>Returns a list of &#x60;DeviceStatus&#x60;</remarks>
+        /// <response code="200"></response>
+        /// <response code="500">An error occured, please read log files</response>
         [ResponseType(typeof(List<DeviceStatusViewModel>))]
         [Route("status")]
 
@@ -56,11 +57,16 @@ namespace HwInf.Controllers
 
         // GET: api/devices/
         /// <summary>
-        /// Returns a list of all devices
+        /// Returns a List of all Devices
         /// </summary>
+        /// <remarks>
+        /// Returns a List of all &#x60;Devices&#x60;. 
+        /// Can be paged with limit and offset.
+        /// </remarks>
         /// <param name="limit">Limit</param>
         /// <param name="offset">Offset</param>
-        /// <returns></returns>
+        /// <response code="200"></response>
+        /// <response code="500">An error occured, please read log files</response>
         [ResponseType(typeof(DeviceViewModel))]
         [Route("")]
         public IHttpActionResult GetAll(int limit = 25, int offset = 0)
@@ -86,13 +92,18 @@ namespace HwInf.Controllers
 
         // GET: api/devices/search
         /// <summary>
-        /// Returns a list of all devices
+        /// Search for Devices
         /// </summary>
-        /// <param name="searchText"></param>
+        /// <remarks>
+        /// Search for &#x60;Devices&#x60;. Looks into Name and Brand
+        /// Can be paged with limit and offset.
+        /// </remarks>
+        /// <param name="searchText">Search Query</param>
         /// <param name="limit">Limit</param>
         /// <param name="offset">Offset</param>
-        /// <returns></returns>
-        [ResponseType(typeof(DeviceViewModel))]
+        /// <response code="200"></response>
+        /// <response code="500">An error occured, please read log files</response>
+        [ResponseType(typeof(DeviceListViewModel))]
         [Route("search")]
         public IHttpActionResult GetSearch(string searchText, int limit = 25, int offset = 0)
         {
@@ -122,12 +133,13 @@ namespace HwInf.Controllers
         }
 
 
-        // GET: api/devices/id/{id}
         /// <summary>
-        /// Returns device by
+        /// Returns Device by ID
         /// </summary>
-        /// <param name="id">Device ID</param>
-        /// <returns></returns>
+        /// <remarks>Returns a &#x60;Device&#x60; by its ID</remarks>
+        /// <param name="id">Unique identifier of a Device</param>
+        /// <response code="200"></response>
+        /// <response code="500">An error occured, please read log files</response>
         [ResponseType(typeof(DeviceViewModel))]
         [Route("id/{id}")]
         public IHttpActionResult GetDevice(int id)
@@ -152,14 +164,16 @@ namespace HwInf.Controllers
                 return InternalServerError();
             }
 
-        } 
-        
-        // GET: api/devices/invnum/{invNum}
+        }
+
         /// <summary>
-        /// Returns device by InvNum
+        /// Returns Device by InvNum
         /// </summary>
-        /// <param name="invNum">Device InvNum</param>
-        /// <returns></returns>
+        /// <remarks>Returns a &#x60;Device&#x60; by its unique InvNum</remarks>
+        /// <param name="invNum">Unique identifier of a &#x60;Device&#x60;</param>
+        /// <response code="200"></response>
+        /// <response code="404">An error occured, Device not found</response>
+        /// <response code="500">An error occured, please read log files</response>
         [ResponseType(typeof(DeviceViewModel))]
         [Route("invnum")]
         public IHttpActionResult GetDevice(string invNum)
@@ -188,14 +202,19 @@ namespace HwInf.Controllers
         }
 
 
-      
+
         // POST: api/devices/filter/
         /// <summary>
-        /// Filters the devices with given parameters
+        /// Filters the Devices with given parameters
         /// </summary>
-        /// <param name="vmdl">FilterViewModel</param>
-        /// <returns></returns>
-        [ResponseType(typeof(List<Device>))]
+        /// <remarks>
+        /// Filters the &#x60;Devices&#x60; with the given parameters.
+        /// Can be any Field of a &#x60;Device&#x60; (e.g: CPU, OS, GPU)
+        /// </remarks>
+        /// <param name="vmdl">Filter as FilterViewModel</param>
+        /// <response code="200"></response>
+        /// <response code="500">An error occured, please read log files</response>
+        [ResponseType(typeof(DeviceListViewModel))]
         [Route("filter")]
         public IHttpActionResult PostFilter([FromBody] FilterViewModel vmdl)
         {
@@ -226,10 +245,14 @@ namespace HwInf.Controllers
 
         // GET: api/devices/types
         /// <summary>
-        /// Returns all device types
+        /// Returns all DeviceTypes
         /// </summary>
-        /// <param name="showEmptyDeviceTypes"></param>
-        /// <returns></returns>
+        /// <remarks>
+        /// Returns a List of all &#x60;DeviceTypes&#x60; (e.g: PC, Notebook, TV).
+        /// </remarks>
+        /// <param name="showEmptyDeviceTypes">Boolean to show &#x60;DeviceTypes&#x60; which do not contain a &#x60;Device&#x60;</param>
+        /// <response code="200"></response>
+        /// <response code="500">An error occured, please read log files</response>
         [ResponseType(typeof(List<string>))]
         [Route("types")]
         public IHttpActionResult GetDeviceTypes(bool showEmptyDeviceTypes = true)
@@ -255,15 +278,18 @@ namespace HwInf.Controllers
 
         }
 
-        // POST: api/devices/create
         /// <summary>
-        /// Creates a new device
+        /// Creates a new Device
         /// </summary>
-        /// <param name="vmdl">Name, Marke, InvNum, TypeId, StatusId, RoomId, OwnerUid, DeviceMetaData</param>
-        /// <returns></returns>
+        /// <remarks>
+        /// Creates a new &#x60;Device&#x60;.
+        /// </remarks>
+        /// <param name="vmdl">Device as &#x60;DeviceViewModel&#x60;</param>
+        /// <response code="200"></response>
+        /// <response code="500">An error occured, please read log files</response>
         [Authorize (Roles = "Admin, Verwalter")]
         [Route("")]
-        [ResponseType(typeof(Device))]
+        [ResponseType(typeof(DeviceViewModel))]
         public IHttpActionResult PostDevice([FromBody]DeviceViewModel vmdl)
         {
             try
@@ -378,10 +404,13 @@ namespace HwInf.Controllers
         /// <summary>
         /// Create New DeviceType
         /// </summary>
-        /// <param name="vmdl">DeviceTypeViewModel</param>
-        /// <returns></returns>
+        /// <remarks>
+        /// Creates a New &#x60;DeviceType&#x60;</remarks>
+        /// <param name="vmdl">DeviceType as &#x60;DeviceTypeViewModel&#x60;</param>
+        /// <response code="200"></response>
+        /// <response code="500">An error occured, please read log files</response>
         [Authorize(Roles = "Admin, Verwalter")]
-        [ResponseType(typeof(DeviceViewModel))]
+        [ResponseType(typeof(DeviceTypeViewModel))]
         [Route("types")]
         public IHttpActionResult PostDeviceType(DeviceTypeViewModel vmdl)
         {
@@ -413,12 +442,18 @@ namespace HwInf.Controllers
 
         // DELETE: api/devices/id/{id}
         /// <summary>
-        /// Deletes (Sets IsActive to 0) a device
+        /// Deletes a Device
         /// </summary>
+        /// <remarks>
+        /// Deletes a &#x60;Device&#x60;.
+        /// &#x60;Devices&#x60; are not removed from the database (Sets IsActive to 0).
+        /// </remarks>
         /// <param name="id">Device ID</param>
-        /// <returns></returns>
+        /// <response code="200"></response>
+        /// <response code="500">An error occured, please read log files</response>
         [Authorize(Roles = "Admin, Verwalter")]
         [Route("id/{id}")]
+        [ResponseType(typeof(OkResult))]
         public IHttpActionResult DeleteDevice(int id)
         {
             try
@@ -452,10 +487,16 @@ namespace HwInf.Controllers
 
         // DELETE: api/devices/types/{slug}
         /// <summary>
-        /// Delete Device Type
+        /// Delete a DeviceType
         /// </summary>
-        /// <param name="slug">DeviceType Slug</param>
-        /// <returns></returns>
+        /// <remarks>
+        /// Deletes a &#x60;DeviceType&#x60;.
+        /// Only gets removed from the Database if not used by any &#x60;Devices&#x60;.
+        /// (IsActive set to 0)
+        /// </remarks>
+        /// <param name="slug">Unique name for a &#x60;DeviceType&#x60;</param>
+        /// <response code="200"></response>
+        /// <response code="500">An error occured, please read log files</response>
         [Authorize(Roles = "Admin, Verwalter")]
         [Route("types/{slug}")]
         public IHttpActionResult DeleteDeviceType(string slug)
@@ -495,11 +536,14 @@ namespace HwInf.Controllers
 
         // PUT: api/devices/id/{id}
         /// <summary>
-        /// Update a Devices
+        /// Update a Device
         /// </summary>
+        /// <remarks>&#x60;Updates a Device&#x60;</remarks>
         /// <param name="id">Device Id</param>
-        /// <param name="vmdl">DeviceViewModel</param>
-        /// <returns></returns>
+        /// <param name="vmdl">Device as &#x60;DeviceViewModel&#x60;</param>
+        /// <response code="200"></response>
+        /// <response code="400">An error occured, id and vmdl.DeviceId have to be equal</response>
+        /// <response code="500">An error occured, please read log files</response>
         [Authorize(Roles = "Admin, Verwalter")]
         [HttpPut]
         [Route("id/{id}")]
@@ -570,9 +614,11 @@ namespace HwInf.Controllers
         /// <summary>
         /// Edit DeviceType
         /// </summary>
-        /// <param name="slug">DeviceType slug</param>
-        /// <param name="vmdl">DeviceTypeViewModel</param>
-        /// <returns></returns>
+        /// <remarks>Edit a &#x60;DeviceType&#x60;</remarks>
+        /// <param name="slug">Unique name for a &#x60;DeviceType&#x60;</param>
+        /// <param name="vmdl">DeviceType as &#x60;DeviceType&#x60;</param>
+        /// <response code="200"></response>
+        /// <response code="500">An error occured, please read log files</response>
         [Authorize(Roles="Admin, Verwalter")]
         [ResponseType(typeof(DeviceViewModel))]
         [Route("types/{slug}")]
@@ -620,10 +666,12 @@ namespace HwInf.Controllers
 
         // GET: api/devices/accessories/
         /// <summary>
-        /// Edit DeviceType
+        /// Get Accessories
         /// </summary>
-        /// <returns></returns>
-        [ResponseType(typeof(DeviceViewModel))]
+        /// <remarks>Get a List of all &#x60;Accessories&#x60;</remarks>
+        /// <response code="200"></response>
+        /// <response code="500">An error occured, please read log files</response>
+        [ResponseType(typeof(List<AccessoryViewModel>))]
         [Route("accessories")]
         public IHttpActionResult GetAccessories()
         {
@@ -645,10 +693,13 @@ namespace HwInf.Controllers
 
         // GET: api/devices/accessories/{slug}
         /// <summary>
-        /// Edit DeviceType
+        /// Get a Single Accessory
         /// </summary>
-        /// <param name="slug">Accessory slug</param>
-        /// <returns></returns>
+        /// <remarks>Returns a Single &#x60;Accessory&#x60; by its Slug</remarks>
+        /// <param name="slug">Internal name for a &#x60;Accessory&#x60; </param>
+        /// <response code="200"></response>
+        /// <response code="400">An error occured, &#x60;Accessory&#x60; not found</response>
+        /// <response code="500">An error occured, please read log files</response>
         [ResponseType(typeof(DeviceViewModel))]
         [Route("accessories/{slug}")]
         public IHttpActionResult GetAccessory(string slug)
@@ -669,9 +720,12 @@ namespace HwInf.Controllers
 
         // POST: api/devices/accessories/
         /// <summary>
-        /// Edit DeviceType
+        /// Create Accessory
         /// </summary>
-        /// <returns></returns>
+        /// <remarks>Creatse a new &#x60;Accessory&#x60;</remarks>
+        /// <param name="vmdl">Accessory as &#x60;AccessoryViewModel&#x60;</param>
+        /// <response code="200"></response>
+        /// <response code="500">An error occured, please read log files</response>
         [ResponseType(typeof(DeviceViewModel))]
         [Route("accessories")]
         public IHttpActionResult PostAccessory([FromBody] AccessoryViewModel vmdl)
@@ -699,9 +753,13 @@ namespace HwInf.Controllers
 
         // PUT: api/devices/accessories/
         /// <summary>
-        /// Edit DeviceType
+        /// Edit an Accessory
         /// </summary>
-        /// <returns></returns>
+        /// <remarks>Update an &#x60;Accessory&#x60;</remarks>
+        /// <param name="slug">Unique name of an &#x60;Accessory&#x60;</param>
+        /// <param name="vmdl">Accessory as &#x60;AccessoryViewModel&#x60;</param>
+        /// <response code="200"></response>
+        /// <response code="500">An error occured, please read log files</response>
         [ResponseType(typeof(DeviceViewModel))]
         [Route("accessories/{slug}")]
         public IHttpActionResult PutAccessory(string slug, [FromBody] AccessoryViewModel vmdl)
@@ -732,10 +790,13 @@ namespace HwInf.Controllers
 
         // DELETE: api/devices/accessories/{slug}
         /// <summary>
-        /// Edit DeviceType
+        /// Delete an Accessory
         /// </summary>
-        /// <param name="slug">Accessory Slug</param>
-        /// <returns></returns>
+        /// <remarks>Delete an &#x60;Accessory&#x60;</remarks>
+        /// <param name="slug">Unique name of an &#x60;Accessory&#x60;</param>
+        /// <response code="200"></response>
+        /// <response code="404">An error occured, &#x60;Accessory&#x60; not found</response>
+        /// <response code="500">An error occured, please read log files</response>
         [ResponseType(typeof(DeviceViewModel))]
         [Route("accessories/{slug}")]
         public IHttpActionResult DeleteAccessory(string slug)

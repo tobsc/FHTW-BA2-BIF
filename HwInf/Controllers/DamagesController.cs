@@ -39,8 +39,12 @@ namespace HwInf.Controllers
         /// <summary>
         /// Get Damages
         /// </summary>
-        /// <returns></returns>
-        [ResponseType(typeof(DamageViewModel))]
+        /// <remarks>
+        /// Returns all &#x60;Damages&#x60; which are not repaired yet.
+        /// </remarks>
+        /// <response code="200"></response>
+        /// <response code="500">An error occured, please read log files</response>
+        [ResponseType(typeof(List<DamageViewModel>))]
         [Route("")]
         public IHttpActionResult GetDamages()
         {
@@ -69,8 +73,11 @@ namespace HwInf.Controllers
         /// <summary>
         /// Get Single Damage
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <remarks>Returns a single &#x60;Damage&#x60; by ID</remarks>
+        /// <param name="id">Unique ID of a &#x60;Damage&#x60;</param>
+        /// <response code="200"></response>
+        /// <response code="404">An error occured, &#x60;Damage&#x60; not found</response>
+        /// <response code="500">An error occured, please read log files</response>
         [ResponseType(typeof(DamageViewModel))]
         [Route("id/{id}")]
         public IHttpActionResult GetDamage(int id)
@@ -99,8 +106,13 @@ namespace HwInf.Controllers
         /// <summary>
         /// Get Damages by InvNum of Device
         /// </summary>
-        /// <param name="invNum"></param>
-        /// <returns></returns>
+        /// <remarks>
+        /// Returns &#x60;Damages&#x60; attached to a single &#x60;Device&#x60;.
+        /// </remarks>
+        /// <param name="invNum">Unique identifier of a &#x60;Device&#x60;</param>
+        /// <response code="200"></response>
+        /// <response code="404">An error occured, &#x60;Damage&#x60; not found</response>
+        /// <response code="500">An error occured, please read log files</response>
         [ResponseType(typeof(DamageViewModel))]
         [Route("invnum")]
         public IHttpActionResult GetDamages(string invNum)
@@ -118,7 +130,7 @@ namespace HwInf.Controllers
                     damages = damages.Where(i => i.Reporter.Uid == _bl.GetCurrentUid()).ToList();
                 }
 
-                if (damages == null)
+                if (!damages.Any())
                 {
                     _log.WarnFormat("Not Found: Damage by Device '{0}' not found", invNum);
                     return NotFound();
@@ -137,8 +149,10 @@ namespace HwInf.Controllers
         /// <summary>
         /// Get DamageStatus
         /// </summary>
-        /// <returns></returns>
-        [ResponseType(typeof(DamageStatusViewModel))]
+        /// <remarks>Returns a list of &#x60;DamageStatus&#x60;</remarks>
+        /// <response code="200"></response>
+        /// <response code="500">An error occured, please read log files</response>
+        [ResponseType(typeof(List<DamageStatusViewModel>))]
         [Route("damagestatus")]
         public IHttpActionResult GetDamageStatus()
         {
@@ -159,8 +173,10 @@ namespace HwInf.Controllers
         /// <summary>
         /// Create Damage
         /// </summary>
-        /// <param name="vmdl"></param>
-        /// <returns></returns>
+        /// <remarks>Creates a new &#x60;Damage&#x60;. &#x60;Damages&#x60; are attached to &#x60;Devices&#x60; an show their current condition</remarks>
+        /// <param name="vmdl">Damage as &#x60;DamageViewModel&#x60;</param>
+        /// <response code="200"></response>
+        /// <response code="500">An error occured, please read log files</response>
         [ResponseType(typeof(DamageViewModel))]
         [Route("")]
         public IHttpActionResult PostDamage([FromBody]DamageViewModel vmdl)
@@ -194,9 +210,12 @@ namespace HwInf.Controllers
         /// <summary>
         /// Update a Damage
         /// </summary>
-        /// <param name="id">Damage Id</param>
-        /// <param name="vmdl">DamageViewModel</param>
-        /// <returns></returns>
+        /// <remarks>Updates a &#x60;Damage&#x60;</remarks>
+        /// <param name="id">Unique identifier of a &#x60;Damage&#x60;</param>
+        /// <param name="vmdl">Updated Damage as &#x60;DamageViewModel&#x60;</param>
+        /// <response code="200"></response>
+        /// <response code="400">An error occured, id and vmdl.DamageId must be equal</response>
+        /// <response code="500">An error occured, please read log files</response>
         [ResponseType(typeof(DamageViewModel))]
         [Route("id/{id}")]
         public IHttpActionResult PutDamage(int id, DamageViewModel vmdl)
