@@ -1,18 +1,14 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using System.Web.Http.Description;
 using HwInf.Common.DAL;
-using HwInf.ViewModels;
 using HwInf.Common;
 using System.IO;
 using MigraDoc.DocumentObjectModel.IO;
 using MigraDoc.Rendering;
 using System.Net.Http.Headers;
-using System.Web.Http.Results;
 using HwInf.Common.BL;
 using log4net;
 using MigraDoc.DocumentObjectModel;
@@ -40,17 +36,22 @@ namespace HwInf.Controllers
             _bl = new BL(db);
         }
 
+
         /// <summary>
-        /// Starts the RunTime Text Template and creates the contract as pdf
+        /// Get contract
         /// </summary>
-        /// <param name="guid">Order guid</param>
-        /// <returns></returns>
+        /// <remarks>  
+        /// Starts the RunTime Text Template and creates the contract as PDF
+        /// </remarks>
+        /// <param name="orderGuid">&#x60;Order&#x60; guid</param>
+        /// <response code="200"></response>
+        /// <response code="500">An error occured, please read log files</response>
         [Route("{guid}")]
-        public HttpResponseMessage GetPrint(Guid guid)
+        public HttpResponseMessage GetPrint(Guid orderGuid)
         {
             try
             {
-                var order = _bl.GetOrders(guid);
+                var order = _bl.GetOrders(orderGuid);
                 var rpt = new Contract(order, _bl);
                 // Report -> String
                 var text = rpt.TransformText();
@@ -99,16 +100,20 @@ namespace HwInf.Controllers
         }
 
         /// <summary>
-        /// Starts the RunTime Text Template and creates the return-contract as pdf
+        /// Get return-contract
         /// </summary>
-        /// <param name="guid">Order guid</param>
-        /// <returns></returns>
+        /// <remarks>  
+        /// Starts the RunTime Text Template and creates the return-contract as PDF
+        /// </remarks>
+        /// <param name="orderGuid">&#x60;Order&#x60; guid</param>
+        /// <response code="200"></response>
+        /// <response code="500">An error occured, please read log files</response>
         [Route("return/{guid}")]
-        public HttpResponseMessage GetReturn(Guid guid)
+        public HttpResponseMessage GetReturn(Guid orderGuid)
         {
             try
             {
-                var order = _bl.GetOrders(guid);
+                var order = _bl.GetOrders(orderGuid);
                 var rpt = new ReturnContract(order, _bl);
                 // Report -> String
                 var text = rpt.TransformText();

@@ -8,7 +8,6 @@ using System.Web.Http.Description;
 using System.Web.Http.Results;
 using HwInf.Common.DAL;
 using HwInf.Common.BL;
-using HwInf.Common.Models;
 using HwInf.ViewModels;
 using log4net;
 using WebGrease.Css.Extensions;
@@ -55,7 +54,6 @@ namespace HwInf.Controllers
             return Ok(vmdls);
         }
 
-        // GET: api/devices/
         /// <summary>
         /// Returns a List of all Devices
         /// </summary>
@@ -90,7 +88,6 @@ namespace HwInf.Controllers
             }
         }
 
-        // GET: api/devices/search
         /// <summary>
         /// Search for Devices
         /// </summary>
@@ -203,7 +200,6 @@ namespace HwInf.Controllers
 
 
 
-        // POST: api/devices/filter/
         /// <summary>
         /// Filters the Devices with given parameters
         /// </summary>
@@ -243,7 +239,6 @@ namespace HwInf.Controllers
             }
         }
 
-        // GET: api/devices/types
         /// <summary>
         /// Returns all DeviceTypes
         /// </summary>
@@ -400,7 +395,6 @@ namespace HwInf.Controllers
             }
         }
 
-        // POST: api/devices/types/
         /// <summary>
         /// Create New DeviceType
         /// </summary>
@@ -440,7 +434,6 @@ namespace HwInf.Controllers
             }
         }
 
-        // DELETE: api/devices/id/{id}
         /// <summary>
         /// Deletes a Device
         /// </summary>
@@ -485,7 +478,6 @@ namespace HwInf.Controllers
             }
         }
 
-        // DELETE: api/devices/types/{slug}
         /// <summary>
         /// Delete a DeviceType
         /// </summary>
@@ -534,7 +526,6 @@ namespace HwInf.Controllers
             }
         }
 
-        // PUT: api/devices/id/{id}
         /// <summary>
         /// Update a Device
         /// </summary>
@@ -597,7 +588,7 @@ namespace HwInf.Controllers
             }
             catch (SecurityException)
             {
-                _log.WarnFormat("Security: '{0}' tried to update Device '{1}'", vmdl.InvNum);
+                _log.WarnFormat("Security: '{0}' tried to update Device '{1}'", User.Identity.Name, vmdl.InvNum);
             }
             catch (Exception ex)
             {
@@ -610,7 +601,6 @@ namespace HwInf.Controllers
             return Ok(vmdl);
         }
 
-        // PUT: api/devices/types/{slug}
         /// <summary>
         /// Edit DeviceType
         /// </summary>
@@ -664,7 +654,6 @@ namespace HwInf.Controllers
 
         }
 
-        // GET: api/devices/accessories/
         /// <summary>
         /// Get Accessories
         /// </summary>
@@ -691,7 +680,6 @@ namespace HwInf.Controllers
             }
         }
 
-        // GET: api/devices/accessories/{slug}
         /// <summary>
         /// Get a Single Accessory
         /// </summary>
@@ -718,7 +706,6 @@ namespace HwInf.Controllers
             }
         }
 
-        // POST: api/devices/accessories/
         /// <summary>
         /// Create Accessory
         /// </summary>
@@ -751,7 +738,6 @@ namespace HwInf.Controllers
             }
         }
 
-        // PUT: api/devices/accessories/
         /// <summary>
         /// Edit an Accessory
         /// </summary>
@@ -788,7 +774,6 @@ namespace HwInf.Controllers
             }
         }
 
-        // DELETE: api/devices/accessories/{slug}
         /// <summary>
         /// Delete an Accessory
         /// </summary>

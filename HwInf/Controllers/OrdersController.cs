@@ -1,22 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity.Core.Common.CommandTrees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using HwInf.Common.DAL;
 using HwInf.ViewModels;
 using HwInf.Common;
-using System.IO;
-using MigraDoc.DocumentObjectModel.IO;
-using MigraDoc.Rendering;
-using System.Net.Http.Headers;
 using System.Security;
 using HwInf.Common.BL;
-using HwInf.Common.Models;
 using log4net;
 using System.Threading.Tasks;
 
@@ -43,17 +35,26 @@ namespace HwInf.Controllers
             _bl = new BL(db);
         }
 
-        [ResponseType(typeof(OrderViewModel))]
-    
+        /// <summary>
+        /// Returns a filtered List of OrderListViewModel
+        /// </summary>
+        /// <remarks>
+        /// Returns a filtered List of &#x60;OrderListViewModel&#x60;
+        /// See &#x60;OrderFilterViewModel&#x60; so get available filter options
+        /// </remarks>
+        /// <response code="200"></response>
+        /// <response code="401">Unauthorized attempt to filter Orders</response>
+        /// <response code="500">An error occured, please read log files</response>
+        /// <param name="orderFilterViewModel">&#x60;OrderFilterViewModel&#x60;</param>
         [Route("filter")]
-        public IHttpActionResult PostFilter([FromBody] OrderFilterViewModel vmdl)
+        public IHttpActionResult PostFilter([FromBody] OrderFilterViewModel orderFilterViewModel)
         {
             try
             {
-                var result = vmdl.FilteredList(_bl).Select(i => new OrderViewModel(i)).ToList();
+                var result = orderFilterViewModel.FilteredList(_bl).Select(i => new OrderViewModel(i)).ToList();
                 var count = result.Count;
 
-                return Ok(new OrderListViewModel(result.Skip(vmdl.Offset).Take(vmdl.Limit), vmdl.Limit, count));
+                return Ok(new OrderListViewModel(result.Skip(orderFilterViewModel.Offset).Take(orderFilterViewModel.Limit), orderFilterViewModel.Limit, count));
             }
             catch (SecurityException)
             {
@@ -70,7 +71,11 @@ namespace HwInf.Controllers
         /// <summary>
         /// Get Orders
         /// </summary>
-        /// <returns></returns>
+        /// <remarks>
+        /// Returns a list of all &#x60;Orders&#x60;
+        /// </remarks>
+        /// <response code="200"></response>
+        /// <response code="500">An error occured, please read log files</response>
         [ResponseType(typeof(OrderViewModel))]
         [Route("")]
         [Authorize(Roles = "Admin, Verwalter")]
@@ -95,19 +100,23 @@ namespace HwInf.Controllers
         /// <summary>
         /// Get Single Order
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <remarks>
+        /// Returns a single &#x60;Order&#x60;
+        /// </remarks>
+        /// <param name="orderId">Id of the &#x60;Order&#x60;</param>
+        /// <response code="200"></response>
+        /// <response code="500">An error occured, please read log files</response>
         [ResponseType(typeof(OrderViewModel))]
         [Route("id/{id}")]
-        public IHttpActionResult GetOrders(int id)
+        public IHttpActionResult GetOrders(int orderId)
         {
             try
             {
-                var order = _bl.GetOrders(id);
+                var order = _bl.GetOrders(orderId);
 
                 if (order == null)
                 {
-                    _log.WarnFormat("Not Found: Order '{0}' not found", id);
+                    _log.WarnFormat("Not Found: Order '{0}' not found", orderId);
                     return NotFound();
                 }
 
@@ -126,6 +135,14 @@ namespace HwInf.Controllers
         /// Get OrderStatus
         /// </summary>
         /// <returns></returns>
+        /// <summary>
+        /// Get &#x60;OrderStatus&#x60;
+        /// </summary>
+        /// <remarks>
+        /// Returns a List of all &#x60;OrderStatus&#x60;
+        /// </remarks>
+        /// <response code="200"></response>
+        /// <response code="500">An error occured, please read log files</response>
         [ResponseType(typeof(List<OrderStatusViewModel>))]
         [Route("orderstatus")]
         public IHttpActionResult GetOrderStatus()
@@ -147,21 +164,25 @@ namespace HwInf.Controllers
 
 
         /// <summary>
-        /// Get Single Order by Guid
+        /// Get Single Order
         /// </summary>
-        /// <param name="guid"></param>
-        /// <returns></returns>
+        /// <remarks>
+        /// Returns a single &#x60;Order&#x60;
+        /// </remarks>
+        /// <param name="orderGuid">Guid of the &#x60;Order&#x60;</param>
+        /// <response code="200"></response>
+        /// <response code="500">An error occured, please read log files</response>
         [ResponseType(typeof(OrderViewModel))]
         [Route("guid/{guid}")]
-        public IHttpActionResult GetOrdersGuid(Guid guid)
+        public IHttpActionResult GetOrdersGuid(Guid orderGuid)
         {
             try
             {
-                var order = _bl.GetOrders(guid);
+                var order = _bl.GetOrders(orderGuid);
 
                 if (order == null)
                 {
-                    _log.WarnFormat("Not Found: Order '{0}' not found", guid);
+                    _log.WarnFormat("Not Found: Order '{0}' not found", orderGuid);
                     return NotFound();
                 }
 
@@ -176,14 +197,19 @@ namespace HwInf.Controllers
             }
         }
 
+
         /// <summary>
         /// Create Order
         /// </summary>
-        /// <param name="vmdl"></param>
-        /// <returns></returns>
+        /// <remarks>
+        /// Create a new Order &#x60;Order&#x60;
+        /// </remarks>
+        /// <param name="orderVmdl">&#x60;OrderViewmodel&#x60; of the new &#x60;Order&#x60;</param>
+        /// <response code="200"></response>
+        /// <response code="500">An error occured, please read log files</response>
         [ResponseType(typeof(OrderViewModel))]
         [Route("")]
-        public IHttpActionResult PostOrder([FromBody]OrderViewModel vmdl)
+        public IHttpActionResult PostOrder([FromBody]OrderViewModel orderVmdl)
         {
             try
             {
@@ -192,7 +218,7 @@ namespace HwInf.Controllers
                     return BadRequest(ModelState);
                 }
 
-                var vmdls = SplitOrders(vmdl);
+                var vmdls = SplitOrders(orderVmdl);
 
                 vmdls.ForEach(i =>
                 {
@@ -223,18 +249,23 @@ namespace HwInf.Controllers
         /// <summary>
         /// Accept Order
         /// </summary>
-        /// <param name="vmdl"></param>
-        /// <returns></returns>
+        /// <remarks>
+        /// Accept a created &#x60;Order&#x60;
+        /// </remarks>
+        /// <param name="orderVmdl">&#x60;OrderViewmodel&#x60; of the &#x60;Order&#x60;</param>
+        /// <response code="200"></response>
+        /// <response code="401">Unauthorized attempt to accept an Order</response>
+        /// <response code="500">An error occured, please read log files</response>
         [Authorize(Roles = "Admin, Verwalter")]
         [ResponseType(typeof(OrderViewModel))]
         [Route("order/accept/")]
-        public IHttpActionResult PutOrderAccept([FromBody]OrderViewModel vmdl)
+        public IHttpActionResult PutOrderAccept([FromBody]OrderViewModel orderVmdl)
         {
             try
             {
-                var order = _bl.GetOrders(vmdl.OrderId);
+                var order = _bl.GetOrders(orderVmdl.OrderId);
                 var orderItems = order.OrderItems.ToList();
-                var changed = vmdl.OrderItems
+                var changed = orderVmdl.OrderItems
                     .Where(i => i.IsDeclined)
                     .Select(i => i.ItemId)
                     .ToList();
@@ -245,19 +276,19 @@ namespace HwInf.Controllers
                     .ForEach(i => i.IsDeclined = true);
 
 
-                vmdl.Accept(order, _bl);
+                orderVmdl.Accept(order, _bl);
                 _bl.SaveChanges();
-                vmdl.LoadOrderItems(order).Refresh(order);
+                orderVmdl.LoadOrderItems(order).Refresh(order);
 
                 ////////////////Mail Part
-                Task task = new Task(() => SendMail(vmdl));
+                Task task = new Task(() => SendMail(orderVmdl));
                 task.Start();
 
-                return Ok(vmdl);
+                return Ok(orderVmdl);
             }
             catch (SecurityException)
             {
-                _log.WarnFormat("Security: '{0}' tried to update Order '{1}'", _bl.GetCurrentUid(), vmdl.OrderId);
+                _log.WarnFormat("Security: '{0}' tried to update Order '{1}'", _bl.GetCurrentUid(), orderVmdl.OrderId);
                 return Unauthorized();
             }
 
@@ -271,26 +302,31 @@ namespace HwInf.Controllers
         /// <summary>
         /// Lend Order
         /// </summary>
-        /// <param name="vmdl"></param>
-        /// <returns></returns>
+        /// <remarks>
+        /// Lend an &#x60;Order&#x60;, sets its &#x60;OrderStatus&#x60; to lent
+        /// </remarks>
+        /// <param name="orderVmdl">&#x60;OrderViewmodel&#x60; of the &#x60;Order&#x60;</param>
+        /// <response code="200"></response>
+        /// <response code="401">Unauthorized attempt to lend an Order</response>
+        /// <response code="500">An error occured, please read log files</response>
         [Authorize(Roles = "Admin, Verwalter")]
         [ResponseType(typeof(OrderItemViewModel))]
         [Route("order/lend/")]
-        public IHttpActionResult PutOrderLend([FromBody]OrderViewModel vmdl)
+        public IHttpActionResult PutOrderLend([FromBody]OrderViewModel orderVmdl)
         {
             try
             {
-                var order = _bl.GetOrders(vmdl.OrderId);
+                var order = _bl.GetOrders(orderVmdl.OrderId);
 
-                vmdl.Lend(order, _bl);
+                orderVmdl.Lend(order, _bl);
                 _bl.SaveChanges();
-                vmdl.LoadOrderItems(order).Refresh(order);
+                orderVmdl.LoadOrderItems(order).Refresh(order);
 
-                return Ok(vmdl);
+                return Ok(orderVmdl);
             }
             catch (SecurityException)
             {
-                _log.WarnFormat("Security: '{0}' tried to update Order '{1}'", _bl.GetCurrentUid(), vmdl.OrderId);
+                _log.WarnFormat("Security: '{0}' tried to update Order '{1}'", _bl.GetCurrentUid(), orderVmdl.OrderId);
                 return Unauthorized();
             }
 
@@ -301,30 +337,36 @@ namespace HwInf.Controllers
             }
         }
 
+
         /// <summary>
         /// Reset Order
         /// </summary>
-        /// <param name="vmdl"></param>
-        /// <returns></returns>
+        /// <remarks>
+        /// Resets an &#x60;Order&#x60;, sets its &#x60;OrderStatus&#x60; to open
+        /// </remarks>
+        /// <param name="orderVmdl">&#x60;OrderViewmodel&#x60; of the &#x60;Order&#x60;</param>
+        /// <response code="200"></response>
+        /// <response code="401">Unauthorized attempt to reset an Order</response>
+        /// <response code="500">An error occured, please read log files</response>
         [Authorize(Roles = "Admin, Verwalter")]
         [ResponseType(typeof(OrderItemViewModel))]
         [Route("order/reset/")]
-        public IHttpActionResult PutOrderReset([FromBody]OrderViewModel vmdl)
+        public IHttpActionResult PutOrderReset([FromBody]OrderViewModel orderVmdl)
         {
             try
             {
-                var order = _bl.GetOrders(vmdl.OrderId);
+                var order = _bl.GetOrders(orderVmdl.OrderId);
 
-                vmdl.Reset(order, _bl);
+                orderVmdl.Reset(order, _bl);
                 _bl.SaveChanges();
-               
-                vmdl.LoadOrderItems(order).Refresh(order);
 
-                return Ok(vmdl);
+                orderVmdl.LoadOrderItems(order).Refresh(order);
+
+                return Ok(orderVmdl);
             }
             catch (SecurityException)
             {
-                _log.WarnFormat("Security: '{0}' tried to update Order '{1}'", _bl.GetCurrentUid(), vmdl.OrderId);
+                _log.WarnFormat("Security: '{0}' tried to update Order '{1}'", _bl.GetCurrentUid(), orderVmdl.OrderId);
                 return Unauthorized();
             }
 
@@ -338,30 +380,35 @@ namespace HwInf.Controllers
         /// <summary>
         /// Decline Order
         /// </summary>
-        /// <param name="vmdl"></param>
-        /// <returns></returns>
+        /// <remarks>
+        /// Decline an &#x60;Order&#x60;, sets its &#x60;OrderStatus&#x60; to declined
+        /// </remarks>
+        /// <param name="orderVmdl">&#x60;OrderViewmodel&#x60; of the &#x60;Order&#x60;</param>
+        /// <response code="200"></response>
+        /// <response code="401">Unauthorized attempt to decline an Order</response>
+        /// <response code="500">An error occured, please read log files</response>
         [Authorize(Roles = "Admin, Verwalter")]
         [ResponseType(typeof(OrderItemViewModel))]
         [Route("order/decline/")]
-        public IHttpActionResult PutOrderDecline([FromBody]OrderViewModel vmdl)
+        public IHttpActionResult PutOrderDecline([FromBody]OrderViewModel orderVmdl)
         {
             try
             {
-                var order = _bl.GetOrders(vmdl.OrderId);
+                var order = _bl.GetOrders(orderVmdl.OrderId);
 
-                vmdl.Decline(order, _bl);
+                orderVmdl.Decline(order, _bl);
                 _bl.SaveChanges();
-                vmdl.LoadOrderItems(order).Refresh(order);
+                orderVmdl.LoadOrderItems(order).Refresh(order);
 
                 ////////////////Mail Part
-                Task task = new Task(() => SendMail(vmdl));
+                Task task = new Task(() => SendMail(orderVmdl));
                 task.Start();
 
-                return Ok(vmdl);
+                return Ok(orderVmdl);
             }
             catch (SecurityException)
             {
-                _log.WarnFormat("Security: '{0}' tried to update Order '{1}'", _bl.GetCurrentUid(), vmdl.OrderId);
+                _log.WarnFormat("Security: '{0}' tried to update Order '{1}'", _bl.GetCurrentUid(), orderVmdl.OrderId);
                 return Unauthorized();
             }
 
@@ -375,26 +422,31 @@ namespace HwInf.Controllers
         /// <summary>
         /// Return Order
         /// </summary>
-        /// <param name="vmdl"></param>
-        /// <returns></returns>
+        /// <remarks>
+        /// Return an &#x60;Order&#x60;, sets its &#x60;OrderStatus&#x60; to finished
+        /// </remarks>
+        /// <param name="orderVmdl">&#x60;OrderViewmodel&#x60; of the &#x60;Order&#x60;</param>
+        /// <response code="200"></response>
+        /// <response code="401">Unauthorized attempt to return an Order</response>
+        /// <response code="500">An error occured, please read log files</response>
         [Authorize(Roles = "Admin, Verwalter")]
         [ResponseType(typeof(OrderItemViewModel))]
         [Route("order/return/")]
-        public IHttpActionResult PutOrderReturn([FromBody]OrderViewModel vmdl)
+        public IHttpActionResult PutOrderReturn([FromBody]OrderViewModel orderVmdl)
         {
             try
             {
-                var order = _bl.GetOrders(vmdl.OrderId);
+                var order = _bl.GetOrders(orderVmdl.OrderId);
 
-                vmdl.Return(order, _bl);
+                orderVmdl.Return(order, _bl);
                 _bl.SaveChanges();
-                vmdl.LoadOrderItems(order).Refresh(order);
+                orderVmdl.LoadOrderItems(order).Refresh(order);
 
-                return Ok(vmdl);
+                return Ok(orderVmdl);
             }
             catch (SecurityException)
             {
-                _log.WarnFormat("Security: '{0}' tried to update Order '{1}'", _bl.GetCurrentUid(), vmdl.OrderId);
+                _log.WarnFormat("Security: '{0}' tried to update Order '{1}'", _bl.GetCurrentUid(), orderVmdl.OrderId);
                 return Unauthorized();
             }
 
@@ -406,33 +458,38 @@ namespace HwInf.Controllers
         }
 
         /// <summary>
-        /// Return Order
+        /// Abort Order
         /// </summary>
-        /// <param name="vmdl"></param>
-        /// <returns></returns>
+        /// <remarks>
+        /// A User can abort an &#x60;Order&#x60; before it gets processed, sets its &#x60;OrderStatus&#x60; to aborted
+        /// </remarks>
+        /// <param name="orderVmdl">&#x60;OrderViewmodel&#x60; of the &#x60;Order&#x60;</param>
+        /// <response code="200"></response>
+        /// <response code="401">Unauthorized attempt to abort an Order</response>
+        /// <response code="500">An error occured, please read log files</response>
         [Authorize]
         [ResponseType(typeof(OrderItemViewModel))]
         [Route("order/abort/")]
-        public IHttpActionResult PutOrderAbort([FromBody]OrderViewModel vmdl)
+        public IHttpActionResult PutOrderAbort([FromBody]OrderViewModel orderVmdl)
         {
             try
             {
-                var order = _bl.GetOrders(vmdl.OrderId);
+                var order = _bl.GetOrders(orderVmdl.OrderId);
                 if (!order.Entleiher.Uid.Equals(_bl.GetCurrentUid()) || !order.OrderStatus.Slug.Equals("offen"))
                 {
-                    _log.WarnFormat("'{0}' failed to abort Order '{1}'", _bl.GetCurrentUid(),  vmdl.OrderId);
+                    _log.WarnFormat("'{0}' failed to abort Order '{1}'", _bl.GetCurrentUid(), orderVmdl.OrderId);
                     return BadRequest("Der Auftrag kann nicht abgebrochen werden.");
-                }               
-                vmdl.Abort(order, _bl);
+                }
+                orderVmdl.Abort(order, _bl);
                 _bl.SaveChanges();
-                _log.InfoFormat("'{0}' successfully aborted Order '{1}'", _bl.GetCurrentUid(), vmdl.OrderId);
-                vmdl.Refresh(order);
+                _log.InfoFormat("'{0}' successfully aborted Order '{1}'", _bl.GetCurrentUid(), orderVmdl.OrderId);
+                orderVmdl.Refresh(order);
 
-                return Ok(vmdl);
+                return Ok(orderVmdl);
             }
             catch (SecurityException)
             {
-                _log.WarnFormat("Security: '{0}' tried to abort Order '{1}'", _bl.GetCurrentUid(), vmdl.OrderId);
+                _log.WarnFormat("Security: '{0}' tried to abort Order '{1}'", _bl.GetCurrentUid(), orderVmdl.OrderId);
                 return Unauthorized();
             }
 
@@ -444,22 +501,28 @@ namespace HwInf.Controllers
         }
 
         /// <summary>
-        /// Search Orders
+        /// Search Order
         /// </summary>
-        /// <param name="vmdl"></param>
-        /// <returns></returns>
+        /// <remarks>
+        /// Search &#x60;Orders&#x60;
+        /// For search parameters look at &#x60;OrderSearchViewModel&#x60;
+        /// </remarks>
+        /// <param name="orderSearchVmdl">&#x60;OrderSearchViewmodel&#x60; with search parameters</param>
+        /// <response code="200"></response>
+        /// <response code="401">Unauthorized attempt to search an Order</response>
+        /// <response code="500">An error occured, please read log files</response>
         [ResponseType(typeof(OrderItemViewModel))]
         [Route("search")]
-        public IHttpActionResult PostSearchOrders([FromBody]OrderSearchViewModel vmdl)
+        public IHttpActionResult PostSearchOrders([FromBody]OrderSearchViewModel orderSearchVmdl)
         {
             try
             {
-                var result = vmdl.Seach(_bl)
+                var result = orderSearchVmdl.Seach(_bl)
                     .Select(i => new OrderViewModel(i))
                     .ToList();
                 var count = result.Count;
 
-                return Ok(new OrderListViewModel(result.Skip(vmdl.Offset).Take(vmdl.Limit), vmdl.Limit, count));
+                return Ok(new OrderListViewModel(result.Skip(orderSearchVmdl.Offset).Take(orderSearchVmdl.Limit), orderSearchVmdl.Limit, count));
             }
             catch (SecurityException)
             {
@@ -472,29 +535,6 @@ namespace HwInf.Controllers
                 _log.ErrorFormat("Exception: '{0}'", ex);
                 return InternalServerError();
             }
-        }
-
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-
-        private static MemoryStream CreateMDDLStream(string text)
-        {
-            MemoryStream stream = new MemoryStream();
-            StreamWriter sw = new StreamWriter(stream);
-
-            sw.Write(text);
-
-            sw.Flush();
-            stream.Seek(0, SeekOrigin.Begin);
-            return stream;
         }
 
         private List<OrderViewModel> SplitOrders(OrderViewModel vmdl)
@@ -535,25 +575,13 @@ namespace HwInf.Controllers
             
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="date"></param>
-        /// <param name="daysbefore"></param>
-        [ResponseType(typeof(Notifier))]
-        [Route("")]
-        private IHttpActionResult testreminder(DateTime date, string daysbefore)
+        protected override void Dispose(bool disposing)
         {
-            try
+            if (disposing)
             {
-                Notifier notify = new Notifier(date, daysbefore);
-                return Ok(notify);
+                _db.Dispose();
             }
-            catch (Exception ex)
-            {
-                _log.ErrorFormat("Exception: '{0}'", ex);
-                return InternalServerError(); ;
-            }
+            base.Dispose(disposing);
         }
     }
 }

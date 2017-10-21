@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Data.Entity.Validation;
-using System.Diagnostics;
 using System.Linq;
 using System.Security;
 using System.Web.Http;
@@ -33,9 +31,13 @@ namespace HwInf.Controllers
         }
 
         /// <summary>
-        /// Returns UserViewModel of given Uid.
+        /// Get User information User
         /// </summary>
-        /// <returns></returns>
+        /// <remarks>
+        /// Returns a logged in &#x60;Users&#x60; information its Uid
+        /// </remarks>
+        /// <response code="200"></response>
+        /// <response code="500">An error occured, please read log files</response>
         [ResponseType(typeof(UserViewModel))]
         [Route("userdata")]
         public IHttpActionResult GetPersonByUid()
@@ -56,9 +58,13 @@ namespace HwInf.Controllers
         }
 
         /// <summary>
-        /// Returns List of Users.
+        /// Get Owners and Admins
         /// </summary>
-        /// <returns>LastName, Name, Uid</returns>
+        /// <remarks>
+        /// Returns a List of all &#x60;Users&#x60; which are manage &#x60;Devices&#x60;
+        /// </remarks>
+        /// <response code="200"></response>
+        /// <response code="500">An error occured, please read log files</response>
         [Authorize(Roles="Verwalter, Admin")]
         [ResponseType(typeof(UserViewModel))]
         [Route("owners")]
@@ -82,10 +88,14 @@ namespace HwInf.Controllers
 
         }
 
-        ///<summary>
-        ///Returns List of Admins.
-        ///</summary>
-        ///<returns>LastName, Name, Uid</returns>
+        /// <summary>
+        /// Get Admins
+        /// </summary>
+        /// <remarks>
+        /// Returns a List of all &#x60;Users&#x60; which are Admins;
+        /// </remarks>
+        /// <response code="200"></response>
+        /// <response code="500">An error occured, please read log files</response>
         [Authorize(Roles = "Verwalter, Admin")]
         [ResponseType(typeof(UserViewModel))]
         [Route("admins")]
@@ -110,9 +120,13 @@ namespace HwInf.Controllers
         }
 
         /// <summary>
-        /// Returns List of Users.
+        /// Get Users
         /// </summary>
-        /// <returns>LastName, Name, Uid</returns>
+        /// <remarks>
+        /// Returns a List of all &#x60;Users&#x60;
+        /// </remarks>
+        /// <response code="200"></response>
+        /// <response code="500">An error occured, please read log files</response>
         [Authorize(Roles = "Verwalter, Admin")]
         [ResponseType(typeof(UserViewModel))]
         [Route("users")]
@@ -139,25 +153,29 @@ namespace HwInf.Controllers
         /// <summary>
         /// Save Phonenumber
         /// </summary>
-        /// <param name="vmdl"></param>
-        /// <returns></returns>
+        /// <remarks>
+        /// Updates a &#x60;User's&#x60; Phonenumber and/or assigned Room
+        /// </remarks>
+        /// <param name="userVmdl">&#x60;UserViewModel&#x60; of User</param>
+        /// <response code="200"></response>
+        /// <response code="500">An error occured, please read log files</response>
         [Route("update")]
-        public IHttpActionResult PostUpdateUser([FromBody] UserViewModel vmdl)
+        public IHttpActionResult PostUpdateUser([FromBody] UserViewModel userVmdl)
         {
             try
             {
                 var obj = _bl.GetUsers(_bl.GetCurrentUid());
 
-                vmdl.ApplyChangesTelRoom(obj);
-                vmdl.Refresh(obj);
+                userVmdl.ApplyChangesTelRoom(obj);
+                userVmdl.Refresh(obj);
                 _bl.SaveChanges();
-                _log.InfoFormat("User '{0}' updated by '{1}'", vmdl.Uid, User.Identity.Name);
+                _log.InfoFormat("User '{0}' updated by '{1}'", userVmdl.Uid, User.Identity.Name);
 
-                return Ok(vmdl);
+                return Ok(userVmdl);
             }
             catch (SecurityException)
             {
-                _log.WarnFormat("'{0}' tried to Update user '{1}'", _bl.GetCurrentUid(), vmdl.Uid);
+                _log.WarnFormat("'{0}' tried to Update user '{1}'", _bl.GetCurrentUid(), userVmdl.Uid);
                 return Unauthorized();
             }
             catch (Exception ex)
@@ -170,8 +188,12 @@ namespace HwInf.Controllers
         /// <summary>
         /// Add Admin
         /// </summary>
-        /// <param name="uid"></param>
-        /// <returns></returns>
+        /// <remarks>
+        /// Adds a &#x60;User&#x60; to the List of Admins
+        /// </remarks>
+        /// <param name="uid">Uid of &#x60;User&#x60;</param>
+        /// <response code="200"></response>
+        /// <response code="500">An error occured, please read log files</response>
         [Route("admin/{uid}")]
         [Authorize(Roles = "Admin")]
         public IHttpActionResult GetAddAdmin(string uid)
@@ -195,9 +217,13 @@ namespace HwInf.Controllers
         /// <summary>
         /// Remove Admin
         /// </summary>
-        /// <param name="uid"></param>
-        /// <param name="role"></param>
-        /// <returns></returns>
+        /// <remarks>
+        /// Removes a &#x60;User&#x60; from the List of Admins and sets his new role
+        /// </remarks>
+        /// <param name="uid">Uid of &#x60;User&#x60;</param>
+        /// <param name="role">Role the &#x60;User&#x60; will be assigned to</param>
+        /// <response code="200"></response>
+        /// <response code="500">An error occured, please read log files</response>
         [Route("admin/remove/{uid}/{role}")]
         [Authorize(Roles = "Admin")]
         public IHttpActionResult GetRemoveAdmin(string uid, string role)
