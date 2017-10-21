@@ -31,7 +31,7 @@ namespace HwInf.Controllers
         }
 
         /// <summary>
-        /// Get User information User
+        /// Get User information
         /// </summary>
         /// <remarks>
         /// Returns a logged in &#x60;Users&#x60; information its Uid
@@ -151,7 +151,7 @@ namespace HwInf.Controllers
         }
 
         /// <summary>
-        /// Save Phonenumber
+        /// Update User
         /// </summary>
         /// <remarks>
         /// Updates a &#x60;User's&#x60; Phonenumber and/or assigned Room

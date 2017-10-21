@@ -35,7 +35,7 @@ namespace HwInf.Controllers
         }
 
         /// <summary>
-        /// Returns List of DeviceStatus
+        /// Get DeviceStatus
         /// </summary>
         /// <remarks>Returns a list of &#x60;DeviceStatus&#x60;</remarks>
         /// <response code="200"></response>
@@ -55,7 +55,7 @@ namespace HwInf.Controllers
         }
 
         /// <summary>
-        /// Returns a List of all Devices
+        /// Get all Devices
         /// </summary>
         /// <remarks>
         /// Returns a List of all &#x60;Devices&#x60;. 
@@ -89,7 +89,7 @@ namespace HwInf.Controllers
         }
 
         /// <summary>
-        /// Search for Devices
+        /// Search Devices
         /// </summary>
         /// <remarks>
         /// Search for &#x60;Devices&#x60;. Looks into Name and Brand
@@ -131,7 +131,7 @@ namespace HwInf.Controllers
 
 
         /// <summary>
-        /// Returns Device by ID
+        /// Get Device by ID
         /// </summary>
         /// <remarks>Returns a &#x60;Device&#x60; by its ID</remarks>
         /// <param name="id">Unique identifier of a Device</param>
@@ -164,7 +164,7 @@ namespace HwInf.Controllers
         }
 
         /// <summary>
-        /// Returns Device by InvNum
+        /// Get Device by InvNum
         /// </summary>
         /// <remarks>Returns a &#x60;Device&#x60; by its unique InvNum</remarks>
         /// <param name="invNum">Unique identifier of a &#x60;Device&#x60;</param>
@@ -201,7 +201,7 @@ namespace HwInf.Controllers
 
 
         /// <summary>
-        /// Filters the Devices with given parameters
+        /// Filter Devices
         /// </summary>
         /// <remarks>
         /// Filters the &#x60;Devices&#x60; with the given parameters.
@@ -240,7 +240,7 @@ namespace HwInf.Controllers
         }
 
         /// <summary>
-        /// Returns all DeviceTypes
+        /// Get DeviceTypes
         /// </summary>
         /// <remarks>
         /// Returns a List of all &#x60;DeviceTypes&#x60; (e.g: PC, Notebook, TV).
@@ -274,7 +274,7 @@ namespace HwInf.Controllers
         }
 
         /// <summary>
-        /// Creates a new Device
+        /// Create Device
         /// </summary>
         /// <remarks>
         /// Creates a new &#x60;Device&#x60;.
@@ -396,7 +396,7 @@ namespace HwInf.Controllers
         }
 
         /// <summary>
-        /// Create New DeviceType
+        /// Create DeviceType
         /// </summary>
         /// <remarks>
         /// Creates a New &#x60;DeviceType&#x60;</remarks>
@@ -435,7 +435,7 @@ namespace HwInf.Controllers
         }
 
         /// <summary>
-        /// Deletes a Device
+        /// Delete Device
         /// </summary>
         /// <remarks>
         /// Deletes a &#x60;Device&#x60;.
@@ -479,7 +479,7 @@ namespace HwInf.Controllers
         }
 
         /// <summary>
-        /// Delete a DeviceType
+        /// Delete DeviceType
         /// </summary>
         /// <remarks>
         /// Deletes a &#x60;DeviceType&#x60;.
@@ -527,7 +527,7 @@ namespace HwInf.Controllers
         }
 
         /// <summary>
-        /// Update a Device
+        /// Update Device
         /// </summary>
         /// <remarks>&#x60;Updates a Device&#x60;</remarks>
         /// <param name="id">Device Id</param>
@@ -681,7 +681,7 @@ namespace HwInf.Controllers
         }
 
         /// <summary>
-        /// Get a Single Accessory
+        /// Get Single Accessory
         /// </summary>
         /// <remarks>Returns a Single &#x60;Accessory&#x60; by its Slug</remarks>
         /// <param name="slug">Internal name for a &#x60;Accessory&#x60; </param>
@@ -739,7 +739,7 @@ namespace HwInf.Controllers
         }
 
         /// <summary>
-        /// Edit an Accessory
+        /// Edit Accessory
         /// </summary>
         /// <remarks>Update an &#x60;Accessory&#x60;</remarks>
         /// <param name="slug">Unique name of an &#x60;Accessory&#x60;</param>
@@ -775,7 +775,7 @@ namespace HwInf.Controllers
         }
 
         /// <summary>
-        /// Delete an Accessory
+        /// Delete Accessory
         /// </summary>
         /// <remarks>Delete an &#x60;Accessory&#x60;</remarks>
         /// <param name="slug">Unique name of an &#x60;Accessory&#x60;</param>

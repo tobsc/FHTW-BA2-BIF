@@ -38,7 +38,7 @@ namespace HwInf.Controllers
         }
 
         /// <summary>
-        /// Sign into HW-INF
+        /// Sign in to HW-INF
         /// </summary>
         /// <remarks>Signs a user in.</remarks>
         /// <param name="vmdl">User as &#x60;UserViewModel&#x60;</param>

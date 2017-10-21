@@ -43,7 +43,7 @@ namespace HwInf.Controllers
         }
 
         /// <summary>
-        /// Returns all FieldGroups
+        /// Get FieldGroups
         /// </summary>
         /// <remarks>
         /// Returns a List of all &#x60;FieldGroups&#x60; and their &#x60;Fields&#x60;. 
@@ -66,7 +66,7 @@ namespace HwInf.Controllers
 
 
         /// <summary>
-        /// Return FieldGroups of a DeviceType
+        /// Get FieldGroups of DeviceType
         /// </summary>
         /// <remarks>Returns a list of &#x60;Fieldgroups&#x60; belonging to a &#x60;DeviceType&#x60; (e.g. PC, Notebook, TV) </remarks>
         /// <response code="500">An error occured, please read log files</response>
@@ -89,7 +89,7 @@ namespace HwInf.Controllers
         }
 
         /// <summary>
-        /// Add new FieldGroup
+        /// Create FieldGroup
         /// </summary>
         /// <remarks>Add a new &#x60;FieldGroup&#x60;. A &#x60;FieldGroup&#x60; represents a component of a &#x60;Device&#x60; (e.g: CPU, GPU, OS)</remarks>
         /// <response code="500">An error occured, please read log files</response>
@@ -109,7 +109,7 @@ namespace HwInf.Controllers
         }
 
         /// <summary>
-        /// Add new Field to FieldGroup
+        /// Add Field to FieldGroup
         /// </summary>
         /// <remarks>
         /// Add a new &#x60;Field&#x60; to a &#x60;FieldGroup&#x60;. 
@@ -167,7 +167,7 @@ namespace HwInf.Controllers
 
 
         /// <summary>
-        /// Update a FieldGroup
+        /// Update FieldGroup
         /// </summary>
         /// <remarks>Update a &#x60;FieldGroup&#x60;. A &#x60;Fieldgroup&#x60; represents a component of a &#x60;Device&#x60; (e.g: CPU, GPU, OS).</remarks>
         /// <param name="slug">Unique name of a &#x60;FieldGroup&#x60;</param>
@@ -225,7 +225,7 @@ namespace HwInf.Controllers
             }
         }
         /// <summary>
-        /// Returns FieldGroups with used Field
+        /// Get FieldGroups with used Field
         /// </summary>
         /// <remarks>
         /// Used for the filter.
@@ -282,9 +282,8 @@ namespace HwInf.Controllers
 
         }
 
-        // GET: 
         /// <summary>
-        /// Returns FieldGroups with used Fields from DeviceType
+        /// Get FieldGroups with used Fields from DeviceType
         /// </summary>
         /// <remarks>
         /// Used for the filter.
@@ -343,7 +342,6 @@ namespace HwInf.Controllers
             return Ok(res);
         }
 
-        // DELETE: 
         /// <summary>
         /// Delete FieldGroup
         /// </summary>

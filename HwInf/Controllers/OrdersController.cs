@@ -36,7 +36,7 @@ namespace HwInf.Controllers
         }
 
         /// <summary>
-        /// Returns a filtered List of OrderListViewModel
+        /// Filter Orders
         /// </summary>
         /// <remarks>
         /// Returns a filtered List of &#x60;OrderListViewModel&#x60;

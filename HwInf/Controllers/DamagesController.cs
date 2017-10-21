@@ -208,7 +208,7 @@ namespace HwInf.Controllers
         }
 
         /// <summary>
-        /// Update a Damage
+        /// Update Damage
         /// </summary>
         /// <remarks>Updates a &#x60;Damage&#x60;</remarks>
         /// <param name="id">Unique identifier of a &#x60;Damage&#x60;</param>
