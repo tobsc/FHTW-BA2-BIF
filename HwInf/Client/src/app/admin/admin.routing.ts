@@ -23,6 +23,7 @@ import { DamagesAddComponent } from "./devices/damages/damages-add/damages-add.c
 import { DeviceAccessoriesComponent } from "./devices/device-accessories/device-accessories.component";
 import { EditAdminsComponent } from "./admin-settings/edit-admins/edit-admins.component";
 import { AddAdminComponent } from "./admin-settings/edit-admins/add-admin/add-admin.component";
+import { AdminMyOrderListComponent } from "./admin-orders/admin-my-order-list/admin-my-order-list.component";
 
 
 
@@ -45,7 +46,8 @@ const ADMIN_ROUTES: Routes = [
             { path: 'schaden/add', component: DamagesAddComponent},
             { path: 'settings', component: AdminSettingsComponent },
             { path: 'orders', redirectTo: 'orders/offen', pathMatch: 'full'},
-            { path: 'orders/:status', component: AdminOrdersComponent },
+            { path: 'orders/status/:status', component: AdminOrdersComponent },
+            { path: 'orders/myorders', component: AdminMyOrderListComponent },
             { path: 'settings/logs', component: AdminLogsComponent },
             { path: 'settings/edit-admin', component: EditAdminsComponent },
             { path: 'settings/add-admin', component: AddAdminComponent },

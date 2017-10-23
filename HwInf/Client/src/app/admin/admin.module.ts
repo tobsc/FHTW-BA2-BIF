@@ -47,6 +47,7 @@ import { EditAdminsComponent } from './admin-settings/edit-admins/edit-admins.co
 import { RemoveAdminComponent } from './admin-settings/edit-admins/remove-admin/remove-admin.component';
 import { DeviceAccessoryListComponent } from './devices/device-accessories/device-accessory-list/device-accessory-list.component';
 import { DeviceAccessoryAddComponent } from './devices/device-accessories/device-accessory-add/device-accessory-add.component';
+import { AdminMyOrderListComponent } from './admin-orders/admin-my-order-list/admin-my-order-list.component';
 
 export function jwtFactory(backend: XHRBackend, options: RequestOptions, router: Router, authService: AuthService, pubsub: PubSubService) {
     return new JwtHttpService(backend, options, router, authService, pubsub);
@@ -88,6 +89,7 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
         RemoveAdminComponent,
         DeviceAccessoryListComponent,
         DeviceAccessoryAddComponent,
+        AdminMyOrderListComponent,
 
     ],
     imports: [
