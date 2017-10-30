@@ -4,7 +4,9 @@ using System.Linq;
 using HwInf.Common;
 using HwInf.Common.BL;
 using HwInf.Common.DAL;
+using HwInf.Common.Interfaces;
 using HwInf.Common.Models;
+using IBusinessLayer = HwInf.Common.Interfaces.IBusinessLayer;
 
 namespace HwInf.ViewModels
 {
@@ -41,7 +43,7 @@ namespace HwInf.ViewModels
 
         }
 
-        public void ApplyChanges(Accessory obj, BL bl)
+        public void ApplyChanges(Accessory obj, IBusinessLayer bl)
         {
             var target = obj;
             var source = this;

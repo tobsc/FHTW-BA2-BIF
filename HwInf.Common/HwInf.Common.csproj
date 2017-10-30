@@ -74,13 +74,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BL\BL.cs" />
+    <Compile Include="BL\BusinessLayer.cs" />
+    <Compile Include="Interfaces\IBusinessLayer.cs" />
     <Compile Include="Contract.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Contract.tt</DependentUpon>
     </Compile>
     <Compile Include="ContractCode.cs" />
+    <Compile Include="Interfaces\IDataAccessLayer.cs" />
     <Compile Include="Models\Damage.cs" />
     <Compile Include="Models\Device.cs" />
     <Compile Include="Models\DeviceMeta.cs" />

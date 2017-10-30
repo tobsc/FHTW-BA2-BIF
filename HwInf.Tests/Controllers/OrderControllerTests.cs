@@ -25,7 +25,7 @@ namespace HwInf.Tests.Controllers
 
         public OrderControllerTests()
         {
-            ctr = new OrdersController(_dal);
+            ctr = new OrdersController(_bl);
 
         }
         [Test]

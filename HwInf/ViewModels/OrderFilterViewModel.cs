@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Web.Compilation;
 using HwInf.Common.BL;
+using HwInf.Common.Interfaces;
 using HwInf.Common.Models;
 using MigraDoc.DocumentObjectModel.Shapes.Charts;
 
@@ -18,7 +19,7 @@ namespace HwInf.ViewModels
         public int Offset { get; set; } = 0;
         public int Limit { get; set; } = 25;
 
-        public ICollection<Order> FilteredList(BL bl)
+        public ICollection<Order> FilteredList(IBusinessLayer bl)
         {
             return bl.GetFilteredOrders(StatusSlugs, Order, OrderBy, OrderByFallback, IsAdminView);
         }

@@ -5,17 +5,19 @@ using System.Text.RegularExpressions;
 using HwInf.Common.BL;
 using log4net;
 using System;
+using HwInf.Common.Interfaces;
+using IBusinessLayer = HwInf.Common.Interfaces.IBusinessLayer;
 
 namespace HwInf
 {
     public class SlugGenerator
     {
-        private static BL Bl;
+        private static IBusinessLayer _bl;
         private static readonly ILog _log = LogManager.GetLogger(typeof(SlugGenerator).Name);
 
-        public static string GenerateSlug(BL bl, string value, string entity = null)
+        public static string GenerateSlug(IBusinessLayer bl, string value, string entity = null)
         {
-            Bl = bl ?? new BL();
+            _bl = bl;
 
             //First to lower case
             value = value.ToLowerInvariant();
@@ -59,20 +61,20 @@ namespace HwInf
                 switch (entity)
                 {
                     case "fieldGroup":
-                        slugList = Bl.GetFieldGroups().Select(i => i.Slug).ToList();
+                        slugList = _bl.GetFieldGroups().Select(i => i.Slug).ToList();
                         break;
 
                     case "field":
-                        slugList = Bl.GetFields().Select(i => i.Slug).ToList();
+                        slugList = _bl.GetFields().Select(i => i.Slug).ToList();
                         break;
                     case "deviceType":
-                        slugList = Bl.GetDeviceTypes().Select(i => i.Slug).ToList();
+                        slugList = _bl.GetDeviceTypes().Select(i => i.Slug).ToList();
                         break;
                     case "orderStatus":
-                        slugList = Bl.GetOrderStatus().Select(i => i.Slug).ToList();
+                        slugList = _bl.GetOrderStatus().Select(i => i.Slug).ToList();
                         break;
                     case "accessory":
-                        slugList = Bl.GetAccessories().Select(i => i.Slug).ToList();
+                        slugList = _bl.GetAccessories().Select(i => i.Slug).ToList();
                         break;
                     default:
                         break;

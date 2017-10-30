@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection.Emit;
 using HwInf.Common.BL;
+using HwInf.Common.Interfaces;
 using HwInf.Common.Models;
 using WebGrease.Css.Extensions;
 
@@ -39,7 +40,7 @@ namespace HwInf.ViewModels
             target.IsActive = source.IsActive;
         }
 
-        public void ApplyChanges(FieldGroup fg, BL bl)
+        public void ApplyChanges(FieldGroup fg, IBusinessLayer bl)
         {
             var target = fg;
             var source = this;

@@ -49,7 +49,7 @@ namespace HwInf.ViewModels
             target.Accessories = !String.IsNullOrWhiteSpace(source.Accessories) ? source.Accessories.Split(new char[] { ',' }).ToList(): null;
         }
 
-        public void ApplyChanges(OrderItem obj, BL bl)
+        public void ApplyChanges(OrderItem obj, BusinessLayer bl)
         {
             var target = obj;
             var source = this;

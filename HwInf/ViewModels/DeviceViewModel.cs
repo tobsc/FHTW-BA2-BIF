@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using HwInf.Common.BL;
+using HwInf.Common.Interfaces;
 using HwInf.Common.Models;
 using WebGrease.Css.Extensions;
 using static System.String;
+using IBusinessLayer = HwInf.Common.Interfaces.IBusinessLayer;
 
 namespace HwInf.ViewModels
 {
@@ -62,7 +64,7 @@ namespace HwInf.ViewModels
             }
         }
 
-        public void ApplyChanges(Device obj, BL bl)
+        public void ApplyChanges(Device obj, IBusinessLayer bl)
         {
             var target = obj;
             var source = this;

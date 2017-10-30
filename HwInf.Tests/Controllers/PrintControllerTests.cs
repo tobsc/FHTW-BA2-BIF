@@ -16,7 +16,7 @@ namespace HwInf.Tests.Controllers
 
         public PrintControllersTest()
         {
-            ctr = new PrintController(_dal);
+            ctr = new PrintController(_bl);
         }
 
         [Test]

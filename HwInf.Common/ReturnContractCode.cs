@@ -5,17 +5,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HwInf.Common.Interfaces;
 
 namespace HwInf.Common
 {
     partial class ReturnContract
     {
         private Order o;
-        private readonly BL.BL _bl;
+        private readonly IBusinessLayer _bl;
 
-        public ReturnContract(Order order, BL.BL bl)
+        public ReturnContract(Order order, IBusinessLayer bl)
         {
-            this.o = order;
+            o = order;
             _bl = bl;
         }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using HwInf.Common.DAL;
+using HwInf.Common.Interfaces;
 using HwInf.Common.Models;
 using HwInf.Tests.DAL;
 using HwInf.ViewModels;
@@ -9,12 +10,12 @@ namespace HwInf.Tests.Controllers
 {
     public static class ControllerHelper
     {
-        private static readonly IDAL _dal = new MockDAL();
-        private static readonly Common.BL.BL _bl;
+        private static readonly IDataAccessLayer _dal = new MockDAL();
+        private static readonly Common.BL.BusinessLayer BusinessLayer;
 
         static ControllerHelper()
         {
-            _bl = new Common.BL.BL(_dal);
+            BusinessLayer = new Common.BL.BusinessLayer(_dal);
         }
 
         public static FilterViewModel GetValidFilterViewModel(string deviceType = "", string fieldgroup = "anschluesse", string field = "vga", string metaValue = "1", string order = "ASC", int limit = 10, string orderBy = "Name")
@@ -38,11 +39,11 @@ namespace HwInf.Tests.Controllers
 
         public static DeviceViewModel GetValidDeviceViewModel()
         {
-            var p = _bl.GetUsers("if15b032");
+            var p = BusinessLayer.GetUsers("if15b032");
             var uvmdl = new UserViewModel(p);
-            var dt = _bl.GetDeviceType("festplatte");
+            var dt = BusinessLayer.GetDeviceType("festplatte");
             var dtvmdl = new DeviceTypeViewModel(dt);
-            var ds = _bl.GetDeviceStatus(1);
+            var ds = BusinessLayer.GetDeviceStatus(1);
             var dsvmdl = new DeviceStatusViewModel(ds);
             var vmdl = new DeviceViewModel
             {
@@ -72,7 +73,7 @@ namespace HwInf.Tests.Controllers
 
             var oi = new OrderItem
             {
-                Device = _bl.GetSingleDevice("a5123"),
+                Device = BusinessLayer.GetSingleDevice("a5123"),
                 Accessories = "Maus,Tastatur"
             };
 
@@ -111,14 +112,14 @@ namespace HwInf.Tests.Controllers
                 Date = DateTime.Now,
                 From = DateTime.Now,
                 To =  DateTime.Now,
-                Entleiher = _bl.GetUsers(_bl.GetCurrentUid()),
-                Verwalter = _bl.GetUsers(_bl.GetCurrentUid()),
+                Entleiher = BusinessLayer.GetUsers(BusinessLayer.GetCurrentUid()),
+                Verwalter = BusinessLayer.GetUsers(BusinessLayer.GetCurrentUid()),
                 OrderReason = "Unit Test",
                 OrderGuid = Guid.NewGuid(),
-                OrderStatus = _bl.GetOrderStatus("offen"),
+                OrderStatus = BusinessLayer.GetOrderStatus("offen"),
                 OrderItems = new List<OrderItem>
                 {
-                    new OrderItem { CreateDate = DateTime.Now, Device = _bl.GetSingleDevice("a5123")}
+                    new OrderItem { CreateDate = DateTime.Now, Device = BusinessLayer.GetSingleDevice("a5123")}
                 }
             };
             return obj;
@@ -129,13 +130,13 @@ namespace HwInf.Tests.Controllers
             var fvmdl = new FieldViewModel
             {
                 Name = "TestField",
-                Slug = SlugGenerator.GenerateSlug(_bl, "TestField", "field")
+                Slug = SlugGenerator.GenerateSlug(BusinessLayer, "TestField", "field")
             };
 
             var vmdl = new FieldGroupViewModel
             {
                 Name = "Test",
-                Slug = SlugGenerator.GenerateSlug(_bl, "Test", "fieldGroup"),
+                Slug = SlugGenerator.GenerateSlug(BusinessLayer, "Test", "fieldGroup"),
                 Fields = new List<FieldViewModel>
                 {
                     fvmdl

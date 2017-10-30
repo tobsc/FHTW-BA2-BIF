@@ -6,11 +6,10 @@ using System.Security;
 using System.Web.Http;
 using System.Web.Http.Description;
 using System.Web.Http.Results;
-using HwInf.Common.DAL;
-using HwInf.Common.BL;
 using HwInf.ViewModels;
 using log4net;
 using WebGrease.Css.Extensions;
+using IBusinessLayer = HwInf.Common.Interfaces.IBusinessLayer;
 
 namespace HwInf.Controllers
 {
@@ -18,20 +17,12 @@ namespace HwInf.Controllers
     [RoutePrefix("api/devices")]
     public class DevicesController : ApiController
     {
-        private readonly IDAL _db;
-        private readonly BL _bl;
+        private readonly IBusinessLayer _bl;
         private readonly ILog _log = LogManager.GetLogger(typeof(DevicesController).Name);
 
-        public DevicesController()
+        public DevicesController(IBusinessLayer bl)
         {
-            _db = new HwInfContext();
-            _bl = new BL(_db);
-        }
-
-        public DevicesController(IDAL db)
-        {
-            _db = db;
-            _bl = new BL(db);
+            _bl = bl;
         }
 
         /// <summary>
@@ -806,15 +797,6 @@ namespace HwInf.Controllers
                 _log.ErrorFormat("Exception: {0}", ex);
                 return InternalServerError();
             }
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 

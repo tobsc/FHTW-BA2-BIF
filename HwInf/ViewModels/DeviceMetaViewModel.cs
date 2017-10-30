@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using HwInf.Common.BL;
+using HwInf.Common.Interfaces;
 using HwInf.Common.Models;
 
 namespace HwInf.ViewModels
@@ -38,7 +39,7 @@ namespace HwInf.ViewModels
             target.FieldSlug = source.FieldSlug;
         }
 
-        public void ApplyChanges(DeviceMetaViewModel vmdl, BL bl)
+        public void ApplyChanges(DeviceMetaViewModel vmdl, IBusinessLayer bl)
         {
             var target = vmdl;
 
@@ -49,7 +50,7 @@ namespace HwInf.ViewModels
             target.FieldSlug = target.Fg.Fields.SingleOrDefault(i => i.Name.Equals(target.Field))?.Slug;
         }
 
-        public void ApplyChanges(DeviceMeta dm, BL bl)
+        public void ApplyChanges(DeviceMeta dm, BusinessLayer bl)
         {
             var target = dm;
             var source = this;

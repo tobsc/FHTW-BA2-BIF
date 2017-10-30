@@ -8,6 +8,7 @@ using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using HwInf.Common.BL;
+using HwInf.Common.Interfaces;
 using HwInf.Common.Models;
 
 namespace HwInf.Common
@@ -16,16 +17,13 @@ namespace HwInf.Common
     {
         private SmtpClient smtpClient;
         private MailMessage mail;
-        private readonly IDAL _db;
-        private readonly BL.BL _bl;
+        private readonly  IBusinessLayer _bl;
         private readonly ILog _log = LogManager.GetLogger(typeof(Mail).Name);
         private Order _order;
 
-        public Mail(Guid orderGuid)
+        public Mail(Guid orderGuid, IBusinessLayer bl)
         {
-
-            _db = new HwInfContext();
-            _bl = new BL.BL(_db);
+            _bl = bl;
 
             var un = Properties.Settings.Default.mailUserName;
             var pw = Properties.Settings.Default.mailPassword;

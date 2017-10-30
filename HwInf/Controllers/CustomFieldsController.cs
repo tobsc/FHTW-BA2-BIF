@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using System.Web.Http.Results;
-using HwInf.Common.DAL;
-using HwInf.Common.BL;
-using HwInf.Common.Models;
+using HwInf.Common.Interfaces;
 using HwInf.ViewModels;
 using log4net;
 using WebGrease.Css.Extensions;
@@ -26,20 +21,12 @@ namespace HwInf.Controllers
     [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
     public class CustomFieldsController : ApiController
     {
-        private readonly IDAL _db;
-        private readonly BL _bl;
+        private readonly IBusinessLayer _bl;
         private readonly ILog _log = LogManager.GetLogger(typeof(CustomFieldsController).Name);
 
-        public CustomFieldsController()
+        public CustomFieldsController(IBusinessLayer bl)
         {
-            _db = new HwInfContext();
-            _bl = new BL(_db);
-        }
-
-        public CustomFieldsController(IDAL db)
-        {
-            _db = db;
-            _bl = new BL(db);
+            _bl = bl;
         }
 
         /// <summary>
@@ -380,16 +367,6 @@ namespace HwInf.Controllers
             }
 
             return Ok();
-        }
-
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 

@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using HwInf.Common.DAL;
+using HwInf.Common.Interfaces;
 using HwInf.Common.Models;
 
 namespace HwInf.Tests.DAL
 {
-    public class MockDAL: IDAL
+    public class MockDAL: IDataAccessLayer
     {
         private int _counter = 1;
         private List<Device> _devices;
@@ -294,7 +295,7 @@ namespace HwInf.Tests.DAL
             return fg;
         }
 
-        void IDAL.SaveChanges()
+        void IDataAccessLayer.SaveChanges()
         {
 
         }

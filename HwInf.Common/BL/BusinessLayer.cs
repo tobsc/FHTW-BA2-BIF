@@ -24,7 +24,7 @@ namespace HwInf.Common.BL
 {
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
-    public class BL : IBusinessLayer
+    public class BusinessLayer : IBusinessLayer
     {
         private readonly IDataAccessLayer _dal;
 
@@ -32,7 +32,7 @@ namespace HwInf.Common.BL
         public bool IsVerwalter => System.Threading.Thread.CurrentPrincipal.IsInRole("Verwalter");
 
 
-        public BL(IDataAccessLayer dal)
+        public BusinessLayer(IDataAccessLayer dal)
         {
             _dal = dal;
         }

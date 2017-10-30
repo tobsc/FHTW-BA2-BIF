@@ -31,7 +31,7 @@ namespace HwInf.ViewModels
             target.StatusId = source.StatusId;
         }
 
-        public void ApplyChanges(DeviceStatus ds, BL bl)
+        public void ApplyChanges(DeviceStatus ds, BusinessLayer bl)
         {
             var target = ds;
             var source = this;

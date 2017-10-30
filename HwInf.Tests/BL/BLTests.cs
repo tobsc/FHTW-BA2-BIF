@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using HwInf.Common.BL;
 using HwInf.Common.DAL;
+using HwInf.Common.Interfaces;
 using HwInf.Controllers;
 using HwInf.ViewModels;
 using NUnit.Framework;
@@ -22,13 +23,13 @@ namespace HwInf.Tests.BL
     [TestFixture]
     public class BLTests
     {
-        private readonly IDAL _dal = new MockDAL();
-        private readonly Common.BL.BL _bl;
+        private readonly IDataAccessLayer _dal = new MockDAL();
+        private readonly Common.BL.BusinessLayer _bl;
 
 
         public BLTests()
         {
-            _bl = new Common.BL.BL(_dal);
+            _bl = new Common.BL.BusinessLayer(_dal);
 
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");           
             var subject = new ClaimsIdentity("Federation", ClaimTypes.Name, ClaimTypes.Role);

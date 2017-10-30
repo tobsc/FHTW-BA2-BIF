@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using HwInf.Common.Interfaces;
 
 namespace HwInf.ViewModels
 {
@@ -44,7 +45,7 @@ namespace HwInf.ViewModels
             target.DamageStatus = new DamageStatusViewModel(source.DamageStatus);
         }
 
-        public void ApplyChanges(Damage obj, BL bl)
+        public void ApplyChanges(Damage obj, IBusinessLayer bl)
         {
             var target = obj;
             var source = this;
@@ -60,7 +61,7 @@ namespace HwInf.ViewModels
 
         }
 
-        public void Update(Damage obj, BL bl)
+        public void Update(Damage obj, IBusinessLayer bl)
         {
             var target = obj;
             var source = this;

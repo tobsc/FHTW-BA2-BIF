@@ -19,7 +19,7 @@ namespace HwInf.ViewModels
             AutoFillList = list.ToList();
         }
 
-        public AutoFillViewModel RefreshList(string input, string type, string component, BL bl)
+        public AutoFillViewModel RefreshList(string input, string type, string component, BusinessLayer bl)
         {
             var deviceType = bl.GetDeviceType(type);
             var devices = bl.GetDevices(true, deviceType.Slug);

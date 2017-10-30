@@ -2,7 +2,9 @@
 using System.Linq;
 using System.Reflection.Emit;
 using HwInf.Common.BL;
+using HwInf.Common.Interfaces;
 using HwInf.Common.Models;
+using IBusinessLayer = HwInf.Common.Interfaces.IBusinessLayer;
 
 namespace HwInf.ViewModels
 {
@@ -32,7 +34,7 @@ namespace HwInf.ViewModels
             target.Slug = source.Slug;
         }
 
-        public void ApplyChanges(Field fg, BL bl)
+        public void ApplyChanges(Field fg, IBusinessLayer bl)
         {
             var target = fg;
             var source = this;

@@ -1,4 +1,5 @@
 ﻿using HwInf.Common.BL;
+using HwInf.Common.Interfaces;
 using HwInf.Common.Models;
 
 namespace HwInf.ViewModels
@@ -30,7 +31,7 @@ namespace HwInf.ViewModels
             target.Value = source.Value;
         }
 
-        public void ApplyChanges(Setting obj, BL bl)
+        public void ApplyChanges(Setting obj, IBusinessLayer bl)
         {
             var target = obj;
             var source = this;

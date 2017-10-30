@@ -2,8 +2,10 @@
 using System.Linq;
 using System.Web;
 using HwInf.Common.BL;
+using HwInf.Common.Interfaces;
 using HwInf.Common.Models;
 using WebGrease.Css.Extensions;
+using IBusinessLayer = HwInf.Common.Interfaces.IBusinessLayer;
 
 namespace HwInf.ViewModels
 {
@@ -38,7 +40,7 @@ namespace HwInf.ViewModels
 
         }
 
-        public void ApplyChanges(DeviceType obj, BL bl)
+        public void ApplyChanges(DeviceType obj, IBusinessLayer bl)
         {
             var target = obj;
             var source = this;

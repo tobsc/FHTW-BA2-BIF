@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Http.Results;
+using HwInf.Common.BL;
 using HwInf.Controllers;
 using HwInf.ViewModels;
 using NUnit.Framework;
@@ -15,7 +16,7 @@ namespace HwInf.Tests.Controllers
 
         public SettingsControllerTests()
         {
-            ctr = new SettingsController(_dal);
+            ctr = new SettingsController(_bl);
         }
 
         [Test]

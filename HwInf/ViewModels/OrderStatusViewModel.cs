@@ -36,7 +36,7 @@ namespace HwInf.ViewModels
             target.StatusId = source.StatusId;
         }
 
-        public void ApplyChanges(OrderStatus obj, BL bl)
+        public void ApplyChanges(OrderStatus obj, BusinessLayer bl)
         {
             var target = obj;
             var source = this;

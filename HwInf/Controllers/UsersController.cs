@@ -3,8 +3,7 @@ using System.Linq;
 using System.Security;
 using System.Web.Http;
 using System.Web.Http.Description;
-using HwInf.Common.BL;
-using HwInf.Common.DAL;
+using HwInf.Common.Interfaces;
 using HwInf.ViewModels;
 using log4net;
 
@@ -14,20 +13,13 @@ namespace HwInf.Controllers
     [RoutePrefix("api/users")]
     public class UsersController : ApiController
     {
-        private readonly IDAL _db;
-        private readonly BL _bl;
+        private readonly IBusinessLayer _bl;
         private readonly ILog _log = LogManager.GetLogger(typeof(UsersController).Name);
 
-        public UsersController()
-        {
-            _db = new HwInfContext();
-            _bl = new BL(_db);
-        }
 
-        public UsersController(IDAL db)
+        public UsersController(IBusinessLayer bl)
         {
-            _db = db;
-            _bl = new BL(db);
+            _bl = bl;
         }
 
         /// <summary>
@@ -242,16 +234,6 @@ namespace HwInf.Controllers
                 _log.ErrorFormat("Exception: {0}", ex);
                 return InternalServerError();
             }
-        }
-
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

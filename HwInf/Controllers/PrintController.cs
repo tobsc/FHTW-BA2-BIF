@@ -3,13 +3,12 @@ using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using HwInf.Common.DAL;
 using HwInf.Common;
 using System.IO;
 using MigraDoc.DocumentObjectModel.IO;
 using MigraDoc.Rendering;
 using System.Net.Http.Headers;
-using HwInf.Common.BL;
+using HwInf.Common.Interfaces;
 using log4net;
 using MigraDoc.DocumentObjectModel;
 
@@ -20,20 +19,12 @@ namespace HwInf.Controllers
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class PrintController : ApiController
     {
-        private readonly IDAL _db;
-        private readonly BL _bl;
+        private readonly IBusinessLayer _bl;
         private readonly ILog _log = LogManager.GetLogger(typeof(PrintController).Name);
 
-        public PrintController()
+        public PrintController(IBusinessLayer bl)
         {
-            _db = new HwInfContext();
-            _bl = new BL(_db);
-        }
-
-        public PrintController(IDAL db)
-        {
-            _db = db;
-            _bl = new BL(db);
+            _bl = bl;
         }
 
 
@@ -157,17 +148,6 @@ namespace HwInf.Controllers
                 return new HttpResponseMessage(HttpStatusCode.InternalServerError);
             }
         }
-
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
 
         private static MemoryStream CreateMDDLStream(string text)
         {

@@ -4,8 +4,7 @@ using HwInf.Common.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using HwInf.Common.Interfaces;
 
 namespace ConsoleApplication1
 {
@@ -13,8 +12,8 @@ namespace ConsoleApplication1
     {
         static void Main(string[] args)
         {
-            HwInfContext db = new HwInfContext();
-            BL bl = new BL(db);
+            IDataAccessLayer db = new HwInfContext();
+            IBusinessLayer bl = new BusinessLayer(db);
             var notify = new Notifier(bl);
             notify.Send();
             var reminder = new Reminder(bl);
@@ -26,8 +25,10 @@ namespace ConsoleApplication1
     public class Notifier
     {
         private readonly List<Guid> _orderList;
-        public Notifier(BL bl)
+        private readonly IBusinessLayer _bl;
+        public Notifier(IBusinessLayer bl)
         {
+            _bl = bl;
             var remindDate = GetReminderDate(bl.GetSetting("days_before_reminder").Value);
             _orderList = bl.GetOrders()
                 .Where(i => i.To.Date == remindDate.Date)
@@ -45,7 +46,7 @@ namespace ConsoleApplication1
             if (!_orderList.Any()) return;
             foreach (var order in _orderList)
             {
-                Mail mail = new Mail(order);
+                Mail mail = new Mail(order, _bl);
                 mail.ReminderMessage(order);
                 mail.Send();
             }
@@ -55,8 +56,10 @@ namespace ConsoleApplication1
     public class Reminder
     {
         private readonly List<Guid> _orderList;
-        public Reminder(BL bl)
+        private readonly IBusinessLayer _bl;
+        public Reminder(IBusinessLayer bl)
         {
+            _bl = bl;
             _orderList = bl.GetOrders()
                 .Where(i => i.To.Date.AddDays(1) == DateTime.Now.Date)
                 .Where(i => i.OrderStatus.Slug.Equals("ausgeliehen"))
@@ -69,7 +72,7 @@ namespace ConsoleApplication1
             if (!_orderList.Any()) return;
             foreach (var order in _orderList)
             {
-                Mail mail = new Mail(order);
+                Mail mail = new Mail(order, _bl);
                 mail.ReminderMessage(order);
                 mail.Send();
             }

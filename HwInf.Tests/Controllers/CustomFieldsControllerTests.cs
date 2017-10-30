@@ -23,7 +23,7 @@ namespace HwInf.Tests.Controllers
         
         public CustomFieldsControllerTests()
         {
-            ctr = new CustomFieldsController(_dal);
+            ctr = new CustomFieldsController(_bl);
         }
 
         [Test]

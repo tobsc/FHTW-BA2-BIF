@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Http;
+﻿using System.Web.Http;
 using HwInf.Common;
 using JWT;
-using HwInf.Common.DAL;
 using System.Web.Http.Description;
-using HwInf.Common.BL;
+using HwInf.Common.Interfaces;
 using HwInf.Common.Models;
 using HwInf.ViewModels;
 using log4net;
@@ -21,20 +17,12 @@ namespace HwInf.Controllers
     public class AuthController : ApiController
     {
 
-        private readonly IDAL _db;
-        private readonly BL _bl;
+        private readonly IBusinessLayer _bl;
         private readonly ILog _log = LogManager.GetLogger(typeof(AuthController).Name);
 
-        public AuthController()
+        public AuthController(IBusinessLayer bl)
         {
-            _db = new HwInfContext();
-            _bl = new BL(_db);
-        }
-
-        public AuthController(IDAL db)
-        {
-            _db = db;
-            _bl = new BL(db);
+            _bl = bl;
         }
 
         /// <summary>
@@ -74,7 +62,7 @@ namespace HwInf.Controllers
             var ldapUser = LDAPAuthenticator.Authenticate(vmdl.Uid, vmdl.Password);
             vmdl.Refresh(ldapUser);
             vmdl.ApplyChanges(p, _bl);
-            _db.SaveChanges();
+            _bl.SaveChanges();
 
             // Create new token from user
             var token = _bl.CreateToken(p);
@@ -137,15 +125,6 @@ namespace HwInf.Controllers
 
         //    return Ok(new { token });
         //}
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
 
 
     }

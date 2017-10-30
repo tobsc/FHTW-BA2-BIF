@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using HwInf.Common.BL;
+using HwInf.Common.Interfaces;
 using HwInf.Common.Models;
 using WebGrease.Css.Extensions;
 
@@ -88,7 +89,7 @@ namespace HwInf.ViewModels
             target.ReturnDate = source.ReturnDate;
         }
 
-        public void ApplyChanges(Order obj, BL bl)
+        public void ApplyChanges(Order obj, IBusinessLayer bl)
         {
             var target = obj;
             var source = this;
@@ -118,7 +119,7 @@ namespace HwInf.ViewModels
             return this;
         }
 
-        public void CreateOrderItems(Order obj, BL bl)
+        public void CreateOrderItems(Order obj, IBusinessLayer bl)
         {
             obj.OrderItems = OrderItems.Select(i => new OrderItem
             {
@@ -133,7 +134,7 @@ namespace HwInf.ViewModels
             .ToList();
         }
 
-        public void Return(Order obj, BL bl)
+        public void Return(Order obj, IBusinessLayer bl)
         {
             obj.OrderStatus = bl.GetOrderStatus("abgeschlossen");
             obj.OrderItems
@@ -143,7 +144,7 @@ namespace HwInf.ViewModels
             obj.ReturnDate = DateTime.Now;
         }
 
-        public void Accept(Order obj, BL bl)
+        public void Accept(Order obj, IBusinessLayer bl)
         {
             obj.OrderStatus = bl.GetOrderStatus("akzeptiert");
             obj.OrderItems
@@ -152,24 +153,24 @@ namespace HwInf.ViewModels
                 .ForEach(i => i.Device.Status = bl.GetDeviceStatus(2));
         }
 
-        public void Abort(Order obj, BL bl)
+        public void Abort(Order obj, IBusinessLayer bl)
         {
             obj.OrderStatus = bl.GetOrderStatus("abgebrochen");
             
             obj.ReturnDate = DateTime.Now;
         }
 
-        public void Lend(Order obj, BL bl)
+        public void Lend(Order obj, IBusinessLayer bl)
         {
             obj.OrderStatus = bl.GetOrderStatus("ausgeliehen");
         }
-        public void Decline(Order obj, BL bl)
+        public void Decline(Order obj, IBusinessLayer bl)
         {
             obj.OrderStatus = bl.GetOrderStatus("abgelehnt");
             obj.ReturnDate = DateTime.Now;
         }
 
-        public void Reset(Order obj, BL bl)
+        public void Reset(Order obj, IBusinessLayer bl)
         {
             obj.OrderStatus = bl.GetOrderStatus("offen");
             obj.OrderItems

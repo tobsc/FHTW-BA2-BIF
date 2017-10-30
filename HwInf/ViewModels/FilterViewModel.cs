@@ -3,8 +3,10 @@ using System.ComponentModel;
 using System.Linq;
 using System.Web.Compilation;
 using HwInf.Common.BL;
+using HwInf.Common.Interfaces;
 using HwInf.Common.Models;
 using MigraDoc.DocumentObjectModel.Shapes.Charts;
+using IBusinessLayer = HwInf.Common.Interfaces.IBusinessLayer;
 
 namespace HwInf.ViewModels
 {
@@ -27,7 +29,7 @@ namespace HwInf.ViewModels
         }
 
 
-        public ICollection<Device> FilteredList(BL bl)
+        public ICollection<Device> FilteredList(IBusinessLayer bl)
         {
             var metaViewModel = MetaQuery.Select(i =>
             {

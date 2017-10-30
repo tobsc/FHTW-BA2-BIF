@@ -4,13 +4,12 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Description;
-using HwInf.Common.DAL;
 using HwInf.ViewModels;
 using HwInf.Common;
 using System.Security;
-using HwInf.Common.BL;
 using log4net;
 using System.Threading.Tasks;
+using HwInf.Common.Interfaces;
 
 namespace HwInf.Controllers
 {
@@ -19,20 +18,13 @@ namespace HwInf.Controllers
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class OrdersController : ApiController
     {
-        private readonly IDAL _db;
-        private readonly BL _bl;
+        private readonly IBusinessLayer _bl;
         private readonly ILog _log = LogManager.GetLogger(typeof(OrdersController).Name);
 
-        public OrdersController()
-        {
-            _db = new HwInfContext();
-            _bl = new BL(_db);
-        }
 
-        public OrdersController(IDAL db)
+        public OrdersController(IBusinessLayer bl)
         {
-            _db = db;
-            _bl = new BL(db);
+            _bl = bl;
         }
 
         /// <summary>
@@ -564,7 +556,7 @@ namespace HwInf.Controllers
         {
             try
             {
-                Mail mail = new Mail(vmdl.OrderGuid);
+                Mail mail = new Mail(vmdl.OrderGuid, _bl);
                 mail.MessageFormat(vmdl.OrderStatus.Slug);
                 mail.Send();
             }
@@ -573,15 +565,6 @@ namespace HwInf.Controllers
                 _log.ErrorFormat("Exception: '{0}'", ex);
             }
             
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace HwInf.Tests.Controllers
 
         public DeviceControllerTests()
         {
-            ctr = new DevicesController(_dal);
+            ctr = new DevicesController(_bl);
 
         }
         [Test]

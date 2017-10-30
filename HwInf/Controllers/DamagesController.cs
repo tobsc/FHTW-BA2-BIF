@@ -1,17 +1,14 @@
-﻿using HwInf.Common.BL;
-using HwInf.Common.DAL;
-using HwInf.ViewModels;
+﻿using HwInf.ViewModels;
 using log4net;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Security;
 using System.Web.Http;
 using System.Web.Http.Description;
+using HwInf.Common.Interfaces;
 
 namespace HwInf.Controllers
 {
@@ -20,20 +17,14 @@ namespace HwInf.Controllers
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class DamagesController : ApiController
     {
-        private readonly IDAL _db;
-        private readonly BL _bl;
+        private readonly IBusinessLayer _bl;
         private readonly ILog _log = LogManager.GetLogger(typeof(DamagesController).Name);
 
-        public DamagesController()
-        {
-            _db = new HwInfContext();
-            _bl = new BL(_db);
-        }
 
-        public DamagesController(IDAL db)
+
+        public DamagesController(IBusinessLayer bl)
         {
-            _db = db;
-            _bl = new BL(db);
+            _bl = bl;
         }
 
         /// <summary>

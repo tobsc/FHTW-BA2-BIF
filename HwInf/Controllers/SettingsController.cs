@@ -2,12 +2,11 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Web.Http;
 using System.Web.Http.Description;
-using HwInf.Common.BL;
-using HwInf.Common.DAL;
 using HwInf.ViewModels;
 using log4net;
 using System.Collections.Generic;
 using System.Linq;
+using HwInf.Common.Interfaces;
 
 namespace HwInf.Controllers
 {
@@ -16,19 +15,13 @@ namespace HwInf.Controllers
     [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
     public class SettingsController : ApiController
     {
-        private readonly BL _bl;
+        private readonly IBusinessLayer _bl;
         private readonly ILog _log = LogManager.GetLogger(typeof(SettingsController).Name);
 
 
-        public SettingsController()
+        public SettingsController(IBusinessLayer bl)
         {
-            IDAL dal = new HwInfContext();
-            _bl = new BL(dal);
-        }
-
-        public SettingsController(IDAL dal)
-        {
-            _bl = new BL(dal);
+            _bl = bl;
         }
 
 

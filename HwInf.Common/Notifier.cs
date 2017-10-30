@@ -4,16 +4,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HwInf.Common.Interfaces;
 
 namespace HwInf.Common
 {
     public class Notifier
     {
         private readonly HwInfContext db = new HwInfContext();
-        private readonly BL.BL bl;
+        private readonly IBusinessLayer bl;
         public Notifier(DateTime date, string daysbefore)
         {
-            bl = new BL.BL(db);
+            bl = new BL.BusinessLayer(db);
 
             DateTime reminddate = getReminderDate(date, daysbefore);
             var orderlist = bl.GetOrders().Where(i => i.To.ToShortDateString() == reminddate.ToShortDateString()).Select(i => i.OrderGuid).ToList();
@@ -21,7 +22,7 @@ namespace HwInf.Common
             {
                 foreach (var order in orderlist)
                 {
-                    Mail mail = new Mail(order);
+                    Mail mail = new Mail(order, bl);
                     mail.ReminderMessage(order);
                     mail.Send();
                 }

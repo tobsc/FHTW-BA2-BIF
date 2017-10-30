@@ -3,15 +3,16 @@ using HwInf.Common.Models;
 using System;
 using System.Diagnostics;
 using System.Linq;
+using HwInf.Common.Interfaces;
 
 namespace HwInf.Common
 {
     partial class Contract
     {
         private Order o;
-        private readonly BL.BL _bl;
+        private readonly IBusinessLayer _bl;
 
-        public Contract(Order order, BL.BL bl)
+        public Contract(Order order, IBusinessLayer bl)
         {
             o = order;
             _bl = bl;

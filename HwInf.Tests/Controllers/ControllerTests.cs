@@ -1,7 +1,9 @@
 ﻿using System.Globalization;
 using System.Security.Claims;
 using System.Threading;
+using HwInf.Common.BL;
 using HwInf.Common.DAL;
+using HwInf.Common.Interfaces;
 using HwInf.Controllers;
 using HwInf.Tests.DAL;
 
@@ -10,13 +12,13 @@ namespace HwInf.Tests.Controllers
     public abstract class ControllerTests
     {
 
-        protected readonly IDAL _dal = new MockDAL();
-        protected readonly Common.BL.BL _bl;
+        protected readonly IDataAccessLayer _dal = new MockDAL();
+        protected readonly IBusinessLayer _bl;
 
 
         protected ControllerTests()
         {
-            _bl = new Common.BL.BL(_dal);
+            _bl = new BusinessLayer(_dal);
 
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
             var subject = new ClaimsIdentity("Federation", ClaimTypes.Name, ClaimTypes.Role);
