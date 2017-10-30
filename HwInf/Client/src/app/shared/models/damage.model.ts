@@ -10,5 +10,6 @@ export class Damage {
     public Description: string;
     public Device: Device;
     public DamageStatus: DamageStatus;
+    public OrderId: number;
     constructor( ) { }
 }

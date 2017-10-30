@@ -53,8 +53,8 @@
                                 <div id="{{device.InvNum}}" class="panel-collapse" role="tabpanel" attr.aria-labelledby="headingTwo" attr.aria-expanded="true">
                                     <div class="responsive-list">
 
-                                        <div *ngFor="let fieldGroup of device.FieldGroups">
-                                            <div *ngIf="getMetaDataOfFieldGroup(fieldGroup.Slug, device.DeviceMeta).length > 0">
+                                        <ng-container *ngFor="let fieldGroup of device.FieldGroups">
+                                            <div *ngIf="getMetaDataOfFieldGroup(fieldGroup.Slug, device.DeviceMeta).length > 0 && fieldGroup.Name">
                                                 <strong>{{fieldGroup.Name}}</strong>
                                                 <div *ngFor="let metaData of getMetaDataOfFieldGroup(fieldGroup.Slug, device.DeviceMeta)">
                                                     <span *ngIf="(fieldGroup.IsCountable) && (metaData.Value > 1)">{{metaData.Value}}&times; </span>
@@ -62,7 +62,7 @@
                                                     <span *ngIf="(!fieldGroup.IsCountable) || (metaData.Value == 1)"></span>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </ng-container>
                                     </div>
                                     <button class="btn btn-success btn-xs" (click)="addItem(device)">
                                         Zum Warenkorb hinzufügen

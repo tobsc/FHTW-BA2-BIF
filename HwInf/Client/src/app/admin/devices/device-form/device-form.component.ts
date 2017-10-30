@@ -237,8 +237,8 @@ export class DeviceFormComponent implements OnInit {
    */
   public initField(name: string = '', quantity :number = 1): FormGroup {
     return this.fb.group({
-      Name: [name, Validators.required],
-      Quantity: [quantity, Validators.required]
+      Name: name,
+      Quantity: quantity
     });
   }
 
@@ -335,7 +335,9 @@ export class DeviceFormComponent implements OnInit {
     form.value.FieldGroups
         .forEach(i => {
           i.Fields.forEach(j => {
-            deviceMeta.push(this.initDeviceMeta(i.Slug, j.Name, j.Quantity))
+            if (j.Name) {
+              deviceMeta.push(this.initDeviceMeta(i.Slug, j.Name, j.Quantity))
+            }
           })
         });
     return <Device>resultForm.value;
