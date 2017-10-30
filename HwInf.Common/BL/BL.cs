@@ -14,6 +14,7 @@ using System.Reflection;
 using System.Runtime.Remoting.Messaging;
 using System.Security;
 using System.Text;
+using HwInf.Common.Interfaces;
 using HwInf.Common.Models;
 using JWT;
 using log4net;
@@ -21,20 +22,17 @@ using log4net.Appender;
 
 namespace HwInf.Common.BL
 {
+
     [SuppressMessage("ReSharper", "InconsistentNaming")]
-    public class BL
+    public class BL : IBusinessLayer
     {
-        private readonly IDAL _dal;
+        private readonly IDataAccessLayer _dal;
 
         public bool IsAdmin => System.Threading.Thread.CurrentPrincipal.IsInRole("Admin");
         public bool IsVerwalter => System.Threading.Thread.CurrentPrincipal.IsInRole("Verwalter");
 
-        public BL()
-        {
-            _dal = new HwInfContext();
-        }
 
-        public BL(IDAL dal)
+        public BL(IDataAccessLayer dal)
         {
             _dal = dal;
         }

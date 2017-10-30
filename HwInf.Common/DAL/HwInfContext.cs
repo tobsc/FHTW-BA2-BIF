@@ -9,57 +9,11 @@ using HwInf.Common.Models;
 using log4net;
 using System.Collections.Generic;
 using System;
+using HwInf.Common.Interfaces;
 
 namespace HwInf.Common.DAL
 {
-    public interface IDAL
-    {
-        IQueryable<Device> Devices { get; }
-        IQueryable<DeviceMeta> DeviceMeta { get; }
-        IQueryable<DeviceType> DeviceTypes { get; }
-        IQueryable<DeviceStatus> DeviceStatus { get; }
-        IQueryable<OrderStatus> OrderStatus { get; }
-        IQueryable<Person> Persons { get; }
-        IQueryable<Role> Roles { get; }
-        IQueryable<Order> Orders { get; }
-        IQueryable<OrderItem> OrderItems { get; }
-        IQueryable<Field> Fields { get; }
-        IQueryable<FieldGroup> FieldGroups { get; }
-        IQueryable<Setting> Settings { get; }
-        IQueryable<Damage> Damages { get; }
-        IQueryable<DamageStatus> DamageStatus { get; }
-        IQueryable<Accessory> Accessories { get; }
-
-        Device CreateDevice();
-        DeviceType CreateDeviceType();
-        DeviceStatus CreatDeviceStatus();
-        OrderStatus CreateOrderStatus();
-        Person CreatePerson();
-        Order CreateOrder();
-        Field CreateField();
-        FieldGroup CreateFieldGroup();
-        DeviceStatus CreateDeviceStatus();
-        DeviceMeta CreateDeviceMeta();
-        OrderItem CreateOrderItem();
-        Setting CreateSetting();
-        Damage CreateDamage();
-        DamageStatus CreateDamageStatus();
-        Accessory CreateAccessory();
-
-        void SaveChanges();
-        void DeleteDeviceType(DeviceType dt);
-        void DeleteDeviceMeta(DeviceMeta dm);
-        void DeleteField(Field f);
-        void DeleteFieldGroup(FieldGroup fg);
-        void DeleteSetting(Setting s);
-        void DeleteDamage(Damage d);
-        void DeleteAccessory(Accessory a);
-        void UpdateObject(object obj);
-        void Dispose();
-    }
-
-
-    public class HwInfContext : DbContext, IDAL
+    public class HwInfContext : DbContext, IDataAccessLayer
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(HwInfContext));
 
@@ -90,33 +44,33 @@ namespace HwInf.Common.DAL
             modelBuilder.HasDefaultSchema("public");
         }
 
-        IQueryable<Device> IDAL.Devices => Devices
+        IQueryable<Device> IDataAccessLayer.Devices => Devices
             .Include(x => x.Type)
             .Include(x => x.DeviceMeta)
             .Include(x => x.Type.FieldGroups.Select(y => y.Fields));
-        IQueryable<DeviceMeta> IDAL.DeviceMeta => DeviceMeta;
-        IQueryable<DeviceType> IDAL.DeviceTypes => DeviceTypes
+        IQueryable<DeviceMeta> IDataAccessLayer.DeviceMeta => DeviceMeta;
+        IQueryable<DeviceType> IDataAccessLayer.DeviceTypes => DeviceTypes
             .Include(x => x.FieldGroups.Select(y => y.DeviceTypes))
             .Include(x => x.FieldGroups.Select(y => y.Fields));
-        IQueryable<DeviceStatus> IDAL.DeviceStatus => DeviceStatus;
-        IQueryable<OrderStatus> IDAL.OrderStatus => OrderStatus;
-        IQueryable<Person> IDAL.Persons => Persons;
-        IQueryable<Role> IDAL.Roles => Roles;
+        IQueryable<DeviceStatus> IDataAccessLayer.DeviceStatus => DeviceStatus;
+        IQueryable<OrderStatus> IDataAccessLayer.OrderStatus => OrderStatus;
+        IQueryable<Person> IDataAccessLayer.Persons => Persons;
+        IQueryable<Role> IDataAccessLayer.Roles => Roles;
 
-        IQueryable<Order> IDAL.Orders => Orders
+        IQueryable<Order> IDataAccessLayer.Orders => Orders
             .Include(i => i.OrderItems)
             .Include(i => i.OrderItems.Select(x => x.Device))
             .Include(i => i.OrderStatus);
-        IQueryable<OrderItem> IDAL.OrderItems => OrderItems;
-        IQueryable<Field> IDAL.Fields => Fields;
-        IQueryable<FieldGroup> IDAL.FieldGroups => FieldGroups
+        IQueryable<OrderItem> IDataAccessLayer.OrderItems => OrderItems;
+        IQueryable<Field> IDataAccessLayer.Fields => Fields;
+        IQueryable<FieldGroup> IDataAccessLayer.FieldGroups => FieldGroups
             .Include(x => x.Fields)
             .Include(x => x.DeviceTypes);
-        IQueryable<Setting> IDAL.Settings => Settings;
-        IQueryable<Damage> IDAL.Damages => Damages
+        IQueryable<Setting> IDataAccessLayer.Settings => Settings;
+        IQueryable<Damage> IDataAccessLayer.Damages => Damages
             .Include(i => i.DamageStatus);
-        IQueryable<DamageStatus> IDAL.DamageStatus => DamageStatus;
-        IQueryable<Accessory> IDAL.Accessories => Accessories;
+        IQueryable<DamageStatus> IDataAccessLayer.DamageStatus => DamageStatus;
+        IQueryable<Accessory> IDataAccessLayer.Accessories => Accessories;
 
         public Device CreateDevice()
         {
@@ -176,7 +130,7 @@ namespace HwInf.Common.DAL
             return fg;
         }
 
-        void IDAL.SaveChanges()
+        void IDataAccessLayer.SaveChanges()
         {
             SaveChanges();
         }
@@ -205,10 +159,6 @@ namespace HwInf.Common.DAL
         public void DeleteField(Field f)
         {
             Fields.Remove(f);
-        }
-        void IDAL.Dispose()
-        {
-            Dispose();
         }
 
         public DeviceStatus CreateDeviceStatus()
