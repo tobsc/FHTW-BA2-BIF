@@ -1,39 +1,31 @@
 <div class="x_panel">
     <div class="x_title">
-        <h2>User von Admins entfernen</h2>
+        <h2>Admins</h2>
         <div class="clearfix"></div>
     </div>
     <div class="x_content">
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="x_panel">
-                    <div class="row">
-                        <div class="col-xs-12 col-md-6">
-                            <div class="form-group">
-                                <label class="control-label" htmlFor="removeadmin">
-                                    Username:
-                                </label>
-                                <input class="form-control" id="removeadmin" auto-complete [accept-user-input]="false" [(ngModel)]="selectedString" [source]="stringForDic" type="text" />
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label" htmlFor="setverwalter">
-                                    Verwalter:
-                                </label>
-                                <input id="setverwalter" [(ngModel)]="roleType.role" name="role" value="Verwalter" type="radio" />
-                                <label class="control-label" htmlFor="setuser">
-                                    User:
-                                </label>
-                                <input id="setuser" [(ngModel)]="roleType.role" name="role" value="User" type="radio" />
-                            </div>
-                            <div class="form-group">
-                                <button (click)="removeadmin()" type="submit" class="btn btn-success" [disabled]="isValid()">User von Admins entfernen</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
+        <div class="table-responsive">
+            <table id="datatable" class="table table-striped bulk_action table-bordered">
+                <thead>
+                <tr class="headings">
+                    <th class="column-title">Name</th>
+                    <th style="width: 170px" class="column-title">Neue Rolle</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr class="pointer" *ngFor="let user of users; let i = index;">
+                    <td >
+                        {{user.Name}} {{user.LastName}} ({{user.Uid}})
+                    </td>
+                    <td>
+                        <button class="btn btn-default" (click)="removeadmin(i, 'User')">User</button>
+                        <button class="btn btn-default" (click)="removeadmin(i, 'Verwalter')">Verwalter</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
-

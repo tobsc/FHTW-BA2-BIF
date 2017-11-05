@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, EventEmitter, Output} from '@angular/core';
 import { UserService } from "../../../../shared/services/user.service";
 import { User } from "../../../../shared/models/user.model";
 import { AdminService } from "../../../../shared/services/admin.service";
@@ -18,7 +18,10 @@ export class AddAdminComponent implements OnInit {
     private form: FormGroup;
     private selectedUser: User;
     private selectedString: string;
-      
+
+    @Output() adminListUpdated = new EventEmitter<User>();
+
+
     constructor(
         private userService: UserService,
         private fb: FormBuilder,
@@ -54,8 +57,12 @@ export class AddAdminComponent implements OnInit {
     addadmin() {
         this.selectedUser = this.userDic[this.selectedString];
         console.log(this.selectedUser);
-        this.adminService.addAdmin(this.selectedUser).subscribe((success) => console.log(success));
-
+        this.adminService.addAdmin(this.selectedUser).subscribe(
+            (success) => {
+                this.adminListUpdated.emit(this.selectedUser);
+                console.log("add" + success);
+            }
+        );
     }
 
     isValid(): boolean {

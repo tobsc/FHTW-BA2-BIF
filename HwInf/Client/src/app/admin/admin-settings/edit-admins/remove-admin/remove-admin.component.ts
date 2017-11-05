@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 import { UserService } from "../../../../shared/services/user.service";
 import { User } from "../../../../shared/models/user.model";
 import { AdminService } from "../../../../shared/services/admin.service";
@@ -20,6 +20,7 @@ export class RemoveAdminComponent implements OnInit {
     private selectedString: string;
     private roleType;
     private role: string = null;
+
 
     constructor(
         private userService: UserService,
@@ -57,14 +58,17 @@ export class RemoveAdminComponent implements OnInit {
 
     }
 
-    removeadmin() {
-        this.selectedUser = this.userDic[this.selectedString];
+    removeadmin(index, role) {
+        this.selectedUser = this.users[index];
         console.log(this.selectedUser);
-        this.role = this.roleType.role;
-        console.log(this.role);
-        this.adminService.removeAdmin(this.selectedUser, this.role).subscribe((success) => console.log(success));
-        // this.adminService.addAdmin(this.selectedUser).subscribe((success) => console.log(success));
-        
+        console.log(role);
+        this.adminService.removeAdmin(this.selectedUser, role).subscribe((success) => console.log(success));
+        this.users.splice(index, 1);
+    }
+
+    pushData(user: User) {
+        this.users.push(user);
+        console.log("pushed");
     }
 
     isValid(): boolean {
