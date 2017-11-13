@@ -6,6 +6,7 @@ export class User {
         public Email: string = null,
         public Tel: string = null,
         public Room: string = null,
-        public Password: string = null
+        public Password: string = null,
+        public Role: string = null
     ) {}
 }

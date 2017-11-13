@@ -37,7 +37,7 @@ namespace HwInf.Controllers
         /// <param name="orderGuid">&#x60;Order&#x60; guid</param>
         /// <response code="200"></response>
         /// <response code="500">An error occured, please read log files</response>
-        [Route("{guid}")]
+        [Route("{orderGuid}")]
         public HttpResponseMessage GetPrint(Guid orderGuid)
         {
             try
@@ -99,7 +99,7 @@ namespace HwInf.Controllers
         /// <param name="orderGuid">&#x60;Order&#x60; guid</param>
         /// <response code="200"></response>
         /// <response code="500">An error occured, please read log files</response>
-        [Route("return/{guid}")]
+        [Route("return/{orderGuid}")]
         public HttpResponseMessage GetReturn(Guid orderGuid)
         {
             try

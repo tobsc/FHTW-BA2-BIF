@@ -11,9 +11,7 @@ var moment = require('moment');
   styleUrls: ['./admin-settings.component.scss']
 })
 export class AdminSettingsComponent implements OnInit {
-        
-    private now: Date = new Date();
-    private year: number = this.now.getFullYear();
+       
     private ssStart: Setting = {
         Key: "ss_start",
         Value: sessionStorage.getItem("ss_start")
@@ -66,11 +64,6 @@ export class AdminSettingsComponent implements OnInit {
 
     private setList: Setting[] = [this.ssStart, this.ssEnd, this.wsStart, this.wsEnd, this.newOrder, this.mailAccept_above, this.mailAccept_below, this.mailDecline_above, this.mailDecline_below, this.mailReminder, this.daysBefore];
 
-
-
-    // DaterangePicker
-    public daterange: any = {};
-    private readonly DATE_FORMAT: string = 'DD.MM.YYYY';
     
     constructor(
         private adminService: AdminService
@@ -79,35 +72,7 @@ export class AdminSettingsComponent implements OnInit {
     ngOnInit() {
   }
 
-
-  // see original project for full list of options
-  // can also be setup using the config service to apply to multiple pickers
-  public optionsSS: any = {
-      autoUpdateInput: true,
-      locale: { format: this.DATE_FORMAT },
-      alwaysShowCalendars: false,   
-      startDate: this.ssStart.Value+"."+this.year,
-      endDate: this.ssEnd.Value + "." + this.year,
-  };
-
-  public optionsWS: any = {
-      autoUpdateInput: true,
-      locale: { format: this.DATE_FORMAT },
-      alwaysShowCalendars: false,
-      startDate: this.wsStart.Value + "." + this.year,
-      endDate: this.wsEnd.Value + "." + this.year,
-  };
-
-  public selectedSSDate(value: any) {
-      this.ssStart.Value = value.start.format("DD.MM");
-      this.ssEnd.Value = value.end.format("DD.MM");
-  }
-
-  public selectedWSDate(value: any) {
-      this.wsStart.Value = value.start.format("DD.MM");
-      this.wsEnd.Value = value.end.format("DD.MM");
-  }
-        
+ 
   public updateSettings() {
       this.adminService.updateSettings(this.setList).subscribe(item => { console.log(item) },(error) => console.log(error));
   }

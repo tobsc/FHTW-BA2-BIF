@@ -38,8 +38,6 @@ export class AdminService {
                     this.jwtService.removeToken();
                     this.jwtService.setToken(token);
 
-                    //badhack
-                    this.router.navigate(["/dashboard"]);
                     location.reload();
                 }
             });

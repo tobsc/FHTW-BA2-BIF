@@ -40,8 +40,9 @@ export class AddAdminComponent implements OnInit {
             .subscribe(
             (next) => {
                 this.users = next;
+                console.log(next);
 
-                this.users.forEach((user, index) => {
+                this.users.filter(user => user.Role !== "Admin").forEach((user, index) => {
                     this.userDic["(" + user.Uid + ") " + user.LastName + " " + user.Name] = user;
                     this.stringForDic[index] = "(" + user.Uid + ") " + user.LastName + " " + user.Name;
                 }
@@ -50,7 +51,6 @@ export class AddAdminComponent implements OnInit {
             },
             (error) => console.log(error)
             );
-
 
     }
 

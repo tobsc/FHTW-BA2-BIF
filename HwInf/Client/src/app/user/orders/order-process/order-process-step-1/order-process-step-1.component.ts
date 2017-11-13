@@ -18,11 +18,13 @@ moment.locale('de');
 })
 export class OrderProcessStep1Component implements OnInit, OnDestroy {
   private readonly DATE_FORMAT: string = 'DD.MM.YYYY';
+  private now: Date = new Date();
   private dateRangeString: string;
   private dateSettings: Setting[] = this.adminService.getSettings();
-  private semester: string = "ss";
-  private semesterStart: string = this.dateSettings.filter(item => item.Key == this.semester+"_start")[0].Value;
-  private semesterEnd: string = this.dateSettings.filter(item => item.Key == this.semester + "_end")[0].Value;;
+  private semester: string = this.configureSemester();
+  private semesterStart: string = this.configureSemesterStart();
+  private semesterEnd: string = this.configureSemesterEnd();
+  private semesterStartDate: Date = this.convertSemesterStartToDate();
 
  
 
@@ -39,7 +41,8 @@ export class OrderProcessStep1Component implements OnInit, OnDestroy {
   ) {
   }
 
-
+    //ich glaub das wird vorm ngoninit erstellt, weil es ja bei der deklaration bereits befüllt wird mit daten? aber theoretisch gehts so
+    // also es erkennt richtig ob du oder ein nonadmin angemeldet is also scheint es so vorm ngoninit zu initialisieren
   /**
 * Daterangepicker options
 */
@@ -47,7 +50,7 @@ export class OrderProcessStep1Component implements OnInit, OnDestroy {
       autoUpdateInput: true,
       locale: { format: this.DATE_FORMAT },
       alwaysShowCalendars: false,
-      minDate: this.jwtService.isLoggedInAs() ? false : moment().format(this.DATE_FORMAT) > this.semesterStart ? moment().format(this.DATE_FORMAT) : this.semesterStart,
+      minDate: this.jwtService.isLoggedInAs() ? false : new Date() > this.semesterStartDate ? moment().format(this.DATE_FORMAT) : this.semesterStart,
       maxDate: this.jwtService.isLoggedInAs() ? false : this.semesterEnd,
       startDate: moment().format(this.DATE_FORMAT),
       endDate: moment().add(7, 'days').format(this.DATE_FORMAT)
@@ -61,6 +64,7 @@ export class OrderProcessStep1Component implements OnInit, OnDestroy {
           this.user = data;
         });
 
+
     if (!!this.order.From && !!this.order.To) {
 
       let startDate = moment(this.order.From).format(this.DATE_FORMAT);
@@ -72,6 +76,13 @@ export class OrderProcessStep1Component implements OnInit, OnDestroy {
     }
   }
 
+  private convertSemesterStartToDate(): Date {
+      var pieces = this.semesterStart.split('.');
+      var datestring = pieces[2] + "-" + pieces[1] + "-" + pieces[0] + "T00:00:00";
+      this.semesterStartDate = new Date(datestring);
+      return this.semesterStartDate;
+  }
+
   /**
    * update user data if number was changed or entered
    */
@@ -81,6 +92,33 @@ export class OrderProcessStep1Component implements OnInit, OnDestroy {
         (err) => console.log(err)
     );
   }
+
+  private configureSemester(): string {
+      var mm = this.now.getMonth() + 1;
+
+      if (mm > 7) {
+         return this.semester = "ws";
+      }
+      else {
+          return this.semester = "ss";
+      }
+  }
+
+  private configureSemesterStart(): string {
+      var yyyy = this.now.getFullYear();
+      return this.semesterStart = this.dateSettings.filter(item => item.Key == this.semester + "_start")[0].Value + "." + yyyy;
+  }
+
+  private configureSemesterEnd(): string {
+      var yyyy = this.now.getFullYear();
+      if (this.semester == "ss") {
+          return this.semesterEnd = this.dateSettings.filter(item => item.Key == this.semester + "_end")[0].Value + "." + yyyy;
+      }
+      else {
+          return this.semesterEnd = this.dateSettings.filter(item => item.Key == this.semester + "_end")[0].Value + "." + (this.now.getFullYear() + 1);
+      }
+  }
+
 
   /**
    * if a date was chosen update the input field with the date

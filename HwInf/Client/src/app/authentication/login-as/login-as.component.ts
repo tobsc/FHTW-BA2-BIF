@@ -19,6 +19,7 @@ export class LoginAsComponent implements OnInit {
     private selectedUser: User;
     private selectedString: string;
 
+
     constructor(
         private userService: UserService,
         private fb: FormBuilder,
@@ -54,7 +55,9 @@ export class LoginAsComponent implements OnInit {
     
     impersonate() {
         this.selectedUser = this.userDic[this.selectedString];
-        this.adminService.impersonate(this.selectedUser)
+        this.adminService.impersonate(this.selectedUser);
+        this.router.navigate(["/dashboard"]);
+        
         
     }
 

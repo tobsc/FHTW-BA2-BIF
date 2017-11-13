@@ -10,20 +10,42 @@
                 <div class="col-xs-12 col-md-6">
                     <div class="form-group">
                         <label for="optionsSS">
-                            Sommersemester
+                            Sommersemester Anfang
                         </label>
                         <div name="parent">
-                            <input class="form-control" type="text" name="daterangeInput" id="optionsSS" daterangepicker [options]="optionsSS" (selected)="selectedSSDate($event)" required />
+                            <input class="form-control" type="text" name="optionsSSstart" ngControl="ssStart.Value" [(ngModel)]="ssStart.Value" required value="{{ssStart.Value}}" />
                         </div>
                     </div>
                 </div>
                 <div class="col-xs-12 col-md-6">
                     <div class="form-group">
                         <label for="optionsWS">
-                            Wintersemester
+                            Sommersemester Ende
                         </label>
                         <div name="parent">
-                            <input class="form-control" type="text" name="daterangeInput" id="optionsWS" daterangepicker [options]="optionsWS" (selected)="selectedWSDate($event)" required />
+                            <input class="form-control" type="text" name="optionsSSend" ngControl="ssEnd.Value" [(ngModel)]="ssEnd.Value" required  value="{{ssEnd.Value}}"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row gutter-10">
+                <div class="col-xs-12 col-md-6">
+                    <div class="form-group">
+                        <label for="optionsSS">
+                            Wintersemester Anfang
+                        </label>
+                        <div name="parent">
+                            <input class="form-control" type="text" name="optionsWSstart"  ngControl="wsStart.Value" [(ngModel)]="wsStart.Value" required value="{{wsStart.Value}}" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-6">
+                    <div class="form-group">
+                        <label for="optionsWS">
+                            Wintersemester Ende
+                        </label>
+                        <div name="parent">
+                            <input class="form-control" type="text" name="optionsWS" ngControl="wsEnd.Value" [(ngModel)]="wsEnd.Value" required value="{{wsEnd.Value}}"/>
                         </div>
                     </div>
                 </div>
