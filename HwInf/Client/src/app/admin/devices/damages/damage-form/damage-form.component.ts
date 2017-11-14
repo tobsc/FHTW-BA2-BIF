@@ -94,12 +94,13 @@ export class DamageFormComponent implements OnInit {
             this.form.get('Date').setValue(damage.Date);
             
             this.form.get('Reporter').setValue(this.adminFormatter(damage.Reporter));
+            
             this.form.get('Description').setValue(damage.Description);
             this.form.get('Device').setValue(this.deviceFormatter(damage.Device));
             this.form.get('DamageStatus').get('Slug').setValue(damage.DamageStatus.Slug);
         }
         else {
-            if (!!this.startDevice) {
+            if (this.startDevice) {
                 this.form.get('Device').setValue(this.deviceFormatter(this.startDevice));
             }
             this.form.get('Reporter').setValue(this.adminFormatter(this.ownUser));
@@ -146,11 +147,12 @@ export class DamageFormComponent implements OnInit {
     onSubmit(form: NgForm) {
         let damage: Damage = form.value;
         damage.Cause = this.userDic[form.value.Cause];
-        damage.Reporter = this.userDic[form.value.Reporter];
+        damage.Reporter = this.ownUser;
         damage.Device = this.deviceDic[form.value.Device];
         if (this.currentDamage != null) {
             damage.DamageId = this.currentDamage.DamageId;
         }
+
         console.log(damage);
         this.damageUpdated.emit(damage);
     }
