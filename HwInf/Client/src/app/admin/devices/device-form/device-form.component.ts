@@ -123,6 +123,7 @@ export class DeviceFormComponent implements OnInit {
     this.form.get('Name').setValue(device.Name);
     this.form.get('Marke').setValue(device.Marke);
     this.form.get('Raum').setValue(device.Raum);
+    this.form.get('Notiz').setValue(device.Notiz);
     this.form.get('Person').setValue(this.userFormatter(device.Verwalter));
     this.form.get('DeviceType').setValue({Slug: device.DeviceType.Slug });
 
@@ -147,7 +148,8 @@ export class DeviceFormComponent implements OnInit {
       DeviceType: this.initDeviceType(),
       Person: [ '', Validators.required ],
       FieldGroups: this.fb.array([]),
-      Status: this.initStatus()
+      Status: this.initStatus(),
+      Notiz: ['']
     });
   }
 
@@ -328,7 +330,8 @@ export class DeviceFormComponent implements OnInit {
       AdditionalInvNums: this.fb.array(
           form.value.AdditionalInvNums
       ),
-      Status: [form.value.Status]
+      Status: [form.value.Status],
+      Notiz: [form.value.Notiz]
     });
     let deviceMeta: FormArray = <FormArray>resultForm.controls['DeviceMeta'];
 

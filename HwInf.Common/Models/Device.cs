@@ -13,7 +13,7 @@ namespace HwInf.Common.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int DeviceId { get; set; }
         public string Name { get; set; }
-
+        public string Notes { get; set; }
         public string InvNum { get; set; }
         public string Brand { get; set; }
         public virtual Person Person { get; set; }

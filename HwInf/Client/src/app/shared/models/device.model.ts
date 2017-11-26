@@ -7,6 +7,7 @@ export class Device {
     constructor(
         public DeviceId: number,
         public Name: string,
+        public Notiz: string,
         public InvNum: string,
         public Marke: string,
         public Raum: string,

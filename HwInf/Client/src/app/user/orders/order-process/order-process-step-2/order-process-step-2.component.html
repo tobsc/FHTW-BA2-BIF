@@ -11,6 +11,7 @@
               <div class="panel panel-default" >
                   <!-- Default panel contents -->
                   <div class="panel-heading">{{orderItem.Device.Name}}</div>
+                  <div>{{orderItem.Device.Notiz}}</div>
                   <!-- List group -->
                   <ul class="list-group">
                       <li class="list-group-item" *ngFor="let accessory of accessories | async">

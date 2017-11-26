@@ -14,6 +14,7 @@ namespace HwInf.ViewModels
     {
         public int DeviceId { get; set; }
         public string Name { get; set; }
+        public string Notiz { get; set; }
         public string InvNum { get; set; }
         public string Marke { get; set; }
         public string Raum { get; set; }
@@ -49,6 +50,7 @@ namespace HwInf.ViewModels
 
             target.DeviceId = source.DeviceId;
             target.Name = source.Name;
+            target.Notiz = source.Notes;
             target.InvNum = source.InvNum;
             target.Marke = source.Brand;
             target.Status = new DeviceStatusViewModel(source.Status);
@@ -71,6 +73,7 @@ namespace HwInf.ViewModels
 
             target.Name = source.Name;
             target.InvNum = source.InvNum;
+            target.Notes = source.Notiz;
             target.Brand = source.Marke;
             target.Status = bl.GetDeviceStatus(source.Status.StatusId);
             target.Type = bl.GetDeviceType(source.DeviceType.Slug);
