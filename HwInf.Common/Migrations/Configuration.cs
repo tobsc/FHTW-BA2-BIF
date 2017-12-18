@@ -24,7 +24,9 @@ namespace HwInf.Common.Migrations
                     new DeviceStatus { Description = "Verfügbar" },
                     new DeviceStatus { Description = "Ausgeliehen" },
                     new DeviceStatus { Description = "In Reparatur" },
-                    new DeviceStatus { Description = "Archiviert" }                       
+                    new DeviceStatus { Description = "Archiviert" },
+                    new DeviceStatus { Description = "Nicht verleihbar" },
+                    new DeviceStatus { Description = "Präsentations-/Bachelorarbeitsgerät" },
                 };
 
             var orderStatus = new List<OrderStatus>
@@ -71,7 +73,8 @@ namespace HwInf.Common.Migrations
             {
                 new DamageStatus { Name = "Gemeldet" , Slug = "gemeldet"},
                 new DamageStatus { Name = "In Bearbeitung" , Slug = "in-bearbeitung"},
-                new DamageStatus { Name = "Behoben", Slug = "behoben"}
+                new DamageStatus { Name = "Behoben", Slug = "behoben"},
+                new DamageStatus { Name = "Bleibender Schaden", Slug = "bleibender-schaden" }
             };
 
             if (!context.Settings.Any())

@@ -57,8 +57,8 @@ export class DeviceListComponent implements OnInit, OnDestroy {
         })
           .subscribe((data) => {
 
-            this.totalItems = data.TotalItems;
-            this.devices = data.Devices;
+              this.totalItems = data.TotalItems;
+              this.devices = data.Devices.filter(x => x.Status.Description == "Verfügbar" || x.Status.Description == "Ausgeliehen");
         });
   }
 
@@ -83,7 +83,7 @@ export class DeviceListComponent implements OnInit, OnDestroy {
       this.deviceService.getFilteredDevices(this.filter).subscribe(
           (data) => {
               
-              this.devices = data.Devices;
+              this.devices = data.Devices.filter(x => x.Status.Description == "Verfügbar" || x.Status.Description == "Ausgeliehen");
               this.totalItems = data.TotalItems;
           }
       );
@@ -97,7 +97,7 @@ export class DeviceListComponent implements OnInit, OnDestroy {
             this.deviceService.getFilteredDevices(this.filter).subscribe(
                 data => {
                     if (data.Devices.length > 0) {
-                        this.devices = this.devices.concat(data.Devices);
+                        this.devices = this.devices.concat(data.Devices.filter(x => x.Status.Description == "Verfügbar" || x.Status.Description == "Ausgeliehen"));
                     }
                 }
             )
