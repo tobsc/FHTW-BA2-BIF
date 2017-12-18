@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using HwInf.Common.BL;
 using HwInf.Common.Interfaces;
 using HwInf.Common.Models;
+using System.Data.Entity;
 
 namespace HwInf.Common
 {
@@ -23,7 +24,8 @@ namespace HwInf.Common
 
         public Mail(Guid orderGuid, IBusinessLayer bl)
         {
-            _bl = bl;
+            //slight hack... TODO: inject Mail
+            _bl = new BusinessLayer(new HwInfContext());
 
             var un = Properties.Settings.Default.mailUserName;
             var pw = Properties.Settings.Default.mailPassword;
@@ -53,6 +55,11 @@ namespace HwInf.Common
 
         }
 
+        public void AddContactMessage()
+        {
+            mail.Body += "<br/> Du kannst den Verwalter deiner Anfrage unter folgender Mail kontaktieren: " + _order.Verwalter.Email + "<br/>";
+        }
+
         public void MessageFormat(string status)
         {
             switch (status)
@@ -80,6 +87,7 @@ namespace HwInf.Common
                 }
 
             }
+            AddContactMessage();
             mail.Body += _bl.GetSetting("accept_mail_below").Value;
         }
 
@@ -93,7 +101,7 @@ namespace HwInf.Common
                 mail.Body += ord.Device.Name + " : abgelehnt <br />";
 
             }
-
+            AddContactMessage();
             mail.Body += _bl.GetSetting("decline_mail_below").Value;
         }
         public void NewOrderMessage(Order order)
@@ -118,6 +126,9 @@ namespace HwInf.Common
             {
                 mail.Body += ord.Device.Name + "<br>";
             }
+
+            AddContactMessage();
+
         }
 
 
