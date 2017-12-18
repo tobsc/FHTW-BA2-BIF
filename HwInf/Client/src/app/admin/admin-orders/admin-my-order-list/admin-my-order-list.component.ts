@@ -43,7 +43,6 @@ export class AdminMyOrderListComponent implements OnInit {
     ngOnInit() {
         this.tmpFilter.StatusSlugs = ["offen"];
 
-        this.userService.getUser().subscribe(x => this.thisUser = x);
 
         this.route.queryParams
             .flatMap(i => this._filter)
@@ -59,9 +58,15 @@ export class AdminMyOrderListComponent implements OnInit {
                 return this.orderService.getFilteredOrders(tmpFilter);
             })
             .subscribe((data: OrderList) => {
-                this.orders = data.Orders.filter(x => x.Verwalter.Uid == this.thisUser.Uid);
-                this.maxPages = data.MaxPages;
-                this.totalItems = data.TotalItems;
+                this.userService.getUser().subscribe(x =>
+                {
+                    this.thisUser = x,
+                    this.orders = data.Orders.filter(x => x.Verwalter.Uid == this.thisUser.Uid);
+                    this.maxPages = data.MaxPages;
+                    this.totalItems = data.TotalItems;
+                });
+
+               
             });
 
     }

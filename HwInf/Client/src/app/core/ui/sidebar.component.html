@@ -42,9 +42,9 @@
               <li routerLinkActive="current_menu_item" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/admin/geraete/zubehoer">Zubehör</a></li>
             </ul>
           </li>
-          <li [ngClass]="{current_parent_menu_item: router.url.match('(.*admin\/orders.*)') }" dropdown><a dropdownToggle><i class="fa fa-edit"></i> Aufträge <span class="fa fa-chevron-down"></span></a>
+          <li [ngClass]="{current_parent_menu_item: router.url.match('(.*admin\/orders.*)') }" dropdown><a dropdownToggle><i class="fa fa-edit"></i> Aufträge <span class="label label-warning" *ngIf="newDevicesCount > 0">{{newDevicesCount}}</span><span class="fa fa-chevron-down"></span></a>
             <ul class="nav child_menu">
-              <li *ngIf="canActivateSettings()" routerLinkActive="current_menu_item"><a routerLink="/admin/orders/myorders" [queryParams]="{}">Meine offenen Anfragen</a></li>
+              <li *ngIf="canActivateSettings()" routerLinkActive="current_menu_item"><a routerLink="/admin/orders/myorders" [queryParams]="{}">Meine offenen Anfragen </a></li>
               <li routerLinkActive="current_menu_item"><a routerLink="/admin/orders/status/offen" [queryParams]="{}">Offene Anfragen</a></li>
               <li routerLinkActive="current_menu_item"><a routerLink="/admin/orders/status/akzeptiert" [queryParams]="{}">Akzeptierte Anfragen</a></li>
               <li routerLinkActive="current_menu_item"><a routerLink="/admin/orders/status/ausgeliehen" [queryParams]="{}">Ausgeliehene Geräte</a></li>
