@@ -72,9 +72,8 @@ namespace HwInf.Common.Migrations
             var damageStatus = new List<DamageStatus>
             {
                 new DamageStatus { Name = "Gemeldet" , Slug = "gemeldet"},
-                new DamageStatus { Name = "In Bearbeitung" , Slug = "in-bearbeitung"},
                 new DamageStatus { Name = "Behoben", Slug = "behoben"},
-                new DamageStatus { Name = "Bleibender Schaden", Slug = "bleibender-schaden" }
+                new DamageStatus { Name = "Dauerhaft", Slug = "dauerhaft" }
             };
 
             if (!context.Settings.Any())

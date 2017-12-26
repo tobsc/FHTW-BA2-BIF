@@ -5,7 +5,8 @@ import { UserService } from "../../../../shared/services/user.service";
 import { AdminService } from "../../../../shared/services/admin.service";
 import { JwtService } from "../../../../shared/services/jwt.service";
 import { Setting } from "../../../../shared/models/setting.model";
-import {User} from "../../../../shared/models/user.model";
+import { User } from "../../../../shared/models/user.model";
+import { VerwalterGuard } from "../../../../authentication/verwalter.guard";
 import {Router, ActivatedRoute} from "@angular/router";
 import {OrderProcessService} from "../shared/order-process.service";
 var moment = require('moment');
@@ -30,6 +31,12 @@ export class OrderProcessStep1Component implements OnInit, OnDestroy {
 
   private order: Order;
   private user: User = new User();
+  private users: User[];
+  private userDic: { [search: string]: User; } = {};
+  private stringForDic: string[] = [];
+  private selectedUser: User = new User();
+  private selectedString: string;
+
 
   constructor(
       private orderProcessService: OrderProcessService,
@@ -38,6 +45,7 @@ export class OrderProcessStep1Component implements OnInit, OnDestroy {
       private adminService: AdminService,
       private router: Router,
       private jwtService: JwtService,
+      private verwalterGuard: VerwalterGuard
   ) {
   }
 
@@ -57,13 +65,37 @@ export class OrderProcessStep1Component implements OnInit, OnDestroy {
   };
 
   ngOnInit() {
-
     this.order = this.formdataService.getData();
     this.userService.getUser()
         .subscribe((data) => {
-          this.user = data;
+            this.user = data;
+
+            if (this.verwalterGuard.canActivate()) {
+                this.userService.getUsers()
+                    .subscribe(
+                    (next) => {
+                        this.users = next;
+
+                        this.users.forEach((user, index) => {
+                            this.userDic["(" + user.Uid + ") " + user.LastName + " " + user.Name] = user;
+                            this.stringForDic[index] = "(" + user.Uid + ") " + user.LastName + " " + user.Name;
+                        }
+                        );
+                        this.selectedString = "(" + this.user.Uid + ") " + this.user.LastName + " " + this.user.Name
+                        this.selectedUser = this.user;
+                    },
+                    (error) => console.log(error)
+                    );
+            }
+            else {
+                this.selectedString = "(" + this.user.Uid + ") " + this.user.LastName + " " + this.user.Name
+                this.stringForDic[0] = this.selectedString;
+                this.userDic[this.selectedString] = this.user;
+                this.selectedUser = this.user;
+            }
         });
 
+    
 
     if (!!this.order.From && !!this.order.To) {
 
@@ -87,7 +119,7 @@ export class OrderProcessStep1Component implements OnInit, OnDestroy {
    * update user data if number was changed or entered
    */
   private onNumberChange(): void {
-    this.userService.updateUser(this.user).subscribe(
+    this.userService.updateUser(this.selectedUser).subscribe(
         (next) => console.log(next),
         (err) => console.log(err)
     );
@@ -132,7 +164,24 @@ export class OrderProcessStep1Component implements OnInit, OnDestroy {
     this.order.To = endDate.format();
   }
 
+  private isAdminOrVerwalter() {
+      if (this.user.Role != "User") {
+          return true;
+      }
+
+      return false;
+  }
+  onUserChange($event) {
+      this.selectedUser = this.userDic[this.selectedString];
+  }
+
   onSubmit() {
+      //set user correctly
+      if (this.verwalterGuard.canActivate()) {
+          this.selectedUser = this.userDic[this.selectedString];
+      }
+      this.order.Entleiher = this.selectedUser;
+      console.log(this.order);
     this.orderProcessService.setStatus(0, 'done');
     this.router.navigate(['/anfrage/schritt-2']);
   }

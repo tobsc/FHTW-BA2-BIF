@@ -25,18 +25,19 @@
 
           <div class="form-group">
             <label htmlFor="name">Vor- und Nachname</label>
-            <input type="text" value="{{user?.Name}} {{user?.LastName}}" name="name"  class="form-control" disabled/>
+              <input class="form-control" id="login" auto-complete [accept-user-input]="false" [(ngModel)]="selectedString" name="name" [source]="stringForDic" type="text" (valueChanged)="onUserChange($event)" *ngIf="isAdminOrVerwalter()" />
+              <input class="form-control" id="login" auto-complete [accept-user-input]="false" [(ngModel)]="selectedString" name="name" [source]="stringForDic" type="text" *ngIf="!isAdminOrVerwalter()" disabled/>
           </div>
 
           <div class="form-group">
-            <label htmlFor="daterangeInput">E-Mail</label>
-            <input type="text" value="{{user?.Email}}" name="daterangeInput"  class="form-control" disabled/>
+            <label htmlFor="mail">E-Mail</label>
+            <input type="text" value="{{selectedUser.Email}}" name="mail"  class="form-control" ng-change disabled/>
           </div>
 
 
           <div class="form-group">
             <label htmlFor="tel">Telefonnummer</label>
-            <input type="text" name="tel" id="tel"  class="form-control" [(ngModel)]="user.Tel" (change)="onNumberChange()" placeholder="Bitte Telefonnummer angeben..." required/>
+            <input type="text" name="tel" id="tel"  class="form-control" [(ngModel)]="selectedUser.Tel" (change)="onNumberChange()" placeholder="Bitte Telefonnummer angeben..." required/>
           </div>
         </div>
         <div class="col-xs-12 col-md-6">

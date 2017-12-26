@@ -27,6 +27,8 @@ import { SingleOrderComponent } from './orders/single-order/single-order.compone
 import { OrderConfirmComponent } from './orders/order-process/order-confirm/order-confirm.component';
 import { AlertModule } from 'ng2-bootstrap';
 import { DashboardOrderListComponent } from './dashboard/dashboard-order-list/dashboard-order-list.component';
+import { Ng2AutoCompleteModule } from "ng2-auto-complete";
+
 
 
 export function jwtFactory(backend: XHRBackend, options: RequestOptions, router: Router, authService: AuthService, pubsub: PubSubService) {
@@ -64,6 +66,7 @@ export function jwtFactory(backend: XHRBackend, options: RequestOptions, router:
         ConfirmDialogModule,
         PaginationModule.forRoot(),
         AlertModule.forRoot(),
+        Ng2AutoCompleteModule,
     ],
     providers: [
         {

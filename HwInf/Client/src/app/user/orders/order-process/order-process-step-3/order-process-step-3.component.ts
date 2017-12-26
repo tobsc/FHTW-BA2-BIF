@@ -37,6 +37,7 @@ export class OrderProcessStep3Component implements OnInit {
     let x = ({
       From: this.order.From,
       To: this.order.To,
+      Entleiher: this.order.Entleiher,
       OrderItems: this.order.OrderItems,
       OrderReason: this.order.OrderReason
     });

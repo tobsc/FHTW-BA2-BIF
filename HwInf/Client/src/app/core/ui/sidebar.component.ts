@@ -45,11 +45,12 @@ export class SidebarComponent implements OnInit, CanActivate {
       this.deviceTypes = this.deviceService.getDeviceTypes(false);
 
       this.userService.getUser().subscribe(x => this.verwalter = x);
-      this.orderService.getOrders().subscribe(x =>
-      {
-          this.newDevicesCount = x.filter(x => x.Verwalter.Uid == this.verwalter.Uid && x.OrderStatus.Slug=="offen").length;
-      });
-      
+
+      if (this.verwalterGuard.canActivate()) {
+          this.orderService.getOrders().subscribe(x => {
+              this.newDevicesCount = x.filter(x => x.Verwalter.Uid == this.verwalter.Uid && x.OrderStatus.Slug == "offen").length;
+          });
+      }
   }
 
 }
