@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from "@angular/router";
 import {CartService} from "../../../../shared/services/cart.service";
 
@@ -7,7 +7,9 @@ import {CartService} from "../../../../shared/services/cart.service";
   templateUrl: './order-confirm.component.html',
   styleUrls: ['./order-confirm.component.scss']
 })
-export class OrderConfirmComponent implements OnInit {
+export class OrderConfirmComponent implements OnInit, OnDestroy {
+
+    private timer;
 
   constructor(
       private cartService: CartService,
@@ -17,9 +19,13 @@ export class OrderConfirmComponent implements OnInit {
   ngOnInit() {
       this.cartService.clear();
 
-      setTimeout((router: Router) => {
+      this.timer = setTimeout((router: Router) => {
           this.router.navigate(['/']);
-      }, 15000);  //15s
+      }, 10000);  //10s
   }
 
+  ngOnDestroy() {
+
+      clearTimeout(this.timer);;
+  }
 }
