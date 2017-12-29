@@ -64,7 +64,13 @@ namespace HwInf.Controllers
             {
                 var devices = _bl.GetDevices()
                     .ToList()
-                    .Select(i => new DeviceViewModel(i).LoadMeta(i))
+                    .Select(i =>
+                    {
+                        var newDeviceViewModel = new DeviceViewModel(i).LoadMeta(i);
+                        newDeviceViewModel.Quantity = _bl.GetDevices().Where(j => j.Status.Description == "Verfügbar")
+                            .Count(j => j.DeviceGroupSlug == newDeviceViewModel.DeviceGroupSlug);
+                        return newDeviceViewModel;
+                    })
                     .ToList();
 
                 var deviceList = new DeviceListViewModel(devices.Skip(offset).Take(limit), limit, devices.Count);
@@ -100,7 +106,13 @@ namespace HwInf.Controllers
                 var result = searchText.ToLower().Split(new char[] { ' ', ',' }).ToList();
                 var devices = _bl.GetDevices()
                     .ToList()
-                    .Select(i => new DeviceViewModel(i).LoadMeta(i))
+                    .Select(i =>
+                    {
+                        var newDeviceViewModel = new DeviceViewModel(i).LoadMeta(i);
+                        newDeviceViewModel.Quantity = _bl.GetDevices().Where(j => j.Status.Description == "Verfügbar")
+                            .Count(j => j.DeviceGroupSlug == newDeviceViewModel.DeviceGroupSlug);
+                        return newDeviceViewModel;
+                    })
                     .ToList();
                 result.ForEach(i =>
                 {
@@ -136,13 +148,16 @@ namespace HwInf.Controllers
             {
                 var d = _bl.GetSingleDevice(id);
                 var vmdl = new DeviceViewModel(d).LoadMeta(d);
-
+                
 
                 if (vmdl == null)
                 {
                     _log.WarnFormat("Not Found: Devcie '{0}' not found", id);
                     return NotFound();
                 }
+
+                vmdl.Quantity = _bl.GetDevices().Where(j => j.Status.Description == "Verfügbar")
+                    .Count(j => j.DeviceGroupSlug == vmdl.DeviceGroupSlug);
 
                 return Ok(vmdl);
             }
@@ -179,6 +194,10 @@ namespace HwInf.Controllers
                     return NotFound();
                 }
 
+                vmdl.Quantity = _bl.GetDevices().Where(j => j.Status.Description == "Verfügbar")
+                    .Count(j => j.DeviceGroupSlug == vmdl.DeviceGroupSlug);
+
+
                 return Ok(vmdl);
             }
             catch (Exception ex)
@@ -210,7 +229,16 @@ namespace HwInf.Controllers
                 vmdl.OrderBy = vmdl.OrderBy ?? "Name";
                 vmdl.Order = vmdl.Order ?? "ASC";
 
-                var b = vmdl.FilteredList(_bl).ToList().Select(i => new DeviceViewModel(i).LoadMeta(i)).ToList();
+                var b = vmdl.FilteredList(_bl)
+                    .ToList()
+                    .Select(i =>
+                    {
+                        var newDeviceViewModel = new DeviceViewModel(i).LoadMeta(i);
+                        newDeviceViewModel.Quantity = _bl.GetDevices().Where(j => j.Status.Description == "Verfügbar")
+                            .Count(j => j.DeviceGroupSlug == newDeviceViewModel.DeviceGroupSlug);
+                        return newDeviceViewModel;
+                    })
+                    .ToList();
                 var count = b.Count;
                 b = vmdl.Limit < 0
                     ? b.ToList()
@@ -285,90 +313,9 @@ namespace HwInf.Controllers
                     return BadRequest(ModelState);
                 }
 
-                if (string.IsNullOrWhiteSpace(vmdl.Name))
-                {
-                    return BadRequest("Bitte einen Namen für das Gerät angeben.");
-                }
-
-                if (string.IsNullOrWhiteSpace(vmdl.Marke))
-                {
-                    return BadRequest("Bitte eine Marke für das Gerät angeben.");
-                }
-
-
-                if (_bl.GetDeviceType(vmdl.DeviceType.Slug) == null)
-                {
-                    return BadRequest("Typ nicht vorhanden.");
-                }
-
-                if (_bl.GetUsers(vmdl.Verwalter.Uid) == null)
-                {
-                    return BadRequest("Person nicht vorhanden.");
-                }
-
-
-
-                // Put all invNums into one List
-                var invNums = new List<AdditionalInvNumViewModel>
-                {
-                    new AdditionalInvNumViewModel {InvNum = vmdl.InvNum}
-                };
-                if (vmdl.AdditionalInvNums != null)
-                    invNums.AddRange(vmdl.AdditionalInvNums);
-
-                // Get Existing InvNums
-                var existingInvNums = _bl.GetDevices(false).Select(i => i.InvNum)
-                    .ToList();
-
-
-                var invNumsNoDupl = invNums.Select(i => i.InvNum).Distinct().ToList();
-
-                // Check if new InvNums do not exist
-                if (invNums.Select(i => i.InvNum).Intersect(existingInvNums).Any() ||
-                    invNumsNoDupl.Count() != invNums.Count())
-                {
-                    return BadRequest("Es existiert bereits ein Gerät mit dieser Inventarnummer.");
-                }
-
-
-
-                // Check for new fields and add them
-                vmdl.DeviceMeta.ForEach(i =>
-                {
-                    var fg = _bl.GetFieldGroups(i.FieldGroupSlug);
-                    if (fg.Fields.Count(j => j.Name == i.Field) == 0)
-                    {
-                        _bl.UpdateFieldGroup(fg);
-                        var field = _bl.CreateField();
-                        var fvmdl = new FieldViewModel {Name = i.Field};
-                        fvmdl.ApplyChanges(field, _bl);
-                        fg.Fields.Add(field);
-                    }
-                });
-
-                var response = new List<DeviceViewModel>();
-
-                invNums
-                    .Select(i => i.InvNum)
-                    .ForEach(i =>
-                    {
-                        var d = _bl.CreateDevice();
-                        d.CreateDate = DateTime.Now;
-                        vmdl.InvNum = i;
-                        vmdl.ApplyChanges(d, _bl);
-                        vmdl.Refresh(d);
-                        response.Add(new DeviceViewModel(d).LoadMeta(d));
-
-                    });
-
-                _bl.SaveChanges();
-
-                _log.InfoFormat("Device '{0}({1})' added by '{2}'", vmdl.InvNum, vmdl.Name, User.Identity.Name);
-                if (vmdl.AdditionalInvNums == null) return Ok(vmdl);
-                foreach (var n in vmdl.AdditionalInvNums)
-                {
-                    _log.InfoFormat("Device '{0}({1})' added by '{2}'", n.InvNum, vmdl.Name, User.Identity.Name);
-                }
+                var response = string.IsNullOrWhiteSpace(vmdl.InvNum) 
+                    ? CreateDeviceNoInvNum(vmdl) 
+                    : CreateDeviceWithInvNum(vmdl);
 
                 return Ok(response);
 
@@ -379,11 +326,112 @@ namespace HwInf.Controllers
                 return Unauthorized();
             }
 
+            catch (ArgumentException ex)
+            {
+                _log.ErrorFormat("Exception: {0}", ex);
+                return BadRequest(ex.Message);
+            }
+
             catch (Exception ex)
             {
                 _log.ErrorFormat("Exception: {0}", ex);
                 return InternalServerError();
             }
+        }
+
+        private List<DeviceViewModel> CreateDeviceNoInvNum(DeviceViewModel vmdl)
+        {
+            var response = new List<DeviceViewModel>();
+
+            // Check for new fields and add them
+            vmdl.DeviceMeta.ForEach(i =>
+            {
+                var fg = _bl.GetFieldGroups(i.FieldGroupSlug);
+                if (fg.Fields.Count(j => j.Name == i.Field) == 0)
+                {
+                    _bl.UpdateFieldGroup(fg);
+                    var field = _bl.CreateField();
+                    var fvmdl = new FieldViewModel { Name = i.Field };
+                    fvmdl.ApplyChanges(field, _bl);
+                    fg.Fields.Add(field);
+                }
+            });
+
+            for (var i = 0; i < vmdl.Quantity; i++)
+            {
+                var d = _bl.CreateDevice();
+                d.CreateDate = DateTime.Now;
+                vmdl.DeviceGroupSlug = vmdl.Name + "-" + _bl.GetCurrentUid();
+                vmdl.ApplyChanges(d, _bl);
+                vmdl.Refresh(d);
+                response.Add(new DeviceViewModel(d).LoadMeta(d));
+            }
+
+            _bl.SaveChanges();
+
+            return response;
+        }
+
+        private List<DeviceViewModel> CreateDeviceWithInvNum(DeviceViewModel vmdl)
+        {
+            // Put all invNums into one List
+            var invNums = new List<AdditionalInvNumViewModel>
+            {
+                new AdditionalInvNumViewModel {InvNum = vmdl.InvNum}
+            };
+            if (vmdl.AdditionalInvNums != null)
+                invNums.AddRange(vmdl.AdditionalInvNums);
+
+            // Get Existing InvNums
+            var existingInvNums = _bl.GetDevices(false).Select(i => i.InvNum)
+                .ToList();
+
+
+            var invNumsNoDupl = invNums.Select(i => i.InvNum).Distinct().ToList();
+
+            // Check if new InvNums do not exist
+            if (invNums.Select(i => i.InvNum).Intersect(existingInvNums).Any() ||
+                invNumsNoDupl.Count() != invNums.Count())
+            {
+                throw new ArgumentException("Es existiert bereits ein Gerät mit dieser Inventarnummer.");
+            }
+
+            // Check for new fields and add them
+            vmdl.DeviceMeta.ForEach(i =>
+            {
+                var fg = _bl.GetFieldGroups(i.FieldGroupSlug);
+                if (fg.Fields.Count(j => j.Name == i.Field) == 0)
+                {
+                    _bl.UpdateFieldGroup(fg);
+                    var field = _bl.CreateField();
+                    var fvmdl = new FieldViewModel {Name = i.Field};
+                    fvmdl.ApplyChanges(field, _bl);
+                    fg.Fields.Add(field);
+                }
+            });
+
+            var response = new List<DeviceViewModel>();
+
+            invNums
+                .Select(i => i.InvNum)
+                .ForEach(i =>
+                {
+                    var d = _bl.CreateDevice();
+                    d.CreateDate = DateTime.Now;
+                    vmdl.InvNum = i;
+                    vmdl.ApplyChanges(d, _bl);
+                    vmdl.Refresh(d);
+                    response.Add(new DeviceViewModel(d).LoadMeta(d));
+                });
+
+            _bl.SaveChanges();
+
+            _log.InfoFormat("Device '{0}({1})' added by '{2}'", vmdl.InvNum, vmdl.Name, User.Identity.Name);
+            foreach (var n in vmdl.AdditionalInvNums)
+            {
+                _log.InfoFormat("Device '{0}({1})' added by '{2}'", n.InvNum, vmdl.Name, User.Identity.Name);
+            }
+            return response;
         }
 
         /// <summary>

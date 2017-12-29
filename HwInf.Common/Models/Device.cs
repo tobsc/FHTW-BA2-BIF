@@ -22,7 +22,7 @@ namespace HwInf.Common.Models
         public virtual DeviceType Type { get; set; }
         public DateTime CreateDate { get; set; }
         public bool IsActive { get; set; }
-
+        public string DeviceGroupSlug { get; set; }
         public virtual ICollection<DeviceMeta> DeviceMeta { get; set; } = new List<DeviceMeta>();
     }
 }

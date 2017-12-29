@@ -535,7 +535,7 @@ namespace HwInf.Controllers
             // Load Devices
             vmdl.OrderItems
                 .ToList()
-                .ForEach(x => x.Device = new DeviceViewModel(_bl.GetSingleDevice(x.Device.InvNum)));
+                .ForEach(x => x.Device = new DeviceViewModel(_bl.GetSingleDevice(x.Device.DeviceId)));
 
             // Group by Verwalter
             var groupedOrderItems = vmdl.OrderItems.GroupBy(i => i.Device.Verwalter.Uid).Select(x => x.ToList()).ToList();

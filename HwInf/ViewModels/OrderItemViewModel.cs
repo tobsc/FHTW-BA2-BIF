@@ -54,7 +54,7 @@ namespace HwInf.ViewModels
             var target = obj;
             var source = this;
 
-            target.Device = bl.GetSingleDevice(source.Device.InvNum);
+            target.Device = bl.GetSingleDevice(source.Device.DeviceId);
             target.IsDeclined = source.IsDeclined;
             target.Accessories = source.Accessories.Any() ? string.Join(",", source.Accessories) : "";
 

@@ -54,7 +54,7 @@ namespace HwInf.ViewModels
             target.Cause = bl.GetUsers(source.Cause.Uid);
             target.Reporter = bl.GetUsers(bl.GetCurrentUid());
             target.Description = source.Description;
-            target.Device = bl.GetSingleDevice(source.Device.InvNum);
+            target.Device = bl.GetSingleDevice(source.Device.DeviceId);
             target.DamageStatus = source.DamageStatus == null
                 ? bl.GetDamageStatus("gemeldet")
                 : bl.GetDamageStatus(source.DamageStatus.Slug);

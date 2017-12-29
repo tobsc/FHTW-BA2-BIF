@@ -1,17 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using HwInf.Common.DAL;
 using System.Linq;
-using System.Data.Entity;
-using System.Data.Entity.Core.Objects;
-using System.Data.Entity.Validation;
-using System.Data.SqlTypes;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
-using System.Runtime.Remoting.Messaging;
 using System.Security;
 using System.Text;
 using HwInf.Common.Interfaces;
@@ -19,6 +11,7 @@ using HwInf.Common.Models;
 using JWT;
 using log4net;
 using log4net.Appender;
+using MoreLinq;
 
 namespace HwInf.Common.BL
 {
@@ -49,10 +42,10 @@ namespace HwInf.Common.BL
             var obj = _dal.Devices;
 
             obj = onlyActive ? obj.Where(i => i.IsActive) : obj;
-            obj = !String.IsNullOrWhiteSpace(typeSlug)
+            obj = !string.IsNullOrWhiteSpace(typeSlug)
                 ? obj.Where(i => i.Type.Slug.Equals(typeSlug))
                 : obj;
-
+            
             return obj;
         }
 
@@ -529,8 +522,18 @@ namespace HwInf.Common.BL
             }
 
             var dt = GetDeviceType(type);
-            var devices = GetDevices(onlyActive, (string.IsNullOrWhiteSpace(type)) ? "" : dt.Slug).ToList();
-            var result = devices;
+            var devices = GetDevices(onlyActive, string.IsNullOrWhiteSpace(type) ? "" : dt.Slug).ToList();
+
+            var nullDeviceGroup = devices
+                .Where(i => i.DeviceGroupSlug == null);
+
+            var distinctDevictByDeviceGroup = devices
+                .Where(i => i.DeviceGroupSlug != null)
+                .Where(i => i.Status.Description == "Verfügbar")
+                .AsEnumerable()
+                .DistinctBy(i => i.DeviceGroupSlug);
+
+            var result = nullDeviceGroup.Concat(distinctDevictByDeviceGroup).ToList();
 
             if (meta != null)
             {

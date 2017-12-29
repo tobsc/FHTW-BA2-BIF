@@ -129,7 +129,7 @@ namespace HwInf.ViewModels
         {
             obj.OrderItems = OrderItems.Select(i => new OrderItem
             {
-                Device = bl.GetSingleDevice(i.Device.InvNum),
+                Device = bl.GetSingleDevice(i.Device.DeviceId),
                 From = obj.From,
                 To = obj.To,
                 Entleiher = bl.GetUsers(obj.Entleiher.Uid),

@@ -5,8 +5,6 @@ using HwInf.Common.BL;
 using HwInf.Common.Interfaces;
 using HwInf.Common.Models;
 using WebGrease.Css.Extensions;
-using static System.String;
-using IBusinessLayer = HwInf.Common.Interfaces.IBusinessLayer;
 
 namespace HwInf.ViewModels
 {
@@ -19,6 +17,8 @@ namespace HwInf.ViewModels
         public string Marke { get; set; }
         public string Raum { get; set; }
         public string CreateDate { get; set; }
+        public string DeviceGroupSlug { get; set; }
+        public int Quantity { get; set; }
         public DeviceTypeViewModel DeviceType { get; set; }
         public UserViewModel Verwalter { get; set; }
         public DeviceStatusViewModel Status { get; set; }
@@ -59,7 +59,8 @@ namespace HwInf.ViewModels
             target.Verwalter = new UserViewModel(source.Person);
             target.IsActive = source.IsActive;
             target.CreateDate = source.CreateDate.ToShortDateString();
-
+            target.DeviceGroupSlug = source.DeviceGroupSlug;
+            
             if (source.Type.FieldGroups != null)
             {
                 target.FieldGroups = source.Type.FieldGroups.Select(i => new { Slug = i.Slug, Name = i.Name, IsCountable = i.IsCountable }).OrderBy(i => i.Name).ToList();
@@ -81,9 +82,9 @@ namespace HwInf.ViewModels
             target.Room = source.Raum;
             target.IsActive = source.IsActive;
             target.DeviceMeta = new List<DeviceMeta>();
+            target.DeviceGroupSlug = source.DeviceGroupSlug;
             source.DeviceMeta.ForEach(i => i.ApplyChanges(i, bl));
             source.DeviceMeta.ForEach(i => target.DeviceMeta.Add(i));
-
 
         }
 
