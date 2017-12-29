@@ -17,6 +17,8 @@ export class Device {
         public DeviceMeta: DeviceMeta[],
         public IsActive: boolean,
         public FieldGroups: FieldGroup[],
-        public CreateDate: Date
+        public CreateDate: Date,
+        public DeviceGroupSlug: string,
+        public Quantity: number
     ) {}
 }

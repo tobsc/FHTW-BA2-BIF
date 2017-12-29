@@ -39,7 +39,10 @@ export class DeviceFormComponent implements OnInit {
 
   //private mask = ['([A-Za-z0-9]{2}\+){2}([A-Za-z0-9]{4})'];
   private r = /[A-Za-z0-9]/;
-  private mask = [this.r,this.r, '+', this.r, this.r, '+', this.r, this.r, this.r, this.r];
+  private mask = [this.r, this.r, '+', this.r, this.r, '+', this.r, this.r, this.r, this.r];
+
+    //for noInv devices
+  private invNumFlag: boolean = true;
 
   constructor(
       private deviceService: DeviceService,
@@ -141,7 +144,9 @@ export class DeviceFormComponent implements OnInit {
   private initForm(device: Device = null): FormGroup {
     return this.fb.group({
       Name: ['', Validators.required],
+      InvNumFlag: [''],
       InvNum: ['', Validators.required],
+      Quantity: [''],
       AdditionalInvNums: this.fb.array([]),
       Marke: ['', Validators.required],
       Raum: ['', Validators.required],
@@ -308,8 +313,10 @@ export class DeviceFormComponent implements OnInit {
 
 
   public onSubmit(form: NgForm, event: Event): void {
-    event.preventDefault();
-    this.submitForm.emit(this.mappedForm(form));
+      event.preventDefault();
+      
+      this.mappedForm(form);
+      this.submitForm.emit(this.mappedForm(form));
   }
 
   /**
@@ -321,7 +328,8 @@ export class DeviceFormComponent implements OnInit {
     let resultForm: FormGroup = this.fb.group({
       DeviceId: (this.currentDevice) ? this.currentDevice.DeviceId : -1, // -1 ModelState fix hack
       Name: [form.value.Name, Validators.required],
-      InvNum: [form.value.InvNum, Validators.required],
+      InvNum: ['', Validators.required],
+      Quantity: [''],
       Marke: [form.value.Marke, Validators.required],
       Raum: [form.value.Raum, Validators.required],
       DeviceType: this.initDeviceType(form.value.DeviceType.Slug),
@@ -333,6 +341,14 @@ export class DeviceFormComponent implements OnInit {
       Status: [form.value.Status],
       Notiz: [form.value.Notiz]
     });
+
+    if (this.form.value.InvNumFlag == true) {
+        resultForm.controls['InvNum'].setValue(this.form.value.InvNum);
+    }
+    else {
+        resultForm.controls['Quantity'].setValue(this.form.value.Quantity);
+    }
+
     let deviceMeta: FormArray = <FormArray>resultForm.controls['DeviceMeta'];
 
     form.value.FieldGroups
@@ -343,10 +359,32 @@ export class DeviceFormComponent implements OnInit {
             }
           })
         });
+
+      //for debugging purposes
+    console.log(<Device>resultForm.value);
     return <Device>resultForm.value;
   }
   
   userFormatter(data: any): string {
       return /*"(" + data.Uid + ") " +*/ data.LastName + " " + data.Name;
+  }
+
+  hasInvNum(): boolean {
+      return this.invNumFlag;
+  }
+
+  changeInvNumFlag(): void {
+      if (this.invNumFlag) {
+          this.form.controls['InvNum'].setValidators(null);
+          this.form.controls['InvNum'].setValue("");
+          this.form.controls['Quantity'].setValidators([Validators.required]);
+      }
+      else {
+          this.form.controls['InvNum'].setValidators([Validators.required]);
+          this.form.controls['Quantity'].setValidators(null);
+          this.form.controls['Quantity'].setValue("");
+      }
+
+      this.invNumFlag = !this.invNumFlag;
   }
 }

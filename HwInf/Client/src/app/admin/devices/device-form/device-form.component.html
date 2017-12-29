@@ -66,7 +66,9 @@
               <label htmlFor="InvNum">
                 Inventarnummer
               </label>
-              <input id="InvNum" name="InvNum" class="form-control" type="text" formControlName="InvNum" [textMask]="{mask: mask}" placeholder="__+__+____">
+                <input id="InvNumFlag" name="InvNumFlag" type="checkbox" formControlName="InvNumFlag" ngModel="invNumFlag" (click)="changeInvNumFlag()"/>
+              <input id="InvNum" name="InvNum" class="form-control" type="text" formControlName="InvNum" [textMask]="{mask: mask}" placeholder="__+__+____" *ngIf="hasInvNum()">
+              <input id="Quantity" name="Quantity" class="form-control" type="number" formControlName="Quantity" placeholder="NUMBER" *ngIf="!hasInvNum()">
             </div>
             <div formArrayName="AdditionalInvNums">
               <div class="form-group" *ngFor="let invNum of form.controls.AdditionalInvNums.controls; let i = index">
@@ -83,7 +85,7 @@
                 </div>
               </div>
             </div>
-            <button *ngIf="feature !== 'edit'" class="btn btn-warning btn-xs" type="button" (click)="addInvNum()">
+            <button *ngIf="feature !== 'edit' && hasInvNum()" class="btn btn-warning btn-xs" type="button" (click)="addInvNum()">
               <i class="fa fa-plus-square-o" aria-hidden="true"></i>
               Weitere Inventarnummer hinzufügen
             </button>
