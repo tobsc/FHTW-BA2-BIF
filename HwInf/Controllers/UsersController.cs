@@ -4,6 +4,7 @@ using System.Security;
 using System.Web.Http;
 using System.Web.Http.Description;
 using HwInf.Common.Interfaces;
+using HwInf.Common.Models;
 using HwInf.ViewModels;
 using log4net;
 
@@ -156,10 +157,19 @@ namespace HwInf.Controllers
         {
             try
             {
-                var obj = _bl.GetUsers(_bl.GetCurrentUid());
+                Person user;
+                if (_bl.IsAdmin || _bl.IsVerwalter)
+                {
+                    user = _bl.GetUsers(_bl.GetCurrentUid());
+                }
+                else
+                {
+                    user = _bl.GetUsers(userVmdl.Uid);
+                }
+                
 
-                userVmdl.ApplyChangesTelRoom(obj);
-                userVmdl.Refresh(obj);
+                userVmdl.ApplyChangesTelRoom(user);
+                userVmdl.Refresh(user);
                 _bl.SaveChanges();
                 _log.InfoFormat("User '{0}' updated by '{1}'", userVmdl.Uid, User.Identity.Name);
 

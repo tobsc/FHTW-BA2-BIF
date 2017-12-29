@@ -97,11 +97,17 @@ namespace HwInf.ViewModels
             target.Date = DateTime.Now;
             target.From = source.From;
             target.To = source.To;
-            target.Entleiher = bl.GetUsers(bl.GetCurrentUid());
             target.OrderGuid = Guid.NewGuid();
+            if (bl.IsAdmin || bl.IsVerwalter)
+            {
+                target.Entleiher = bl.GetUsers(source.Entleiher.Uid);
+            }
+            else
+            {
+                target.Entleiher = bl.GetUsers(bl.GetCurrentUid());
+            }
             CreateOrderItems(obj, bl);
             target.Verwalter = target.OrderItems.Select(i => i.Device.Person).FirstOrDefault();
-            target.Entleiher = bl.GetUsers(bl.GetCurrentUid());
             target.OrderReason = source.OrderReason;
             target.OrderStatus = source.OrderStatus == null
                 ? bl.GetOrderStatus("offen")
