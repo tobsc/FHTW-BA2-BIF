@@ -524,16 +524,18 @@ namespace HwInf.Common.BL
             var dt = GetDeviceType(type);
             var devices = GetDevices(onlyActive, string.IsNullOrWhiteSpace(type) ? "" : dt.Slug).ToList();
 
-            var nullDeviceGroup = devices
-                .Where(i => i.DeviceGroupSlug == null);
+            //var nullDeviceGroup = devices
+            //    .Where(i => i.DeviceGroupSlug == null);
 
-            var distinctDevictByDeviceGroup = devices
-                .Where(i => i.DeviceGroupSlug != null)
-                .Where(i => i.Status.Description == "Verfügbar")
-                .AsEnumerable()
-                .DistinctBy(i => i.DeviceGroupSlug);
+            //var distinctDevictByDeviceGroup = devices
+            //    .Where(i => i.DeviceGroupSlug != null)
+            //    .Where(i => i.Status.Description == "Verfügbar")
+            //    .AsEnumerable()
+            //    .DistinctBy(i => i.DeviceGroupSlug);
 
-            var result = nullDeviceGroup.Concat(distinctDevictByDeviceGroup).ToList();
+            //var result = nullDeviceGroup.Concat(distinctDevictByDeviceGroup).ToList();
+
+            var result = devices;
 
             if (meta != null)
             {
