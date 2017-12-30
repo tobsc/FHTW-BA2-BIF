@@ -63,7 +63,15 @@
                                             </div>
                                         </ng-container>
                                     </div>
-                                    <button class="btn btn-success btn-xs" (click)="addItem(device)">
+                                    <span>
+                                        Anzahl: 
+                                        <input min="1" max="{{device.Quantity}}" [(ngModel)]="cartQuantity" (ngModelChange)="updateQuantity($event)" type="number" *ngIf="device.InvNum == null || device.InvNum == ''">
+                                    </span>
+                                    <button class="btn btn-success btn-xs" (click)="addItem(device)" *ngIf="device.InvNum != null && device.InvNum != ''">
+                                        Zum Warenkorb hinzufügen
+                                        <i class="fa fa-cart-plus" aria-hidden="true"></i>
+                                    </button>
+                                    <button class="btn btn-success btn-xs" (click)="addItemWithQuantity(device)" *ngIf="device.InvNum == null || device.InvNum == ''">
                                         Zum Warenkorb hinzufügen
                                         <i class="fa fa-cart-plus" aria-hidden="true"></i>
                                     </button>

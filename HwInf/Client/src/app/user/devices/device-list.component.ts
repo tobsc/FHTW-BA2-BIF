@@ -28,6 +28,8 @@ export class DeviceListComponent implements OnInit, OnDestroy {
   private totalItems: number = 0;
   private limit: number = 20;
 
+  private cartQuantity = 1;
+
   constructor(
       private deviceService: DeviceService,
       private cartService: CartService,
@@ -59,16 +61,32 @@ export class DeviceListComponent implements OnInit, OnDestroy {
 
               this.totalItems = data.TotalItems;
               this.devices = data.Devices.filter(x => x.Status.Description == "Verfügbar" || x.Status.Description == "Ausgeliehen");
+              console.log(this.devices);
         });
   }
 
   public addItem(device: Device): void {
+      this.resetQuantity();
       this.cartService.addItem(device);
       this.alerts.push({
           type: 'success',
           msg: `Das Gerät ${device.Name} wurde zum Warenkorb hinzufefügt.`,
           timeout: 5000
       });
+  }
+
+  public addItemWithQuantity(device: Device): void {
+      var newDevice = device;
+      newDevice.Quantity = this.cartQuantity;
+      this.addItem(newDevice);
+  }
+
+  public resetQuantity(): void {
+      this.cartQuantity = 1;
+  }
+
+  public updateQuantity($event): void {
+      this.cartQuantity = $event;
   }
 
   public getMetaDataOfFieldGroup(slug: string, metaData: DeviceMeta[]): DeviceMeta[] {
@@ -102,7 +120,15 @@ export class DeviceListComponent implements OnInit, OnDestroy {
                 }
             )
         }
-    }
+  }
+
+  public hasInvNum(device: Device): boolean {
+      if (device.InvNum.length < 2) {
+          return false;
+      }
+
+      return true;
+  }
     
   ngOnDestroy(): void {
       this.subscription.unsubscribe();  
