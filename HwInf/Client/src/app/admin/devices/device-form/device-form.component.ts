@@ -342,8 +342,10 @@ export class DeviceFormComponent implements OnInit {
       Notiz: [form.value.Notiz]
     });
 
-    if (this.form.value.InvNumFlag == true) {
+    if (this.invNumFlag == true) {
         resultForm.controls['InvNum'].setValue(this.form.value.InvNum);
+        //to ensure backend can handle every case
+        resultForm.controls['Quantity'].setValue(0);
     }
     else {
         resultForm.controls['Quantity'].setValue(this.form.value.Quantity);
@@ -361,6 +363,7 @@ export class DeviceFormComponent implements OnInit {
         });
 
       //for debugging purposes
+    console.log(this.invNumFlag);
     console.log(<Device>resultForm.value);
     return <Device>resultForm.value;
   }
@@ -382,7 +385,7 @@ export class DeviceFormComponent implements OnInit {
       else {
           this.form.controls['InvNum'].setValidators([Validators.required]);
           this.form.controls['Quantity'].setValidators(null);
-          this.form.controls['Quantity'].setValue("");
+          this.form.controls['Quantity'].setValue(0);
       }
 
       this.invNumFlag = !this.invNumFlag;
