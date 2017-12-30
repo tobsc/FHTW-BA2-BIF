@@ -14,7 +14,7 @@ export class DamagesListComponent implements OnInit {
     
     private rows: any[];
     private damages: Damage[];
-    private invNum: string;
+    private deviceId: number;
     private showDeviceInvNum: boolean=false;
 
   constructor(
@@ -25,10 +25,9 @@ export class DamagesListComponent implements OnInit {
 
   ngOnInit() {
       this.route.params.subscribe((params: Params) => {
-          this.invNum = params['invnum'];
-          if (this.invNum) {
-              console.log(this.invNum);
-              this.damageService.getDamagesByInvNum(this.invNum).subscribe((data) => {
+          this.deviceId = params['id'];
+          if (this.deviceId) {
+              this.damageService.getDamagesByDeviceId(this.deviceId).subscribe((data) => {
                   this.damages = data;
                   this.rows = data.map(i => ({ isCollapsed: true, damage: i }));
               });

@@ -50,9 +50,9 @@ export class DamageFormComponent implements OnInit {
 
     ngOnInit() {
         this.route.params.subscribe((params: Params) => {
-            let invNum = params['invnum'];
-            if (invNum) {
-                this.deviceService.getDevice(invNum).subscribe(i => this.startDevice = i);
+            let deviceId = params['id'];
+            if (deviceId) {
+                this.deviceService.getDeviceById(deviceId).subscribe(i => this.startDevice = i);
             }
         });
         this.form = this.initForm();
@@ -166,6 +166,6 @@ export class DamageFormComponent implements OnInit {
     }
 
     deviceFormatter(data: any): string {
-        return data.InvNum + ": " + data.Marke + " " + data.Name;
+        return "(ID:"+data.DeviceId + ") " + data.InvNum + ": " + data.Marke + " " + data.Name;
     }
 }

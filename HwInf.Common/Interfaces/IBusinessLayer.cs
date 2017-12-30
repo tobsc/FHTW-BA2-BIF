@@ -99,6 +99,7 @@ namespace HwInf.Common.Interfaces
         string CreateToken(Person p);
         Damage GetDamage(int id);
         IEnumerable<Damage> GetDamages(string invNum);
+        IEnumerable<Damage> GetDamages(int deviceId);
         IEnumerable<Damage> GetDamages();
         Damage CreateDamage();
         void DeleteDamage(Damage s);

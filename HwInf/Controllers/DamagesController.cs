@@ -127,8 +127,53 @@ namespace HwInf.Controllers
                     return NotFound();
                 }
 
-                
+
                 return Ok(damages.OrderByDescending(i=>i.DamageId));
+            }
+            catch (Exception ex)
+            {
+                _log.ErrorFormat("Exception: {0}", ex);
+                return InternalServerError();
+            }
+        }
+
+        /// <summary>
+        /// Get Damages by DeviceId of Device
+        /// </summary>
+        /// <remarks>
+        /// Returns &#x60;Damages&#x60; attached to a single &#x60;Device&#x60;.
+        /// </remarks>
+        /// <param name="deviceid">Unique identifier of a &#x60;Device&#x60;</param>
+        /// <response code="200"></response>
+        /// <response code="404">An error occured, &#x60;Damage&#x60; not found</response>
+        /// <response code="500">An error occured, please read log files</response>
+        [ResponseType(typeof(DamageViewModel))]
+        [Route("deviceid")]
+        public IHttpActionResult GetDamages(int deviceid)
+        {
+            try
+            {
+                
+                var damages = _bl.GetDamages(deviceid)
+                         .ToList()
+                         .Select(i => new DamageViewModel(i))
+                         .Where(i => i.DamageStatus.Slug != "behoben")
+                         .ToList();
+                if (_bl.IsVerwalter)
+                {
+                    damages = damages.Where(i => i.Reporter.Uid == _bl.GetCurrentUid()).ToList();
+                }
+
+                //2017-12-30 commented; if there are no damages then there should be no 404 error?
+                //if (!damages.Any())
+                //{
+                //    _log.WarnFormat("Not Found: Damage by Device '{0}' not found", invNum);
+                //    return NotFound();
+                //}
+
+
+
+                return Ok(damages.OrderByDescending(i => i.DamageId));
             }
             catch (Exception ex)
             {

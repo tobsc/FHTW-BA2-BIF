@@ -692,6 +692,15 @@ namespace HwInf.Common.BL
             return _dal.Damages.Where(i => i.Device.InvNum.Equals(invNum));
         }
 
+        public IEnumerable<Damage> GetDamages(int deviceId)
+        {
+            if (deviceId < 1)
+            {
+                return _dal.Damages;
+            }
+            return _dal.Damages.Where(i => i.Device.DeviceId == deviceId);
+        }
+
         public IEnumerable<Damage> GetDamages()
         {
             return _dal.Damages.Any() ? _dal.Damages:Enumerable.Empty<Damage>();

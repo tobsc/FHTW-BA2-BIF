@@ -20,7 +20,7 @@
                             <div>{{row.damage?.DamageId}}</div>
                         </td>
                         <td *ngIf="showDeviceInvNum">
-                            <div>{{row.damage?.Device.InvNum}}</div>
+                            <div>ID: {{row.damage?.Device.DeviceId}} || {{row.damage?.Device.InvNum}}</div>
                         </td>
                         <td>
                             <div class="name-row" (click)="row.isCollapsed = !row.isCollapsed">

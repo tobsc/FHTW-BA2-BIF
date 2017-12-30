@@ -41,7 +41,7 @@ const ADMIN_ROUTES: Routes = [
             { path: 'geraete/felder', component: DeviceCustomFieldsComponent },
             { path: 'geraete/typen', component: DeviceTypesComponent },
             { path: 'geraete/zubehoer', component: DeviceAccessoriesComponent },
-            { path: 'schaden/geraet/:invnum', component: DamagesComponent },
+            { path: 'schaden/geraet/:id', component: DamagesComponent },
             { path: 'schaden/verwalten', component: DamagesListComponent },
             { path: 'schaden/add', component: DamagesAddComponent},
             { path: 'settings', component: AdminSettingsComponent },

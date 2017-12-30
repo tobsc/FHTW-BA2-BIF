@@ -34,6 +34,17 @@ export class DamageService {
             .map((response: Response) => response.json());
     }
 
+    public getDamagesByDeviceId(deviceid: number,
+        params: URLSearchParams = new URLSearchParams()
+    ): Observable<Damage[]> {
+        params.set('deviceid', deviceid.toString());
+        let options = new RequestOptions({
+            search: params,
+        }); 
+        return this.http.get(this.url + 'deviceid/', options)
+            .map((response: Response) => response.json());
+}
+
     public getDamage(id: number): Observable<Damage> {
         return this.http.get(this.url + 'id/'+ id)
             .map((response: Response) => response.json());
