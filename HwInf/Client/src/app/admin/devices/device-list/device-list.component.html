@@ -68,14 +68,14 @@
         <tr *ngFor="let device of devices; let i = index">
           <td><div class="label-device-status" hwinfDeviceStatusLabelClass [deviceStatus]="device.Status">{{device.Status.Description}}</div></td>
           <td>{{device.InvNum}}</td>
-          <th scope="row" ><a [routerLink]="['/admin/geraete/verwalten/', device.InvNum]">{{device.Name}}</a></th>
+          <th scope="row" ><a [routerLink]="['/admin/geraete/verwalten/', device.DeviceId]">{{device.Name}}</a></th>
           <td>{{device.DeviceType.Name}}</td>
           <td>{{device.CreateDate}}</td>
           <td title="({{device.Verwalter.Uid}}) {{device.Verwalter.Name}} {{device.Verwalter.LastName}}">{{device.Verwalter.Name}} {{device.Verwalter.LastName}}</td>
           <td>
-            <a routerLink="/admin/geraete/verwalten/{{device.InvNum}}/" title="Gerät bearbeiten" class="btn btn-warning btn-sm" aria-label="Bearbeiten"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-            <a [routerLink]="['/admin/geraete/erstellen/', device.InvNum]" title="Gerät duplizieren" class="btn btn-info btn-sm" aria-label="Duplizieren"><i class="fa fa-files-o" aria-hidden="true"></i></a>
-            <a [routerLink]="['/admin/schaden/geraet/', device.InvNum]" title="Geräteschäden verwalten" class="btn btn-warning btn-sm" aria-label="Schäden"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></a>
+            <a routerLink="/admin/geraete/verwalten/{{device.DeviceId}}/" title="Gerät bearbeiten" class="btn btn-warning btn-sm" aria-label="Bearbeiten"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+            <a [routerLink]="['/admin/geraete/erstellen/', device.DeviceId]" title="Gerät duplizieren" class="btn btn-info btn-sm" aria-label="Duplizieren"><i class="fa fa-files-o" aria-hidden="true"></i></a>
+            <a [routerLink]="['/admin/schaden/geraet/', device.DeviceId]" title="Geräteschäden verwalten" class="btn btn-warning btn-sm" aria-label="Schäden"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></a>
 
             <hwinf-confirm-button (action)="onDelete(device.DeviceId, i)" popOverTitle="Wirklich löschen?">
               <button title="Gerät löschen" class="btn btn-danger btn-sm" aria-label="Löschen">

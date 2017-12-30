@@ -86,6 +86,11 @@ export class DeviceService {
             .map((response: Response) => response.json());
     }
 
+    public getDeviceById(id: number): Observable<Device> {
+        return this.http.get(this.url + 'id/'+id)
+            .map((response: Response) => response.json());
+    }
+
     public getDeviceStatuses(): Observable<Status[]> {
         return this.http.get(this.url + 'status')
             .map((response: Response) => response.json());

@@ -82,8 +82,8 @@ export class DeviceFormComponent implements OnInit {
     if ( this.feature === 'add' ) return;
 
     this.route.params
-        .map(params => params['invnum'])
-        .flatMap(invnum => this.deviceService.getDevice(invnum))
+        .map(params => params['id'])
+        .flatMap(id => this.deviceService.getDeviceById(id))
         .subscribe(
             (device:Device) => {
               this.currentDevice = device;
