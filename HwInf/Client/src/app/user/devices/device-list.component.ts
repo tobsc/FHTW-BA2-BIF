@@ -55,7 +55,7 @@ export class DeviceListComponent implements OnInit, OnDestroy {
             this.filter.OrderBy = 'name';
             this.filter.Limit = this.limit;
             this.filter.Offset = (this.currentPage-1) * this.filter.Limit;
-            return this.deviceService.getFilteredDevices(this.filter)
+            return this.deviceService.getFilteredDevicesUser(this.filter)
         })
           .subscribe((data) => {
 

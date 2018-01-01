@@ -87,6 +87,7 @@ export class DeviceFormComponent implements OnInit {
         .subscribe(
             (device:Device) => {
               this.currentDevice = device;
+              console.log(this.currentDevice);
               this.fillFormWithDeviceData(device);
             },
             (err) => { console.log(err); }
@@ -148,7 +149,7 @@ export class DeviceFormComponent implements OnInit {
       InvNum: ['', Validators.required],
       Quantity: [''],
       AdditionalInvNums: this.fb.array([]),
-      Marke: ['', Validators.required],
+      Marke: [''],
       Raum: ['', Validators.required],
       DeviceType: this.initDeviceType(),
       Person: [ '', Validators.required ],
@@ -330,7 +331,7 @@ export class DeviceFormComponent implements OnInit {
       Name: [form.value.Name, Validators.required],
       InvNum: ['', Validators.required],
       Quantity: [''],
-      Marke: [form.value.Marke, Validators.required],
+      Marke: [form.value.Marke],
       Raum: [form.value.Raum, Validators.required],
       DeviceType: this.initDeviceType(form.value.DeviceType.Slug),
       Verwalter: this.ownerDic[form.value.Person],
@@ -339,7 +340,8 @@ export class DeviceFormComponent implements OnInit {
           form.value.AdditionalInvNums
       ),
       Status: [form.value.Status],
-      Notiz: [form.value.Notiz]
+      Notiz: [form.value.Notiz],
+      DeviceGroupSlug: this.currentDevice.DeviceGroupSlug
     });
 
     if (this.invNumFlag == true) {

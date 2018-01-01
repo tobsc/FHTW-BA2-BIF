@@ -5,6 +5,7 @@ using System.Linq;
 using HwInf.Common.BL;
 using HwInf.Common.Interfaces;
 using HwInf.Common.Models;
+using Microsoft.Ajax.Utilities;
 using WebGrease.Css.Extensions;
 
 namespace HwInf.ViewModels
@@ -127,17 +128,52 @@ namespace HwInf.ViewModels
 
         public void CreateOrderItems(Order obj, IBusinessLayer bl)
         {
-            obj.OrderItems = OrderItems.Select(i => new OrderItem
-            {
-                Device = bl.GetSingleDevice(i.Device.DeviceId),
-                From = obj.From,
-                To = obj.To,
-                Entleiher = bl.GetUsers(obj.Entleiher.Uid),
-                Verwalter = bl.GetUsers(i.Device.Verwalter.Uid),
-                CreateDate = DateTime.Now,
-                Accessories = i.Accessories.Any() ? string.Join(",", i.Accessories) : ""
-        })
+            obj.OrderItems = OrderItems.Select(i =>
+                {
+                    var newOrderItem = new OrderItem
+                    {
+                        Device = bl.GetSingleDevice(i.Device.DeviceId),
+                        From = obj.From,
+                        To = obj.To,
+                        Entleiher = bl.GetUsers(obj.Entleiher.Uid),
+                        Verwalter = bl.GetUsers(i.Device.Verwalter.Uid),
+                        CreateDate = DateTime.Now,
+                        Accessories = i.Accessories.Any() ? string.Join(",", i.Accessories) : ""
+                    };
+                    newOrderItem.Device.Quantity = i.Device.Quantity;
+                    return newOrderItem;
+                })
             .ToList();
+
+            var ordersWithoutInvNum = obj.OrderItems
+                .Where(x => string.IsNullOrWhiteSpace(x.Device.InvNum))
+                .DistinctBy(x => x.Device.DeviceGroupSlug)
+                .ToList();
+
+            ordersWithoutInvNum.ForEach(orderItem =>
+            {
+                var devices = bl.GetDevices().ToList();
+                var test = devices
+                    .Where(d => d.DeviceGroupSlug == orderItem.Device.DeviceGroupSlug)
+                    .Take(orderItem.Device.Quantity)
+                    .ToList();
+                test.ForEach(d =>
+                {
+                    var newOrderItem = new OrderItem
+                    {
+                        Device = d,
+                        From = obj.From,
+                        To = obj.To,
+                        Entleiher = bl.GetUsers(obj.Entleiher.Uid),
+                        Verwalter = bl.GetUsers(orderItem.Device.Person.Uid),
+                        CreateDate = DateTime.Now,
+                        Accessories = orderItem.Accessories.Any() ? string.Join(",", orderItem.Accessories) : ""
+                    };
+                    obj.OrderItems.Add(newOrderItem);
+                });
+
+            });
+            obj.OrderItems = obj.OrderItems.DistinctBy(i => i.Device.DeviceId).ToList();
         }
 
         public void Return(Order obj, IBusinessLayer bl)

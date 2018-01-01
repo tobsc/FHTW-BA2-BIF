@@ -67,7 +67,7 @@ namespace HwInf.Controllers
                     .Select(i =>
                     {
                         var newDeviceViewModel = new DeviceViewModel(i).LoadMeta(i);
-                        newDeviceViewModel.Quantity = _bl.GetDevices().Where(j => j.Status.Description == "Verfügbar")
+                        newDeviceViewModel.Quantity = _bl.GetDevices().ToList().Where(j => j.Status.Description == "Verfügbar")
                             .Count(j => j.DeviceGroupSlug == newDeviceViewModel.DeviceGroupSlug);
                         return newDeviceViewModel;
                     })
@@ -109,7 +109,7 @@ namespace HwInf.Controllers
                     .Select(i =>
                     {
                         var newDeviceViewModel = new DeviceViewModel(i).LoadMeta(i);
-                        newDeviceViewModel.Quantity = _bl.GetDevices().Where(j => j.Status.Description == "Verfügbar")
+                        newDeviceViewModel.Quantity = _bl.GetDevices().ToList().Where(j => j.Status.Description == "Verfügbar")
                             .Count(j => j.DeviceGroupSlug == newDeviceViewModel.DeviceGroupSlug);
                         return newDeviceViewModel;
                     })
@@ -156,7 +156,7 @@ namespace HwInf.Controllers
                     return NotFound();
                 }
 
-                vmdl.Quantity = _bl.GetDevices().Where(j => j.Status.Description == "Verfügbar")
+                vmdl.Quantity = _bl.GetDevices().ToList().Where(j => j.Status.Description == "Verfügbar")
                     .Count(j => j.DeviceGroupSlug == vmdl.DeviceGroupSlug);
 
                 return Ok(vmdl);
@@ -234,7 +234,55 @@ namespace HwInf.Controllers
                     .Select(i =>
                     {
                         var newDeviceViewModel = new DeviceViewModel(i).LoadMeta(i);
-                        newDeviceViewModel.Quantity = _bl.GetDevices().Where(j => j.Status.Description == "Verfügbar")
+                        newDeviceViewModel.Quantity = _bl.GetDevices().ToList().Where(j => j.Status.Description == "Verfügbar")
+                            .Count(j => j.DeviceGroupSlug == newDeviceViewModel.DeviceGroupSlug);
+                        return newDeviceViewModel;
+                    })
+                    .ToList();
+                var count = b.Count;
+                b = vmdl.Limit < 0
+                    ? b.ToList()
+                    : b.Skip(vmdl.Offset).Take(vmdl.Limit).ToList();
+
+                return Ok(new DeviceListViewModel(b, vmdl.Limit, count));
+            }
+            catch (SecurityException)
+            {
+                _log.WarnFormat("'{0}' tried to list Devices as Admin/Verwalter", _bl.GetCurrentUid());
+                return Unauthorized();
+            }
+            catch (Exception ex)
+            {
+                _log.ErrorFormat("Exception: {0}", ex);
+                return InternalServerError();
+            }
+        }
+
+        /// <summary>
+        /// Filter Devices
+        /// </summary>
+        /// <remarks>
+        /// Filters the &#x60;Devices&#x60; with the given parameters.
+        /// Can be any Field of a &#x60;Device&#x60; (e.g: CPU, OS, GPU)
+        /// </remarks>
+        /// <param name="vmdl">Filter as FilterViewModel</param>
+        /// <response code="200"></response>
+        /// <response code="500">An error occured, please read log files</response>
+        [ResponseType(typeof(DeviceListViewModel))]
+        [Route("filteruser")]
+        public IHttpActionResult PostFilterUser([FromBody] FilterViewModel vmdl)
+        {
+            try
+            {
+                vmdl.OrderBy = vmdl.OrderBy ?? "Name";
+                vmdl.Order = vmdl.Order ?? "ASC";
+
+                var b = vmdl.FilteredListUser(_bl)
+                    .ToList()
+                    .Select(i =>
+                    {
+                        var newDeviceViewModel = new DeviceViewModel(i).LoadMeta(i);
+                        newDeviceViewModel.Quantity = _bl.GetDevices().ToList().Where(j => j.Status.Description == "Verfügbar")
                             .Count(j => j.DeviceGroupSlug == newDeviceViewModel.DeviceGroupSlug);
                         return newDeviceViewModel;
                     })

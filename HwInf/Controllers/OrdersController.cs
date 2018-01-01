@@ -10,6 +10,7 @@ using System.Security;
 using log4net;
 using System.Threading.Tasks;
 using HwInf.Common.Interfaces;
+using Microsoft.Ajax.Utilities;
 
 namespace HwInf.Controllers
 {
@@ -217,6 +218,7 @@ namespace HwInf.Controllers
                     var order = _bl.CreateOrder();
                     i.ApplyChanges(order, _bl);
                     i.LoadOrderItems(order).Refresh(order);
+
                 });
 
                 _bl.SaveChanges();
@@ -535,7 +537,11 @@ namespace HwInf.Controllers
             // Load Devices
             vmdl.OrderItems
                 .ToList()
-                .ForEach(x => x.Device = new DeviceViewModel(_bl.GetSingleDevice(x.Device.DeviceId)));
+                .ForEach(x =>
+                {
+                    var quantity = x.Device.Quantity;
+                    x.Device = new DeviceViewModel(_bl.GetSingleDevice(x.Device.DeviceId)) {Quantity = quantity};
+                });
 
             // Group by Verwalter
             var groupedOrderItems = vmdl.OrderItems.GroupBy(i => i.Device.Verwalter.Uid).Select(x => x.ToList()).ToList();

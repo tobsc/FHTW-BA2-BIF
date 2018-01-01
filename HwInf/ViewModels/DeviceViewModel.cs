@@ -60,7 +60,8 @@ namespace HwInf.ViewModels
             target.IsActive = source.IsActive;
             target.CreateDate = source.CreateDate.ToShortDateString();
             target.DeviceGroupSlug = source.DeviceGroupSlug;
-            
+            target.Quantity = source.Quantity;
+                        
             if (source.Type.FieldGroups != null)
             {
                 target.FieldGroups = source.Type.FieldGroups.Select(i => new { Slug = i.Slug, Name = i.Name, IsCountable = i.IsCountable }).OrderBy(i => i.Name).ToList();

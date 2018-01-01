@@ -42,5 +42,19 @@ namespace HwInf.ViewModels
             return bl.GetFilteredDevices(metaViewModel, DeviceType, Order, OrderBy, OnlyActive, IsVerwalterView)
                 .ToList();
         }
+
+        public ICollection<Device> FilteredListUser(IBusinessLayer bl)
+        {
+            var metaViewModel = MetaQuery.Select(i =>
+            {
+                var deviceMeta = new DeviceMeta();
+                i.ApplyValues(deviceMeta);
+                return deviceMeta;
+
+            }).ToList();
+
+            return bl.GetFilteredDevicesUser(metaViewModel, DeviceType, Order, OrderBy, OnlyActive, IsVerwalterView)
+                .ToList();
+        }
     }
 }

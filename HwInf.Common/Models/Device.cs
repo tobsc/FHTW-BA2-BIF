@@ -24,5 +24,7 @@ namespace HwInf.Common.Models
         public bool IsActive { get; set; }
         public string DeviceGroupSlug { get; set; }
         public virtual ICollection<DeviceMeta> DeviceMeta { get; set; } = new List<DeviceMeta>();
+        [NotMapped]
+        public int Quantity { get; set; }
     }
 }

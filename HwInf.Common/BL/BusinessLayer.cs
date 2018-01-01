@@ -577,6 +577,76 @@ namespace HwInf.Common.BL
                    : result.Where(i => i.Person.Uid.Equals(GetCurrentUid())).ToList();
         }
 
+        public ICollection<Device> GetFilteredDevicesUser
+        (
+            ICollection<DeviceMeta> meta,
+            string type = null,
+            string order = "DESC",
+            string orderBy = "Name",
+            bool onlyActive = true,
+            bool isVerwalterView = false
+        )
+        {
+
+            if (isVerwalterView && !IsAdmin && !IsVerwalter)
+            {
+                throw new SecurityException();
+            }
+
+            var dt = GetDeviceType(type);
+            var devices = GetDevices(onlyActive, string.IsNullOrWhiteSpace(type) ? "" : dt.Slug).ToList();
+
+            var nullDeviceGroup = devices
+                .Where(i => i.DeviceGroupSlug == null);
+
+            var distinctDevictByDeviceGroup = devices
+                .Where(i => i.DeviceGroupSlug != null)
+                .Where(i => i.Status.Description == "Verfügbar")
+                .AsEnumerable()
+                .DistinctBy(i => i.DeviceGroupSlug);
+
+            var result = nullDeviceGroup.Concat(distinctDevictByDeviceGroup).ToList();
+
+            if (meta != null)
+            {
+                List<List<DeviceMeta>> deviceMetaGroupedByFieldGroup = meta
+                    .Where(i => !String.IsNullOrWhiteSpace(i.FieldGroupSlug)
+                             && !String.IsNullOrWhiteSpace(i.FieldSlug)
+                             && !String.IsNullOrWhiteSpace(i.MetaValue)
+                             )
+                    .GroupBy(i => i.FieldGroupSlug, i => i)
+                    .ToList()
+                    .Select(i => i.ToList())
+                    .ToList();
+
+                deviceMetaGroupedByFieldGroup.ForEach(i =>
+                {
+                    result = result
+                        .Where(j => j.DeviceMeta.Intersect(i, new DeviceMetaComparer()).Count() == i.Count)
+                        .ToList();
+                });
+            }
+
+
+            result = order.Equals("ASC")
+                ? result.OrderBy(i =>
+                {
+                    var prop = i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null);
+                    return prop;
+
+                }).ToList()
+                : result.OrderByDescending(i => i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null)).ToList();
+
+            result = result
+                .Distinct()
+                .ToList();
+
+
+            return !isVerwalterView || IsAdmin ?
+                result
+               : result.Where(i => i.Person.Uid.Equals(GetCurrentUid())).ToList();
+        }
+
         #region Settings
 
         public Setting GetSetting(string key)

@@ -86,6 +86,15 @@ namespace HwInf.Common.Interfaces
             bool onlyActive = true,
             bool isVerwalterView = false
         );
+        ICollection<Device> GetFilteredDevicesUser
+        (
+            ICollection<DeviceMeta> meta,
+            string type = null,
+            string order = "DESC",
+            string orderBy = "Name",
+            bool onlyActive = true,
+            bool isVerwalterView = false
+        );
 
         Setting GetSetting(string key);
         IEnumerable<Setting> GetSettings();
