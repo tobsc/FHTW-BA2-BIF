@@ -341,7 +341,7 @@ export class DeviceFormComponent implements OnInit {
       ),
       Status: [form.value.Status],
       Notiz: [form.value.Notiz],
-      DeviceGroupSlug: (this.currentDevice) ? this.currentDevice.DeviceGroupSlug : "";
+      DeviceGroupSlug: (this.currentDevice) ? this.currentDevice.DeviceGroupSlug : ""
     });
 
     if (this.invNumFlag == true) {
