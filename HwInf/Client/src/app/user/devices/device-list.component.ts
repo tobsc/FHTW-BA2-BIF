@@ -89,6 +89,14 @@ export class DeviceListComponent implements OnInit, OnDestroy {
       this.cartQuantity = $event;
   }
 
+  public needsQuantity(device: Device): boolean {
+      if (device.InvNum == "" || device.InvNum.length < 2) {
+          return true;
+      }
+      
+      return false;
+  }
+
   public getMetaDataOfFieldGroup(slug: string, metaData: DeviceMeta[]): DeviceMeta[] {
       return metaData.filter((i) => i.FieldGroupSlug === slug);
   }

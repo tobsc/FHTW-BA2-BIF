@@ -63,7 +63,7 @@
                                             </div>
                                         </ng-container>
                                     </div>
-                                    <span>
+                                    <span *ngIf="needsQuantity(device)">
                                         Anzahl: 
                                         <input min="1" max="{{device.Quantity}}" [(ngModel)]="cartQuantity" (ngModelChange)="updateQuantity($event)" type="number" *ngIf="device.InvNum == null || device.InvNum == ''">
                                     </span>

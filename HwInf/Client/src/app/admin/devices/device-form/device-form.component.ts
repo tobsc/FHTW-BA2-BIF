@@ -387,7 +387,7 @@ export class DeviceFormComponent implements OnInit {
       else {
           this.form.controls['InvNum'].setValidators([Validators.required]);
           this.form.controls['Quantity'].setValidators(null);
-          this.form.controls['Quantity'].setValue(0);
+          this.form.controls['Quantity'].setValue(null);
       }
 
       this.invNumFlag = !this.invNumFlag;
