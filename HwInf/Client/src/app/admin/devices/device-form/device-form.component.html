@@ -62,15 +62,15 @@
                 <div class="field-select"></div>
                     <input class="form-control" auto-complete formControlName="Person" [accept-user-input]="false" [source]="stringForDic"/>             
             </div>
-            <div class="form-group">
+            <div class="form-group" *ngIf="feature !== 'edit' || hasInvNum()">
               <label htmlFor="InvNum" *ngIf="hasInvNum()">
                     <b>Inventarnummer</b>
               </label>
                 <label htmlFor="InvNum" *ngIf="!hasInvNum()">
                     <s>Inventarnummer</s>
                 </label>
-                <input id="InvNumFlag" name="InvNumFlag" type="checkbox" formControlName="InvNumFlag" ngModel="invNumFlag" (click)="changeInvNumFlag()"/>
-                <label htmlFor="Quantity" *ngIf="hasInvNum()">
+                <input id="InvNumFlag" name="InvNumFlag" type="checkbox" formControlName="InvNumFlag" ngModel="invNumFlag" (click)="changeInvNumFlag()" *ngIf="feature !== 'edit'"/>
+                <label htmlFor="Quantity" *ngIf="hasInvNum() && feature !== 'edit'">
                     <s>Anzahl</s>
                 </label>
                 <label htmlFor="Quantity" *ngIf="!hasInvNum()">

@@ -156,7 +156,7 @@ namespace HwInf.Common.BL
         {
             if (!IsAdmin && !IsVerwalter) throw new SecurityException();
 
-            var device = _dal.Devices.FirstOrDefault(i => d.InvNum.Equals(i.InvNum));
+            var device = _dal.Devices.FirstOrDefault(i => d.DeviceId.Equals(i.DeviceId));
             UpdateDevice(device);
             if (device != null) device.IsActive = false;
         }

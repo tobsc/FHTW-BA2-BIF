@@ -89,6 +89,7 @@ export class DeviceFormComponent implements OnInit {
               this.currentDevice = device;
               console.log(this.currentDevice);
               this.fillFormWithDeviceData(device);
+              (this.currentDevice.InvNum.length < 2) ? this.invNumFlag = false : this.invNumFlag = true;
             },
             (err) => { console.log(err); }
         );

@@ -411,7 +411,6 @@ namespace HwInf.Controllers
                 d.CreateDate = DateTime.Now;
                 vmdl.DeviceGroupSlug = vmdl.Name + "-" + _bl.GetCurrentUid();
                 vmdl.ApplyChanges(d, _bl);
-                vmdl.Refresh(d);
                 response.Add(new DeviceViewModel(d).LoadMeta(d));
             }
 
@@ -549,7 +548,7 @@ namespace HwInf.Controllers
                 _bl.SaveChanges();
                 _log.InfoFormat("Device '{0}({1})' deleted by '{2}'", d.InvNum, d.Name, User.Identity.Name);
 
-                return Ok();
+                return Ok(d);
 
             }
             catch (SecurityException)
