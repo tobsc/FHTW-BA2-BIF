@@ -326,7 +326,7 @@ namespace HwInf.Controllers
                     .Select(i => new DeviceTypeViewModel(i).LoadFieldGroups(i))
                     .ToList();
 
-                if (showEmptyDeviceTypes) return Ok(deviceTypes);
+                if (showEmptyDeviceTypes) return Ok(deviceTypes.OrderBy(i => i.Name));
 
                 var devices = _bl.GetDevices().GroupBy(i => i.Type.Slug).Select(i => i.Key).ToList();
                 deviceTypes = deviceTypes.Where(i => devices.Contains(i.Slug)).ToList();

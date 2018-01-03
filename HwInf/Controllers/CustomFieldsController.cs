@@ -46,6 +46,7 @@ namespace HwInf.Controllers
             var vmdl = _bl.GetFieldGroups()
                 .ToList()
                 .Select(i => new FieldGroupViewModel(i))
+                .OrderBy(i => i.Name)
                 .ToList();
 
             return Ok(vmdl);

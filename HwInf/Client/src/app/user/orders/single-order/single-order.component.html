@@ -33,7 +33,7 @@
                 <span style="display: inline-block; width: 100px; margin-right: 5px;" class="label label-warning" *ngIf="order.OrderStatus.Slug.match('offen')">Offen</span>
                 <span style="display: inline-block; width: 100px; margin-right: 5px;" class="label label-success" *ngIf="(!orderItem.IsDeclined) && (!order.OrderStatus.Slug.match('offen'))">Akzeptiert</span>
                 -->
-                <span class="device-name">({{orderItem.Device.InvNum}}) {{orderItem.Device.Name}} </span>
+                <span class="device-name"> {{orderItem.Device.Name}} </span>
               </li>
             </ul>
           </td>
