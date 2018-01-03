@@ -10,7 +10,7 @@
           <div class="col-xs-12 col-md-6">
               <div class="form-group" formGroupName="DeviceType">
                   <label for="type">
-                      Typ
+                      Typ*
                   </label>
                   <select id="type" class="form-control" (ngModelChange)="onSelectedTypeChange($event)" formControlName="Slug">
                       <option *ngFor="let deviceType of deviceTypes | async; let i = index" [selected]="i == 0" [ngValue]="deviceType.Slug">
@@ -27,13 +27,13 @@
             </div>
               <div class="form-group">
                   <label htmlFor="name">
-                      Name
+                      Name/Modell*
                   </label>
                   <input id="Name" name="Name" class="form-control" type="text" formControlName="Name">
               </div>
             <div class="form-group" formGroupName="Status">
               <label for="status">
-                Status
+                Status*
               </label>
               <select id="status" class="form-control" formControlName="StatusId">
                 <option *ngFor="let deviceStatus of deviceStatuses | async; let i = index" [selected]="i == 0" [ngValue]="deviceStatus.StatusId">
@@ -51,20 +51,20 @@
           <div class="col-xs-12 col-md-6">
             <div class="form-group">
               <label htmlFor="Raum">
-                Raum
+                Raum*
               </label>
               <input id="Raum" name="Raum" class="form-control" type="text" formControlName="Raum">
             </div>
             <div class="form-group">
               <label htmlFor="Person">  
-                Verwalter
+                Verwalter*
               </label>        
                 <div class="field-select"></div>
                     <input class="form-control" auto-complete formControlName="Person" [accept-user-input]="false" [source]="stringForDic"/>             
             </div>
             <div class="form-group" *ngIf="feature !== 'edit' || hasInvNum()">
               <label htmlFor="InvNum" *ngIf="hasInvNum()">
-                    <b>Inventarnummer</b>
+                    <b>Inventarnummer*</b>
               </label>
                 <label htmlFor="InvNum" *ngIf="!hasInvNum()">
                     <s>Inventarnummer</s>
@@ -74,7 +74,7 @@
                     <s>Anzahl</s>
                 </label>
                 <label htmlFor="Quantity" *ngIf="!hasInvNum()">
-                    <b>Anzahl</b>
+                    <b>Anzahl*</b>
                 </label>
               <input id="InvNum" name="InvNum" class="form-control" type="text" formControlName="InvNum" [textMask]="{mask: mask}" placeholder="__+__+____" *ngIf="hasInvNum()">
               <input id="Quantity" name="Quantity" class="form-control" type="number" formControlName="Quantity" placeholder="NUMBER" *ngIf="!hasInvNum()">
