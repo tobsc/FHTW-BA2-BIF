@@ -9,6 +9,7 @@ import { Modal } from 'angular2-modal/plugins/bootstrap';
 import {Accessory} from "../../../../shared/models/accessory.model";
 import {DeviceService} from "../../../../shared/services/device.service";
 import {Observable} from "rxjs/Observable";
+import {Filter} from "../../../../shared/models/filter.model";
 
 @Component({
   selector: 'hwinf-order-process-step-2',
@@ -19,6 +20,8 @@ export class OrderProcessStep2Component implements OnInit, OnDestroy {
 
   private order: Order;
   private devices: Device[];
+  private devicesWithoutInvNum: Device[];
+  private filter: Filter;
   private accessories: Observable<Accessory[]>;
   constructor(
       private orderFormDataService: OrderFormDataService,
@@ -38,14 +41,40 @@ export class OrderProcessStep2Component implements OnInit, OnDestroy {
       return orderItem;
     });
     this.accessories = this.deviceService.getAccessories();
+
+    this.filter = new Filter();
+    this.filter.DeviceType = '';
+    this.filter.Order = 'ASC';
+    this.filter.OrderBy = 'name';
+    this.filter.Limit = 500;
+    this.filter.Offset = 0;
+
+    this.deviceService.getFilteredDevicesUser(this.filter).subscribe(
+        (data) => {
+          this.devicesWithoutInvNum = data.Devices.filter(x => x.Status.Description == "Verfügbar" && (x.InvNum == '' || x.InvNum == null));
+          let groupSlugsToExclude = this.devices.map(x => x.DeviceGroupSlug);
+          this.devicesWithoutInvNum = this.devicesWithoutInvNum.filter(d => groupSlugsToExclude.indexOf(d.DeviceGroupSlug) === -1);
+        }
+    );
+
   }
 
   onChange(ev, index: number) {
     if ( ev.target.checked ) {
-      this.order.OrderItems[index].Accessories.push(ev.target.value);
+      let newOrderItem = new OrderItem();
+      console.log(ev.target.value);
+      newOrderItem.Device = this.devicesWithoutInvNum.find(i => i.DeviceId == ev.target.value);
+      newOrderItem.Device.Quantity = 1;
+      newOrderItem.Accessories = [];
+      this.order.OrderItems.push(newOrderItem);
+      //this.order.OrderItems[index].Accessories.push(ev.target.value);
+      console.log(this.order.OrderItems);
     }
     else {
-      this.order.OrderItems[index].Accessories = this.order.OrderItems[index].Accessories.filter(i => i != ev.target.value);
+      console.log("rem:" + ev.target.value);
+      this.order.OrderItems = this.order.OrderItems.filter(i => i.Device.DeviceId != ev.target.value);
+      //this.order.OrderItems[index].Accessories = this.order.OrderItems[index].Accessories.filter(i => i != ev.target.value);
+      console.log(this.order.OrderItems);
     }
   }
 
