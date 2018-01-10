@@ -1,6 +1,15 @@
 ﻿<form [formGroup]="form" (ngSubmit)="onSubmit(form)" id="demo-form2" class="form-horizontal form-label-left">
 
     <div class="form-group">
+        <label>
+            Gerät:
+        </label>
+        <div class="field-select">
+            <input class="form-control" auto-complete formControlName="Device" [source]="stringForDevDic">
+        </div>
+    </div>
+
+    <div class="form-group">
         <label for="beschreibung">
             Beschreibung:
         </label>
@@ -34,18 +43,9 @@
         </div>
     </div>
 
-    <div class="form-group">
-        <label>
-            Gerät:
-        </label>
-        <div class="field-select">
-            <input class="form-control" auto-complete formControlName="Device" [source]="stringForDevDic">
-        </div>
-    </div>
-
     <div class="form-group" formGroupName="DamageStatus">
         <label>
-            Schadensstatus:
+            Status:
         </label>
         <div class="field-select">
             <select class="select2_group form-control" name="value1" id="damage" formControlName="Slug">
