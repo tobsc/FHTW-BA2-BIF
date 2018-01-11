@@ -52,7 +52,7 @@ export class DeviceListComponent implements OnInit, OnDestroy {
             this.filter = new Filter();
             this.filter.DeviceType = type;
             this.filter.Order = 'ASC';
-            this.filter.OrderBy = 'name';
+            this.filter.OrderBy = 'brand';
             this.filter.Limit = this.limit;
             this.filter.Offset = (this.currentPage-1) * this.filter.Limit;
             return this.deviceService.getFilteredDevicesUser(this.filter)

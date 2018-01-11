@@ -8,7 +8,6 @@
     <!-- sidebar menu -->
     <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
       <div class="menu_section">
-        <h3>User</h3>
         <ul class="nav side-menu">
           <li routerLinkActive="active"  >
             <a routerLink="/dashboard"><i class="fa fa-home"></i> Dashboard</a>
@@ -21,7 +20,7 @@
               </li>
             </ul>
           </li>
-          <li [ngClass]="{current_parent_menu_item: router.url.match('.*/meine-geraete.*') }" dropdown><a dropdownToggle><i class="fa fa-edit"></i> Meine Geräte <span class="fa fa-chevron-down"></span></a>
+          <li [ngClass]="{current_parent_menu_item: router.url.match('.*/meine-geraete.*') }" dropdown><a dropdownToggle><i class="fa fa-file-text-o"></i> Meine Geräte <span class="fa fa-chevron-down"></span></a>
             <ul class="nav child_menu">
               <li routerLinkActive="current_menu_item" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/meine-geraete/">Alle</a></li>
               <li routerLinkActive="current_menu_item" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/meine-geraete/archiv">Archiv</a></li>
@@ -54,7 +53,7 @@
                 <a dropdownToggle><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Schäden <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
                     <li routerLinkActive="current_menu_item" [routerLinkActiveOptions]="{exact:false}"><a routerLink="/admin/schaden/verwalten" [queryParams]="{}">Schadensliste</a></li>
-                    <li routerLinkActive="current_menu_item" [routerLinkActiveOptions]="{exact:false}"><a routerLink="/admin/schaden/add" [queryParams]="{}">Schaden hinzufügen</a></li>
+                    <li routerLinkActive="current_menu_item" [routerLinkActiveOptions]="{exact:false}"><a routerLink="/admin/schaden/add" [queryParams]="{}">Schaden melden</a></li>
                 </ul>
             </li>
 

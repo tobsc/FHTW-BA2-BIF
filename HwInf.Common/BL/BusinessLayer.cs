@@ -559,13 +559,11 @@ namespace HwInf.Common.BL
 
 
             result = order.Equals("ASC")
-                ? result.OrderBy(i =>
-                {
-                    var prop = i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null);
-                    return prop;
-
-                }).ToList()
-                : result.OrderByDescending(i => i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null)).ToList();
+                ? result.OrderBy(i => i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
+                .ToList()
+                : result
+                    .OrderByDescending(i => i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
+                    .ToList();
 
             result = result
                 .Distinct()
@@ -629,13 +627,14 @@ namespace HwInf.Common.BL
 
 
             result = order.Equals("ASC")
-                ? result.OrderBy(i =>
-                {
-                    var prop = i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null);
-                    return prop;
-
-                }).ToList()
-                : result.OrderByDescending(i => i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null)).ToList();
+                ? result
+                    .OrderBy(i => i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
+                    .ThenBy(i => i.Name)
+                    .ToList()
+                : result
+                    .OrderByDescending(i => i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
+                    .ThenByDescending(i => i.Name)
+                    .ToList();
 
             result = result
                 .Distinct()

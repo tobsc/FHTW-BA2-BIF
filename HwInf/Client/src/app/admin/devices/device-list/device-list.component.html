@@ -3,10 +3,9 @@
 <div class="text-center">
   <pagination [directionLinks]="false" [boundaryLinks]="true" [totalItems]="totalItems"
               [(ngModel)]="currentPage" [itemsPerPage]="itemsPerPage" (pageChanged)="pageChanged($event)"
-              lastText="Letzte" firstText="Erste" [maxSize]="maxSize" [rotate]="false">
+              lastText="&raquo;" firstText="&laquo;" [maxSize]="maxSize" [rotate]="false" class="pagination-sm">
   </pagination>
 </div>
-
 
 <div class="x_panel">
   <div class="x_title">
@@ -15,7 +14,7 @@
       <option *ngFor="let dt of deviceTypes" value="{{dt.Slug}}">{{dt.Name}}</option>
     </select>
     <div class="pull-right">
-      {{totalItems}} Geräte
+      Geräte {{filter.Offset +1}} - {{filter.Offset + itemsPerPage < totalItems ? filter.Offset + itemsPerPage : totalItems}} von {{totalItems}}
     </div>
     <div class="clearfix"></div>
   </div>
@@ -91,7 +90,7 @@
 
     <div class="ln_solid"></div>
     <div class="pull-right">
-      {{totalItems}} Geräte
+      Geräte {{filter.Offset +1}} - {{filter.Offset + itemsPerPage < totalItems ? filter.Offset + itemsPerPage : totalItems}} von {{totalItems}}
     </div>
   </div>
 </div>
@@ -99,7 +98,7 @@
 <div class="text-center">
   <pagination [directionLinks]="false" [boundaryLinks]="true" [totalItems]="totalItems"
               [(ngModel)]="currentPage" [itemsPerPage]="itemsPerPage"
-              lastText="Letzte" firstText="Erste" [maxSize]="maxSize" [rotate]="false">
+              lastText="&raquo;" firstText="&laquo;" [maxSize]="maxSize" [rotate]="false" class="pagination-sm">
   </pagination>
 </div>
 

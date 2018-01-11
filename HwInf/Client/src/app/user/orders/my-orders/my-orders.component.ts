@@ -16,7 +16,7 @@ export class MyOrdersComponent implements OnInit {
   private currentPage: number = 1;
   private isAscending: boolean = true;
   private totalItems: number;
-  private itemsPerPage: number = 2;
+  private itemsPerPage: number = 25;
   private orderBy: string = 'date';
   private order: string = "DESC";
   private maxSize: number = 8;
