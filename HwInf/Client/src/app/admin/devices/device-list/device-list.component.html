@@ -66,7 +66,8 @@
         <tbody>
         <tr *ngFor="let device of devices; let i = index">
           <td><div class="label-device-status" hwinfDeviceStatusLabelClass [deviceStatus]="device.Status">{{device.Status.Description}}</div></td>
-          <td>(ID:{{device.DeviceId}})  {{device.InvNum}}</td>
+          <td *ngIf="device.InvNum == ''">ID:{{device.DeviceId}}</td>
+          <td *ngIf="device.InvNum != ''">{{device.InvNum}}</td>
           <th scope="row" ><a [routerLink]="['/admin/geraete/verwalten/', device.DeviceId]">{{device.Name}}</a></th>
           <td>{{device.DeviceType.Name}}</td>
           <td>{{device.CreateDate}}</td>
