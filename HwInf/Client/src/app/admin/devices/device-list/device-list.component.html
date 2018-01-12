@@ -10,8 +10,8 @@
 <div class="x_panel">
   <div class="x_title">
     <select style="display: inline; width: auto;" class="form-control" (change)="onDeviceTypeChange($event.target.value)">
-      <option value="">Alle Typen</option>
-      <option *ngFor="let dt of deviceTypes" value="{{dt.Slug}}">{{dt.Name}}</option>
+      <option value="" selected="{{filter.DeviceType === ''}}">Alle Typen</option>
+      <option *ngFor="let dt of deviceTypes" [value]="dt.Slug" [selected]="dt.Slug === filter.DeviceType">{{dt.Name}}</option>
     </select>
     <div class="pull-right">
       Geräte {{filter.Offset +1}} - {{filter.Offset + itemsPerPage < totalItems ? filter.Offset + itemsPerPage : totalItems}} von {{totalItems}}

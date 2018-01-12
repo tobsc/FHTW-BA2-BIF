@@ -38,6 +38,7 @@ import {OrderService} from "./shared/services/order.service";
 import { LoginAsComponent } from './authentication/login-as/login-as.component';
 import { PubSubSearchService } from "./shared/services/pub-sub-search.service";
 import { DamageService } from './shared/services/damage.service';
+import {SessionStorageService} from "./shared/services/session-storage.service";
 
 
 export function feedbackHttpFactory(backend: XHRBackend, options: RequestOptions, router: Router, pubsub: PubSubService) {
@@ -93,6 +94,7 @@ enableProdMode();
         OrderService,
         DamageService,
         PubSubSearchService,
+        SessionStorageService,
     ],
     bootstrap: [AppComponent]
 })

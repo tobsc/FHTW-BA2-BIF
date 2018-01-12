@@ -7,6 +7,7 @@ import {DeviceType} from "../../../shared/models/device-type.model";
 import { UserService } from "../../../shared/services/user.service";
 import { JwtService } from "../../../shared/services/jwt.service";
 import {User} from "../../../shared/models/user.model";
+import {SessionStorageService} from "../../../shared/services/session-storage.service";
 @Component({
     selector: 'hwinf-device-list',
     templateUrl: './device-list.component.html',
@@ -17,12 +18,12 @@ export class DeviceListComponent implements OnInit {
     private currentPage: number = 1;
     private devices: Device[];
     private filter: Filter;
-    private isAscending: boolean = true;
+    private isAscending: boolean;
     private deviceTypes: DeviceType[];
     private owners: User[];
     private totalItems: number;
     private itemsPerPage: number = 25;
-    private orderBy: string = 'createdate';
+    private orderBy: string;
     private maxSize: number = 8;
 
     constructor(
@@ -30,7 +31,8 @@ export class DeviceListComponent implements OnInit {
         private deviceService: DeviceService,
         private jwtService: JwtService,
         private route: ActivatedRoute,
-        private router: Router
+        private router: Router,
+        private sessionStorageService: SessionStorageService
     ) {}
 
     public pageChanged(event: any): void {
@@ -39,15 +41,17 @@ export class DeviceListComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.orderBy = this.sessionStorageService.getSortingSetting();
+        this.isAscending = this.sessionStorageService.getSortingIsAscending();
         this.filter = new Filter();
-        this.filter.DeviceType = '';
-        this.filter.Order = 'DESC';
+        this.filter.DeviceType = this.sessionStorageService.getSortingDeviceType();;
+        this.filter.Order = this.isAscending ? 'ASC': 'DESC';
         this.filter.OrderBy = this.orderBy;
         this.filter.Limit = this.itemsPerPage;
         this.filter.Offset = (this.currentPage - 1) * this.filter.Limit;
         this.filter.IsVerwalterView = this.jwtService.isVerwalter();
 
-
+        console.log(this.filter.DeviceType);
         this.deviceService.getDeviceTypes().subscribe(
             (data) => {
                 this.deviceTypes = data;
@@ -83,6 +87,7 @@ export class DeviceListComponent implements OnInit {
     }
 
     public onChangeOrder(orderBy : string) {
+        this.sessionStorageService.setSortingSetting(orderBy, !this.isAscending);
         this.isAscending = !this.isAscending;
         this.filter.Order = (this.isAscending) ? 'ASC' : 'DESC';
         this.filter.OrderBy = orderBy;
@@ -93,6 +98,7 @@ export class DeviceListComponent implements OnInit {
     public onDeviceTypeChange(val: string) {
         this.router.navigate(['/admin/geraete/verwalten'], {skipLocationChange: true, queryParams: {'page' : 1, 'orderby' : this.filter.OrderBy}});
         this.filter.DeviceType = val;
+        this.sessionStorageService.setSortingDeviceType(val);
         this.fetchData();
     }
 
