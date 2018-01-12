@@ -65,6 +65,13 @@ export class AddAdminComponent implements OnInit {
         );
     }
 
+    addverwalter() {
+        this.selectedUser = this.userDic[this.selectedString];
+        this.adminService.removeAdmin(this.selectedUser, 'Verwalter').subscribe(
+            (success) => this.adminListUpdated.emit(this.selectedUser)
+        );
+    }
+
     isValid(): boolean {
         if (!!this.selectedString) {
             return false;

@@ -40,7 +40,7 @@ export class RemoveAdminComponent implements OnInit {
     init() {
 
 
-        this.userService.getAdmins()
+        this.userService.getOwners()
             .subscribe(
             (next) => {
                 this.users = next;
@@ -58,11 +58,20 @@ export class RemoveAdminComponent implements OnInit {
 
     }
 
-    removeadmin(index, role) {
+    addadmin(index) {
         this.selectedUser = this.users[index];
         console.log(this.selectedUser);
-        console.log(role);
-        this.adminService.removeAdmin(this.selectedUser, role).subscribe((success) => console.log(success));
+        this.adminService.addAdmin(this.selectedUser).subscribe(
+            (success) => {
+                console.log("add" + success);
+                this.init();
+            }
+        );
+    }
+
+    removeadmin(index, role) {
+        this.selectedUser = this.users[index];
+        this.adminService.removeAdmin(this.selectedUser, role).subscribe((success) => this.init());
         this.users.splice(index, 1);
     }
 

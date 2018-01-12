@@ -1,6 +1,6 @@
 <div class="x_panel">
     <div class="x_title">
-        <h2>Admins</h2>
+        <h2>Admins und Verwalter</h2>
         <div class="clearfix"></div>
     </div>
     <div class="x_content">
@@ -10,6 +10,7 @@
                 <thead>
                 <tr class="headings">
                     <th class="column-title">Name</th>
+                    <th class="column-title">Aktuelle Rolle</th>
                     <th style="width: 170px" class="column-title">Neue Rolle</th>
                 </tr>
                 </thead>
@@ -19,9 +20,11 @@
                     <td >
                         {{user.Name}} {{user.LastName}} ({{user.Uid}})
                     </td>
+                    <td>{{user.Role}}</td>
                     <td>
+                        <button *ngIf="user.Role !== 'Admin'" class="btn btn-default" (click)="addadmin(i)">Admin</button>
+                        <button *ngIf="user.Role !== 'Verwalter'" class="btn btn-default" (click)="removeadmin(i, 'Verwalter')">Verwalter</button>
                         <button class="btn btn-default" (click)="removeadmin(i, 'User')">User</button>
-                        <button class="btn btn-default" (click)="removeadmin(i, 'Verwalter')">Verwalter</button>
                     </td>
                 </tr>
                 </tbody>
