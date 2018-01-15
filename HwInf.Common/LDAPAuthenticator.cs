@@ -77,7 +77,6 @@ namespace HwInf.Common
                 ldap.Bind();
 
                 //user daten parameter lesen - frage: daten nur holen, wenn noch nicht registriert oder sollen die daten immer verwendet werden und u.U auch in sofi aktualisiert werden
-                string[] attributesToReturn = new string[] { "displayName", "sn", "givenName", "cn", "mail", "ou", "gidNumber", "uid" };
                 SearchRequest searchRequest = new SearchRequest(ATTRIBUTES, string.Format("(uid={0})", username), System.DirectoryServices.Protocols.SearchScope.Subtree, null);
 
                 SearchResponse searchResponse = (SearchResponse)ldap.SendRequest(searchRequest);

@@ -84,7 +84,8 @@ namespace HwInf.Common.Interfaces
             string order = "DESC",
             string orderBy = "Name",
             bool onlyActive = true,
-            bool isVerwalterView = false
+            bool isVerwalterView = false,
+            bool isUserView = false
         );
         ICollection<Device> GetFilteredDevicesUser
         (

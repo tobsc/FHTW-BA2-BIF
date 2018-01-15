@@ -410,7 +410,15 @@ namespace HwInf.Common.BL
 
         #endregion
 
-
+        /// <summary>
+        /// Returns a collection of orders
+        /// </summary>
+        /// <param name="statusSlugs">Slugs of order stati</param>
+        /// <param name="order">order DESC or ASC</param>
+        /// <param name="orderBy">order by property</param>
+        /// <param name="orderByFallback">2nd order by property</param>
+        /// <param name="isAdminView">true: show orders filtered by verwalter/admin, false: show orders filtered by entleiher</param>
+        /// <returns></returns>
         public ICollection<Order> GetFilteredOrders(
             ICollection<string> statusSlugs,
             string order,
@@ -431,12 +439,13 @@ namespace HwInf.Common.BL
                 result = result.Where(i => statusSlugs.Contains(i.OrderStatus.Slug)).ToList();
             }
 
+            // Order ASC or DESC and filter by provided property
             result = order.Equals("ASC", StringComparison.OrdinalIgnoreCase)
-                ? result.OrderBy(i => i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
-                    .ThenBy(i => i.GetType().GetProperty(orderByFallback, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
+                ? result.OrderBy(i => i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance)?.GetValue(i, null))
+                    .ThenBy(i => i.GetType().GetProperty(orderByFallback, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance)?.GetValue(i, null))
                     .ToList()
-                : result.OrderByDescending(i => i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
-                    .ThenByDescending(i => i.GetType().GetProperty(orderByFallback, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
+                : result.OrderByDescending(i => i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance)?.GetValue(i, null))
+                    .ThenByDescending(i => i.GetType().GetProperty(orderByFallback, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance)?.GetValue(i, null))
                     .ToList();
 
             return !isAdminView ?
@@ -495,16 +504,27 @@ namespace HwInf.Common.BL
             }
 
             result = order.Equals("ASC")
-                ? result.OrderBy(i => i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
-                    .ThenBy(i => i.GetType().GetProperty(orderByFallback, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
+                ? result.OrderBy(i => i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance)?.GetValue(i, null))
+                    .ThenBy(i => i.GetType().GetProperty(orderByFallback, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance)?.GetValue(i, null))
                     .ToList()
-                : result.OrderByDescending(i => i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
-                    .ThenByDescending(i => i.GetType().GetProperty(orderByFallback, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
+                : result.OrderByDescending(i => i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance)?.GetValue(i, null))
+                    .ThenByDescending(i => i.GetType().GetProperty(orderByFallback, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance)?.GetValue(i, null))
                     .ToList();
 
             return result;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="meta">Collection of device meta which should be filtered</param>
+        /// <param name="type">Device Type</param>
+        /// <param name="order">Order DESC or ASC</param>
+        /// <param name="orderBy">Order by property</param>
+        /// <param name="onlyActive">Show all or only active devices</param>
+        /// <param name="isVerwalterView">Verwalter only gets his own devices in device management view</param>
+        /// <param name="isUserView">In user view items with no invnum are only shown as one device</param>
+        /// <returns></returns>
         public ICollection<Device> GetFilteredDevices
         (
             ICollection<DeviceMeta> meta,
@@ -512,7 +532,8 @@ namespace HwInf.Common.BL
             string order = "DESC",
             string orderBy = "Name",
             bool onlyActive = true,
-            bool isVerwalterView = false
+            bool isVerwalterView = false,
+            bool isUserView = false
         )
         {
 
@@ -523,20 +544,28 @@ namespace HwInf.Common.BL
 
             var dt = GetDeviceType(type);
             var devices = GetDevices(onlyActive, string.IsNullOrWhiteSpace(type) ? "" : dt.Slug).ToList();
+            List<Device> result;
 
-            //var nullDeviceGroup = devices
-            //    .Where(i => i.DeviceGroupSlug == null);
+            // Merge Devices with no invnum to single device
+            if (isUserView)
+            {
+                var nullDeviceGroup = devices
+                    .Where(i => i.DeviceGroupSlug == null);
 
-            //var distinctDevictByDeviceGroup = devices
-            //    .Where(i => i.DeviceGroupSlug != null)
-            //    .Where(i => i.Status.Description == "Verfügbar")
-            //    .AsEnumerable()
-            //    .DistinctBy(i => i.DeviceGroupSlug);
+                var distinctDevictByDeviceGroup = devices
+                    .Where(i => i.DeviceGroupSlug != null)
+                    .Where(i => i.Status.Description == "Verfügbar")
+                    .AsEnumerable()
+                    .DistinctBy(i => i.DeviceGroupSlug);
 
-            //var result = nullDeviceGroup.Concat(distinctDevictByDeviceGroup).ToList();
+                result = nullDeviceGroup.Concat(distinctDevictByDeviceGroup).ToList();
+            }
+            else
+            {
+                result = devices;
+            }
 
-            var result = devices;
-
+            // If meta is not null filter by provided device meta
             if (meta != null)
             {
                 List<List<DeviceMeta>> deviceMetaGroupedByFieldGroup = meta
@@ -557,22 +586,22 @@ namespace HwInf.Common.BL
                 });
             }
 
-
+            // Order by provided property
             result = order.Equals("ASC")
-                ? result.OrderBy(i => i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
+                ? result.OrderBy(i => i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance)?.GetValue(i, null))
                 .ToList()
                 : result
-                    .OrderByDescending(i => i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
+                    .OrderByDescending(i => i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance)?.GetValue(i, null))
                     .ToList();
 
             result = result
                 .Distinct()
                 .ToList();
 
-
-                return !isVerwalterView || IsAdmin ? 
-                    result
-                   : result.Where(i => i.Person.Uid.Equals(GetCurrentUid())).ToList();
+            
+            return !isVerwalterView || IsAdmin ? 
+                result
+                : result.Where(i => i.Person.Uid.Equals(GetCurrentUid())).ToList();
         }
 
         public ICollection<Device> GetFilteredDevicesUser
@@ -586,64 +615,7 @@ namespace HwInf.Common.BL
         )
         {
 
-            if (isVerwalterView && !IsAdmin && !IsVerwalter)
-            {
-                throw new SecurityException();
-            }
-
-            var dt = GetDeviceType(type);
-            var devices = GetDevices(onlyActive, string.IsNullOrWhiteSpace(type) ? "" : dt.Slug).ToList();
-
-            var nullDeviceGroup = devices
-                .Where(i => i.DeviceGroupSlug == null);
-
-            var distinctDevictByDeviceGroup = devices
-                .Where(i => i.DeviceGroupSlug != null)
-                .Where(i => i.Status.Description == "Verfügbar")
-                .AsEnumerable()
-                .DistinctBy(i => i.DeviceGroupSlug);
-
-            var result = nullDeviceGroup.Concat(distinctDevictByDeviceGroup).ToList();
-
-            if (meta != null)
-            {
-                List<List<DeviceMeta>> deviceMetaGroupedByFieldGroup = meta
-                    .Where(i => !String.IsNullOrWhiteSpace(i.FieldGroupSlug)
-                             && !String.IsNullOrWhiteSpace(i.FieldSlug)
-                             && !String.IsNullOrWhiteSpace(i.MetaValue)
-                             )
-                    .GroupBy(i => i.FieldGroupSlug, i => i)
-                    .ToList()
-                    .Select(i => i.ToList())
-                    .ToList();
-
-                deviceMetaGroupedByFieldGroup.ForEach(i =>
-                {
-                    result = result
-                        .Where(j => j.DeviceMeta.Intersect(i, new DeviceMetaComparer()).Count() == i.Count)
-                        .ToList();
-                });
-            }
-
-
-            result = order.Equals("ASC")
-                ? result
-                    .OrderBy(i => i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
-                    .ThenBy(i => i.Name)
-                    .ToList()
-                : result
-                    .OrderByDescending(i => i.GetType().GetProperty(orderBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(i, null))
-                    .ThenByDescending(i => i.Name)
-                    .ToList();
-
-            result = result
-                .Distinct()
-                .ToList();
-
-
-            return !isVerwalterView || IsAdmin ?
-                result
-               : result.Where(i => i.Person.Uid.Equals(GetCurrentUid())).ToList();
+            return GetFilteredDevices(meta, type, order, orderBy, onlyActive, isVerwalterView, true);
         }
 
         #region Settings

@@ -104,7 +104,7 @@ namespace HwInf.Controllers
             try
             {
                 var result = searchText.ToLower().Split(new char[] { ' ', ',' }).ToList();
-                var devices = _bl.GetDevices()
+                var devices = _bl.GetFilteredDevicesUser(null)
                     .ToList()
                     .Select(i =>
                     {
@@ -116,7 +116,7 @@ namespace HwInf.Controllers
                     .ToList();
                 result.ForEach(i =>
                 {
-                    devices = devices.Where(x => x.Name.ToLower().Contains(i) || x.Marke.ToLower().Contains(i))
+                    devices = devices.Where(x => x.Name.ToLower().Contains(i) || x.Marke.ToLower().Contains(i) || x.InvNum.Contains(i))
                               .ToList();
                 });
 
