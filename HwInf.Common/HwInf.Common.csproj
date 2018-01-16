@@ -92,6 +92,10 @@
     </Compile>
     <Compile Include="ContractCode.cs" />
     <Compile Include="Interfaces\IDataAccessLayer.cs" />
+    <Compile Include="Migrations\201801152340449_Db_Changes.cs" />
+    <Compile Include="Migrations\201801152340449_Db_Changes.Designer.cs">
+      <DependentUpon>201801152340449_Db_Changes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Damage.cs" />
     <Compile Include="Models\Device.cs" />
     <Compile Include="Models\DeviceMeta.cs" />
@@ -136,6 +140,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201701242304489_Initial_Create.resx">
       <DependentUpon>201701242304489_Initial_Create.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801152340449_Db_Changes.resx">
+      <DependentUpon>201801152340449_Db_Changes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

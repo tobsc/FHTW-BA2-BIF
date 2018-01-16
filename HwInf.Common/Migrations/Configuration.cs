@@ -12,14 +12,13 @@ namespace HwInf.Common.Migrations
         public Configuration()
         {
             
-            AutomaticMigrationsEnabled = true;
-            AutomaticMigrationDataLossAllowed = true;
+            AutomaticMigrationsEnabled = false;
         }
 
         protected override void Seed(HwInf.Common.DAL.HwInfContext context)
         {
 
-            var deviceStatus = new List<DeviceStatus>
+            var deviceStatus = new []
                 {
                     new DeviceStatus { Description = "Verfügbar" },
                     new DeviceStatus { Description = "Ausgeliehen" },
@@ -29,7 +28,8 @@ namespace HwInf.Common.Migrations
                     new DeviceStatus { Description = "Präsentations-/Bachelorarbeitsgerät" },
                 };
 
-            var orderStatus = new List<OrderStatus>
+
+            var orderStatus = new []
                 {
                     new OrderStatus { Name = "Offen" , Slug = "offen"},
                     new OrderStatus { Name = "Akzeptiert" , Slug = "akzeptiert"},
@@ -39,14 +39,16 @@ namespace HwInf.Common.Migrations
                     new OrderStatus { Name = "Abgebrochen", Slug = "abgebrochen"}
                 };
 
-            var roles = new List<Role>
+
+            var roles = new []
                 {
                     new Role { Name = "Admin" },
                     new Role { Name = "User" },
                     new Role { Name = "Verwalter" }
                 };
 
-            var persons = new List<Person>
+
+            var persons = new []
                 {
                     new Person { Name = "Jan", LastName = "Calanog", Email = "jan.calanog@technikum-wien.at", Role = roles.Single(i => i.Name == "Admin"), Uid = "if15b042" },
                     new Person { Name = "Tobias", LastName = "Schlachter", Email = "tobias.schlachter@technikum-wien.at", Role = roles.Single(i => i.Name == "Admin"), Uid = "if15b032" },
@@ -54,7 +56,8 @@ namespace HwInf.Common.Migrations
                     new Person { Name = "Sebastian", LastName = "Slowak", Email = "sebastian.slowak@technikum-wien.at", Role = roles.Single(i => i.Name == "Admin"), Uid = "if15b049" },
             };
 
-            var settings = new List<Setting>
+
+            var settings = new []
             {
                new Setting { Key = "ss_start", Value = "15.02"},
                new Setting { Key = "ss_end", Value = "30.06"},
@@ -69,43 +72,23 @@ namespace HwInf.Common.Migrations
                new Setting { Key = "days_before_reminder", Value = "7" },
             };
 
-            var damageStatus = new List<DamageStatus>
+
+            var damageStatus = new []
             {
                 new DamageStatus { Name = "Gemeldet" , Slug = "gemeldet"},
                 new DamageStatus { Name = "Behoben", Slug = "behoben"},
                 new DamageStatus { Name = "Dauerhaft", Slug = "dauerhaft" }
             };
 
-            if (!context.Settings.Any())
-            {
-                context.Settings.AddRange(settings);
-            }
+
+            context.Settings.AddOrUpdate(a => a.Key, settings);
+            context.DeviceStatus.AddOrUpdate(a => a.Description, deviceStatus);
+            context.OrderStatus.AddOrUpdate(a => a.Slug, orderStatus);
+            context.Roles.AddOrUpdate(a => a.Name, roles);
+            context.Persons.AddOrUpdate(a => a.Uid, persons);
+            context.DamageStatus.AddOrUpdate(a => a.Slug, damageStatus);
 
 
-            if (!context.DeviceStatus.Any())
-            {
-                context.DeviceStatus.AddRange(deviceStatus);
-            }
-
-            if (!context.OrderStatus.Any())
-            {
-                context.OrderStatus.AddRange(orderStatus);
-            }
-
-            if (!context.Roles.Any())
-            {
-                context.Roles.AddRange(roles);
-            }
-
-            if (!context.Persons.Any())
-            {
-                context.Persons.AddRange(persons);
-            }
-
-            if (!context.DamageStatus.Any())
-            {
-                context.DamageStatus.AddRange(damageStatus);
-            }
 
             base.Seed(context);
         }
