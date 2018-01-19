@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Novell.Directory.Ldap;
+using System.DirectoryServices.Protocols;
 using System.Linq;
 using System.Net;
-using System.Web;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace HwInf.Common
 {
@@ -41,7 +42,7 @@ namespace HwInf.Common
     {
         const string ATTRIBUTES = "ou=People,dc=technikum-wien,dc=at";
         const string HOST = "ldap.technikum-wien.at";
-        const int PORT = 389;
+        const int PORT = 636;
 
         private static bool? _disablePasswordCheck;
         public static bool DisablePasswordCheck
@@ -50,9 +51,7 @@ namespace HwInf.Common
             {
                 if (_disablePasswordCheck == null)
                 {
-                    // set DEV_ENVIRONMENT = 1, done by IISExpress
-                    _disablePasswordCheck = System.Environment.GetEnvironmentVariable("DEV_ENVIRONMENT") == "1";
-                    _disablePasswordCheck = false;
+                    _disablePasswordCheck = System.Configuration.ConfigurationManager.AppSettings["DisablePasswordCheck"] == "true";
                 }
                 return _disablePasswordCheck.Value;
             }
@@ -65,8 +64,7 @@ namespace HwInf.Common
             {
                 if (_startTLS == null)
                 {
-                    _startTLS = (System.Configuration.ConfigurationManager.AppSettings["ldap_start_tls"] as string ?? "true") == "true";
-                    _startTLS = false;
+                    _startTLS = System.Configuration.ConfigurationManager.AppSettings["ldap_start_tls"] == "true";
                 }
                 return _startTLS.Value;
             }
@@ -76,8 +74,18 @@ namespace HwInf.Common
         {
             try
             {
+                ldap.Bind();
+
                 //user daten parameter lesen - frage: daten nur holen, wenn noch nicht registriert oder sollen die daten immer verwendet werden und u.U auch in sofi aktualisiert werden
-                string[] attributesToReturn = new string[] { "displayName", "sn", "givenName", "cn", "mail", "ou", "gidNumber", "Uid" };
+                SearchRequest searchRequest = new SearchRequest(ATTRIBUTES, string.Format("(uid={0})", username), System.DirectoryServices.Protocols.SearchScope.Subtree, null);
+
+                SearchResponse searchResponse = (SearchResponse)ldap.SendRequest(searchRequest);
+                if (searchResponse.Entries.Count != 1)
+                {
+                    return new LDAPUserParameters();
+                }
+
+                SearchResultEntry entry = searchResponse.Entries[0];
 
                 string sMail = "";
                 string sDisplayName = "";
@@ -87,31 +95,35 @@ namespace HwInf.Common
                 string sStudiengangKuerzel = "";
                 string sPersonalBezeichnung = "";
 
-                var queue = ldap.Search(ATTRIBUTES, LdapConnection.SCOPE_SUB, string.Format("(Uid={0})", username), attributesToReturn, false);
-
-                LdapEntry entry = queue.next();
-                if (entry != null)
+                try
                 {
-                    sMail = entry.getAttribute("mail").StringValue ?? string.Empty;
-                    sLastName = entry.getAttribute("sn").StringValue ?? string.Empty;
-                    sFirstName = entry.getAttribute("givenName").StringValue ?? string.Empty;
-                    // sDisplayName = entry.getAttribute("displayName").StringValue ?? string.Format("{0} {1}", sFirstName, sLastName);
-                    string iGidNumber = entry.getAttribute("gidNumber").StringValue ?? string.Empty; // 101=Technikum, 102=Student
+                    sMail = (string)entry.Attributes["mail"]?[0] ?? string.Empty;
+                    sDisplayName = (string)entry.Attributes["displayName"]?[0] ?? string.Empty;
+                    sLastName = (string)entry.Attributes["sn"]?[0] ?? string.Empty;
+                    sFirstName = (string)entry.Attributes["givenName"]?[0] ?? string.Empty;
+                    string iGidNumber = (string)entry.Attributes["gidNumber"]?[0] ?? string.Empty; // 101=Technikum, 102=Student
 
                     sStudiengang = "";
                     sStudiengangKuerzel = "";
                     sPersonalBezeichnung = "";
-                    var oOu = entry.getAttribute("ou");
-                    if (oOu.size() > 0 && iGidNumber == "101") //tw-personal - in ou steht meist Teacher
+                    DirectoryAttribute oOu = entry.Attributes["ou"];
+                    if (oOu.Count > 0 && iGidNumber == "101") //tw-personal - in ou steht meist Teacher
                     {
-                        sPersonalBezeichnung = oOu.StringValueArray[1];
+                        //sStudiengang = (string)oOu[1];
+                        sPersonalBezeichnung = (string)oOu[1];
                     }
-                    else if (oOu.size() > 0 && iGidNumber == "102") //student
+                    else if (oOu.Count > 0 && iGidNumber == "102") //student
                     {
-                        sStudiengang = oOu.StringValueArray[1];
-                        sStudiengangKuerzel = oOu.StringValueArray[2];
+                        sStudiengang = (string)oOu[1];
+                        sStudiengangKuerzel = (string)oOu[2];
                     }
+
                 }
+                catch// wird u.a. ausgelöst, wenn ldap-server den parameter nicht liefert
+                {
+                    //nix tun - default werte werden verwendet
+                }
+
 
                 return new LDAPUserParameters(true, sFirstName, sLastName, sDisplayName, sMail, sStudiengang, sStudiengangKuerzel, sPersonalBezeichnung);
             }
@@ -124,50 +136,39 @@ namespace HwInf.Common
         public static LDAPUserParameters GetUserParameter(string username)
         {
             var ldap = Connect();
-            try
-            {
-                ldap.Bind(null, null);
-                return GetUserParameter(ldap, username);
-            }
-            finally
-            {
-                ldap.Disconnect();
-            }
+            ldap.AuthType = AuthType.Anonymous;
+
+            return GetUserParameter(ldap, username);
         }
 
         public static LDAPUserParameters Authenticate(string username, string password)
         {
             var ldap = Connect();
-            try
-            {
-                if (DisablePasswordCheck == false)
-                {
-                    ldap.Bind("Uid=" + username + "," + ATTRIBUTES, password);
-                }
-                else
-                {
-                    ldap.Bind(null, null);
-                }
 
-                return GetUserParameter(ldap, username);
-            }
-            catch
+            if (DisablePasswordCheck == false)
             {
-                return new LDAPUserParameters();
+                NetworkCredential credential = new NetworkCredential();
+                credential.UserName = "uid=" + username + "," + ATTRIBUTES;
+                credential.Password = password;
+
+                ldap.AuthType = AuthType.Basic;
+                ldap.Credential = credential;
             }
-            finally
+            else
             {
-                ldap.Disconnect();
+                ldap.AuthType = AuthType.Anonymous;
             }
+
+            return GetUserParameter(ldap, username);
         }
 
         private static LdapConnection Connect()
         {
-            var ldap = new LdapConnection();
-            ldap.Connect(HOST, PORT);
+            var ldap = new LdapConnection(HOST + ":" + PORT.ToString());
             if (StartTLS)
             {
-                ldap.startTLS();
+                //ldap.SessionOptions.ProtocolVersion = 3;
+                //ldap.SessionOptions.SecureSocketLayer = true;
             }
             return ldap;
         }
