@@ -92,10 +92,11 @@
     </Compile>
     <Compile Include="ContractCode.cs" />
     <Compile Include="Interfaces\IDataAccessLayer.cs" />
-    <Compile Include="Migrations\201801152340449_Db_Changes.cs" />
-    <Compile Include="Migrations\201801152340449_Db_Changes.Designer.cs">
-      <DependentUpon>201801152340449_Db_Changes.cs</DependentUpon>
+    <Compile Include="Migrations\201801191301462_Initial_Create.cs" />
+    <Compile Include="Migrations\201801191301462_Initial_Create.Designer.cs">
+      <DependentUpon>201801191301462_Initial_Create.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Damage.cs" />
     <Compile Include="Models\Device.cs" />
     <Compile Include="Models\DeviceMeta.cs" />
@@ -109,11 +110,6 @@
     <Compile Include="Models\Role.cs" />
     <Compile Include="LDAPAuthenticator.cs" />
     <Compile Include="Mail.cs" />
-    <Compile Include="Migrations\201701242304489_Initial_Create.cs" />
-    <Compile Include="Migrations\201701242304489_Initial_Create.Designer.cs">
-      <DependentUpon>201701242304489_Initial_Create.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Setting.cs" />
     <Compile Include="Notifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -138,14 +134,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201701242304489_Initial_Create.resx">
-      <DependentUpon>201701242304489_Initial_Create.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801152340449_Db_Changes.resx">
-      <DependentUpon>201801152340449_Db_Changes.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Contract.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>Contract.cs</LastGenOutput>
@@ -157,6 +145,11 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201801191301462_Initial_Create.resx">
+      <DependentUpon>201801191301462_Initial_Create.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

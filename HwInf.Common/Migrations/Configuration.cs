@@ -1,4 +1,4 @@
-ï»¿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Linq;
@@ -11,25 +11,25 @@ namespace HwInf.Common.Migrations
     {
         public Configuration()
         {
-            
+
             AutomaticMigrationsEnabled = false;
         }
 
         protected override void Seed(HwInf.Common.DAL.HwInfContext context)
         {
 
-            var deviceStatus = new []
+            var deviceStatus = new[]
                 {
-                    new DeviceStatus { Description = "VerfÃ¼gbar" },
+                    new DeviceStatus { Description = "Verfügbar" },
                     new DeviceStatus { Description = "Ausgeliehen" },
                     new DeviceStatus { Description = "In Reparatur" },
                     new DeviceStatus { Description = "Archiviert" },
                     new DeviceStatus { Description = "Nicht verleihbar" },
-                    new DeviceStatus { Description = "PrÃ¤sentations-/BachelorarbeitsgerÃ¤t" },
+                    new DeviceStatus { Description = "Präsentations-/Bachelorarbeitsgerät" },
                 };
 
 
-            var orderStatus = new []
+            var orderStatus = new[]
                 {
                     new OrderStatus { Name = "Offen" , Slug = "offen"},
                     new OrderStatus { Name = "Akzeptiert" , Slug = "akzeptiert"},
@@ -40,7 +40,7 @@ namespace HwInf.Common.Migrations
                 };
 
 
-            var roles = new []
+            var roles = new[]
                 {
                     new Role { Name = "Admin" },
                     new Role { Name = "User" },
@@ -48,7 +48,7 @@ namespace HwInf.Common.Migrations
                 };
 
 
-            var persons = new []
+            var persons = new[]
                 {
                     new Person { Name = "Jan", LastName = "Calanog", Email = "jan.calanog@technikum-wien.at", Role = roles.Single(i => i.Name == "Admin"), Uid = "if15b042" },
                     new Person { Name = "Tobias", LastName = "Schlachter", Email = "tobias.schlachter@technikum-wien.at", Role = roles.Single(i => i.Name == "Admin"), Uid = "if15b032" },
@@ -57,14 +57,14 @@ namespace HwInf.Common.Migrations
             };
 
 
-            var settings = new []
+            var settings = new[]
             {
                new Setting { Key = "ss_start", Value = "15.02"},
                new Setting { Key = "ss_end", Value = "30.06"},
                new Setting { Key = "ws_end", Value = "31.01"},
                new Setting { Key = "ws_start", Value = "25.10"},
-               new Setting { Key = "reminder_mail", Value = "bitte zurÃ¼ckbringen"},
-               new Setting { Key = "new_order_mail", Value = "Neue  Anfrage zu einem ihrer GerÃ¤te"},
+               new Setting { Key = "reminder_mail", Value = "bitte zurückbringen"},
+               new Setting { Key = "new_order_mail", Value = "Neue  Anfrage zu einem ihrer Geräte"},
                new Setting { Key = "accept_mail_above", Value = "oben"},
                new Setting { Key = "accept_mail_below", Value = "unten"},
                new Setting { Key = "decline_mail_above", Value = "oben"},
@@ -73,7 +73,7 @@ namespace HwInf.Common.Migrations
             };
 
 
-            var damageStatus = new []
+            var damageStatus = new[]
             {
                 new DamageStatus { Name = "Gemeldet" , Slug = "gemeldet"},
                 new DamageStatus { Name = "Behoben", Slug = "behoben"},

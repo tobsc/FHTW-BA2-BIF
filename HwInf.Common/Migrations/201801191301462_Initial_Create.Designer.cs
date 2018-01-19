@@ -13,7 +13,7 @@ namespace HwInf.Common.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201701242304489_Initial_Create"; }
+            get { return "201801191301462_Initial_Create"; }
         }
         
         string IMigrationMetadata.Source
