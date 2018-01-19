@@ -550,10 +550,10 @@ namespace HwInf.Common.BL
             if (isUserView)
             {
                 var nullDeviceGroup = devices
-                    .Where(i => i.DeviceGroupSlug == null);
+                    .Where(i =>  string.IsNullOrWhiteSpace(i.DeviceGroupSlug));
 
                 var distinctDevictByDeviceGroup = devices
-                    .Where(i => i.DeviceGroupSlug != null)
+                    .Where(i => !string.IsNullOrWhiteSpace(i.DeviceGroupSlug))
                     .Where(i => i.Status.Description == "Verfügbar")
                     .AsEnumerable()
                     .DistinctBy(i => i.DeviceGroupSlug);
