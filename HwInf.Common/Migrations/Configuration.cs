@@ -1,4 +1,4 @@
-using System;
+Ôªøusing System;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Linq;
@@ -20,12 +20,12 @@ namespace HwInf.Common.Migrations
 
             var deviceStatus = new[]
                 {
-                    new DeviceStatus { Description = "Verf¸gbar" },
+                    new DeviceStatus { Description = "Verf√ºgbar" },
                     new DeviceStatus { Description = "Ausgeliehen" },
                     new DeviceStatus { Description = "In Reparatur" },
                     new DeviceStatus { Description = "Archiviert" },
                     new DeviceStatus { Description = "Nicht verleihbar" },
-                    new DeviceStatus { Description = "Pr‰sentations-/Bachelorarbeitsger‰t" },
+                    new DeviceStatus { Description = "Pr√§sentations-/Bachelorarbeitsger√§t" },
                 };
 
 
@@ -63,8 +63,8 @@ namespace HwInf.Common.Migrations
                new Setting { Key = "ss_end", Value = "30.06"},
                new Setting { Key = "ws_end", Value = "31.01"},
                new Setting { Key = "ws_start", Value = "25.10"},
-               new Setting { Key = "reminder_mail", Value = "bitte zur¸ckbringen"},
-               new Setting { Key = "new_order_mail", Value = "Neue  Anfrage zu einem ihrer Ger‰te"},
+               new Setting { Key = "reminder_mail", Value = "bitte zur√ºckbringen"},
+               new Setting { Key = "new_order_mail", Value = "Neue  Anfrage zu einem ihrer Ger√§te"},
                new Setting { Key = "accept_mail_above", Value = "oben"},
                new Setting { Key = "accept_mail_below", Value = "unten"},
                new Setting { Key = "decline_mail_above", Value = "oben"},
