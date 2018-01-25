@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import {Order} from "../../../../shared/models/order.model";
+import { Order } from "../../../../shared/models/order.model";
+import { OrderItem } from "../../../../shared/models/order-item.model";
 
 @Injectable()
 export class OrderFormDataService {
@@ -12,8 +13,13 @@ export class OrderFormDataService {
     return this.orderMdl;
   }
 
+
   public setData(mdl: Order): void {
     this.orderMdl = mdl;
+  }
+
+  public getOrderItems(): OrderItem[] {
+      return this.orderMdl.OrderItems;
   }
 
   public reset() {

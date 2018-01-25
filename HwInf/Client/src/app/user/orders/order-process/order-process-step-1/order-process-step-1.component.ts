@@ -1,8 +1,10 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+﻿import {Component, OnInit, OnDestroy} from '@angular/core';
 import {OrderFormDataService} from "../shared/order-form-data.service";
-import {Order} from "../../../../shared/models/order.model";
+import { Order } from "../../../../shared/models/order.model";
+import { Device } from "../../../../shared/models/device.model";
 import { UserService } from "../../../../shared/services/user.service";
 import { AdminService } from "../../../../shared/services/admin.service";
+import { CartService } from "../../../../shared/services/cart.service";
 import { JwtService } from "../../../../shared/services/jwt.service";
 import { Setting } from "../../../../shared/models/setting.model";
 import { User } from "../../../../shared/models/user.model";
@@ -28,10 +30,11 @@ export class OrderProcessStep1Component implements OnInit, OnDestroy {
   private semesterStartDate: Date = this.convertSemesterStartToDate();
 
  
-
+  
   private order: Order;
   private user: User = new User();
   private users: User[];
+  private items: Device[];
   private userDic: { [search: string]: User; } = {};
   private stringForDic: string[] = [];
   private selectedUser: User = new User();
@@ -41,6 +44,7 @@ export class OrderProcessStep1Component implements OnInit, OnDestroy {
   constructor(
       private orderProcessService: OrderProcessService,
       private formdataService: OrderFormDataService,
+      private cartService: CartService,
       private userService: UserService,
       private adminService: AdminService,
       private router: Router,
@@ -56,16 +60,21 @@ export class OrderProcessStep1Component implements OnInit, OnDestroy {
 */
   private options: any = {
       autoUpdateInput: true,
-      locale: { format: this.DATE_FORMAT },
+      locale: {
+          format: this.DATE_FORMAT,
+          applyLabel: "Bestätigen",
+          cancelLabel: "Abbrechen"
+      },
       alwaysShowCalendars: false,
       minDate: this.jwtService.isLoggedInAs() ? false : new Date() > this.semesterStartDate ? moment().format(this.DATE_FORMAT) : this.semesterStart,
       maxDate: this.jwtService.isLoggedInAs() ? false : this.semesterEnd,
       startDate: moment().format(this.DATE_FORMAT),
-      endDate: moment().add(7, 'days').format(this.DATE_FORMAT)
+      endDate: moment().add(7, 'days').format(this.DATE_FORMAT),
   };
 
   ngOnInit() {
-    this.order = this.formdataService.getData();
+      this.order = this.formdataService.getData();
+      console.log(this.order);
     this.userService.getUser()
         .subscribe((data) => {
             this.user = data;
@@ -171,6 +180,16 @@ export class OrderProcessStep1Component implements OnInit, OnDestroy {
 
       return false;
   }
+  private checkInvNum(): boolean {
+      this.items = this.cartService.getItems();
+      for (let item of this.items) {
+          if (item.InvNum) {
+              return true;
+          }
+      }
+      return false;
+  }
+
   onUserChange($event) {
       this.selectedUser = this.userDic[this.selectedString];
   }
@@ -181,9 +200,18 @@ export class OrderProcessStep1Component implements OnInit, OnDestroy {
           this.selectedUser = this.userDic[this.selectedString];
       }
       this.order.Entleiher = this.selectedUser;
-      console.log(this.order);
-    this.orderProcessService.setStatus(0, 'done');
-    this.router.navigate(['/anfrage/schritt-2']);
+      this.orderProcessService.setStatus(0, 'done');
+
+      if (this.checkInvNum()) {
+          this.router.navigate(['/anfrage/schritt-2']);
+      }
+      else
+      {
+          this.orderProcessService.setStatus(1, 'done');
+          this.router.navigate(['/anfrage/schritt-3']);
+      }
+          
+    
   }
 
   /**

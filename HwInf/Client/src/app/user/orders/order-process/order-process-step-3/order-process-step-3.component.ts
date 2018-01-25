@@ -16,16 +16,26 @@ import { Modal } from 'angular2-modal/plugins/bootstrap';
 })
 export class OrderProcessStep3Component implements OnInit {
 
-  private order: Order;
+    private order: Order;
+    private devices: Device[];
   constructor(
       private orderFormDataService: OrderFormDataService,
       private orderService: OrderService,
+      private cartService: CartService,
       private router: Router,
       public modal: Modal
   ) { }
 
   ngOnInit() {
-    this.order = this.orderFormDataService.getData();
+      this.order = this.orderFormDataService.getData();
+      if (!this.order.OrderItems) {
+          this.order.OrderItems = this.cartService.getItems().map(i => {
+              let orderItem = new OrderItem();
+              orderItem.Device = i;
+              orderItem.Accessories = [];
+              return orderItem;
+          });
+      }
   }
 
   onBack() {
