@@ -47,20 +47,40 @@ export class DamageFormComponent implements OnInit {
         private userService: UserService,
         private deviceService: DeviceService,
         private route: ActivatedRoute,
-    ) { }
+    ) {
+        this.form = this.initForm();
+    }
 
     ngOnInit() {
         this.route.params.subscribe((params: Params) => {
             let deviceId = params['id'];
             if (deviceId) {
-                this.deviceService.getDeviceById(deviceId).subscribe(i => this.startDevice = i);
+                this.deviceService.getDeviceById(deviceId).subscribe(i => {
+                this.startDevice = i;
+                this.initDamages();
+                });
+            }
+            else {
+                this.initDamages();
             }
         });
-        this.form = this.initForm();
+        //this.form = this.initForm();
+        
+        
+    }
 
+    initDamages() {
+        this.deviceService.getDevices().subscribe(i => {
+            this.devices = i.Devices;
+
+            this.devices.forEach((device, index) => {
+                this.deviceDic[this.deviceFormatter(device)] = device;
+                this.stringForDevDic[index] = this.deviceFormatter(device);
+            })
+        })
         this.damageService.getDamageStati().subscribe(i => {
             this.damageStati = i;
-            this.selectedDamageStatusSlug = this.damageStati[0].Slug; 
+            this.selectedDamageStatusSlug = this.damageStati[0].Slug;
         });
         this.userService.getUsers().subscribe(i => {
             this.users = i;
@@ -71,20 +91,12 @@ export class DamageFormComponent implements OnInit {
                 this.stringForDic[index] = this.userFormatter(user);
             });
         });
-        this.deviceService.getDevices().subscribe(i => {
-            this.devices = i.Devices;
 
-            this.devices.forEach((device, index) => {
-                this.deviceDic[this.deviceFormatter(device)] = device;
-                this.stringForDevDic[index] = this.deviceFormatter(device);
-            })
-        })
         this.userService.getUser().subscribe(i => {
             this.ownUser = i;
-            
+
             this.fillFormWithValues(this.currentDamage);
         });
-        
     }
 
     fillFormWithValues(damage) {
