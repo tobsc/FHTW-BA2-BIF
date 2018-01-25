@@ -49,7 +49,7 @@ import { DeviceAccessoryListComponent } from './devices/device-accessories/devic
 import { DeviceAccessoryAddComponent } from './devices/device-accessories/device-accessory-add/device-accessory-add.component';
 import { AdminMyOrderListComponent } from './admin-orders/admin-my-order-list/admin-my-order-list.component';
 
-import { UiSwitchModule } from 'angular2-ui-switch'
+import { UiSwitchModule } from 'angular2-ui-switch/src'
 
 
 export function jwtFactory(backend: XHRBackend, options: RequestOptions, router: Router, authService: AuthService, pubsub: PubSubService) {
