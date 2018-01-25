@@ -31,7 +31,7 @@
 
             <ul class="list-group">
               <li [ngStyle]="{'cursor': (order.OrderStatus.Slug === 'offen') ? 'pointer' : 'default'}" (click)="(order.OrderStatus.Slug === 'offen') && (orderItem.IsDeclined = !orderItem.IsDeclined)" class="list-group-item" *ngFor="let orderItem of order.OrderItems; let i = index" [ngClass]="{'declined-order-item': orderItem.IsDeclined}">
-                <button type="button" class="close btn btn-warning" title="Schaden für das Gerät {{orderItem.Device.Name}} vermerken" [routerLink]="['/admin/schaden/geraet/', orderItem.Device.InvNum]">
+                <button type="button" class="close btn btn-warning" title="Schaden für das Gerät {{orderItem.Device.Name}} vermerken" [routerLink]="['/admin/schaden/geraet/', orderItem.Device.DeviceId]">
                     <span><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
                 </button>
                 <button  *ngIf="order.OrderStatus.Slug === 'offen'" type="button" class="close" data-dismiss="alert" aria-label="Close">
