@@ -19,6 +19,7 @@ export class Device {
         public FieldGroups: FieldGroup[],
         public CreateDate: Date,
         public DeviceGroupSlug: string,
-        public Quantity: number
+        public Quantity: number,
+        public Stock: number
     ) {}
 }
