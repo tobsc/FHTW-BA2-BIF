@@ -67,7 +67,7 @@ namespace HwInf.Controllers
                     .Select(i =>
                     {
                         var newDeviceViewModel = new DeviceViewModel(i).LoadMeta(i);
-                        newDeviceViewModel.Quantity = _bl.GetDevices().ToList().Where(j => j.Status.Description == "Verfügbar")
+                        newDeviceViewModel.Stock = _bl.GetDevices().ToList().Where(j => j.Status.Description == "Verfügbar")
                             .Count(j => j.DeviceGroupSlug == newDeviceViewModel.DeviceGroupSlug);
                         return newDeviceViewModel;
                     })
@@ -109,7 +109,7 @@ namespace HwInf.Controllers
                     .Select(i =>
                     {
                         var newDeviceViewModel = new DeviceViewModel(i).LoadMeta(i);
-                        newDeviceViewModel.Quantity = _bl.GetDevices().ToList().Where(j => j.Status.Description == "Verfügbar")
+                        newDeviceViewModel.Stock = _bl.GetDevices().ToList().Where(j => j.Status.Description == "Verfügbar")
                             .Count(j => j.DeviceGroupSlug == newDeviceViewModel.DeviceGroupSlug);
                         return newDeviceViewModel;
                     })
@@ -156,7 +156,7 @@ namespace HwInf.Controllers
                     return NotFound();
                 }
 
-                vmdl.Quantity = _bl.GetDevices().ToList().Where(j => j.Status.Description == "Verfügbar")
+                vmdl.Stock = _bl.GetDevices().ToList().Where(j => j.Status.Description == "Verfügbar")
                     .Count(j => j.DeviceGroupSlug == vmdl.DeviceGroupSlug);
 
                 return Ok(vmdl);
@@ -194,7 +194,7 @@ namespace HwInf.Controllers
                     return NotFound();
                 }
 
-                vmdl.Quantity = _bl.GetDevices().Where(j => j.Status.Description == "Verfügbar")
+                vmdl.Stock = _bl.GetDevices().Where(j => j.Status.Description == "Verfügbar")
                     .Count(j => j.DeviceGroupSlug == vmdl.DeviceGroupSlug);
 
 
@@ -234,7 +234,7 @@ namespace HwInf.Controllers
                     .Select(i =>
                     {
                         var newDeviceViewModel = new DeviceViewModel(i).LoadMeta(i);
-                        newDeviceViewModel.Quantity = _bl.GetDevices().ToList().Where(j => j.Status.Description == "Verfügbar")
+                        newDeviceViewModel.Stock = _bl.GetDevices().ToList().Where(j => j.Status.Description == "Verfügbar")
                             .Count(j => j.DeviceGroupSlug == newDeviceViewModel.DeviceGroupSlug);
                         return newDeviceViewModel;
                     })
@@ -282,7 +282,7 @@ namespace HwInf.Controllers
                     .Select(i =>
                     {
                         var newDeviceViewModel = new DeviceViewModel(i).LoadMeta(i);
-                        newDeviceViewModel.Quantity = _bl.GetDevices().ToList().Where(j => j.Status.Description == "Verfügbar")
+                        newDeviceViewModel.Stock = _bl.GetDevices().ToList().Where(j => j.Status.Description == "Verfügbar")
                             .Count(j => j.DeviceGroupSlug == newDeviceViewModel.DeviceGroupSlug);
                         return newDeviceViewModel;
                     })
