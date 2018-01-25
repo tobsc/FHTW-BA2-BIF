@@ -224,11 +224,16 @@ this.Write(DateTime.Now.Year.ToString());
             
             #line default
             #line hidden
-            this.Write("\t\t}\r\n\t\t\\paragraph \r\n\t\t{ \r\n\t\t_____________________________                    ____" +
-                    "_________________________\r\n\t\t}\r\n\t\t\\paragraph \r\n\t\t{\r\n\t\tUnterschrift VerleiherIn  " +
-                    "                                    Unterschrift\\u00A0EntleiherIn\r\n\t\t}\r\n\t}\r\n\t");
+            this.Write("\t\t}\r\n\t\t");
             
-            #line 213 "C:\Users\Vali\Documents\__FH\ITP3\git\HW-INF\HwInf.Common\Contract.tt"
+            #line 204 "C:\Users\Vali\Documents\__FH\ITP3\git\HW-INF\HwInf.Common\Contract.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(SignOff()));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n\t}\r\n\t");
+            
+            #line 206 "C:\Users\Vali\Documents\__FH\ITP3\git\HW-INF\HwInf.Common\Contract.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(getHandoff()));
             
             #line default

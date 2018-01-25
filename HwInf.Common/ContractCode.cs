@@ -145,5 +145,11 @@ namespace HwInf.Common
 
             return text;
         }
+
+        public string SignOff()
+        {
+            string text = "\\paragraph[Format { SpaceAfter = \"0.25cm\"}]{_____________________________                    _____________________________}\\paragraph[Format { SpaceAfter = \"0.25cm\"}]{Unterschrift VerleiherIn                                     Unterschrift\u00A0EntleiherIn}";
+            return text;
+        }
     }
 }

@@ -201,14 +201,7 @@ undurchführbare Bestimmung durch eine andere zu ersetzen, die der zu ersetzende
 		{
 		Wien, den <# this.Write(DateTime.Now.Day.ToString("d2"));#>.<# this.Write(DateTime.Now.Month.ToString("d2"));#>.<#this.Write(DateTime.Now.Year.ToString()); #>
 		}
-		\paragraph 
-		{ 
-		_____________________________                    _____________________________
-		}
-		\paragraph 
-		{
-		Unterschrift VerleiherIn                                      Unterschrift\u00A0EntleiherIn
-		}
+		<#= SignOff() #>
 	}
 	<#= getHandoff() #>
 }
