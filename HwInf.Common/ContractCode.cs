@@ -82,7 +82,7 @@ namespace HwInf.Common
         {
 
 
-            string zeitspannePart = "(1) Das Gerät wird für die Zeit vom " + o.From.ToString("dd.MM.yyyy") + "\u00A0bis " + o.To.Date.ToString("dd.MM.yyyy") + " entliehen.";
+            string zeitspannePart = "(1) Das Gerät wird für die Zeit vom " + o.From.ToString("dd.MM.yyyy") + "\u00A0bis\u00A0" + o.To.Date.ToString("dd.MM.yyyy") + "\u00A0entliehen.";
             return zeitspannePart;
         }
 

@@ -207,7 +207,7 @@ undurchführbare Bestimmung durch eine andere zu ersetzen, die der zu ersetzende
 		}
 		\paragraph 
 		{
-		Unterschrift VerleiherIn                                      Unterschrift EntleiherIn
+		Unterschrift VerleiherIn                                      Unterschrift\u00A0EntleiherIn
 		}
 	}
 	<#= getHandoff() #>
