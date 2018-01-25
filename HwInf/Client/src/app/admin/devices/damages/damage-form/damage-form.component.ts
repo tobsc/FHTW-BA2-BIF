@@ -22,6 +22,7 @@ export class DamageFormComponent implements OnInit {
     private form: FormGroup;
     private damageInfo: FormArray;
     private damageStati: DamageStatus[];
+    private selectedDamageStatusSlug: string;
 
     //for auto-complete tofuix [object Object]-bug
     private users: User[];
@@ -57,7 +58,10 @@ export class DamageFormComponent implements OnInit {
         });
         this.form = this.initForm();
 
-        this.damageService.getDamageStati().subscribe(i => { this.damageStati = i; });
+        this.damageService.getDamageStati().subscribe(i => {
+            this.damageStati = i;
+            this.selectedDamageStatusSlug = this.damageStati[0].Slug; 
+        });
         this.userService.getUsers().subscribe(i => {
             this.users = i;
 

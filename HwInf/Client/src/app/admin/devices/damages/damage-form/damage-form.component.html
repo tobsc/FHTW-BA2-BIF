@@ -48,7 +48,7 @@
             Status:
         </label>
         <div class="field-select">
-            <select class="select2_group form-control" name="value1" id="damage" formControlName="Slug">
+            <select class="select2_group form-control" name="value1" id="damage" formControlName="Slug"  [(ngModel)]="selectedDamageStatusSlug">
                 <option *ngFor="let damageStatus of damageStati" value="{{damageStatus.Slug}}">
                     {{damageStatus.Name}}
                 </option>

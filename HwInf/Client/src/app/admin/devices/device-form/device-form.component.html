@@ -64,7 +64,7 @@
             </div>
             <div class="form-group" *ngIf="feature !== 'edit' || hasInvNum()">
               <label htmlFor="InvNum" *ngIf="hasInvNum()">
-                    <b>Inventarnummer*</b>
+                    <b>Inventarnummer</b>
               </label>
                 <label htmlFor="InvNum" *ngIf="!hasInvNum()">
                     <s>Inventarnummer</s>
@@ -74,7 +74,7 @@
                     <s>Anzahl</s>
                 </label>
                 <label htmlFor="Quantity" *ngIf="!hasInvNum()">
-                    <b>Anzahl*</b>
+                    <b>Anzahl</b>
                 </label>
               <input id="InvNum" name="InvNum" class="form-control" type="text" formControlName="InvNum" [textMask]="{mask: mask}" placeholder="__+__+____" *ngIf="hasInvNum()">
               <input id="Quantity" name="Quantity" class="form-control" type="number" formControlName="Quantity" placeholder="NUMBER" *ngIf="!hasInvNum()">

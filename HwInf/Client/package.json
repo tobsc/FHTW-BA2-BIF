@@ -6,7 +6,7 @@
   "scripts": {
     "ng": "ng",
     "build": "ng build",
-    "deploy": "ng build --prod && mv ../dist/main.*.bundle.js ../dist/main.js && mv ../dist/vendor.*.bundle.js ../dist/vendor.js && mv ../dist/inline.*.bundle.js ../dist/inline.js && mv ../dist/polyfills.*.bundle.js ../dist/polyfills.js", 
+    "deploy": "ng build --prod && mv ../dist/main.*.bundle.js ../dist/main.js && mv ../dist/vendor.*.bundle.js ../dist/vendor.js && mv ../dist/inline.*.bundle.js ../dist/inline.js && mv ../dist/polyfills.*.bundle.js ../dist/polyfills.js",
     "start": "ng serve --proxy-config proxy.conf.json",
     "test": "ng test",
     "pree2e": "webdriver-manager update --standalone false --gecko false",
@@ -14,6 +14,7 @@
   },
   "private": true,
   "dependencies": {
+    "@angular/animations": "^5.2.2",
     "@angular/common": "^2.3.1",
     "@angular/compiler": "^2.3.1",
     "@angular/core": "^2.3.1",
@@ -22,8 +23,10 @@
     "@angular/platform-browser": "^2.3.1",
     "@angular/platform-browser-dynamic": "^2.3.1",
     "@angular/router": "^3.3.1",
+    "angular2-bootstrap-switch": "^0.2.3",
     "angular2-modal": "^2.0.3",
     "angular2-text-mask": "^8.0.1",
+    "angular2-ui-switch": "^1.2.0",
     "core-js": "^2.4.1",
     "ng2-auto-complete": "^0.11.1",
     "ng2-bootstrap": "1.4.0",

@@ -10,7 +10,8 @@ import {FieldGroup} from "../../../shared/models/fieldgroup.model";
 import {User} from "../../../shared/models/user.model";
 import {Device} from "../../../shared/models/device.model";
 import {DeviceMeta} from "../../../shared/models/device-meta.model";
-import {Status} from "../../../shared/models/status.model";
+import { Status } from "../../../shared/models/status.model";
+
 
 
 @Component({

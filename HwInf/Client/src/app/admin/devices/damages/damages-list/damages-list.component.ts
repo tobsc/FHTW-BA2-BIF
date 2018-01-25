@@ -15,7 +15,8 @@ export class DamagesListComponent implements OnInit {
     private rows: any[];
     private damages: Damage[];
     private deviceId: number;
-    private showDeviceInvNum: boolean=false;
+    private showDeviceInvNum: boolean = false;
+    private showDeviceName: boolean = true;
 
   constructor(
       private deviceService: DeviceService,
@@ -27,6 +28,7 @@ export class DamagesListComponent implements OnInit {
       this.route.params.subscribe((params: Params) => {
           this.deviceId = params['id'];
           if (this.deviceId) {
+              this.showDeviceName = false;
               this.damageService.getDamagesByDeviceId(this.deviceId).subscribe((data) => {
                   this.damages = data;
                   this.rows = data.map(i => ({ isCollapsed: true, damage: i }));

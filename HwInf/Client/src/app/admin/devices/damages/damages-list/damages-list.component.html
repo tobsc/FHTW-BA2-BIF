@@ -9,6 +9,7 @@
                 <thead>
                     <tr class="headings">
                         <th class="column-title">ID</th>
+                        <th class="column-title" *ngIf="showDeviceName">Gerätename</th>
                         <th class="column-title" *ngIf="showDeviceInvNum">Gerät</th>
                         <th class="column-title">Name</th>
                         <th style="width: 90px" class="column-title">Aktion</th>
@@ -18,6 +19,9 @@
                     <tr class="pointer" *ngFor="let row of rows; let i = index;">
                         <td>
                             <div>{{row.damage?.DamageId}}</div>
+                        </td>
+                        <td *ngIf="showDeviceName">
+                            <div>{{row.damage?.Device.Marke}} {{row.damage?.Device.Name}}</div>
                         </td>
                         <td *ngIf="showDeviceInvNum">
                             <div>ID: {{row.damage?.Device.DeviceId}} || {{row.damage?.Device.InvNum}}</div>
