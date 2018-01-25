@@ -19,6 +19,7 @@ namespace HwInf.ViewModels
         public string CreateDate { get; set; }
         public string DeviceGroupSlug { get; set; }
         public int Quantity { get; set; }
+        public int Stock { get; set; }
         public DeviceTypeViewModel DeviceType { get; set; }
         public UserViewModel Verwalter { get; set; }
         public DeviceStatusViewModel Status { get; set; }
@@ -60,7 +61,7 @@ namespace HwInf.ViewModels
             target.IsActive = source.IsActive;
             target.CreateDate = source.CreateDate.ToShortDateString();
             target.DeviceGroupSlug = source.DeviceGroupSlug;
-            target.Quantity = source.Quantity;
+            target.Stock = source.Stock;
                         
             if (source.Type.FieldGroups != null)
             {

@@ -26,5 +26,7 @@ namespace HwInf.Common.Models
         public virtual ICollection<DeviceMeta> DeviceMeta { get; set; } = new List<DeviceMeta>();
         [NotMapped]
         public int Quantity { get; set; }
+        [NotMapped]
+        public int Stock { get; set; }
     }
 }

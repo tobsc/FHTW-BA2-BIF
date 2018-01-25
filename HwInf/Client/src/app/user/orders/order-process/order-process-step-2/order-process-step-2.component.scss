@@ -1,3 +1,14 @@
 dd {
   margin-bottom: 20px;
 }
+
+input[type="checkbox"]:not(:checked) ~ input[type="number"] {
+  visibility: hidden;
+}
+
+input[type="number"] {
+  border: none;
+  text-align: right;
+  padding-right: 5px;
+  width: 60px;
+}

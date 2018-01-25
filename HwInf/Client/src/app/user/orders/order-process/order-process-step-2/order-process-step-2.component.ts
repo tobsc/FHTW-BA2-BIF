@@ -23,6 +23,7 @@ export class OrderProcessStep2Component implements OnInit, OnDestroy {
   private devicesWithoutInvNum: Device[];
   private filter: Filter;
   private accessories: Observable<Accessory[]>;
+  private cartQuantity: number = 1;
   constructor(
       private orderFormDataService: OrderFormDataService,
       private cartService: CartService,
@@ -64,7 +65,9 @@ export class OrderProcessStep2Component implements OnInit, OnDestroy {
       let newOrderItem = new OrderItem();
       console.log(ev.target.value);
       newOrderItem.Device = this.devicesWithoutInvNum.find(i => i.DeviceId == ev.target.value);
-      newOrderItem.Device.Quantity = 1;
+      if(newOrderItem.Device.Quantity < 1) {
+        newOrderItem.Device.Quantity = 1;
+      }
       newOrderItem.Accessories = [];
       this.order.OrderItems.push(newOrderItem);
       //this.order.OrderItems[index].Accessories.push(ev.target.value);
@@ -75,6 +78,14 @@ export class OrderProcessStep2Component implements OnInit, OnDestroy {
       this.order.OrderItems = this.order.OrderItems.filter(i => i.Device.DeviceId != ev.target.value);
       //this.order.OrderItems[index].Accessories = this.order.OrderItems[index].Accessories.filter(i => i != ev.target.value);
       console.log(this.order.OrderItems);
+    }
+  }
+
+  updateQuantity(ev, id) {
+    if(this.order.OrderItems.find(i => i.Device.DeviceId == id)) {
+      this.order.OrderItems.find(i => i.Device.DeviceId == id).Device.Quantity = ev.target.value;
+    } else {
+      this.devicesWithoutInvNum.find(i => i.DeviceId == id).Quantity = ev.target.value;
     }
   }
 

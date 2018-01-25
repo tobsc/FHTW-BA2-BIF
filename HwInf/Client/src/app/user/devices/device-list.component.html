@@ -55,8 +55,8 @@
                                         </ng-container>
                                     </div>
                                     <span *ngIf="needsQuantity(device)">
-                                        Anzahl(max: {{device.Quantity}}): 
-                                        <input min="1" max="{{device.Quantity}}" [(ngModel)]="cartQuantity" (ngModelChange)="updateQuantity($event)" type="number" *ngIf="device.InvNum == null || device.InvNum == ''">
+                                        Anzahl(max: {{device.Stock}}):
+                                        <input min="1" max="{{device.Stock}}" [(ngModel)]="cartQuantity" (ngModelChange)="updateQuantity($event)" type="number" *ngIf="device.InvNum == null || device.InvNum == ''">
                                     </span>
                                     <button class="btn btn-success btn-xs" (click)="addItem(device)" *ngIf="device.InvNum != null && device.InvNum != ''">
                                         Zum Warenkorb hinzufügen
