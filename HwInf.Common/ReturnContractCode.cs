@@ -62,7 +62,7 @@ namespace HwInf.Common
                         text += "\\paragraph[Format { SpaceAfter = \"0.25cm\"}]{O  in einwandfreiem Zustand und mit komplettem Zubehör zurückgegeben}";
                     }
                     text += "\\paragraph[Format { SpaceAfter = \"1cm\"}]{Wien, den " + DateTime.Now.Day.ToString("d2") + "." + DateTime.Now.Month.ToString("d2") + "." + DateTime.Now.Year.ToString() + "}";//\\paragraph[Format { SpaceAfter = \"1cm\"}]{Unterschrift MitarbeiterIn des Instituts für Informatik: ......................................................................}";
-                    text += "\\paragraph[Format { SpaceAfter = \"0.25cm\"}]{_____________________________                    _____________________________}\\paragraph[Format { SpaceAfter = \"0.25cm\"}]{Unterschrift VerleiherIn                                     Unterschrift  EntleiherIn}}";
+                    text += "\\paragraph[Format { SpaceAfter = \"0.25cm\"}]{_____________________________                    _____________________________}\\paragraph[Format { SpaceAfter = \"0.25cm\"}]{Unterschrift VerleiherIn                                     Unterschrift\u00A0EntleiherIn}}";
                 }
             }
 

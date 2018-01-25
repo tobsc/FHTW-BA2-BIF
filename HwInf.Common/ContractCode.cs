@@ -82,7 +82,7 @@ namespace HwInf.Common
         {
 
 
-            string zeitspannePart = "(1) Das Gerät wird für die Zeit vom " + o.From.ToString("dd.MM.yyyy") + "  bis " + o.To.Date.ToString("dd.MM.yyyy") + " entliehen.";
+            string zeitspannePart = "(1) Das Gerät wird für die Zeit vom " + o.From.ToString("dd.MM.yyyy") + "\u00A0bis " + o.To.Date.ToString("dd.MM.yyyy") + " entliehen.";
             return zeitspannePart;
         }
 
@@ -139,7 +139,7 @@ namespace HwInf.Common
                         + "."
                         + DateTime.Now.Year.ToString()
                         + "}"; //\\paragraph[Format { SpaceAfter = \"1cm\"}]{Unterschrift MitarbeiterIn des Instituts für Informatik: ................................................}";
-                    text += "\\paragraph[Format { SpaceAfter = \"0.25cm\"}]{_____________________________                    _____________________________}\\paragraph[Format { SpaceAfter = \"0.25cm\"}]{Unterschrift VerleiherIn                                     Unterschrift  EntleiherIn}}";
+                    text += "\\paragraph[Format { SpaceAfter = \"0.25cm\"}]{_____________________________                    _____________________________}\\paragraph[Format { SpaceAfter = \"0.25cm\"}]{Unterschrift VerleiherIn                                     Unterschrift\u00A0EntleiherIn}}";
                 }
             }
 
