@@ -40,6 +40,7 @@ namespace HwInf.Controllers
         public IHttpActionResult SignIn(UserViewModel vmdl)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
+            vmdl.Uid = vmdl.Uid.ToLower();
             if (!LDAPAuthenticator.Authenticate(vmdl.Uid, vmdl.Password).IsAuthenticated)
             {
                 _log.WarnFormat("Failed login attempt for '{0}'", vmdl.Uid);
