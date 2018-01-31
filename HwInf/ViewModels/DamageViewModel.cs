@@ -51,7 +51,10 @@ namespace HwInf.ViewModels
             var source = this;
             
             target.Date = DateTime.Now;
-            target.Cause = bl.GetUsers(source.Cause.Uid);
+
+            target.Cause = source.Cause == null 
+                ? null 
+                : bl.GetUsers(source.Cause.Uid);
             target.Reporter = bl.GetUsers(bl.GetCurrentUid());
             target.Description = source.Description;
             target.Device = bl.GetSingleDevice(source.Device.DeviceId);

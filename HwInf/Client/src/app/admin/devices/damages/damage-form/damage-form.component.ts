@@ -174,7 +174,7 @@ export class DamageFormComponent implements OnInit {
     }
 
     userFormatter(data: any): string {
-        return "(" + data.Uid + ") " + data.LastName + " " + data.Name;
+        return data.Uid == null ? "Kein Verursacher" : data.LastName + " " + data.Name + " (" + data.Uid + ")";
     }
 
     adminFormatter(data: any): string {

@@ -36,7 +36,7 @@
                 Status*
               </label>
               <select id="status" class="form-control" formControlName="StatusId">
-                <option *ngFor="let deviceStatus of deviceStatuses | async; let i = index" [selected]="i == 0" [ngValue]="deviceStatus.StatusId">
+                <option *ngFor="let deviceStatus of deviceStatuses | async; let i = index" [selected]="deviceStatus.Description == 'Verfügbar'" [ngValue]="deviceStatus.StatusId">
                   {{deviceStatus.Description}}
                 </option>
               </select>

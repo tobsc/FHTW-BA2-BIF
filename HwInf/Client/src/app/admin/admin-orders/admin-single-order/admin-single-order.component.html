@@ -81,10 +81,10 @@
         <div class="pull-left">
           <hwinf-confirm-button *ngIf="order.OrderStatus.Slug === 'offen'"
                                 (action)="onAccept()"
-                                popOverTitle="Antrag akzeptieren?"
+                                popOverTitle="Anfrage akzeptieren?"
           >
-            <button [disabled]="!canAccept()" [title]="(canAccept()) ? 'Antrag akzeptieren' : 'Der Antrag kann nicht ohne Geräte akzeptiert werden.'" class="btn btn-success btn-xs">
-              Antrag akzeptieren
+            <button [disabled]="!canAccept()" [title]="(canAccept()) ? 'Anfrage akzeptieren' : 'Die Anfrage kann nicht ohne Geräte akzeptiert werden.'" class="btn btn-success btn-xs">
+              Anfrage akzeptieren
             </button>
           </hwinf-confirm-button>
           <hwinf-confirm-button *ngIf="order.OrderStatus.Slug === 'akzeptiert'"
@@ -97,9 +97,9 @@
 
           <hwinf-confirm-button *ngIf="order.OrderStatus.Slug === 'offen'"
                                 (action)="onDecline()"
-                                popOverTitle="Antrag ablehnen?">
-            <button title="Antrag ablehnen" class="btn btn-danger btn-xs">
-              Antrag ablehnen
+                                popOverTitle="Anfrage ablehnen?">
+            <button title="Anfrage ablehnen" class="btn btn-danger btn-xs">
+              Anfrage ablehnen
             </button>
           </hwinf-confirm-button>
 

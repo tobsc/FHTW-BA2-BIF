@@ -40,7 +40,8 @@ namespace HwInf.Controllers
 
             var vmdls = _bl.GetDeviceStatuses()
                 .ToList()
-                .Select(i => new DeviceStatusViewModel(i));
+                .Select(i => new DeviceStatusViewModel(i))
+                .OrderBy(i => i.Description);
 
             return Ok(vmdls);
         }

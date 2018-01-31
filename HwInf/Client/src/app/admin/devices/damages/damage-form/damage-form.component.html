@@ -2,7 +2,7 @@
 
     <div class="form-group">
         <label>
-            Gerät:
+            Gerät:*
         </label>
         <div class="field-select">
             <input class="form-control" auto-complete formControlName="Device" [source]="stringForDevDic">
@@ -11,7 +11,7 @@
 
     <div class="form-group">
         <label for="beschreibung">
-            Beschreibung:
+            Beschreibung:*
         </label>
         <textarea  rows="5" id="typename" required="required" class="form-control" formControlName="Description"></textarea>
     </div>
@@ -36,7 +36,7 @@
 
     <div class="form-group">
         <label>
-            Melder: 
+            Melder:*
         </label>
         <div class="field-select">
             <input class="form-control" auto-complete [accept-user-input]="false" formControlName="Reporter" [source]="stringForDic"/>
@@ -45,7 +45,7 @@
 
     <div class="form-group" formGroupName="DamageStatus">
         <label>
-            Status:
+            Status:*
         </label>
         <div class="field-select">
             <select class="select2_group form-control" name="value1" id="damage" formControlName="Slug"  [(ngModel)]="selectedDamageStatusSlug">

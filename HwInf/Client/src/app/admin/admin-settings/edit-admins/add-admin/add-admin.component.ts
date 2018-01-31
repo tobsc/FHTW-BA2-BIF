@@ -43,8 +43,8 @@ export class AddAdminComponent implements OnInit {
                 console.log(next);
 
                 this.users.filter(user => user.Role !== "Admin").forEach((user, index) => {
-                    this.userDic["(" + user.Uid + ") " + user.LastName + " " + user.Name] = user;
-                    this.stringForDic[index] = "(" + user.Uid + ") " + user.LastName + " " + user.Name;
+                    this.userDic[user.LastName + " " + user.Name + " (" + user.Uid + ")"] = user;
+                    this.stringForDic[index] = user.LastName + " " + user.Name + " (" + user.Uid + ")";
                 }
                 );
                 this.selectedUser = this.users[0];

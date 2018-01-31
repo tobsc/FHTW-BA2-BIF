@@ -69,6 +69,8 @@ namespace HwInf.Controllers
                     .Where(i => i.Role.Name != "User")
                     .ToList()
                     .Select(i => new UserViewModel(i))
+                    .OrderBy(i => i.LastName)
+                    .ThenBy(i => i.Name)
                     .ToList();
 
                 return Ok(vmdl);
@@ -101,6 +103,8 @@ namespace HwInf.Controllers
                     .Where(i => i.Role.Name == "Admin")
                     .ToList()
                     .Select(i => new UserViewModel(i))
+                    .OrderBy(i => i.LastName)
+                    .ThenBy(i => i.Name)
                     .ToList();
 
                 return Ok(vmdl);
@@ -131,6 +135,8 @@ namespace HwInf.Controllers
                 var vmdl = _bl.GetUsers()
                     .ToList()
                     .Select(i => new UserViewModel(i))
+                    .OrderBy(i => i.LastName)
+                    .ThenBy(i => i.Name)
                     .ToList();
 
                 return Ok(vmdl);
