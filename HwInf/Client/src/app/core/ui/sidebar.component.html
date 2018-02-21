@@ -49,12 +49,12 @@
               <li routerLinkActive="current_menu_item"><a routerLink="/admin/orders/status/archiv" [queryParams]="{}">Archiv</a></li>
             </ul>
           </li>
-            <li [ngClass]="{current_parent_menu_item: router.url.match('(.*admin\/geraete\/schaden.*)') }" dropdown>
-                <a dropdownToggle><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Schäden <span class="fa fa-chevron-down"></span></a>
-                <ul class="nav child_menu">
+            <li >
+                <a routerLink="/admin/schaden"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Schäden</a>
+                <!--<ul class="nav child_menu">
                     <li routerLinkActive="current_menu_item" [routerLinkActiveOptions]="{exact:false}"><a routerLink="/admin/schaden/verwalten" [queryParams]="{}">Schadensliste</a></li>
                     <li routerLinkActive="current_menu_item" [routerLinkActiveOptions]="{exact:false}"><a routerLink="/admin/schaden/add" [queryParams]="{}">Schaden melden</a></li>
-                </ul>
+                </ul>-->
             </li>
 
           <li [ngClass]="{current_parent_menu_item: router.url.match('(.*admin\/settings.*)') }"  dropdown *ngIf="canActivateSettings()"><a dropdownToggle><i class="fa fa-cog" aria-hidden="true"></i> Settings <span class="fa fa-chevron-down"></span></a>
