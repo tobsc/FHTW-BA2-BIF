@@ -184,6 +184,7 @@ namespace HwInf.Controllers
                 var f = fg.Fields.ToList();
                 f.ForEach(i => _bl.DeleteField(i));
                 fg.Fields.Clear();
+                _bl.SaveChanges();
                 vmdl.ApplyChanges(fg, _bl);
                 vmdl.Refresh(fg);
 
