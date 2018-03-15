@@ -102,7 +102,7 @@ namespace HwInf.Common
                     sStudiengangKuerzel = "";
                     sPersonalBezeichnung = "";
                     var oOu = entry.getAttribute("ou");
-                    if (oOu.size() > 0 && iGidNumber == "101") //tw-personal - in ou steht meist Teacher
+                    if (oOu.size() > 0 && (iGidNumber == "101" || iGidNumber == "120")) //tw-personal - in ou steht meist Teacher
                     {
                         sPersonalBezeichnung = oOu.StringValueArray[1];
                     }
