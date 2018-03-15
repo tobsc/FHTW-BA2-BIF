@@ -102,11 +102,11 @@ namespace HwInf.Common
                     sStudiengangKuerzel = "";
                     sPersonalBezeichnung = "";
                     var oOu = entry.getAttribute("ou");
-                    if (oOu.size() > 0 && (iGidNumber == "101" || iGidNumber == "120")) //tw-personal - in ou steht meist Teacher
+                    if (iGidNumber == "101" || iGidNumber == "120") //tw-personal & FH Admin
                     {
-                        sPersonalBezeichnung = oOu.StringValueArray[1];
+                        sPersonalBezeichnung = "Teacher"; 
                     }
-                    else if (oOu.size() > 0 && iGidNumber == "102") //student
+                    else if (oOu != null && oOu.size() > 0 && iGidNumber == "102") //student
                     {
                         sStudiengang = oOu.StringValueArray[1];
                         sStudiengangKuerzel = oOu.StringValueArray[2];
