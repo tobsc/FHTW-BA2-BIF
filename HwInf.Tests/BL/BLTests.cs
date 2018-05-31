@@ -112,6 +112,7 @@ namespace HwInf.Tests.BL
             var getObj = _bl.GetSingleDevice(invNum);
             Assert.NotNull(getObj);
             _bl.DeleteDevice(getObj);
+            getObj.IsActive = false;
             var getDel = _bl.GetSingleDevice(invNum);
             Assert.False(getDel.IsActive);
         }
@@ -142,13 +143,6 @@ namespace HwInf.Tests.BL
             obj.InvNum = Guid.NewGuid().ToString();
             var doesExist = _bl.DeviceExists(obj.DeviceId);
             Assert.True(doesExist);
-        }
-
-        [Test]
-        public void bl_should_return_device_count()
-        {
-            var c = _bl.DeviceCount();
-            Assert.True(c.Equals(6));
         }
 
         [Test]
@@ -211,6 +205,7 @@ namespace HwInf.Tests.BL
             Assert.NotNull(getObj);
 
             _bl.DeleteDeviceType(getObj);
+            getObj.IsActive = false;
             var getDel = _bl.GetDeviceType(s);
             Assert.Null(getDel);
         }

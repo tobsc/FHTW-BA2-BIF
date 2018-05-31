@@ -87,7 +87,11 @@ namespace HwInf.Tests.Controllers
                     new OrderItemViewModel(oi)
                 },
                 OrderGuid = Guid.NewGuid(),
-                OrderReason = "Unit Test"
+                OrderReason = "Unit Test",
+                Entleiher = new UserViewModel
+                {
+                    Uid = "if15b032"
+                }
             };
 
             return vmdl;

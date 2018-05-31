@@ -327,12 +327,12 @@ namespace HwInf.Controllers
                     .Select(i => new DeviceTypeViewModel(i).LoadFieldGroups(i))
                     .ToList();
 
-                if (showEmptyDeviceTypes) return Ok(deviceTypes.OrderBy(i => i.Name));
+                if (showEmptyDeviceTypes) return Ok(deviceTypes.OrderBy(i => i.Name).ToList());
 
                 var devices = _bl.GetDevices().GroupBy(i => i.Type.Slug).Select(i => i.Key).ToList();
                 deviceTypes = deviceTypes.Where(i => devices.Contains(i.Slug)).ToList();
 
-                return Ok(deviceTypes.OrderBy(i => i.Name));
+                return Ok(deviceTypes.OrderBy(i => i.Name).ToList());
             }
             catch
             {
@@ -475,10 +475,14 @@ namespace HwInf.Controllers
             _bl.SaveChanges();
 
             _log.InfoFormat("Device '{0}({1})' added by '{2}'", vmdl.InvNum, vmdl.Name, User.Identity.Name);
-            foreach (var n in vmdl.AdditionalInvNums)
+            if (vmdl.AdditionalInvNums != null)
+            {
+                            foreach (var n in vmdl.AdditionalInvNums)
             {
                 _log.InfoFormat("Device '{0}({1})' added by '{2}'", n.InvNum, vmdl.Name, User.Identity.Name);
             }
+            }
+
             return response;
         }
 

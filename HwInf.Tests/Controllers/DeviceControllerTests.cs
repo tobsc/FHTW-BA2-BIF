@@ -120,7 +120,7 @@ namespace HwInf.Tests.Controllers
             var vmdl = ControllerHelper.GetValidDeviceViewModel();
             vmdl.InvNum = Guid.NewGuid().ToString();
             var obj = ctr.PostDevice(vmdl);
-            var res = obj as OkNegotiatedContentResult<DeviceViewModel>;
+            var res = obj as OkNegotiatedContentResult<List<DeviceViewModel>>;
             Assert.NotNull(res);
             Assert.NotNull(res.Content);
 
@@ -155,7 +155,7 @@ namespace HwInf.Tests.Controllers
             var vmdl = ControllerHelper.GetInValidDeviceViewModel();
             vmdl.InvNum = Guid.NewGuid().ToString();
             var obj = ctr.PostDevice(vmdl);
-            var res = obj as BadRequestErrorMessageResult;
+            var res = obj as InternalServerErrorResult;
             Assert.NotNull(res);
         }
 
@@ -165,7 +165,7 @@ namespace HwInf.Tests.Controllers
             var vmdl = ControllerHelper.GetValidDeviceViewModel();
             vmdl.InvNum = Guid.NewGuid().ToString();
             var obj = ctr.PostDevice(vmdl);
-            var res = obj as OkNegotiatedContentResult<DeviceViewModel>;
+            var res = obj as OkNegotiatedContentResult<List<DeviceViewModel>>;
             Assert.NotNull(res);
             Assert.NotNull(res.Content);
 

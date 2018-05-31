@@ -54,7 +54,7 @@ namespace HwInf.Tests.Controllers
             Assert.NotNull(vmdl);
             var res = ctr.PostGroup(vmdl) as OkNegotiatedContentResult<FieldGroupViewModel>;
             Assert.NotNull(res);
-            var obj = _bl.GetFieldGroups("test");
+            var obj = _bl.GetFieldGroups("test-1");
             Assert.True(obj.Slug.Equals(vmdl.Slug));
         }
 
@@ -87,6 +87,7 @@ namespace HwInf.Tests.Controllers
         [Test]
         public void ctr_should_return_only_used_fields_from_field_group()
         {
+            var a = ctr.GetFieldGroupsUsedFields();
             var res = ctr.GetFieldGroupsUsedFields() as OkNegotiatedContentResult<List<FieldGroupViewModel>>;
             Assert.NotNull(res);
         }
