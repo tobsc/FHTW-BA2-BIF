@@ -1,0 +1,744 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>HwInf</name>
+    </assembly>
+    <members>
+        <member name="T:HwInf.Controllers.AuthController">
+            <inheritdoc />
+            <summary>
+            Controller managing User Login and Impersonation
+            </summary>
+        </member>
+        <member name="M:HwInf.Controllers.AuthController.SignIn(HwInf.ViewModels.UserViewModel)">
+            <summary>
+            Sign in to HW-INF
+            </summary>
+            <remarks>Signs a user in.</remarks>
+            <param name="vmdl">User as &#x60;UserViewModel&#x60;</param>
+            <response code="401">An error occured, unauthorized</response>
+            <response code="500">An error occured, please read log files</response>
+            <response code="200"></response>
+        </member>
+        <member name="M:HwInf.Controllers.AuthController.GetImpersonate(System.String)">
+            <summary>
+            Impersonate User
+            </summary>
+            <remarks>Lets an Admin log into another users Account and returns a new JWT</remarks>
+            <param name="uid">UID of user one want to login to</param>
+            <response code="500">An error occured, please read log files</response>
+            <response code="200"></response>
+            <produces>application/json</produces>
+        </member>
+        <member name="T:HwInf.Controllers.CustomFieldsController">
+            <inheritdoc />
+            <summary>
+            Controller managing Custom Fields
+            </summary>
+        </member>
+        <member name="M:HwInf.Controllers.CustomFieldsController.GetGroups">
+            <summary>
+            Get FieldGroups
+            </summary>
+            <remarks>
+            Returns a List of all &#x60;FieldGroups&#x60; and their &#x60;Fields&#x60;. 
+            A &#x60;FieldGroup&#x60; represents a component of a &#x60;Device&#x60; (e.g: CPU, GPU, OS)
+            </remarks>
+            <response code="500">An error occured, please read log files</response>
+            <response code="200"></response>
+        </member>
+        <member name="M:HwInf.Controllers.CustomFieldsController.GetGroupsOfDeviceType(System.String)">
+            <summary>
+            Get FieldGroups of DeviceType
+            </summary>
+            <remarks>Returns a list of &#x60;Fieldgroups&#x60; belonging to a &#x60;DeviceType&#x60; (e.g. PC, Notebook, TV) </remarks>
+            <response code="500">An error occured, please read log files</response>
+            <response code="200"></response>
+            <param name="typeSlug">Internal unique name of a &#x60;DeviceType&#x60;</param>
+        </member>
+        <member name="M:HwInf.Controllers.CustomFieldsController.PostGroup(HwInf.ViewModels.FieldGroupViewModel)">
+            <summary>
+            Create FieldGroup
+            </summary>
+            <remarks>Add a new &#x60;FieldGroup&#x60;. A &#x60;FieldGroup&#x60; represents a component of a &#x60;Device&#x60; (e.g: CPU, GPU, OS)</remarks>
+            <response code="500">An error occured, please read log files</response>
+            <response code="200"></response>
+            <param name="vmdl">New &#x60;FieldGroup&#x60; as &#x60;FieldGroupViewModel&#x60;</param>
+        </member>
+        <member name="M:HwInf.Controllers.CustomFieldsController.PostField(System.String,HwInf.ViewModels.FieldViewModel)">
+            <summary>
+            Add Field to FieldGroup
+            </summary>
+            <remarks>
+            Add a new &#x60;Field&#x60; to a &#x60;FieldGroup&#x60;. 
+            A &#x60;Fieldgroup&#x60; represents a component of a &#x60;Device&#x60; (e.g: CPU, GPU, OS).
+            A &#x60;Field&#x60; represents a specific component(e.g: i5-4590, Windows 10)
+            </remarks>
+            <response code="500">An error occured, please read log files</response>
+            <response code="200"></response>
+            <param name="groupSlug">Unique name of a &#x60;FieldGroup&#x60;</param>
+            <param name="vmdl">New Field as &#x60;FieldViewModel&#x60;</param>
+        </member>
+        <member name="M:HwInf.Controllers.CustomFieldsController.PostGroupType(System.String,System.String)">
+            <summary>
+            Add DeviceType to FieldGroup
+            </summary>
+            <remarks>
+            Add a &#x60;DeviceType&#x60; (e.g: PC, TV) to a &#x60;FieldGroup&#x60;
+            A &#x60;Fieldgroup&#x60; represents a component of a &#x60;Device&#x60; (e.g: CPU, GPU, OS).
+            </remarks>
+            <response code="500">An error occured, please read log files</response>
+            <response code="200"></response>
+            <param name="typeSlug">Unique name of a &#x60;DeviceType&#x60;</param>
+            <param name="groupSlug">Unique name of a &#x60;FieldGroup&#x60;</param>
+        </member>
+        <member name="M:HwInf.Controllers.CustomFieldsController.PutFieldGroups(System.String,HwInf.ViewModels.FieldGroupViewModel)">
+            <summary>
+            Update FieldGroup
+            </summary>
+            <remarks>Update a &#x60;FieldGroup&#x60;. A &#x60;Fieldgroup&#x60; represents a component of a &#x60;Device&#x60; (e.g: CPU, GPU, OS).</remarks>
+            <param name="slug">Unique name of a &#x60;FieldGroup&#x60;</param>
+            <param name="vmdl">Updated &#x60;FieldGroup&#x60; as &#x60;FieldGroupViewModel&#x60;</param>
+            <response code="500">An error occured, please read log files</response>
+            <response code="400">An error occured, slug and vmdl.slug have to be equivalent</response>
+            <response code="404">An error occured, &#x60;FieldGroup&#x60; not found</response>
+            <response code="200"></response>
+        </member>
+        <member name="M:HwInf.Controllers.CustomFieldsController.GetFieldGroupsUsedFields">
+            <summary>
+            Get FieldGroups with used Field
+            </summary>
+            <remarks>
+            Used for the filter.
+            Only returns &#x60;Fields&#x60; of a &#x60;FieldGroup&#x60; which have a &#x60;Device&#x60; using them.
+            </remarks>
+            <response code="500">An error occured, please read log files</response>
+            <response code="200"></response>
+        </member>
+        <member name="M:HwInf.Controllers.CustomFieldsController.GetFieldGroupsUsedFieldsType(System.String)">
+            <summary>
+            Get FieldGroups with used Fields from DeviceType
+            </summary>
+            <remarks>
+            Used for the filter.
+            Only returns &#x60;Fields&#x60; of a &#x60;FieldGroup&#x60; which have a &#x60;Device&#x60; using them for a specific &#x60;DeviceType&#x60;.
+            </remarks>
+            <param name="typeSlug">Unique name of a &#x60;DeviceType&#x60;</param>
+            <response code="500">An error occured, please read log files</response>
+            <response code="200"></response>
+        </member>
+        <member name="M:HwInf.Controllers.CustomFieldsController.DeleteFieldGroup(System.String)">
+            <summary>
+            Delete FieldGroup
+            </summary>
+            <remarks>
+            Delete a &#x60;FieldGroup&#x60;
+            &#x60;FieldGroups&#x60; are not removed from the Database if they are used by any &#x60;Device&#x60;
+            </remarks>
+            <param name="slug">Unique name for a &#x60;FieldGroup&#x60;</param>
+            <response code="500">An error occured, please read log files</response>
+            <response code="200">&#x60;FieldGroup&#x60; deleted</response>
+        </member>
+        <member name="M:HwInf.Controllers.DamagesController.GetDamages">
+            <summary>
+            Get Damages
+            </summary>
+            <remarks>
+            Returns all &#x60;Damages&#x60; which are not repaired yet.
+            </remarks>
+            <response code="200"></response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.DamagesController.GetDamage(System.Int32)">
+            <summary>
+            Get Single Damage
+            </summary>
+            <remarks>Returns a single &#x60;Damage&#x60; by ID</remarks>
+            <param name="id">Unique ID of a &#x60;Damage&#x60;</param>
+            <response code="200"></response>
+            <response code="404">An error occured, &#x60;Damage&#x60; not found</response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.DamagesController.GetDamages(System.String)">
+            <summary>
+            Get Damages by InvNum of Device
+            </summary>
+            <remarks>
+            Returns &#x60;Damages&#x60; attached to a single &#x60;Device&#x60;.
+            </remarks>
+            <param name="invNum">Unique identifier of a &#x60;Device&#x60;</param>
+            <response code="200"></response>
+            <response code="404">An error occured, &#x60;Damage&#x60; not found</response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.DamagesController.GetDamages(System.Int32)">
+            <summary>
+            Get Damages by DeviceId of Device
+            </summary>
+            <remarks>
+            Returns &#x60;Damages&#x60; attached to a single &#x60;Device&#x60;.
+            </remarks>
+            <param name="deviceid">Unique identifier of a &#x60;Device&#x60;</param>
+            <response code="200"></response>
+            <response code="404">An error occured, &#x60;Damage&#x60; not found</response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.DamagesController.GetDamageStatus">
+            <summary>
+            Get DamageStatus
+            </summary>
+            <remarks>Returns a list of &#x60;DamageStatus&#x60;</remarks>
+            <response code="200"></response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.DamagesController.PostDamage(HwInf.ViewModels.DamageViewModel)">
+            <summary>
+            Create Damage
+            </summary>
+            <remarks>Creates a new &#x60;Damage&#x60;. &#x60;Damages&#x60; are attached to &#x60;Devices&#x60; an show their current condition</remarks>
+            <param name="vmdl">Damage as &#x60;DamageViewModel&#x60;</param>
+            <response code="200"></response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.DamagesController.PutDamage(System.Int32,HwInf.ViewModels.DamageViewModel)">
+            <summary>
+            Update Damage
+            </summary>
+            <remarks>Updates a &#x60;Damage&#x60;</remarks>
+            <param name="id">Unique identifier of a &#x60;Damage&#x60;</param>
+            <param name="vmdl">Updated Damage as &#x60;DamageViewModel&#x60;</param>
+            <response code="200"></response>
+            <response code="400">An error occured, id and vmdl.DamageId must be equal</response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.DevicesController.GetDeviceStatuses">
+            <summary>
+            Get DeviceStatus
+            </summary>
+            <remarks>Returns a list of &#x60;DeviceStatus&#x60;</remarks>
+            <response code="200"></response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.DevicesController.GetAll(System.Int32,System.Int32)">
+            <summary>
+            Get all Devices
+            </summary>
+            <remarks>
+            Returns a List of all &#x60;Devices&#x60;. 
+            Can be paged with limit and offset.
+            </remarks>
+            <param name="limit">Limit</param>
+            <param name="offset">Offset</param>
+            <response code="200"></response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.DevicesController.GetSearch(System.String,System.Int32,System.Int32)">
+            <summary>
+            Search Devices
+            </summary>
+            <remarks>
+            Search for &#x60;Devices&#x60;. Looks into Name and Brand
+            Can be paged with limit and offset.
+            </remarks>
+            <param name="searchText">Search Query</param>
+            <param name="limit">Limit</param>
+            <param name="offset">Offset</param>
+            <response code="200"></response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.DevicesController.GetDevice(System.Int32)">
+            <summary>
+            Get Device by ID
+            </summary>
+            <remarks>Returns a &#x60;Device&#x60; by its ID</remarks>
+            <param name="id">Unique identifier of a Device</param>
+            <response code="200"></response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.DevicesController.GetDevice(System.String)">
+            <summary>
+            Get Device by InvNum
+            </summary>
+            <remarks>Returns a &#x60;Device&#x60; by its unique InvNum</remarks>
+            <param name="invNum">Unique identifier of a &#x60;Device&#x60;</param>
+            <response code="200"></response>
+            <response code="404">An error occured, Device not found</response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.DevicesController.PostFilter(HwInf.ViewModels.FilterViewModel)">
+            <summary>
+            Filter Devices
+            </summary>
+            <remarks>
+            Filters the &#x60;Devices&#x60; with the given parameters.
+            Can be any Field of a &#x60;Device&#x60; (e.g: CPU, OS, GPU)
+            </remarks>
+            <param name="vmdl">Filter as FilterViewModel</param>
+            <response code="200"></response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.DevicesController.PostFilterUser(HwInf.ViewModels.FilterViewModel)">
+            <summary>
+            Filter Devices
+            </summary>
+            <remarks>
+            Filters the &#x60;Devices&#x60; with the given parameters.
+            Can be any Field of a &#x60;Device&#x60; (e.g: CPU, OS, GPU)
+            </remarks>
+            <param name="vmdl">Filter as FilterViewModel</param>
+            <response code="200"></response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.DevicesController.GetDeviceTypes(System.Boolean)">
+            <summary>
+            Get DeviceTypes
+            </summary>
+            <remarks>
+            Returns a List of all &#x60;DeviceTypes&#x60; (e.g: PC, Notebook, TV).
+            </remarks>
+            <param name="showEmptyDeviceTypes">Boolean to show &#x60;DeviceTypes&#x60; which do not contain a &#x60;Device&#x60;</param>
+            <response code="200"></response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.DevicesController.PostDevice(HwInf.ViewModels.DeviceViewModel)">
+            <summary>
+            Create Device
+            </summary>
+            <remarks>
+            Creates a new &#x60;Device&#x60;.
+            </remarks>
+            <param name="vmdl">Device as &#x60;DeviceViewModel&#x60;</param>
+            <response code="200"></response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.DevicesController.PostDeviceType(HwInf.ViewModels.DeviceTypeViewModel)">
+            <summary>
+            Create DeviceType
+            </summary>
+            <remarks>
+            Creates a New &#x60;DeviceType&#x60;</remarks>
+            <param name="vmdl">DeviceType as &#x60;DeviceTypeViewModel&#x60;</param>
+            <response code="200"></response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.DevicesController.DeleteDevice(System.Int32)">
+            <summary>
+            Delete Device
+            </summary>
+            <remarks>
+            Deletes a &#x60;Device&#x60;.
+            &#x60;Devices&#x60; are not removed from the database (Sets IsActive to 0).
+            </remarks>
+            <param name="id">Device ID</param>
+            <response code="200"></response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.DevicesController.DeleteDeviceType(System.String)">
+            <summary>
+            Delete DeviceType
+            </summary>
+            <remarks>
+            Deletes a &#x60;DeviceType&#x60;.
+            Only gets removed from the Database if not used by any &#x60;Devices&#x60;.
+            (IsActive set to 0)
+            </remarks>
+            <param name="slug">Unique name for a &#x60;DeviceType&#x60;</param>
+            <response code="200"></response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.DevicesController.PutDevice(System.Int32,HwInf.ViewModels.DeviceViewModel)">
+            <summary>
+            Update Device
+            </summary>
+            <remarks>&#x60;Updates a Device&#x60;</remarks>
+            <param name="id">Device Id</param>
+            <param name="vmdl">Device as &#x60;DeviceViewModel&#x60;</param>
+            <response code="200"></response>
+            <response code="400">An error occured, id and vmdl.DeviceId have to be equal</response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.DevicesController.PutDeviceType(System.String,HwInf.ViewModels.DeviceTypeViewModel)">
+            <summary>
+            Edit DeviceType
+            </summary>
+            <remarks>Edit a &#x60;DeviceType&#x60;</remarks>
+            <param name="slug">Unique name for a &#x60;DeviceType&#x60;</param>
+            <param name="vmdl">DeviceType as &#x60;DeviceType&#x60;</param>
+            <response code="200"></response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.DevicesController.GetAccessories">
+            <summary>
+            Get Accessories
+            </summary>
+            <remarks>Get a List of all &#x60;Accessories&#x60;</remarks>
+            <response code="200"></response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.DevicesController.GetAccessory(System.String)">
+            <summary>
+            Get Single Accessory
+            </summary>
+            <remarks>Returns a Single &#x60;Accessory&#x60; by its Slug</remarks>
+            <param name="slug">Internal name for a &#x60;Accessory&#x60; </param>
+            <response code="200"></response>
+            <response code="400">An error occured, &#x60;Accessory&#x60; not found</response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.DevicesController.PostAccessory(HwInf.ViewModels.AccessoryViewModel)">
+            <summary>
+            Create Accessory
+            </summary>
+            <remarks>Creatse a new &#x60;Accessory&#x60;</remarks>
+            <param name="vmdl">Accessory as &#x60;AccessoryViewModel&#x60;</param>
+            <response code="200"></response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.DevicesController.PutAccessory(System.String,HwInf.ViewModels.AccessoryViewModel)">
+            <summary>
+            Edit Accessory
+            </summary>
+            <remarks>Update an &#x60;Accessory&#x60;</remarks>
+            <param name="slug">Unique name of an &#x60;Accessory&#x60;</param>
+            <param name="vmdl">Accessory as &#x60;AccessoryViewModel&#x60;</param>
+            <response code="200"></response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.DevicesController.DeleteAccessory(System.String)">
+            <summary>
+            Delete Accessory
+            </summary>
+            <remarks>Delete an &#x60;Accessory&#x60;</remarks>
+            <param name="slug">Unique name of an &#x60;Accessory&#x60;</param>
+            <response code="200"></response>
+            <response code="404">An error occured, &#x60;Accessory&#x60; not found</response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.OrdersController.PostFilter(HwInf.ViewModels.OrderFilterViewModel)">
+            <summary>
+            Filter Orders
+            </summary>
+            <remarks>
+            Returns a filtered List of &#x60;OrderListViewModel&#x60;
+            See &#x60;OrderFilterViewModel&#x60; so get available filter options
+            </remarks>
+            <response code="200"></response>
+            <response code="401">Unauthorized attempt to filter Orders</response>
+            <response code="500">An error occured, please read log files</response>
+            <param name="orderFilterViewModel">&#x60;OrderFilterViewModel&#x60;</param>
+        </member>
+        <member name="M:HwInf.Controllers.OrdersController.GetOrders">
+            <summary>
+            Get Orders
+            </summary>
+            <remarks>
+            Returns a list of all &#x60;Orders&#x60;
+            </remarks>
+            <response code="200"></response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.OrdersController.GetOrders(System.Int32)">
+            <summary>
+            Get Single Order
+            </summary>
+            <remarks>
+            Returns a single &#x60;Order&#x60;
+            </remarks>
+            <param name="orderId">Id of the &#x60;Order&#x60;</param>
+            <response code="200"></response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.OrdersController.GetOrderStatus">
+            <summary>
+            Get OrderStatus
+            </summary>
+            <returns></returns>
+            <summary>
+            Get &#x60;OrderStatus&#x60;
+            </summary>
+            <remarks>
+            Returns a List of all &#x60;OrderStatus&#x60;
+            </remarks>
+            <response code="200"></response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.OrdersController.GetOrdersGuid(System.Guid)">
+            <summary>
+            Get Single Order
+            </summary>
+            <remarks>
+            Returns a single &#x60;Order&#x60;
+            </remarks>
+            <param name="orderGuid">Guid of the &#x60;Order&#x60;</param>
+            <response code="200"></response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.OrdersController.PostOrder(HwInf.ViewModels.OrderViewModel)">
+            <summary>
+            Create Order
+            </summary>
+            <remarks>
+            Create a new Order &#x60;Order&#x60;
+            </remarks>
+            <param name="orderVmdl">&#x60;OrderViewmodel&#x60; of the new &#x60;Order&#x60;</param>
+            <response code="200"></response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.OrdersController.PutOrderAccept(HwInf.ViewModels.OrderViewModel)">
+            <summary>
+            Accept Order
+            </summary>
+            <remarks>
+            Accept a created &#x60;Order&#x60;
+            </remarks>
+            <param name="orderVmdl">&#x60;OrderViewmodel&#x60; of the &#x60;Order&#x60;</param>
+            <response code="200"></response>
+            <response code="401">Unauthorized attempt to accept an Order</response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.OrdersController.PutOrderLend(HwInf.ViewModels.OrderViewModel)">
+            <summary>
+            Lend Order
+            </summary>
+            <remarks>
+            Lend an &#x60;Order&#x60;, sets its &#x60;OrderStatus&#x60; to lent
+            </remarks>
+            <param name="orderVmdl">&#x60;OrderViewmodel&#x60; of the &#x60;Order&#x60;</param>
+            <response code="200"></response>
+            <response code="401">Unauthorized attempt to lend an Order</response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.OrdersController.PutOrderReset(HwInf.ViewModels.OrderViewModel)">
+            <summary>
+            Reset Order
+            </summary>
+            <remarks>
+            Resets an &#x60;Order&#x60;, sets its &#x60;OrderStatus&#x60; to open
+            </remarks>
+            <param name="orderVmdl">&#x60;OrderViewmodel&#x60; of the &#x60;Order&#x60;</param>
+            <response code="200"></response>
+            <response code="401">Unauthorized attempt to reset an Order</response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.OrdersController.PutOrderDecline(HwInf.ViewModels.OrderViewModel)">
+            <summary>
+            Decline Order
+            </summary>
+            <remarks>
+            Decline an &#x60;Order&#x60;, sets its &#x60;OrderStatus&#x60; to declined
+            </remarks>
+            <param name="orderVmdl">&#x60;OrderViewmodel&#x60; of the &#x60;Order&#x60;</param>
+            <response code="200"></response>
+            <response code="401">Unauthorized attempt to decline an Order</response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.OrdersController.PutOrderReturn(HwInf.ViewModels.OrderViewModel)">
+            <summary>
+            Return Order
+            </summary>
+            <remarks>
+            Return an &#x60;Order&#x60;, sets its &#x60;OrderStatus&#x60; to finished
+            </remarks>
+            <param name="orderVmdl">&#x60;OrderViewmodel&#x60; of the &#x60;Order&#x60;</param>
+            <response code="200"></response>
+            <response code="401">Unauthorized attempt to return an Order</response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.OrdersController.PutOrderAbort(HwInf.ViewModels.OrderViewModel)">
+            <summary>
+            Abort Order
+            </summary>
+            <remarks>
+            A User can abort an &#x60;Order&#x60; before it gets processed, sets its &#x60;OrderStatus&#x60; to aborted
+            </remarks>
+            <param name="orderVmdl">&#x60;OrderViewmodel&#x60; of the &#x60;Order&#x60;</param>
+            <response code="200"></response>
+            <response code="401">Unauthorized attempt to abort an Order</response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.OrdersController.PostSearchOrders(HwInf.ViewModels.OrderSearchViewModel)">
+            <summary>
+            Search Order
+            </summary>
+            <remarks>
+            Search &#x60;Orders&#x60;
+            For search parameters look at &#x60;OrderSearchViewModel&#x60;
+            </remarks>
+            <param name="orderSearchVmdl">&#x60;OrderSearchViewmodel&#x60; with search parameters</param>
+            <response code="200"></response>
+            <response code="401">Unauthorized attempt to search an Order</response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.PrintController.GetPrint(System.Guid)">
+            <summary>
+            Get contract
+            </summary>
+            <remarks>  
+            Starts the RunTime Text Template and creates the contract as PDF
+            </remarks>
+            <param name="orderGuid">&#x60;Order&#x60; guid</param>
+            <response code="200"></response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.PrintController.GetReturn(System.Guid)">
+            <summary>
+            Get return-contract
+            </summary>
+            <remarks>  
+            Starts the RunTime Text Template and creates the return-contract as PDF
+            </remarks>
+            <param name="orderGuid">&#x60;Order&#x60; guid</param>
+            <response code="200"></response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.SettingsController.GetSetting(System.String)">
+            <summary>
+            Get single Setting
+            </summary>
+            <remarks>
+            Returns a single &#x60;Setting&#x60; by its key. 
+            </remarks>
+            <param name="key">Key of the &#x60;Setting&#x60;</param>
+            <response code="200"></response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.SettingsController.GetSetting">
+            <summary>
+            Get Settings
+            </summary>
+            <remarks>
+            Returns a List of all &#x60;Settings&#x60; 
+            </remarks>
+            <response code="200"></response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.SettingsController.PostSetting(HwInf.ViewModels.SettingViewModel)">
+            <summary>
+            Create single Setting
+            </summary>
+            <remarks>
+            Create a single &#x60;Setting&#x60; 
+            </remarks>
+            <param name="settingVmdl"> &#x60;SettingViewModel&#x60; of the &#x60;Setting&#x60;</param>
+            <response code="200"></response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.SettingsController.PutSetting(HwInf.ViewModels.SettingViewModel)">
+            <summary>
+            Update single Setting
+            </summary>
+            <remarks>
+            Update a single &#x60;Setting&#x60; 
+            </remarks>
+            <param name="settingVmdl"> &#x60;SettingViewModel&#x60; of the &#x60;Setting&#x60;</param>
+            <response code="200"></response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.SettingsController.PutSettings(System.Collections.Generic.List{HwInf.ViewModels.SettingViewModel})">
+            <summary>
+            Update multiple Settings
+            </summary>
+            <remarks>
+            Update multiple &#x60;Settings&#x60; at once 
+            </remarks>
+            <param name="settingVmdlList">List of &#x60;SettingViewModels&#x60;</param>
+            <response code="200"></response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.SettingsController.DeleteSetting(System.String)">
+            <summary>
+            Delete single Setting
+            </summary>
+            <remarks>
+            Delete a single &#x60;Setting&#x60; 
+            </remarks>
+            <param name="settingKey">Key of the &#x60;Setting&#x60;</param>
+            <response code="200"></response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.SettingsController.GetLog">
+            <summary>
+            Get Log
+            </summary>
+            <remarks>
+            Returns the current LogFile as a string array
+            </remarks>
+            <response code="200"></response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.UsersController.GetPersonByUid">
+            <summary>
+            Get User information
+            </summary>
+            <remarks>
+            Returns a logged in &#x60;Users&#x60; information its Uid
+            </remarks>
+            <response code="200"></response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.UsersController.GetOwners">
+            <summary>
+            Get Owners and Admins
+            </summary>
+            <remarks>
+            Returns a List of all &#x60;Users&#x60; which are manage &#x60;Devices&#x60;
+            </remarks>
+            <response code="200"></response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.UsersController.GetAdmins">
+            <summary>
+            Get Admins
+            </summary>
+            <remarks>
+            Returns a List of all &#x60;Users&#x60; which are Admins;
+            </remarks>
+            <response code="200"></response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.UsersController.GetUsers">
+            <summary>
+            Get Users
+            </summary>
+            <remarks>
+            Returns a List of all &#x60;Users&#x60;
+            </remarks>
+            <response code="200"></response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.UsersController.PostUpdateUser(HwInf.ViewModels.UserViewModel)">
+            <summary>
+            Update User
+            </summary>
+            <remarks>
+            Updates a &#x60;User's&#x60; Phonenumber and/or assigned Room
+            </remarks>
+            <param name="userVmdl">&#x60;UserViewModel&#x60; of User</param>
+            <response code="200"></response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.UsersController.GetAddAdmin(System.String)">
+            <summary>
+            Add Admin
+            </summary>
+            <remarks>
+            Adds a &#x60;User&#x60; to the List of Admins
+            </remarks>
+            <param name="uid">Uid of &#x60;User&#x60;</param>
+            <response code="200"></response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+        <member name="M:HwInf.Controllers.UsersController.GetRemoveAdmin(System.String,System.String)">
+            <summary>
+            Remove Admin
+            </summary>
+            <remarks>
+            Removes a &#x60;User&#x60; from the List of Admins and sets his new role
+            </remarks>
+            <param name="uid">Uid of &#x60;User&#x60;</param>
+            <param name="role">Role the &#x60;User&#x60; will be assigned to</param>
+            <response code="200"></response>
+            <response code="500">An error occured, please read log files</response>
+        </member>
+    </members>
+</doc>
