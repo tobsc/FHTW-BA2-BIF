@@ -14,11 +14,13 @@
 /HwInf.Angular/obj/Debug
 /HwInf.Angular/.idea/
 /HwInf.Common/bin/Debug
+/HwInf.UnitTests/bin/Debug
 /HwInf/obj/Debug
 /packages
 /typings
 /HwInf/obj/
 /HwInf.Common/obj/
+/HwInf.UnitTests/obj/
 /HwInf/dist
 
 
