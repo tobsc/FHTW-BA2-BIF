@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>HwInf.Notifier</RootNamespace>
     <AssemblyName>HwInf.Notifier</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -72,7 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HwInf.Common\HwInf.Common.csproj">
-      <Project>{CE712F85-A9E5-40B4-A0B1-9D3787FF8A4A}</Project>
+      <Project>{ce712f85-a9e5-40b4-a0b1-9d3787ff8a4a}</Project>
       <Name>HwInf.Common</Name>
     </ProjectReference>
   </ItemGroup>

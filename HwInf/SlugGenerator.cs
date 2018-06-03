@@ -25,10 +25,6 @@ namespace HwInf
             //Replace ß with ss
             value = value.Replace("ß", "ss");
 
-            //Remove all accents
-            var bytes = Encoding.GetEncoding("Cyrillic").GetBytes(value);
-            value = Encoding.ASCII.GetString(bytes);
-
             //Replace spaces
             value = Regex.Replace(value, @"\s", "-", RegexOptions.Compiled);
 

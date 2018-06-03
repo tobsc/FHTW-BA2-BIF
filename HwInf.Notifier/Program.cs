@@ -1,9 +1,9 @@
-﻿using HwInf.Common;
-using HwInf.Common.BL;
-using HwInf.Common.DAL;
+﻿using HwInf.Common.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using HwInf.Common;
+using HwInf.Common.BL;
 using HwInf.Common.Interfaces;
 
 namespace ConsoleApplication1
