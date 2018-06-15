@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Web.Http.Results;
-using HwInf.Controllers;
-using HwInf.ViewModels;
+using HwInf.Web.Controllers;
+using HwInf.Web.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 
 namespace HwInf.UnitTests.Controllers
@@ -14,7 +14,8 @@ namespace HwInf.UnitTests.Controllers
 
         public SettingsControllerTests()
         {
-            ctr = new SettingsController(_bl);
+            ctr = new SettingsController(Bl);
+            ctr.ControllerContext = _controllerContext;
         }
 
         [Test]
@@ -34,12 +35,11 @@ namespace HwInf.UnitTests.Controllers
                     "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
             };
 
-            var obj = ctr.PostSetting(vmdl) as OkNegotiatedContentResult<SettingViewModel>;
+            var obj = (ctr.PostSetting(vmdl) as OkObjectResult)?.Value as SettingViewModel;
 
             Assert.NotNull(obj);
-            Assert.NotNull(obj.Content);
 
-            var setting = _bl.GetSetting(key);
+            var setting = Bl.GetSetting(key);
             Assert.NotNull(setting);
         }
 
@@ -54,16 +54,16 @@ namespace HwInf.UnitTests.Controllers
                     "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
             };
 
-            var obj = ctr.PostSetting(vmdl) as OkNegotiatedContentResult<SettingViewModel>;
+            var obj = (ctr.PostSetting(vmdl) as OkObjectResult)?.Value as SettingViewModel;
 
             Assert.NotNull(obj);
-            Assert.NotNull(obj.Content);
 
-            var setting = _bl.GetSetting(key);
+            var setting = Bl.GetSetting(key);
             Assert.NotNull(setting);
 
-            var badObj = ctr.PostSetting(vmdl) as BadRequestErrorMessageResult;
+            var badObj = ctr.PostSetting(vmdl) as BadRequestObjectResult;
             Assert.NotNull(badObj);
+            Assert.AreEqual(400, badObj.StatusCode);
         }
 
         [Test]
@@ -77,12 +77,9 @@ namespace HwInf.UnitTests.Controllers
                     "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
             };
 
-            var obj = ctr.PostSetting(vmdl) as OkNegotiatedContentResult<SettingViewModel>;
-
+            var obj = (ctr.PostSetting(vmdl) as OkObjectResult)?.Value as SettingViewModel;
             Assert.NotNull(obj);
-            Assert.NotNull(obj.Content);
-
-            var setting = _bl.GetSetting(key);
+            var setting = Bl.GetSetting(key);
             Assert.NotNull(setting);
 
             ctr.DeleteSetting(key);

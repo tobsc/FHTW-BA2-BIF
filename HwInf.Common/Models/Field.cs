@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace HwInf.Common.Models
 {
@@ -12,6 +13,7 @@ namespace HwInf.Common.Models
         public int FieldId { get; set; }
         public string Name { get; set; }
         public string Slug { get; set; }
+        public FieldGroup FieldGroup { get; set; }
     }
 
     [Table("FieldGroups")]
@@ -23,7 +25,9 @@ namespace HwInf.Common.Models
         public string Name { get; set; }
         public string Slug { get; set; }
         public ICollection<Field> Fields { get; set; }
-        public virtual ICollection<DeviceType> DeviceTypes { get; set; }
+        public ICollection<DeviceTypeFieldGroup> DeviceTypeFieldGroups { get; set; } = new List<DeviceTypeFieldGroup>();
+        [NotMapped]
+        public ICollection<DeviceType> DeviceTypes => DeviceTypeFieldGroups.Select(i => i.DeviceType).ToList();
         public bool IsActive { get; set; }
         public bool IsCountable { get; set; }
     }

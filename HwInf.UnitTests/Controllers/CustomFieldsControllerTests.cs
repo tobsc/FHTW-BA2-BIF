@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web.Http.Results;
-using HwInf.Controllers;
-using HwInf.ViewModels;
+using System.Security.Claims;
+using HwInf.Web.Controllers;
+using HwInf.Web.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 
 // GetGroups, GetGroupsOfDeviceType returned wrong type.
@@ -21,7 +22,8 @@ namespace HwInf.UnitTests.Controllers
         
         public CustomFieldsControllerTests()
         {
-            ctr = new CustomFieldsController(_bl);
+            ctr = new CustomFieldsController(Bl);
+            ctr.ControllerContext = _controllerContext;
         }
 
         [Test]
@@ -32,17 +34,16 @@ namespace HwInf.UnitTests.Controllers
         [Test]
         public void ctr_should_return_field_groups()
         {
-            var res = ctr.GetGroups() as OkNegotiatedContentResult<List<FieldGroupViewModel>>;
+            var res = (ctr.GetGroups() as OkObjectResult)?.Value as List<FieldGroupViewModel>;
             Assert.NotNull(res);
-            Assert.NotNull(res.Content);
         }
 
         [Test]
         public void ctr_should_return_field_groups_of_device_type()
         {
-            var res = ctr.GetGroupsOfDeviceType("pc") as OkNegotiatedContentResult<List<FieldGroupViewModel>>;
+            var res = (ctr.GetGroupsOfDeviceType("pc") as OkObjectResult)?.Value as List<FieldGroupViewModel>;
             Assert.NotNull(res);
-            Assert.True(res.Content.Any(i => i.Slug.Contains("anschluesse")));
+            Assert.True(res.Any(i => i.Slug.Contains("anschluesse")));
         }
 
         [Test]
@@ -50,9 +51,9 @@ namespace HwInf.UnitTests.Controllers
         {
             var vmdl = ControllerHelper.GetvalidFieldGroupViewModel();
             Assert.NotNull(vmdl);
-            var res = ctr.PostGroup(vmdl) as OkNegotiatedContentResult<FieldGroupViewModel>;
+            var res = (ctr.PostGroup(vmdl) as OkObjectResult)?.Value as FieldGroupViewModel;
             Assert.NotNull(res);
-            var obj = _bl.GetFieldGroups("test-1");
+            var obj = Bl.GetFieldGroup("test-1");
             Assert.True(obj.Slug.Equals(vmdl.Slug));
         }
 
@@ -62,23 +63,23 @@ namespace HwInf.UnitTests.Controllers
         {
             var vmdl = ControllerHelper.GetValidFieldViewModel();
             Assert.NotNull(vmdl);
-            var res = ctr.PostField("anschluesse", vmdl) as OkNegotiatedContentResult<FieldViewModel>;
+            var res = (ctr.PostField("anschluesse", vmdl) as OkObjectResult)?.Value as FieldViewModel;
             Assert.NotNull(res);
-            var obj = _bl.GetFieldGroups("anschluesse");
-            Assert.True(obj.Fields.Any(i => i.Slug.Equals(res.Content.Slug)));
+            var obj = Bl.GetFieldGroup("anschluesse");
+            Assert.True(obj.Fields.Any(i => i.Slug.Equals(res.Slug)));
         }
 
         [Test]
         public void ctr_should_update_fields_of_field_group()
         {
-            var obj = _bl.GetFieldGroups("prozessoren");
+            var obj = Bl.GetFieldGroup("prozessoren");
             Assert.NotNull(obj);
             var vmdl = new FieldGroupViewModel(obj);
             Assert.NotNull(vmdl);
-            vmdl.Fields.SingleOrDefault(i => i.Slug.Equals("intel-i5")).Name = "Intel Core i5";
-            var res = ctr.PutFieldGroups(vmdl.Slug, vmdl) as OkNegotiatedContentResult<FieldGroupViewModel>;
+            vmdl.Fields.SingleOrDefault(i => "intel-i5".Equals(i.Slug)).Name = "Intel Core i5";
+            var res = (ctr.PutFieldGroups(vmdl.Slug, vmdl) as OkObjectResult)?.Value as FieldGroupViewModel;
             Assert.NotNull(res);
-            var obj2 = _bl.GetFieldGroups("prozessoren");
+            var obj2 = Bl.GetFieldGroup("prozessoren");
             Assert.True(obj2.Fields.Any(i => i.Name.Equals("Intel Core i5")));
         }
 
@@ -86,14 +87,14 @@ namespace HwInf.UnitTests.Controllers
         public void ctr_should_return_only_used_fields_from_field_group()
         {
             var a = ctr.GetFieldGroupsUsedFields();
-            var res = ctr.GetFieldGroupsUsedFields() as OkNegotiatedContentResult<List<FieldGroupViewModel>>;
+            var res = (ctr.GetFieldGroupsUsedFields() as OkObjectResult)?.Value as List<FieldGroupViewModel>;
             Assert.NotNull(res);
         }
 
         [Test]
         public void ctr_should_return_only_used_fields_from_field_group_by_type()
         {
-            var res = ctr.GetFieldGroupsUsedFieldsType("pc") as OkNegotiatedContentResult<List<FieldGroupViewModel>>;
+            var res = (ctr.GetFieldGroupsUsedFieldsType("pc") as OkObjectResult)?.Value as List<FieldGroupViewModel>;
             Assert.NotNull(res);
         }
     }

@@ -1,20 +1,54 @@
 ﻿using System;
 using System.Collections.Generic;
-using HwInf.Common.Interfaces;
+using System.Collections.ObjectModel;
+using System.Globalization;
+using System.Security.Claims;
+using System.Threading;
+using HwInf.BusinessLogic;
+using HwInf.BusinessLogic.Interfaces;
 using HwInf.Common.Models;
+using HwInf.DataAccess.Interfaces;
 using HwInf.UnitTests.DAL;
-using HwInf.ViewModels;
+using HwInf.Web.ViewModels;
+using Moq;
 
 namespace HwInf.UnitTests.Controllers
 {
     public static class ControllerHelper
     {
         private static readonly IDataAccessLayer _dal = new MockDAL();
-        private static readonly Common.BL.BusinessLayer BusinessLayer;
+        private static readonly IBusinessLogicFacade _bl;
+        private static IAccessoryBusinessLogic _abl;
+        private static ICustomFieldsBusinessLogic _cbl;
+        private static IDamageBusinessLogic _dbl;
+        private static IDeviceBusinessLogic _debl;
+        private static IBusinessLogic _blbl;
+        private static IOrderBusinessLogic _obl;
+        private static ISettingBusinessLogic _sbl;
+        private static IUserBusinessLogic _ubl;
 
         static ControllerHelper()
         {
-            BusinessLayer = new Common.BL.BusinessLayer(_dal);
+            var mockPrincipal = new Mock<IBusinessLogicPrincipal>();
+            mockPrincipal.Setup(x => x.IsAllowed).Returns(true);
+            mockPrincipal.Setup(x => x.IsAdmin).Returns(true);
+            mockPrincipal.Setup(x => x.IsVerwalter).Returns(true);
+            mockPrincipal.Setup(x => x.CurrentUid).Returns("if15b032");
+            _abl = new AccessoryBusinessLogic(_dal, mockPrincipal.Object);
+            _cbl = new CustomFieldsBusinessLogic(_dal, mockPrincipal.Object);
+            _dbl = new DamageBusinessLogic(_dal, mockPrincipal.Object);
+            _debl = new DeviceBusinessLogic(_dal, mockPrincipal.Object);
+            _blbl = new BusinessLogic.BusinessLogic(_dal, mockPrincipal.Object);
+            _obl = new OrderBusinessLogic(_dal, mockPrincipal.Object);
+            _sbl = new SettingBusinessLogic(_dal, mockPrincipal.Object);
+            _ubl = new UserBusinessLogic(_dal, mockPrincipal.Object);
+            _bl = new BusinessLogicFacade(_dal, _blbl, _abl, _cbl, _dbl, _debl, _obl, _sbl, _ubl);
+
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
+            var subject = new ClaimsIdentity("Federation", ClaimTypes.Name, ClaimTypes.Role);
+            subject.AddClaim(new Claim(ClaimTypes.Role, "Admin", ClaimValueTypes.String));
+            subject.AddClaim(new Claim(ClaimTypes.Name, "if15b032", ClaimValueTypes.String));
+            Thread.CurrentPrincipal = new ClaimsPrincipal(subject);
         }
 
         public static FilterViewModel GetValidFilterViewModel(string deviceType = "", string fieldgroup = "anschluesse", string field = "vga", string metaValue = "1", string order = "ASC", int limit = 10, string orderBy = "Name")
@@ -38,11 +72,11 @@ namespace HwInf.UnitTests.Controllers
 
         public static DeviceViewModel GetValidDeviceViewModel()
         {
-            var p = BusinessLayer.GetUsers("if15b032");
+            var p = _bl.GetUsers("if15b032");
             var uvmdl = new UserViewModel(p);
-            var dt = BusinessLayer.GetDeviceType("festplatte");
+            var dt = _bl.GetDeviceType("festplatte");
             var dtvmdl = new DeviceTypeViewModel(dt);
-            var ds = BusinessLayer.GetDeviceStatus(1);
+            var ds = _bl.GetDeviceStatus(1);
             var dsvmdl = new DeviceStatusViewModel(ds);
             var vmdl = new DeviceViewModel
             {
@@ -72,7 +106,7 @@ namespace HwInf.UnitTests.Controllers
 
             var oi = new OrderItem
             {
-                Device = BusinessLayer.GetSingleDevice("a5123"),
+                Device = _bl.GetSingleDevice("a5123"),
                 Accessories = "Maus,Tastatur"
             };
 
@@ -115,14 +149,14 @@ namespace HwInf.UnitTests.Controllers
                 Date = DateTime.Now,
                 From = DateTime.Now,
                 To =  DateTime.Now,
-                Entleiher = BusinessLayer.GetUsers(BusinessLayer.GetCurrentUid()),
-                Verwalter = BusinessLayer.GetUsers(BusinessLayer.GetCurrentUid()),
+                Entleiher = _bl.GetUsers(_bl.GetCurrentUid()),
+                Verwalter = _bl.GetUsers(_bl.GetCurrentUid()),
                 OrderReason = "Unit Test",
                 OrderGuid = Guid.NewGuid(),
-                OrderStatus = BusinessLayer.GetOrderStatus("offen"),
+                OrderStatus = _bl.GetOrderStatus("offen"),
                 OrderItems = new List<OrderItem>
                 {
-                    new OrderItem { CreateDate = DateTime.Now, Device = BusinessLayer.GetSingleDevice("a5123")}
+                    new OrderItem { CreateDate = DateTime.Now, Device = _bl.GetSingleDevice("a5123")}
                 }
             };
             return obj;
@@ -133,13 +167,13 @@ namespace HwInf.UnitTests.Controllers
             var fvmdl = new FieldViewModel
             {
                 Name = "TestField",
-                Slug = SlugGenerator.GenerateSlug(BusinessLayer, "TestField", "field")
+                Slug = SlugGenerator.GenerateSlug(_bl, "TestField", "field")
             };
 
             var vmdl = new FieldGroupViewModel
             {
                 Name = "Test",
-                Slug = SlugGenerator.GenerateSlug(BusinessLayer, "Test", "fieldGroup"),
+                Slug = SlugGenerator.GenerateSlug(_bl, "Test", "fieldGroup"),
                 Fields = new List<FieldViewModel>
                 {
                     fvmdl

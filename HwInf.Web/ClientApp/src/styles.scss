@@ -1,0 +1,147 @@
+/* You can add global styles to this file, and also import other style files */
+/* You can add global styles to this file, and also import other style files */
+
+@import "assets/stylesheets/vendor/_gentelella";
+@import "assets/stylesheets/partials/mixins";
+@import "assets/stylesheets/partials/auto-clear";
+
+html, body {
+    font-size: 16px;
+    font-family: 'Lato', sans-serif;
+    min-height: 100%;
+    background-color: #F7F7F7;
+}
+.container.body,
+.main_container,
+.right_col,
+body,
+html {
+  height: 100%;
+}
+
+.nav-md {
+  .dropdown {
+    &.active,
+    &.current_parent_menu_item {
+      @extend .active;
+      .nav.child_menu {
+        display: block;
+      }
+    }
+  }
+.open {
+  .nav.child_menu {
+    display:block;
+  }
+}
+.side-menu {
+    background-color: transparent;
+  }
+
+
+  .left_col {
+    &::before {
+      display: block;
+      content: '';
+      width: 230px;
+      position: fixed;
+      left:0;
+      bottom: 0;
+      height: 100vh;
+      background-color: #2A3F54;
+      z-index: -1;
+    }
+  }
+}
+
+.nav-sm {
+  .dropdown {
+    &.active {
+      .nav.child_menu { display: block; }
+    }
+  }
+  .left_col {
+    &::before {
+      display: block;
+      content: '';
+      width: 70px;
+      position: fixed;
+      left:0;
+      bottom: 0;
+      height: 100vh;
+      background-color: #2A3F54;
+      z-index: -1;
+    }
+  }
+}
+
+.left_col {
+  .dropdown {
+    .current_menu_item {
+      &:before {
+        background: #1ABB9C !important;
+      }
+    }
+  }
+}
+
+.accordion .panel:hover {
+  background:inherit;
+}
+
+.accordion .panel {
+  border-bottom: 1px solid #ddd !important;
+}
+
+
+// 10px gutter
+.gutter-10.row {
+  margin-right: -5px;
+  margin-left: -5px;
+}
+.gutter-10 > [class^="col-"], .gutter-10 > [class^=" col-"] {
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+.gutter-5.row {
+  margin-right: -2.5px;
+  margin-left: -2.5px;
+}
+.gutter-5 > [class^="col-"], .gutter-10 > [class^=" col-"] {
+  padding-right: 2.5px;
+  padding-left: 2.5px;
+}
+
+
+.btn {
+    margin:0;
+}
+
+ng2-auto-complete {
+  z-index: 99 !important;
+}
+
+
+.form-control {
+  z-index: 0;
+}
+
+.weiter-zurueck-btns {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.truncate {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.grayout {
+    opacity: 0.6;
+    filter: alpha(opacity = 60);
+    font-size: small;
+}

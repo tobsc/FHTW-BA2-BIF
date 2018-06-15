@@ -8,6 +8,7 @@ namespace HwInf.Common.Models
     [Table("Orders")]
    public class Order
     {
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int OrderId { get; set; }
@@ -17,8 +18,8 @@ namespace HwInf.Common.Models
         public DateTime From { get; set; }
         [Required]
         public DateTime To { get; set; }
-        public virtual Person Entleiher { get; set; }
-        public virtual Person Verwalter { get; set; }
+        public Person Entleiher { get; set; }
+        public Person Verwalter { get; set; }
         [Required]
         public ICollection<OrderItem> OrderItems { get; set; }
         [Required]
@@ -44,10 +45,11 @@ namespace HwInf.Common.Models
         public DateTime ReturnDate { get; set; }
         [Required]
         public DateTime CreateDate { get; set; }
-        public virtual Person Entleiher { get; set; }
-        public virtual Person Verwalter { get; set; }
+        public Person Entleiher { get; set; }
+        public Person Verwalter { get; set; }
         public bool IsDeclined { get; set; }
         public string Accessories { get; set; }
+        public Order Order { get; set; }
 
 
     }

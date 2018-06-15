@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -13,11 +12,11 @@ namespace HwInf.Common.Models
         public int DamageId { get; set; }
         [Required]
         public DateTime Date { get; set; }
-        public virtual Person Cause { get; set; }
-        public virtual Person Reporter { get; set; }
+        public Person Cause { get; set; }
+        public Person Reporter { get; set; }
         [Required]
         public string Description { get; set; }
-        public virtual Device Device { get; set; } 
+        public Device Device { get; set; } 
         [Required]
         public DamageStatus DamageStatus { get; set; } 
 

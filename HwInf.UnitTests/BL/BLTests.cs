@@ -3,9 +3,12 @@ using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading;
-using HwInf.Common.Interfaces;
+using HwInf.BusinessLogic;
+using HwInf.BusinessLogic.Interfaces;
 using HwInf.Common.Models;
+using HwInf.DataAccess.Interfaces;
 using HwInf.UnitTests.DAL;
+using Moq;
 using NUnit.Framework;
 
 namespace HwInf.UnitTests.BL
@@ -14,24 +17,38 @@ namespace HwInf.UnitTests.BL
     public class BLTests
     {
         private readonly IDataAccessLayer _dal = new MockDAL();
-        private readonly Common.BL.BusinessLayer _bl;
+        private readonly IBusinessLogicFacade _bl;
+        private readonly IAccessoryBusinessLogic _abl;
+        private readonly ICustomFieldsBusinessLogic _cbl;
+        private readonly IDamageBusinessLogic _dbl;
+        private readonly IDeviceBusinessLogic _debl;
+        private readonly IBusinessLogic _blbl;
+        private readonly IOrderBusinessLogic _obl;
+        private readonly ISettingBusinessLogic _sbl;
+        private readonly IUserBusinessLogic _ubl;
 
 
         public BLTests()
         {
-            _bl = new Common.BL.BusinessLayer(_dal);
-
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");           
-            var subject = new ClaimsIdentity("Federation", ClaimTypes.Name, ClaimTypes.Role);
-            subject.AddClaim(new Claim(ClaimTypes.Role, "Admin", ClaimValueTypes.String));
-            Thread.CurrentPrincipal = new ClaimsPrincipal(subject);
+            var mockPrincipal = new Mock<IBusinessLogicPrincipal>();
+            mockPrincipal.Setup(x => x.IsAllowed).Returns(true);
+            mockPrincipal.Setup(x => x.IsAdmin).Returns(true);
+            mockPrincipal.Setup(x => x.IsVerwalter).Returns(true);
+            mockPrincipal.Setup(x => x.CurrentUid).Returns("if15b032");
+            _abl = new AccessoryBusinessLogic(_dal, mockPrincipal.Object);
+            _cbl = new CustomFieldsBusinessLogic(_dal, mockPrincipal.Object);
+            _dbl = new DamageBusinessLogic(_dal, mockPrincipal.Object);
+            _debl = new DeviceBusinessLogic(_dal, mockPrincipal.Object);
+            _blbl = new BusinessLogic.BusinessLogic(_dal, mockPrincipal.Object);
+            _obl = new OrderBusinessLogic(_dal, mockPrincipal.Object);
+            _sbl = new SettingBusinessLogic(_dal, mockPrincipal.Object);
+            _ubl = new UserBusinessLogic(_dal, mockPrincipal.Object);
+            _bl = new BusinessLogicFacade(_dal, _blbl, _abl, _cbl, _dbl, _debl, _obl, _sbl, _ubl);
         }
 
         [Test]
         public void HelloWorld()
         {
-            Console.WriteLine("test");
-            Console.WriteLine(System.Threading.Thread.CurrentPrincipal.Identity.Name);
         }
 
         [Test]
@@ -236,11 +253,11 @@ namespace HwInf.UnitTests.BL
         [Test]
         public void bl_should_update_fieldGroup()
         {
-            var obj = _bl.GetFieldGroups("prozessoren");
+            var obj = _bl.GetFieldGroup("prozessoren");
             Assert.NotNull(obj);
             _bl.UpdateFieldGroup(obj);
             obj.Fields.Add(new Field {Slug = "neu"});
-            var objEdit = _bl.GetFieldGroups("prozessoren");
+            var objEdit = _bl.GetFieldGroup("prozessoren");
             Assert.NotNull(objEdit);
             var newField = objEdit.Fields.SingleOrDefault(i => i.Slug.Equals("neu"));
             Assert.NotNull(newField);
@@ -252,7 +269,7 @@ namespace HwInf.UnitTests.BL
             var s = "field";
             var obj = _bl.CreateField();
             obj.Slug = s;
-            var getObj = _bl.GetFields(s);
+            var getObj = _bl.GetField(s);
             Assert.True(obj.Equals(getObj));
         }
 
@@ -269,10 +286,10 @@ namespace HwInf.UnitTests.BL
             var s = "delete-me";
             var obj = _bl.CreateField();
             obj.Slug = s;
-            var getObj = _bl.GetFields(s);
+            var getObj = _bl.GetField(s);
             Assert.True(obj.Equals(getObj));
             _bl.DeleteField(getObj);
-            var getDel = _bl.GetFields(s);
+            var getDel = _bl.GetField(s);
             Assert.Null(getDel);
         }
 
@@ -282,7 +299,7 @@ namespace HwInf.UnitTests.BL
             var s = "fieldgroup";
             var obj = _bl.CreateFieldGroup();
             obj.Slug = s;
-            var getObj = _bl.GetFieldGroups(s);
+            var getObj = _bl.GetFieldGroup(s);
             Assert.True(obj.Equals(getObj));
         }
 

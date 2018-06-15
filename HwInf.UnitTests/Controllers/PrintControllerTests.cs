@@ -1,4 +1,5 @@
-﻿using HwInf.Controllers;
+﻿using HwInf.Services.PdfService;
+using HwInf.Web.Controllers;
 using NUnit.Framework;
 
 namespace HwInf.UnitTests.Controllers
@@ -11,7 +12,8 @@ namespace HwInf.UnitTests.Controllers
 
         public PrintControllersTest()
         {
-            ctr = new PrintController(_bl);
+            ctr = new PrintController(Bl,null);
+            ctr.ControllerContext = _controllerContext;
         }
 
         [Test]
@@ -22,9 +24,9 @@ namespace HwInf.UnitTests.Controllers
         [Test]
         public void ctr_should_return_contract_pdf()
         {
-            var obj = _bl.CreateOrder();
+            var obj = Bl.CreateOrder();
             var vmdl = ControllerHelper.GetValidOrderViewModel();
-            vmdl.ApplyChanges(obj, _bl);
+            vmdl.ApplyChanges(obj, Bl);
             var res = ctr.GetPrint(obj.OrderGuid);
             Assert.NotNull(res);
             Assert.NotNull(res.GetType().Name.Equals("document/pdf"));
@@ -33,9 +35,9 @@ namespace HwInf.UnitTests.Controllers
         [Test]
         public void ctr_should_return_return_pdf()
         {
-            var obj = _bl.CreateOrder();
+            var obj = Bl.CreateOrder();
             var vmdl = ControllerHelper.GetValidOrderViewModel();
-            vmdl.ApplyChanges(obj, _bl);
+            vmdl.ApplyChanges(obj, Bl);
             var res = ctr.GetReturn(obj.OrderGuid);
             Assert.NotNull(res);
             Assert.NotNull(res.GetType().Name.Equals("document/pdf"));

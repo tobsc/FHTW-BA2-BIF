@@ -1,0 +1,149 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit(form, $event)">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="x_panel">
+        <div class="x_title">
+          <h2>Geräte Details</h2>
+          <div class="clearfix"></div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-md-6">
+              <div class="form-group" formGroupName="DeviceType">
+                  <label for="type">
+                      Typ*
+                  </label>
+                  <select id="type" class="form-control" (ngModelChange)="onSelectedTypeChange($event)" formControlName="Slug">
+                      <option *ngFor="let deviceType of deviceTypes | async; let i = index" [selected]="i == 0" [ngValue]="deviceType.Slug">
+                          {{deviceType.Name}}
+                      </option>
+                  </select>
+              </div>
+
+            <div class="form-group">
+              <label htmlFor="Marke">
+                Marke
+              </label>
+              <input id="Marke" name="Marke" class="form-control" type="text" formControlName="Marke">
+            </div>
+              <div class="form-group">
+                  <label htmlFor="name">
+                      Name/Modell*
+                  </label>
+                  <input id="Name" name="Name" class="form-control" type="text" formControlName="Name">
+              </div>
+            <div class="form-group" formGroupName="Status">
+              <label for="status">
+                Status*
+              </label>
+              <select id="status" class="form-control" formControlName="StatusId">
+                <option *ngFor="let deviceStatus of deviceStatuses | async; let i = index" [selected]="deviceStatus.Description == 'Verfügbar'" [ngValue]="deviceStatus.StatusId">
+                  {{deviceStatus.Description}}
+                </option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label htmlFor="Notiz">
+                Notiz
+              </label>
+              <input id="Notiz" name="Notiz" class="form-control" type="text" formControlName="Notiz">
+            </div>
+          </div>
+          <div class="col-xs-12 col-md-6">
+            <div class="form-group">
+              <label htmlFor="Raum">
+                Raum*
+              </label>
+              <input id="Raum" name="Raum" class="form-control" type="text" formControlName="Raum">
+            </div>
+            <div class="form-group">
+              <label htmlFor="Person">
+                Verwalter*
+              </label>
+                <div class="field-select"></div>
+                    <input class="form-control" auto-complete formControlName="Person" [accept-user-input]="false" [source]="stringForDic"/>
+            </div>
+            <div class="form-group" *ngIf="feature !== 'edit' || hasInvNum()">
+                <label htmlFor="Quantity" *ngIf="hasInvNum() && feature !== 'edit'">
+                    <s>Anzahl</s>
+                </label>
+                <label htmlFor="Quantity" *ngIf="!hasInvNum()">
+                    <b>Anzahl</b>
+                </label>
+                <ui-switch id="InvNumFlag" name="InvNumFlag" formControlName="InvNumFlag" ngModel="invNumFlag" (click)="changeInvNumFlag()" *ngIf="feature !== 'edit'" size="small"></ui-switch>
+                <label htmlFor="InvNum" *ngIf="hasInvNum()">
+                    <b>Inventarnummer</b>
+                </label>
+                <label htmlFor="InvNum" *ngIf="!hasInvNum()">
+                    <s>Inventarnummer</s>
+                </label>
+                <!--<input id="InvNumFlag" name="InvNumFlag" type="checkbox" formControlName="InvNumFlag" ngModel="invNumFlag" (click)="changeInvNumFlag()" *ngIf="feature !== 'edit'"/>-->
+
+              <input id="InvNum" name="InvNum" class="form-control" type="text" formControlName="InvNum" mask="AA+AA+AAAA" placeholder="__+__+____" *ngIf="hasInvNum()">
+              <input id="Quantity" name="Quantity" class="form-control" type="number" formControlName="Quantity" placeholder="NUMBER" *ngIf="!hasInvNum()">
+            </div>
+            <div formArrayName="AdditionalInvNums">
+              <div class="form-group" *ngFor="let invNum of form.controls.AdditionalInvNums.controls; let i = index">
+                <div [formGroupName]="i">
+                  <label htmlFor="InvNum-{{i}}">
+                    {{i+2}}. Inventarnummer
+                  </label>
+                  <div class="input-group">
+                    <input id="InvNum-{{i}}" name="InvNum-{{i}}" class="form-control" type="text" formControlName="InvNum" mask="{mask: mask}" placeholder="__+__+____">
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-danger" (click)="removeInvNum(i)" style="margin-right: 0"><i class="fa fa-times" aria-hidden="true"></i></button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button *ngIf="feature !== 'edit' && hasInvNum()" class="btn btn-warning btn-xs" type="button" (click)="addInvNum()">
+              <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+              Weitere Inventarnummer hinzufügen
+            </button>
+          </div><!-- col-xs-12 col-md-6 -->
+        </div>
+      </div><!-- x_panel -->
+      <div class="form-group" formArrayName="FieldGroups">
+        <div class="row gutter-10 auto-clear">
+          <div class="col-xs-12 col-md-6 col-lg-4" *ngFor="let fieldGroup of form.controls.FieldGroups.controls; let i = index">
+            <div class="x_panel">
+              <div class="x_title">
+                <h2>{{fieldGroups[i].Name}}</h2>
+                <div class="clearfix"></div>
+              </div>
+
+              <div [formGroupName]="i">
+                <input type="hidden" ngModel="{{fieldGroups[i].Slug}}" formControlName="Slug">
+                <div formArrayName="Fields">
+                  <div *ngFor="let field of fieldGroup.controls.Fields.controls; let j = index">
+                    <div class="form-group" [formGroupName]="j">
+                      <div class="row">
+                        <div style="padding-right: 0" [ngClass]="{hidden: !fieldGroups[i].IsCountable, 'col-xs-3': fieldGroups[i].IsCountable}">
+                          <input min="1" class="quantity form-control" type="number" formControlName="Quantity">
+                        </div>
+                        <div [ngClass]="{'col-xs-12': !fieldGroups[i].IsCountable}">
+                          <div class="input-group">
+                            <input class="form-control" auto-complete [source]="fieldGroups[i].Fields | fieldsToArrayPipe" type="text" formControlName="Name">
+                            <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-danger" [disabled]="fieldGroup.controls.Fields.controls.length < 2" (click)="removeField(i,j)" style="margin-right: 0"><i class="fa fa-times" aria-hidden="true"></i></button>
+                                                    </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <button class="btn btn-warning btn-xs" type="button" (click)="addField(i)">
+                    <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                    Feld hinzufügen
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button type="submit" [disabled]="!form.valid" class="btn btn-success">{{buttonLabel}}</button>
+
+    </div>
+  </div>
+</form>

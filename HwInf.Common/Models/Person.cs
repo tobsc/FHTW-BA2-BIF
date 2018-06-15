@@ -19,10 +19,9 @@ namespace HwInf.Common.Models
         public string Email { get; set; }
         public string Tel { get; set; }
         [Required]
-        [Index(IsUnique = true)]
         public string Uid { get; set; }
         [Required]
-        public virtual Role Role { get; set; }
+        public Role Role { get; set; }
         public string Room { get; set; }
         public string Studiengang { get; set; }
         public int CompareTo(Person obj)

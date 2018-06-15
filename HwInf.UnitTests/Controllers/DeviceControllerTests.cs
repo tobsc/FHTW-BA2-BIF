@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Http.Results;
-using HwInf.Controllers;
-using HwInf.ViewModels;
+using HwInf.Web.Controllers;
+using HwInf.Web.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 
 namespace HwInf.UnitTests.Controllers
@@ -15,7 +15,8 @@ namespace HwInf.UnitTests.Controllers
 
         public DeviceControllerTests()
         {
-            ctr = new DevicesController(_bl);
+            ctr = new DevicesController(Bl);
+            ctr.ControllerContext = _controllerContext;
 
         }
         [Test]
@@ -26,28 +27,25 @@ namespace HwInf.UnitTests.Controllers
         [Test]
         public void ctr_should_return_single_device_by_id()
         {
-            var obj = ctr.GetDevice(1);
-            var res = obj as OkNegotiatedContentResult<DeviceViewModel>;
+            var obj = ctr.GetDevice(1) as OkObjectResult;
+            var res = obj?.Value as DeviceViewModel;
             Assert.NotNull(res);
-            Assert.NotNull(res.Content);
         }
 
         [Test]
         public void ctr_should_return_devices()
         {
-            var obj = ctr.GetAll();
-            var res = obj as OkNegotiatedContentResult<DeviceListViewModel>;
+            var obj = ctr.GetAll() as OkObjectResult;
+            var res = obj?.Value as DeviceListViewModel;
             Assert.NotNull(res);
-            Assert.NotNull(res.Content);
         }
 
         [Test]
         public void ctr_should_return_device_by_invNum()
         {
-            var obj = ctr.GetDevice("a5123");
-            var res = obj as OkNegotiatedContentResult<DeviceViewModel>;
+            var obj = ctr.GetDevice("a5123") as OkObjectResult;
+            var res = obj?.Value as DeviceViewModel;
             Assert.NotNull(res);
-            Assert.NotNull(res.Content);
         }
 
         [Test]
@@ -55,10 +53,10 @@ namespace HwInf.UnitTests.Controllers
         {
             var vmdl = ControllerHelper.GetValidFilterViewModel("pc");
 
-            var obj = ctr.PostFilter(vmdl);
-            var res = obj as OkNegotiatedContentResult<DeviceListViewModel>;
+            var obj = ctr.PostFilter(vmdl) as OkObjectResult;
+            var res = obj?.Value as DeviceListViewModel;
             Assert.NotNull(res);
-            Assert.True(res.Content.Devices.Count() == 3);
+            Assert.True(res.Devices.Count() == 3);
         }
 
         [Test]
@@ -66,10 +64,10 @@ namespace HwInf.UnitTests.Controllers
         {
             var vmdl = ControllerHelper.GetValidFilterViewModel();
 
-            var obj = ctr.PostFilter(vmdl);
-            var res = obj as OkNegotiatedContentResult<DeviceListViewModel>;
+            var obj = ctr.PostFilter(vmdl) as OkObjectResult;
+            var res = obj?.Value as DeviceListViewModel;
             Assert.NotNull(res);
-            Assert.True(res.Content.Devices.Count() == 6);
+            Assert.True(res.Devices.Count() == 6);
         }
 
         [Test]
@@ -77,10 +75,10 @@ namespace HwInf.UnitTests.Controllers
         {
             var vmdl = ControllerHelper.GetValidFilterViewModel("","prozessoren", "intel-i5");
 
-            var obj = ctr.PostFilter(vmdl);
-            var res = obj as OkNegotiatedContentResult<DeviceListViewModel>;
+            var obj = ctr.PostFilter(vmdl) as OkObjectResult;
+            var res = obj?.Value as DeviceListViewModel;
             Assert.NotNull(res);
-            Assert.True(res.Content.Devices.Count() == 3);
+            Assert.True(res.Devices.Count() == 3);
         }
 
         [Test]
@@ -88,20 +86,20 @@ namespace HwInf.UnitTests.Controllers
         {
             var vmdl = ControllerHelper.GetValidFilterViewModel("", "anschluesse", "hdmi", "8");
 
-            var obj = ctr.PostFilter(vmdl);
-            var res = obj as OkNegotiatedContentResult<DeviceListViewModel>;
+            var obj = ctr.PostFilter(vmdl) as OkObjectResult;
+            var res = obj?.Value as DeviceListViewModel;
             Assert.NotNull(res);
-            Assert.True(res.Content.Devices.Count() == 1);
+            Assert.True(res.Devices.Count() == 1);
         }
 
         [Test]
         public void ctr_should_return_deviceTypes()
         {
 
-            var obj = ctr.GetDeviceTypes();
-            var res = obj as OkNegotiatedContentResult<List<DeviceTypeViewModel>>;
+            var obj = ctr.GetDeviceTypes() as OkObjectResult;
+            var res = obj?.Value as List<DeviceTypeViewModel>;
             Assert.NotNull(res);
-            Assert.True(res.Content.Count == 4);
+            Assert.True(res.Count == 4);
         }
 
         [Test]
@@ -109,12 +107,11 @@ namespace HwInf.UnitTests.Controllers
         {
             var vmdl = ControllerHelper.GetValidDeviceViewModel();
             vmdl.InvNum = Guid.NewGuid().ToString();
-            var obj = ctr.PostDevice(vmdl);
-            var res = obj as OkNegotiatedContentResult<List<DeviceViewModel>>;
+            var obj = ctr.PostDevice(vmdl) as OkObjectResult;
+            var res = obj?.Value as List<DeviceViewModel>;
             Assert.NotNull(res);
-            Assert.NotNull(res.Content);
 
-            var d = _bl.GetDevices();
+            var d = Bl.GetDevices();
             Assert.True(d.Any(i => i.InvNum.Equals(vmdl.InvNum)));
         }
 
@@ -129,12 +126,11 @@ namespace HwInf.UnitTests.Controllers
             {
                 new AdditionalInvNumViewModel {InvNum = invNum2}
             };
-            var obj = ctr.PostDevice(vmdl);
-            var res = obj as OkNegotiatedContentResult<List<DeviceViewModel>>;
+            var obj = ctr.PostDevice(vmdl) as OkObjectResult;
+            var res = obj?.Value as List<DeviceViewModel>;
             Assert.NotNull(res);
-            Assert.NotNull(res.Content);
 
-            var d = _bl.GetDevices();
+            var d = Bl.GetDevices();
             Assert.True(d.Any(i => i.InvNum.Equals(invNum1)));
             Assert.True(d.Any(i => i.InvNum.Equals(invNum2)));
         }
@@ -145,8 +141,8 @@ namespace HwInf.UnitTests.Controllers
             var vmdl = ControllerHelper.GetInValidDeviceViewModel();
             vmdl.InvNum = Guid.NewGuid().ToString();
             var obj = ctr.PostDevice(vmdl);
-            var res = obj as InternalServerErrorResult;
-            Assert.NotNull(res);
+            var res = obj as StatusCodeResult;
+            Assert.AreEqual(500, res?.StatusCode);
         }
 
         [Test]
@@ -154,18 +150,17 @@ namespace HwInf.UnitTests.Controllers
         {
             var vmdl = ControllerHelper.GetValidDeviceViewModel();
             vmdl.InvNum = Guid.NewGuid().ToString();
-            var obj = ctr.PostDevice(vmdl);
-            var res = obj as OkNegotiatedContentResult<List<DeviceViewModel>>;
+            var obj = ctr.PostDevice(vmdl) as OkObjectResult;
+            var res = obj?.Value as List<DeviceViewModel>;
             Assert.NotNull(res);
-            Assert.NotNull(res.Content);
 
-            var d = _bl.GetSingleDevice(vmdl.InvNum);
+            var d = Bl.GetSingleDevice(vmdl.InvNum);
             Assert.True(d.InvNum.Equals(vmdl.InvNum));
 
-            var deviceToDelete = _bl.GetSingleDevice(vmdl.InvNum);
+            var deviceToDelete = Bl.GetSingleDevice(vmdl.InvNum);
             deviceToDelete.DeviceId = 1010;
             ctr.DeleteDevice(deviceToDelete.DeviceId);
-            var deletedDevice = _bl.GetSingleDevice(vmdl.InvNum);
+            var deletedDevice = Bl.GetSingleDevice(vmdl.InvNum);
             Assert.True(deletedDevice.IsActive.Equals(false));
         }
 
@@ -173,31 +168,29 @@ namespace HwInf.UnitTests.Controllers
         public void ctr_should_delete_deviceType()
         {
             var s = "delete-me";
-            var obj = _bl.CreateDeviceType();
+            var obj = Bl.CreateDeviceType();
             obj.Slug = s;
-            var getObj = _bl.GetDeviceType(s);
+            var getObj = Bl.GetDeviceType(s);
             Assert.NotNull(getObj);
 
             ctr.DeleteDeviceType("delete-me");
-            var getDel = _bl.GetDeviceType("delete-me");
+            var getDel = Bl.GetDeviceType("delete-me");
             Assert.Null(getDel);
         }
 
         [Test]
         public void ctr_should_update_device()
         {
-            var obj = ctr.GetDevice("a5123");
-            var res = obj as OkNegotiatedContentResult<DeviceViewModel>;
+            var obj = ctr.GetDevice("a5123") as OkObjectResult;
+            var res = obj?.Value as DeviceViewModel;
             Assert.NotNull(res);
-            Assert.NotNull(res.Content);
-            var device = res.Content;
+            var device = res;
             device.DeviceId = 1011;
             device.Name = "Neuer Name";
             ctr.PutDevice(1011, device);
 
             Assert.NotNull(res);
-            Assert.NotNull(res.Content);
-            var device2 = res.Content;
+            var device2 = res;
 
             Assert.True(device2.Name.Equals("Neuer Name"));
 

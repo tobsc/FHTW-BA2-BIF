@@ -1,7 +1,6 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
+using HwInf.Common.Models;
 using HwInf.DataAccess.Context;
-using HwInf.DataAccess.Entities;
 
 namespace HwInf.DataAccess.Interfaces
 {
@@ -48,10 +47,5 @@ namespace HwInf.DataAccess.Interfaces
         void DeleteDamage(Damage damage);
         void DeleteAccessory(Accessory accessory);
         void UpdateObject(object obj);
-
-        Device AddDeviceMetaToDevice(DeviceMeta deviceMeta, HwInfContext context);
-        void AddFieldToFieldGroup(FieldGroup fieldGroup, HwInfContext context);
-        void AddDeviceTypeToFieldGroup(DeviceType deviceType, HwInfContext context);
-        void AddFieldGroupToDeviceType(FieldGroup fieldGroup, HwInfContext context);
     }
 }

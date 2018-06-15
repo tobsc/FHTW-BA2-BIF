@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using HwInf.Common.Interfaces;
 using HwInf.Common.Models;
+using HwInf.DataAccess.Interfaces;
 
 namespace HwInf.UnitTests.DAL
 {
@@ -111,11 +111,57 @@ namespace HwInf.UnitTests.DAL
             };
 
 
-             _fieldGroups = new List<FieldGroup>
+            var dtfg1 = new List<DeviceTypeFieldGroup>
             {
-                new FieldGroup {Slug = "anschluesse", Name = "Anschlüsse", Fields = _anschluesseFields.ToList(), DeviceTypes = _deviceTypes.Where(i => i.Slug == "pc" || i.Slug == "notebook" || i.Slug == "monitor").ToList()},
-                new FieldGroup {Slug = "prozessoren", Name = "Prozessoren", Fields = _prozessorenFields.ToList(), DeviceTypes = _deviceTypes.Where(i => i.Slug == "pc" || i.Slug == "notebook").ToList()},
-                new FieldGroup {Slug = "aufloesung", Name = "Auflösung", Fields = _aufloesungFields.ToList(), DeviceTypes = _deviceTypes.Where(i => i.Slug == "monitor" || i.Slug == "notebook").ToList()},
+                new DeviceTypeFieldGroup
+                {
+                    DeviceType = _deviceTypes.FirstOrDefault(i => i.Slug == "monitor"),
+                    DeviceTypeId = 1
+                },
+                new DeviceTypeFieldGroup
+                {
+                    DeviceType = _deviceTypes.FirstOrDefault(i => i.Slug == "notebook"),
+                    DeviceTypeId = 1
+                },
+                new DeviceTypeFieldGroup
+                {
+                    DeviceType = _deviceTypes.FirstOrDefault(i => i.Slug == "pc"),
+                    DeviceTypeId = 1
+                },
+            };
+
+            var dtfg2 = new List<DeviceTypeFieldGroup>
+            {
+                new DeviceTypeFieldGroup
+                {
+                    DeviceType = _deviceTypes.FirstOrDefault(i => i.Slug == "pc"),
+                    DeviceTypeId = 1
+                },
+                new DeviceTypeFieldGroup
+                {
+                    DeviceType = _deviceTypes.FirstOrDefault(i => i.Slug == "notebook"),
+                    DeviceTypeId = 1
+                },
+            };
+
+            var dtfg3 = new List<DeviceTypeFieldGroup>
+            {
+                new DeviceTypeFieldGroup
+                {
+                    DeviceType = _deviceTypes.FirstOrDefault(i => i.Slug == "monitor"),
+                    DeviceTypeId = 1
+                },
+                new DeviceTypeFieldGroup
+                {
+                    DeviceType = _deviceTypes.FirstOrDefault(i => i.Slug == "notebook"),
+                    DeviceTypeId = 1
+                }
+            };
+            _fieldGroups = new List<FieldGroup>
+            {
+                new FieldGroup {Slug = "anschluesse", Name = "Anschlüsse", Fields = _anschluesseFields.ToList(),DeviceTypeFieldGroups = dtfg1},
+                new FieldGroup {Slug = "prozessoren", Name = "Prozessoren", Fields = _prozessorenFields.ToList(), DeviceTypeFieldGroups = dtfg2},
+                new FieldGroup {Slug = "aufloesung", Name = "Auflösung", Fields = _aufloesungFields.ToList(), DeviceTypeFieldGroups = dtfg3},
             };
 
 

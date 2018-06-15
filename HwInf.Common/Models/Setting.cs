@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Data;
 
 namespace HwInf.Common.Models
 {
@@ -8,7 +7,7 @@ namespace HwInf.Common.Models
     public class Setting
     {
         [Key]
-        [Index(IsUnique = true)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string Key { get; set; }
         public string Value { get; set; }
     }

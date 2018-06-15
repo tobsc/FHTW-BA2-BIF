@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.3" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.2" />
+    <PackageReference Include="Moq" Version="4.8.3" />
     <PackageReference Include="NUnit" Version="3.10.1" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.10.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
@@ -14,8 +14,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\HwInf.BusinessLogic\HwInf.BusinessLogic.csproj" />
     <ProjectReference Include="..\HwInf.Common\HwInf.Common.csproj" />
-    <ProjectReference Include="..\HwInf\HwInf.csproj" />
+    <ProjectReference Include="..\HwInf.DataAccess\HwInf.DataAccess.csproj" />
+    <ProjectReference Include="..\HwInf.Web\HwInf.Web.csproj" />
   </ItemGroup>
 
   <ItemGroup>

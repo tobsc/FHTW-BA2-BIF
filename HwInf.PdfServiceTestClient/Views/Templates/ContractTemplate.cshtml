@@ -1,0 +1,30 @@
+﻿@model HwInf.PDFService.ViewModels.ContractViewModel
+@{
+    ViewBag.Title = "Ausleihvertrag";
+}
+
+<html>
+<head>
+    <meta charset="utf-8" />
+</head>
+<body style="font-family: sans-serif">
+<h2 style="text-align: center">Leihvertrag</h2>
+<p style="margin-left: 1cm;">Zwischen</p>
+<p style="margin-left: 2cm">
+    der Fachhochschule Technikum Wien,<br/>
+    vertreten durch eine/n MitarbeiterIn des Instituts für Informatik<br/>
+    Adresse: Höchstädtplatz 5, A-1200 Wien
+</p>
+<p style="text-align: right; margin-right: 1cm;"><strong>-VerleiherIn-</strong>
+</p>
+<p style="margin-left: 1cm;">und</p>
+<div style="margin-left: 2cm">
+    <p>Name: @Html.ValueFor(i => i.Order.Entleiher.Name) @Html.ValueFor(i => i.Order.Entleiher.LastName)</p>
+    <p>Adresse: </p>
+    <p>Personenkennzahl: @Html.ValueFor(i => i.Order.Entleiher.Uid)</p>
+    <p>Studiengang: @Html.ValueFor(i => i.Order.Entleiher.Studiengang)</p>
+    <p>Telefon: @Html.ValueFor(i => i.Order.Entleiher.Tel)</p>
+    <p>Email: @Html.ValueFor(i => i.Order.Entleiher.Email)</p>
+</div>
+</body>
+</html>
