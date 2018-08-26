@@ -4,6 +4,8 @@ using System.Security.Claims;
 using HwInf.Web.Controllers;
 using HwInf.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Moq;
 using NUnit.Framework;
 
 // GetGroups, GetGroupsOfDeviceType returned wrong type.
@@ -22,8 +24,8 @@ namespace HwInf.UnitTests.Controllers
         
         public CustomFieldsControllerTests()
         {
-            ctr = new CustomFieldsController(Bl);
-            ctr.ControllerContext = _controllerContext;
+            var log = new Mock<ILogger<CustomFieldsController>>();
+            ctr = new CustomFieldsController(Bl, log.Object) {ControllerContext = _controllerContext};
         }
 
         [Test]

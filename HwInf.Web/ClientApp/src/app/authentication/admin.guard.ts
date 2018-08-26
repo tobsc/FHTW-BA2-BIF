@@ -6,7 +6,7 @@ import { JwtService } from "../shared/services/jwt.service";
 @Injectable()
 export class AdminGuard implements CanActivate {
 
-    constructor(private router: Router, private authService: AuthService, private jwtService: JwtService) { }
+    constructor(public router: Router, public authService: AuthService, public jwtService: JwtService) { }
 
     canActivate() {
 

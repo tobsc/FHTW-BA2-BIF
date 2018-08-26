@@ -13,18 +13,18 @@ import "rxjs/Rx";
 @Injectable()
 export class AdminService {
 
-    private token: string;
-    private loggedIn: boolean = false;
-    private authUrl: string = "/api/auth/";
-    private settingsUrl: string = "/api/settings/";
-    private userUrl: string = "/api/users/";
-    private settings: Setting[];
+    public token: string;
+    public loggedIn: boolean = false;
+    public authUrl: string = "/api/auth/";
+    public settingsUrl: string = "/api/settings/";
+    public userUrl: string = "/api/users/";
+    public settings: Setting[];
 
     constructor(
-        private jwtService: JwtService,
-        private http: HttpClient,
-        private cartService: CartService,
-        private router:Router
+        public jwtService: JwtService,
+        public http: HttpClient,
+        public cartService: CartService,
+        public router:Router
     ) {
         this.token = jwtService.getToken();
     }

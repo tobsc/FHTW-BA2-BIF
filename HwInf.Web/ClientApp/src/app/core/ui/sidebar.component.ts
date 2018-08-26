@@ -18,21 +18,21 @@ import { CanActivate, Router, RouterStateSnapshot, ActivatedRouteSnapshot } from
 })
 export class SidebarComponent implements OnInit, CanActivate {
 
-    private deviceTypes: Observable<DeviceType[]>;
+    public deviceTypes: Observable<DeviceType[]>;
 
-    private verwalter : User
-    private newDevicesCount: number =0;
+    public verwalter : User
+    public newDevicesCount: number =0;
 
   constructor(
-      private deviceService: DeviceService,
-      private userService: UserService,
-      private orderService: OrderService,
-      private router: Router,
-      private adminGuard: AdminGuard,
-      private verwalterGuard: VerwalterGuard
+      public deviceService: DeviceService,
+      public userService: UserService,
+      public orderService: OrderService,
+      public router: Router,
+      public adminGuard: AdminGuard,
+      public verwalterGuard: VerwalterGuard
   ) { }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> |
+  canActivate(): Observable<boolean> | Promise<boolean> |
     boolean {
     return this.verwalterGuard.canActivate();
   }

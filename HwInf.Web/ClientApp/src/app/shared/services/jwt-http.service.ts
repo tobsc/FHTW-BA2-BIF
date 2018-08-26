@@ -13,9 +13,9 @@ import {HttpEvent} from "@angular/common/http";
  */
 @Injectable()
 export class JwtHttpService implements HttpInterceptor {
-  private authService: AuthService;
-  private pubsub: PubSubService;
-  private router: Router;
+  public authService: AuthService;
+  public pubsub: PubSubService;
+  public router: Router;
   constructor(
       router: Router,
       authService: AuthService,

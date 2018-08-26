@@ -11,9 +11,9 @@ import { Router } from "@angular/router";
 })
 export class SearchComponent implements OnInit {
 
-    constructor(private deviceService: DeviceService,
-        private pubSubSearchService: PubSubSearchService,
-        private router: Router
+    constructor(public deviceService: DeviceService,
+        public pubSubSearchService: PubSubSearchService,
+        public router: Router
     ) { }
 
     ngOnInit() {

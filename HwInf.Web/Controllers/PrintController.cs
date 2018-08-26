@@ -4,6 +4,7 @@ using HwInf.BusinessLogic.Interfaces;
 using HwInf.Services;
 using log4net;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace HwInf.Web.Controllers
 {
@@ -13,12 +14,13 @@ namespace HwInf.Web.Controllers
     {
         private readonly IBusinessLogicFacade _bl;
         private readonly IPdfService _pdfService;
-        private readonly ILog _log = LogManager.GetLogger(typeof(PrintController));
+        private readonly ILogger<PrintController> _log;
 
-        public PrintController(IBusinessLogicFacade bl, IPdfService pdfService)
+        public PrintController(IBusinessLogicFacade bl, IPdfService pdfService, ILogger<PrintController> log)
         {
             _bl = bl;
             _pdfService = pdfService;
+            _log = log;
         }
 
         /// <summary>
@@ -44,7 +46,7 @@ namespace HwInf.Web.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: '{0}'", ex);
+                _log.LogError("Exception: '{0}'", ex);
                 return StatusCode(500);
             }
         }
@@ -72,7 +74,7 @@ namespace HwInf.Web.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: '{0}'", ex);
+                _log.LogError("Exception: '{0}'", ex);
                 return StatusCode(500);
             }
         }

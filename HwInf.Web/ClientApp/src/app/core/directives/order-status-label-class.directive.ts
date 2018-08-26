@@ -6,8 +6,8 @@ import {OrderStatus} from "../../shared/models/order-status.model";
 })
 export class OrderStatusLabelClassDirective implements OnInit{
 
-  @HostBinding('class') private currentClass : string;
-  @HostBinding('style.color') private color : string = '#fff';
+  @HostBinding('class') public currentClass : string;
+  @HostBinding('style.color') public color : string = '#fff';
   @Input() orderStatus: OrderStatus;
 
   constructor() {

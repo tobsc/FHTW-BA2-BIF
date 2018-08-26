@@ -18,17 +18,17 @@ export class DeviceFilterComponent implements OnInit {
   @Input() inputFilter: Filter;
   @Output() outputFilter: EventEmitter<DeviceMeta[]> = new EventEmitter<DeviceMeta[]>();
   @Input() deviceType: DeviceType;
-  private fieldGroups: FieldGroup[];
-  private sub: Subscription;
-  private isCollapsedArr: boolean[];
-  private form: FormGroup;
-  private fieldGroupsFormArray: FormArray;
-  private count = 0;
+  public fieldGroups: FieldGroup[];
+  public sub: Subscription;
+  public isCollapsedArr: boolean[];
+  public form: FormGroup;
+  public fieldGroupsFormArray: FormArray;
+  public count = 0;
 
   constructor(
-      private customFieldsService: CustomFieldsService,
-      private route: ActivatedRoute,
-      private fb: FormBuilder
+      public customFieldsService: CustomFieldsService,
+      public route: ActivatedRoute,
+      public fb: FormBuilder
   ) { }
 
   ngOnInit() {

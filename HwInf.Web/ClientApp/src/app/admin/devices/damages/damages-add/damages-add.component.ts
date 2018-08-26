@@ -13,7 +13,7 @@ export class DamagesAddComponent {
     @Output() damageUpdated = new EventEmitter<Damage>();
 
     constructor(
-        private damageService: DamageService
+        public damageService: DamageService
     ) { }
 
 

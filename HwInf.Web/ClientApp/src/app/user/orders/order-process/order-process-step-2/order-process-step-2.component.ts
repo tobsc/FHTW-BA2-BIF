@@ -18,17 +18,17 @@ import {Filter} from "../../../../shared/models/filter.model";
 })
 export class OrderProcessStep2Component implements OnInit, OnDestroy {
 
-  private order: Order;
-  private devices: Device[];
-  private devicesWithoutInvNum: Device[];
-  private filter: Filter;
-  private accessories: Observable<Accessory[]>;
-  private cartQuantity: number = 1;
+  public order: Order;
+  public devices: Device[];
+  public devicesWithoutInvNum: Device[];
+  public filter: Filter;
+  public accessories: Observable<Accessory[]>;
+  public cartQuantity: number = 1;
   constructor(
-      private orderFormDataService: OrderFormDataService,
-      private cartService: CartService,
-      private deviceService: DeviceService,
-      private router: Router,
+      public orderFormDataService: OrderFormDataService,
+      public cartService: CartService,
+      public deviceService: DeviceService,
+      public router: Router,
       public modal: Modal
   ) { }
 

@@ -9,6 +9,7 @@ using log4net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace HwInf.Web.Controllers
 {
@@ -18,11 +19,12 @@ namespace HwInf.Web.Controllers
     public class DamagesController : Controller
     {
         private readonly IBusinessLogicFacade _bl;
-        private readonly ILog _log = LogManager.GetLogger(typeof(DamagesController));
+        private readonly ILogger<DamagesController> _log;
         
-        public DamagesController(IBusinessLogicFacade bl)
+        public DamagesController(IBusinessLogicFacade bl, ILogger<DamagesController> log)
         {
             _bl = bl;
+            _log = log;
         }
 
         /// <summary>
@@ -54,7 +56,7 @@ namespace HwInf.Web.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex);
+                _log.LogError("Exception: {0}", ex);
                 return StatusCode(500);
             }
         }
@@ -77,7 +79,7 @@ namespace HwInf.Web.Controllers
 
                 if (damage == null)
                 {
-                    _log.WarnFormat("Not Found: Order '{0}' not found", id);
+                    _log.LogWarning("Not Found: Order '{0}' not found", id);
                     return NotFound();
                 }
 
@@ -87,7 +89,7 @@ namespace HwInf.Web.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex);
+                _log.LogError("Exception: {0}", ex);
                 return StatusCode(500);
             }
         }
@@ -121,7 +123,7 @@ namespace HwInf.Web.Controllers
 
                 if (!damages.Any())
                 {
-                    _log.WarnFormat("Not Found: Damage by Device '{0}' not found", invNum);
+                    _log.LogWarning("Not Found: Damage by Device '{0}' not found", invNum);
                     return NotFound();
                 }
 
@@ -130,7 +132,7 @@ namespace HwInf.Web.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex);
+                _log.LogError("Exception: {0}", ex);
                 return StatusCode(500);
             }
         }
@@ -165,7 +167,7 @@ namespace HwInf.Web.Controllers
                 //2017-12-30 commented; if there are no damages then there should be no 404 error?
                 //if (!damages.Any())
                 //{
-                //    _log.WarnFormat("Not Found: Damage by Device '{0}' not found", invNum);
+                //    _log.LogWarning("Not Found: Damage by Device '{0}' not found", invNum);
                 //    return NotFound();
                 //}
 
@@ -175,7 +177,7 @@ namespace HwInf.Web.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex);
+                _log.LogError("Exception: {0}", ex);
                 return StatusCode(500);
             }
         }
@@ -199,7 +201,7 @@ namespace HwInf.Web.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex);
+                _log.LogError("Exception: {0}", ex);
                 return StatusCode(500);
             }
         }
@@ -228,7 +230,7 @@ namespace HwInf.Web.Controllers
                 
                 _bl.SaveChanges();
                
-                    _log.InfoFormat("Damage '{0}' created by '{1}'", vmdl.DamageId, User.Identity.Name);
+                    _log.LogInformation("Damage '{0}' created by '{1}'", vmdl.DamageId, User.Identity.Name);
 
                 vmdl.Refresh(damage);
                 return Ok(vmdl);
@@ -236,7 +238,7 @@ namespace HwInf.Web.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex);
+                _log.LogError("Exception: {0}", ex);
                 return StatusCode(500);
             }
         }
@@ -267,13 +269,13 @@ namespace HwInf.Web.Controllers
                 vmdl.Update(damage, _bl);
                 _bl.SaveChanges();
 
-                _log.InfoFormat("Damage '{0}({1})' updated by '{2}'", vmdl.DamageId, vmdl.DamageStatus, User.Identity.Name);
+                _log.LogInformation("Damage '{0}({1})' updated by '{2}'", vmdl.DamageId, vmdl.DamageStatus, User.Identity.Name);
             }
             catch (DbUpdateConcurrencyException)
             {
                 if (!_bl.DamageExists(id))
                 {
-                    _log.WarnFormat("Not Found: Damage '{0}' not found", id);
+                    _log.LogWarning("Not Found: Damage '{0}' not found", id);
                     return NotFound();
                 }
                 else
@@ -283,11 +285,11 @@ namespace HwInf.Web.Controllers
             }
             catch (SecurityException)
             {
-                _log.ErrorFormat("Security: '{0}' tried to update Device '{1}'", vmdl.DamageId);
+                _log.LogError("Security: '{0}' tried to update Device '{1}'", vmdl.DamageId);
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex);
+                _log.LogError("Exception: {0}", ex);
                 return StatusCode(500);
             }
 

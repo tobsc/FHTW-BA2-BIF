@@ -13,20 +13,20 @@ import { BehaviorSubject, Subject, Observable } from "rxjs";
 })
 export class DeviceTypesEditFormComponent implements OnInit {
 
-    private deviceType$: BehaviorSubject<DeviceType> = new BehaviorSubject<DeviceType>(new DeviceType());
-    private form: FormGroup;
-    private fieldgroups: FormArray;
-    private allgroups: FieldGroup[] = [];
+    public deviceType$: BehaviorSubject<DeviceType> = new BehaviorSubject<DeviceType>(new DeviceType());
+    public form: FormGroup;
+    public fieldgroups: FormArray;
+    public allgroups: FieldGroup[] = [];
 
     @Output() deviceTypesListUpdated = new EventEmitter<DeviceType>();
     @Input() submitButtonName: string;
     @Input()
-    private set deviceType(deviceType) {
+    public set deviceType(deviceType) {
         this.deviceType$.next(deviceType);
     }
     constructor(
-        private fb: FormBuilder,
-        private customFieldsService: CustomFieldsService,
+        public fb: FormBuilder,
+        public customFieldsService: CustomFieldsService,
     ) {
         this.customFieldsService.getFieldGroups()
             .subscribe((data) => {
@@ -95,9 +95,11 @@ export class DeviceTypesEditFormComponent implements OnInit {
     public resetForm(): void {
         this.form.reset();
         this.clearFieldGroups();
-    }
+  }
 
-    onSubmit(form: NgForm) {
+  get formData() { return <FormArray>this.form.controls.FieldGroups; }
+
+    onSubmit(form) {
         let deviceType: DeviceType = form.value;
      
         deviceType.FieldGroups.IsActive = true;

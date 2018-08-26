@@ -19,6 +19,11 @@ namespace HwInf.Web
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+            .ConfigureLogging( logging =>
+                {
+                    logging.AddFilter("Microsoft", LogLevel.Error);
+                    logging.AddFilter("System", LogLevel.Error);
+                })
                 .UseStartup<Startup>();
     }
 }

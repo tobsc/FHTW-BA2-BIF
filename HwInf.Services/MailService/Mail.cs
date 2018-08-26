@@ -4,7 +4,8 @@ using System.Net.Mail;
 using System.Text;
 using HwInf.BusinessLogic.Interfaces;
 using HwInf.Common.Models;
-using log4net;
+using HwInf.Services.Config;
+using Microsoft.Extensions.Logging;
 
 namespace HwInf.Services.MailService
 {
@@ -13,25 +14,27 @@ namespace HwInf.Services.MailService
         private SmtpClient smtpClient;
         private MailMessage mail;
         private readonly  IBusinessLogicFacade _bl;
-        private readonly ILog _log = LogManager.GetLogger(typeof(Mail));
+        private readonly ILogger<Mail> _log;
         private Order _order;
 
-        public Mail(Guid orderGuid, IBusinessLogicFacade bl)
+        public Mail(Guid orderGuid, IBusinessLogicFacade bl, ILogger<Mail> log = null)
         {
-            //slight hack... TODO: inject Mail
             _bl = bl;
+            _log = log ?? new LoggerFactory().CreateLogger<Mail>();
 
-            var un = "";
-            var pw = "";
-            var ms = "";
-            var port = 587;
+            var un = MailConfig.Current.UserName;   
+            var pw = MailConfig.Current.Password;
+            var ms = MailConfig.Current.SmtpServer;
+            var port = MailConfig.Current.Port;
 
             var cred = new NetworkCredential(un, pw);
-            smtpClient = new SmtpClient(ms, port);
-            smtpClient.UseDefaultCredentials = false;
-            smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-            smtpClient.EnableSsl = false;
-            smtpClient.Credentials = cred;
+            smtpClient = new SmtpClient(ms, port)
+            {
+                UseDefaultCredentials = false,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                EnableSsl = false,
+                Credentials = cred
+            };
 
             _order = _bl.GetOrders(orderGuid);
             string to = _order.Entleiher.Email;
@@ -134,7 +137,7 @@ namespace HwInf.Services.MailService
             }
             catch (Exception ex)
             {
-                _log.WarnFormat("Fehler beim senden" + ex);
+                _log.LogWarning("Fehler beim senden" + ex);
             }
 
         }

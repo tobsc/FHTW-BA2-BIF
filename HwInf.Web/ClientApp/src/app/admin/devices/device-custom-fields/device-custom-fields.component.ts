@@ -9,7 +9,7 @@ import {FieldGroup} from "../../../shared/models/fieldgroup.model";
 })
 export class DeviceCustomFieldsComponent implements OnInit {
 
-  @ViewChild(DeviceCustomFieldsFieldgroupsListComponent) private list: DeviceCustomFieldsFieldgroupsListComponent;
+  @ViewChild(DeviceCustomFieldsFieldgroupsListComponent) public list: DeviceCustomFieldsFieldgroupsListComponent;
 
   constructor() { }
 

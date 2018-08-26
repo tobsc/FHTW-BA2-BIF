@@ -12,9 +12,9 @@ import { Router } from "@angular/router";
 export class DeviceEditComponent implements OnInit {
 
   constructor(
-      private deviceService: DeviceService,
-      private cartService: CartService,
-      private router:Router
+      public deviceService: DeviceService,
+      public cartService: CartService,
+      public router:Router
   ) { }
 
   ngOnInit() {

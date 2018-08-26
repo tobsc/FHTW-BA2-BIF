@@ -18,25 +18,28 @@ export class DeviceCustomFieldsFieldgroupsEditComponent implements OnInit {
   
 
     @Output() deviceTypesListUpdated = new EventEmitter<DeviceType>();
-    private form: FormGroup;
-    private fields: FormArray;
+    public form: FormGroup;
+    public fields: FormArray;
 
-    private selectableFields: Field[] = [];
+    public selectableFields: Field[] = [];
 
-    private fieldGroup: FieldGroup;
-    private fieldGroups: FieldGroup[] = [];
+    public fieldGroup: FieldGroup;
+    public fieldGroups: FieldGroup[] = [];
 
 
-    private subscription: Subscription;
-    private currentFieldGroup: string;
-    private startFieldGroupName: string;
+    public subscription: Subscription;
+    public currentFieldGroup: string;
+    public startFieldGroupName: string;
 
     constructor(
-        private fb: FormBuilder,
-        private deviceService: DeviceService,
-        private customFieldsService: CustomFieldsService,
-        private route: ActivatedRoute
-    ) { }
+        public fb: FormBuilder,
+        public deviceService: DeviceService,
+        public customFieldsService: CustomFieldsService,
+        public route: ActivatedRoute
+  ) { }
+
+  get formDataF() { return <FormArray>this.form.controls.Fields; }
+
 
     ngOnInit() {
         this.route.params.subscribe((params: Params) => {
@@ -106,7 +109,7 @@ export class DeviceCustomFieldsFieldgroupsEditComponent implements OnInit {
         this.fields.removeAt(i);
     }
 
-    onSubmit(form: NgForm) {
+    onSubmit(form) {
 
         this.fieldGroup.Name = form.value.Name;
         this.fieldGroup.Fields = form.value.Fields;

@@ -10,10 +10,10 @@ import {HttpHeaders} from "@angular/common/http";
 @Injectable()
 export class OrderService {
 
-    private readonly url: string = '/api/orders/';
-    private readonly printUrl: string = "/api/print/";
+    public readonly url: string = '/api/orders/';
+    public readonly printUrl: string = "/api/print/";
 
-  constructor(private http: HttpClient) { }
+  constructor(public http: HttpClient) { }
 
 
 

@@ -9,10 +9,10 @@ import {HttpHeaders} from "@angular/common/http";
 
 @Injectable()
 export class DamageService {
-    private url: string = '/api/damages/';
+    public url: string = '/api/damages/';
 
     constructor(
-        private http: HttpClient)
+        public http: HttpClient)
     { }
 
     public getDamages(): Observable<Damage[]> {

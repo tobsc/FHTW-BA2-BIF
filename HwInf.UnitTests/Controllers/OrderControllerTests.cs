@@ -4,6 +4,8 @@ using System.Linq;
 using HwInf.Web.Controllers;
 using HwInf.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Moq;
 using NUnit.Framework;
 
 namespace HwInf.UnitTests.Controllers
@@ -15,8 +17,8 @@ namespace HwInf.UnitTests.Controllers
 
         public OrderControllerTests()
         {
-            ctr = new OrdersController(Bl);
-            ctr.ControllerContext = _controllerContext;
+            var log = new Mock<ILogger<OrdersController>>();
+            ctr = new OrdersController(Bl, log.Object) {ControllerContext = _controllerContext};
 
         }
         [Test]

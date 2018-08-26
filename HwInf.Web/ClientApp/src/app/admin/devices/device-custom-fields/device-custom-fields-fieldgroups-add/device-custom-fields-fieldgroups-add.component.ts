@@ -13,7 +13,7 @@ export class DeviceCustomFieldsFieldgroupsAddComponent {
   @Output() fieldGroupsListUpdated = new EventEmitter<FieldGroup>();
 
   constructor(
-      private customFieldsService: CustomFieldsService
+      public customFieldsService: CustomFieldsService
   ) {}
 
 

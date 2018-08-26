@@ -10,7 +10,7 @@ import "rxjs";
 export class CustomFieldsService {
 
   constructor(
-      private http: HttpClient
+      public http: HttpClient
   ) { }
 
   public addFieldGroup(body: FieldGroup): Observable<FieldGroup> {

@@ -4,10 +4,10 @@ using System.Linq;
 using System.Security;
 using HwInf.BusinessLogic.Interfaces;
 using HwInf.Web.ViewModels;
-using log4net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using MoreLinq;
 
 namespace HwInf.Web.Controllers
@@ -17,11 +17,12 @@ namespace HwInf.Web.Controllers
     public class DevicesController : Controller
     {
         private readonly IBusinessLogicFacade _bl;
-        private readonly ILog _log = LogManager.GetLogger(typeof(DevicesController));
+        private readonly ILogger<DevicesController> _log;
 
-        public DevicesController(IBusinessLogicFacade bl)
+        public DevicesController(IBusinessLogicFacade bl, ILogger<DevicesController> logger)
         {
             _bl = bl;
+            _log = logger;
         }
 
         /// <summary>
@@ -79,7 +80,7 @@ namespace HwInf.Web.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex);
+                _log.LogError("Exception: {0}", ex);
                 return StatusCode(500);
             }
         }
@@ -126,7 +127,7 @@ namespace HwInf.Web.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex);
+                _log.LogError("Exception: {0}", ex);
                 return StatusCode(500);
             }
         }
@@ -151,7 +152,7 @@ namespace HwInf.Web.Controllers
 
                 if (vmdl == null)
                 {
-                    _log.WarnFormat("Not Found: Devcie '{0}' not found", id);
+                    _log.LogWarning("Not Found: Devcie '{0}' not found", id);
                     return NotFound();
                 }
 
@@ -162,7 +163,7 @@ namespace HwInf.Web.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex);
+                _log.LogError("Exception: {0}", ex);
                 return StatusCode(500);
             }
 
@@ -189,7 +190,7 @@ namespace HwInf.Web.Controllers
 
                 if (vmdl == null)
                 {
-                    _log.WarnFormat("Not Found: Device '{0}' not found", invNum);
+                    _log.LogWarning("Not Found: Device '{0}' not found", invNum);
                     return NotFound();
                 }
 
@@ -201,7 +202,7 @@ namespace HwInf.Web.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex);
+                _log.LogError("Exception: {0}", ex);
                 return StatusCode(500);
             }
 
@@ -247,12 +248,12 @@ namespace HwInf.Web.Controllers
             }
             catch (SecurityException)
             {
-                _log.WarnFormat("'{0}' tried to list Devices as Admin/Verwalter", _bl.GetCurrentUid());
+                _log.LogWarning("'{0}' tried to list Devices as Admin/Verwalter", _bl.GetCurrentUid());
                 return Unauthorized();
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex);
+                _log.LogError("Exception: {0}", ex);
                 return StatusCode(500);
             }
         }
@@ -295,12 +296,12 @@ namespace HwInf.Web.Controllers
             }
             catch (SecurityException)
             {
-                _log.WarnFormat("'{0}' tried to list Devices as Admin/Verwalter", _bl.GetCurrentUid());
+                _log.LogWarning("'{0}' tried to list Devices as Admin/Verwalter", _bl.GetCurrentUid());
                 return Unauthorized();
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex);
+                _log.LogError("Exception: {0}", ex);
                 return StatusCode(500);
             }
         }
@@ -369,19 +370,19 @@ namespace HwInf.Web.Controllers
             }
             catch (SecurityException)
             {
-                _log.WarnFormat("Security: '{0}' tried to create Device '{1}'", _bl.GetCurrentUid(), vmdl.InvNum);
+                _log.LogWarning("Security: '{0}' tried to create Device '{1}'", _bl.GetCurrentUid(), vmdl.InvNum);
                 return Unauthorized();
             }
 
             catch (ArgumentException ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex);
+                _log.LogError("Exception: {0}", ex);
                 return BadRequest(ex.Message);
             }
 
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex);
+                _log.LogError("Exception: {0}", ex);
                 return StatusCode(500);
             }
         }
@@ -472,12 +473,12 @@ namespace HwInf.Web.Controllers
 
             _bl.SaveChanges();
 
-            _log.InfoFormat("Device '{0}({1})' added by '{2}'", vmdl.InvNum, vmdl.Name, User.Identity.Name);
+            _log.LogInformation("Device '{0}({1})' added by '{2}'", vmdl.InvNum, vmdl.Name, User.Identity);
             if (vmdl.AdditionalInvNums != null)
             {
                             foreach (var n in vmdl.AdditionalInvNums)
             {
-                _log.InfoFormat("Device '{0}({1})' added by '{2}'", n.InvNum, vmdl.Name, User.Identity.Name);
+                _log.LogInformation("Device '{0}({1})' added by '{2}'", n.InvNum, vmdl.Name, User.Identity.Name);
             }
             }
 
@@ -503,8 +504,7 @@ namespace HwInf.Web.Controllers
 
                 vmdl.ApplyChanges(dt, _bl);
                 _bl.SaveChanges();
-
-                _log.InfoFormat("DeviceType '{0}' created by '{1}'", vmdl.Name, User.Identity.Name);
+                _log.LogInformation("DeviceType '{0}' created by '{1}'", vmdl.Name, User.Identity.Name);
 
                 vmdl.Refresh(dt);
                 return Ok(vmdl);
@@ -512,13 +512,13 @@ namespace HwInf.Web.Controllers
             }
             catch (SecurityException)
             {
-                _log.WarnFormat("Security: '{0}' tried to create DeviceType '{1}'", _bl.GetCurrentUid(), vmdl.Name);
+                _log.LogWarning("Security: '{0}' tried to create DeviceType '{1}'", _bl.GetCurrentUid(), vmdl.Name);
                 return Unauthorized();
             }
 
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: '{0}'", ex);
+                _log.LogError("Exception: '{0}'", ex);
                 return StatusCode(500);
             }
         }
@@ -542,27 +542,27 @@ namespace HwInf.Web.Controllers
             {
                 if (!_bl.DeviceExists(id))
                 {
-                    _log.WarnFormat("Not Found: Device '{0}' not found", id);
+                    _log.LogWarning("Not Found: Device '{0}' not found", id);
                     return NotFound();
                 }
 
                 var d = _bl.GetSingleDevice(id);
                 _bl.DeleteDevice(d);
                 _bl.SaveChanges();
-                _log.InfoFormat("Device '{0}({1})' deleted by '{2}'", d.InvNum, d.Name, User.Identity.Name);
+                _log.LogInformation("Device '{0}({1})' deleted by '{2}'", d.InvNum, d.Name, User.Identity.Name);
 
                 return Ok(d);
 
             }
             catch (SecurityException)
             {
-                _log.WarnFormat("Security: '{0}' tried to delete Device '{1}'", _bl.GetCurrentUid(), id);
+                _log.LogWarning("Security: '{0}' tried to delete Device '{1}'", _bl.GetCurrentUid(), id);
                 return Unauthorized();
             }
 
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex);
+                _log.LogError("Exception: {0}", ex);
                 return StatusCode(500);
             }
         }
@@ -589,7 +589,7 @@ namespace HwInf.Web.Controllers
 
                 if (_bl.GetDeviceType(slug) == null)
                 {
-                    _log.WarnFormat("Not Found: DeviceType '{0}' not found", slug);
+                    _log.LogWarning("Not Found: DeviceType '{0}' not found", slug);
                     return NotFound();
                 }
                 else
@@ -597,7 +597,7 @@ namespace HwInf.Web.Controllers
                     var dt = _bl.GetDeviceType(slug);
                     _bl.DeleteDeviceType(dt);
                     _bl.SaveChanges();
-                    _log.InfoFormat("DeviceType '{0}' deleted by '{1}'", dt.Name, _bl.GetCurrentUid());
+                    _log.LogInformation("DeviceType '{0}' deleted by '{1}'", dt.Name, _bl.GetCurrentUid());
                 }
 
                 return Ok();
@@ -605,13 +605,13 @@ namespace HwInf.Web.Controllers
             }
             catch (SecurityException)
             {
-                _log.WarnFormat("Security: '{0}' tried to delete DeviceType '{1}'", _bl.GetCurrentUid(), slug);
+                _log.LogWarning("Security: '{0}' tried to delete DeviceType '{1}'", _bl.GetCurrentUid(), slug);
                 return Unauthorized();
             }
 
             catch(Exception ex)
             {
-                _log.ErrorFormat("Exception: '{0}'", ex);
+                _log.LogError("Exception: '{0}'", ex);
                 return StatusCode(500);
             }
         }
@@ -664,13 +664,13 @@ namespace HwInf.Web.Controllers
                 vmdl.ApplyChanges(dev, _bl);
                 _bl.SaveChanges();
 
-                _log.InfoFormat("Device '{0}({1})' updated by '{2}'", vmdl.InvNum, vmdl.Name, User.Identity.Name);
+                _log.LogInformation("Device '{0}({1})' updated by '{2}'", vmdl.InvNum, vmdl.Name, User.Identity.Name);
             }
             catch (DbUpdateConcurrencyException)
             {
                 if (!_bl.DeviceExists(id))
                 {
-                    _log.WarnFormat("Not Found: Device '{0}' not found", id);
+                    _log.LogWarning("Not Found: Device '{0}' not found", id);
                     return NotFound();
                 }
                 else
@@ -680,11 +680,11 @@ namespace HwInf.Web.Controllers
             }
             catch (SecurityException)
             {
-                _log.WarnFormat("Security: '{0}' tried to update Device '{1}'", User.Identity.Name, vmdl.InvNum);
+                _log.LogWarning("Security: '{0}' tried to update Device '{1}'", User.Identity.Name, vmdl.InvNum);
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex);
+                _log.LogError("Exception: {0}", ex);
                 return StatusCode(500);
             }
 
@@ -713,7 +713,7 @@ namespace HwInf.Web.Controllers
                 vmdl.ApplyChanges(dt, _bl);
                 _bl.SaveChanges();
 
-                _log.InfoFormat("DeviceType '{0}' updated by '{1}'", vmdl.Name, User.Identity.Name);
+                _log.LogInformation("DeviceType '{0}' updated by '{1}'", vmdl.Name, User.Identity.Name);
                 vmdl.Refresh(dt);
                 return Ok(vmdl);
 
@@ -722,7 +722,7 @@ namespace HwInf.Web.Controllers
             {
                 if (_bl.GetDeviceType(slug) == null)
                 {
-                    _log.WarnFormat("Not Found: DeviceType '{0}' not found", slug);
+                    _log.LogWarning("Not Found: DeviceType '{0}' not found", slug);
                     return NotFound();
                 }
                 else
@@ -732,13 +732,13 @@ namespace HwInf.Web.Controllers
             }
             catch (SecurityException)
             {
-                _log.WarnFormat("Security: '{0}' tried to update DeviceType '{1}'", _bl.GetCurrentUid(), slug);
+                _log.LogWarning("Security: '{0}' tried to update DeviceType '{1}'", _bl.GetCurrentUid(), slug);
                 return Unauthorized();
             }
 
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex);
+                _log.LogError("Exception: {0}", ex);
                 return StatusCode(500);
             }
 
@@ -767,7 +767,7 @@ namespace HwInf.Web.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex);
+                _log.LogError("Exception: {0}", ex);
                 return StatusCode(500);
             }
         }
@@ -793,7 +793,7 @@ namespace HwInf.Web.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex);
+                _log.LogError("Exception: {0}", ex);
                 return StatusCode(500);
             }
         }
@@ -825,7 +825,7 @@ namespace HwInf.Web.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex);
+                _log.LogError("Exception: {0}", ex);
                 return StatusCode(500);
             }
         }
@@ -861,7 +861,7 @@ namespace HwInf.Web.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex);
+                _log.LogError("Exception: {0}", ex);
                 return StatusCode(500);
             }
         }
@@ -895,7 +895,7 @@ namespace HwInf.Web.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex);
+                _log.LogError("Exception: {0}", ex);
                 return StatusCode(500);
             }
         }

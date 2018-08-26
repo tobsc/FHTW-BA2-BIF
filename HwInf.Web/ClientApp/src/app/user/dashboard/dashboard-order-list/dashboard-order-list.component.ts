@@ -11,15 +11,15 @@ import {isBefore} from "ngx-bootstrap/chronos/utils/date-compare";
 })
 export class DashboardOrderListComponent implements OnInit {
 
-    private orders: Order[] = [];
-    private isAscending: boolean = true;
-    private totalItems: number;
-    private orderBy: string = 'date';
-    private order: string = "DESC";
-    private filter: OrderFilter;
-    private hasMoreItems: boolean;
+    public orders: Order[] = [];
+    public isAscending: boolean = true;
+    public totalItems: number;
+    public orderBy: string = 'date';
+    public order: string = "DESC";
+    public filter: OrderFilter;
+    public hasMoreItems: boolean;
 
-    constructor(private orderService: OrderService) { }
+    constructor(public orderService: OrderService) { }
 
     ngOnInit(): void {
 

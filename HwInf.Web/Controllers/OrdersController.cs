@@ -10,6 +10,7 @@ using HwInf.Web.ViewModels;
 using log4net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace HwInf.Web.Controllers
 {
@@ -19,11 +20,12 @@ namespace HwInf.Web.Controllers
     public class OrdersController : Controller
     {
         private readonly IBusinessLogicFacade _bl;
-        private readonly ILog _log = LogManager.GetLogger(typeof(OrdersController));
+        private readonly ILogger<OrdersController> _log;
         
-        public OrdersController(IBusinessLogicFacade bl)
+        public OrdersController(IBusinessLogicFacade bl, ILogger<OrdersController> log)
         {
             _bl = bl;
+            _log = log;
         }
 
         /// <summary>
@@ -50,12 +52,12 @@ namespace HwInf.Web.Controllers
             }
             catch (SecurityException)
             {
-                _log.WarnFormat("'{0}' tried to list Admin/Verwalter View from Orders", _bl.GetCurrentUid());
+                _log.LogWarning("'{0}' tried to list Admin/Verwalter View from Orders", _bl.GetCurrentUid());
                 return Unauthorized();
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex);
+                _log.LogError("Exception: {0}", ex);
                 return StatusCode(500);
             }
         }
@@ -84,7 +86,7 @@ namespace HwInf.Web.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex);
+                _log.LogError("Exception: {0}", ex);
                 return StatusCode(500);
             }
         }
@@ -108,7 +110,7 @@ namespace HwInf.Web.Controllers
 
                 if (order == null)
                 {
-                    _log.WarnFormat("Not Found: Order '{0}' not found", orderId);
+                    _log.LogWarning("Not Found: Order '{0}' not found", orderId);
                     return NotFound();
                 }
 
@@ -118,7 +120,7 @@ namespace HwInf.Web.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex);
+                _log.LogError("Exception: {0}", ex);
                 return StatusCode(500);
             }
         }
@@ -149,7 +151,7 @@ namespace HwInf.Web.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex);
+                _log.LogError("Exception: {0}", ex);
                 return StatusCode(500);
             }
         }
@@ -174,7 +176,7 @@ namespace HwInf.Web.Controllers
 
                 if (order == null)
                 {
-                    _log.WarnFormat("Not Found: Order '{0}' not found", orderGuid);
+                    _log.LogWarning("Not Found: Order '{0}' not found", orderGuid);
                     return NotFound();
                 }
 
@@ -184,7 +186,7 @@ namespace HwInf.Web.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex);
+                _log.LogError("Exception: {0}", ex);
                 return StatusCode(500);
             }
         }
@@ -225,7 +227,7 @@ namespace HwInf.Web.Controllers
                 {
                     Task task = new Task(() => SendMail(i));
                     task.Start();
-                    _log.InfoFormat("Order '{0}' created by '{1}'", i.OrderGuid, User.Identity.Name);
+                    _log.LogInformation("Order '{0}' created by '{1}'", i.OrderGuid, User.Identity.Name);
                 });
 
                 
@@ -234,7 +236,7 @@ namespace HwInf.Web.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex);
+                _log.LogError("Exception: {0}", ex);
                 return StatusCode(500);
             }
         }
@@ -281,13 +283,13 @@ namespace HwInf.Web.Controllers
             }
             catch (SecurityException)
             {
-                _log.WarnFormat("Security: '{0}' tried to update Order '{1}'", _bl.GetCurrentUid(), orderVmdl.OrderId);
+                _log.LogWarning("Security: '{0}' tried to update Order '{1}'", _bl.GetCurrentUid(), orderVmdl.OrderId);
                 return Unauthorized();
             }
 
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: '{0}'", ex);
+                _log.LogError("Exception: '{0}'", ex);
                 return StatusCode(500);
             }
         }
@@ -319,13 +321,13 @@ namespace HwInf.Web.Controllers
             }
             catch (SecurityException)
             {
-                _log.WarnFormat("Security: '{0}' tried to update Order '{1}'", _bl.GetCurrentUid(), orderVmdl.OrderId);
+                _log.LogWarning("Security: '{0}' tried to update Order '{1}'", _bl.GetCurrentUid(), orderVmdl.OrderId);
                 return Unauthorized();
             }
 
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: '{0}'", ex);
+                _log.LogError("Exception: '{0}'", ex);
                 return StatusCode(500);
             }
         }
@@ -359,13 +361,13 @@ namespace HwInf.Web.Controllers
             }
             catch (SecurityException)
             {
-                _log.WarnFormat("Security: '{0}' tried to update Order '{1}'", _bl.GetCurrentUid(), orderVmdl.OrderId);
+                _log.LogWarning("Security: '{0}' tried to update Order '{1}'", _bl.GetCurrentUid(), orderVmdl.OrderId);
                 return Unauthorized();
             }
 
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: '{0}'", ex);
+                _log.LogError("Exception: '{0}'", ex);
                 return StatusCode(500);
             }
         }
@@ -401,13 +403,13 @@ namespace HwInf.Web.Controllers
             }
             catch (SecurityException)
             {
-                _log.WarnFormat("Security: '{0}' tried to update Order '{1}'", _bl.GetCurrentUid(), orderVmdl.OrderId);
+                _log.LogWarning("Security: '{0}' tried to update Order '{1}'", _bl.GetCurrentUid(), orderVmdl.OrderId);
                 return Unauthorized();
             }
 
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: '{0}'", ex);
+                _log.LogError("Exception: '{0}'", ex);
                 return StatusCode(500);
             }
         }
@@ -439,13 +441,13 @@ namespace HwInf.Web.Controllers
             }
             catch (SecurityException)
             {
-                _log.WarnFormat("Security: '{0}' tried to update Order '{1}'", _bl.GetCurrentUid(), orderVmdl.OrderId);
+                _log.LogWarning("Security: '{0}' tried to update Order '{1}'", _bl.GetCurrentUid(), orderVmdl.OrderId);
                 return Unauthorized();
             }
 
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: '{0}'", ex);
+                _log.LogError("Exception: '{0}'", ex);
                 return StatusCode(500);
             }
         }
@@ -470,25 +472,25 @@ namespace HwInf.Web.Controllers
                 var order = _bl.GetOrders(orderVmdl.OrderId);
                 if (!order.Entleiher.Uid.Equals(_bl.GetCurrentUid()) || !order.OrderStatus.Slug.Equals("offen"))
                 {
-                    _log.WarnFormat("'{0}' failed to abort Order '{1}'", _bl.GetCurrentUid(), orderVmdl.OrderId);
+                    _log.LogWarning("'{0}' failed to abort Order '{1}'", _bl.GetCurrentUid(), orderVmdl.OrderId);
                     return BadRequest("Der Auftrag kann nicht abgebrochen werden.");
                 }
                 orderVmdl.Abort(order, _bl);
                 _bl.SaveChanges();
-                _log.InfoFormat("'{0}' successfully aborted Order '{1}'", _bl.GetCurrentUid(), orderVmdl.OrderId);
+                _log.LogInformation("'{0}' successfully aborted Order '{1}'", _bl.GetCurrentUid(), orderVmdl.OrderId);
                 orderVmdl.Refresh(order);
 
                 return Ok(orderVmdl);
             }
             catch (SecurityException)
             {
-                _log.WarnFormat("Security: '{0}' tried to abort Order '{1}'", _bl.GetCurrentUid(), orderVmdl.OrderId);
+                _log.LogWarning("Security: '{0}' tried to abort Order '{1}'", _bl.GetCurrentUid(), orderVmdl.OrderId);
                 return Unauthorized();
             }
 
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: '{0}'", ex);
+                _log.LogError("Exception: '{0}'", ex);
                 return StatusCode(500);
             }
         }
@@ -519,13 +521,13 @@ namespace HwInf.Web.Controllers
             }
             catch (SecurityException)
             {
-                _log.WarnFormat("Security: '{0}' tried to view Orders as Admin/Verwalter'", _bl.GetCurrentUid());
+                _log.LogWarning("Security: '{0}' tried to view Orders as Admin/Verwalter'", _bl.GetCurrentUid());
                 return Unauthorized();
             }
 
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: '{0}'", ex);
+                _log.LogError("Exception: '{0}'", ex);
                 return StatusCode(500);
             }
         }
@@ -567,7 +569,7 @@ namespace HwInf.Web.Controllers
             }
             catch(Exception ex)
             {
-                _log.ErrorFormat("Exception: '{0}'", ex);
+                _log.LogError("Exception: '{0}'", ex);
             }
             
         }

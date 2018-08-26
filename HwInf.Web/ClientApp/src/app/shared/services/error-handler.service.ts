@@ -8,7 +8,7 @@ import { Error } from "../models/error.model";
 @Injectable()
 export class ErrorHandlerService {
 
-    private error = new Subject<Error>();
+    public error = new Subject<Error>();
 
     constructor() {
     }

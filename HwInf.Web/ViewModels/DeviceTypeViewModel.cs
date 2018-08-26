@@ -65,18 +65,19 @@ namespace HwInf.Web.ViewModels
                     
                 }
                 var afg = bl.GetFieldGroup("zubehor");
-                var adtfg = new DeviceTypeFieldGroup
+                if (afg != null)
                 {
-                    DeviceType = obj,
-                    DeviceTypeId = obj.TypeId,
-                    FieldGroup = afg,
-                    FieldGroupId = afg.GroupId
-                };
-                target.FieldGroups.Add(afg);
-                target.DeviceTypesFieldGroups.Add(adtfg);
-
+                    var adtfg = new DeviceTypeFieldGroup
+                    {
+                        DeviceType = obj,
+                        DeviceTypeId = obj.TypeId,
+                        FieldGroup = afg,
+                        FieldGroupId = afg.GroupId
+                    };
+                    target.FieldGroups.Add(afg);
+                    target.DeviceTypesFieldGroups.Add(adtfg);   
+                }
             }
-
             target.IsActive = source.IsActive;
 
         }

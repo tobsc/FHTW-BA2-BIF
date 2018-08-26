@@ -9,7 +9,7 @@ import { PubSubService } from './pub-sub.service';
 @Injectable()
 export class FeedbackHttpService extends Http {
 
-    private pubsub: PubSubService;
+    public pubsub: PubSubService;
 
     constructor(
         backend: ConnectionBackend,

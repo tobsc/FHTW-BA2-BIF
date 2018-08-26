@@ -6,8 +6,8 @@ import {Status} from "../../shared/models/status.model";
 })
 export class DeviceStatusLabelClassDirective implements OnInit {
 
-  @HostBinding('class') private currentClass : string;
-  @HostBinding('style.color') private color : string = '#fff';
+  @HostBinding('class') public currentClass : string;
+  @HostBinding('style.color') public color : string = '#fff';
   @Input() deviceStatus: Status;
 
   constructor() { }

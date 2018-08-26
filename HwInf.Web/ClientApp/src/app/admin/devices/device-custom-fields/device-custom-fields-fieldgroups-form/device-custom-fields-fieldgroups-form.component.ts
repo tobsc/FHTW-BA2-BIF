@@ -11,21 +11,23 @@ import {BehaviorSubject, Subject} from "rxjs";
 })
 export class DeviceCustomFieldsFieldgroupsFormComponent implements OnInit {
 
-  private fieldGroup$: Subject<FieldGroup> = new BehaviorSubject<FieldGroup>(new FieldGroup());
-  private form: FormGroup;
-  private fields: FormArray;
+  public fieldGroup$: Subject<FieldGroup> = new BehaviorSubject<FieldGroup>(new FieldGroup());
+  public form: FormGroup;
+  public fields: FormArray;
 
   @Output() fieldGroupsListUpdated = new EventEmitter<FieldGroup>();
   @Input() submitButtonName: string;
 
   @Input()
-  private set fieldGroup(fieldGroup) {
+  public set fieldGroup(fieldGroup) {
     this.fieldGroup$.next(fieldGroup);
   }
 
   constructor(
-      private fb: FormBuilder,
+      public fb: FormBuilder,
   ) {}
+
+  get formDataF() { return <FormArray>this.form.controls.Fields; }
 
   ngOnInit() {
     this.form = this.initForm();
@@ -78,7 +80,7 @@ export class DeviceCustomFieldsFieldgroupsFormComponent implements OnInit {
     this.clearFields();
   }
 
-  onSubmit(form: NgForm) {
+  onSubmit(form) {
     let fieldGroup: FieldGroup = form.value;
     fieldGroup.IsActive = true;
     this.fieldGroupsListUpdated.emit(fieldGroup);

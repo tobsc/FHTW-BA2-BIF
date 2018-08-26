@@ -14,24 +14,24 @@ import { ActivatedRoute, Params } from "@angular/router";
 })
 export class DeviceTypesEditComponent implements OnInit {
     @Output() deviceTypesListUpdated = new EventEmitter<DeviceType>();
-    private form: FormGroup;
-    private fieldGroups: FormArray;
+    public form: FormGroup;
+    public fieldGroups: FormArray;
 
-    private selectableFieldGroups: FieldGroup[] = [];
+    public selectableFieldGroups: FieldGroup[] = [];
 
-    private deviceType: DeviceType;
-    private deviceTypes: DeviceType[] = [];
+    public deviceType: DeviceType;
+    public deviceTypes: DeviceType[] = [];
 
 
-    private subscription: Subscription;
-    private currentType: string;
-    private startTypeName: string;
+    public subscription: Subscription;
+    public currentType: string;
+    public startTypeName: string;
 
     constructor(
-        private fb: FormBuilder,
-        private deviceService: DeviceService,
-        private customFieldsService: CustomFieldsService,
-        private route: ActivatedRoute
+        public fb: FormBuilder,
+        public deviceService: DeviceService,
+        public customFieldsService: CustomFieldsService,
+        public route: ActivatedRoute
     ) { }
 
     ngOnInit() {
@@ -43,7 +43,9 @@ export class DeviceTypesEditComponent implements OnInit {
 
         
 
-    }
+  }
+
+  get formData() { return <FormArray> this.form.controls.FieldGroups; }
 
     fillFormWithDeviceType(slug: string) {
         //get DeviceType via Slug
@@ -107,7 +109,7 @@ export class DeviceTypesEditComponent implements OnInit {
         this.fieldGroups.removeAt(i);
     }
 
-    onSubmit(form: NgForm) {
+    onSubmit(form) {
         
         this.deviceType.Name = form.value.Name;
 

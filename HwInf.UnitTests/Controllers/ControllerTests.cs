@@ -5,8 +5,10 @@ using HwInf.BusinessLogic;
 using HwInf.BusinessLogic.Interfaces;
 using HwInf.DataAccess.Interfaces;
 using HwInf.UnitTests.DAL;
+using log4net;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Moq;
 
 namespace HwInf.UnitTests.Controllers

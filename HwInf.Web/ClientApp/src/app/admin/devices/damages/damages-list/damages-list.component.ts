@@ -12,16 +12,16 @@ import { ActivatedRoute, Router, Params } from "@angular/router";
 })
 export class DamagesListComponent implements OnInit {
     
-    private rows: any[];
-    private damages: Damage[];
-    private deviceId: number;
-    private showDeviceInvNum: boolean = false;
-    private showDeviceName: boolean = true;
+    public rows: any[];
+    public damages: Damage[];
+    public deviceId: number;
+    public showDeviceInvNum: boolean = false;
+    public showDeviceName: boolean = true;
 
   constructor(
-      private deviceService: DeviceService,
-      private damageService: DamageService,
-      private route: ActivatedRoute,
+      public deviceService: DeviceService,
+      public damageService: DamageService,
+      public route: ActivatedRoute,
       ) { }
 
   ngOnInit() {

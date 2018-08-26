@@ -8,7 +8,7 @@ export class ClickOutsideDirective {
   @Output()
   public clickOutside = new EventEmitter();
 
-  constructor(private el: ElementRef) { }
+  constructor(public el: ElementRef) { }
 
   @HostListener('document:click', ['$event.target'])
   public onClick(targetElement) {

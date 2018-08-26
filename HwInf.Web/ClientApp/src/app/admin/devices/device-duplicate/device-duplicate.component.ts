@@ -12,8 +12,8 @@ export class DeviceDuplicateComponent implements OnInit {
 
   public alerts: any = [];
   constructor(
-      private deviceService: DeviceService,
-      private router:Router
+      public deviceService: DeviceService,
+      public router:Router
   ) { }
 
   ngOnInit() {

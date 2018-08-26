@@ -16,13 +16,13 @@ import { Modal } from 'ngx-modialog/plugins/bootstrap';
 })
 export class OrderProcessStep3Component implements OnInit {
 
-    private order: Order;
-    private devices: Device[];
+    public order: Order;
+    public devices: Device[];
   constructor(
-      private orderFormDataService: OrderFormDataService,
-      private orderService: OrderService,
-      private cartService: CartService,
-      private router: Router,
+      public orderFormDataService: OrderFormDataService,
+      public orderService: OrderService,
+      public cartService: CartService,
+      public router: Router,
       public modal: Modal
   ) { }
 
@@ -72,7 +72,7 @@ export class OrderProcessStep3Component implements OnInit {
                 <p>Das Zubehör ist in der als Anlage zu diesem Vertrag beigefügten Bestandsliste aufgeführt. Die Bestandsliste ist Bestandteil dieses Vertrages. Entleiherin oder Entleiher können nur Studierende der FH Technikum Wien sein. Ein Anspruch auf Abschluss oder Verlängerung des Leihvertrages besteht nicht. </p>
                 <p>(2) Die Leihe erfolgt im Rahmen der Ausbildung zur Unterstützung bei Projekten oder als befristete Übergangslösung.</p>
                 <h1>§ 2 Vertragsgemäßer Gebrauch, Ausschluss von der Nutzung </h1>
-                <p>(1) Das Gerät wird ausschließlich für Zwecke von Forschung, Lehre und Studium entliehen. Eine Nutzung für gewerbliche, erwerbswirtschaftliche, private oder sonstige Zwecke, die mit dem in § 1 Abs. 2 genannten Ausbildungszweck nicht vereinbar sind, ist untersagt.</p>
+                <p>(1) Das Gerät wird ausschließlich für Zwecke von Forschung, Lehre und Studium entliehen. Eine Nutzung für gewerbliche, erwerbswirtschaftliche, public oder sonstige Zwecke, die mit dem in § 1 Abs. 2 genannten Ausbildungszweck nicht vereinbar sind, ist untersagt.</p>
                 <p>(2) Eine Weitergabe bzw. Überlassung des Gebrauchs des entliehenen Gerätes an Dritte ist untersagt. Technische Ressourcen des Gerätes dürfen Dritten nicht zugänglich gemacht werden. Die auf dem Gerät installierten Programme und Software dürfen vom/von der EntleiherIn nicht kopiert werden. Der/die EntleiherIn erhält ein vorinstalliertes System und muss das System während der Leihzeit selbst administrieren. Es bestehen keine Ansprüche auf regelmäßige Wartung des Systems seitens der VerleiherIn. Eingriffe in die Hardware bzw. die Ausstattung des Gerätes durch den/die EntleiherIn sind nicht gestattet. Solange der/die EntleiherIn das Gerät ausgeliehen hat, darf er/sie eigene legal erworbene Software installieren, soweit diese zur Erfüllung des Ausbildungszweckes erforderlich ist. Die VerleiherIn übernimmt für diesen Fall jedoch keine Gewähr für die Nutzbarkeit des Geräts. </p>
                 <p> (3) Die VerleiherIn kann den/die EntleiherIn von der weiteren Nutzung des Gerätes ausschließen, wenn dieser/diese schuldhaft seinen/ihren Pflichten aus dieser Vereinbarung nicht nachkommt, das Gerät für strafbare Handlungen missbraucht oder der Fachhochschule Technikum Wien durch sonstiges rechtswidriges Nutzerverhalten Nachteile entstehen. </p>
                 <h1>§ 3 Ausgabe und Rückgabe des Gerätes</h1>

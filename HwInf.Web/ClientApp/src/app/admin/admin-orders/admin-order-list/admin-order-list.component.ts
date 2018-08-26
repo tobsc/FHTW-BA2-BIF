@@ -13,28 +13,28 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class AdminOrderListComponent implements OnInit {
 
-    private _filter = new BehaviorSubject<OrderFilter>(new OrderFilter());
-    private maxPages: number = -1;
+    public _filter = new BehaviorSubject<OrderFilter>(new OrderFilter());
+    public maxPages: number = -1;
 
     @Input()
-    private set filter(value) {
+    public set filter(value) {
         this._filter.next(value);
     };
 
-    private orders: Order[] = [];
-    private currentPage: number = 1;
-    private isAscending: boolean = true;
-    private totalItems: number;
-    private itemsPerPage: number = 10;
-    private orderBy: string = 'date';
-    private order: string = "DESC";
-    private maxSize: number = 8;
-    private myfilter: OrderFilter = new OrderFilter();
+    public orders: Order[] = [];
+    public currentPage: number = 1;
+    public isAscending: boolean = true;
+    public totalItems: number;
+    public itemsPerPage: number = 10;
+    public orderBy: string = 'date';
+    public order: string = "DESC";
+    public maxSize: number = 8;
+    public myfilter: OrderFilter = new OrderFilter();
 
     constructor(
-        private orderService: OrderService,
-        private route: ActivatedRoute,
-        private router: Router
+        public orderService: OrderService,
+        public route: ActivatedRoute,
+        public router: Router
     ) { }
 
     ngOnInit() {

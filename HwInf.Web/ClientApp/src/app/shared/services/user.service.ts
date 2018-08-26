@@ -8,12 +8,12 @@ import {HttpHeaders} from "@angular/common/http";
 
 @Injectable()
 export class UserService {
-    private url: string = '/api/users/';
-    private token: string;
+    public url: string = '/api/users/';
+    public token: string;
 
 
     constructor(
-        private http: HttpClient) {}
+        public http: HttpClient) {}
 
     public getUser(): Observable<User> {
       return this.http.get<User>(this.url + 'userdata');

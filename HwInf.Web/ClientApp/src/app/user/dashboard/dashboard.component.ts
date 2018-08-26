@@ -13,15 +13,15 @@ import {OrderItem} from "../../shared/models/order-item.model";
 })
 export class DashboardComponent implements OnInit {
 
-  private myOrders: Order[];
-  private totalItems: number;
-  private filter: OrderFilter;
+  public myOrders: Order[];
+  public totalItems: number;
+  public filter: OrderFilter;
 
-  private orderOpen: number;
-  private orderAccept: number;
-  private orderLend: number;
+  public orderOpen: number;
+  public orderAccept: number;
+  public orderLend: number;
 
-  constructor(private orderService: OrderService) { }
+  constructor(public orderService: OrderService) { }
 
   ngOnInit(): void {
 

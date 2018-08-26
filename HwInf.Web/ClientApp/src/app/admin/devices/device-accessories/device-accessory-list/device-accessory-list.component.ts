@@ -9,9 +9,9 @@ import {DeviceService} from "../../../../shared/services/device.service";
 })
 export class DeviceAccessoryListComponent implements OnInit {
 
-    private rows: any[];
+    public rows: any[];
 
-  constructor(private deviceService: DeviceService) { }
+  constructor(public deviceService: DeviceService) { }
 
   ngOnInit() {
     this.fetchData();

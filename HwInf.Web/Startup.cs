@@ -2,11 +2,13 @@ using System.Collections.Generic;
 using System.Security.Principal;
 using System.Text;
 using HwInf.BusinessLogic;
+using HwInf.BusinessLogic.Config;
 using HwInf.BusinessLogic.Interfaces;
 using HwInf.DataAccess;
 using HwInf.DataAccess.Context;
 using HwInf.DataAccess.Interfaces;
 using HwInf.Services;
+using HwInf.Services.Config;
 using HwInf.Services.MailService;
 using HwInf.Services.PdfService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -17,6 +19,7 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Swagger;
@@ -34,16 +37,16 @@ namespace HwInf.Web
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {   
+        {
             services.AddMvc()
                 .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver()); ;
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton(Configuration.GetSection("App:JWT").Get<JwtConfig>());
+            services.AddSingleton(Configuration.GetSection("Services:Mail").Get<MailConfig>());
             services.AddTransient<IPrincipal>(
                 provider => provider.GetService<IHttpContextAccessor>().HttpContext.User);
-            var connection = @"Server=127.0.0.1;Port=5432;Database=hwinf;User Id=hwinf;";
-            services.AddEntityFrameworkNpgsql().AddDbContext<HwInfContext>((options => options.UseNpgsql(connection)));
+            services.AddEntityFrameworkNpgsql().AddDbContext<HwInfContext>((options => options.UseNpgsql(Configuration["App:Connection:Value"])));
             services.AddScoped<IDataAccessLayer, DataAccessLayer>();
-
             services.AddScoped<IBusinessLogic, BusinessLogic.BusinessLogic>();
             services.AddScoped<IAccessoryBusinessLogic, AccessoryBusinessLogic>();
             services.AddScoped<ICustomFieldsBusinessLogic, CustomFieldsBusinessLogic>();
@@ -89,17 +92,17 @@ namespace HwInf.Web
                         ValidateAudience = true,
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
-                        ValidIssuer = "hwinf",
-                        ValidAudience = "hwinf",
+                        ValidIssuer = JwtConfig.Current.Issuer,
+                        ValidAudience = JwtConfig.Current.Audience,
                         IssuerSigningKey = new SymmetricSecurityKey(
-                            Encoding.UTF8.GetBytes("secretKeysecretKey"))
+                            Encoding.UTF8.GetBytes(JwtConfig.Current.SecretKey))
                     };
                     
                 });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
@@ -110,6 +113,7 @@ namespace HwInf.Web
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            loggerFactory.AddLog4Net();
             app.UseAuthentication();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();

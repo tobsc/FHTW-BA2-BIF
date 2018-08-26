@@ -10,14 +10,14 @@ import { FeedbackHttpService } from '../shared/services/feedback-http.service';
 @Injectable()
 export class AuthService {
 
-  private token: string;
-  private loggedIn: boolean = false;
-  private url: string = "/api/auth/";
+  public token: string;
+  public loggedIn: boolean = false;
+  public url: string = "/api/auth/";
 
   constructor(
-      private router: Router,
-      private jwtService: JwtService,
-      private http: FeedbackHttpService,
+      public router: Router,
+      public jwtService: JwtService,
+      public http: FeedbackHttpService,
 
   ) {
 

@@ -1,8 +1,4 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {CustomFieldsService} from "../../../shared/services/custom-fields.service";
-import {FieldGroup} from "../../../shared/models/fieldgroup.model";
-import {FormArray, FormBuilder, FormGroup, NgForm, Validators} from "@angular/forms";
-import {Field} from "../../../shared/models/field.model";
 import {DeviceAccessoryListComponent} from "./device-accessory-list/device-accessory-list.component";
 
 @Component({
@@ -12,7 +8,7 @@ import {DeviceAccessoryListComponent} from "./device-accessory-list/device-acces
 })
 export class DeviceAccessoriesComponent implements OnInit {
 
-  @ViewChild(DeviceAccessoryListComponent) private list: DeviceAccessoryListComponent;
+  @ViewChild(DeviceAccessoryListComponent) public list: DeviceAccessoryListComponent;
 
 
   constructor() {

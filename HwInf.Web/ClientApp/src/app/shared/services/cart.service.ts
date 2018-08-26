@@ -7,11 +7,11 @@ import { DeviceService } from "./device.service";
 
 @Injectable()
 export class CartService {
-    private amount: Subject<number> = new Subject<number>();
-    private items: Device[] = [];
+    public amount: Subject<number> = new Subject<number>();
+    public items: Device[] = [];
 
 
-    constructor(private router: Router, private jwtService: JwtService, private deviceService: DeviceService) {
+    constructor(public router: Router, public jwtService: JwtService, public deviceService: DeviceService) {
         if (!!localStorage.getItem('cart_list' + this.getHash(jwtService.getUid()))) {
 
             this.items = JSON.parse(localStorage.getItem('cart_list' + this.getHash(jwtService.getUid())));
@@ -62,7 +62,7 @@ export class CartService {
         this.updateData();
     }
 
-    private contains(item: Device): number {
+    public contains(item: Device): number {
         for (let i = 0; i < this.items.length; i++) {
             if (this.items[i].DeviceId == item.DeviceId) {
                 return i;
@@ -76,12 +76,12 @@ export class CartService {
         this.updateData();
     }
 
-    private updateData(): void {
+    public updateData(): void {
         this.updateLocalStorage();
         this.updateAmount();
     }
 
-    private updateLocalStorage(): void {
+    public updateLocalStorage(): void {
         localStorage.setItem('cart_list'+this.getHash(this.jwtService.getUid()), JSON.stringify(this.items));
 
     }

@@ -6,6 +6,7 @@ using HwInf.Web.ViewModels;
 using log4net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace HwInf.Web.Controllers
 {
@@ -18,11 +19,12 @@ namespace HwInf.Web.Controllers
     {
 
         private readonly IBusinessLogicFacade _bl;
-        private readonly ILog _log = LogManager.GetLogger(typeof(AuthController));
+        private readonly ILogger<AuthController> _log;
 
-        public AuthController(IBusinessLogicFacade bl)
+        public AuthController(IBusinessLogicFacade bl, ILogger<AuthController> log)
         {
             _bl = bl;
+            _log = log;
         }
 
         /// <summary>
@@ -42,7 +44,7 @@ namespace HwInf.Web.Controllers
             vmdl.Uid = vmdl.Uid.ToLower();
             if (!LDAPAuthenticator.Authenticate(vmdl.Uid, vmdl.Password).IsAuthenticated)
             {
-                _log.WarnFormat("Failed login attempt for '{0}'", vmdl.Uid);
+                _log.LogWarning("Failed login attempt for '{0}'", vmdl.Uid);
                 return Unauthorized();
             }
             Person p;

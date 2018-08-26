@@ -16,12 +16,12 @@ import "rxjs";
 @Injectable()
 export class DeviceService {
 
-    private url: string = '/api/devices/';
-    private deviceTypes: Observable<string[]> = null;
-    private deviceComponents: IDictionary<Observable<DeviceComponent[]>> = new Dictionary<Observable<DeviceComponent[]>>();
+    public url: string = '/api/devices/';
+    public deviceTypes: Observable<string[]> = null;
+    public deviceComponents: IDictionary<Observable<DeviceComponent[]>> = new Dictionary<Observable<DeviceComponent[]>>();
 
 
-    constructor(private http: HttpClient) { }
+    constructor(public http: HttpClient) { }
 
     /**
      * Returns Devices of given type

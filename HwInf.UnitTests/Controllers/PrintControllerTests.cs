@@ -1,5 +1,7 @@
 ﻿using HwInf.Services.PdfService;
 using HwInf.Web.Controllers;
+using Microsoft.Extensions.Logging;
+using Moq;
 using NUnit.Framework;
 
 namespace HwInf.UnitTests.Controllers
@@ -12,8 +14,8 @@ namespace HwInf.UnitTests.Controllers
 
         public PrintControllersTest()
         {
-            ctr = new PrintController(Bl,null);
-            ctr.ControllerContext = _controllerContext;
+            var log = new Mock<ILogger<PrintController>>();
+            ctr = new PrintController(Bl, null, log.Object) {ControllerContext = _controllerContext};
         }
 
         [Test]

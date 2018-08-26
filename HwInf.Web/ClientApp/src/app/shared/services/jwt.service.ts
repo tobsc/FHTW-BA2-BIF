@@ -4,8 +4,8 @@ import { Jwt } from '../models/jwt.model';
 @Injectable()
 export class JwtService {
 
-    private readonly TOKEN: string = "auth_token";
-    private jwt: Jwt = null;
+    public readonly TOKEN: string = "auth_token";
+    public jwt: Jwt = null;
 
   constructor() { }
 

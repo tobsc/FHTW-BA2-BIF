@@ -7,6 +7,7 @@ using HwInf.Web.ViewModels;
 using log4net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace HwInf.Web.Controllers
 {
@@ -15,12 +16,13 @@ namespace HwInf.Web.Controllers
     public class UsersController : Controller
     {
         private readonly IBusinessLogicFacade _bl;
-        private readonly ILog _log = LogManager.GetLogger(typeof(UsersController));
+        private readonly ILogger<UsersController> _log;
 
 
-        public UsersController(IBusinessLogicFacade bl)
+        public UsersController(IBusinessLogicFacade bl, ILogger<UsersController> log)
         {
             _bl = bl;
+            _log = log;
         }
 
         /// <summary>
@@ -44,7 +46,7 @@ namespace HwInf.Web.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex);
+                _log.LogError("Exception: {0}", ex);
                 return StatusCode(500);
             }
 
@@ -77,7 +79,7 @@ namespace HwInf.Web.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex);
+                _log.LogError("Exception: {0}", ex);
                 return StatusCode(500);
             }
 
@@ -111,7 +113,7 @@ namespace HwInf.Web.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex.Message);
+                _log.LogError("Exception: {0}", ex.Message);
                 return StatusCode(500);
             }
         }
@@ -143,7 +145,7 @@ namespace HwInf.Web.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex);
+                _log.LogError("Exception: {0}", ex);
                 return StatusCode(500);
             }
 
@@ -178,18 +180,18 @@ namespace HwInf.Web.Controllers
                 userVmdl.ApplyChangesTelRoom(user);
                 userVmdl.Refresh(user);
                 _bl.SaveChanges();
-                _log.InfoFormat("User '{0}' updated by '{1}'", userVmdl.Uid, User.Identity.Name);
+                _log.LogInformation("User '{0}' updated by '{1}'", userVmdl.Uid, User.Identity.Name);
 
                 return Ok(userVmdl);
             }
             catch (SecurityException)
             {
-                _log.WarnFormat("'{0}' tried to Update user '{1}'", _bl.GetCurrentUid(), userVmdl.Uid);
+                _log.LogWarning("'{0}' tried to Update user '{1}'", _bl.GetCurrentUid(), userVmdl.Uid);
                 return Unauthorized();
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex);
+                _log.LogError("Exception: {0}", ex);
                 return StatusCode(500);
             }
         }
@@ -213,13 +215,13 @@ namespace HwInf.Web.Controllers
                 var p = _bl.GetUsers(uid);
                 _bl.SetAdmin(p);
                 _bl.SaveChanges();
-                _log.InfoFormat("User '{0}' set to admin by '{1}'", p.Uid, User.Identity.Name);
+                _log.LogInformation("User '{0}' set to admin by '{1}'", p.Uid, User.Identity.Name);
 
                 return Ok();
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex);
+                _log.LogError("Exception: {0}", ex);
                 return StatusCode(500);
             }
         }
@@ -244,13 +246,13 @@ namespace HwInf.Web.Controllers
                 var p = _bl.GetUsers(uid);
                 p.Role = _bl.GetRole(role);
                 _bl.SaveChanges();
-                _log.InfoFormat("User '{0}' set to '{1}' by '{2}'", p.Uid, role, User.Identity.Name);
+                _log.LogInformation("User '{0}' set to '{1}' by '{2}'", p.Uid, role, User.Identity.Name);
 
                 return Ok();
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex);
+                _log.LogError("Exception: {0}", ex);
                 return StatusCode(500);
             }
         }

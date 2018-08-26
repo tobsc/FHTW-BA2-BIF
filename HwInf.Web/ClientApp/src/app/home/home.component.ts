@@ -13,7 +13,7 @@ export class HomeComponent implements OnInit, OnDestroy{
   }
 
     constructor(
-        private adminService: AdminService
+        public adminService: AdminService
     ) { 
         this.adminService.loadSemestreData();
     }

@@ -12,21 +12,21 @@ import { FormBuilder, FormGroup, FormArray, Validators, NgForm } from "@angular/
 })
 export class RemoveAdminComponent implements OnInit {
 
-    private users: User[];
-    private userDic: { [search: string]: User; } = {};
-    private stringForDic: string[] = [];
-    private form: FormGroup;
-    private selectedUser: User;
-    private selectedString: string;
-    private roleType;
-    private role: string = null;
+    public users: User[];
+    public userDic: { [search: string]: User; } = {};
+    public stringForDic: string[] = [];
+    public form: FormGroup;
+    public selectedUser: User;
+    public selectedString: string;
+    public roleType;
+    public role: string = null;
 
 
     constructor(
-        private userService: UserService,
-        private fb: FormBuilder,
-        private adminService: AdminService,
-        private router: Router,
+        public userService: UserService,
+        public fb: FormBuilder,
+        public adminService: AdminService,
+        public router: Router,
     ) {
         this.roleType = {
             role: "User",

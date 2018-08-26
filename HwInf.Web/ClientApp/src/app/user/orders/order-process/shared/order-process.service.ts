@@ -4,7 +4,7 @@ import {BehaviorSubject, Observable} from "rxjs";
 @Injectable()
 export class OrderProcessService {
 
-  private stati: Array<BehaviorSubject<string>> = [];
+  public stati: Array<BehaviorSubject<string>> = [];
 
   constructor() {
     this.stati.push(new BehaviorSubject<string>("selected"));

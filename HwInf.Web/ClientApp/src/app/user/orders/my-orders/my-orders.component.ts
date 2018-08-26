@@ -11,17 +11,17 @@ import {isBefore} from "ngx-bootstrap/chronos/utils/date-compare";
 })
 export class MyOrdersComponent implements OnInit {
 
-  private orders: Order[] = [];
-  private currentPage: number = 1;
-  private isAscending: boolean = true;
-  private totalItems: number;
-  private itemsPerPage: number = 25;
-  private orderBy: string = 'date';
-  private order: string = "DESC";
-  private maxSize: number = 8;
-  private filter: OrderFilter;
+  public orders: Order[] = [];
+  public currentPage: number = 1;
+  public isAscending: boolean = true;
+  public totalItems: number;
+  public itemsPerPage: number = 25;
+  public orderBy: string = 'date';
+  public order: string = "DESC";
+  public maxSize: number = 8;
+  public filter: OrderFilter;
 
-  constructor(private orderService: OrderService) {}
+  constructor(public orderService: OrderService) {}
 
   ngOnInit(): void {
 
@@ -41,9 +41,10 @@ export class MyOrdersComponent implements OnInit {
     this.orderService.getFilteredOrders(this.filter)
         .subscribe(
         data => {
-                this.orders = data.Orders.filter(i => {
-                  var dateFrom = i.ReturnDate;
-                  dateFrom.setDate(i.ReturnDate.getDate() + 7)
+          this.orders = data.Orders.filter(i => {
+            var returnDate = new Date(i.ReturnDate);
+                  var dateFrom = returnDate;
+                  dateFrom.setDate(returnDate.getDate() + 7);
                   var dateNow = new Date();
                   return (i.OrderStatus.Slug == 'abgelehnt' && isBefore(dateNow, dateFrom))
                     || i.OrderStatus.Slug != 'abgelehnt';

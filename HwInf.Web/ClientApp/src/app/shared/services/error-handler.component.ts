@@ -14,7 +14,7 @@ import { Error } from "../models/error.model";
 export class ErrorHandlerComponent implements OnInit {
     
     constructor(
-        private errorHandlerService: ErrorHandlerService,
+        public errorHandlerService: ErrorHandlerService,
         overlay: Overlay,
         vcRef: ViewContainerRef,
         public modal: Modal

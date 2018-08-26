@@ -11,10 +11,10 @@ import {FieldGroup} from "../../../../shared/models/fieldgroup.model";
 })
 export class DeviceCustomFieldsFieldgroupsListComponent implements OnInit {
 
-  private fieldGroups: FieldGroup[] = [];
-    private rows: any[];
+  public fieldGroups: FieldGroup[] = [];
+    public rows: any[];
 
-  constructor(private customFieldsService: CustomFieldsService) { }
+  constructor(public customFieldsService: CustomFieldsService) { }
 
   ngOnInit() {
     this.fetchData();

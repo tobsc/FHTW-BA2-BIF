@@ -15,27 +15,27 @@ import { ActivatedRoute, Router } from "@angular/router";
 })
 export class AdminMyOrderListComponent implements OnInit {
 
-    private tmpFilter = new OrderFilter();
-    private thisUser: User;
+    public tmpFilter = new OrderFilter();
+    public thisUser: User;
 
-    private _filter = new BehaviorSubject<OrderFilter>(this.tmpFilter);
-    private maxPages: number = -1;
+    public _filter = new BehaviorSubject<OrderFilter>(this.tmpFilter);
+    public maxPages: number = -1;
 
-    private orders: Order[] = [];
-    private currentPage: number = 1;
-    private isAscending: boolean = true;
-    private totalItems: number;
-    private itemsPerPage: number = 10;
-    private orderBy: string = 'date';
-    private order: string = "DESC";
-    private maxSize: number = 8;
-    private myfilter: OrderFilter = new OrderFilter();
+    public orders: Order[] = [];
+    public currentPage: number = 1;
+    public isAscending: boolean = true;
+    public totalItems: number;
+    public itemsPerPage: number = 10;
+    public orderBy: string = 'date';
+    public order: string = "DESC";
+    public maxSize: number = 8;
+    public myfilter: OrderFilter = new OrderFilter();
 
     constructor(
-        private userService: UserService,
-        private orderService: OrderService,
-        private route: ActivatedRoute,
-        private router: Router
+        public userService: UserService,
+        public orderService: OrderService,
+        public route: ActivatedRoute,
+        public router: Router
     ) { }
 
     ngOnInit() {

@@ -1,8 +1,8 @@
 import {IDictionary} from "./dictionary.interface";
 export class Dictionary<T> implements IDictionary<T> {
 
-  private items: { [key: string]: T } = {};
-  private _count: number = 0;
+  public items: { [key: string]: T } = {};
+  public _count: number = 0;
 
   add(key: string, value: T) {
     this.items[key] = value;

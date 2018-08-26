@@ -7,6 +7,7 @@ using HwInf.Web.ViewModels;
 using log4net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace HwInf.Web.Controllers
 {
@@ -16,12 +17,13 @@ namespace HwInf.Web.Controllers
     public class SettingsController : Controller
     {
         private readonly IBusinessLogicFacade _bl;
-        private readonly ILog _log = LogManager.GetLogger(typeof(SettingsController));
+        private readonly ILogger<SettingsController> _log;
 
 
-        public SettingsController(IBusinessLogicFacade bl)
+        public SettingsController(IBusinessLogicFacade bl, ILogger<SettingsController> log)
         {
             _bl = bl;
+            _log = log;
         }
 
 
@@ -44,7 +46,7 @@ namespace HwInf.Web.Controllers
 
                 if (setting == null)
                 {
-                    _log.WarnFormat("Not Found: Setting '{0}' not found", key);
+                    _log.LogWarning("Not Found: Setting '{0}' not found", key);
                     return NotFound();
                 }
                 var vmdl = new SettingViewModel(setting);
@@ -53,7 +55,7 @@ namespace HwInf.Web.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: '{0}'", ex);
+                _log.LogError("Exception: '{0}'", ex);
                 return StatusCode(500);
             }
         }
@@ -134,13 +136,13 @@ namespace HwInf.Web.Controllers
 
                 _bl.SaveChanges();
 
-                _log.InfoFormat("New Setting '{0}' created by '{1}'", settingVmdl.Key, User.Identity.Name);
+                _log.LogInformation("New Setting '{0}' created by '{1}'", settingVmdl.Key, User.Identity.Name);
 
                 return Ok(settingVmdl);
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: '{0}'", ex);
+                _log.LogError("Exception: '{0}'", ex);
                 return StatusCode(500);
             }
         }
@@ -179,7 +181,7 @@ namespace HwInf.Web.Controllers
 
                 if (obj == null)
                 {
-                    _log.WarnFormat("Not Found: Setting '{0}' not found", settingVmdl.Key);
+                    _log.LogWarning("Not Found: Setting '{0}' not found", settingVmdl.Key);
                     return NotFound();
                 }
 
@@ -189,13 +191,13 @@ namespace HwInf.Web.Controllers
 
                 _bl.SaveChanges();
 
-                _log.InfoFormat("Setting '{0}' updated by '{1}'", settingVmdl.Key, User.Identity.Name);
+                _log.LogInformation("Setting '{0}' updated by '{1}'", settingVmdl.Key, User.Identity.Name);
 
                 return Ok(settingVmdl);
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: '{0}'", ex);
+                _log.LogError("Exception: '{0}'", ex);
                 return StatusCode(500);
             }
         }
@@ -237,7 +239,7 @@ namespace HwInf.Web.Controllers
 
                     if (obj == null)
                     {
-                        _log.InfoFormat("Setting '{0}' not found", vmdl.Key);
+                        _log.LogInformation("Setting '{0}' not found", vmdl.Key);
                         return NotFound();
                     }
 
@@ -248,13 +250,13 @@ namespace HwInf.Web.Controllers
                 }
                 _bl.SaveChanges();
 
-                _log.InfoFormat("Setting '{0}' updated by '{1}'", settingVmdlList, User.Identity.Name);
+                _log.LogInformation("Setting '{0}' updated by '{1}'", settingVmdlList, User.Identity.Name);
 
                 return Ok(settingVmdlList);
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: '{0}'", ex);
+                _log.LogError("Exception: '{0}'", ex);
                 return StatusCode(500);
             }
         }
@@ -278,18 +280,18 @@ namespace HwInf.Web.Controllers
 
                 if (setting == null)
                 {
-                    _log.WarnFormat("Not Found: Setting '{0}' not found", settingKey);
+                    _log.LogWarning("Not Found: Setting '{0}' not found", settingKey);
                     return NotFound();
                 }
 
                 _bl.DeleteSetting(setting);
                 _bl.SaveChanges();
-                _log.InfoFormat("Setting '{0}' deleted by '{1}'", setting.Key, User.Identity.Name);
+                _log.LogInformation("Setting '{0}' deleted by '{1}'", setting.Key, User.Identity.Name);
                 return Ok();
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: '{0}'", ex);
+                _log.LogError("Exception: '{0}'", ex);
                 return StatusCode(500);
             }
         }
@@ -314,7 +316,7 @@ namespace HwInf.Web.Controllers
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: '{0}'", ex);
+                _log.LogError("Exception: '{0}'", ex);
                 return StatusCode(500);
             }
         }

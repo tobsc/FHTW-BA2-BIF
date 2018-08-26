@@ -13,16 +13,16 @@ import { User } from "../../shared/models/user.model";
   styleUrls: ['./top-navbar.component.scss']
 })
 export class TopNavbarComponent implements OnInit {
-  private user: User;
-  private isCollapsed: boolean = false;
-  private isImpersonator: boolean = false;
+  public user: User;
+  public isCollapsed: boolean = false;
+  public isImpersonator: boolean = false;
 
   constructor(
-      private authService: AuthService,
-      private rootComp: AppComponent,
-      private cartService: CartService,
-      private userService: UserService,
-      private jwtService: JwtService 
+      public authService: AuthService,
+      public rootComp: AppComponent,
+      public cartService: CartService,
+      public userService: UserService,
+      public jwtService: JwtService 
   ) {  }
 
   setClass() {

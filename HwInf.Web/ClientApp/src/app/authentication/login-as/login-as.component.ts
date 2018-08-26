@@ -12,19 +12,19 @@ import { FormBuilder, FormGroup, FormArray, Validators, NgForm } from "@angular/
 })
 export class LoginAsComponent implements OnInit {
 
-    private users: User[];
-    private userDic: { [search: string]: User; } = {};
-    private stringForDic: string[] = [];
-    private form: FormGroup;
-    private selectedUser: User;
-    private selectedString: string;
+    public users: User[];
+    public userDic: { [search: string]: User; } = {};
+    public stringForDic: string[] = [];
+    public form: FormGroup;
+    public selectedUser: User;
+    public selectedString: string;
 
 
     constructor(
-        private userService: UserService,
-        private fb: FormBuilder,
-        private adminService: AdminService,
-        private router: Router,
+        public userService: UserService,
+        public fb: FormBuilder,
+        public adminService: AdminService,
+        public router: Router,
     ) { }
 
     ngOnInit() {

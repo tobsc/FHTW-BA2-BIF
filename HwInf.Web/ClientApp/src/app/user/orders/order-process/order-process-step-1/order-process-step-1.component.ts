@@ -18,36 +18,36 @@ import {OrderProcessService} from "../shared/order-process.service";
   styleUrls: ['./order-process-step-1.component.scss'],
 })
 export class OrderProcessStep1Component implements OnInit, OnDestroy {
-  private readonly DATE_FORMAT: string = 'DD.MM.YYYY';
-  private now: Date = new Date();
-  private dateRangeString: string;
-  private dateSettings: Setting[] = this.adminService.getSettings();
-  private semester: string = this.configureSemester();
-  private semesterStart: string = this.configureSemesterStart();
-  private semesterEnd: string = this.configureSemesterEnd();
-  private semesterStartDate: Date = this.convertSemesterStartToDate();
+  public readonly DATE_FORMAT: string = 'DD.MM.YYYY';
+  public now: Date = new Date();
+  public dateRangeString: string;
+  public dateSettings: Setting[] = this.adminService.getSettings();
+  public semester: string = this.configureSemester();
+  public semesterStart: string = this.configureSemesterStart();
+  public semesterEnd: string = this.configureSemesterEnd();
+  public semesterStartDate: Date = this.convertSemesterStartToDate();
 
 
 
-  private order: Order;
-  private user: User = new User();
-  private users: User[];
-  private items: Device[];
-  private userDic: { [search: string]: User; } = {};
-  private stringForDic: string[] = [];
-  private selectedUser: User = new User();
-  private selectedString: string;
+  public order: Order;
+  public user: User = new User();
+  public users: User[];
+  public items: Device[];
+  public userDic: { [search: string]: User; } = {};
+  public stringForDic: string[] = [];
+  public selectedUser: User = new User();
+  public selectedString: string;
 
 
   constructor(
-      private orderProcessService: OrderProcessService,
-      private formdataService: OrderFormDataService,
-      private cartService: CartService,
-      private userService: UserService,
-      private adminService: AdminService,
-      private router: Router,
-      private jwtService: JwtService,
-      private verwalterGuard: VerwalterGuard
+      public orderProcessService: OrderProcessService,
+      public formdataService: OrderFormDataService,
+      public cartService: CartService,
+      public userService: UserService,
+      public adminService: AdminService,
+      public router: Router,
+      public jwtService: JwtService,
+      public verwalterGuard: VerwalterGuard
   ) {
   }
 
@@ -56,7 +56,7 @@ export class OrderProcessStep1Component implements OnInit, OnDestroy {
  /**
 * Daterangepicker options
 */
-  private options: any = {
+  public options: any = {
       autoUpdateInput: true,
       locale: {
           format: this.DATE_FORMAT,
@@ -115,7 +115,7 @@ export class OrderProcessStep1Component implements OnInit, OnDestroy {
     }
   }
 
-  private convertSemesterStartToDate(): Date {
+  public convertSemesterStartToDate(): Date {
       var pieces = this.semesterStart.split('.');
       var datestring = pieces[2] + "-" + pieces[1] + "-" + pieces[0] + "T00:00:00";
       this.semesterStartDate = new Date(datestring);
@@ -125,14 +125,14 @@ export class OrderProcessStep1Component implements OnInit, OnDestroy {
   /**
    * update user data if number was changed or entered
    */
-  private onNumberChange(): void {
+  public onNumberChange(): void {
     this.userService.updateUser(this.selectedUser).subscribe(
         (next) => console.log(next),
         (err) => console.log(err)
     );
   }
 
-  private configureSemester(): string {
+  public configureSemester(): string {
       var mm = this.now.getMonth() + 1;
 
       if (mm > 7) {
@@ -143,12 +143,12 @@ export class OrderProcessStep1Component implements OnInit, OnDestroy {
       }
   }
 
-  private configureSemesterStart(): string {
+  public configureSemesterStart(): string {
       var yyyy = this.now.getFullYear();
       return this.semesterStart = this.dateSettings.filter(item => item.Key == this.semester + "_start")[0].Value + "." + yyyy;
   }
 
-  private configureSemesterEnd(): string {
+  public configureSemesterEnd(): string {
       var yyyy = this.now.getFullYear();
       if (this.semester == "ss") {
           return this.semesterEnd = this.dateSettings.filter(item => item.Key == this.semester + "_end")[0].Value + "." + yyyy;
@@ -163,7 +163,7 @@ export class OrderProcessStep1Component implements OnInit, OnDestroy {
    * if a date was chosen update the input field with the date
    * @param ev
    */
-  private onApplyDate(ev): void {
+  public onApplyDate(ev): void {
     let startDate = ev.picker.startDate;
     let endDate = ev.picker.endDate;
     this.dateRangeString = `${startDate.format(this.DATE_FORMAT)} - ${endDate.format(this.DATE_FORMAT)}`;
@@ -171,14 +171,14 @@ export class OrderProcessStep1Component implements OnInit, OnDestroy {
     this.order.To = endDate.format();
   }
 
-  private isAdminOrVerwalter() {
+  public isAdminOrVerwalter() {
       if (this.user.Role != "User") {
           return true;
       }
 
       return false;
   }
-  private checkInvNum(): boolean {
+  public checkInvNum(): boolean {
       this.items = this.cartService.getItems();
       for (let item of this.items) {
           if (item.InvNum) {

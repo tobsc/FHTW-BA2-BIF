@@ -82,7 +82,7 @@
               <input id="Quantity" name="Quantity" class="form-control" type="number" formControlName="Quantity" placeholder="NUMBER" *ngIf="!hasInvNum()">
             </div>
             <div formArrayName="AdditionalInvNums">
-              <div class="form-group" *ngFor="let invNum of form.controls.AdditionalInvNums.controls; let i = index">
+              <div class="form-group" *ngFor="let invNum of formDataAddInvNum.controls; let i = index">
                 <div [formGroupName]="i">
                   <label htmlFor="InvNum-{{i}}">
                     {{i+2}}. Inventarnummer
@@ -105,7 +105,7 @@
       </div><!-- x_panel -->
       <div class="form-group" formArrayName="FieldGroups">
         <div class="row gutter-10 auto-clear">
-          <div class="col-xs-12 col-md-6 col-lg-4" *ngFor="let fieldGroup of form.controls.FieldGroups.controls; let i = index">
+          <div class="col-xs-12 col-md-6 col-lg-4" *ngFor="let fieldGroup of formDataFg.controls; let i = index">
             <div class="x_panel">
               <div class="x_title">
                 <h2>{{fieldGroups[i].Name}}</h2>

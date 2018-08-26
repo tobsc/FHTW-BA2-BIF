@@ -5,7 +5,7 @@ import { RequestEventEmitter, ResponseEventEmitter } from './emmiters';
 @Injectable()
 export class PubSubSearchService {
 
- private searchText = new Subject<string>();
+ public searchText = new Subject<string>();
 
     constructor() {
     }

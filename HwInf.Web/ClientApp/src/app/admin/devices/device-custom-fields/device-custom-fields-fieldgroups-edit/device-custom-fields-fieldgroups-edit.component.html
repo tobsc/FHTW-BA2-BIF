@@ -1,4 +1,4 @@
-﻿<div class="x_panel">
+<div class="x_panel">
     <div class="x_title">
         <h2>Feldgruppe <b>{{startFieldGroupName}}</b> editieren</h2>
         <div class="close" style="transform: translate(17px,-3px)">
@@ -23,7 +23,7 @@
 
             <div id="meta_fields" formArrayName="Fields">
 
-                <div class="form-group" *ngFor="let field of form.controls.Fields.controls; let i = index;">
+                <div class="form-group" *ngFor="let field of formDataF.controls; let i = index;">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">
                         Feld
                     </label>

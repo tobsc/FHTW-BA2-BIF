@@ -17,13 +17,13 @@ import { DeviceMeta } from "../../shared/models/device-meta.model";
 })
 export class CartComponent implements OnInit {
 
-    private devices: Device[];
-    private user: User;
+    public devices: Device[];
+    public user: User;
 
     constructor(
-        private cartService: CartService,
-        private userService: UserService,
-        private router: Router
+        public cartService: CartService,
+        public userService: UserService,
+        public router: Router
     ) { }
 
 
@@ -37,7 +37,7 @@ export class CartComponent implements OnInit {
         this.cartService.removeItem(index);
     }
 
-    private update(form: NgForm): void {
+    public update(form: NgForm): void {
         if (this.user.Tel !== form.form.value.Tel) {
             this.user.Tel = form.form.value.Tel;
             this.userService.updateUser(this.user);

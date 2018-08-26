@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using HwInf.BusinessLogic.Interfaces;
-using log4net;
+using Microsoft.Extensions.Logging;
 
 namespace HwInf.BusinessLogic
 {
     public class SlugGenerator
     {
         private static IBusinessLogicFacade _bl;
-        private static readonly ILog _log = LogManager.GetLogger(typeof(SlugGenerator));
+        private static readonly ILogger _log;
 
         public static string GenerateSlug(IBusinessLogicFacade bl, string value, string entity = null)
         {
@@ -87,7 +87,7 @@ namespace HwInf.BusinessLogic
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Exception: {0}", ex);
+               // _log.LogError("Exception: {0}", ex);
                 throw;
             }
 

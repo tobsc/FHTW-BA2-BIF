@@ -2,6 +2,8 @@
 using HwInf.Web.Controllers;
 using HwInf.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Moq;
 using NUnit.Framework;
 
 namespace HwInf.UnitTests.Controllers
@@ -14,8 +16,8 @@ namespace HwInf.UnitTests.Controllers
 
         public SettingsControllerTests()
         {
-            ctr = new SettingsController(Bl);
-            ctr.ControllerContext = _controllerContext;
+            var log = new Mock<ILogger<SettingsController>>();
+            ctr = new SettingsController(Bl, log.Object) {ControllerContext = _controllerContext};
         }
 
         [Test]

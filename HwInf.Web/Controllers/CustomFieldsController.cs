@@ -7,6 +7,7 @@ using log4net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using MoreLinq;
 
 namespace HwInf.Web.Controllers
@@ -21,11 +22,12 @@ namespace HwInf.Web.Controllers
     public class CustomFieldsController : Controller
     {
         private readonly IBusinessLogicFacade _bl;
-        private readonly ILog _log = LogManager.GetLogger(typeof(CustomFieldsController));
+        private readonly ILogger<CustomFieldsController> _log;
 
-        public CustomFieldsController(IBusinessLogicFacade bl)
+        public CustomFieldsController(IBusinessLogicFacade bl, ILogger<CustomFieldsController> log)
         {
             _bl = bl;
+            _log = log;
         }
 
         /// <summary>
@@ -91,7 +93,7 @@ namespace HwInf.Web.Controllers
             vmdl.ApplyChanges(obj, _bl);
             _bl.SaveChanges();
             vmdl.Refresh(obj);
-            _log.InfoFormat("New FieldGroup '{0}' created by '{1}'", vmdl.Name, User.Identity.Name);
+            _log.LogInformation("New FieldGroup '{0}' created by '{1}'", vmdl.Name, User.Identity.Name);
             return Ok(vmdl);
         }
 
@@ -121,7 +123,7 @@ namespace HwInf.Web.Controllers
 
             _bl.SaveChanges();
             vmdl.Refresh(field);
-            _log.InfoFormat("New Field '{0}' added to '{1}' by '{2}'", vmdl.Name, obj.Name, User.Identity.Name);
+            _log.LogInformation("New Field '{0}' added to '{1}' by '{2}'", vmdl.Name, obj.Name, User.Identity.Name);
             return Ok(vmdl);
         }
 
@@ -148,7 +150,7 @@ namespace HwInf.Web.Controllers
             _bl.UpdateFieldGroup(fg);
             fg.DeviceTypes.Add(dt);
             _bl.SaveChanges();
-            _log.InfoFormat("DeviceType '{0}' added to '{1}' by '{2}'", dt.Name, fg.Name, User.Identity.Name);
+            _log.LogInformation("DeviceType '{0}' added to '{1}' by '{2}'", dt.Name, fg.Name, User.Identity.Name);
             return Ok();
         }
 
@@ -193,7 +195,7 @@ namespace HwInf.Web.Controllers
                 meta.ForEach(i => i.FieldGroupSlug = vmdl.Slug);
 
                 _bl.SaveChanges();
-                _log.InfoFormat("FieldGroup '{0}' updated by '{1}'", vmdl.Name, User.Identity.Name);
+                _log.LogInformation("FieldGroup '{0}' updated by '{1}'", vmdl.Name, User.Identity.Name);
 
                 vmdl.Refresh(fg);
                 return Ok(vmdl);
@@ -203,7 +205,7 @@ namespace HwInf.Web.Controllers
             {
                 if (!_bl.FieldGroupExists(vmdl.Slug))
                 {
-                    _log.WarnFormat("Not Found: FieldGroup '{0}' not found", slug);
+                    _log.LogWarning("Not Found: FieldGroup '{0}' not found", slug);
                     return NotFound();
                 }
                 else
@@ -350,7 +352,7 @@ namespace HwInf.Web.Controllers
                 var obj = _bl.GetFieldGroup(slug);
                 _bl.DeleteFieldGroup(obj);
                 _bl.SaveChanges();
-                _log.InfoFormat("FieldGroup '{0}' deleted by '{1}'", obj.Name, User.Identity.Name);
+                _log.LogInformation("FieldGroup '{0}' deleted by '{1}'", obj.Name, User.Identity.Name);
 
 
             }
@@ -358,7 +360,7 @@ namespace HwInf.Web.Controllers
             {
                 if (!_bl.FieldGroupExists(slug))
                 {
-                    _log.WarnFormat("Not Found: FieldGroup '{0}' not found", slug);
+                    _log.LogWarning("Not Found: FieldGroup '{0}' not found", slug);
                     return NotFound();
                 }
                 else

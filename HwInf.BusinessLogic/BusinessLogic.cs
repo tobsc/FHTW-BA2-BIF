@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security;
 using System.Security.Claims;
 using System.Text;
+using HwInf.BusinessLogic.Config;
 using HwInf.BusinessLogic.Interfaces;
 using HwInf.Common.Models;
 using HwInf.DataAccess.Interfaces;
@@ -31,7 +32,7 @@ namespace HwInf.BusinessLogic
         {
             if (!_principal.IsAllowed) throw new SecurityException();
 
-            var h = (log4net.Repository.Hierarchy.Hierarchy)LogManager.GetRepository("");
+            var h = (log4net.Repository.Hierarchy.Hierarchy)LogManager.GetRepository("log4net-default-repository");
             var appender = h.GetAppenders().SingleOrDefault(i => i.Name.Equals("FileRollingFileAppender")) as FileAppender;
 
             string[] lines = { };
@@ -63,17 +64,18 @@ namespace HwInf.BusinessLogic
                 new Claim("DisplayName", p.Name + " " + p.LastName),
                 new Claim("Role", p.Role.Name),
                 new Claim(ClaimTypes.Role, p.Role.Name),
+                new Claim(ClaimTypes.Name, p.Uid), 
                 new Claim("isLoggedInAs", IsAdminUid(p.Uid) || _principal.IsAdmin ? "1" : "0"), 
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secretKeysecretKey"));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtConfig.Current.SecretKey));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
-                issuer: "hwinf",
-                audience: "hwinf",
+                issuer: JwtConfig.Current.Issuer,
+                audience: JwtConfig.Current.Audience,
                 claims: claims,
-                expires: DateTime.Now.AddHours(4000),
+                expires: DateTime.Now.AddHours(JwtConfig.Current.HoursValid),
                 signingCredentials: creds);
 
             return token;
