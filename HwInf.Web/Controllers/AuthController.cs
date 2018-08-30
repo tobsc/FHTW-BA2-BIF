@@ -89,7 +89,7 @@ namespace HwInf.Web.Controllers
             // Create new token from user
             var token = _bl.CreateToken(p);
 
-            return Ok(new { token });
+            return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(token) });
         }
 
         ///// <summary>
