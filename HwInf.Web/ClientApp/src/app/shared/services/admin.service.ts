@@ -4,28 +4,26 @@ import { User } from "../models/user.model";
 import { Observable } from "rxjs";
 import { JwtService } from "./jwt.service";
 import { CartService } from "./cart.service";
+import { JwtHttpService } from "./jwt-http.service";
 import { Router } from "@angular/router";
 import { Setting } from "../models/setting.model";
-import {HttpClient} from "@angular/common/http";
-import {HttpHeaders} from "@angular/common/http";
-import "rxjs/Rx";
 
 @Injectable()
 export class AdminService {
 
-    public token: string;
-    public loggedIn: boolean = false;
-    public authUrl: string = "/api/auth/";
-    public settingsUrl: string = "/api/settings/";
-    public userUrl: string = "/api/users/";
-    public settings: Setting[];
+    private token: string;
+    private loggedIn: boolean = false;
+    private authUrl: string = "/api/auth/";
+    private settingsUrl: string = "/api/settings/";
+    private userUrl: string = "/api/users/";
+    private settings: Setting[];
 
     constructor(
-        public jwtService: JwtService,
-        public http: HttpClient,
-        public cartService: CartService,
-        public router:Router
-    ) {
+        private jwtService: JwtService,
+        private http: JwtHttpService,
+        private cartService: CartService,
+        private router:Router
+    ) { 
         this.token = jwtService.getToken();
     }
 
@@ -46,9 +44,9 @@ export class AdminService {
     }
 
     public addAdmin(user: User) {
-
+       
         return this.http.get(this.userUrl + "admin/" + user.Uid);
-
+      
     }
 
     public removeAdmin(user: User, role: string) {
@@ -64,40 +62,53 @@ export class AdminService {
             return Observable.of(setting);
         }
         else {
-          return this.http.get<Setting>(this.settingsUrl + key);
+            return this.http.get(this.settingsUrl + key)
+                .map((response: Response) => response.json());
         }
     }
 
     public updateSetting(body: Setting): Observable<Setting> {
         let bodyString = JSON.stringify(body);
-        return this.http.put<Setting>(this.settingsUrl, bodyString)
+        let headers = new Headers({
+            'Content-Type': 'application/json'
+        });
+        let options = new RequestOptions({ headers: headers });
+        return this.http.put(this.settingsUrl, bodyString, options)
             .do(i => {
-              sessionStorage.setItem(body.Key, body.Value);
+                if (i.status == 200) {
+                    sessionStorage.setItem(body.Key, body.Value);
+                }
+            })
+            .map((response: Response) => response.json()).do(i => {
             });
     }
 
     public updateSettings(body: Setting[]): Observable<Setting[]> {
         let bodyString = JSON.stringify(body);
-        let httpOptions = {
-          headers: new HttpHeaders({
-            'Content-Type':  'application/json',
-          })
-        };
-      return this.http.put<Setting[]>(this.settingsUrl + "multiple", bodyString, httpOptions)
-        .do(i => {
-          for (let set of body) {
-            sessionStorage.setItem(set.Key, set.Value);
-          }
+        let headers = new Headers({
+            'Content-Type': 'application/json'
         });
+        let options = new RequestOptions({ headers: headers });
+        return this.http.put(this.settingsUrl+"multiple", bodyString, options)
+            .do(i => {
+                if (i.status == 200) {
+                    for (let set of body) {
+                        sessionStorage.setItem(set.Key, set.Value);
+                    }
+                }
+            })
+            .map((response: Response) => response.json()).do(i => {
+            });
     }
 
     public loadSemestreData() {
-        return this.http.get<Setting[]>(this.settingsUrl)
+        return this.http.get(this.settingsUrl)
+            .map((response: Response) => response.json())
             .subscribe(setting => {
                 this.settings = setting;
                 if (sessionStorage.getItem("settings") != "true") {
-                  console.log("set storage");
-                  for (let set of this.settings) {
+                    console.log("set storage");
+                    for (let set of this.settings) {
                         sessionStorage.setItem(set.Key, set.Value);
                     }
                     sessionStorage.setItem("settings", "true");
@@ -107,11 +118,12 @@ export class AdminService {
 
 
     public getLog(): Observable<string[]>  {
-        return this.http.get<string[]>(this.settingsUrl + 'logs/')
+        return this.http.get(this.settingsUrl + 'logs/')
+            .map((response: Response) => response.json());
     }
 
     public getSettings(): Setting[] {
         return this.settings;
     }
-
+    
 }

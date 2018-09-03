@@ -15,7 +15,7 @@ export class SingleOrderComponent implements OnInit {
 
 
   constructor(
-      public orderService: OrderService
+      private orderService: OrderService
   ) {
       
   }

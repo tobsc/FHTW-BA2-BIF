@@ -1,47 +1,52 @@
 import { Injectable } from '@angular/core';
+import {JwtHttpService} from "./jwt-http.service";
 import {FieldGroup} from "../models/fieldgroup.model";
 import {Observable} from "rxjs";
-import { Response } from "@angular/http";
-import {HttpClient} from "@angular/common/http";
-import { HttpHeaders } from "@angular/common/http";
-import "rxjs";
+import {Headers, RequestOptions, Response } from "@angular/http";
 
 @Injectable()
 export class CustomFieldsService {
 
   constructor(
-      public http: HttpClient
+      private http: JwtHttpService
   ) { }
 
   public addFieldGroup(body: FieldGroup): Observable<FieldGroup> {
       let bodyString = JSON.stringify(body);
-    let headers = new HttpHeaders({
+    let headers = new Headers({
       'Content-Type': 'application/json'
     });
-    return this.http.post<FieldGroup>('/api/customfields/fieldgroups', bodyString, { headers });
+    let options = new RequestOptions({headers: headers});
+    return this.http.post('/api/customfields/fieldgroups', bodyString, options)
+        .map((response: Response) => response.json());
   }
 
 
   public getFieldGroups(): Observable<FieldGroup[]> {
-    return this.http.get<FieldGroup[]>('/api/customfields/fieldgroups');
+    return this.http.get('/api/customfields/fieldgroups')
+        .map((response: Response) => response.json());
   }
 
   public getFieldGroupsOfType ( deviceTypeSlug: string = ''): Observable<FieldGroup[]> {
-    return this.http.get<FieldGroup[]>('/api/customfields/fieldgroups/' + deviceTypeSlug);
+    return this.http.get('/api/customfields/fieldgroups/' + deviceTypeSlug)
+        .map((response: Response) => response.json());
   }
 
 
   public getFieldGroupsOfTypeForFilter ( deviceTypeSlug: string = ''): Observable<FieldGroup[]> {
-    return this.http.get<FieldGroup[]>('/api/customfields/filter/fieldgroups/' + deviceTypeSlug);
+    return this.http.get('/api/customfields/filter/fieldgroups/' + deviceTypeSlug)
+        .map((response: Response) => response.json());
   }
 
   public editFieldGroup(body: FieldGroup): Observable<FieldGroup> {
       let bodyString = JSON.stringify(body);
       console.log(bodyString);
-      let headers = new HttpHeaders({
+      let headers = new Headers({
           'Content-Type': 'application/json'
       });
-    return this.http.put<FieldGroup>('/api/customfields/fieldgroups/' + body.Slug, bodyString, { headers });
+      let options = new RequestOptions({ headers: headers });
+      return this.http.put('/api/customfields/fieldgroups/'+ body.Slug, bodyString, options)
+          .map((response: Response) => response.json());
   }
 
   public deleteFieldGroup(slug: string) {

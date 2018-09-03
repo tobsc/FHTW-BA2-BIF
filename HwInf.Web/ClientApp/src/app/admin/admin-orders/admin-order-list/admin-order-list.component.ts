@@ -5,6 +5,9 @@ import {OrderList} from "../../../shared/models/order-list.model";
 import {OrderFilter} from "../../../shared/models/order-filter.model";
 import {BehaviorSubject} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
+var moment = require('moment');
+moment.locale('de');
+
 
 @Component({
     selector: 'hwinf-admin-order-list',
@@ -13,28 +16,28 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class AdminOrderListComponent implements OnInit {
 
-    public _filter = new BehaviorSubject<OrderFilter>(new OrderFilter());
-    public maxPages: number = -1;
+    private _filter = new BehaviorSubject<OrderFilter>(new OrderFilter());
+    private maxPages: number = -1;
 
     @Input()
-    public set filter(value) {
+    private set filter(value) {
         this._filter.next(value);
     };
 
-    public orders: Order[] = [];
-    public currentPage: number = 1;
-    public isAscending: boolean = true;
-    public totalItems: number;
-    public itemsPerPage: number = 10;
-    public orderBy: string = 'date';
-    public order: string = "DESC";
-    public maxSize: number = 8;
-    public myfilter: OrderFilter = new OrderFilter();
+    private orders: Order[] = [];
+    private currentPage: number = 1;
+    private isAscending: boolean = true;
+    private totalItems: number;
+    private itemsPerPage: number = 10;
+    private orderBy: string = 'date';
+    private order: string = "DESC";
+    private maxSize: number = 8;
+    private myfilter: OrderFilter = new OrderFilter();
 
     constructor(
-        public orderService: OrderService,
-        public route: ActivatedRoute,
-        public router: Router
+        private orderService: OrderService,
+        private route: ActivatedRoute,
+        private router: Router
     ) { }
 
     ngOnInit() {

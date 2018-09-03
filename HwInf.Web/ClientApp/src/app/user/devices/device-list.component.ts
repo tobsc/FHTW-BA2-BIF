@@ -19,21 +19,21 @@ import {FieldGroup} from "../../shared/models/fieldgroup.model";
 })
 export class DeviceListComponent implements OnInit, OnDestroy {
 
-  public currentPage: number = 1;
-  public subscription: Subscription;
-  public currentType: DeviceType;
-  public devices: Device[] = [];
-  public filter: Filter;
-  public alerts: any = [];
-  public totalItems: number = 0;
-  public limit: number = 20;
+  private currentPage: number = 1;
+  private subscription: Subscription;
+  private currentType: DeviceType;
+  private devices: Device[] = [];
+  private filter: Filter;
+  private alerts: any = [];
+  private totalItems: number = 0;
+  private limit: number = 20;
 
-  public cartQuantity = 1;
+  private cartQuantity = 1;
 
   constructor(
-      public deviceService: DeviceService,
-      public cartService: CartService,
-      public route: ActivatedRoute
+      private deviceService: DeviceService,
+      private cartService: CartService,
+      private route: ActivatedRoute
   ) { }
 
   ngOnInit() {

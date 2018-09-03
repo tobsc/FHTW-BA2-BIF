@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+﻿import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { Subscription, Observable } from "rxjs";
-import { Overlay } from 'ngx-modialog';
-import { Modal } from 'ngx-modialog/plugins/bootstrap';
+import { Overlay } from 'angular2-modal';
+import { Modal } from 'angular2-modal/plugins/bootstrap';
 import { ErrorHandlerService } from "./error-handler.service";
 import { Error } from "../models/error.model";
 
@@ -14,11 +14,12 @@ import { Error } from "../models/error.model";
 export class ErrorHandlerComponent implements OnInit {
     
     constructor(
-        public errorHandlerService: ErrorHandlerService,
+        private errorHandlerService: ErrorHandlerService,
         overlay: Overlay,
         vcRef: ViewContainerRef,
         public modal: Modal
     ) {
+        overlay.defaultViewContainer = vcRef;
     }
     
 

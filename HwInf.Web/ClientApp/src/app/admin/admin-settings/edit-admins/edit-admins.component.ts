@@ -10,7 +10,7 @@ import {RemoveAdminComponent} from "./remove-admin/remove-admin.component";
 })
 export class EditAdminsComponent implements OnInit {
 
-  @ViewChild(RemoveAdminComponent) public list: RemoveAdminComponent;
+  @ViewChild(RemoveAdminComponent) private list: RemoveAdminComponent;
 
   constructor() { }
 

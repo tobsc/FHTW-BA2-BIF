@@ -10,17 +10,17 @@ import {Order} from "../../../shared/models/order.model";
 })
 export class OrdersArchivComponent implements OnInit {
 
-  public orders: Order[] = [];
-  public currentPage: number = 1;
-  public isAscending: boolean = true;
-  public totalItems: number;
-  public itemsPerPage: number = 10;
-  public orderBy: string = 'orderstatus';
-  public maxSize: number = 8;
-  public filter: OrderFilter;
-  public order: string = 'DESC';
+  private orders: Order[] = [];
+  private currentPage: number = 1;
+  private isAscending: boolean = true;
+  private totalItems: number;
+  private itemsPerPage: number = 10;
+  private orderBy: string = 'orderstatus';
+  private maxSize: number = 8;
+  private filter: OrderFilter;
+  private order: string = 'DESC';
 
-  constructor(public orderService: OrderService) {}
+  constructor(private orderService: OrderService) {}
 
   ngOnInit(): void {
 

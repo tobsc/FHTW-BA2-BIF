@@ -10,7 +10,7 @@
 /HwInf/wwwroot/out-tsc
 /HwInf/wwwroot
 /HwInf.Angular/bin
-/HwInf.Angular/node_modules
+/HwInf.Web/node_modules
 /HwInf.Angular/obj/*
 /HwInf.Angular/.idea/
 /HwInf.Common/bin/*
@@ -48,6 +48,8 @@ Version.cpp
 # compiled output
 /HwInf/Client/dist
 /HwInf/Client/tmp
+/HwInf.Web/build_output
+/HwInf.Web/dist
 
 # dependencies
 /HwInf/Client/node_modules

@@ -20,18 +20,18 @@ import { CartService } from "../../../shared/services/cart.service";
 })
 export class SearchResultListComponent implements OnInit {
 
-    public devices: Device[] = [];
-    public searchText: string;
-    public alerts: any = [];
-    public page: number = 1;
-    public limit: number = 20;
-    public totalItems: number = 0;
+    private devices: Device[] = [];
+    private searchText: string;
+    private alerts: any = [];
+    private page: number = 1;
+    private limit: number = 20;
+    private totalItems: number = 0;
    
 
-    constructor(public deviceService: DeviceService,
-        public pubSubSearchService: PubSubSearchService,
-        public route: ActivatedRoute,
-        public cartService: CartService
+    constructor(private deviceService: DeviceService,
+        private pubSubSearchService: PubSubSearchService,
+        private route: ActivatedRoute,
+        private cartService: CartService
     ) { }
 
     ngOnInit() {

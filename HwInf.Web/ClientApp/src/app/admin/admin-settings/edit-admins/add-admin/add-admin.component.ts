@@ -12,21 +12,21 @@ import { FormBuilder, FormGroup, FormArray, Validators, NgForm } from "@angular/
 })
 export class AddAdminComponent implements OnInit {
 
-    public users: User[];
-    public userDic: { [search: string]: User; } = {};
-    public stringForDic: string[] = [];
-    public form: FormGroup;
-    public selectedUser: User;
-    public selectedString: string;
+    private users: User[];
+    private userDic: { [search: string]: User; } = {};
+    private stringForDic: string[] = [];
+    private form: FormGroup;
+    private selectedUser: User;
+    private selectedString: string;
 
     @Output() adminListUpdated = new EventEmitter<User>();
 
 
     constructor(
-        public userService: UserService,
-        public fb: FormBuilder,
-        public adminService: AdminService,
-        public router: Router,
+        private userService: UserService,
+        private fb: FormBuilder,
+        private adminService: AdminService,
+        private router: Router,
     ) { }
 
     ngOnInit() {

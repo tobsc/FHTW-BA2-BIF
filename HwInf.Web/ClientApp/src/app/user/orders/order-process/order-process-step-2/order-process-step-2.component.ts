@@ -5,7 +5,7 @@ import {Order} from "../../../../shared/models/order.model";
 import {CartService} from "../../../../shared/services/cart.service";
 import {Device} from "../../../../shared/models/device.model";
 import { OrderItem } from "../../../../shared/models/order-item.model";
-import { Modal } from 'ngx-modialog/plugins/bootstrap';
+import { Modal } from 'angular2-modal/plugins/bootstrap';
 import {Accessory} from "../../../../shared/models/accessory.model";
 import {DeviceService} from "../../../../shared/services/device.service";
 import {Observable} from "rxjs/Observable";
@@ -18,17 +18,17 @@ import {Filter} from "../../../../shared/models/filter.model";
 })
 export class OrderProcessStep2Component implements OnInit, OnDestroy {
 
-  public order: Order;
-  public devices: Device[];
-  public devicesWithoutInvNum: Device[];
-  public filter: Filter;
-  public accessories: Observable<Accessory[]>;
-  public cartQuantity: number = 1;
+  private order: Order;
+  private devices: Device[];
+  private devicesWithoutInvNum: Device[];
+  private filter: Filter;
+  private accessories: Observable<Accessory[]>;
+  private cartQuantity: number = 1;
   constructor(
-      public orderFormDataService: OrderFormDataService,
-      public cartService: CartService,
-      public deviceService: DeviceService,
-      public router: Router,
+      private orderFormDataService: OrderFormDataService,
+      private cartService: CartService,
+      private deviceService: DeviceService,
+      private router: Router,
       public modal: Modal
   ) { }
 

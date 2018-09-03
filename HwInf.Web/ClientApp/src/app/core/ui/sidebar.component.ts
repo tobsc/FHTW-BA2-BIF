@@ -18,21 +18,21 @@ import { CanActivate, Router, RouterStateSnapshot, ActivatedRouteSnapshot } from
 })
 export class SidebarComponent implements OnInit, CanActivate {
 
-    public deviceTypes: Observable<DeviceType[]>;
+    private deviceTypes: Observable<DeviceType[]>;
 
-    public verwalter : User
-    public newDevicesCount: number =0;
+    private verwalter : User
+    private newDevicesCount: number =0;
 
   constructor(
-      public deviceService: DeviceService,
-      public userService: UserService,
-      public orderService: OrderService,
-      public router: Router,
-      public adminGuard: AdminGuard,
-      public verwalterGuard: VerwalterGuard
+      private deviceService: DeviceService,
+      private userService: UserService,
+      private orderService: OrderService,
+      private router: Router,
+      private adminGuard: AdminGuard,
+      private verwalterGuard: VerwalterGuard
   ) { }
 
-  canActivate(): Observable<boolean> | Promise<boolean> |
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> |
     boolean {
     return this.verwalterGuard.canActivate();
   }
@@ -43,8 +43,9 @@ export class SidebarComponent implements OnInit, CanActivate {
 
   ngOnInit() {
       this.deviceTypes = this.deviceService.getDeviceTypes(false);
+
       this.userService.getUser().subscribe(x => this.verwalter = x);
-    console.log(this.router.url.match('(.*admin\/geraete.*)'));
+
       if (this.verwalterGuard.canActivate()) {
           this.orderService.getOrders().subscribe(x => {
               this.newDevicesCount = x.filter(x => x.Verwalter.Uid == this.verwalter.Uid && x.OrderStatus.Slug == "offen").length;

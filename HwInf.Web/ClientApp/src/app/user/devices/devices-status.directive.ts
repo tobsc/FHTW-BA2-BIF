@@ -7,7 +7,7 @@ export class DevicesStatusDirective implements AfterViewInit {
 
     @Input() statusId;
 
-    constructor(public elem: ElementRef, public renderer: Renderer) { }
+    constructor(private elem: ElementRef, private renderer: Renderer) { }
 
     ngAfterViewInit() {
         this.renderer.setElementClass(
@@ -17,7 +17,7 @@ export class DevicesStatusDirective implements AfterViewInit {
         );
     }
 
-    public getClass(): string {
+    private getClass(): string {
         switch (this.statusId) {
             case 1: return 'label-success';
             case 2: return 'label-warning';

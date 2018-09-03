@@ -1,14 +1,14 @@
-import { AppPage } from './app.po';
+import { ItpPage } from './app.po';
 
-describe('App', () => {
-  let page: AppPage;
+describe('itp App', function() {
+  let page: ItpPage;
 
   beforeEach(() => {
-    page = new AppPage();
+    page = new ItpPage();
   });
 
-  it('should display welcome message', () => {
+  it('should display message saying app works', () => {
     page.navigateTo();
-    expect(page.getMainHeading()).toEqual('Hello, world!');
+    expect(page.getParagraphText()).toEqual('app works!');
   });
 });

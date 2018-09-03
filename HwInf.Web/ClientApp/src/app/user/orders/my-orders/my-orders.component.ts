@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {OrderService} from "../../../shared/services/order.service";
 import {Order} from "../../../shared/models/order.model";
 import { OrderFilter } from "../../../shared/models/order-filter.model";
-import {isBefore} from "ngx-bootstrap/chronos/utils/date-compare";
+var moment = require('moment');
+moment.locale('de');
 
 @Component({
   selector: 'hwinf-my-orders',
@@ -11,17 +12,17 @@ import {isBefore} from "ngx-bootstrap/chronos/utils/date-compare";
 })
 export class MyOrdersComponent implements OnInit {
 
-  public orders: Order[] = [];
-  public currentPage: number = 1;
-  public isAscending: boolean = true;
-  public totalItems: number;
-  public itemsPerPage: number = 25;
-  public orderBy: string = 'date';
-  public order: string = "DESC";
-  public maxSize: number = 8;
-  public filter: OrderFilter;
+  private orders: Order[] = [];
+  private currentPage: number = 1;
+  private isAscending: boolean = true;
+  private totalItems: number;
+  private itemsPerPage: number = 25;
+  private orderBy: string = 'date';
+  private order: string = "DESC";
+  private maxSize: number = 8;
+  private filter: OrderFilter;
 
-  constructor(public orderService: OrderService) {}
+  constructor(private orderService: OrderService) {}
 
   ngOnInit(): void {
 
@@ -40,14 +41,11 @@ export class MyOrdersComponent implements OnInit {
     this.filter.Offset = (this.currentPage-1) * this.filter.Limit;
     this.orderService.getFilteredOrders(this.filter)
         .subscribe(
-        data => {
-          this.orders = data.Orders.filter(i => {
-            var returnDate = new Date(i.ReturnDate);
-                  var dateFrom = returnDate;
-                  dateFrom.setDate(returnDate.getDate() + 7);
-                  var dateNow = new Date();
-                  return (i.OrderStatus.Slug == 'abgelehnt' && isBefore(dateNow, dateFrom))
-                    || i.OrderStatus.Slug != 'abgelehnt';
+        data => {          
+                this.orders = data.Orders.filter(i => {
+                    var dateFrom = moment(i.ReturnDate).add(7, 'd').format('YYYY-MM-DD');
+                   return (i.OrderStatus.Slug == 'abgelehnt' && moment().isBefore(dateFrom)) ||
+                        i.OrderStatus.Slug != 'abgelehnt';
                 });
               this.totalItems = data.TotalItems;
             }

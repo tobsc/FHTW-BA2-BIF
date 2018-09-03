@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
+import { Overlay } from 'angular2-modal';
+import { Modal } from 'angular2-modal/plugins/bootstrap';
 import { Subject, Observable } from "rxjs";
 import { RequestEventEmitter, ResponseEventEmitter } from './emmiters';
 
 @Injectable()
 export class PubSubSearchService {
 
- public searchText = new Subject<string>();
+ private searchText = new Subject<string>();
 
     constructor() {
     }

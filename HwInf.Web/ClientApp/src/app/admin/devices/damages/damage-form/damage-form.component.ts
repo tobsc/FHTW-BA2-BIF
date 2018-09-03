@@ -19,22 +19,22 @@ import { BehaviorSubject, Subject } from "rxjs";
 })
 export class DamageFormComponent implements OnInit {
 
-    public form: FormGroup;
-    public damageInfo: FormArray;
-    public damageStati: DamageStatus[];
-    public selectedDamageStatusSlug: string;
+    private form: FormGroup;
+    private damageInfo: FormArray;
+    private damageStati: DamageStatus[];
+    private selectedDamageStatusSlug: string;
 
     //for auto-complete tofuix [object Object]-bug
-    public users: User[];
-    public userDic: { [search: string]: User; } = {};
-    public stringForDic: string[] = [];
-    public ownUser: User;
-    public ownString: string;
+    private users: User[];
+    private userDic: { [search: string]: User; } = {};
+    private stringForDic: string[] = [];
+    private ownUser: User;
+    private ownString: string;
 
-    public startDevice: Device;
-    public devices: Device[];
-    public deviceDic: { [search: string]: Device; } = {};
-    public stringForDevDic: string[] = [];
+    private startDevice: Device;
+    private devices: Device[];
+    private deviceDic: { [search: string]: Device; } = {};
+    private stringForDevDic: string[] = [];
     
     @Output() damageUpdated = new EventEmitter<Damage>();
     @Input() submitButtonName: string;
@@ -42,11 +42,11 @@ export class DamageFormComponent implements OnInit {
     @Input() showDate: boolean;
 
     constructor(
-        public fb: FormBuilder,
-        public damageService: DamageService,
-        public userService: UserService,
-        public deviceService: DeviceService,
-        public route: ActivatedRoute,
+        private fb: FormBuilder,
+        private damageService: DamageService,
+        private userService: UserService,
+        private deviceService: DeviceService,
+        private route: ActivatedRoute,
     ) {
         this.form = this.initForm();
     }
@@ -146,7 +146,7 @@ export class DamageFormComponent implements OnInit {
         }
     }
 
-    public initDamageStatus(slug: string = ''): FormGroup {
+    private initDamageStatus(slug: string = ''): FormGroup {
         return this.fb.group({
             Slug: [slug, Validators.required]
         })
@@ -160,7 +160,7 @@ export class DamageFormComponent implements OnInit {
         }
     }
 
-    onSubmit(form) {
+    onSubmit(form: NgForm) {
         let damage: Damage = form.value;
         damage.Cause = this.userDic[form.value.Cause];
         damage.Reporter = this.ownUser;

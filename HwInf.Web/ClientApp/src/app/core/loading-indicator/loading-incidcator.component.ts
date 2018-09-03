@@ -7,9 +7,9 @@ import { PubSubService } from '../../shared/services/pub-sub.service';
 })
 export class LoadingIncidcatorComponent implements OnInit {
 
-    public showLoader: boolean = false;
+    private showLoader: boolean = false;
 
-  constructor(public pubsub: PubSubService) { }
+  constructor(private pubsub: PubSubService) { }
 
   ngOnInit() {
       this.pubsub.beforeRequest.subscribe(data => this.showLoader = true);

@@ -9,7 +9,7 @@ import {DeviceType} from "../../../shared/models/device-type.model";
 })
 export class DeviceTypesComponent implements OnInit {
 
-  @ViewChild(DeviceTypesListComponent) public list: DeviceTypesListComponent;
+  @ViewChild(DeviceTypesListComponent) private list: DeviceTypesListComponent;
 
   constructor() { }
 

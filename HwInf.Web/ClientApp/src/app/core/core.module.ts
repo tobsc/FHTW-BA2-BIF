@@ -4,7 +4,7 @@ import {TopNavbarComponent} from "./ui/top-navbar.component";
 import {SidebarComponent} from "./ui/sidebar.component";
 import {FooterComponent} from "./ui/footer.component";
 import {PageNotFoundComponent} from "./page-not-found/page-not-found.component";
-import { BsDropdownModule, CollapseModule, AccordionModule} from "ngx-bootstrap";
+import {DropdownModule, CollapseModule, AccordionModule} from "ng2-bootstrap";
 import {RouterModule} from "@angular/router";
 import { PanelComponent } from './panel/panel.component';
 import { LoadingIncidcatorComponent } from './loading-indicator/loading-incidcator.component';
@@ -14,7 +14,7 @@ import {ExcludeFieldGroupPipe} from "../shared/pipes/exclude-field-group.pipe";
 import { SearchComponent } from './search/search.component';
 import { FormsModule } from "@angular/forms";
 import { SearchResultListComponent } from './search/search-result-list/search-result-list.component';
-import { AlertModule } from 'ngx-bootstrap';
+import { AlertModule } from 'ng2-bootstrap';
 import { TrackscrollDirective } from './directives/trackscroll.directive';
 @NgModule({
     declarations: [
@@ -33,7 +33,7 @@ import { TrackscrollDirective } from './directives/trackscroll.directive';
     ],
     imports: [
         CommonModule,
-        BsDropdownModule.forRoot(),
+        DropdownModule.forRoot(),
         CollapseModule.forRoot(),
         RouterModule,
         FormsModule,

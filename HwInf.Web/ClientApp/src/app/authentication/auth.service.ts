@@ -1,23 +1,24 @@
 import { Injectable } from '@angular/core';
-import { Headers, RequestOptions, Response} from "@angular/http";
+import { Http, Headers, URLSearchParams, RequestOptions, Response} from "@angular/http";
 import {User} from "../shared/models/user.model";
 import {Observable} from "rxjs";
 import { Router } from "@angular/router";
 import { JwtService } from "../shared/services/jwt.service";
+import { CartService } from "../shared/services/cart.service";
 import { FeedbackHttpService } from '../shared/services/feedback-http.service';
 
 
 @Injectable()
 export class AuthService {
 
-  public token: string;
-  public loggedIn: boolean = false;
-  public url: string = "/api/auth/";
+  private token: string;
+  private loggedIn: boolean = false;
+  private url: string = "/api/auth/";
 
   constructor(
-      public router: Router,
-      public jwtService: JwtService,
-      public http: FeedbackHttpService,
+      private router: Router,
+      private jwtService: JwtService,
+      private http: FeedbackHttpService,
 
   ) {
 

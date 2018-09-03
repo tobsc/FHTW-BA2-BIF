@@ -14,12 +14,12 @@ import {Observable} from "rxjs";
   styleUrls: ['./admin-orders.component.scss']
 })
 export class AdminOrdersComponent implements OnInit {
-  public currentStatus = '';
-  public filter: OrderFilter;
+  private currentStatus = '';
+  private filter: OrderFilter;
 
   constructor(
-      public orderService: OrderService,
-      public route: ActivatedRoute
+      private orderService: OrderService,
+      private route: ActivatedRoute
   ) { }
 
   ngOnInit() {

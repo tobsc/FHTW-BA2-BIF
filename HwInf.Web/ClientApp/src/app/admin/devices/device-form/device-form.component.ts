@@ -24,33 +24,33 @@ export class DeviceFormComponent implements OnInit {
   @Input() buttonLabel: string;
   @Input() feature: string;
   @Output() submitForm = new EventEmitter<Device>();
-  public form: FormGroup;
-  public formFieldGroups: FormArray;
-  public invNums: FormArray;
-  public deviceTypes: Observable<DeviceType[]>;
-  public deviceStatuses: Observable<Status[]>;
-  public fieldGroups: FieldGroup[];  
-  public currentDevice: Device;
-  public formDeviceType: FormGroup;
-  public currentTypeSlug: string;
+  private form: FormGroup;
+  private formFieldGroups: FormArray;
+  private invNums: FormArray;
+  private deviceTypes: Observable<DeviceType[]>;
+  private deviceStatuses: Observable<Status[]>;
+  private fieldGroups: FieldGroup[];  
+  private currentDevice: Device;
+  private formDeviceType: FormGroup;
+  private currentTypeSlug: string;
 
-  public owners: User[];
-  public ownerDic: { [search: string]: User; } = {};
-  public stringForDic: string[] = [];
+  private owners: User[];
+  private ownerDic: { [search: string]: User; } = {};
+  private stringForDic: string[] = [];
 
-  //public mask = ['([A-Za-z0-9]{2}\+){2}([A-Za-z0-9]{4})'];
-  public r = /[A-Za-z0-9]/;
-  public mask = [this.r, this.r, '+', this.r, this.r, '+', this.r, this.r, this.r, this.r];
+  //private mask = ['([A-Za-z0-9]{2}\+){2}([A-Za-z0-9]{4})'];
+  private r = /[A-Za-z0-9]/;
+  private mask = [this.r, this.r, '+', this.r, this.r, '+', this.r, this.r, this.r, this.r];
 
     //for noInv devices
-  public invNumFlag: boolean = true;
+  private invNumFlag: boolean = true;
 
   constructor(
-      public deviceService: DeviceService,
-      public customFieldsService: CustomFieldsService,
-      public userService: UserService,
-      public fb: FormBuilder,
-      public route: ActivatedRoute,
+      private deviceService: DeviceService,
+      private customFieldsService: CustomFieldsService,
+      private userService: UserService,
+      private fb: FormBuilder,
+      private route: ActivatedRoute,
   ) { }
 
   ngOnInit() {
@@ -101,18 +101,15 @@ export class DeviceFormComponent implements OnInit {
    * @param metaData
    * @returns {DeviceMeta[]} array of device meta data of given slug
    */
-  public getMetaDataOfFieldGroup(slug: string, metaData: DeviceMeta[]): DeviceMeta[] {
+  private getMetaDataOfFieldGroup(slug: string, metaData: DeviceMeta[]): DeviceMeta[] {
     return metaData.filter((i) => i.FieldGroupSlug === slug);
   }
-
-  get formDataAddInvNum() { return <FormArray>this.form.controls.AdditionalInvNums; }
-  get formDataFg() { return <FormArray>this.form.controls.FieldGroups; }
 
   /**
    * fills the meta data of the form with given device data
    * @param device
    */
-  public fillFormWIthMetaData(device: Device) {
+  private fillFormWIthMetaData(device: Device) {
       
     device.FieldGroups
         .forEach( (fieldgroup, index) => {
@@ -128,7 +125,7 @@ export class DeviceFormComponent implements OnInit {
    * fills the form with given Device data
    * @param device
    */
-  public fillFormWithDeviceData(device: Device) {
+  private fillFormWithDeviceData(device: Device) {
     this.form.get('Name').setValue(device.Name);
     this.form.get('Marke').setValue(device.Marke);
     this.form.get('Raum').setValue(device.Raum);
@@ -147,7 +144,7 @@ export class DeviceFormComponent implements OnInit {
    * Initializes a the main form
    * @returns {FormGroup}
    */
-  public initForm(device: Device = null): FormGroup {
+  private initForm(device: Device = null): FormGroup {
     return this.fb.group({
       Name: ['', Validators.required],
       InvNumFlag: [''],
@@ -176,7 +173,7 @@ export class DeviceFormComponent implements OnInit {
    * @param invNum
    * @returns {FormGroup}
    */
-  public initInvNum(invNum: string = ''): FormGroup {
+  private initInvNum(invNum: string = ''): FormGroup {
     return this.fb.group({
       InvNum: invNum
     });
@@ -190,7 +187,7 @@ export class DeviceFormComponent implements OnInit {
     this.invNums.removeAt(index);
   }
 
-  public initStatus(id: number = 1): FormGroup {
+  private initStatus(id: number = 1): FormGroup {
     return this.fb.group({
       StatusId: [id, Validators.required],
       Description: ['']
@@ -202,7 +199,7 @@ export class DeviceFormComponent implements OnInit {
    * @param slug
    * @returns {FormGroup}
    */
-  public initDeviceType( slug: string = '' ): FormGroup {
+  private initDeviceType( slug: string = '' ): FormGroup {
     return this.fb.group({
       Slug: [slug, Validators.required]
     });
@@ -211,7 +208,7 @@ export class DeviceFormComponent implements OnInit {
   /**
    * Remove all FieldGroups
    */
-  public clearFieldGroups(): void {
+  private clearFieldGroups(): void {
     let len = this.formFieldGroups.length;
     for ( let i = len; i--;) {
       this.removeFieldGroup(i);
@@ -237,7 +234,7 @@ export class DeviceFormComponent implements OnInit {
    * Initializes a new FieldGroup with 1 Field
    * @returns {FormGroup}
    */
-  public initFieldGroup(): FormGroup {
+  private initFieldGroup(): FormGroup {
     return this.fb.group({
       Slug: ['', Validators.required],
       Fields: this.fb.array([this.initField()])
@@ -276,7 +273,7 @@ export class DeviceFormComponent implements OnInit {
    * @param fieldGroupIndex
    * @returns {FormArray}  of FieldGroups
    */
-  public getFieldGroups(fieldGroupIndex: number): FormArray {
+  private getFieldGroups(fieldGroupIndex: number): FormArray {
     let fieldGroup: FormGroup = <FormGroup> this.formFieldGroups.at(fieldGroupIndex);
     return <FormArray> fieldGroup.controls['Fields'];
   }
@@ -309,7 +306,7 @@ export class DeviceFormComponent implements OnInit {
    * @param value       Quantity of the field
    * @returns {FormGroup}
    */
-  public initDeviceMeta(fieldGroup: string, field: string,  value: string): FormGroup {
+  private initDeviceMeta(fieldGroup: string, field: string,  value: string): FormGroup {
     return this.fb.group({
       Field: [field, Validators.required],
       FieldGroupSlug: [fieldGroup, Validators.required],
@@ -318,7 +315,7 @@ export class DeviceFormComponent implements OnInit {
   }
 
 
-  public onSubmit(form, event: Event): void {
+  public onSubmit(form: NgForm, event: Event): void {
       event.preventDefault();
       
       this.mappedForm(form);
@@ -330,7 +327,7 @@ export class DeviceFormComponent implements OnInit {
    * @param form
    * @returns {Device} mapped form of type Device
    */
-  public mappedForm(form): Device {
+  private mappedForm(form: NgForm): Device {
     let resultForm: FormGroup = this.fb.group({
       DeviceId: (this.currentDevice) ? this.currentDevice.DeviceId : -1, // -1 ModelState fix hack
       Name: [form.value.Name, Validators.required],

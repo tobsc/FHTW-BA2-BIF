@@ -12,7 +12,7 @@ export class ConfirmButtonComponent implements OnInit {
   @Output('action') action = new EventEmitter();
   @Input('popOverTitle') title: string;
 
-  constructor(public el: ElementRef) { }
+  constructor(private el: ElementRef) { }
 
   ngOnInit() {
   }

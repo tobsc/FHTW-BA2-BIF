@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit(form)" id="demo-form2" class="form-horizontal form-label-left">
+﻿<form [formGroup]="form" (ngSubmit)="onSubmit(form)" id="demo-form2" class="form-horizontal form-label-left">
 
     <div class="form-group">
         <label for="typename">
@@ -8,7 +8,7 @@
     </div>
 
     <div id="meta_fields" formArrayName="FieldGroups">
-        <div class="form-group" *ngFor="let field of formData.controls; let i = index;">
+        <div class="form-group" *ngFor="let field of form.controls.FieldGroups.controls; let i = index;">
             <label>
                 FieldGroup {{i+1}}
             </label>

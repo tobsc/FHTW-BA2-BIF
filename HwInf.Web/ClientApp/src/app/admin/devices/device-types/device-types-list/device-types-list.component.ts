@@ -9,11 +9,11 @@ import {DeviceService} from "../../../../shared/services/device.service";
 })
 export class DeviceTypesListComponent implements OnInit {
 
-    public deviceTypes: DeviceType[] = [];
-    public rows: any[];
+    private deviceTypes: DeviceType[] = [];
+    private rows: any[];
     
 
-  constructor(public deviceService: DeviceService) { }
+  constructor(private deviceService: DeviceService) { }
 
   ngOnInit() {
       this.fetchData();

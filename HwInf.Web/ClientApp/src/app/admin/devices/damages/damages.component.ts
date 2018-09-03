@@ -9,7 +9,7 @@ import { ActivatedRoute, Router } from "@angular/router";
   styleUrls: ['./damages.component.scss']
 })
 export class DamagesComponent implements OnInit {
-    @ViewChild(DamagesListComponent) public list: DamagesListComponent;
+    @ViewChild(DamagesListComponent) private list: DamagesListComponent;
 
     constructor() { }
 

@@ -8,10 +8,10 @@ import {AdminService} from "../../shared/services/admin.service";
 })
 export class AdminLogsComponent implements OnInit {
 
-  public logs: string[];
+  private logs: string[];
 
   constructor(
-      public adminService: AdminService
+      private adminService: AdminService
   ) {}
 
   ngOnInit() {

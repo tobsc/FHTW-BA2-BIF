@@ -20,6 +20,10 @@ html {
 }
 
 .nav-md {
+
+
+
+
   .dropdown {
     &.active,
     &.current_parent_menu_item {
@@ -29,15 +33,6 @@ html {
       }
     }
   }
-.open {
-  .nav.child_menu {
-    display:block;
-  }
-}
-.side-menu {
-    background-color: transparent;
-  }
-
 
   .left_col {
     &::before {

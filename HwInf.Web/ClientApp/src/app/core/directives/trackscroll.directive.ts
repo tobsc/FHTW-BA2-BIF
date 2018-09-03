@@ -1,4 +1,5 @@
-import { Directive, EventEmitter, HostListener, Output } from '@angular/core';
+import { Directive, EventEmitter } from '@angular/core';
+import { HostListener, Output } from "@angular/core/src/metadata/directives";
 
 @Directive({
   selector: '[hwinfTrackscroll]'

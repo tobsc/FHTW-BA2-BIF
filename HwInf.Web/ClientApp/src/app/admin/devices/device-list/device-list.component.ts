@@ -15,24 +15,24 @@ import {SessionStorageService} from "../../../shared/services/session-storage.se
 })
 export class DeviceListComponent implements OnInit {
 
-    public currentPage: number = 1;
-    public devices: Device[];
-    public filter: Filter;
-    public isAscending: boolean;
-    public deviceTypes: DeviceType[];
-    public owners: User[];
-    public totalItems: number;
-    public itemsPerPage: number = 25;
-    public orderBy: string;
-    public maxSize: number = 8;
+    private currentPage: number = 1;
+    private devices: Device[];
+    private filter: Filter;
+    private isAscending: boolean;
+    private deviceTypes: DeviceType[];
+    private owners: User[];
+    private totalItems: number;
+    private itemsPerPage: number = 25;
+    private orderBy: string;
+    private maxSize: number = 8;
 
     constructor(
-        public userService: UserService,
-        public deviceService: DeviceService,
-        public jwtService: JwtService,
-        public route: ActivatedRoute,
-        public router: Router,
-        public sessionStorageService: SessionStorageService
+        private userService: UserService,
+        private deviceService: DeviceService,
+        private jwtService: JwtService,
+        private route: ActivatedRoute,
+        private router: Router,
+        private sessionStorageService: SessionStorageService
     ) {}
 
     public pageChanged(event: any): void {

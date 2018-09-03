@@ -12,7 +12,7 @@ export class DeviceAccessoryAddComponent implements OnInit {
 
   @Output() accessoriesUpdated = new EventEmitter<Accessory>();
 
-  constructor(public deviceService: DeviceService) { }
+  constructor(private deviceService: DeviceService) { }
 
   ngOnInit() {
   }

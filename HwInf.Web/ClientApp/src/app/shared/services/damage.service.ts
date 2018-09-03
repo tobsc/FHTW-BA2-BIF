@@ -1,59 +1,70 @@
 import { Injectable } from '@angular/core';
-import { Response } from "@angular/http";
+import { JwtHttpService } from "./jwt-http.service";
+import { Headers, RequestOptions, Response, URLSearchParams } from "@angular/http";
 import { Observable } from "rxjs";
 import { Damage } from "../models/damage.model";
 import { DamageStatus } from "../models/damage-status.model";
-import {HttpClient} from "@angular/common/http";
-import {HttpParams} from "@angular/common/http";
-import {HttpHeaders} from "@angular/common/http";
 
 @Injectable()
 export class DamageService {
-    public url: string = '/api/damages/';
+    private url: string = '/api/damages/';
 
     constructor(
-        public http: HttpClient)
+        private http: JwtHttpService)
     { }
 
     public getDamages(): Observable<Damage[]> {
-      return this.http.get<Damage[]>(this.url);
+        return this.http.get(this.url)
+            .map((response: Response) => response.json());
     }
 
     public getDamageStati(): Observable<DamageStatus[]> {
-      return this.http.get<DamageStatus[]>(this.url + 'damagestatus/');
+        return this.http.get(this.url + 'damagestatus/')
+            .map((response: Response) => response.json());
     }
 
     public getDamagesByInvNum(invnum: string,
-        params: HttpParams = new HttpParams()
+        params: URLSearchParams = new URLSearchParams()
     ): Observable<Damage[]> {
-        params = params.set('InvNum', invnum);
-
-      return this.http.get<Damage[]>(this.url + 'invnum/', { params });
+        params.set('InvNum', invnum);
+        let options = new RequestOptions({
+            search: params,
+        }); 
+        return this.http.get(this.url + 'invnum/', options)
+            .map((response: Response) => response.json());
     }
 
     public getDamagesByDeviceId(deviceid: number,
-        params: HttpParams = new HttpParams()
+        params: URLSearchParams = new URLSearchParams()
     ): Observable<Damage[]> {
-       params = params.set('deviceid', deviceid.toString());
-
-      return this.http.get<Damage[]>(this.url + 'deviceid/', { params });
-    }
+        params.set('deviceid', deviceid.toString());
+        let options = new RequestOptions({
+            search: params,
+        }); 
+        return this.http.get(this.url + 'deviceid/', options)
+            .map((response: Response) => response.json());
+}
 
     public getDamage(id: number): Observable<Damage> {
-      return this.http.get<Damage>(this.url + 'id/' + id);
+        return this.http.get(this.url + 'id/'+ id)
+            .map((response: Response) => response.json());
     }
 
     public updateDamage(damage: Damage): Observable<Damage> {
         let bodyString = JSON.stringify(damage);
-        let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-      return this.http.put<Damage>(this.url + 'id/' + damage.DamageId, bodyString, { headers });
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+        return this.http.put(this.url + 'id/' + damage.DamageId, bodyString, options)
+            .map((response: Response) => response.json());
     }
 
     public createDamage(damage: Damage): Observable<Damage> {
         let bodyString = JSON.stringify(damage);
-        let headers = new HttpHeaders({
+        let headers = new Headers({
             'Content-Type': 'application/json'
         });
-      return this.http.post<Damage>(this.url, bodyString, { headers });
+        let options = new RequestOptions({ headers: headers });
+        return this.http.post(this.url, bodyString, options)
+            .map((response: Response) => response.json());
     }
 }

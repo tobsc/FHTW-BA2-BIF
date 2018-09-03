@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router, ActivatedRoute } from "@angular/router";
 import { AdminService } from "../../shared/services/admin.service";
 import { Setting } from "../../shared/models/setting.model";
+var moment = require('moment');
 
 
 @Component({
@@ -9,71 +11,71 @@ import { Setting } from "../../shared/models/setting.model";
   styleUrls: ['./admin-settings.component.scss']
 })
 export class AdminSettingsComponent implements OnInit {
-
-    public ssStart: Setting = {
+       
+    private ssStart: Setting = {
         Key: "ss_start",
         Value: sessionStorage.getItem("ss_start")
     };
-    public ssEnd: Setting = {
+    private ssEnd: Setting = {
         Key: "ss_end",
         Value: sessionStorage.getItem("ss_end")
     };
-    public wsStart: Setting = {
+    private wsStart: Setting = {
         Key: "ws_start",
         Value: sessionStorage.getItem("ws_start")
     };
-    public wsEnd: Setting = {
+    private wsEnd: Setting = {
         Key: "ws_end",
         Value: sessionStorage.getItem("ws_end")
     };
-    public newOrder: Setting = {
+    private newOrder: Setting = {
         Key: "new_order_mail",
         Value: sessionStorage.getItem("new_order_mail")
     };
-    public mailAccept_above: Setting = {
+    private mailAccept_above: Setting = {
         Key: "accept_mail_above",
         Value: sessionStorage.getItem("accept_mail_above")
     }
 
-    public mailAccept_below: Setting = {
+    private mailAccept_below: Setting = {
         Key: "accept_mail_below",
         Value: sessionStorage.getItem("accept_mail_below")
     }
 
-    public mailDecline_above: Setting = {
+    private mailDecline_above: Setting = {
         Key: "decline_mail_above",
         Value: sessionStorage.getItem("decline_mail_above")
     }
 
-    public mailDecline_below: Setting = {
+    private mailDecline_below: Setting = {
         Key: "decline_mail_below",
         Value: sessionStorage.getItem("decline_mail_below")
     }
 
-    public mailReminder: Setting = {
+    private mailReminder: Setting = {
         Key: "reminder_mail",
         Value: sessionStorage.getItem("reminder_mail")
     }
 
-    public daysBefore: Setting = {
+    private daysBefore: Setting = {
         Key: "days_before_reminder",
         Value: sessionStorage.getItem("days_before_reminder")
     }
 
-    public setList: Setting[] = [this.ssStart, this.ssEnd, this.wsStart, this.wsEnd, this.newOrder, this.mailAccept_above, this.mailAccept_below, this.mailDecline_above, this.mailDecline_below, this.mailReminder, this.daysBefore];
+    private setList: Setting[] = [this.ssStart, this.ssEnd, this.wsStart, this.wsEnd, this.newOrder, this.mailAccept_above, this.mailAccept_below, this.mailDecline_above, this.mailDecline_below, this.mailReminder, this.daysBefore];
 
-
+    
     constructor(
-        public adminService: AdminService
+        private adminService: AdminService
     ) {}
 
     ngOnInit() {
   }
 
-
+ 
   public updateSettings() {
       this.adminService.updateSettings(this.setList).subscribe(item => { console.log(item) },(error) => console.log(error));
   }
 
-
+    
 }

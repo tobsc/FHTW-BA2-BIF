@@ -7,6 +7,8 @@ import { OrderList } from "../../../shared/models/order-list.model";
 import { OrderFilter } from "../../../shared/models/order-filter.model";
 import { BehaviorSubject } from "rxjs";
 import { ActivatedRoute, Router } from "@angular/router";
+var moment = require('moment');
+moment.locale('de');
 
 @Component({
     selector: 'hwinf-admin-my-order-list',
@@ -15,27 +17,27 @@ import { ActivatedRoute, Router } from "@angular/router";
 })
 export class AdminMyOrderListComponent implements OnInit {
 
-    public tmpFilter = new OrderFilter();
-    public thisUser: User;
+    private tmpFilter = new OrderFilter();
+    private thisUser: User;
 
-    public _filter = new BehaviorSubject<OrderFilter>(this.tmpFilter);
-    public maxPages: number = -1;
+    private _filter = new BehaviorSubject<OrderFilter>(this.tmpFilter);
+    private maxPages: number = -1;
 
-    public orders: Order[] = [];
-    public currentPage: number = 1;
-    public isAscending: boolean = true;
-    public totalItems: number;
-    public itemsPerPage: number = 10;
-    public orderBy: string = 'date';
-    public order: string = "DESC";
-    public maxSize: number = 8;
-    public myfilter: OrderFilter = new OrderFilter();
+    private orders: Order[] = [];
+    private currentPage: number = 1;
+    private isAscending: boolean = true;
+    private totalItems: number;
+    private itemsPerPage: number = 10;
+    private orderBy: string = 'date';
+    private order: string = "DESC";
+    private maxSize: number = 8;
+    private myfilter: OrderFilter = new OrderFilter();
 
     constructor(
-        public userService: UserService,
-        public orderService: OrderService,
-        public route: ActivatedRoute,
-        public router: Router
+        private userService: UserService,
+        private orderService: OrderService,
+        private route: ActivatedRoute,
+        private router: Router
     ) { }
 
     ngOnInit() {
@@ -64,7 +66,7 @@ export class AdminMyOrderListComponent implements OnInit {
                     this.totalItems = data.TotalItems;
                 });
 
-
+               
             });
 
     }

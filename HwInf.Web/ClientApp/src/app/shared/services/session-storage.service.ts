@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class SessionStorageService {
 
-  public sortingSetting : string = 'createdate';
-  public isAscending : boolean = true;
-  public sortingDeviceType: string = '';
+  private sortingSetting : string = 'createdate';
+  private isAscending : boolean = true;
+  private sortingDeviceType: string = '';
 
   constructor() {
 

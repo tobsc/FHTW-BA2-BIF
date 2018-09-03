@@ -15,7 +15,7 @@ export class DeviceTypesAddComponent implements OnInit {
   @Output() deviceTypesListUpdated = new EventEmitter<DeviceType>();
 
   constructor(
-      public deviceService: DeviceService,
+      private deviceService: DeviceService,
   ) { }
 
   ngOnInit() {

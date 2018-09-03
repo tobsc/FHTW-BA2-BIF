@@ -4,8 +4,8 @@ import { Jwt } from '../models/jwt.model';
 @Injectable()
 export class JwtService {
 
-    public readonly TOKEN: string = "auth_token";
-    public jwt: Jwt = null;
+    private readonly TOKEN: string = "auth_token";
+    private jwt: Jwt = null;
 
   constructor() { }
 
@@ -22,14 +22,13 @@ export class JwtService {
           var base64Url = token.split('.')[1];
           var base64 = base64Url.replace('-', '+').replace('_', '/');
           this.jwt=JSON.parse(window.atob(base64));
-    }
-    console.log(token);
+      }
       return this.jwt;
       
   };
 
   public getRole(): string {
-      return this.parseJwt(this.getToken()).Role;
+      return this.parseJwt(this.getToken()).role;
   }
 
   public isAdmin(): boolean {
@@ -41,11 +40,11 @@ export class JwtService {
   }
 
   public getUid(): string {
-      return this.parseJwt(this.getToken()).Uid;
+      return this.parseJwt(this.getToken()).uid;
   }
 
   public getName(): string {
-      return this.parseJwt(this.getToken()).Name;
+      return this.parseJwt(this.getToken()).name;
   }
 
   public removeToken(): void {

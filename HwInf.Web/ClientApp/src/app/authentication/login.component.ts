@@ -14,9 +14,9 @@ import { Error } from "../shared/models/error.model";
 export class LoginComponent implements OnInit {
 
 
-  constructor(public authService: AuthService,
-      public router: Router,
-      public errorService: ErrorHandlerService,
+  constructor(private authService: AuthService,
+      private router: Router,
+      private errorService: ErrorHandlerService,
   ) { }
 
   ngOnInit() {
@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
       }
   }
 
-  public login(form: NgForm): void {
+  private login(form: NgForm): void {
     let user: User = form.form.value;
     this.authService.login(user)
         .subscribe(
@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
         );
   }
 
-  public goToDashboard(): void {
+  private goToDashboard(): void {
       this.router.navigate(['/dashboard']);
   }
 

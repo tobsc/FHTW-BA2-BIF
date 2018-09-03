@@ -12,16 +12,16 @@ import {Router} from "@angular/router";
 })
 export class OrderProcessComponent implements OnInit, OnDestroy {
 
-  public step1status;
-  public step2status;
-  public step3status;
+  private step1status;
+  private step2status;
+  private step3status;
 
-  public subs: Subscription[] = [];
-  public classname: string[]=[];
+  private subs: Subscription[] = [];
+  private classname: string[]=[];
 
   constructor(
-      public orderProcessService: OrderProcessService,
-      public router: Router
+      private orderProcessService: OrderProcessService,
+      private router: Router
   ) { }
 
   getClass(id: number): string {

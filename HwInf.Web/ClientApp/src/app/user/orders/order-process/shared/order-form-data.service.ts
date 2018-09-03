@@ -5,7 +5,7 @@ import { OrderItem } from "../../../../shared/models/order-item.model";
 @Injectable()
 export class OrderFormDataService {
 
-  public orderMdl: Order = new Order();
+  private orderMdl: Order = new Order();
 
   constructor() { }
 

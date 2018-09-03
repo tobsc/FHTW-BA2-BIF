@@ -1,28 +1,29 @@
 import { Injectable } from '@angular/core';
+import { JwtHttpService } from "./jwt-http.service";
 import { Headers, RequestOptions, Response } from "@angular/http";
 import {User} from "../models/user.model";
 import { Observable } from "rxjs";
-import {HttpClient} from "@angular/common/http";
-import {HttpHeaders} from "@angular/common/http";
 
 
 @Injectable()
 export class UserService {
-    public url: string = '/api/users/';
-    public token: string;
+    private url: string = '/api/users/';
+    private token: string;
 
 
     constructor(
-        public http: HttpClient) {}
+        private http: JwtHttpService) {}
 
     public getUser(): Observable<User> {
-      return this.http.get<User>(this.url + 'userdata');
+        return this.http.get(this.url + 'userdata')
+            .map((response: Response) => response.json());
     }
 
     public updateUser(user: User): Observable<boolean> {
         let bodyString = JSON.stringify(user);
-        let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-        return this.http.post(this.url + 'update', bodyString, {headers})
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+        return this.http.post(this.url + 'update', bodyString, options)
             .map((response: Response) => {
                 let token = response.json() && response.json().token;
                 if (token) {
@@ -34,15 +35,18 @@ export class UserService {
     }
 
     public getUsers(): Observable<User[]> {
-        return this.http.get<User[]>(this.url + 'users')
+        return this.http.get(this.url + 'users')
+            .map((response: Response) => response.json());
     }
 
     public getOwners(): Observable<User[]> {
-        return this.http.get<User[]>(this.url + 'owners')
+        return this.http.get(this.url + 'owners')
+            .map((response: Response) => response.json());
     }
 
     public getAdmins(): Observable<User[]> {
-        return this.http.get<User[]>(this.url + 'admins')
+        return this.http.get(this.url + 'admins')
+            .map((response: Response) => response.json());
     }
 
 }

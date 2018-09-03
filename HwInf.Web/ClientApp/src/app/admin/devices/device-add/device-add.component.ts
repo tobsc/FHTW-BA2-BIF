@@ -14,8 +14,8 @@ export class DeviceAddComponent implements OnInit {
 
   public alerts: any = [];
   constructor(
-      public deviceService: DeviceService,
-      public router:Router
+      private deviceService: DeviceService,
+      private router:Router
   ) { }
 
   ngOnInit() {

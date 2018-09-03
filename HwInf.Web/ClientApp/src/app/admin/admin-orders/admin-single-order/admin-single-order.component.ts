@@ -16,7 +16,7 @@ export class AdminSingleOrderComponent implements OnInit {
   @Output() updateOrder: EventEmitter<Order> = new EventEmitter<Order>();
 
   constructor(
-      public orderService: OrderService
+      private orderService: OrderService
   ) { }
 
   ngOnInit(): void {

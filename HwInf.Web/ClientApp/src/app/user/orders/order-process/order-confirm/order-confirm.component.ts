@@ -9,11 +9,11 @@ import {CartService} from "../../../../shared/services/cart.service";
 })
 export class OrderConfirmComponent implements OnInit, OnDestroy {
 
-    public timer;
+    private timer;
 
   constructor(
-      public cartService: CartService,
-      public router: Router
+      private cartService: CartService,
+      private router: Router
   ) { }
 
   ngOnInit() {

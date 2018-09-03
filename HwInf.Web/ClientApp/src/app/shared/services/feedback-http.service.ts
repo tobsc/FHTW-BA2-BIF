@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Http, RequestOptions, ConnectionBackend, RequestOptionsArgs, Response, Request } from "@angular/http";
+import { Http, RequestOptions, ConnectionBackend, RequestOptionsArgs, Response, Request, Headers } from "@angular/http";
 import { Observable } from "rxjs";
-import "rxjs/add/operator/do";
-import "rxjs/add/operator/catch";
 import { Router } from "@angular/router";
 import { PubSubService } from './pub-sub.service';
 
 @Injectable()
 export class FeedbackHttpService extends Http {
 
-    public pubsub: PubSubService;
+    private pubsub: PubSubService;
 
     constructor(
         backend: ConnectionBackend,

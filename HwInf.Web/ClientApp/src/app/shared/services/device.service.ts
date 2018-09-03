@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
+import {JwtHttpService} from "./jwt-http.service";
 import {Observable} from "rxjs";
 import {DeviceType} from "../models/device-type.model";
-import {Response} from "@angular/http";
+import {Response, URLSearchParams, RequestOptions, Headers} from "@angular/http";
 import { Device } from "../models/device.model";
 import { IDictionary } from "../../shared/common/dictionary.interface";
 import { Dictionary } from "../../shared/common/dictionary.class";
@@ -9,19 +10,16 @@ import { DeviceComponent } from "../models/component.model";
 import {DeviceList} from "../models/device-list.model";
 import {Status} from "../models/status.model";
 import {Accessory} from "../models/accessory.model";
-import {HttpClient} from "@angular/common/http";
-import { HttpHeaders, HttpParams } from "@angular/common/http";
-import "rxjs";
 
 @Injectable()
 export class DeviceService {
 
-    public url: string = '/api/devices/';
-    public deviceTypes: Observable<string[]> = null;
-    public deviceComponents: IDictionary<Observable<DeviceComponent[]>> = new Dictionary<Observable<DeviceComponent[]>>();
+    private url: string = '/api/devices/';
+    private deviceTypes: Observable<string[]> = null;
+    private deviceComponents: IDictionary<Observable<DeviceComponent[]>> = new Dictionary<Observable<DeviceComponent[]>>();
 
 
-    constructor(public http: HttpClient) { }
+    constructor(private http: JwtHttpService) { }
 
     /**
      * Returns Devices of given type
@@ -36,70 +34,92 @@ export class DeviceService {
         type: string = "",
         limit: number = 100,
         offset: number = 0,
-        params: HttpParams = new HttpParams()
+        params: URLSearchParams = new URLSearchParams()
     ): Observable<DeviceList> {
 
-        params = params.append('limit', limit + '');
-        params = params.append('offset', offset + '');
+        params.set('limit', limit + '');
+        params.set('offset', offset + '');
 
-      return this.http.get<DeviceList>(this.url + type + '/', { params });
+        let options = new RequestOptions({
+            search: params,
+        });
+        return this.http.get(this.url + type + '/', options)
+            .map((response: Response) => response.json());
     }
 
     public getSearch(
         searchText: string = "",
         limit: number = 100,
         offset: number = 0,
-        params: HttpParams = new HttpParams()
+        params: URLSearchParams = new URLSearchParams()
     ): Observable<DeviceList> {
 
-        params = params.append('searchText', searchText + '');
-        params = params.append('limit', limit + '');
-        params = params.append('offset', offset + '');
+        params.set('searchText', searchText + '');
+        params.set('limit', limit + '');
+        params.set('offset', offset + '');
 
-      return this.http.get<DeviceList>(this.url + 'search', { params });
+        let options = new RequestOptions({
+            search: params,
+        });
+        return this.http.get(this.url + 'search', options)
+            .map((response: Response) => response.json());
     }
 
     public getFilteredDevices(body: any): Observable<DeviceList> {
         let bodyString = JSON.stringify(body);
-        let headers = new HttpHeaders({
+        let headers = new Headers({
             'Content-Type': 'application/json'
         });
-      return this.http.post<DeviceList>(this.url + 'filter', bodyString, { headers });
+        let options = new RequestOptions({headers: headers});
+        return this.http.post(this.url + 'filter', bodyString, options)
+            .map((response: Response) => response.json());
     }
 
     public getFilteredDevicesUser(body: any): Observable<DeviceList> {
         let bodyString = JSON.stringify(body);
-        let headers = new HttpHeaders({
+        let headers = new Headers({
             'Content-Type': 'application/json'
         });
-      return this.http.post<DeviceList>(this.url + 'filteruser', bodyString, { headers });
+        let options = new RequestOptions({headers: headers});
+        return this.http.post(this.url + 'filteruser', bodyString, options)
+            .map((response: Response) => response.json());
     }
 
     public getDevice(invNum: string,
-        params: HttpParams = new HttpParams()
+        params: URLSearchParams = new URLSearchParams()
     ): Observable<Device> {
-        params = params.append('InvNum', invNum);
-
-      return this.http.get<Device>(this.url + 'invnum/', { params });
+        params.set('InvNum', invNum);
+        let options = new RequestOptions({
+            search: params,
+        });
+        return this.http.get(this.url + 'invnum/', options)
+            .map((response: Response) => response.json());
     }
 
     public getDeviceById(id: number): Observable<Device> {
-        return this.http.get<Device>(this.url + 'id/'+id)
+        return this.http.get(this.url + 'id/'+id)
+            .map((response: Response) => response.json());
     }
 
     public getDeviceStatuses(): Observable<Status[]> {
-        return this.http.get<Status[]>(this.url + 'status')
+        return this.http.get(this.url + 'status')
+            .map((response: Response) => response.json());
     }
-
+   
     /**
      * Returns all device types. e.g Notebook, PC, Monitor, ...
      * @returns {Observable<DeviceType[]>}
      */
     public getDeviceTypes(showEmptyDeviceTypes : boolean = true): Observable<DeviceType[]> {
-        let params: HttpParams = new HttpParams();
-        params = params.append('showEmptyDeviceTypes', showEmptyDeviceTypes + '');
+        let params: URLSearchParams = new URLSearchParams();
+        params.set('showEmptyDeviceTypes', showEmptyDeviceTypes + '');
 
-      return this.http.get<DeviceType[]>(this.url + 'types', { params });
+        let options = new RequestOptions({
+            search: params,
+        });
+
+        return this.http.get(this.url + 'types', options)
+            .map((response: Response) => response.json());
     }
 
     /**
@@ -110,9 +130,10 @@ export class DeviceService {
      */
     public getComponentsAndValues(type: string): Observable<DeviceComponent[]> {
         if (!this.deviceComponents.containsKey(type)) {
-          this.deviceComponents.add(
-            type,
-            this.http.get<DeviceComponent[]>(this.url + 'types/' + type)
+            this.deviceComponents.add(
+                type,
+                this.http.get(this.url + 'types/' + type)
+                    .map((response: Response) => response.json())
             );
         }
         return this.deviceComponents.get(type);
@@ -121,46 +142,57 @@ export class DeviceService {
     public addDeviceType(body: DeviceType): Observable<DeviceType> {
         let bodyString = JSON.stringify(body);
         console.log(bodyString);
-        let headers = new HttpHeaders({
+        let headers = new Headers({
            'Content-Type': 'application/json'
         });
-      return this.http.post<DeviceType>(this.url + 'types', bodyString, { headers });
+        let options = new RequestOptions({headers: headers});
+        return this.http.post(this.url + 'types', bodyString, options)
+            .map((response: Response) => response.json());
     }
 
     public addNewDevice(body: Device): Observable<Device> {
         let bodyString = JSON.stringify(body);
-        let headers = new HttpHeaders({
+        let headers = new Headers({
             'Content-Type': 'application/json'
         });
-      return this.http.post<Device>(this.url, bodyString, { headers });
+        let options = new RequestOptions({headers: headers});
+        return this.http.post(this.url, bodyString, options)
+            .map((response: Response) => response.json());
     }
 
     public editDevice(body: Device): Observable<Device> {
         let bodyString = JSON.stringify(body);
-        let headers = new HttpHeaders({
+        let headers = new Headers({
             'Content-Type': 'application/json'
         });
-      return this.http.put<Device>(this.url + "id/" + body.DeviceId, bodyString, { headers });
+        let options = new RequestOptions({headers: headers });
+        return this.http.put(this.url + "id/" + body.DeviceId, bodyString, options)
+            .map((response: Response) => response.json());
     }
 
     public deleteDevice(id: number) {
         return this.http.delete(this.url +"id/" + id)
+            .map((response: Response) => response.json());
     }
 
     public addNewDeviceType(body: DeviceType): Observable<DeviceType> {
         let bodyString = JSON.stringify(body);
-        let headers = new HttpHeaders({
+        let headers = new Headers({
             'Content-Type': 'application/json'
         });
-      return this.http.post<DeviceType>(this.url + "types/", bodyString, { headers });
+        let options = new RequestOptions({ headers: headers });
+        return this.http.post(this.url + "types/", bodyString, options)
+            .map((response: Response) => response.json());
     }
 
     public editDeviceType(body: DeviceType): Observable<DeviceType> {
         let bodyString = JSON.stringify(body);
-        let headers = new HttpHeaders({
+        let headers = new Headers({
             'Content-Type': 'application/json'
         });
-      return this.http.put<DeviceType>(this.url + "types/" + body.Slug, bodyString, { headers });
+        let options = new RequestOptions({ headers: headers });
+        return this.http.put(this.url + "types/" + body.Slug, bodyString, options)
+            .map((response: Response) => response.json());
     }
 
     public deleteDeviceType(slug: string) {
@@ -168,15 +200,18 @@ export class DeviceService {
     }
 
     public getAccessories(): Observable<Accessory[]> {
-        return this.http.get<Accessory[]>(this.url + 'accessories/')
+        return this.http.get(this.url + 'accessories/')
+            .map((response: Response) => response.json());
     }
 
     public addAccessory(body: Accessory): Observable<Accessory> {
         let bodyString = JSON.stringify(body);
-        let headers = new HttpHeaders({
+        let headers = new Headers({
             'Content-Type': 'application/json'
         });
-      return this.http.post<Accessory>(this.url + 'accessories', bodyString, { headers });
+        let options = new RequestOptions({headers: headers});
+        return this.http.post(this.url + 'accessories', bodyString, options)
+            .map((response: Response) => response.json());
     }
 
     public deleteAccessory(slug: string) {
@@ -185,10 +220,12 @@ export class DeviceService {
 
     public updateAccessory(body: Accessory): Observable<Accessory> {
         let bodyString = JSON.stringify(body);
-        let headers = new HttpHeaders({
+        let headers = new Headers({
             'Content-Type': 'application/json'
         });
-      return this.http.put<Accessory>(this.url + "accessories/" + body.Slug, bodyString, { headers });
+        let options = new RequestOptions({ headers: headers });
+        return this.http.put(this.url + "accessories/" + body.Slug, bodyString, options)
+            .map((response: Response) => response.json());
     }
 
 

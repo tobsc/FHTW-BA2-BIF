@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { OrderService } from "../../../shared/services/order.service";
 import { Order } from "../../../shared/models/order.model";
 import { OrderFilter } from "../../../shared/models/order-filter.model";
-import {isBefore} from "ngx-bootstrap/chronos/utils/date-compare";
+var moment = require('moment');
+moment.locale('de');
 
 @Component({
   selector: 'hwinf-dashboard-order-list',
@@ -11,15 +12,15 @@ import {isBefore} from "ngx-bootstrap/chronos/utils/date-compare";
 })
 export class DashboardOrderListComponent implements OnInit {
 
-    public orders: Order[] = [];
-    public isAscending: boolean = true;
-    public totalItems: number;
-    public orderBy: string = 'date';
-    public order: string = "DESC";
-    public filter: OrderFilter;
-    public hasMoreItems: boolean;
+    private orders: Order[] = [];
+    private isAscending: boolean = true;
+    private totalItems: number;
+    private orderBy: string = 'date';
+    private order: string = "DESC";
+    private filter: OrderFilter;
+    private hasMoreItems: boolean;
 
-    constructor(public orderService: OrderService) { }
+    constructor(private orderService: OrderService) { }
 
     ngOnInit(): void {
 
@@ -37,14 +38,11 @@ export class DashboardOrderListComponent implements OnInit {
 
         this.orderService.getFilteredOrders(this.filter)
             .subscribe(
-          data => {
-            console.log(data);
-            this.orders = data.Orders.filter(i => {
-              var returnDate = new Date(i.ReturnDate);
-                        var dateFrom = returnDate;
-              dateFrom.setDate(returnDate.getDate() + 7);
-                        var dateNow = new Date();
-                        return (i.OrderStatus.Slug == 'abgelehnt' && isBefore(dateNow, dateFrom))
+                data => {
+                    this.orders = data.Orders.filter(i => {
+                        var dateFrom = moment(i.ReturnDate)
+                            .add(7, 'd').format('YYYY-MM-DD');
+                        return (i.OrderStatus.Slug == 'abgelehnt' && moment().isBefore(dateFrom))
                             || i.OrderStatus.Slug != 'abgelehnt';
                     });
                     if (this.orders.length > 5)
@@ -52,7 +50,7 @@ export class DashboardOrderListComponent implements OnInit {
                         this.hasMoreItems = true;
                         this.orders = this.orders.slice(0, 5);
                     }
-
+                      
                 }
             );
     }
