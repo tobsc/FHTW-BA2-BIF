@@ -1,2 +1,0 @@
-user: hw-inf@technikum-wien.at
-pass: xaU4FVaxmUPcapEKvemYsMVek7xHRkzFzwuvke7zdRYm7rYdVrvo9pVigv3E3fiC

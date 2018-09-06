@@ -10,21 +10,46 @@
 /HwInf/wwwroot/out-tsc
 /HwInf/wwwroot
 /HwInf.Angular/bin
-/HwInf.Angular/node_modules
-/HwInf.Angular/obj/Debug
+/HwInf.Web/node_modules
+/HwInf.Angular/obj/*
 /HwInf.Angular/.idea/
-/HwInf.Common/bin/Debug
+/HwInf.Common/bin/*
+/HwInf.UnitTests/bin/*
+/HwInf.DataAccess/bin/*
 /HwInf/obj/Debug
 /packages
 /typings
 /HwInf/obj/
 /HwInf.Common/obj/
+/HwInf.UnitTests/obj/
+/HwInf.DataAccess/obj/
 /HwInf/dist
+*/bin/*
+*/obj/
+/build/
+*.suo
+*.user
+_ReSharper.*/
+*.sdf
+bin/
+obj/
+Debug/
+Release/
+*.opensdf
+*.tlog
+*.log
+TestResult.xml
+*.VisualState.xml
+Version.cs
+Version.h
+Version.cpp
 
 
 # compiled output
 /HwInf/Client/dist
 /HwInf/Client/tmp
+/HwInf.Web/build_output
+/HwInf.Web/dist
 
 # dependencies
 /HwInf/Client/node_modules
