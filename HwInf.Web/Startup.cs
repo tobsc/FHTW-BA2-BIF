@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Security.Principal;
 using System.Text;
@@ -138,7 +139,9 @@ namespace HwInf.Web
 
                 if (env.IsDevelopment())
                 {
-                    spa.UseAngularCliServer(npmScript: "start");
+                    //spa.UseAngularCliServer(npmScript: "start");
+                    spa.Options.StartupTimeout = new TimeSpan(0, 0, 360);
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
                 }
             });
         }
